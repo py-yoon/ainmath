@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>피타고라스 정리 실험실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9;
+    --paper-line:#E9E1CF;
+    --ink:#22283A;
+    --ink-soft:#5B6178;
+    --violet:#6C4CF7;
+    --violet-soft:#EEE8FF;
+    --coral:#FF5B57;
+    --green:#4CAF8E;
+    --blue:#4C8BF5;
+    --card:#FFFFFF;
+    --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px,
+      var(--paper);
+    color:var(--ink);
+    font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh;
+    padding: 32px 20px 80px;
+  }
+  .wrap{max-width:1000px;margin:0 auto;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Do Hyeon',sans-serif;
+    color:var(--blue);
+    background:#E7F0FF;
+    padding:6px 14px;border-radius:999px;
+    font-size:14px;letter-spacing:0.02em;
+    margin-bottom:14px;
+  }
+  h1{
+    font-family:'Do Hyeon',sans-serif;
+    font-weight:400;
+    font-size:clamp(28px,4.5vw,44px);
+    line-height:1.25;
+    margin:0 0 10px;
+  }
+  h1 span{color:var(--coral);}
+  .sub{
+    color:var(--ink-soft);
+    font-size:16px;
+    line-height:1.7;
+    max-width:62ch;
+    margin:0 0 28px;
+  }
+  .stage{
+    background:var(--card);
+    border-radius:24px;
+    box-shadow:var(--shadow);
+    padding:28px clamp(16px,4vw,40px) 32px;
+    display:grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap:32px;
+    align-items:start;
+  }
+  @media (max-width:800px){
+    .stage{grid-template-columns:1fr;}
+  }
+  .canvas-area{display:flex;flex-direction:column;align-items:center;gap:20px;}
+  svg{width:100%;max-width:460px;height:auto;overflow:visible;}
+
+  .legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-size:13px;color:var(--ink-soft);}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .swatch{width:12px;height:12px;border-radius:3px;display:inline-block;}
+
+  .control-row{width:100%;max-width:420px;display:flex;flex-direction:column;gap:8px;}
+  .control-label{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);
+  }
+  .control-label b{font-size:22px;color:var(--ink);}
+  input[type=range]{
+    -webkit-appearance:none;width:100%;height:8px;border-radius:999px;
+    background:var(--violet-soft);outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;width:26px;height:26px;border-radius:50%;
+    background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);
+    cursor:pointer;
+  }
+  input[type=range]::-moz-range-thumb{
+    width:26px;height:26px;border-radius:50%;
+    background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);
+    cursor:pointer;
+  }
+  input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+
+  .presets{display:flex;gap:8px;flex-wrap:wrap;width:100%;max-width:420px;}
+  .preset-btn{
+    font-family:'Do Hyeon',sans-serif;font-size:14px;
+    background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);
+    border-radius:12px;padding:8px 12px;cursor:pointer;
+    transition:all .15s ease;
+  }
+  .preset-btn:hover{border-color:var(--violet);color:var(--violet);}
+  .preset-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+
+  .panel{display:flex;flex-direction:column;gap:18px;}
+  .equation{
+    background:var(--paper);border:2px solid var(--paper-line);
+    border-radius:18px;padding:20px 20px;text-align:center;
+  }
+  .eq-row{
+    font-family:'Do Hyeon',sans-serif;
+    font-size:clamp(22px,3.4vw,28px);
+    color:var(--ink);
+    display:flex;justify-content:center;align-items:baseline;gap:8px;flex-wrap:wrap;
+  }
+  .eq-row .green{color:var(--green);}
+  .eq-row .blue{color:var(--blue);}
+  .eq-row .coral{color:var(--coral);}
+  .eq-sub{margin-top:10px;font-size:14px;color:var(--ink-soft);}
+  .c-line{
+    margin-top:14px;font-family:'Do Hyeon',sans-serif;
+    font-size:clamp(18px,2.8vw,22px);color:var(--ink-soft);
+  }
+  .c-line b{color:var(--coral);}
+
+  .badge-win{
+    display:none;
+    margin-top:12px;
+    background:#FFF3E0;color:#B45309;
+    font-family:'Do Hyeon',sans-serif;font-size:14px;
+    border-radius:10px;padding:8px 10px;
+  }
+  .badge-win.show{display:block;}
+
+  .fact{
+    background:var(--violet-soft);border-radius:16px;padding:16px 18px;
+    font-size:14.5px;line-height:1.65;color:var(--ink);
+  }
+  .fact b{color:var(--violet);}
+
+  footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">📐 피타고라스 실험실</span>
+  <h1>직각삼각형의 두 변,<br>정사각형 넓이로 <span>비교</span>해보기</h1>
+  <p class="sub">직각을 낀 두 변 a, b의 길이를 바꿔보세요. 각 변 위에 그린 정사각형의 넓이(a², b²)를 더하면, 빗변 위에 그린 정사각형의 넓이(c²)와 항상 정확히 같아져요. 이게 바로 <b>피타고라스 정리, a² + b² = c²</b>예요.</p>
+
+  <div class="stage">
+    <div class="canvas-area">
+      <svg id="svg" viewBox="0 0 520 520"></svg>
+      <div class="legend">
+        <span><i class="swatch" style="background:var(--green)"></i>정사각형 A (a²)</span>
+        <span><i class="swatch" style="background:var(--blue)"></i>정사각형 B (b²)</span>
+        <span><i class="swatch" style="background:var(--coral)"></i>정사각형 C (c²)</span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="control-row">
+        <div class="control-label"><span>변 a (세로)</span><b id="aLabel">3</b></div>
+        <input id="sliderA" type="range" min="3" max="15" value="3" step="1" aria-label="변 a 조절">
+      </div>
+      <div class="control-row">
+        <div class="control-label"><span>변 b (가로)</span><b id="bLabel">4</b></div>
+        <input id="sliderB" type="range" min="3" max="15" value="4" step="1" aria-label="변 b 조절">
+      </div>
+
+      <div class="presets">
+        <button class="preset-btn" data-a="3" data-b="4">3-4-5</button>
+        <button class="preset-btn" data-a="6" data-b="8">6-8-10</button>
+        <button class="preset-btn" data-a="5" data-b="12">5-12-13</button>
+        <button class="preset-btn" data-a="8" data-b="15">8-15-17</button>
+        <button class="preset-btn" data-a="9" data-b="12">9-12-15</button>
+      </div>
+
+      <div class="equation">
+        <div class="eq-row">
+          <span class="green" id="aSqLabel">3²</span><span>+</span>
+          <span class="blue" id="bSqLabel">4²</span><span>=</span>
+          <span class="coral" id="cSqLabel">c²</span>
+        </div>
+        <div class="eq-sub" id="eqSub">9 + 16 = 25</div>
+        <div class="c-line" id="cLine">c = √25 = <b>5</b></div>
+        <div class="badge-win" id="winBadge">🎉 셋 다 정수예요! 피타고라스 세 쌍(triple)이에요.</div>
+      </div>
+
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+  <footer>정사각형 A와 B 안의 작은 칸을 세어 보면 각각 a², b²개예요. 두 정사각형의 칸 수를 합치면, 빗변 위 정사각형 C의 넓이(c²)와 항상 똑같아요 — 변의 길이와 상관없이 늘 성립하는 규칙이에요.</footer>
+</div>
+
+<script>
+  const svg = document.getElementById('svg');
+  const sliderA = document.getElementById('sliderA');
+  const sliderB = document.getElementById('sliderB');
+  const aLabel = document.getElementById('aLabel');
+  const bLabel = document.getElementById('bLabel');
+  const aSqLabel = document.getElementById('aSqLabel');
+  const bSqLabel = document.getElementById('bSqLabel');
+  const eqSub = document.getElementById('eqSub');
+  const cLine = document.getElementById('cLine');
+  const winBadge = document.getElementById('winBadge');
+  const factBox = document.getElementById('fact');
+
+  const VB = 520;
+  const PAD = 40;
+  const USABLE = VB - PAD*2;
+
+  function render(a, b){
+    aLabel.textContent = a;
+    bLabel.textContent = b;
+
+    const aSq = a*a, bSq = b*b, cSq = aSq+bSq;
+    const c = Math.sqrt(cSq);
+    const cIsInt = Math.abs(c - Math.round(c)) < 1e-9;
+
+    aSqLabel.textContent = `${a}²`;
+    bSqLabel.textContent = `${b}²`;
+    eqSub.textContent = `${aSq} + ${bSq} = ${cSq}`;
+    cLine.innerHTML = cIsInt
+      ? `c = √${cSq} = <b>${Math.round(c)}</b>`
+      : `c = √${cSq} ≈ <b>${c.toFixed(2)}</b>`;
+    winBadge.classList.toggle('show', cIsInt);
+
+    factBox.innerHTML = `정사각형 A는 ${a}×${a} 칸이라 넓이가 <b>${aSq}</b>, 정사각형 B는 ${b}×${b} 칸이라 넓이가 <b>${bSq}</b>예요. 두 넓이를 더하면 <b>${cSq}</b>인데, 이건 빗변 위 정사각형 C의 넓이와 정확히 같아요.`;
+
+    // scale to fit
+    const scale = Math.min(USABLE/(2*a+b), USABLE/(a+2*b));
+    const originX = PAD + a*scale;
+    const originY = PAD + (a+b)*scale;
+
+    const toSvg = (mx,my) => [originX + mx*scale, originY - my*scale];
+
+    const C = toSvg(0,0);
+    const A = toSvg(0,a);
+    const B = toSvg(b,0);
+
+    // square A corners: (0,0),(0,a),(-a,a),(-a,0)
+    const sqA = [ [0,0],[0,a],[-a,a],[-a,0] ].map(p=>toSvg(p[0],p[1]));
+    // square B corners: (0,0),(b,0),(b,-b),(0,-b)
+    const sqB = [ [0,0],[b,0],[b,-b],[0,-b] ].map(p=>toSvg(p[0],p[1]));
+    // square C corners: (0,a),(b,0),(a+b,b),(a,a+b)
+    const sqC = [ [0,a],[b,0],[a+b,b],[a,a+b] ].map(p=>toSvg(p[0],p[1]));
+
+    const pts = arr => arr.map(p=>p.join(',')).join(' ');
+
+    const gridId = 'grid-' + Math.round(scale*100);
+
+    let html = `<defs>
+      <pattern id="${gridId}" width="${scale}" height="${scale}" patternUnits="userSpaceOnUse">
+        <rect width="${scale}" height="${scale}" fill="none" stroke="rgba(34,40,58,0.18)" stroke-width="1"></rect>
+      </pattern>
+    </defs>`;
+
+    // squares (grid fill for A/B, solid for C since c may not be a whole number)
+    html += `<polygon points="${pts(sqA)}" fill="var(--green)" fill-opacity="0.22"></polygon>`;
+    html += `<polygon points="${pts(sqA)}" fill="url(#${gridId})"></polygon>`;
+    html += `<polygon points="${pts(sqA)}" fill="none" stroke="var(--green)" stroke-width="2.5"></polygon>`;
+
+    html += `<polygon points="${pts(sqB)}" fill="var(--blue)" fill-opacity="0.22"></polygon>`;
+    html += `<polygon points="${pts(sqB)}" fill="url(#${gridId})"></polygon>`;
+    html += `<polygon points="${pts(sqB)}" fill="none" stroke="var(--blue)" stroke-width="2.5"></polygon>`;
+
+    html += `<polygon points="${pts(sqC)}" fill="var(--coral)" fill-opacity="0.28"></polygon>`;
+    html += `<polygon points="${pts(sqC)}" fill="none" stroke="var(--coral)" stroke-width="2.5"></polygon>`;
+
+    // triangle on top
+    html += `<polygon points="${pts([C,A,B])}" fill="#fff" stroke="var(--ink)" stroke-width="3"></polygon>`;
+
+    // right-angle marker at C
+    const markerSize = Math.min(scale*0.35, 16);
+    html += `<polyline points="${C[0]},${C[1]-markerSize} ${C[0]+markerSize},${C[1]-markerSize} ${C[0]+markerSize},${C[1]}" fill="none" stroke="var(--ink)" stroke-width="2"></polyline>`;
+
+    // side labels
+    const midCA = [(C[0]+A[0])/2, (C[0]+A[0])/2 === C[0] ? (C[1]+A[1])/2 : (C[1]+A[1])/2];
+    html += `<text x="${C[0]-18}" y="${(C[1]+A[1])/2}" text-anchor="middle" font-family="Do Hyeon" font-size="16" fill="var(--ink)">a</text>`;
+    html += `<text x="${(C[0]+B[0])/2}" y="${C[1]+22}" text-anchor="middle" font-family="Do Hyeon" font-size="16" fill="var(--ink)">b</text>`;
+    const midAB = [(A[0]+B[0])/2,(A[1]+B[1])/2];
+    html += `<text x="${midAB[0]+14}" y="${midAB[1]-4}" text-anchor="middle" font-family="Do Hyeon" font-size="16" fill="var(--ink)">c</text>`;
+
+    // area labels centered in each square
+    const centroid = arr => [arr.reduce((s,p)=>s+p[0],0)/arr.length, arr.reduce((s,p)=>s+p[1],0)/arr.length];
+    const cenA = centroid(sqA), cenB = centroid(sqB), cenC = centroid(sqC);
+    html += `<text x="${cenA[0]}" y="${cenA[1]+6}" text-anchor="middle" font-family="Do Hyeon" font-size="${Math.min(scale*0.9,22)}" fill="var(--green)">${aSq}</text>`;
+    html += `<text x="${cenB[0]}" y="${cenB[1]+6}" text-anchor="middle" font-family="Do Hyeon" font-size="${Math.min(scale*0.9,22)}" fill="var(--blue)">${bSq}</text>`;
+    html += `<text x="${cenC[0]}" y="${cenC[1]+6}" text-anchor="middle" font-family="Do Hyeon" font-size="${Math.min(scale*0.9,22)}" fill="var(--coral)">${cSq}</text>`;
+
+    svg.innerHTML = html;
+  }
+
+  function update(){
+    render(parseInt(sliderA.value), parseInt(sliderB.value));
+  }
+
+  sliderA.addEventListener('input', update);
+  sliderB.addEventListener('input', update);
+
+  document.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      sliderA.value = btn.dataset.a;
+      sliderB.value = btn.dataset.b;
+      update();
+    });
+  });
+
+  update();
+</script>
+</body>
+</html>
