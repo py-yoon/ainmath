@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>원주율 체험 실험실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9;
+    --paper-line:#E9E1CF;
+    --ink:#22283A;
+    --ink-soft:#5B6178;
+    --violet:#6C4CF7;
+    --violet-soft:#EEE8FF;
+    --coral:#FF5B57;
+    --teal:#2EC4C6;
+    --card:#FFFFFF;
+    --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px,
+      var(--paper);
+    color:var(--ink);
+    font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh;
+    padding: 32px 20px 80px;
+  }
+  .wrap{max-width:960px;margin:0 auto;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Do Hyeon',sans-serif;
+    color:var(--teal);
+    background:#E4FAF9;
+    padding:6px 14px;border-radius:999px;
+    font-size:14px;letter-spacing:0.02em;
+    margin-bottom:14px;
+  }
+  h1{
+    font-family:'Do Hyeon',sans-serif;
+    font-weight:400;
+    font-size:clamp(28px,4.5vw,44px);
+    line-height:1.25;
+    margin:0 0 10px;
+  }
+  h1 span{color:var(--coral);}
+  .sub{
+    color:var(--ink-soft);
+    font-size:16px;
+    line-height:1.7;
+    max-width:60ch;
+    margin:0 0 28px;
+  }
+  .stage{
+    background:var(--card);
+    border-radius:24px;
+    box-shadow:var(--shadow);
+    padding:28px clamp(16px,4vw,40px) 32px;
+  }
+  svg{width:100%;height:auto;display:block;overflow:visible;}
+
+  .controls{
+    display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end;
+    margin-top:8px;margin-bottom:6px;
+  }
+  .control-row{flex:1;min-width:220px;display:flex;flex-direction:column;gap:8px;}
+  .control-label{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-family:'Do Hyeon',sans-serif;
+    font-size:15px;color:var(--ink-soft);
+  }
+  .control-label b{font-size:22px;color:var(--ink);}
+  input[type=range]{
+    -webkit-appearance:none;width:100%;height:8px;border-radius:999px;
+    background:var(--violet-soft);outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;width:26px;height:26px;border-radius:50%;
+    background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);
+    cursor:pointer;
+  }
+  input[type=range]::-moz-range-thumb{
+    width:26px;height:26px;border-radius:50%;
+    background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);
+    cursor:pointer;
+  }
+  input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+
+  .roll-btn{
+    font-family:'Do Hyeon',sans-serif;font-size:16px;
+    background:var(--ink);color:#fff;border:none;border-radius:14px;
+    padding:14px 22px;cursor:pointer;white-space:nowrap;
+    transition:transform .15s ease, background .2s ease;
+  }
+  .roll-btn:hover{background:var(--violet);}
+  .roll-btn:active{transform:scale(0.97);}
+  .roll-btn:disabled{opacity:0.5;cursor:default;}
+  .roll-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+
+  .bottom-grid{
+    display:grid;grid-template-columns:1.1fr 0.9fr;gap:24px;
+    margin-top:26px;
+  }
+  @media (max-width:720px){ .bottom-grid{grid-template-columns:1fr;} }
+
+  .equation{
+    background:var(--paper);border:2px solid var(--paper-line);
+    border-radius:18px;padding:20px 22px;text-align:center;
+  }
+  .equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(17px,2.6vw,20px);color:var(--ink-soft);}
+  .equation .formula b{color:var(--ink);}
+  .equation .result{
+    font-family:'Do Hyeon',sans-serif;font-size:clamp(38px,6vw,52px);
+    color:var(--coral);margin-top:6px;line-height:1;
+  }
+  .equation .result span{font-size:0.42em;color:var(--ink-soft);}
+
+  .fact{
+    background:var(--violet-soft);border-radius:16px;padding:16px 18px;
+    font-size:14.5px;line-height:1.65;color:var(--ink);
+  }
+  .fact b{color:var(--violet);}
+
+  .tick-label{font-family:'Do Hyeon',sans-serif;font-size:13px;fill:var(--ink-soft);text-anchor:middle;}
+  .tick-label.rem{fill:var(--coral);}
+
+  footer{max-width:960px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+
+  @media (prefers-reduced-motion: reduce){
+    #rollGroup{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">⚪ 원주율 실험실</span>
+  <h1>원을 한 바퀴 굴리면,<br>지름의 <span>몇 배</span>를 갈까?</h1>
+  <p class="sub">원의 지름을 바꿔가며 굴려보세요. 원이 한 바퀴 구를 때 생기는 길이(원주)가 항상 지름의 약 <b>3.14배</b>라는 걸, 눈금으로 직접 확인할 수 있어요. 이 3.14…라는 값이 바로 <b>원주율(π)</b>이에요.</p>
+
+  <div class="stage">
+    <svg id="svg" viewBox="0 0 680 300"></svg>
+
+    <div class="controls">
+      <div class="control-row">
+        <div class="control-label"><span>원의 지름</span><b id="dLabel">4</b><span>cm</span></div>
+        <input id="slider" type="range" min="2" max="8" value="4" step="0.5" aria-label="지름 조절(cm)">
+      </div>
+      <button class="roll-btn" id="rollBtn">▶ 원 굴리기</button>
+    </div>
+
+    <div class="bottom-grid">
+      <div class="equation">
+        <div class="formula">원주 ÷ 지름(<b id="dInFormula">4</b>cm)</div>
+        <div class="result" id="resultNum">3.14<span>배</span></div>
+      </div>
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+  <footer>지름이 커지든 작아지든, 원주를 지름으로 나눈 값은 항상 약 3.14159…로 일정해요. 이 값을 원주율, 기호로는 π(파이)라고 불러요.</footer>
+</div>
+
+<script>
+  const svg = document.getElementById('svg');
+  const slider = document.getElementById('slider');
+  const dLabel = document.getElementById('dLabel');
+  const dInFormula = document.getElementById('dInFormula');
+  const resultNum = document.getElementById('resultNum');
+  const rollBtn = document.getElementById('rollBtn');
+  const factBox = document.getElementById('fact');
+
+  const PX_PER_CM = 20;
+  const baseY = 210;
+  const startX = 100;
+
+  function render(d, animate){
+    const rPx = (d*PX_PER_CM)/2;
+    const circumPx = Math.PI * d * PX_PER_CM;
+    const cx0 = startX; // 접점(빨간 점)이 0 눈금과 정확히 겹치도록 중심을 startX에 둠
+    const cy0 = baseY - rPx;
+
+    dLabel.textContent = d;
+    dInFormula.textContent = d;
+    const circumCm = Math.PI * d;
+    resultNum.innerHTML = `3.14<span>배 (${circumCm.toFixed(1)}cm)</span>`;
+
+    const fullTurns = Math.floor(Math.PI);
+    const remainder = (Math.PI - fullTurns).toFixed(2);
+    factBox.innerHTML = `지름이 <b>${d}cm</b>인 원의 둘레(원주)는 <b>${circumCm.toFixed(2)}cm</b>예요. 이 길이는 지름(${d}cm)이 <b>${fullTurns}번 온전히</b> 들어가고, <b>${remainder}배</b>만큼 더 남는 길이랍니다.`;
+
+    let html = '';
+
+    // baseline
+    html += `<line x1="${startX-rPx-20}" y1="${baseY}" x2="${startX+circumPx+40}" y2="${baseY}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+
+    // diameter tick marks along track (every full diameter length)
+    let tickX = startX;
+    let tickCount = 0;
+    while(tickX <= startX + circumPx + 0.5){
+      const isLast = (startX+circumPx - tickX) < 1 && tickCount>0;
+      html += `<line x1="${tickX}" y1="${baseY-10}" x2="${tickX}" y2="${baseY+10}" stroke="var(--violet)" stroke-width="2"></line>`;
+      if(tickCount>0){
+        html += `<text class="tick-label" x="${tickX - (d*PX_PER_CM)/2}" y="${baseY+30}">지름 ${tickCount}개</text>`;
+      } else {
+        html += `<text class="tick-label" x="${tickX}" y="${baseY+30}">0</text>`;
+      }
+      tickX += d*PX_PER_CM;
+      tickCount++;
+    }
+    // remainder segment label
+    const remStart = startX + (tickCount-1)*d*PX_PER_CM;
+    const remEnd = startX + circumPx;
+    if(remEnd > remStart + 4){
+      html += `<line x1="${remStart}" y1="${baseY}" x2="${remEnd}" y2="${baseY}" stroke="var(--coral)" stroke-width="4"></line>`;
+      html += `<text class="tick-label rem" x="${(remStart+remEnd)/2}" y="${baseY+30}">+${remainder}</text>`;
+    }
+    // final tick at end
+    html += `<line x1="${remEnd}" y1="${baseY-10}" x2="${remEnd}" y2="${baseY+10}" stroke="var(--coral)" stroke-width="2"></line>`;
+
+    // rolling circle group
+    html += `<g id="rollGroup" style="transition:${animate ? 'transform 2.8s cubic-bezier(.4,0,.2,1)' : 'none'};">
+        <circle cx="0" cy="0" r="${rPx}" fill="#fff" stroke="var(--ink)" stroke-width="3"></circle>
+        <line x1="0" y1="0" x2="0" y2="${rPx}" stroke="var(--coral)" stroke-width="3" stroke-linecap="round"></line>
+        <circle cx="0" cy="${rPx}" r="6" fill="var(--coral)"></circle>
+      </g>`;
+
+    svg.innerHTML = html;
+
+    const g = document.getElementById('rollGroup');
+    g.setAttribute('transform', `translate(${cx0},${cy0}) rotate(0)`);
+    g.dataset.cx0 = cx0; g.dataset.cy0 = cy0; g.dataset.r = rPx; g.dataset.circum = circumPx;
+  }
+
+  function roll(){
+    const g = document.getElementById('rollGroup');
+    if(!g) return;
+    const cx0 = parseFloat(g.dataset.cx0), cy0 = parseFloat(g.dataset.cy0);
+    const circum = parseFloat(g.dataset.circum), r = parseFloat(g.dataset.r);
+    const rotDeg = (circum / r) * (180/Math.PI);
+    rollBtn.disabled = true;
+    // force reflow so transition applies
+    g.getBoundingClientRect();
+    g.style.transition = 'transform 2.8s cubic-bezier(.4,0,.2,1)';
+    g.setAttribute('transform', `translate(${cx0+circum},${cy0}) rotate(${rotDeg})`);
+    setTimeout(()=>{ rollBtn.disabled = false; }, 2900);
+  }
+
+  slider.addEventListener('input', (e)=> render(parseFloat(e.target.value), false));
+  rollBtn.addEventListener('click', roll);
+
+  render(4, false);
+</script>
+</body>
+</html>
