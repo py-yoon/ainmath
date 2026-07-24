@@ -43,12 +43,23 @@ input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--vi
 .chip-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px;}
 .chip{font-family:'Do Hyeon',sans-serif;font-size:13px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:8px;padding:5px 9px;transition:all .3s ease;}
 .chip.common{background:var(--violet);border-color:var(--violet);color:#fff;}
+.chip.dim{background:none;border:none;color:var(--ink-soft);padding:5px 2px;}
+.howto{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14px;line-height:1.7;color:var(--ink);margin-bottom:20px;}
+.howto b{color:var(--violet);}
+.howto ol{margin:8px 0 0;padding-left:20px;}
+.howto li{margin-bottom:4px;}
 .panel{display:flex;flex-direction:column;gap:18px;}
 .equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px 20px;text-align:center;}
 .eq-pair{display:flex;gap:14px;justify-content:center;}
 .eq-box{flex:1;}
 .eq-box .label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);}
 .eq-box .val{font-family:'Do Hyeon',sans-serif;font-size:clamp(30px,5vw,42px);color:var(--violet);line-height:1;margin-top:4px;}
+.factor-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:18px 20px;}
+.factor-box .ftitle{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);margin-bottom:10px;}
+.factor-row{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;margin-bottom:6px;}
+.factor-row .fval{color:var(--ink);}
+.factor-row.result{border-top:2px dashed var(--paper-line);margin-top:8px;padding-top:10px;}
+.factor-row.result .fval{color:var(--violet);font-size:18px;}
 .fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
 .fact b{color:var(--coral);}
 footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
@@ -58,24 +69,33 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
 <div class="wrap">
   <span class="eyebrow">🔗 최대공약수 · 최소공배수 실험실</span>
   <h1>두 수의 약수와 배수,<br><span>겹치는 부분</span>을 찾아보자</h1>
-  <p class="sub">두 수를 슬라이더로 바꿔보세요. 약수 목록에서 겹치는 가장 큰 수가 <b>최대공약수(GCD)</b>, 배수 목록에서 겹치는 가장 작은 수가 <b>최소공배수(LCM)</b>예요.</p>
+  <p class="sub">두 수를 슬라이더로 바꿔보세요(1~50). 약수 목록에서 겹치는 가장 큰 수가 <b>최대공약수(GCD)</b>, 배수 목록에서 겹치는 가장 작은 수가 <b>최소공배수(LCM)</b>예요. 아래에서는 "약수·배수를 나열해서 찾는 방법"과 "소인수분해로 찾는 방법" 두 가지를 함께 볼 수 있어요.</p>
 
   <div class="stage">
     <div>
+      <div class="howto">
+        <b>원리 설명</b>
+        <ol>
+          <li>두 수 A, B의 약수를 각각 모두 나열해요. 두 목록에 공통으로 들어있는 수들 중 <b>가장 큰 수</b>가 최대공약수(GCD)예요.</li>
+          <li>두 수 A, B의 배수를 각각 작은 순서로 나열해요. 두 목록에 공통으로 들어있는 수들 중 <b>가장 작은 수</b>가 최소공배수(LCM)예요.</li>
+          <li>더 빠른 방법도 있어요: 두 수를 소인수분해한 다음, 공통으로 들어있는 소인수를 <b>가장 작은 지수</b>로 곱하면 GCD, 두 수에 있는 모든 소인수를 <b>가장 큰 지수</b>로 곱하면 LCM이 나와요.</li>
+          <li>신기하게도 GCD × LCM은 항상 A × B와 같아요. 두 방법 중 무엇을 쓰든 결과는 같으니, 슬라이더를 바꿔가며 두 방법을 비교해보세요.</li>
+        </ol>
+      </div>
       <div class="control-row">
         <div class="control-label"><span>수 A</span><b id="aLabel">12</b></div>
-        <input id="sliderA" type="range" min="2" max="36" value="12" step="1" aria-label="수 A 조절">
+        <input id="sliderA" type="range" min="1" max="50" value="12" step="1" aria-label="수 A 조절">
       </div>
       <div class="control-row">
         <div class="control-label"><span>수 B</span><b id="bLabel">18</b></div>
-        <input id="sliderB" type="range" min="2" max="36" value="18" step="1" aria-label="수 B 조절">
+        <input id="sliderB" type="range" min="1" max="50" value="18" step="1" aria-label="수 B 조절">
       </div>
 
-      <div class="row-title"><span class="dot" style="background:var(--ink-soft)"></span>약수 (보라색 = 두 수 모두의 약수)</div>
+      <div class="row-title"><span class="dot" style="background:var(--ink-soft)"></span>방법 1 — 약수 나열하기 (보라색 = 두 수 모두의 약수)</div>
       <div class="chip-row" id="divA"></div>
       <div class="chip-row" id="divB"></div>
 
-      <div class="row-title"><span class="dot" style="background:var(--ink-soft)"></span>배수 (보라색 = 두 수 모두의 배수)</div>
+      <div class="row-title"><span class="dot" style="background:var(--ink-soft)"></span>방법 1 — 배수 나열하기 (보라색 = 두 수 모두의 배수)</div>
       <div class="chip-row" id="mulA"></div>
       <div class="chip-row" id="mulB"></div>
     </div>
@@ -87,11 +107,18 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
           <div class="eq-box"><div class="label">최소공배수</div><div class="val" id="lcmVal">36</div></div>
         </div>
       </div>
+      <div class="factor-box">
+        <div class="ftitle">방법 2 — 소인수분해로 구하기</div>
+        <div class="factor-row"><span>A = </span><span class="fval" id="aFactor">2² × 3</span></div>
+        <div class="factor-row"><span>B = </span><span class="fval" id="bFactor">2 × 3²</span></div>
+        <div class="factor-row result"><span>공통 소인수(최소 지수) → GCD</span><span class="fval" id="gcdFactor">2 × 3 = 6</span></div>
+        <div class="factor-row result"><span>모든 소인수(최대 지수) → LCM</span><span class="fval" id="lcmFactor">2² × 3² = 36</span></div>
+      </div>
       <div class="fact" id="fact"></div>
     </div>
   </div>
 
-  <footer>재미있는 사실: 최대공약수 × 최소공배수 = 두 수를 곱한 값과 항상 같아요. 슬라이더를 바꿔가며 확인해보세요!</footer>
+  <footer>재미있는 사실: 최대공약수 × 최소공배수는 항상 두 수를 곱한 값(A × B)과 같아요. 또한 두 수가 서로소(공약수가 1뿐)라면 GCD=1이고, 이때 LCM은 두 수를 그냥 곱한 값(A×B)과 같아져요.</footer>
 </div>
 
 <script>
@@ -105,6 +132,10 @@ const mulA = document.getElementById('mulA');
 const mulB = document.getElementById('mulB');
 const gcdVal = document.getElementById('gcdVal');
 const lcmVal = document.getElementById('lcmVal');
+const aFactor = document.getElementById('aFactor');
+const bFactor = document.getElementById('bFactor');
+const gcdFactor = document.getElementById('gcdFactor');
+const lcmFactor = document.getElementById('lcmFactor');
 const factBox = document.getElementById('fact');
 
 function divisors(n){
@@ -113,6 +144,42 @@ function divisors(n){
   return out;
 }
 function gcd(a,b){ return b===0?a:gcd(b,a%b); }
+
+function primeFactorize(n){
+  const factors=[];
+  let x=n;
+  for(let p=2; p*p<=x; p++){
+    let e=0;
+    while(x%p===0){ x/=p; e++; }
+    if(e>0) factors.push([p,e]);
+  }
+  if(x>1) factors.push([x,1]);
+  return factors;
+}
+
+function factorsToHtml(factors){
+  if(factors.length===0) return '1 <span style="color:var(--ink-soft)">(소인수 없음)</span>';
+  return factors.map(([p,e])=> e>1 ? `${p}<sup>${e}</sup>` : `${p}`).join(' × ');
+}
+
+// 배수 목록을 너무 길지 않게, 항상 마지막(공통 배수)까지 보이도록 잘라서 표시
+function buildMultChips(step, limit, highlightVal){
+  const all=[];
+  for(let k=step;k<=limit;k+=step) all.push(k);
+  const maxShow = 14;
+  let shown = all;
+  let clipped = false;
+  if(all.length > maxShow){
+    shown = all.slice(0, maxShow-1);
+    clipped = true;
+  }
+  let html = shown.map(m=>`<span class="chip${m===highlightVal?' common':''}">${m}</span>`).join('');
+  if(clipped){
+    html += `<span class="chip dim">…</span>`;
+    html += `<span class="chip common">${highlightVal}</span>`;
+  }
+  return html;
+}
 
 function render(){
   const a = parseInt(sliderA.value), b = parseInt(sliderB.value);
@@ -125,17 +192,42 @@ function render(){
   divA.innerHTML = `A(${a})의 약수: ` + dA.map(d=>`<span class="chip${dB.includes(d)?' common':''}">${d}</span>`).join('');
   divB.innerHTML = `B(${b})의 약수: ` + dB.map(d=>`<span class="chip${dA.includes(d)?' common':''}">${d}</span>`).join('');
 
-  const maxMul = l*2;
-  const mA=[], mB=[];
-  for(let k=a;k<=maxMul;k+=a) mA.push(k);
-  for(let k=b;k<=maxMul;k+=b) mB.push(k);
-  mulA.innerHTML = `A(${a})의 배수: ` + mA.map(m=>`<span class="chip${m===l?' common':''}">${m}</span>`).join('');
-  mulB.innerHTML = `B(${b})의 배수: ` + mB.map(m=>`<span class="chip${m===l?' common':''}">${m}</span>`).join('');
+  mulA.innerHTML = `A(${a})의 배수: ` + buildMultChips(a, l, l);
+  mulB.innerHTML = `B(${b})의 배수: ` + buildMultChips(b, l, l);
 
   gcdVal.textContent = g;
   lcmVal.textContent = l;
 
-  factBox.innerHTML = `${a}와 ${b}의 약수 중 가장 큰 공통 약수는 <b>${g}</b>이고, 배수 중 가장 작은 공통 배수는 <b>${l}</b>이에요. 확인해보면 ${g} × ${l} = ${g*l}, 그리고 ${a} × ${b} = ${a*b} — 정확히 같죠?`;
+  // 소인수분해 패널
+  const fA = primeFactorize(a);
+  const fB = primeFactorize(b);
+  aFactor.innerHTML = `${a} = ${factorsToHtml(fA)}`;
+  bFactor.innerHTML = `${b} = ${factorsToHtml(fB)}`;
+
+  const mapA = Object.fromEntries(fA);
+  const mapB = Object.fromEntries(fB);
+  const allPrimes = Array.from(new Set([...Object.keys(mapA), ...Object.keys(mapB)])).map(Number).sort((x,y)=>x-y);
+
+  const commonParts = [];
+  const unionParts = [];
+  allPrimes.forEach(p=>{
+    const eA = mapA[p]||0, eB = mapB[p]||0;
+    const minE = Math.min(eA,eB), maxE = Math.max(eA,eB);
+    if(minE>0) commonParts.push(minE>1?`${p}<sup>${minE}</sup>`:`${p}`);
+    unionParts.push(maxE>1?`${p}<sup>${maxE}</sup>`:`${p}`);
+  });
+  gcdFactor.innerHTML = commonParts.length ? `${commonParts.join(' × ')} = ${g}` : `공통 소인수 없음 → ${g}`;
+  lcmFactor.innerHTML = unionParts.length ? `${unionParts.join(' × ')} = ${l}` : `1 = ${l}`;
+
+  const isCoprime = g===1;
+  let extra = '';
+  if(a===1 || b===1){
+    extra = ` ${a===1?'A':'B'}가 1이면 약수가 1뿐이라 GCD는 항상 1, LCM은 항상 두 수를 곱한 값과 같아요.`;
+  } else if(isCoprime){
+    extra = ` ${a}와 ${b}는 공통 소인수가 없는 <b>서로소</b>예요. 그래서 GCD=1이고, LCM은 그냥 ${a}×${b}=${l}이 돼요.`;
+  }
+
+  factBox.innerHTML = `${a}와 ${b}의 약수 중 가장 큰 공통 약수는 <b>${g}</b>이고, 배수 중 가장 작은 공통 배수는 <b>${l}</b>이에요. 소인수분해로 봐도 똑같이 나와요: 공통 소인수만 최소 지수로 곱하면 ${g}, 전체 소인수를 최대 지수로 곱하면 ${l}. 검산해보면 ${g} × ${l} = ${g*l}, 그리고 ${a} × ${b} = ${a*b} — 정확히 같죠?${extra}`;
 }
 
 sliderA.addEventListener('input', render);
