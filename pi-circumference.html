@@ -223,7 +223,7 @@
     html += `<line x1="${remEnd}" y1="${baseY-10}" x2="${remEnd}" y2="${baseY+10}" stroke="var(--coral)" stroke-width="2"></line>`;
 
     // rolling circle group
-    html += `<g id="rollGroup" style="transition:${animate ? 'transform 2.8s cubic-bezier(.4,0,.2,1)' : 'none'};">
+    html += `<g id="rollGroup" style="transform-box:view-box;transform-origin:0 0;transform:translate(${cx0}px,${cy0}px) rotate(0deg);">
         <circle cx="0" cy="0" r="${rPx}" fill="#fff" stroke="var(--ink)" stroke-width="3"></circle>
         <line x1="0" y1="0" x2="0" y2="${rPx}" stroke="var(--coral)" stroke-width="3" stroke-linecap="round"></line>
         <circle cx="0" cy="${rPx}" r="6" fill="var(--coral)"></circle>
@@ -232,7 +232,6 @@
     svg.innerHTML = html;
 
     const g = document.getElementById('rollGroup');
-    g.setAttribute('transform', `translate(${cx0},${cy0}) rotate(0)`);
     g.dataset.cx0 = cx0; g.dataset.cy0 = cy0; g.dataset.r = rPx; g.dataset.circum = circumPx;
   }
 
@@ -243,10 +242,20 @@
     const circum = parseFloat(g.dataset.circum), r = parseFloat(g.dataset.r);
     const rotDeg = (circum / r) * (180/Math.PI);
     rollBtn.disabled = true;
-    // force reflow so transition applies
+
+    // reset to start with no transition first (in case of repeated taps), then force reflow
+    g.style.transition = 'none';
+    g.style.transform = `translate(${cx0}px,${cy0}px) rotate(0deg)`;
     g.getBoundingClientRect();
-    g.style.transition = 'transform 2.8s cubic-bezier(.4,0,.2,1)';
-    g.setAttribute('transform', `translate(${cx0+circum},${cy0}) rotate(${rotDeg})`);
+
+    // next frame: apply transition + new transform so mobile browsers reliably animate it
+    requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>{
+        g.style.transition = 'transform 2.8s cubic-bezier(.4,0,.2,1)';
+        g.style.transform = `translate(${cx0+circum}px,${cy0}px) rotate(${rotDeg}deg)`;
+      });
+    });
+
     setTimeout(()=>{ rollBtn.disabled = false; }, 2900);
   }
 
