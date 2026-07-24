@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>합동조건 실험실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9;
+    --paper-line:#E9E1CF;
+    --ink:#22283A;
+    --ink-soft:#5B6178;
+    --violet:#6C4CF7;
+    --violet-soft:#EEE8FF;
+    --coral:#FF5B57;
+    --coral-soft:#FFEAE8;
+    --green:#4CAF8E;
+    --green-soft:#E3F5EE;
+    --blue:#4C8BF5;
+    --card:#FFFFFF;
+    --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px,
+      var(--paper);
+    color:var(--ink);
+    font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh;
+    padding: 32px 20px 80px;
+  }
+  .wrap{max-width:1080px;margin:0 auto;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Do Hyeon',sans-serif;
+    color:var(--violet);
+    background:var(--violet-soft);
+    padding:6px 14px;border-radius:999px;
+    font-size:14px;letter-spacing:0.02em;
+    margin-bottom:14px;
+  }
+  h1{
+    font-family:'Do Hyeon',sans-serif;
+    font-weight:400;
+    font-size:clamp(28px,4.5vw,44px);
+    line-height:1.25;
+    margin:0 0 10px;
+  }
+  h1 span{color:var(--coral);}
+  .sub{
+    color:var(--ink-soft);
+    font-size:16px;
+    line-height:1.7;
+    max-width:66ch;
+    margin:0 0 24px;
+  }
+
+  /* 5개 규칙 요약 카드 */
+  .rule-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(180px,1fr));
+    gap:12px;
+    margin-bottom:30px;
+  }
+  .rule-card{
+    background:var(--card);
+    border:2px solid var(--paper-line);
+    border-radius:16px;
+    padding:14px 16px;
+    box-shadow:var(--shadow);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .rule-card:hover{border-color:var(--violet);}
+  .rule-card.active{border-color:var(--violet);background:var(--violet-soft);}
+  .rule-card .rc-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+  .rule-card .rc-icon{font-size:18px;}
+  .rule-card .rc-name{font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--ink);}
+  .rule-card .rc-desc{font-size:12.5px;color:var(--ink-soft);line-height:1.5;}
+
+  .stage{
+    background:var(--card);
+    border-radius:24px;
+    box-shadow:var(--shadow);
+    padding:28px clamp(16px,4vw,40px) 32px;
+    display:grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap:32px;
+    align-items:start;
+  }
+  @media (max-width:800px){
+    .stage{grid-template-columns:1fr;}
+  }
+  .canvas-area{display:flex;flex-direction:column;align-items:center;gap:16px;}
+  svg{width:100%;max-width:480px;height:auto;overflow:visible;}
+
+  .legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-size:13px;color:var(--ink-soft);}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .swatch{width:12px;height:12px;border-radius:3px;display:inline-block;}
+
+  .warn{
+    background:var(--coral-soft);color:#B4433F;
+    font-family:'Do Hyeon',sans-serif;font-size:14px;
+    border-radius:12px;padding:12px 16px;text-align:center;
+    max-width:420px;
+  }
+
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap;width:100%;max-width:420px;}
+  .action-btn{
+    font-family:'Do Hyeon',sans-serif;font-size:15px;
+    background:var(--ink);color:#fff;border:none;border-radius:14px;
+    padding:12px 18px;cursor:pointer;flex:1;min-width:140px;
+    transition:transform .15s ease, background .2s ease;
+  }
+  .action-btn:hover{background:var(--violet);}
+  .action-btn:active{transform:scale(0.97);}
+  .action-btn.secondary{background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);}
+  .action-btn.secondary:hover{border-color:var(--violet);color:var(--violet);background:var(--card);}
+  .action-btn:disabled{opacity:0.5;cursor:default;}
+  .action-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+
+  .mirror-row{
+    display:flex;align-items:center;gap:8px;
+    font-size:14px;color:var(--ink-soft);
+    max-width:420px;width:100%;
+  }
+  .mirror-row input{width:18px;height:18px;accent-color:var(--violet);cursor:pointer;}
+
+  .panel{display:flex;flex-direction:column;gap:18px;}
+
+  .control-row{width:100%;display:flex;flex-direction:column;gap:8px;}
+  .control-label{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);
+  }
+  .control-label b{font-size:20px;color:var(--ink);}
+  input[type=range]{
+    -webkit-appearance:none;width:100%;height:8px;border-radius:999px;
+    background:var(--violet-soft);outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;width:24px;height:24px;border-radius:50%;
+    background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);
+    cursor:pointer;
+  }
+  input[type=range]::-moz-range-thumb{
+    width:24px;height:24px;border-radius:50%;
+    background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);
+    cursor:pointer;
+  }
+  input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+
+  .controls-box{
+    background:var(--paper);border:2px solid var(--paper-line);
+    border-radius:18px;padding:18px 18px;
+    display:flex;flex-direction:column;gap:16px;
+  }
+  .controls-box .rule-title{
+    font-family:'Do Hyeon',sans-serif;font-size:17px;color:var(--violet);
+    display:flex;align-items:center;gap:8px;
+  }
+
+  .status-line{
+    font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);
+    text-align:center;
+  }
+  .status-line.matched{color:var(--green);}
+
+  .fact{
+    background:var(--violet-soft);border-radius:16px;padding:16px 18px;
+    font-size:14.5px;line-height:1.65;color:var(--ink);
+  }
+  .fact b{color:var(--violet);}
+  .fact .given-val{color:var(--coral);font-weight:bold;}
+
+  .badge-win{
+    display:none;
+    background:#FFF3E0;color:#B45309;
+    font-family:'Do Hyeon',sans-serif;font-size:14px;
+    border-radius:10px;padding:10px 12px;text-align:center;
+  }
+  .badge-win.show{display:block;}
+
+  footer{max-width:1080px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">≅ 합동조건 실험실</span>
+  <h1>두 삼각형, <span>어떤 조건</span>이면<br>합동이라고 할 수 있을까?</h1>
+  <p class="sub">아래 5가지 합동조건 중 하나를 골라, 숫자를 직접 입력해보세요. 조건에 맞는 값을 넣으면 △ABC와 똑같은 크기와 모양의 △DEF가 만들어지고, "겹쳐보기" 버튼을 누르면 두 삼각형이 완전히 포개지는 걸 확인할 수 있어요.</p>
+
+  <div class="rule-grid" id="ruleGrid"></div>
+
+  <div class="stage">
+    <div class="canvas-area">
+      <svg id="svg" viewBox="0 0 520 460"></svg>
+      <div class="legend">
+        <span><i class="swatch" style="background:var(--green)"></i>△ABC (기준 삼각형)</span>
+        <span><i class="swatch" style="background:var(--violet)"></i>△DEF (같은 조건으로 만든 삼각형)</span>
+      </div>
+      <div class="warn" id="warnBox" style="display:none;"></div>
+      <div class="status-line" id="statusLine">버튼을 눌러 두 삼각형을 겹쳐보세요</div>
+      <div class="btn-row">
+        <button class="action-btn" id="overlapBtn">↗ 겹쳐보기</button>
+        <button class="action-btn secondary" id="resetBtn">↺ 다시 흩어놓기</button>
+      </div>
+      <label class="mirror-row">
+        <input type="checkbox" id="mirrorChk">
+        △DEF를 거울처럼 뒤집어서 배치하기 (뒤집어도 합동이에요)
+      </label>
+    </div>
+
+    <div class="panel">
+      <div class="controls-box">
+        <div class="rule-title"><span id="ruleIcon">📏</span><span id="ruleLabel">SSS (세 변의 길이)</span></div>
+        <div id="controlsContainer"></div>
+      </div>
+
+      <div class="badge-win" id="winBadge">🎉 △ABC ≡ △DEF — 완전히 겹쳤어요! 대응하는 변과 각이 모두 같아요.</div>
+
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+  <footer>빨간 글자로 표시된 값은 우리가 직접 정한(주어진) 값이고, 검은 글자는 그 값들로부터 자동으로 계산된 값이에요. 다섯 조건 모두 "주어진 값만 같으면" 나머지 값도 저절로 같아진다는 걸 보여줘요.</footer>
+</div>
+
+<script>
+  const svg = document.getElementById('svg');
+  const controlsContainer = document.getElementById('controlsContainer');
+  const ruleGrid = document.getElementById('ruleGrid');
+  const ruleIcon = document.getElementById('ruleIcon');
+  const ruleLabel = document.getElementById('ruleLabel');
+  const factBox = document.getElementById('fact');
+  const warnBox = document.getElementById('warnBox');
+  const statusLine = document.getElementById('statusLine');
+  const winBadge = document.getElementById('winBadge');
+  const overlapBtn = document.getElementById('overlapBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const mirrorChk = document.getElementById('mirrorChk');
+
+  function fmt(n){ return (Math.round(n*100)/100).toString(); }
+  function dist(P,Q){ return Math.hypot(P[0]-Q[0], P[1]-Q[1]); }
+  function angleAt(P,Q,R){
+    const v1=[Q[0]-P[0],Q[1]-P[1]], v2=[R[0]-P[0],R[1]-P[1]];
+    const m1=Math.hypot(v1[0],v1[1]), m2=Math.hypot(v2[0],v2[1]);
+    let c=(v1[0]*v2[0]+v1[1]*v2[1])/(m1*m2);
+    c=Math.max(-1,Math.min(1,c));
+    return Math.acos(c)*180/Math.PI;
+  }
+
+  const conditions = {
+    sss: {
+      label:'SSS (세 변의 길이)', icon:'📏',
+      desc:'세 변의 길이가 각각 같으면 두 삼각형은 합동이에요.',
+      inputs:[
+        {id:'BC', label:'변 BC', unit:'cm', min:3, max:12, step:0.5, default:5},
+        {id:'CA', label:'변 CA', unit:'cm', min:3, max:12, step:0.5, default:6},
+        {id:'AB', label:'변 AB', unit:'cm', min:3, max:12, step:0.5, default:7},
+      ],
+      build(v){
+        const a=v.BC, b=v.CA, c=v.AB;
+        if(a+b<=c || b+c<=a || c+a<=b) return null;
+        const A=[0,0], B=[c,0];
+        const angA = Math.acos((b*b+c*c-a*a)/(2*b*c));
+        const C=[b*Math.cos(angA), b*Math.sin(angA)];
+        return { A,B,C, given:{sides:['AB','BC','CA'], angles:[]} };
+      },
+      invalidMsg:'세 변으로 삼각형을 만들 수 없어요. 한 변의 길이가 나머지 두 변의 합보다 크거나 같으면 삼각형이 만들어지지 않아요.'
+    },
+    sas: {
+      label:'SAS (두 변과 끼인각)', icon:'📐',
+      desc:'두 변의 길이와 그 사이에 낀 각의 크기가 같으면 합동이에요.',
+      inputs:[
+        {id:'AB', label:'변 AB', unit:'cm', min:3, max:12, step:0.5, default:7},
+        {id:'A', label:'끼인각 ∠A', unit:'°', min:20, max:150, step:5, default:60},
+        {id:'CA', label:'변 CA', unit:'cm', min:3, max:12, step:0.5, default:6},
+      ],
+      build(v){
+        const c=v.AB, b=v.CA, rad=v.A*Math.PI/180;
+        const A=[0,0], B=[c,0], C=[b*Math.cos(rad), b*Math.sin(rad)];
+        return { A,B,C, given:{sides:['AB','CA'], angles:['A']} };
+      },
+      invalidMsg:null
+    },
+    asa: {
+      label:'ASA (두 각과 끼인변)', icon:'📐',
+      desc:'두 각의 크기와 그 사이에 낀 변의 길이가 같으면 합동이에요.',
+      inputs:[
+        {id:'A', label:'각 ∠A', unit:'°', min:20, max:120, step:5, default:50},
+        {id:'AB', label:'끼인변 AB', unit:'cm', min:3, max:12, step:0.5, default:8},
+        {id:'B', label:'각 ∠B', unit:'°', min:20, max:120, step:5, default:60},
+      ],
+      build(v){
+        const A=v.A, B=v.B, c=v.AB;
+        if(A+B>=175) return null;
+        const Cang=180-A-B;
+        const radA=A*Math.PI/180, radB=B*Math.PI/180, radC=Cang*Math.PI/180;
+        const bSide = c*Math.sin(radB)/Math.sin(radC);
+        const Av=[0,0], Bv=[c,0], Cv=[bSide*Math.cos(radA), bSide*Math.sin(radA)];
+        return { A:Av,B:Bv,C:Cv, given:{sides:['AB'], angles:['A','B']} };
+      },
+      invalidMsg:'두 각의 합이 너무 커서 삼각형을 만들 수 없어요. (두 각의 합은 180°보다 작아야 해요)'
+    },
+    rhs: {
+      label:'RHS (직각·빗변·변)', icon:'📏',
+      desc:'직각삼각형에서 빗변의 길이와 다른 한 변의 길이가 같으면 합동이에요.',
+      inputs:[
+        {id:'BC', label:'빗변 BC', unit:'cm', min:6, max:16, step:0.5, default:10},
+        {id:'AB', label:'변 AB', unit:'cm', min:3, max:10, step:0.5, default:6},
+      ],
+      build(v){
+        const hyp=v.BC, leg=v.AB;
+        if(leg>=hyp) return null;
+        const other=Math.sqrt(hyp*hyp-leg*leg);
+        const A=[0,0], B=[leg,0], C=[0,other];
+        return { A,B,C, given:{sides:['AB','BC'], angles:['A']}, rightAngleAt:'A' };
+      },
+      invalidMsg:'빗변은 항상 다른 변보다 길어야 해요. 빗변의 길이를 늘리거나 변의 길이를 줄여보세요.'
+    },
+    rha: {
+      label:'RHA (직각·빗변·예각)', icon:'📐',
+      desc:'직각삼각형에서 빗변의 길이와 한 예각의 크기가 같으면 합동이에요.',
+      inputs:[
+        {id:'BC', label:'빗변 BC', unit:'cm', min:6, max:16, step:0.5, default:10},
+        {id:'B', label:'예각 ∠B', unit:'°', min:15, max:75, step:5, default:40},
+      ],
+      build(v){
+        const hyp=v.BC, rad=v.B*Math.PI/180;
+        const legAdj=hyp*Math.cos(rad), legOpp=hyp*Math.sin(rad);
+        const A=[0,0], B=[legAdj,0], C=[0,legOpp];
+        return { A,B,C, given:{sides:['BC'], angles:['A','B']}, rightAngleAt:'A' };
+      },
+      invalidMsg:null
+    },
+  };
+
+  let currentKey = 'sss';
+  let values = {};
+  let mirrored = false;
+
+  const HOME = { x:40, y:150, w:260, h:270, maxScale:34 };
+  const SCATTER = 'translate(190,-105) rotate(32)';
+
+  function layoutTriangle(pts){
+    const xs=pts.map(p=>p[0]), ys=pts.map(p=>p[1]);
+    const minX=Math.min(...xs), maxX=Math.max(...xs), minY=Math.min(...ys), maxY=Math.max(...ys);
+    const w=(maxX-minX)||1, h=(maxY-minY)||1;
+    const scale=Math.min(HOME.w/w, HOME.h/h, HOME.maxScale);
+    return pts.map(p=>{
+      const sx = HOME.x + (p[0]-minX)*scale + (HOME.w - w*scale)/2;
+      const sy = HOME.y + HOME.h - ((p[1]-minY)*scale + (HOME.h - h*scale)/2);
+      return [sx, sy];
+    });
+  }
+
+  function centroidOf(pts){
+    return [ (pts[0][0]+pts[1][0]+pts[2][0])/3, (pts[0][1]+pts[1][1]+pts[2][1])/3 ];
+  }
+  function outwardPos(P,Q,cen,offset){
+    const mid=[(P[0]+Q[0])/2,(P[1]+Q[1])/2];
+    let d=[mid[0]-cen[0], mid[1]-cen[1]];
+    const len=Math.hypot(d[0],d[1])||1;
+    d=[d[0]/len,d[1]/len];
+    return [mid[0]+d[0]*offset, mid[1]+d[1]*offset];
+  }
+  function inwardVertexPos(V,P,Q,offset){
+    const v1=[P[0]-V[0],P[1]-V[1]], v2=[Q[0]-V[0],Q[1]-V[1]];
+    const n1=Math.hypot(v1[0],v1[1])||1, n2=Math.hypot(v2[0],v2[1])||1;
+    let b=[v1[0]/n1+v2[0]/n2, v1[1]/n1+v2[1]/n2];
+    const bn=Math.hypot(b[0],b[1])||1;
+    b=[b[0]/bn,b[1]/bn];
+    return [V[0]+b[0]*offset, V[1]+b[1]*offset];
+  }
+  function rightAngleMarker(V,P,Q,size){
+    const u1=[P[0]-V[0],P[1]-V[1]], n1=Math.hypot(u1[0],u1[1])||1;
+    const u2=[Q[0]-V[0],Q[1]-V[1]], n2=Math.hypot(u2[0],u2[1])||1;
+    const u=[u1[0]/n1*size, u1[1]/n1*size], v=[u2[0]/n2*size, u2[1]/n2*size];
+    const p1=[V[0]+u[0], V[1]+u[1]];
+    const p2=[V[0]+u[0]+v[0], V[1]+u[1]+v[1]];
+    const p3=[V[0]+v[0], V[1]+v[1]];
+    return `M${V[0]},${V[1]} L${p1[0]},${p1[1]} L${p2[0]},${p2[1]} L${p3[0]},${p3[1]} Z`;
+  }
+
+  function buildRuleGrid(){
+    ruleGrid.innerHTML = Object.entries(conditions).map(([key,c])=>`
+      <div class="rule-card" data-key="${key}">
+        <div class="rc-top"><span class="rc-icon">${c.icon}</span><span class="rc-name">${c.label}</span></div>
+        <div class="rc-desc">${c.desc}</div>
+      </div>
+    `).join('');
+    ruleGrid.querySelectorAll('.rule-card').forEach(card=>{
+      card.addEventListener('click', ()=> switchCondition(card.dataset.key));
+    });
+  }
+
+  function switchCondition(key){
+    currentKey = key;
+    ruleGrid.querySelectorAll('.rule-card').forEach(c=> c.classList.toggle('active', c.dataset.key===key));
+    const cond = conditions[key];
+    ruleIcon.textContent = cond.icon;
+    ruleLabel.textContent = cond.label;
+    buildControls();
+    rebuild();
+  }
+
+  function buildControls(){
+    const cond = conditions[currentKey];
+    controlsContainer.innerHTML = '';
+    values = {};
+    cond.inputs.forEach(inp=>{
+      values[inp.id] = inp.default;
+      const row = document.createElement('div');
+      row.className = 'control-row';
+      row.innerHTML = `<div class="control-label"><span>${inp.label}</span><b id="val-${inp.id}">${inp.default}${inp.unit}</b></div>
+        <input type="range" id="in-${inp.id}" min="${inp.min}" max="${inp.max}" step="${inp.step}" value="${inp.default}" aria-label="${inp.label}">`;
+      controlsContainer.appendChild(row);
+      row.querySelector('input').addEventListener('input', (e)=>{
+        values[inp.id] = parseFloat(e.target.value);
+        document.getElementById(`val-${inp.id}`).textContent = fmt(values[inp.id]) + inp.unit;
+        rebuild();
+      });
+    });
+  }
+
+  function setScattered(){
+    const grp = document.getElementById('tri2grp');
+    if(!grp) return;
+    grp.style.transition = 'none';
+    grp.setAttribute('transform', SCATTER + (mirrored ? ' scale(-1,1)' : ' scale(1,1)'));
+    void grp.getBoundingClientRect();
+    grp.style.transition = 'transform .8s cubic-bezier(.4,0,.2,1)';
+    statusLine.textContent = '버튼을 눌러 두 삼각형을 겹쳐보세요';
+    statusLine.classList.remove('matched');
+    winBadge.classList.remove('show');
+  }
+
+  function overlap(){
+    const grp = document.getElementById('tri2grp');
+    if(!grp) return;
+    grp.setAttribute('transform', 'translate(0,0) rotate(0) scale(1,1)');
+    statusLine.textContent = '△ABC ≡ △DEF — 완전히 겹쳤어요!';
+    statusLine.classList.add('matched');
+    winBadge.classList.add('show');
+  }
+
+  function rebuild(){
+    const cond = conditions[currentKey];
+    const result = cond.build(values);
+    if(!result){
+      svg.innerHTML = '';
+      warnBox.style.display = 'block';
+      warnBox.textContent = cond.invalidMsg || '이 값으로는 삼각형을 만들 수 없어요. 슬라이더를 조절해보세요.';
+      factBox.innerHTML = '';
+      overlapBtn.disabled = true;
+      statusLine.textContent = '';
+      winBadge.classList.remove('show');
+      return;
+    }
+    warnBox.style.display = 'none';
+    overlapBtn.disabled = false;
+    render(result, cond);
+  }
+
+  function render(result, cond){
+    const { A, B, C, given, rightAngleAt } = result;
+    const sides = { AB:dist(A,B), BC:dist(B,C), CA:dist(C,A) };
+    const angles = { A:angleAt(A,B,C), B:angleAt(B,A,C), C:angleAt(C,A,B) };
+
+    const pts = layoutTriangle([A,B,C]);
+    const [As, Bs, Cs] = pts;
+    const cen = centroidOf(pts);
+
+    let html = '';
+
+    // ---- 삼각형 1 (△ABC) ----
+    html += `<polygon points="${As.join(',')} ${Bs.join(',')} ${Cs.join(',')}" fill="var(--green)" fill-opacity="0.14" stroke="var(--green)" stroke-width="3"></polygon>`;
+
+    if(rightAngleAt){
+      const map = { A:[As,Bs,Cs], B:[Bs,As,Cs], C:[Cs,As,Bs] };
+      const [V,P,Q] = map[rightAngleAt];
+      html += `<path d="${rightAngleMarker(V,P,Q,16)}" fill="var(--coral)" fill-opacity="0.35" stroke="var(--coral)" stroke-width="1.5"></path>`;
+    }
+
+    // 꼭짓점
+    [['A',As],['B',Bs],['C',Cs]].forEach(([name,pt])=>{
+      html += `<circle cx="${pt[0]}" cy="${pt[1]}" r="5" fill="var(--green)"></circle>`;
+    });
+    // 꼭짓점 이름표 (바깥쪽으로)
+    html += vertexLabel('A', As, cen, 20);
+    html += vertexLabel('B', Bs, cen, 20);
+    html += vertexLabel('C', Cs, cen, 20);
+
+    // 변 길이 라벨
+    html += sideLabel(As,Bs,cen, sides.AB, given.sides.includes('AB'));
+    html += sideLabel(Bs,Cs,cen, sides.BC, given.sides.includes('BC'));
+    html += sideLabel(Cs,As,cen, sides.CA, given.sides.includes('CA'));
+
+    // 각 라벨 (직각인 꼭짓점은 각도 텍스트 대신 마커로 표시하므로 생략)
+    if(rightAngleAt !== 'A'){
+      const p = inwardVertexPos(As,Bs,Cs,26);
+      html += `<text x="${p[0]}" y="${p[1]}" text-anchor="middle" font-family="Do Hyeon" font-size="13" fill="${given.angles.includes('A')?'var(--coral)':'var(--ink-soft)'}">${fmt(angles.A)}°</text>`;
+    }
+    if(rightAngleAt !== 'B'){
+      const p = inwardVertexPos(Bs,As,Cs,26);
+      html += `<text x="${p[0]}" y="${p[1]}" text-anchor="middle" font-family="Do Hyeon" font-size="13" fill="${given.angles.includes('B')?'var(--coral)':'var(--ink-soft)'}">${fmt(angles.B)}°</text>`;
+    }
+    if(rightAngleAt !== 'C'){
+      const p = inwardVertexPos(Cs,As,Bs,26);
+      html += `<text x="${p[0]}" y="${p[1]}" text-anchor="middle" font-family="Do Hyeon" font-size="13" fill="${given.angles.includes('C')?'var(--coral)':'var(--ink-soft)'}">${fmt(angles.C)}°</text>`;
+    }
+
+    // ---- 삼각형 2 (△DEF, 흩어진 위치) ----
+    let grpInner = '';
+    grpInner += `<polygon points="${As.join(',')} ${Bs.join(',')} ${Cs.join(',')}" fill="var(--violet)" fill-opacity="0.16" stroke="var(--violet)" stroke-width="3"></polygon>`;
+    if(rightAngleAt){
+      const map = { A:[As,Bs,Cs], B:[Bs,As,Cs], C:[Cs,As,Bs] };
+      const [V,P,Q] = map[rightAngleAt];
+      grpInner += `<path d="${rightAngleMarker(V,P,Q,16)}" fill="var(--violet)" fill-opacity="0.3" stroke="var(--violet)" stroke-width="1.5"></path>`;
+    }
+    grpInner += `<circle cx="${As[0]}" cy="${As[1]}" r="5" fill="var(--violet)"></circle>`;
+    grpInner += `<circle cx="${Bs[0]}" cy="${Bs[1]}" r="5" fill="var(--violet)"></circle>`;
+    grpInner += `<circle cx="${Cs[0]}" cy="${Cs[1]}" r="5" fill="var(--violet)"></circle>`;
+    grpInner += vertexLabel('D', As, cen, 20, 'var(--violet)');
+    grpInner += vertexLabel('E', Bs, cen, 20, 'var(--violet)');
+    grpInner += vertexLabel('F', Cs, cen, 20, 'var(--violet)');
+
+    html += `<g id="tri2grp">${grpInner}</g>`;
+
+    svg.innerHTML = html;
+    setScattered();
+
+    // ---- 설명 텍스트 ----
+    function span(val, unit, isGiven){
+      return `<span class="${isGiven?'given-val':''}">${fmt(val)}${unit}</span>`;
+    }
+    factBox.innerHTML = `△ABC의 세 변은 AB=${span(sides.AB,'cm',given.sides.includes('AB'))}, BC=${span(sides.BC,'cm',given.sides.includes('BC'))}, CA=${span(sides.CA,'cm',given.sides.includes('CA'))}이고, 세 각은 ∠A=${span(angles.A,'°',given.angles.includes('A'))}, ∠B=${span(angles.B,'°',given.angles.includes('B'))}, ∠C=${span(angles.C,'°',given.angles.includes('C'))}예요. <b>빨간 글자</b>가 우리가 입력한 조건이고, 나머지는 그 조건 하나로 자동으로 정해진 값이에요. △DEF도 똑같은 조건으로 만들었기 때문에, 위치나 방향과 상관없이 △ABC와 완전히 합동이에요.`;
+  }
+
+  function vertexLabel(name, pt, cen, offset, color){
+    const d=[pt[0]-cen[0], pt[1]-cen[1]];
+    const len=Math.hypot(d[0],d[1])||1;
+    const x = pt[0] + (d[0]/len)*offset;
+    const y = pt[1] + (d[1]/len)*offset;
+    return `<text x="${x}" y="${y}" text-anchor="middle" font-family="Do Hyeon" font-size="16" fill="${color||'var(--ink)'}">${name}</text>`;
+  }
+  function sideLabel(P,Q,cen,length,isGiven){
+    const pos = outwardPos(P,Q,cen,18);
+    return `<text x="${pos[0]}" y="${pos[1]}" text-anchor="middle" font-family="Do Hyeon" font-size="13" fill="${isGiven?'var(--coral)':'var(--ink-soft)'}">${fmt(length)}cm</text>`;
+  }
+
+  overlapBtn.addEventListener('click', overlap);
+  resetBtn.addEventListener('click', setScattered);
+  mirrorChk.addEventListener('change', (e)=>{ mirrored = e.target.checked; setScattered(); });
+
+  buildRuleGrid();
+  switchCondition('sss');
+</script>
+</body>
+</html>
