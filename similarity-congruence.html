@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>닮음과 합동 실험실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9;
+    --paper-line:#E9E1CF;
+    --ink:#22283A;
+    --ink-soft:#5B6178;
+    --violet:#6C4CF7;
+    --violet-soft:#EEE8FF;
+    --coral:#FF5B57;
+    --coral-soft:#FFEAE8;
+    --green:#4CAF8E;
+    --blue:#4C8BF5;
+    --card:#FFFFFF;
+    --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px,
+      var(--paper);
+    color:var(--ink);
+    font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh;
+    padding: 32px 20px 80px;
+  }
+  .wrap{max-width:1000px;margin:0 auto;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Do Hyeon',sans-serif;
+    color:var(--violet);
+    background:var(--violet-soft);
+    padding:6px 14px;border-radius:999px;
+    font-size:14px;letter-spacing:0.02em;
+    margin-bottom:14px;
+  }
+  h1{
+    font-family:'Do Hyeon',sans-serif;
+    font-weight:400;
+    font-size:clamp(28px,4.5vw,44px);
+    line-height:1.25;
+    margin:0 0 10px;
+  }
+  h1 span{color:var(--coral);}
+  .sub{
+    color:var(--ink-soft);
+    font-size:16px;
+    line-height:1.7;
+    max-width:62ch;
+    margin:0 0 28px;
+  }
+  .stage{
+    background:var(--card);
+    border-radius:24px;
+    box-shadow:var(--shadow);
+    padding:28px clamp(16px,4vw,40px) 32px;
+    display:grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap:32px;
+    align-items:start;
+  }
+  @media (max-width:800px){
+    .stage{grid-template-columns:1fr;}
+  }
+  .canvas-area{display:flex;flex-direction:column;align-items:center;gap:20px;}
+  svg{width:100%;max-width:460px;height:auto;overflow:visible;}
+
+  .legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-size:13px;color:var(--ink-soft);}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .swatch{width:12px;height:12px;border-radius:3px;display:inline-block;}
+  .swatch.dashed{background:transparent;border:2px dashed var(--ink-soft);}
+
+  .control-row{width:100%;max-width:420px;display:flex;flex-direction:column;gap:8px;}
+  .control-label{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);
+  }
+  .control-label b{font-size:22px;color:var(--ink);}
+  input[type=range]{
+    -webkit-appearance:none;width:100%;height:8px;border-radius:999px;
+    background:var(--violet-soft);outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;width:26px;height:26px;border-radius:50%;
+    background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);
+    cursor:pointer;
+  }
+  input[type=range]::-moz-range-thumb{
+    width:26px;height:26px;border-radius:50%;
+    background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);
+    cursor:pointer;
+  }
+  input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+  input[type=range]:focus-visible::-moz-range-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+
+  .presets{display:flex;gap:8px;flex-wrap:wrap;width:100%;max-width:420px;}
+  .preset-btn{
+    font-family:'Do Hyeon',sans-serif;font-size:14px;
+    background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);
+    border-radius:12px;padding:8px 12px;cursor:pointer;
+    transition:all .15s ease;
+  }
+  .preset-btn:hover{border-color:var(--violet);color:var(--violet);}
+  .preset-btn.congruent{border-color:var(--coral);color:var(--coral);}
+  .preset-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+
+  .panel{display:flex;flex-direction:column;gap:18px;}
+  .equation{
+    background:var(--paper);border:2px solid var(--paper-line);
+    border-radius:18px;padding:20px 20px;text-align:center;
+  }
+  .equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(17px,2.6vw,20px);color:var(--ink-soft);}
+  .equation .formula b{color:var(--ink);}
+  .equation .result{
+    font-family:'Do Hyeon',sans-serif;font-size:clamp(40px,6.5vw,54px);
+    color:var(--coral);margin-top:6px;line-height:1;
+  }
+  .equation .result span{font-size:0.4em;color:var(--ink-soft);}
+  .equation .subline{margin-top:12px;font-size:14px;color:var(--ink-soft);font-family:'Do Hyeon',sans-serif;}
+  .equation .subline b{color:var(--violet);}
+
+  .badge-win{
+    display:none;
+    margin-top:12px;
+    background:#FFF3E0;color:#B45309;
+    font-family:'Do Hyeon',sans-serif;font-size:14px;
+    border-radius:10px;padding:8px 10px;
+  }
+  .badge-win.show{display:block;}
+
+  .fact{
+    background:var(--violet-soft);border-radius:16px;padding:16px 18px;
+    font-size:14.5px;line-height:1.65;color:var(--ink);
+  }
+  .fact b{color:var(--violet);}
+
+  .side-label{font-family:'Do Hyeon',sans-serif;font-size:14px;}
+  .vlabel{font-family:'Do Hyeon',sans-serif;font-size:14px;fill:var(--ink);}
+
+  footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">⧉ 닮음 실험실</span>
+  <h1>도형을 확대·축소하면,<br>넓이는 <span>몇 배</span>가 될까?</h1>
+  <p class="sub">닮음비(배율) k를 바꿔가며 삼각형을 늘리거나 줄여보세요. 변의 길이는 닮음비만큼 그대로 늘어나지만, 넓이는 닮음비의 <b>제곱</b>만큼 늘어나요. 그리고 닮음비가 정확히 <b>1:1</b>이 되면 두 삼각형은 완전히 겹치는데, 이런 관계를 <b>합동</b>이라고 불러요.</p>
+
+  <div class="stage">
+    <div class="canvas-area">
+      <svg id="svg" viewBox="0 0 480 460"></svg>
+      <div class="legend">
+        <span><i class="swatch dashed"></i>원래 삼각형 (닮음비 1)</span>
+        <span><i class="swatch" style="background:var(--violet)"></i>확대·축소된 삼각형 (닮음비 k)</span>
+      </div>
+
+      <div class="control-row">
+        <div class="control-label"><span>닮음비 (k)</span><b id="kLabel">1.5</b></div>
+        <input id="slider" type="range" min="0.4" max="2.5" value="1.5" step="0.1" aria-label="닮음비 조절">
+      </div>
+
+      <div class="presets">
+        <button class="preset-btn" data-k="0.5">0.5배 축소</button>
+        <button class="preset-btn congruent" data-k="1">1배 (합동)</button>
+        <button class="preset-btn" data-k="1.5">1.5배</button>
+        <button class="preset-btn" data-k="2">2배</button>
+        <button class="preset-btn" data-k="2.5">2.5배</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="equation">
+        <div class="formula">넓이비 = (닮음비)<sup>2</sup> = <b id="kInFormula">1.5</b>²</div>
+        <div class="result" id="resultNum">2.25<span>배</span></div>
+        <div class="subline">둘레비는 닮음비와 같아요 → <b id="perimRatioLine">1 : 1.5</b></div>
+        <div class="badge-win" id="winBadge">🎉 닮음비가 1:1이에요! 두 삼각형이 완전히 겹쳐요 — 이걸 <b>합동</b>이라고 해요.</div>
+      </div>
+
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+  <footer>같은 모양(닮음)이라도 크기가 다르면 변의 길이 비율(둘레비)은 닮음비와 같지만, 넓이 비율(넓이비)은 닮음비의 제곱이 돼요. 닮음비가 정확히 1일 때만 모양과 크기가 모두 같은 합동이 됩니다.</footer>
+</div>
+
+<script>
+  const svg = document.getElementById('svg');
+  const slider = document.getElementById('slider');
+  const kLabel = document.getElementById('kLabel');
+  const kInFormula = document.getElementById('kInFormula');
+  const resultNum = document.getElementById('resultNum');
+  const perimRatioLine = document.getElementById('perimRatioLine');
+  const winBadge = document.getElementById('winBadge');
+  const factBox = document.getElementById('fact');
+
+  // 원래 삼각형: O에서 직각, 밑변(가로) 4cm, 높이(세로) 3cm, 빗변 5cm (3-4-5 직각삼각형)
+  const LEG_X = 4, LEG_Y = 3, HYP = 5;
+  const PX = 38;
+  const O = { x: 50, y: 430 };
+  const K_MAX = 2.5;
+
+  function toSvg(mx, my){
+    return [ O.x + mx*PX, O.y - my*PX ];
+  }
+
+  function fmt(n){
+    // 정수면 정수로, 아니면 소수 둘째자리까지 (불필요한 0 제거)
+    return (Math.round(n*100)/100).toString();
+  }
+
+  function render(k){
+    kLabel.textContent = fmt(k);
+    kInFormula.textContent = fmt(k);
+
+    const areaRatio = k*k;
+    resultNum.innerHTML = `${fmt(areaRatio)}<span>배</span>`;
+    perimRatioLine.innerHTML = `1 : ${fmt(k)}`;
+
+    const isCongruent = Math.abs(k - 1) < 1e-9;
+    winBadge.classList.toggle('show', isCongruent);
+
+    const origSides = { a: LEG_Y, b: LEG_X, c: HYP };
+    const newSides = { a: LEG_Y*k, b: LEG_X*k, c: HYP*k };
+    const origPerim = LEG_X+LEG_Y+HYP;
+    const origArea = (LEG_X*LEG_Y)/2;
+
+    if(isCongruent){
+      factBox.innerHTML = `닮음비가 <b>1 : 1</b>이라 두 삼각형의 변의 길이(${fmt(origSides.b)}cm, ${fmt(origSides.a)}cm, ${fmt(origSides.c)}cm)와 넓이(${fmt(origArea)}cm²)가 완전히 똑같아요. 모양뿐 아니라 크기까지 같은 도형을 <b>합동</b>이라고 불러요.`;
+    } else {
+      factBox.innerHTML = `원래 삼각형의 세 변은 ${fmt(origSides.b)}cm, ${fmt(origSides.a)}cm, ${fmt(origSides.c)}cm였어요. 닮음비 <b>${fmt(k)}배</b>로 바꾸면 세 변은 각각 ${fmt(newSides.b)}cm, ${fmt(newSides.a)}cm, ${fmt(newSides.c)}cm가 돼요 (둘레 ${fmt(origPerim)}cm → ${fmt(origPerim*k)}cm). 그런데 넓이는 ${fmt(origArea)}cm² → <b>${fmt(origArea*areaRatio)}cm²</b>로, 닮음비의 제곱인 <b>${fmt(areaRatio)}배</b>만큼 커져요.`;
+    }
+
+    // 좌표 계산
+    const O_s = toSvg(0,0);
+    const A1_s = toSvg(LEG_X, 0);      // 원래 삼각형 밑변 끝점 (k=1)
+    const B1_s = toSvg(0, LEG_Y);      // 원래 삼각형 높이 끝점 (k=1)
+    const Ak_s = toSvg(LEG_X*k, 0);    // 확대/축소 삼각형
+    const Bk_s = toSvg(0, LEG_Y*k);
+    const Amax_s = toSvg(LEG_X*K_MAX, 0);
+    const Bmax_s = toSvg(0, LEG_Y*K_MAX);
+
+    let html = '';
+
+    // 안내 점선 광선 (O에서 최대 확대 지점까지)
+    html += `<line x1="${O_s[0]}" y1="${O_s[1]}" x2="${Amax_s[0]}" y2="${Amax_s[1]}" stroke="var(--paper-line)" stroke-width="2" stroke-dasharray="3 6"></line>`;
+    html += `<line x1="${O_s[0]}" y1="${O_s[1]}" x2="${Bmax_s[0]}" y2="${Bmax_s[1]}" stroke="var(--paper-line)" stroke-width="2" stroke-dasharray="3 6"></line>`;
+
+    // 원래 삼각형 (점선 윤곽)
+    html += `<polygon points="${O_s.join(',')} ${A1_s.join(',')} ${B1_s.join(',')}" fill="none" stroke="var(--ink-soft)" stroke-width="2.5" stroke-dasharray="6 5"></polygon>`;
+
+    // 확대/축소 삼각형 (진하게, k=1일 땐 코랄로 강조하여 '합동'을 표시)
+    const scaledColor = isCongruent ? 'var(--coral)' : 'var(--violet)';
+    html += `<polygon points="${O_s.join(',')} ${Ak_s.join(',')} ${Bk_s.join(',')}" fill="${scaledColor}" fill-opacity="0.18" stroke="${scaledColor}" stroke-width="3" style="transition:all .25s ease;"></polygon>`;
+
+    // 직각 표시 (O 지점)
+    const rm = 12;
+    html += `<polyline points="${O_s[0]},${O_s[1]-rm} ${O_s[0]+rm},${O_s[1]-rm} ${O_s[0]+rm},${O_s[1]}" fill="none" stroke="var(--ink)" stroke-width="2"></polyline>`;
+
+    // 꼭짓점 점
+    html += `<circle cx="${O_s[0]}" cy="${O_s[1]}" r="5" fill="var(--ink)"></circle>`;
+    html += `<circle cx="${A1_s[0]}" cy="${A1_s[1]}" r="4.5" fill="var(--ink-soft)"></circle>`;
+    html += `<circle cx="${B1_s[0]}" cy="${B1_s[1]}" r="4.5" fill="var(--ink-soft)"></circle>`;
+    html += `<circle cx="${Ak_s[0]}" cy="${Ak_s[1]}" r="5.5" fill="${scaledColor}"></circle>`;
+    html += `<circle cx="${Bk_s[0]}" cy="${Bk_s[1]}" r="5.5" fill="${scaledColor}"></circle>`;
+
+    // 라벨: 꼭짓점
+    html += `<text class="vlabel" x="${O_s[0]-16}" y="${O_s[1]+18}">O</text>`;
+    html += `<text class="vlabel" x="${A1_s[0]-4}" y="${A1_s[1]+20}" fill="var(--ink-soft)">A</text>`;
+    html += `<text class="vlabel" x="${B1_s[0]-20}" y="${B1_s[1]+4}" fill="var(--ink-soft)">B</text>`;
+    if(!isCongruent){
+      html += `<text class="vlabel" x="${Ak_s[0]-6}" y="${Ak_s[1]+20}" fill="${scaledColor}">A'</text>`;
+      html += `<text class="vlabel" x="${Bk_s[0]-24}" y="${Bk_s[1]+4}" fill="${scaledColor}">B'</text>`;
+    }
+
+    // 변 길이 라벨 - 원래 삼각형 (밑변 아래, 높이 왼쪽, 빗변 바깥쪽)
+    const midOA1 = [(O_s[0]+A1_s[0])/2, O_s[1]+22];
+    const midOB1 = [O_s[0]-24, (O_s[1]+B1_s[1])/2];
+    const midA1B1 = [(A1_s[0]+B1_s[0])/2+14, (A1_s[1]+B1_s[1])/2-8];
+    html += `<text class="side-label" x="${midOA1[0]}" y="${midOA1[1]}" text-anchor="middle" fill="var(--ink-soft)">${fmt(LEG_X)}cm</text>`;
+    html += `<text class="side-label" x="${midOB1[0]}" y="${midOB1[1]}" text-anchor="end" fill="var(--ink-soft)">${fmt(LEG_Y)}cm</text>`;
+    html += `<text class="side-label" x="${midA1B1[0]}" y="${midA1B1[1]}" text-anchor="middle" fill="var(--ink-soft)">${fmt(HYP)}cm</text>`;
+
+    // 변 길이 라벨 - 확대/축소 삼각형 (더 바깥쪽으로 오프셋, 합동일 땐 생략해 원래 라벨과 겹치지 않게)
+    if(!isCongruent){
+      const midOAk = [(O_s[0]+Ak_s[0])/2, O_s[1]+46];
+      const midOBk = [O_s[0]-52, (O_s[1]+Bk_s[1])/2];
+      const midAkBk = [(Ak_s[0]+Bk_s[0])/2+30, (Ak_s[1]+Bk_s[1])/2-18];
+      html += `<text class="side-label" x="${midOAk[0]}" y="${midOAk[1]}" text-anchor="middle" fill="${scaledColor}">${fmt(LEG_X*k)}cm</text>`;
+      html += `<text class="side-label" x="${midOBk[0]}" y="${midOBk[1]}" text-anchor="end" fill="${scaledColor}">${fmt(LEG_Y*k)}cm</text>`;
+      html += `<text class="side-label" x="${midAkBk[0]}" y="${midAkBk[1]}" text-anchor="middle" fill="${scaledColor}">${fmt(HYP*k)}cm</text>`;
+    }
+
+    svg.innerHTML = html;
+  }
+
+  slider.addEventListener('input', (e)=> render(parseFloat(e.target.value)));
+
+  document.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      slider.value = btn.dataset.k;
+      render(parseFloat(btn.dataset.k));
+    });
+  });
+
+  render(1.5);
+</script>
+</body>
+</html>
