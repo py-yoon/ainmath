@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>소수 탐험 실험실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --green:#4CAF8E; --green-soft:#E3F5EE;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;
+  color:var(--coral); background:var(--coral-soft); padding:6px 14px;border-radius:999px;
+  font-size:14px;letter-spacing:0.02em;margin-bottom:14px;
+}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--violet);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.3fr 0.7fr;gap:32px;align-items:start;}
+@media (max-width:860px){ .stage{grid-template-columns:1fr;} }
+.control-row{width:100%;max-width:460px;display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--coral-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--violet);outline-offset:2px;}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;max-width:460px;margin-bottom:18px;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;
+  padding:12px 18px;cursor:pointer;flex:1;min-width:120px;transition:transform .15s ease, background .2s ease;}
+.action-btn:hover{background:var(--coral);}
+.action-btn:active{transform:scale(0.97);}
+.action-btn.secondary{background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.action-btn.secondary:hover{border-color:var(--coral);color:var(--coral);background:var(--card);}
+.action-btn:disabled{opacity:0.5;cursor:default;}
+.action-btn:focus-visible{outline:3px solid var(--violet);outline-offset:2px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(38px,1fr));gap:6px;margin-bottom:18px;}
+.cell{
+  aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:9px;
+  font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);
+  background:var(--paper);border:2px solid var(--paper-line);transition:all .35s ease;
+}
+.cell.prime{background:var(--coral);color:#fff;border-color:var(--coral);}
+.cell.composite{background:var(--paper-line);color:var(--ink-soft);opacity:0.55;}
+.cell.current{outline:3px solid var(--violet);outline-offset:1px;}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--ink-soft);margin-bottom:10px;}
+.legend span{display:inline-flex;align-items:center;gap:6px;}
+.swatch{width:12px;height:12px;border-radius:3px;display:inline-block;}
+.panel{display:flex;flex-direction:column;gap:18px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px 20px;text-align:center;}
+.equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(15px,2.4vw,17px);color:var(--ink-soft);}
+.equation .result{font-family:'Do Hyeon',sans-serif;font-size:clamp(34px,5.6vw,46px);color:var(--violet);margin-top:6px;line-height:1;}
+.equation .result span{font-size:0.4em;color:var(--ink-soft);}
+.fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+.fact b{color:var(--coral);}
+.prime-list{display:flex;flex-wrap:wrap;gap:6px;max-height:180px;overflow-y:auto;}
+.prime-chip{font-family:'Do Hyeon',sans-serif;font-size:13px;background:var(--coral);color:#fff;border-radius:999px;padding:4px 10px;}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+@media (prefers-reduced-motion: reduce){ .cell{transition:none;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">🔢 소수 탐험 실험실</span>
+  <h1>2의 배수, 3의 배수를 지우면<br>남는 건 <span>소수</span>뿐!</h1>
+  <p class="sub">"다음 단계"를 눌러보세요. 아직 지워지지 않은 가장 작은 수를 소수로 확정하고, 그 배수를 모두 지워요. 이 과정을 반복하는 방법을 <b>에라토스테네스의 체</b>라고 불러요.</p>
+
+  <div class="stage">
+    <div>
+      <div class="control-row">
+        <div class="control-label"><span>범위 (2 ~ N)</span><b id="nLabel">100</b></div>
+        <input id="sliderN" type="range" min="30" max="150" value="100" step="5" aria-label="범위 조절">
+      </div>
+      <div class="btn-row">
+        <button class="action-btn" id="stepBtn">▶ 다음 단계</button>
+        <button class="action-btn" id="playBtn">⏩ 자동 재생</button>
+        <button class="action-btn secondary" id="resetBtn">↺ 처음부터</button>
+      </div>
+      <div class="legend">
+        <span><i class="swatch" style="background:var(--paper);border:2px solid var(--paper-line)"></i>아직 모름</span>
+        <span><i class="swatch" style="background:var(--coral)"></i>소수로 확정</span>
+        <span><i class="swatch" style="background:var(--paper-line)"></i>배수라서 지워짐</span>
+      </div>
+      <div class="grid" id="grid"></div>
+    </div>
+
+    <div class="panel">
+      <div class="equation">
+        <div class="formula">지금까지 찾은 소수</div>
+        <div class="result" id="resultNum">0<span>개</span></div>
+      </div>
+      <div class="fact" id="fact">"다음 단계"를 눌러 소수 탐험을 시작해보세요!</div>
+      <div class="prime-list" id="primeList"></div>
+    </div>
+  </div>
+
+  <footer>2부터 시작해서, 아직 지워지지 않은 가장 작은 수는 항상 소수예요. 그 수의 배수는 전부 (그 수보다 큰 배수를 만든 것이므로) 소수가 아니니 지울 수 있어요. p×p가 N보다 커지면 나머지 지워지지 않은 수는 모두 소수랍니다.</footer>
+</div>
+
+<script>
+const grid = document.getElementById('grid');
+const sliderN = document.getElementById('sliderN');
+const nLabel = document.getElementById('nLabel');
+const resultNum = document.getElementById('resultNum');
+const factBox = document.getElementById('fact');
+const primeList = document.getElementById('primeList');
+const stepBtn = document.getElementById('stepBtn');
+const playBtn = document.getElementById('playBtn');
+const resetBtn = document.getElementById('resetBtn');
+
+let N = 100;
+let status = [];   // index 2..N -> 'unknown' | 'prime' | 'composite'
+let pointer = 2;
+let lastMarked = null;
+let playing = false;
+let timer = null;
+
+function init(){
+  N = parseInt(sliderN.value);
+  nLabel.textContent = N;
+  status = new Array(N+1).fill('unknown');
+  pointer = 2;
+  lastMarked = null;
+  stopPlay();
+  factBox.innerHTML = `"다음 단계"를 눌러 2부터 ${N}까지의 소수를 찾아보세요!`;
+  renderGrid();
+  renderResult();
+}
+
+function step(){
+  while(pointer<=N && status[pointer]!=='unknown') pointer++;
+  if(pointer>N){
+    stopPlay();
+    factBox.innerHTML = `🎉 완료! 2부터 ${N}까지 소수를 모두 찾았어요.`;
+    return false;
+  }
+  const p = pointer;
+  status[p] = 'prime';
+  lastMarked = p;
+  let removed = 0;
+  if(p*p<=N){
+    for(let k=p*p;k<=N;k+=p){ if(status[k]==='unknown'){ status[k]='composite'; removed++; } }
+    factBox.innerHTML = `<b>${p}</b>은(는) 아직 지워지지 않았으니 소수예요! ${p}×${p}=${p*p}부터 시작해서 <b>${p}의 배수 ${removed}개</b>를 지웠어요.`;
+  } else {
+    factBox.innerHTML = `<b>${p}</b>×<b>${p}</b>=${p*p}가 ${N}보다 크기 때문에, 이제부터 남은 수는 배수로 지워질 일이 없어요. 그래서 <b>${p}</b>도 바로 소수로 확정!`;
+  }
+  pointer++;
+  renderGrid();
+  renderResult();
+  return true;
+}
+
+function renderGrid(){
+  let html='';
+  for(let i=2;i<=N;i++){
+    const cls = status[i]==='prime' ? 'prime' : (status[i]==='composite' ? 'composite' : '');
+    const cur = (i===lastMarked) ? ' current' : '';
+    html += `<div class="cell ${cls}${cur}">${i}</div>`;
+  }
+  grid.innerHTML = html;
+}
+
+function renderResult(){
+  const primes = [];
+  for(let i=2;i<=N;i++){ if(status[i]==='prime') primes.push(i); }
+  resultNum.innerHTML = `${primes.length}<span>개</span>`;
+  primeList.innerHTML = primes.map(p=>`<span class="prime-chip">${p}</span>`).join('');
+}
+
+function stopPlay(){
+  playing = false;
+  if(timer) clearInterval(timer);
+  timer = null;
+  playBtn.textContent = '⏩ 자동 재생';
+}
+
+playBtn.addEventListener('click', ()=>{
+  if(playing){ stopPlay(); return; }
+  playing = true;
+  playBtn.textContent = '⏸ 멈추기';
+  timer = setInterval(()=>{ const cont = step(); if(!cont) stopPlay(); }, 550);
+});
+stepBtn.addEventListener('click', step);
+resetBtn.addEventListener('click', init);
+sliderN.addEventListener('input', init);
+
+init();
+</script>
+</body>
+</html>

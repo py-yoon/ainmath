@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>피보나치 수열과 나선 실험실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --green:#4CAF8E; --green-soft:#E3F5EE;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --teal:#2EC4C6; --teal-soft:#E4FAF9;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--teal);background:var(--teal-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--coral);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.2fr 0.8fr;gap:32px;align-items:start;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+.canvas-area{display:flex;flex-direction:column;align-items:center;gap:16px;}
+svg{width:100%;max-width:460px;height:auto;overflow:visible;}
+.control-row{width:100%;max-width:420px;display:flex;flex-direction:column;gap:8px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--teal-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--teal);border:4px solid #fff;box-shadow:0 2px 8px rgba(46,196,198,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--teal);border:4px solid #fff;box-shadow:0 2px 8px rgba(46,196,198,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+.seq-row{display:flex;flex-wrap:wrap;gap:6px;max-width:420px;}
+.seq-chip{font-family:'Do Hyeon',sans-serif;font-size:13px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:8px;padding:5px 9px;}
+.seq-chip.last{background:var(--teal);border-color:var(--teal);color:#fff;}
+.panel{display:flex;flex-direction:column;gap:18px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px 20px;text-align:center;}
+.equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(15px,2.4vw,17px);color:var(--ink-soft);}
+.equation .result{font-family:'Do Hyeon',sans-serif;font-size:clamp(36px,6vw,48px);color:var(--coral);margin-top:6px;line-height:1;}
+.equation .result span{font-size:0.4em;color:var(--ink-soft);}
+.fact{background:var(--teal-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+.fact b{color:var(--teal);}
+.sq-label{font-family:'Do Hyeon',sans-serif;fill:#fff;text-anchor:middle;dominant-baseline:middle;}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">🌀 피보나치 수열과 나선 실험실</span>
+  <h1>바로 앞 두 항을 더하면,<br>정사각형이 <span>나선</span>을 그려요</h1>
+  <p class="sub">피보나치 수열(1, 1, 2, 3, 5, 8, …)은 앞의 두 수를 더해 다음 수를 만들어요. 이 숫자들을 한 변의 길이로 하는 정사각형을 이어 붙이면, 자연스럽게 나선 모양이 나타나요.</p>
+
+  <div class="stage">
+    <div class="canvas-area">
+      <svg id="svg" viewBox="0 0 460 460"></svg>
+      <div class="control-row">
+        <div class="control-label"><span>항의 개수</span><b id="nLabel">8</b></div>
+        <input id="sliderN" type="range" min="3" max="12" value="8" step="1" aria-label="항의 개수 조절">
+      </div>
+      <div class="seq-row" id="seqRow"></div>
+    </div>
+
+    <div class="panel">
+      <div class="equation">
+        <div class="formula">마지막 두 항의 비율</div>
+        <div class="result" id="resultNum">1.625<span></span></div>
+        <div class="formula" style="margin-top:8px;">황금비 φ ≈ 1.618</div>
+      </div>
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+  <footer>정사각형의 변의 길이가 피보나치 수를 그대로 따라가기 때문에, 이웃한 두 정사각형의 변의 비율은 피보나치 수열의 이웃한 두 항의 비율과 같아요. 항이 커질수록 이 비율은 황금비(약 1.618)에 점점 가까워져요.</footer>
+</div>
+
+<script>
+const svg = document.getElementById('svg');
+const sliderN = document.getElementById('sliderN');
+const nLabel = document.getElementById('nLabel');
+const seqRow = document.getElementById('seqRow');
+const resultNum = document.getElementById('resultNum');
+const factBox = document.getElementById('fact');
+
+const PHI = (1+Math.sqrt(5))/2;
+const palette = ['var(--teal)','var(--blue)','var(--violet)','var(--green)','var(--coral)'];
+
+function fibSeq(n){
+  const f=[1,1];
+  for(let i=2;i<n;i++) f.push(f[i-1]+f[i-2]);
+  return f.slice(0,n);
+}
+
+function buildSquares(fib){
+  const squares = [{x:0,y:0,size:fib[0]}];
+  let bx=0, by=0, bw=fib[0], bh=fib[0];
+  if(fib.length>1){
+    squares.push({x:bx+bw, y:by, size:fib[1]});
+    bw += fib[1];
+  }
+  let d = 1; // 0=right,1=up,2=left,3=down — 두번째 정사각형을 오른쪽에 놓았으니 다음은 위
+  for(let i=2;i<fib.length;i++){
+    const f = fib[i];
+    let x,y;
+    if(d===0){ x=bx+bw; y=by; bw+=f; }
+    else if(d===1){ x=bx; y=by+bh; bh+=f; }
+    else if(d===2){ x=bx-f; y=by; bx-=f; bw+=f; }
+    else { x=bx; y=by-f; by-=f; bh+=f; }
+    squares.push({x,y,size:f});
+    d = (d+1)%4;
+  }
+  return {squares, box:{bx,by,bw,bh}};
+}
+
+function render(){
+  const n = parseInt(sliderN.value);
+  nLabel.textContent = n;
+  const fib = fibSeq(n);
+  const {squares} = buildSquares(fib);
+
+  // 전체 범위 계산
+  let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
+  squares.forEach(s=>{
+    minX=Math.min(minX,s.x); maxX=Math.max(maxX,s.x+s.size);
+    minY=Math.min(minY,s.y); maxY=Math.max(maxY,s.y+s.size);
+  });
+  const W = maxX-minX, H = maxY-minY;
+  const PAD = 20, VB = 460;
+  const scale = Math.min((VB-PAD*2)/W, (VB-PAD*2)/H);
+  const offX = PAD + (VB-PAD*2-W*scale)/2 - minX*scale;
+  const offY = PAD + (VB-PAD*2-H*scale)/2;
+
+  function toSvg(x,y){
+    return [offX + x*scale, offY + (maxY-y)*scale];
+  }
+
+  let html = '';
+  squares.forEach((s,i)=>{
+    const [sx,sy] = toSvg(s.x, s.y+s.size);
+    const w = s.size*scale, h = s.size*scale;
+    const color = palette[i % palette.length];
+    html += `<rect x="${sx}" y="${sy}" width="${w}" height="${h}" fill="${color}" fill-opacity="0.5" stroke="var(--card)" stroke-width="2"></rect>`;
+    if(w>18){
+      html += `<text class="sq-label" x="${sx+w/2}" y="${sy+h/2}" font-size="${Math.min(w,h)*0.32}" fill="${color}" style="fill:${color}">${s.size}</text>`;
+    }
+  });
+
+  // 로그 나선 (근사) — 두 개의 단위 정사각형이 만나는 안쪽 점(1,1)을 중심으로
+  const centerLocal = [1,1];
+  const [ccx,ccy] = toSvg(centerLocal[0], centerLocal[1]);
+  const thetaMax = (n-1) * Math.PI/2;
+  let path = '';
+  const steps = 200;
+  for(let i=0;i<=steps;i++){
+    const theta = (thetaMax) * (i/steps);
+    const r = 0.42 * Math.pow(PHI, 2*theta/Math.PI) * scale;
+    const px = ccx + r*Math.cos(theta);
+    const py = ccy - r*Math.sin(theta);
+    path += (i===0?'M':'L') + px.toFixed(1) + ',' + py.toFixed(1) + ' ';
+  }
+  html += `<path d="${path}" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"></path>`;
+
+  svg.innerHTML = html;
+
+  seqRow.innerHTML = fib.map((f,i)=>`<span class="seq-chip${i===fib.length-1?' last':''}">${f}</span>`).join('');
+
+  const last = fib[fib.length-1], prev = fib[fib.length-2] || 1;
+  const ratio = last/prev;
+  resultNum.innerHTML = `${ratio.toFixed(4)}`;
+
+  factBox.innerHTML = `${n}번째 항까지의 수열은 <b>${fib.join(', ')}</b>예요. 마지막 두 항 ${last}÷${prev} = <b>${ratio.toFixed(4)}</b>로, 황금비 φ≈1.618에 ${n>=6?'꽤 가까워졌어요':'조금씩 가까워지고 있어요'}. 항의 개수를 늘릴수록 이 비율은 φ에 더 정확히 다가가요.`;
+}
+
+sliderN.addEventListener('input', render);
+render();
+</script>
+</body>
+</html>

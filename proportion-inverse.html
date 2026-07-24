@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>비례와 반비례 실험실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --green:#4CAF8E; --green-soft:#E3F5EE;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--coral);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.15fr 0.85fr;gap:32px;align-items:start;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+.canvas-area{display:flex;flex-direction:column;align-items:center;gap:18px;}
+svg{width:100%;max-width:440px;height:auto;overflow:visible;}
+.tabs{display:flex;gap:10px;width:100%;max-width:420px;}
+.tab-btn{flex:1;font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:11px;cursor:pointer;transition:all .15s ease;}
+.tab-btn.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+.tab-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+.control-row{width:100%;max-width:420px;display:flex;flex-direction:column;gap:8px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--blue-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+.panel{display:flex;flex-direction:column;gap:18px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px 20px;text-align:center;}
+.equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(24px,4vw,32px);color:var(--ink);}
+.equation .formula b{color:var(--blue);}
+.table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13.5px;}
+.table th,.table td{border:1px solid var(--paper-line);padding:6px;text-align:center;}
+.table th{background:var(--paper);color:var(--ink-soft);font-family:'Do Hyeon',sans-serif;}
+.fact{background:var(--blue-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+.fact b{color:var(--blue);}
+.axis-label{font-family:'Do Hyeon',sans-serif;font-size:13px;fill:var(--ink-soft);}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">⇄ 비례와 반비례 실험실</span>
+  <h1>상수 k를 바꾸면<br>그래프 모양이 <span>어떻게</span> 달라질까?</h1>
+  <p class="sub">정비례(y=kx)와 반비례(y=k/x)를 탭으로 바꿔보고, k값을 슬라이더로 조절해보세요. 두 그래프가 얼마나 다르게 생겼는지 비교해보세요.</p>
+
+  <div class="stage">
+    <div class="canvas-area">
+      <div class="tabs">
+        <button class="tab-btn active" data-type="direct">정비례 (y=kx)</button>
+        <button class="tab-btn" data-type="inverse">반비례 (y=k/x)</button>
+      </div>
+      <svg id="svg" viewBox="0 0 440 440"></svg>
+      <div class="control-row">
+        <div class="control-label"><span>상수 (k)</span><b id="kLabel">2</b></div>
+        <input id="sliderK" type="range" min="1" max="12" value="2" step="1" aria-label="상수 k 조절">
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="equation">
+        <div class="formula" id="formula">y = <b id="kInFormula">2</b>x</div>
+        <table class="table" id="valTable"></table>
+      </div>
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+  <footer>정비례는 x가 늘어나면 y도 같은 비율로 늘어나고, 반비례는 x가 늘어나면 y는 오히려 같은 비율로 줄어들어요. 두 경우 모두 x×y 또는 y÷x가 항상 k로 일정해요.</footer>
+</div>
+
+<script>
+const svg = document.getElementById('svg');
+const sliderK = document.getElementById('sliderK');
+const kLabel = document.getElementById('kLabel');
+const kInFormula = document.getElementById('kInFormula');
+const formula = document.getElementById('formula');
+const valTable = document.getElementById('valTable');
+const factBox = document.getElementById('fact');
+const tabs = document.querySelectorAll('.tab-btn');
+
+let type = 'direct';
+const RANGE = 6;
+const SIZE = 440;
+const CX = SIZE/2, CY = SIZE/2;
+const SCALE = (SIZE/2 - 30) / RANGE;
+
+function toSvg(x,y){ return [CX + x*SCALE, CY - y*SCALE]; }
+
+function render(){
+  const k = parseFloat(sliderK.value);
+  kLabel.textContent = k;
+  kInFormula.textContent = k;
+  formula.innerHTML = type==='direct' ? `y = <b id="kInFormula">${k}</b>x` : `y = <b id="kInFormula">${k}</b> / x`;
+
+  let html = '';
+  for(let i=-RANGE;i<=RANGE;i++){
+    const [gx1,gy1]=toSvg(i,-RANGE), [gx2,gy2]=toSvg(i,RANGE);
+    html += `<line x1="${gx1}" y1="${gy1}" x2="${gx2}" y2="${gy2}" stroke="var(--paper-line)" stroke-width="1"></line>`;
+    const [hx1,hy1]=toSvg(-RANGE,i), [hx2,hy2]=toSvg(RANGE,i);
+    html += `<line x1="${hx1}" y1="${hy1}" x2="${hx2}" y2="${hy2}" stroke="var(--paper-line)" stroke-width="1"></line>`;
+  }
+  const [ax1,ay1]=toSvg(-RANGE,0), [ax2,ay2]=toSvg(RANGE,0);
+  const [oy1x,oy1y]=toSvg(0,-RANGE), [oy2x,oy2y]=toSvg(0,RANGE);
+  html += `<line x1="${ax1}" y1="${ay1}" x2="${ax2}" y2="${ay2}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+  html += `<line x1="${oy1x}" y1="${oy1y}" x2="${oy2x}" y2="${oy2y}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+
+  const xs = [];
+  const rows = [];
+  if(type==='direct'){
+    const [lx1,ly1] = toSvg(-RANGE, -k*RANGE);
+    const [lx2,ly2] = toSvg(RANGE, k*RANGE);
+    html += `<line x1="${lx1}" y1="${ly1}" x2="${lx2}" y2="${ly2}" stroke="var(--blue)" stroke-width="3.5" stroke-linecap="round"></line>`;
+    for(let x=1;x<=5;x++){ rows.push([x, k*x]); }
+  } else {
+    // 두 개의 가지 (x>0, x<0)
+    let pathPos='', pathNeg='';
+    const steps=200;
+    for(let i=0;i<=steps;i++){
+      const x = 0.15 + (RANGE-0.15)*(i/steps);
+      const y = k/x;
+      const [px,py] = toSvg(x,y);
+      pathPos += (i===0?'M':'L') + px + ',' + py + ' ';
+    }
+    for(let i=0;i<=steps;i++){
+      const x = -(0.15 + (RANGE-0.15)*(i/steps));
+      const y = k/x;
+      const [px,py] = toSvg(x,y);
+      pathNeg += (i===0?'M':'L') + px + ',' + py + ' ';
+    }
+    html += `<path d="${pathPos}" fill="none" stroke="var(--blue)" stroke-width="3.5" stroke-linecap="round"></path>`;
+    html += `<path d="${pathNeg}" fill="none" stroke="var(--blue)" stroke-width="3.5" stroke-linecap="round"></path>`;
+    for(let x=1;x<=5;x++){ rows.push([x, (k/x).toFixed(2)]); }
+  }
+  svg.innerHTML = html;
+
+  valTable.innerHTML = `<tr><th>x</th>${rows.map(r=>`<td>${r[0]}</td>`).join('')}</tr>
+    <tr><th>y</th>${rows.map(r=>`<td>${r[1]}</td>`).join('')}</tr>`;
+
+  if(type==='direct'){
+    factBox.innerHTML = `y = ${k}x는 <b>정비례</b> 관계예요. x가 2배, 3배가 되면 y도 똑같이 2배, 3배가 돼요. 어떤 (x,y) 쌍이든 y÷x = <b>${k}</b>로 항상 일정해요.`;
+  } else {
+    factBox.innerHTML = `y = ${k}/x는 <b>반비례</b> 관계예요. x가 2배가 되면 y는 절반이 돼요. 어떤 (x,y) 쌍이든 x×y = <b>${k}</b>로 항상 일정하고, 그래프는 x축과 y축에 점점 가까워지지만 절대 닿지 않는 곡선이에요.`;
+  }
+}
+
+tabs.forEach(t=>t.addEventListener('click', ()=>{
+  type = t.dataset.type;
+  tabs.forEach(x=>x.classList.toggle('active', x===t));
+  render();
+}));
+sliderK.addEventListener('input', render);
+render();
+</script>
+</body>
+</html>

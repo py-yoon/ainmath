@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>좌표평면 위 도형 이동 실험실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --green:#4CAF8E; --green-soft:#E3F5EE;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1040px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--coral);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.2fr 0.8fr;gap:32px;align-items:start;}
+@media (max-width:860px){ .stage{grid-template-columns:1fr;} }
+.canvas-area{display:flex;flex-direction:column;align-items:center;gap:16px;}
+svg{width:100%;max-width:460px;height:auto;overflow:visible;}
+.group-title{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);width:100%;max-width:420px;margin-top:6px;}
+.btn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;width:100%;max-width:420px;}
+.op-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:12px;padding:9px;cursor:pointer;transition:all .15s ease;}
+.op-btn:hover{border-color:var(--blue);color:var(--blue);}
+.op-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+.control-row{width:100%;max-width:420px;display:flex;flex-direction:column;gap:6px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);}
+.control-label b{font-size:18px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--blue-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
+.reset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--ink);color:#fff;border:none;border-radius:12px;padding:10px;cursor:pointer;width:100%;max-width:420px;}
+.reset-btn:hover{background:var(--coral);}
+.panel{display:flex;flex-direction:column;gap:18px;}
+.coord-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:16px 18px;font-size:14px;}
+.coord-box .row{display:flex;justify-content:space-between;margin-bottom:4px;font-family:'Do Hyeon',sans-serif;}
+.coord-box .row .orig{color:var(--ink-soft);}
+.coord-box .row .now{color:var(--blue);}
+.fact{background:var(--blue-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+.fact b{color:var(--blue);}
+.vlabel{font-family:'Do Hyeon',sans-serif;font-size:13px;}
+footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">⊹ 좌표평면 위 도형 이동 실험실</span>
+  <h1>삼각형을 대칭·평행이동·회전하면<br>좌표는 <span>어떻게</span> 바뀔까?</h1>
+  <p class="sub">버튼을 눌러 삼각형을 움직여보세요. 점선은 원래 삼각형, 실선은 이동한 삼각형이에요. 각 변환마다 좌표가 어떤 규칙으로 바뀌는지 확인할 수 있어요.</p>
+
+  <div class="stage">
+    <div class="canvas-area">
+      <svg id="svg" viewBox="0 0 460 460"></svg>
+
+      <div class="group-title">대칭이동</div>
+      <div class="btn-grid">
+        <button class="op-btn" data-op="flipX">x축 대칭</button>
+        <button class="op-btn" data-op="flipY">y축 대칭</button>
+        <button class="op-btn" data-op="flipO">원점 대칭</button>
+      </div>
+
+      <div class="group-title">회전이동 (원점 기준)</div>
+      <div class="btn-grid">
+        <button class="op-btn" data-op="rot90">90° 회전</button>
+        <button class="op-btn" data-op="rot180">180° 회전</button>
+        <button class="op-btn" data-op="rot270">270° 회전</button>
+      </div>
+
+      <div class="group-title">평행이동</div>
+      <div class="control-row">
+        <div class="control-label"><span>dx</span><b id="dxLabel">0</b></div>
+        <input id="sliderDx" type="range" min="-6" max="6" value="0" step="1">
+      </div>
+      <div class="control-row">
+        <div class="control-label"><span>dy</span><b id="dyLabel">0</b></div>
+        <input id="sliderDy" type="range" min="-6" max="6" value="0" step="1">
+      </div>
+
+      <button class="reset-btn" id="resetBtn">↺ 원래대로 되돌리기</button>
+    </div>
+
+    <div class="panel">
+      <div class="coord-box" id="coordBox"></div>
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+  <footer>x축 대칭은 y의 부호만 바뀌고(x,y)→(x,-y), y축 대칭은 x의 부호만 바뀌어요(x,y)→(-x,y). 원점 대칭은 둘 다 바뀌고(x,y)→(-x,-y), 이는 180° 회전과 결과가 같아요.</footer>
+</div>
+
+<script>
+const svg = document.getElementById('svg');
+const coordBox = document.getElementById('coordBox');
+const factBox = document.getElementById('fact');
+const sliderDx = document.getElementById('sliderDx');
+const sliderDy = document.getElementById('sliderDy');
+const dxLabel = document.getElementById('dxLabel');
+const dyLabel = document.getElementById('dyLabel');
+
+const ORIGINAL = [[1,1],['A'],[4,1],['B'],[1,3],['C']]; // placeholder, replaced below
+const orig = { A:[1,1], B:[4,1], C:[1,3] };
+let current = { A:[1,1], B:[4,1], C:[1,3] };
+let translate = {dx:0, dy:0};
+
+const RANGE = 6;
+const SIZE = 460;
+const CX = SIZE/2, CY = SIZE/2;
+const SCALE = (SIZE/2 - 30) / RANGE;
+
+function toSvg(x,y){ return [CX + x*SCALE, CY - y*SCALE]; }
+
+function applyOp(op){
+  const next = {};
+  for(const k of ['A','B','C']){
+    let [x,y] = current[k];
+    switch(op){
+      case 'flipX': y = -y; break;
+      case 'flipY': x = -x; break;
+      case 'flipO': x=-x; y=-y; break;
+      case 'rot90': { const nx=-y, ny=x; x=nx; y=ny; break; }
+      case 'rot180': x=-x; y=-y; break;
+      case 'rot270': { const nx=y, ny=-x; x=nx; y=ny; break; }
+    }
+    next[k]=[x,y];
+  }
+  current = next;
+  describeOp(op);
+  render();
+}
+
+function describeOp(op){
+  const names = {
+    flipX:'x축 대칭 — (x, y) → (x, -y)',
+    flipY:'y축 대칭 — (x, y) → (-x, y)',
+    flipO:'원점 대칭 — (x, y) → (-x, -y)',
+    rot90:'원점 기준 90° 회전 — (x, y) → (-y, x)',
+    rot180:'원점 기준 180° 회전 — (x, y) → (-x, -y)',
+    rot270:'원점 기준 270° 회전 — (x, y) → (y, -x)',
+  };
+  factBox.innerHTML = `방금 적용한 변환: <b>${names[op]}</b>. 아래 좌표 목록에서 원래 값과 비교해보세요.`;
+}
+
+function polyPoints(pts){
+  return ['A','B','C'].map(k=>toSvg(...pts[k]).join(',')).join(' ');
+}
+
+function render(){
+  const dx = parseInt(sliderDx.value), dy = parseInt(sliderDy.value);
+  dxLabel.textContent = dx; dyLabel.textContent = dy;
+  translate = {dx,dy};
+
+  const translated = {};
+  for(const k of ['A','B','C']){
+    translated[k] = [current[k][0]+dx, current[k][1]+dy];
+  }
+
+  let html = '';
+  for(let i=-RANGE;i<=RANGE;i++){
+    const [gx1,gy1]=toSvg(i,-RANGE), [gx2,gy2]=toSvg(i,RANGE);
+    html += `<line x1="${gx1}" y1="${gy1}" x2="${gx2}" y2="${gy2}" stroke="var(--paper-line)" stroke-width="1"></line>`;
+    const [hx1,hy1]=toSvg(-RANGE,i), [hx2,hy2]=toSvg(RANGE,i);
+    html += `<line x1="${hx1}" y1="${hy1}" x2="${hx2}" y2="${hy2}" stroke="var(--paper-line)" stroke-width="1"></line>`;
+  }
+  const [ax1,ay1]=toSvg(-RANGE,0), [ax2,ay2]=toSvg(RANGE,0);
+  const [oy1x,oy1y]=toSvg(0,-RANGE), [oy2x,oy2y]=toSvg(0,RANGE);
+  html += `<line x1="${ax1}" y1="${ay1}" x2="${ax2}" y2="${ay2}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+  html += `<line x1="${oy1x}" y1="${oy1y}" x2="${oy2x}" y2="${oy2y}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+
+  // 원래 삼각형 (항상 최초 좌표, 점선)
+  html += `<polygon points="${polyPoints(orig)}" fill="none" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="6 5"></polygon>`;
+  // 현재(변환 후, 평행이동 전) 삼각형 — 회전/대칭만 적용된 상태, 연한 색
+  if(JSON.stringify(current)!==JSON.stringify(orig)){
+    html += `<polygon points="${polyPoints(current)}" fill="var(--violet)" fill-opacity="0.12" stroke="var(--violet)" stroke-width="2" stroke-dasharray="3 4"></polygon>`;
+  }
+  // 최종(평행이동까지 적용) 삼각형
+  html += `<polygon points="${polyPoints(translated)}" fill="var(--blue)" fill-opacity="0.22" stroke="var(--blue)" stroke-width="3"></polygon>`;
+
+  ['A','B','C'].forEach(k=>{
+    const [px,py] = toSvg(...translated[k]);
+    html += `<circle cx="${px}" cy="${py}" r="5" fill="var(--blue)"></circle>`;
+    html += `<text class="vlabel" x="${px+8}" y="${py-8}" fill="var(--blue)">${k}'</text>`;
+    const [ox,oy] = toSvg(...orig[k]);
+    html += `<circle cx="${ox}" cy="${oy}" r="4" fill="var(--ink-soft)"></circle>`;
+    html += `<text class="vlabel" x="${ox-14}" y="${oy+16}" fill="var(--ink-soft)">${k}</text>`;
+  });
+
+  svg.innerHTML = html;
+
+  coordBox.innerHTML = ['A','B','C'].map(k=>`
+    <div class="row"><span class="orig">${k}(${orig[k][0]}, ${orig[k][1]})</span><span class="now">→ ${k}'(${translated[k][0]}, ${translated[k][1]})</span></div>
+  `).join('');
+}
+
+document.querySelectorAll('.op-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=> applyOp(btn.dataset.op));
+});
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  current = { A:[...orig.A], B:[...orig.B], C:[...orig.C] };
+  sliderDx.value=0; sliderDy.value=0;
+  factBox.innerHTML = '버튼을 눌러 삼각형을 대칭, 평행이동, 회전시켜보세요.';
+  render();
+});
+sliderDx.addEventListener('input', render);
+sliderDy.addEventListener('input', render);
+
+render();
+</script>
+</body>
+</html>
