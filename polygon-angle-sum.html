@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>다각형 내각의 합 실험실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9;
+    --paper-line:#E9E1CF;
+    --ink:#22283A;
+    --ink-soft:#5B6178;
+    --violet:#6C4CF7;
+    --violet-soft:#EEE8FF;
+    --coral:#FF5B57;
+    --card:#FFFFFF;
+    --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px,
+      var(--paper);
+    color:var(--ink);
+    font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh;
+    padding: 32px 20px 80px;
+  }
+  .wrap{max-width:920px;margin:0 auto;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Do Hyeon',sans-serif;
+    color:var(--violet);
+    background:var(--violet-soft);
+    padding:6px 14px;border-radius:999px;
+    font-size:14px;letter-spacing:0.02em;
+    margin-bottom:14px;
+  }
+  h1{
+    font-family:'Do Hyeon',sans-serif;
+    font-weight:400;
+    font-size:clamp(28px,4.5vw,44px);
+    line-height:1.25;
+    margin:0 0 10px;
+  }
+  h1 span{color:var(--coral);}
+  .sub{
+    color:var(--ink-soft);
+    font-size:16px;
+    line-height:1.7;
+    max-width:56ch;
+    margin:0 0 28px;
+  }
+  .stage{
+    background:var(--card);
+    border-radius:24px;
+    box-shadow:var(--shadow);
+    padding:28px clamp(16px,4vw,40px) 32px;
+    display:grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap:32px;
+    align-items:center;
+  }
+  @media (max-width:760px){
+    .stage{grid-template-columns:1fr;}
+  }
+  .canvas-area{display:flex;flex-direction:column;align-items:center;gap:18px;}
+  svg{width:100%;max-width:420px;height:auto;overflow:visible;}
+  .poly-outline{fill:none;stroke:var(--ink);stroke-width:3;stroke-linejoin:round;}
+  .diag{stroke:var(--ink);stroke-width:1.4;stroke-dasharray:4 4;opacity:0.55;}
+  .tri{stroke:var(--card);stroke-width:2;transition:opacity .4s ease, transform .4s ease;transform-origin:center;}
+  .vlabel{font-family:'Do Hyeon',sans-serif;font-size:13px;fill:var(--ink-soft);}
+  .badge{font-family:'Do Hyeon',sans-serif;font-size:15px;fill:#fff;text-anchor:middle;dominant-baseline:middle;pointer-events:none;}
+
+  .control-row{
+    width:100%;max-width:420px;
+    display:flex;flex-direction:column;gap:10px;
+  }
+  .control-label{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-family:'Do Hyeon',sans-serif;
+    font-size:15px;color:var(--ink-soft);
+  }
+  .control-label b{
+    font-size:22px;color:var(--ink);
+  }
+  input[type=range]{
+    -webkit-appearance:none;width:100%;height:8px;border-radius:999px;
+    background:var(--violet-soft);outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;width:26px;height:26px;border-radius:50%;
+    background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);
+    cursor:pointer;
+  }
+  input[type=range]::-moz-range-thumb{
+    width:26px;height:26px;border-radius:50%;
+    background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);
+    cursor:pointer;
+  }
+  input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+  input[type=range]:focus-visible::-moz-range-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+
+  .panel{
+    display:flex;flex-direction:column;gap:20px;
+  }
+  .equation{
+    background:var(--paper);
+    border:2px solid var(--paper-line);
+    border-radius:18px;
+    padding:22px 20px;
+    text-align:center;
+  }
+  .equation .formula{
+    font-family:'Do Hyeon',sans-serif;
+    font-size:clamp(20px,3.2vw,26px);
+    color:var(--ink-soft);
+  }
+  .equation .formula b{color:var(--ink);}
+  .equation .result{
+    font-family:'Do Hyeon',sans-serif;
+    font-size:clamp(44px,7vw,60px);
+    color:var(--coral);
+    margin-top:4px;
+    line-height:1;
+  }
+  .equation .result span{font-size:0.5em;color:var(--ink-soft);}
+
+  .toggle-btn{
+    font-family:'Do Hyeon',sans-serif;
+    font-size:16px;
+    background:var(--ink);
+    color:#fff;
+    border:none;border-radius:14px;
+    padding:14px 18px;
+    cursor:pointer;
+    transition:transform .15s ease, background .2s ease;
+  }
+  .toggle-btn:hover{background:var(--violet);}
+  .toggle-btn:active{transform:scale(0.97);}
+  .toggle-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+
+  .fact{
+    background:var(--violet-soft);
+    border-radius:16px;
+    padding:16px 18px;
+    font-size:14.5px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  .fact b{color:var(--violet);}
+
+  .fan-off .tri{opacity:0 !important;}
+  .fan-off .diag{opacity:0 !important;}
+
+  footer{
+    max-width:920px;margin:28px auto 0;
+    color:var(--ink-soft);font-size:13px;text-align:center;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .tri{transition:none;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">✏️ 다각형 실험실</span>
+  <h1>변이 <span>N개</span>인 다각형,<br>내각의 합은 얼마일까?</h1>
+  <p class="sub">슬라이더로 변의 개수를 바꿔보세요. 다각형이 한 꼭짓점에서 몇 개의 삼각형으로 쪼개지는지 보면, 내각의 합 공식이 왜 <b>(n − 2) × 180°</b>인지 눈으로 확인할 수 있어요.</p>
+
+  <div class="stage">
+    <div class="canvas-area">
+      <svg id="svg" viewBox="0 0 500 470"></svg>
+
+      <div class="control-row">
+        <div class="control-label">
+          <span>변의 개수 (n)</span>
+          <b id="nLabel">6</b>
+        </div>
+        <input id="slider" type="range" min="3" max="12" value="6" step="1" aria-label="변의 개수 조절">
+      </div>
+
+      <button class="toggle-btn" id="toggleBtn" aria-pressed="true">🔺 삼각형 나누기 끄기</button>
+    </div>
+
+    <div class="panel">
+      <div class="equation">
+        <div class="formula">(<b id="nInFormula">6</b> − 2) × 180°</div>
+        <div class="result" id="resultNum">720<span>°</span></div>
+      </div>
+
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+  <footer>한 꼭짓점에서 대각선을 그으면, n각형은 항상 (n − 2)개의 삼각형으로 나뉘어요. 삼각형 하나의 내각의 합은 180°이니, 전체 합은 (n − 2) × 180°가 됩니다.</footer>
+</div>
+
+<script>
+  const svg = document.getElementById('svg');
+  const slider = document.getElementById('slider');
+  const nLabel = document.getElementById('nLabel');
+  const nInFormula = document.getElementById('nInFormula');
+  const resultNum = document.getElementById('resultNum');
+  const toggleBtn = document.getElementById('toggleBtn');
+  const factBox = document.getElementById('fact');
+
+  const colors = ['#FF5B57','#FFB627','#4CAF8E','#4C8BF5','#B15CFF','#FF7EB6','#2EC4C6','#F7A072','#8D6CF5','#59C9A5'];
+
+  const cx = 250, cy = 245, r = 180;
+  let fanOn = true;
+
+  function vertices(n){
+    const pts = [];
+    for(let i=0;i<n;i++){
+      const ang = -Math.PI/2 + i * (2*Math.PI/n);
+      pts.push([cx + r*Math.cos(ang), cy + r*Math.sin(ang)]);
+    }
+    return pts;
+  }
+
+  function draw(n){
+    const pts = vertices(n);
+    const sum = (n-2)*180;
+
+    nLabel.textContent = n;
+    nInFormula.textContent = n;
+    animateCount(sum);
+
+    factBox.innerHTML = `이 도형은 <b>${n}각형</b>이에요. 한 꼭짓점에서 그을 수 있는 대각선은 <b>${n-3}개</b>이고, 그 대각선들이 도형을 <b>${n-2}개의 삼각형</b>으로 나눠요. 만약 정${n}각형이라면 한 내각의 크기는 <b>${(sum/n).toFixed(1)}°</b>예요.`;
+
+    let svgHtml = '';
+
+    // triangles from vertex 0
+    for(let i=1;i<n-1;i++){
+      const p0 = pts[0], p1 = pts[i], p2 = pts[i+1];
+      const color = colors[(i-1) % colors.length];
+      const midX = (p0[0]+p1[0]+p2[0])/3;
+      const midY = (p0[1]+p1[1]+p2[1])/3;
+      svgHtml += `<polygon class="tri" points="${p0.join(',')} ${p1.join(',')} ${p2.join(',')}" fill="${color}" fill-opacity="0.55" style="transition-delay:${(i-1)*60}ms"></polygon>`;
+      svgHtml += `<circle cx="${midX}" cy="${midY}" r="14" fill="${color}" style="transition:opacity .4s ease;transition-delay:${(i-1)*60}ms" class="tri"></circle>`;
+      svgHtml += `<text class="badge" x="${midX}" y="${midY+1}" style="transition:opacity .4s ease;transition-delay:${(i-1)*60}ms" >${i}</text>`;
+    }
+
+    // diagonals (from vertex 0) drawn on top, dashed
+    for(let i=2;i<n-1;i++){
+      svgHtml += `<line class="diag" x1="${pts[0][0]}" y1="${pts[0][1]}" x2="${pts[i][0]}" y2="${pts[i][1]}"></line>`;
+    }
+
+    // outline
+    svgHtml += `<polygon class="poly-outline" points="${pts.map(p=>p.join(',')).join(' ')}"></polygon>`;
+
+    // vertex labels
+    pts.forEach((p,i)=>{
+      const lx = cx + (p[0]-cx)*1.12;
+      const ly = cy + (p[1]-cy)*1.12;
+      svgHtml += `<circle cx="${p[0]}" cy="${p[1]}" r="4.5" fill="${i===0?'var(--coral)':'var(--ink)'}"></circle>`;
+    });
+
+    svg.innerHTML = svgHtml;
+    svg.classList.toggle('fan-off', !fanOn);
+  }
+
+  let countTimer = null;
+  function animateCount(target){
+    if(countTimer) clearInterval(countTimer);
+    const start = parseInt(resultNum.textContent) || 0;
+    const duration = 300;
+    const steps = 14;
+    let step = 0;
+    const diff = target - start;
+    countTimer = setInterval(()=>{
+      step++;
+      const val = Math.round(start + diff * (step/steps));
+      resultNum.innerHTML = `${val}<span>°</span>`;
+      if(step>=steps){ clearInterval(countTimer); resultNum.innerHTML = `${target}<span>°</span>`; }
+    }, duration/steps);
+  }
+
+  slider.addEventListener('input', (e)=> draw(parseInt(e.target.value)));
+
+  toggleBtn.addEventListener('click', ()=>{
+    fanOn = !fanOn;
+    svg.classList.toggle('fan-off', !fanOn);
+    toggleBtn.textContent = fanOn ? '🔺 삼각형 나누기 끄기' : '🔺 삼각형 나누기 보기';
+    toggleBtn.setAttribute('aria-pressed', String(fanOn));
+  });
+
+  draw(6);
+</script>
+</body>
+</html>
