@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>시계 보기 실험실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --green:#4CAF8E; --green-soft:#E3F5EE;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--violet);}
+.sub{color:var(--ink-soft);font-size:17px;line-height:1.8;max-width:64ch;margin:0 0 28px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.1fr 0.9fr;gap:32px;align-items:start;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+.canvas-area{display:flex;flex-direction:column;align-items:center;gap:18px;}
+svg{width:100%;max-width:300px;height:auto;overflow:visible;}
+.level-picker{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;max-width:420px;}
+.level-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:10px 14px;cursor:pointer;transition:all .15s ease;}
+.level-btn:hover{border-color:var(--coral);color:var(--coral);}
+.level-btn.active{background:var(--coral);border-color:var(--coral);color:#fff;}
+.level-btn:focus-visible{outline:4px solid var(--violet);outline-offset:2px;}
+.quiz-opts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;max-width:460px;}
+.quiz-btn{font-family:'Do Hyeon',sans-serif;font-size:19px;padding:14px 18px;border-radius:14px;background:#fff;border:3px solid var(--paper-line);color:var(--ink);cursor:pointer;transition:all .15s ease;}
+.quiz-btn:hover{border-color:var(--coral);}
+.quiz-btn.correct{background:var(--green);border-color:var(--green);color:#fff;}
+.quiz-btn.wrong{background:var(--coral);border-color:var(--coral);color:#fff;}
+.quiz-btn:focus-visible{outline:4px solid var(--violet);outline-offset:2px;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:20px;background:var(--ink);color:#fff;border:none;border-radius:16px;padding:14px 20px;cursor:pointer;width:100%;max-width:420px;transition:transform .15s ease, background .2s ease;}
+.action-btn:hover{background:var(--coral);}
+.action-btn:active{transform:scale(0.97);}
+.action-btn:focus-visible{outline:4px solid var(--violet);outline-offset:2px;}
+.panel{display:flex;flex-direction:column;gap:18px;}
+.feedback{background:var(--violet-soft);border-radius:16px;padding:20px;text-align:center;font-family:'Do Hyeon',sans-serif;font-size:19px;color:var(--ink);min-height:30px;}
+.clock-num{font-family:'Do Hyeon',sans-serif;font-size:20px;fill:var(--ink-soft);text-anchor:middle;dominant-baseline:middle;}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">🕐 시계 보기 실험실</span>
+  <h1>짧은바늘과 긴바늘을 보고<br>몇 시 몇 분인지 <span>맞혀보아요!</span></h1>
+  <p class="sub">난이도를 고르고, 시계를 보면서 지금이 몇 시 몇 분인지 골라보세요. 짧은바늘은 "시"를, 긴바늘은 "분"을 가리켜요.</p>
+
+  <div class="stage">
+    <div class="canvas-area">
+      <div class="level-picker" id="levelPicker"></div>
+      <svg id="svg" viewBox="0 0 300 300"></svg>
+      <div class="quiz-opts" id="quizOpts"></div>
+      <button class="action-btn" id="nextBtn">➡ 다음 문제</button>
+    </div>
+
+    <div class="panel">
+      <div class="feedback" id="feedback">시계를 보고 몇 시 몇 분인지 골라보세요!</div>
+    </div>
+  </div>
+
+  <footer>짧은바늘(시침)이 숫자와 숫자 "사이"에 있으면 아직 그 시간이 다 지나지 않은 거예요. 예를 들어 짧은바늘이 3과 4 사이에 있으면 "3시 몇 분"이 돼요.</footer>
+</div>
+
+<script>
+const svg = document.getElementById('svg');
+const levelPicker = document.getElementById('levelPicker');
+const quizOpts = document.getElementById('quizOpts');
+const nextBtn = document.getElementById('nextBtn');
+const feedback = document.getElementById('feedback');
+
+const LEVELS = [
+  {key:'hour', name:'정각만 (예: 3시)'},
+  {key:'half', name:'30분 단위'},
+  {key:'five', name:'5분 단위'},
+];
+let level = 'hour';
+let hour = 3, minute = 0;
+let answered = false;
+
+function buildLevelPicker(){
+  levelPicker.innerHTML = LEVELS.map(l=>`<button class="level-btn${l.key===level?' active':''}" data-k="${l.key}">${l.name}</button>`).join('');
+  levelPicker.querySelectorAll('.level-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      level = btn.dataset.k;
+      buildLevelPicker();
+      newProblem();
+    });
+  });
+}
+
+function drawClock(h, m){
+  const CX=150, CY=150, R=130;
+  let html = `<circle cx="${CX}" cy="${CY}" r="${R}" fill="#fff" stroke="var(--ink)" stroke-width="5"></circle>`;
+  for(let i=1;i<=12;i++){
+    const ang = (i*30-90)*Math.PI/180;
+    const tx = CX + (R-24)*Math.cos(ang), ty = CY + (R-24)*Math.sin(ang);
+    html += `<text class="clock-num" x="${tx}" y="${ty}">${i}</text>`;
+  }
+  for(let i=0;i<60;i+=1){
+    const ang = (i*6-90)*Math.PI/180;
+    const r1 = i%5===0 ? R-12 : R-7, r2 = R-2;
+    const x1=CX+r1*Math.cos(ang), y1=CY+r1*Math.sin(ang);
+    const x2=CX+r2*Math.cos(ang), y2=CY+r2*Math.sin(ang);
+    html += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--ink-soft)" stroke-width="${i%5===0?2.5:1}"></line>`;
+  }
+  const hourAngle = ((h%12)*30 + m*0.5 - 90)*Math.PI/180;
+  const minAngle = (m*6 - 90)*Math.PI/180;
+  const hx = CX + 62*Math.cos(hourAngle), hy = CY + 62*Math.sin(hourAngle);
+  const mx = CX + 95*Math.cos(minAngle), my = CY + 95*Math.sin(minAngle);
+  html += `<line x1="${CX}" y1="${CY}" x2="${hx}" y2="${hy}" stroke="var(--ink)" stroke-width="7" stroke-linecap="round"></line>`;
+  html += `<line x1="${CX}" y1="${CY}" x2="${mx}" y2="${my}" stroke="var(--coral)" stroke-width="5" stroke-linecap="round"></line>`;
+  html += `<circle cx="${CX}" cy="${CY}" r="8" fill="var(--ink)"></circle>`;
+  svg.innerHTML = html;
+}
+
+function timeLabel(h, m){
+  return `${h}시 ${m===0?'정각' : m+'분'}`;
+}
+
+function randomTime(){
+  hour = 1 + Math.floor(Math.random()*12);
+  if(level==='hour') minute = 0;
+  else if(level==='half') minute = Math.random()<0.5 ? 0 : 30;
+  else minute = Math.floor(Math.random()*12)*5;
+}
+
+function newProblem(){
+  answered = false;
+  randomTime();
+  drawClock(hour, minute);
+  feedback.textContent = '시계를 보고 몇 시 몇 분인지 골라보세요!';
+
+  const correct = {h:hour, m:minute};
+  const opts = [correct];
+  const seen = new Set([hour+'_'+minute]);
+  while(opts.length<4){
+    let oh = 1+Math.floor(Math.random()*12);
+    let om;
+    if(level==='hour') om = 0;
+    else if(level==='half') om = Math.random()<0.5?0:30;
+    else om = Math.floor(Math.random()*12)*5;
+    const key = oh+'_'+om;
+    if(!seen.has(key)){ seen.add(key); opts.push({h:oh,m:om}); }
+  }
+  opts.sort(()=>Math.random()-0.5);
+
+  quizOpts.innerHTML = opts.map(o=>`<button class="quiz-btn" data-h="${o.h}" data-m="${o.m}">${timeLabel(o.h,o.m)}</button>`).join('');
+  quizOpts.querySelectorAll('.quiz-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered = true;
+      const bh = parseInt(btn.dataset.h), bm = parseInt(btn.dataset.m);
+      quizOpts.querySelectorAll('.quiz-btn').forEach(b=>b.disabled=true);
+      if(bh===correct.h && bm===correct.m){
+        btn.classList.add('correct');
+        feedback.innerHTML = `🎉 정답이에요! 지금은 <b>${timeLabel(correct.h,correct.m)}</b>예요.`;
+      } else {
+        btn.classList.add('wrong');
+        const cbtn = Array.from(quizOpts.querySelectorAll('.quiz-btn')).find(b=>parseInt(b.dataset.h)===correct.h && parseInt(b.dataset.m)===correct.m);
+        cbtn?.classList.add('correct');
+        feedback.innerHTML = `아쉬워요! 정답은 <b>${timeLabel(correct.h,correct.m)}</b>였어요. 짧은바늘과 긴바늘을 다시 살펴보세요.`;
+      }
+    });
+  });
+}
+
+nextBtn.addEventListener('click', newProblem);
+buildLevelPicker();
+newProblem();
+</script>
+</body>
+</html>

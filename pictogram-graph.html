@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>그림그래프로 나타내기 실험실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --green:#4CAF8E; --green-soft:#E3F5EE;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1040px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--green);background:var(--green-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral);}
+.sub{color:var(--ink-soft);font-size:17px;line-height:1.8;max-width:64ch;margin:0 0 28px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.vote-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:26px;}
+.vote-btn{font-family:'Do Hyeon',sans-serif;font-size:17px;background:var(--paper);border:3px solid var(--paper-line);border-radius:18px;padding:16px;cursor:pointer;transition:all .15s ease;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.vote-btn .icon{font-size:38px;}
+.vote-btn:hover{border-color:var(--green);transform:translateY(-2px);}
+.vote-btn:active{transform:scale(0.96);}
+.vote-btn:focus-visible{outline:4px solid var(--coral);outline-offset:2px;}
+.graph{display:flex;flex-direction:column;gap:16px;margin-bottom:22px;}
+.graph-row{display:flex;align-items:center;gap:14px;}
+.graph-label{font-family:'Do Hyeon',sans-serif;font-size:16px;width:90px;flex:none;display:flex;align-items:center;gap:6px;}
+.graph-icons{display:flex;flex-wrap:wrap;gap:4px;min-height:36px;align-items:center;background:var(--paper);border-radius:12px;padding:6px 10px;flex:1;}
+.graph-icons span{font-size:22px;}
+.graph-count{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink-soft);width:34px;text-align:right;flex:none;}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:16px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:12px 18px;cursor:pointer;flex:1;min-width:150px;transition:transform .15s ease, background .2s ease;}
+.action-btn:hover{background:var(--green);}
+.action-btn.secondary{background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.action-btn.secondary:hover{border-color:var(--coral);color:var(--coral);background:var(--card);}
+.action-btn:focus-visible{outline:4px solid var(--coral);outline-offset:2px;}
+.summary{background:var(--green-soft);border-radius:16px;padding:18px 20px;font-family:'Do Hyeon',sans-serif;font-size:18px;color:var(--ink);text-align:center;margin-top:20px;}
+.summary b{color:var(--green);}
+footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">🍎 그림그래프로 나타내기</span>
+  <h1>친구들이 좋아하는 과일을<br>그림으로 <span>세어보아요!</span></h1>
+  <p class="sub">과일 버튼을 눌러서 "이 과일을 좋아하는 친구 한 명"을 추가해보세요. 그림이 쌓이는 걸 보면 어떤 과일이 가장 인기있는지 한눈에 알 수 있어요.</p>
+
+  <div class="stage">
+    <div class="vote-row" id="voteRow"></div>
+    <div class="graph" id="graph"></div>
+    <div class="btn-row">
+      <button class="action-btn" id="autoBtn">🎲 친구 10명한테 한번에 물어보기</button>
+      <button class="action-btn secondary" id="resetBtn">↺ 처음부터</button>
+    </div>
+    <div class="summary" id="summary">과일 버튼을 눌러서 그래프를 만들어보세요!</div>
+  </div>
+
+  <footer>이렇게 그림이나 기호로 자료의 개수를 나타낸 그래프를 "그림그래프"라고 불러요. 그림 개수를 세어보면 어떤 것이 가장 많은지, 가장 적은지 한눈에 비교할 수 있어요.</footer>
+</div>
+
+<script>
+const voteRow = document.getElementById('voteRow');
+const graph = document.getElementById('graph');
+const autoBtn = document.getElementById('autoBtn');
+const resetBtn = document.getElementById('resetBtn');
+const summary = document.getElementById('summary');
+
+const FRUITS = [
+  {key:'apple', name:'사과', icon:'🍎'},
+  {key:'banana', name:'바나나', icon:'🍌'},
+  {key:'grape', name:'포도', icon:'🍇'},
+  {key:'straw', name:'딸기', icon:'🍓'},
+];
+let counts = {apple:0, banana:0, grape:0, straw:0};
+
+function buildVoteRow(){
+  voteRow.innerHTML = FRUITS.map(f=>`
+    <button class="vote-btn" data-k="${f.key}">
+      <span class="icon">${f.icon}</span>
+      <span>${f.name} 추가</span>
+    </button>
+  `).join('');
+  voteRow.querySelectorAll('.vote-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      counts[btn.dataset.k]++;
+      render();
+    });
+  });
+}
+
+function render(){
+  graph.innerHTML = FRUITS.map(f=>{
+    const c = counts[f.key];
+    const icons = Array.from({length:c}).map(()=>`<span>${f.icon}</span>`).join('');
+    return `
+      <div class="graph-row">
+        <div class="graph-label">${f.icon} ${f.name}</div>
+        <div class="graph-icons">${icons}</div>
+        <div class="graph-count">${c}</div>
+      </div>
+    `;
+  }).join('');
+
+  const total = FRUITS.reduce((a,f)=>a+counts[f.key],0);
+  if(total===0){
+    summary.textContent = '과일 버튼을 눌러서 그래프를 만들어보세요!';
+    return;
+  }
+  const maxCount = Math.max(...FRUITS.map(f=>counts[f.key]));
+  const winners = FRUITS.filter(f=>counts[f.key]===maxCount && maxCount>0);
+  if(winners.length===1){
+    summary.innerHTML = `지금까지 모두 <b>${total}명</b>에게 물어봤어요. 가장 인기있는 과일은 ${winners[0].icon} <b>${winners[0].name}</b>(${maxCount}명)예요!`;
+  } else {
+    summary.innerHTML = `지금까지 모두 <b>${total}명</b>에게 물어봤어요. ${winners.map(w=>w.icon+' '+w.name).join(', ')}이(가) <b>${maxCount}명</b>으로 공동 1등이에요!`;
+  }
+}
+
+autoBtn.addEventListener('click', ()=>{
+  for(let i=0;i<10;i++){
+    const k = FRUITS[Math.floor(Math.random()*FRUITS.length)].key;
+    counts[k]++;
+  }
+  render();
+});
+
+resetBtn.addEventListener('click', ()=>{
+  counts = {apple:0, banana:0, grape:0, straw:0};
+  render();
+});
+
+buildVoteRow();
+render();
+</script>
+</body>
+</html>
