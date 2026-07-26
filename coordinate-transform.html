@@ -53,6 +53,10 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .coord-box .row .now{color:var(--blue);}
 .fact{background:var(--blue-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
 .fact b{color:var(--blue);}
+.howto{background:var(--blue-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--blue);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 .vlabel{font-family:'Do Hyeon',sans-serif;font-size:13px;}
 footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
 </style>
@@ -62,6 +66,12 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
   <span class="eyebrow">⊹ 좌표평면 위 도형 이동 실험실</span>
   <h1>삼각형을 대칭·평행이동·회전하면<br>좌표는 <span>어떻게</span> 바뀔까?</h1>
   <p class="sub">버튼을 눌러 삼각형을 움직여보세요. 점선은 원래 삼각형, 실선은 이동한 삼각형이에요. 각 변환마다 좌표가 어떤 규칙으로 바뀌는지 확인할 수 있어요.</p>
+
+  <div class="howto">
+    <p><b>대칭이동</b>은 거울에 비친 모습을 생각하면 쉬워요. x축을 거울 삼아 뒤집으면 위아래만 뒤집히니까 y좌표의 부호만 바뀌고, y축을 거울 삼으면 좌우만 뒤집히니까 x좌표의 부호만 바뀌어요. 원점 대칭은 두 거울을 한꺼번에 적용한 셈이라 x, y 둘 다 부호가 바뀌는데, 이건 사실 180° 회전과 결과가 똑같아요.</p>
+    <p><b>평행이동</b>은 도형을 통째로 들어서 다른 자리에 옮겨놓는 것뿐이에요. 모양도 방향도 전혀 바뀌지 않고, 그냥 위치만 dx, dy만큼 밀려나요.</p>
+    <p><b>회전이동</b>은 원점을 중심으로 도형을 시계 반대 방향으로 돌리는 거예요. 90°씩 돌 때마다 x와 y가 서로 자리를 바꾸면서 부호도 하나씩 바뀌는 규칙이 있어요. 90°, 180°, 270° 버튼을 차례로 눌러보면서 이 규칙이 어떻게 반복되는지 살펴보세요.</p>
+  </div>
 
   <div class="stage">
     <div class="canvas-area">
@@ -100,7 +110,7 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
     </div>
   </div>
 
-  <footer>x축 대칭은 y의 부호만 바뀌고(x,y)→(x,-y), y축 대칭은 x의 부호만 바뀌어요(x,y)→(-x,y). 원점 대칭은 둘 다 바뀌고(x,y)→(-x,-y), 이는 180° 회전과 결과가 같아요.</footer>
+  <footer>x축 대칭은 y의 부호만 바뀌고(x,y)→(x,-y), y축 대칭은 x의 부호만 바뀌어요(x,y)→(-x,y). 원점 대칭은 둘 다 바뀌고(x,y)→(-x,-y), 이는 180° 회전과 결과가 같아요. 회전은 90°마다 (x,y)→(-y,x)가 반복 적용되는 셈이라, 4번(360°) 돌리면 다시 원래 자리로 돌아와요.</footer>
 </div>
 
 <script>

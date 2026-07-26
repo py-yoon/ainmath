@@ -53,6 +53,10 @@ input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--co
 .table th{background:var(--paper);color:var(--ink-soft);font-family:'Do Hyeon',sans-serif;}
 .fact{background:var(--blue-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
 .fact b{color:var(--blue);}
+.howto{background:var(--blue-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--blue);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 .axis-label{font-family:'Do Hyeon',sans-serif;font-size:13px;fill:var(--ink-soft);}
 footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
 </style>
@@ -62,6 +66,13 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
   <span class="eyebrow">⇄ 비례와 반비례 실험실</span>
   <h1>상수 k를 바꾸면<br>그래프 모양이 <span>어떻게</span> 달라질까?</h1>
   <p class="sub">정비례(y=kx)와 반비례(y=k/x)를 탭으로 바꿔보고, k값을 슬라이더로 조절해보세요. 두 그래프가 얼마나 다르게 생겼는지 비교해보세요.</p>
+
+  <div class="howto">
+    <p>정비례와 반비례는 둘 다 두 양이 서로 영향을 주고받지만, 방향이 정반대예요.</p>
+    <p>사탕 1개에 500원이라면, 2개는 1000원, 3개는 1500원이죠. 개수(x)가 늘어난 만큼 가격(y)도 똑같은 비율로 늘어나요 — 이게 <b>정비례</b>예요. 그래프로 그리면 원점을 지나는 곧은 직선이 돼요.</p>
+    <p>반대로 60km 거리를 자동차로 이동한다고 해봐요. 시속 60km면 1시간, 시속 120km(2배 빠르게)면 30분(절반)이 걸려요. 속력(x)이 늘어난 만큼 시간(y)은 오히려 줄어들어요 — 이게 <b>반비례</b>예요. 그래프는 직선이 아니라 x축과 y축에 점점 다가가지만 절대 닿지는 않는 매끈한 곡선이 돼요.</p>
+    <p>둘 다 공통점이 있어요. 정비례는 y÷x가, 반비례는 x×y가 항상 똑같은 값(k)으로 유지된다는 거예요. 탭을 눌러 두 그래프를 번갈아 보면서 표의 숫자가 어떻게 다르게 움직이는지 비교해보세요.</p>
+  </div>
 
   <div class="stage">
     <div class="canvas-area">
@@ -85,7 +96,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
     </div>
   </div>
 
-  <footer>정비례는 x가 늘어나면 y도 같은 비율로 늘어나고, 반비례는 x가 늘어나면 y는 오히려 같은 비율로 줄어들어요. 두 경우 모두 x×y 또는 y÷x가 항상 k로 일정해요.</footer>
+  <footer>정비례는 x가 늘어나면 y도 같은 비율로 늘어나고, 반비례는 x가 늘어나면 y는 오히려 같은 비율로 줄어들어요. 두 경우 모두 x×y 또는 y÷x가 항상 k로 일정해요. 반비례 그래프가 x축·y축에 닿지 않는 이유도 간단해요 — x나 y가 0이 되면 k/x나 k/y 계산 자체가 불가능해지기 때문이에요.</footer>
 </div>
 
 <script>

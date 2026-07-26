@@ -54,6 +54,10 @@ input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--vi
 .fact b{color:var(--coral);}
 .badge-win{display:none;background:#FFF3E0;color:#B45309;font-family:'Do Hyeon',sans-serif;font-size:14px;border-radius:10px;padding:10px 12px;text-align:center;}
 .badge-win.show{display:block;}
+.howto{background:var(--coral-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--coral);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
 </style>
 </head>
@@ -62,6 +66,12 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
   <span class="eyebrow">▦ 약수 찾기 실험실</span>
   <h1>숫자 하나를<br><span>직사각형</span>으로 몇 번 채울 수 있을까?</h1>
   <p class="sub">숫자를 정하면, 그 수를 가로×세로 직사각형 배열(모눈)로 정확히 채울 수 있는 모든 조합을 보여줘요. 그 조합의 한 변의 길이가 바로 <b>약수</b>예요.</p>
+
+  <div class="howto">
+    <p>약수를 찾을 때 왜 하필 직사각형을 그릴까요? 이유는 단순해요 — n칸짜리 모눈을 가로 a줄, 세로 b줄로 딱 맞게 채울 수 있다면 a×b=n이라는 뜻이고, 그러면 a도 b도 전부 n의 약수가 되거든요. 결국 "딱 맞게 채워지는 직사각형을 전부 찾는 것"과 "약수를 전부 찾는 것"은 같은 문제예요.</p>
+    <p>재밌는 점은 이 직사각형들이 항상 짝을 이뤄서 나온다는 거예요. 가로가 작아지면 세로는 그만큼 커지는 식으로요. 그래서 작은 쪽 변을 √n까지만 훑어봐도 나머지 절반은 자동으로 딸려 나와요. 만약 가로와 세로가 똑같아지는 순간이 있다면, 그 수는 완전제곱수라는 뜻이에요.</p>
+    <p>소수는 이 중에서도 특별해요. 약수가 딱 2개(1과 자기 자신)뿐이라 만들 수 있는 직사각형이 1×n 하나밖에 없거든요. 슬라이더를 움직여서 소수 근처에서 직사각형 목록이 갑자기 짧아지는 걸 확인해보세요.</p>
+  </div>
 
   <div class="stage">
     <div>
@@ -83,7 +93,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
     </div>
   </div>
 
-  <footer>가로 a, 세로 b인 모눈이 n칸을 정확히 채운다면 a×b=n 이고, a와 b는 모두 n의 약수예요. 이렇게 짝을 지어보면 약수를 빠짐없이 찾을 수 있어요.</footer>
+  <footer>가로 a, 세로 b인 모눈이 n칸을 정확히 채운다면 a×b=n 이고, a와 b는 모두 n의 약수예요. 약수의 개수는 소인수분해로 미리 예측할 수도 있어요 — 소인수 각각의 지수에 1씩 더한 값을 모두 곱하면 되거든요. 예를 들어 24=2³×3¹이면 (3+1)×(1+1)=8개, 직접 세어본 개수와 맞춰보세요.</footer>
 </div>
 
 <script>
@@ -129,7 +139,17 @@ function render(){
     </div>`;
   }).join('');
 
-  factBox.innerHTML = `${n}은(는) 약수를 <b>${allDivisors.length}개</b> 가지고 있어요: ${allDivisors.join(', ')}. 각 약수 짝(a, n/a)마다 딱 맞게 채워지는 직사각형 모눈을 하나씩 만들 수 있어요.${isSquare ? ' 그리고 정사각형(같은 가로세로)으로도 채울 수 있으니, ' + n + '은(는) 완전제곱수랍니다.' : ''}`;
+  const isPrime = allDivisors.length===2;
+  let extra = '';
+  if(n===1){
+    extra = ` 1은 약수가 자기 자신 하나뿐인 아주 특별한 수예요 — 소수도 아니고 합성수도 아니랍니다.`;
+  } else if(isSquare){
+    extra = ` 그리고 정사각형(같은 가로세로)으로도 채울 수 있으니, ${n}은(는) 완전제곱수랍니다.`;
+  } else if(isPrime){
+    extra = ` 약수가 1과 자기 자신뿐이라 ${n}은(는) 소수예요. 그래서 만들 수 있는 직사각형도 1×${n} 하나뿐이에요.`;
+  }
+
+  factBox.innerHTML = `${n}은(는) 약수를 <b>${allDivisors.length}개</b> 가지고 있어요: ${allDivisors.join(', ')}. 각 약수 짝(a, n/a)마다 딱 맞게 채워지는 직사각형 모눈을 하나씩 만들 수 있어요.${extra}`;
 }
 
 sliderN.addEventListener('input', render);

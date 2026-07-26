@@ -48,6 +48,10 @@ input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--co
 .equation .subline{margin-top:12px;font-size:14px;color:var(--ink-soft);}
 .fact{background:var(--blue-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
 .fact b{color:var(--blue);}
+.howto{background:var(--blue-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--blue);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 .axis-label{font-family:'Do Hyeon',sans-serif;font-size:13px;fill:var(--ink-soft);}
 footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
 </style>
@@ -57,6 +61,12 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
   <span class="eyebrow">📈 일차함수 그래프 실험실</span>
   <h1>기울기와 y절편을 바꾸면<br>직선은 <span>어떻게</span> 움직일까?</h1>
   <p class="sub">y = ax + b에서 기울기 a와 y절편 b를 슬라이더로 조절해보세요. a가 클수록 직선이 가파르게, b가 바뀌면 직선이 위아래로 이동해요.</p>
+
+  <div class="howto">
+    <p>y = ax + b, 이 식이 실제로 뭘 말하는지 저금통으로 생각해보면 쉬워요. 저금통에 처음 b원이 들어있고, 매달 a원씩 저금한다면 x개월 후 잔액은 정확히 ax+b원이 돼요. b는 "시작할 때 이미 있던 양"(y절편), a는 "한 단위가 지날 때마다 변하는 양"(기울기)인 셈이에요.</p>
+    <p>그래프에서 b는 직선이 y축을 지나는 위치를 정하고, a는 직선이 얼마나 가파른지·어느 방향으로 기울었는지를 정해요. a가 양수면 오른쪽 위로 올라가고(저금이 계속 느는 상황), a가 음수면 오른쪽 아래로 내려가요(매달 조금씩 꺼내 쓰는 상황). a가 정확히 0이면 아무 변화가 없으니 수평선이 되고요.</p>
+    <p>x절편은 y=0이 되는 지점, 즉 "언제 잔액이 0원이 되는지"를 알려줘요. 슬라이더를 a=0으로 맞춰보면 잔액이 아예 변하지 않아서 x절편이 사라지는 상황도 확인할 수 있어요.</p>
+  </div>
 
   <div class="stage">
     <div class="canvas-area">
@@ -80,7 +90,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
     </div>
   </div>
 
-  <footer>기울기 a는 "x가 1만큼 늘어날 때 y가 얼마나 변하는지"를 나타내요. a&gt;0이면 오른쪽 위로, a&lt;0이면 오른쪽 아래로 향하고, a=0이면 수평선이 돼요.</footer>
+  <footer>기울기 a는 "x가 1만큼 늘어날 때 y가 얼마나 변하는지"를 나타내요. a&gt;0이면 오른쪽 위로, a&lt;0이면 오른쪽 아래로 향하고, a=0이면 수평선이 돼요. 기울기의 크기(절댓값)가 클수록 직선은 더 가파르고, 0에 가까울수록 완만해져요.</footer>
 </div>
 
 <script>

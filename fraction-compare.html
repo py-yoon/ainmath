@@ -45,6 +45,15 @@ input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--vi
 .bar-seg{flex:1;border-right:2px solid var(--card);display:flex;align-items:center;justify-content:center;transition:background .3s ease;}
 .bar-seg:last-child{border-right:none;}
 .bar-seg.filled{background:var(--fill-color, var(--violet));}
+.compare-chart{display:flex;gap:44px;justify-content:center;align-items:flex-end;height:260px;margin:24px 0 8px;}
+.bar-col{display:flex;flex-direction:column;align-items:center;gap:10px;height:100%;justify-content:flex-end;}
+.bar-track{width:70px;height:220px;background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;
+  display:flex;flex-direction:column-reverse;overflow:hidden;position:relative;}
+.bar-fill{width:100%;transition:height .4s ease;border-radius:0 0 10px 10px;}
+.bar-divider{position:absolute;left:0;right:0;height:1px;background:rgba(255,255,255,0.75);pointer-events:none;}
+.bar-name{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);display:flex;align-items:center;gap:6px;}
+.bar-name .dot{width:11px;height:11px;border-radius:3px;}
+.bar-value{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);}
 .panel{display:flex;flex-direction:column;gap:18px;}
 .equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:22px 20px;text-align:center;}
 .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(24px,4vw,32px);color:var(--ink);}
@@ -53,6 +62,10 @@ input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--vi
 .decline{font-size:14px;color:var(--ink-soft);}
 .fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
 .fact b{color:var(--coral);}
+.howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:22px 0 28px;}
+.howto b{color:var(--violet);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
 </style>
 </head>
@@ -60,34 +73,50 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
 <div class="wrap">
   <span class="eyebrow">🍰 분수 크기 비교 실험실</span>
   <h1>분자와 분모를 바꾸면<br>분수의 크기는 <span>어떻게</span> 달라질까?</h1>
-  <p class="sub">두 분수를 슬라이더로 만들어보세요. 막대를 채운 길이를 비교하면 어느 분수가 더 큰지 한눈에 알 수 있어요.</p>
+  <p class="sub">3/5랑 2/3, 둘 중에 뭐가 더 클까요? 분모가 다르면 이게 은근히 헷갈려요. 슬라이더로 분수 두 개를 직접 만들어서 막대에 채워보세요 — 어느 쪽이 더 높이 차오르는지 보면 답이 바로 보여요. 분모는 최대 100까지 늘릴 수 있으니 극단적인 경우도 만들어볼 수 있어요.</p>
 
   <div class="stage">
     <div>
+      <div class="howto">
+        <p><b>왜 분모가 다르면 헷갈릴까요?</b> 피자 한 판을 3조각으로 나눈 것과 5조각으로 나눈 걸 생각해보세요. 조각 수만 다른 게 아니라 <b>한 조각의 크기 자체</b>가 달라져요. 그러니 "3조각 중 2조각"과 "5조각 중 3조각"을 그냥 숫자만 보고 비교하면 안 되는 거죠.</p>
+        <p>그래서 쓰는 방법이 <b>통분</b>이에요. 두 분수의 분모를 똑같은 수로 맞춰주면, 그때부터는 조각 크기가 같아지니까 분자끼리만 비교해도 정확해요. 이 실험실에서는 두 분모의 최소공배수로 자동으로 통분한 값을 보여줘요.</p>
+        <p>막대 안의 가는 선은 분모가 20 이하일 때만 보여요. 조각이 100개씩 되면 선이 너무 빽빽해져서 오히려 안 보기 편하거든요 — 그럴 땐 그냥 채워진 높이로만 비교하면 돼요.</p>
+      </div>
       <div class="frac-block">
         <div class="frac-title"><span class="dot" style="background:var(--violet)"></span>분수 A</div>
         <div class="control-row">
           <div class="control-label"><span>분자</span><b id="n1Label">2</b></div>
-          <input id="n1" type="range" min="1" max="11" value="2" step="1" aria-label="분수 A 분자">
+          <input id="n1" type="range" min="1" max="100" value="2" step="1" aria-label="분수 A 분자">
         </div>
         <div class="control-row">
           <div class="control-label"><span>분모</span><b id="d1Label">3</b></div>
-          <input id="d1" type="range" min="2" max="12" value="3" step="1" aria-label="분수 A 분모">
+          <input id="d1" type="range" min="2" max="100" value="3" step="1" aria-label="분수 A 분모">
         </div>
-        <div class="bar-wrap" id="barA"></div>
       </div>
 
       <div class="frac-block">
         <div class="frac-title"><span class="dot" style="background:var(--blue)"></span>분수 B</div>
         <div class="control-row">
           <div class="control-label"><span>분자</span><b id="n2Label">3</b></div>
-          <input id="n2" type="range" min="1" max="11" value="3" step="1" aria-label="분수 B 분자">
+          <input id="n2" type="range" min="1" max="100" value="3" step="1" aria-label="분수 B 분자">
         </div>
         <div class="control-row">
           <div class="control-label"><span>분모</span><b id="d2Label">5</b></div>
-          <input id="d2" type="range" min="2" max="12" value="5" step="1" aria-label="분수 B 분모">
+          <input id="d2" type="range" min="2" max="100" value="5" step="1" aria-label="분수 B 분모">
         </div>
-        <div class="bar-wrap" id="barB"></div>
+      </div>
+
+      <div class="compare-chart">
+        <div class="bar-col">
+          <div class="bar-track" id="trackA"><div class="bar-fill" id="fillA" style="background:var(--violet)"></div></div>
+          <div class="bar-name"><span class="dot" style="background:var(--violet)"></span>분수 A</div>
+          <div class="bar-value" id="valA">2/3</div>
+        </div>
+        <div class="bar-col">
+          <div class="bar-track" id="trackB"><div class="bar-fill" id="fillB" style="background:var(--blue)"></div></div>
+          <div class="bar-name"><span class="dot" style="background:var(--blue)"></span>분수 B</div>
+          <div class="bar-value" id="valB">3/5</div>
+        </div>
       </div>
     </div>
 
@@ -102,7 +131,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
     </div>
   </div>
 
-  <footer>분모가 다른 분수를 정확히 비교하려면 통분(분모를 같게 만들기)을 하거나, 소수로 바꿔서 비교하면 편해요.</footer>
+  <footer>참고로 두 분수가 우연히 똑같은 값이 나올 수도 있어요. 예를 들어 2/4랑 1/2처럼요 — 겉모양은 달라 보여도 실제로는 같은 크기라는 걸 막대 높이로 직접 확인해보세요.</footer>
 </div>
 
 <script>
@@ -110,7 +139,9 @@ const n1=document.getElementById('n1'), d1=document.getElementById('d1');
 const n2=document.getElementById('n2'), d2=document.getElementById('d2');
 const n1Label=document.getElementById('n1Label'), d1Label=document.getElementById('d1Label');
 const n2Label=document.getElementById('n2Label'), d2Label=document.getElementById('d2Label');
-const barA=document.getElementById('barA'), barB=document.getElementById('barB');
+const trackA=document.getElementById('trackA'), trackB=document.getElementById('trackB');
+const fillA=document.getElementById('fillA'), fillB=document.getElementById('fillB');
+const valA=document.getElementById('valA'), valB=document.getElementById('valB');
 const fA=document.getElementById('fA'), fB=document.getElementById('fB');
 const symbol=document.getElementById('symbol');
 const decLine=document.getElementById('decLine');
@@ -118,18 +149,41 @@ const factBox=document.getElementById('fact');
 
 function gcd(a,b){ return b===0?a:gcd(b,a%b); }
 
+// 숫자 발음(마지막 자리) 기준으로 자연스러운 조사를 골라주는 헬퍼
+// 이/가: 받침(자음)으로 끝나면 "이", 모음으로 끝나면 "가"
+function iGa(n){
+  const consonantEndDigits = [0,1,3,6,7,8]; // 영·일·삼·육·칠·팔은 받침으로 끝남
+  return consonantEndDigits.includes(Math.abs(n)%10) ? '이' : '가';
+}
+// 와/과: 받침(자음)으로 끝나면 "과", 모음으로 끝나면 "와"
+function waGwa(str){
+  const d = parseInt(str.toString().slice(-1));
+  const consonantEndDigits = [0,1,3,6,7,8];
+  return consonantEndDigits.includes(d) ? '과' : '와';
+}
+// 로/으로: 받침 없거나 'ㄹ'받침이면 "로", 그 외 받침이면 "으로"
+function ro(n){
+  const needEuro = [0,3,6]; // 영·삼·육은 'ㄹ'이 아닌 받침
+  return needEuro.includes(Math.abs(n)%10) ? '으로' : '로';
+}
+
 function clampNumerators(){
   // 분자가 분모보다 크지 않도록(진분수 유지)
   if(parseInt(n1.value) > parseInt(d1.value)) n1.value = d1.value;
   if(parseInt(n2.value) > parseInt(d2.value)) n2.value = d2.value;
 }
 
-function renderBar(el, num, den, color){
-  let html='';
-  for(let i=0;i<den;i++){
-    html += `<div class="bar-seg${i<num?' filled':''}" style="--fill-color:${color}"></div>`;
+function renderBarTrack(track, fill, num, den){
+  track.querySelectorAll('.bar-divider').forEach(el=>el.remove());
+  fill.style.height = (num/den*100) + '%';
+  if(den<=20){
+    for(let i=1;i<den;i++){
+      const line = document.createElement('div');
+      line.className='bar-divider';
+      line.style.bottom = (i/den*100) + '%';
+      track.appendChild(line);
+    }
   }
-  el.innerHTML = html;
 }
 
 function render(){
@@ -139,8 +193,10 @@ function render(){
   n1Label.textContent=a_n; d1Label.textContent=a_d;
   n2Label.textContent=b_n; d2Label.textContent=b_d;
 
-  renderBar(barA, a_n, a_d, 'var(--violet)');
-  renderBar(barB, b_n, b_d, 'var(--blue)');
+  renderBarTrack(trackA, fillA, a_n, a_d);
+  renderBarTrack(trackB, fillB, b_n, b_d);
+  valA.textContent = `${a_n}/${a_d}`;
+  valB.textContent = `${b_n}/${b_d}`;
 
   fA.textContent = `${a_n}/${a_d}`;
   fB.textContent = `${b_n}/${b_d}`;
@@ -155,12 +211,32 @@ function render(){
   const commonDen = a_d*b_d/g;
   const ca = a_n*(commonDen/a_d), cb = b_n*(commonDen/b_d);
 
-  let compareText;
-  if(sym==='='){ compareText = `두 분수는 크기가 <b>똑같아요</b>.`; }
-  else if(sym==='>'){ compareText = `분수 A(${a_n}/${a_d})가 분수 B(${b_n}/${b_d})보다 <b>더 커요</b>.`; }
-  else { compareText = `분수 B(${b_n}/${b_d})가 분수 A(${a_n}/${a_d})보다 <b>더 커요</b>.`; }
+  let msg;
+  if(a_d === b_d){
+    // 분모가 이미 같은, 가장 쉬운 경우
+    if(sym==='='){
+      msg = `분모가 둘 다 ${a_d}로 똑같으니 사실 볼 것도 없어요. 분자도 ${a_n}, ${b_n} 둘 다 같으니 두 분수는 완전히 같은 크기예요.`;
+    } else {
+      const biggerLabel = sym==='>' ? 'A' : 'B';
+      const bn = sym==='>' ? a_n : b_n, sn = sym==='>' ? b_n : a_n;
+      msg = `분모가 이미 ${a_d}로 똑같아서 통분할 필요도 없어요. 이럴 땐 분자끼리만 비교하면 되는데, ${bn}${iGa(bn)} ${sn}보다 크니까 분수 ${biggerLabel}가 더 커요.`;
+    }
+  } else if(sym==='='){
+    msg = `${a_n}/${a_d}와 ${b_n}/${b_d}, 겉모습은 달라 보이지만 사실 똑같은 크기예요. 분모를 ${commonDen}${ro(commonDen)} 맞춰보면 둘 다 ${ca}/${commonDen}가 되는 걸 확인할 수 있어요.`;
+  } else {
+    const biggerLabel = sym==='>' ? `A(${a_n}/${a_d})` : `B(${b_n}/${b_d})`;
+    const smallerLabel = sym==='>' ? `B(${b_n}/${b_d})` : `A(${a_n}/${a_d})`;
+    let howFound;
+    if(a_d % b_d === 0 || b_d % a_d === 0){
+      const bigDen = Math.max(a_d,b_d), smallDen = Math.min(a_d,b_d);
+      howFound = `마침 ${bigDen}${iGa(bigDen)} ${smallDen}의 배수라서 편해요 — 작은 쪽 분모만 ${commonDen}${ro(commonDen)} 늘려주면 바로 비교가 끝나요.`;
+    } else {
+      howFound = `두 분모의 최소공배수인 ${commonDen}${ro(commonDen)} 통분해보면 A는 ${ca}/${commonDen}, B는 ${cb}/${commonDen}가 되고, 그러면 분자끼리 비교만 하면 돼요.`;
+    }
+    msg = `${biggerLabel}가 ${smallerLabel}보다 커요. ${howFound} 소수로 바꿔서 봐도 ${va.toFixed(3)}${waGwa(va.toFixed(3))} ${vb.toFixed(3)}이니 결론은 똑같아요.`;
+  }
 
-  factBox.innerHTML = `${compareText} 분모를 <b>${commonDen}</b>로 통분하면 A=${ca}/${commonDen}, B=${cb}/${commonDen}이 되어 분자만 비교해도 크기를 알 수 있어요. (소수로 보면 ${va.toFixed(3)} vs ${vb.toFixed(3)})`;
+  factBox.innerHTML = msg;
 }
 
 [n1,d1,n2,d2].forEach(inp=>inp.addEventListener('input', render));

@@ -54,6 +54,10 @@ input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--co
 .stat-box .val{font-family:'Do Hyeon',sans-serif;font-size:26px;color:var(--ink);}
 .fact{background:var(--green-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
 .fact b{color:var(--green);}
+.howto{background:var(--green-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--green);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
 </style>
 </head>
@@ -62,6 +66,13 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
   <span class="eyebrow">📊 평균 · 중앙값 · 최빈값 실험실</span>
   <h1>숫자 6개, 대표값을<br>구하는 <span>세 가지 방법</span></h1>
   <p class="sub">슬라이더로 값 6개를 직접 바꿔보세요. 평균(모두 더해 개수로 나눈 값), 중앙값(크기순으로 줄 세웠을 때 가운데 값), 최빈값(가장 자주 나온 값)이 어떻게 달라지는지 점선으로 비교할 수 있어요.</p>
+
+  <div class="howto">
+    <p>대표값이 왜 세 개나 필요할까요? 상황에 따라 어떤 값이 진짜를 더 잘 보여주는지가 다르기 때문이에요.</p>
+    <p>가장 흔히 쓰는 <b>평균</b>은 모든 값을 다 반영한다는 장점이 있지만, 극단적으로 크거나 작은 값(이상치) 하나에도 크게 흔들려요. 예를 들어 직원 9명이 월급 300만 원을 받는 회사에 사장님 혼자 월급 3000만 원을 받는다면, "평균 월급"은 실제 대부분 직원의 월급보다 훨씬 높게 나와버려요. 이럴 땐 <b>중앙값</b>이 훨씬 현실적인 대표값이에요 — 순서상 가운데 있는 값만 보기 때문에 극단값에 잘 흔들리지 않거든요.</p>
+    <p><b>최빈값</b>은 조금 다른 역할을 해요. "가장 많이 나온 값"이니까, 숫자보다는 특정 카테고리(예: 가장 잘 팔리는 신발 사이즈)를 다룰 때 더 유용해요. 다만 모든 값이 다르면 최빈값 자체가 없을 수도 있어요.</p>
+    <p>슬라이더 하나만 극단적으로 키워보세요. 평균은 훌쩍 뛰어오르는데 중앙값은 별로 안 움직이는 걸 눈으로 확인할 수 있을 거예요.</p>
+  </div>
 
   <div class="stage">
     <div>
@@ -80,7 +91,7 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
     </div>
   </div>
 
-  <footer>극단적으로 크거나 작은 값(이상치)이 하나 섞이면 평균은 크게 흔들리지만, 중앙값은 잘 흔들리지 않아요. 값을 극단적으로 바꿔보면서 확인해보세요.</footer>
+  <footer>극단적으로 크거나 작은 값(이상치)이 하나 섞이면 평균은 크게 흔들리지만, 중앙값은 잘 흔들리지 않아요. 그래서 뉴스에서 "평균 소득"보다 "중앙값 소득"을 함께 보여주는 경우가 많아요 — 소수의 매우 높은 소득이 평균을 왜곡할 수 있기 때문이에요. 값을 극단적으로 바꿔보면서 직접 확인해보세요.</footer>
 </div>
 
 <script>
@@ -148,7 +159,13 @@ function render(){
   plot.innerHTML = html;
 
   const sortedText = sorted.join(', ');
-  factBox.innerHTML = `크기순으로 줄 세우면 <b>${sortedText}</b>예요. 6개(짝수 개)라서 중앙값은 가운데 두 값(${sorted[mid-1]}, ${sorted[mid]})의 평균인 <b>${median.toFixed(2)}</b>이에요. ${modes ? `가장 많이 나온 값은 <b>${modes.join(', ')}</b>예요.` : '모든 값이 달라서 최빈값은 없어요.'}`;
+  const gap = Math.abs(mean-median);
+  let skewComment = '';
+  if(gap >= 3){
+    const which = mean>median ? '평균이 중앙값보다 훨씬 높아요' : '평균이 중앙값보다 훨씬 낮아요';
+    skewComment = ` ${which} — 극단적으로 크거나 작은 값이 평균을 끌어당기고 있다는 신호예요. 이럴 땐 중앙값이 더 믿을 만한 대표값일 수 있어요.`;
+  }
+  factBox.innerHTML = `크기순으로 줄 세우면 <b>${sortedText}</b>예요. 6개(짝수 개)라서 중앙값은 가운데 두 값(${sorted[mid-1]}, ${sorted[mid]})의 평균인 <b>${median.toFixed(2)}</b>이에요. ${modes ? `가장 많이 나온 값은 <b>${modes.join(', ')}</b>예요.` : '모든 값이 달라서 최빈값은 없어요.'}${skewComment}`;
 }
 
 shuffleBtn.addEventListener('click', ()=>{
