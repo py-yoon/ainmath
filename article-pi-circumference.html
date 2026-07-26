@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>원주율(π), 자전거 바퀴로 시작된 궁금증 | 수학 시각화 실험실</title>
+<meta name="description" content="어릴 때 아버지가 자전거 바퀴 지름을 줄자로 재보라고 하신 적이 있어요. 그리고 바퀴를 한 바퀴 굴려서 바닥에 표시한 다음 그 거리를 재보라고 ...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{
+    display:inline-flex;align-items:center;gap:6px;
+    color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;
+  }
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;
+    padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;
+  }
+  h1{
+    font-family:'Do Hyeon',sans-serif;font-weight:400;
+    font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;
+  }
+  .meta{color:var(--ink-soft);font-size:13.5px;margin:0 0 26px;}
+  .card{
+    background:var(--card);border-radius:22px;box-shadow:var(--shadow);
+    padding:clamp(20px,4vw,40px);
+  }
+  .article-body p{
+    font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;
+  }
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;
+    background:#6C4CF7;text-decoration:none;
+    padding:14px 22px;border-radius:14px;
+    transition:transform .15s ease;
+  }
+  .cta-btn:hover{transform:translateY(-2px);}
+  .cta-soon{font-size:14px;color:var(--ink-soft);margin:0;}
+  .cta-soon a{color:#6C4CF7;}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:12.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#6C4CF7;background:#EEE8FF">📐 도형·기하</span>
+  <h1>원주율(π), 자전거 바퀴로 시작된 궁금증</h1>
+  <p class="meta">초등 고학년 ~ 중학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>어릴 때 아버지가 자전거 바퀴 지름을 줄자로 재보라고 하신 적이 있어요. 그리고 바퀴를 한 바퀴 굴려서 바닥에 표시한 다음 그 거리를 재보라고 하셨죠. 지름의 몇 배쯤 될 것 같냐고 물으셔서 저는 "세 배쯤이요"라고 답했는데, 실제로 재보니 3배보다 살짝 더 길더라고요. 그 살짝 더 긴 부분, 그게 바로 원주율의 정체였습니다.</p>
+      <p>원주율은 원의 둘레(원주)를 지름으로 나눈 값이에요. 신기하게도 이 값은 원이 아무리 크든 작든 항상 똑같이 3.14159...로 나옵니다. 100원짜리 동전이든 마당에 그린 커다란 원이든, 둘레를 지름으로 나누면 늘 같은 숫자가 나온다는 게 처음 들으면 좀 신기하죠. 그래서 옛날 수학자들도 이 값을 정확히 구하려고 몇백 년 동안 매달렸고, 지금은 컴퓨터로 소수점 아래 수조 자리까지 계산해낸 상태예요.</p>
+      <p>수업 시간에 원주율을 배울 때 가장 좋은 방법은 역시 직접 굴려보는 거예요. 실이나 줄자로 원 모양 물건의 둘레를 감아서 재고, 지름과 비교해보는 활동을 하면 공식을 외우지 않아도 자연스럽게 '아, 항상 3배 조금 넘는구나'라는 감각이 생겨요. 이 감각이 나중에 원의 넓이나 부피 공식을 배울 때도 큰 도움이 됩니다.</p>
+      <p>원주율은 사실 수학 시간에만 쓰이는 게 아니에요. 롤러코스터의 원형 트랙을 설계하거나, 피자 한 판의 크기를 계산하거나, 심지어 우주선이 지구 궤도를 돌 때 이동 거리를 계산하는 데도 원주율이 쓰입니다. 우리가 흔히 3.14로 줄여서 쓰지만, 정밀한 계산이 필요한 분야에서는 훨씬 더 긴 자릿수를 사용하기도 해요.</p>
+      <p>원주율이 3.14 뒤로도 끝없이 이어진다는 것도 특별한 사실이에요. 아무리 계산해도 똑같은 숫자가 반복되지 않고 끝없이 이어지는 수를 '무리수'라고 부르는데, 원주율이 바로 그 대표적인 예시입니다. 옛날 그리스의 수학자 아르키메데스는 원 안팎에 다각형을 그리고, 다각형의 변의 개수를 96개까지 늘려가며 원주율 값을 점점 더 정확하게 좁혀나갔다고 해요. 계산기도 컴퓨터도 없던 시절에 오직 손과 도형만으로 이렇게 끈질기게 답에 다가갔다는 사실이 저는 늘 놀랍습니다. 요즘은 학생들도 원주율을 3.14로 어림잡아 계산하지만, 왜 이 값이 끝없이 이어지는지 궁금해하는 아이가 있다면 이런 역사 이야기를 들려주는 것도 좋은 동기부여가 될 거예요.</p>
+      <p>한 가지 재미있는 사실은, 3월 14일이 '파이 데이'로 불린다는 거예요. 3.14라는 숫자와 날짜가 똑같아서 붙여진 이름인데, 해외 여러 학교에서는 이날 파이를 나눠 먹으며 원주율을 기념하기도 한답니다. 저희 체험 페이지에서는 지름을 직접 바꿔가며 원이 굴러가는 모습을 애니메이션으로 볼 수 있어요. 눈으로 직접 "어, 정말 3바퀴보다 조금 더 가네?"를 확인하는 순간이 이 개념을 이해하는 가장 빠른 지름길이라고 생각합니다. 집에 있는 컵, 접시, 시계처럼 둥근 물건 몇 개를 골라 실제로 줄자로 지름과 둘레를 재보고, 둘레를 지름으로 나눠보는 활동을 함께 해보시는 것도 추천해요. 물건마다 재는 오차는 조금씩 있어도 결과가 항상 3.1 언저리로 나온다는 걸 여러 번 확인하고 나면, 원주율이라는 숫자가 훨씬 친근하게 느껴질 거예요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="pi-circumference.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>수학 시각화 실험실 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

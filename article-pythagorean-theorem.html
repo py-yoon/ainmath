@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>피타고라스 정리, 정사각형 세 개로 이해하기 | 수학 시각화 실험실</title>
+<meta name="description" content="중학교 수학을 통틀어 가장 유명한 공식 하나를 꼽으라면 아마 a²+b²=c²일 거예요. 저도 처음 이 공식을 배웠을 때는 그냥 시험에 나오니까 ...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{
+    display:inline-flex;align-items:center;gap:6px;
+    color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;
+  }
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;
+    padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;
+  }
+  h1{
+    font-family:'Do Hyeon',sans-serif;font-weight:400;
+    font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;
+  }
+  .meta{color:var(--ink-soft);font-size:13.5px;margin:0 0 26px;}
+  .card{
+    background:var(--card);border-radius:22px;box-shadow:var(--shadow);
+    padding:clamp(20px,4vw,40px);
+  }
+  .article-body p{
+    font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;
+  }
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;
+    background:#6C4CF7;text-decoration:none;
+    padding:14px 22px;border-radius:14px;
+    transition:transform .15s ease;
+  }
+  .cta-btn:hover{transform:translateY(-2px);}
+  .cta-soon{font-size:14px;color:var(--ink-soft);margin:0;}
+  .cta-soon a{color:#6C4CF7;}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:12.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#6C4CF7;background:#EEE8FF">📐 도형·기하</span>
+  <h1>피타고라스 정리, 정사각형 세 개로 이해하기</h1>
+  <p class="meta">중학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>중학교 수학을 통틀어 가장 유명한 공식 하나를 꼽으라면 아마 a²+b²=c²일 거예요. 저도 처음 이 공식을 배웠을 때는 그냥 시험에 나오니까 외웠는데, 나중에 이 식이 실제로 무엇을 의미하는지 그림으로 보고 나서야 진짜로 이해가 됐던 기억이 나요.</p>
+      <p>핵심 아이디어는 이래요. 직각삼각형에서 직각을 낀 두 변을 각각 a, b라고 하고, 가장 긴 변(빗변)을 c라고 하면, 세 변을 각각 한 변으로 하는 정사각형을 그렸을 때 작은 두 정사각형의 넓이를 합치면 큰 정사각형의 넓이와 정확히 같아진다는 거예요. 3-4-5 삼각형으로 예를 들면 3×3=9, 4×4=16이고 둘을 더하면 25인데, 이는 5×5인 25와 딱 맞아떨어집니다.</p>
+      <p>이 정리가 특별한 이유는 증명 방법이 수십 가지가 넘는다는 점이에요. 그림을 잘라 붙여서 넓이가 같음을 보여주는 방법도 있고, 정사각형 안에 삼각형 네 개를 배치해서 보여주는 방법도 있어요. 저희 사이트에서는 같은 삼각형 네 개를 이리저리 옮기기만 해도 c²로 보이던 넓이가 a²와 b²로 다시 나뉘는 걸 애니메이션으로 보여주는데, 직접 눈으로 보면 "아 진짜 똑같은 넓이구나" 하는 확신이 훨씬 빨리 생겨요.</p>
+      <p>피타고라스 정리는 교실 밖에서도 쓸모가 많습니다. 목수가 벽이 직각으로 잘 세워졌는지 확인할 때 3-4-5 비율의 줄자를 쓰는 것도 이 정리 덕분이고, 지도에서 두 지점 사이의 직선 거리를 계산할 때도, 텔레비전이나 모니터의 화면 크기를 표시할 때도 이 공식이 숨어 있어요.</p>
+      <p>흥미로운 점은 이 정리의 '역'도 성립한다는 거예요. 즉 어떤 삼각형의 세 변의 길이가 a²+b²=c²를 만족하면, 굳이 각도기를 대보지 않아도 그 삼각형은 반드시 직각삼각형이라는 뜻입니다. 이 원리는 실제로 아주 오래전부터 쓰였는데, 고대 이집트에서는 밧줄에 일정한 간격으로 매듭을 지어 3:4:5 비율의 삼각형을 만들고, 이를 이용해 피라미드나 논밭의 직각 모서리를 정확하게 잡았다고 전해집니다. 측량 기술이 지금처럼 발달하지 않았던 시절에, 단순한 밧줄 하나로 완벽한 직각을 만들어냈다는 게 정말 지혜로운 발상이죠. 지금도 목수나 정원사들이 벽이나 담장의 각을 확인할 때 비슷한 원리를 사용한다는 걸 알면, 수천 년 전의 수학이 지금까지도 살아있다는 게 새삼 신기하게 느껴집니다.</p>
+      <p>한 가지 꿀팁을 드리자면, 3-4-5, 5-12-13, 8-15-17처럼 세 변이 모두 정수로 딱 떨어지는 조합을 '피타고라스 세 쌍'이라고 부르는데, 이런 조합을 몇 개 외워두면 문제를 풀 때 계산이 훨씬 빨라져요. 아이들에게는 이런 세 쌍을 찾는 걸 퀴즈처럼 내주면 은근히 재미있어하더라고요. 처음에는 두 변만 주어졌을 때 나머지 한 변을 계산하는 문제부터 시작해서, 익숙해지면 반대로 세 변의 길이를 던져주고 "이게 직각삼각형이 맞을까?"를 판단하는 문제로 넘어가면 사고력이 한층 더 깊어집니다. 두 방향의 문제를 오가며 연습하다 보면, 공식 하나가 '변을 구하는 도구'이자 '삼각형의 성질을 확인하는 도구'로도 쓰인다는 걸 자연스럽게 체득하게 돼요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="pythagorean-theorem.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>수학 시각화 실험실 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

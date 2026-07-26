@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>소수 탐험, 체로 걸러내듯 숫자를 지워보기 | 수학 시각화 실험실</title>
+<meta name="description" content="숫자 1부터 100까지 쭉 늘어놓고, 2의 배수를 모두 지우고, 3의 배수를 모두 지우고, 이런 식으로 계속 지워나가다 보면 마지막에 남는 숫자...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{
+    display:inline-flex;align-items:center;gap:6px;
+    color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;
+  }
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;
+    padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;
+  }
+  h1{
+    font-family:'Do Hyeon',sans-serif;font-weight:400;
+    font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;
+  }
+  .meta{color:var(--ink-soft);font-size:13.5px;margin:0 0 26px;}
+  .card{
+    background:var(--card);border-radius:22px;box-shadow:var(--shadow);
+    padding:clamp(20px,4vw,40px);
+  }
+  .article-body p{
+    font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;
+  }
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;
+    background:#FF5B57;text-decoration:none;
+    padding:14px 22px;border-radius:14px;
+    transition:transform .15s ease;
+  }
+  .cta-btn:hover{transform:translateY(-2px);}
+  .cta-soon{font-size:14px;color:var(--ink-soft);margin:0;}
+  .cta-soon a{color:#FF5B57;}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:12.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#FF5B57;background:#FFEAE8">🔢 수와 연산</span>
+  <h1>소수 탐험, 체로 걸러내듯 숫자를 지워보기</h1>
+  <p class="meta">초등 고학년 ~ 중학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>숫자 1부터 100까지 쭉 늘어놓고, 2의 배수를 모두 지우고, 3의 배수를 모두 지우고, 이런 식으로 계속 지워나가다 보면 마지막에 남는 숫자들이 있어요. 이 숫자들이 바로 '소수'입니다. 이 방법에는 특별한 이름이 붙어 있는데, 기원전 그리스의 수학자 에라토스테네스가 고안했다고 해서 '에라토스테네스의 체'라고 불러요.</p>
+      <p>소수란 1과 자기 자신 외에는 나누어떨어지지 않는 수를 말해요. 2, 3, 5, 7, 11처럼요. 처음 배울 때는 "왜 1은 소수가 아니지?"라는 질문을 많이 하는데, 소수의 정의상 약수가 정확히 2개(1과 자기 자신)여야 하는데 1은 약수가 1개뿐이라 소수에서 제외됩니다. 이 부분이 헷갈리기 쉬우니 꼭 짚고 넘어가시는 게 좋아요.</p>
+      <p>에라토스테네스의 체가 흥미로운 이유는 눈으로 규칙을 발견할 수 있다는 점이에요. 100칸짜리 표에서 2의 배수를 색칠하면 세로줄이 규칙적으로 나타나고, 3의 배수를 색칠하면 대각선 모양의 패턴이 보여요. 이런 시각적 패턴을 보면서 아이들은 저절로 배수와 약수의 관계를 체득하게 됩니다.</p>
+      <p>소수는 단순한 수학 개념을 넘어 우리 생활 속 보안 기술과도 깊은 관련이 있어요. 인터넷 뱅킹이나 온라인 쇼핑을 할 때 사용하는 암호화 기술의 상당수가, 아주 큰 소수 두 개를 곱한 값을 다시 원래의 두 소수로 분해하기가 엄청나게 어렵다는 원리를 이용합니다. 즉, 초등학생이 배우는 소수 개념이 사실은 현대 인터넷 보안의 핵심 원리이기도 한 거예요.</p>
+      <p>소수를 계속 찾다 보면 재미있는 질문들이 꼬리를 뭅니다. 소수는 끝없이 존재할까요? 답은 '그렇다'입니다. 이미 2000년도 더 전에 그리스의 수학자 유클리드가 소수가 무한히 많다는 것을 증명했어요. 또 3과 5, 11과 13처럼 차이가 딱 2인 소수 쌍을 '쌍둥이 소수'라고 부르는데, 숫자가 아무리 커져도 이런 쌍둥이 소수가 계속 나타나는지는 아직도 수학자들이 확실하게 증명하지 못한 미해결 문제랍니다. 요즘도 전 세계 수학자와 컴퓨터들이 협력해서 자릿수가 수천만 개나 되는 어마어마하게 큰 소수를 찾아내는 프로젝트를 진행하고 있어요. 100칸 표에서 소수를 찾는 간단한 활동이, 사실은 지금 이 순간에도 전 세계 연구자들이 매달리고 있는 살아있는 수학 문제와 맞닿아 있다는 걸 알면 아이들도 소수를 다시 보게 될 거예요.</p>
+      <p>체험 활동으로는 100칸 표를 인쇄해서 직접 배수를 지워나가는 것도 좋지만, 숫자가 커질수록 지워야 할 배수가 많아 시간이 오래 걸리는 단점이 있어요. 저희 사이트에서는 이 과정을 애니메이션으로 빠르게 보여줘서, 어떤 숫자의 배수부터 지워지고 최종적으로 어떤 숫자들이 소수로 남는지 한눈에 확인할 수 있도록 준비 중입니다. 아이와 함께 100까지의 소수를 다 찾아본 뒤, "이 중에 제일 큰 소수는 뭘까", "97 다음 소수는 어디서 나올까"처럼 스스로 표를 뒤적이며 답을 찾아보게 하면 단순 암기보다 훨씬 오래가는 감각이 생깁니다. 표 전체를 색칠하고 나서 남은 소수의 개수를 세어보고, 100 이하에 소수가 몇 개나 있는지 미리 예상해본 다음 답을 맞혀보는 것도 아이들이 좋아하는 마무리 활동이에요.</p>
+    </div>
+    <div class="cta">
+      <p class="cta-soon">체험 페이지는 곧 추가될 예정이에요. <a href="index.html">전체 목록 보러가기 →</a></p>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>수학 시각화 실험실 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

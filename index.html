@@ -1,517 +1,301 @@
 <!DOCTYPE html>
-
 <html lang="ko">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>수학 시각화 실험실</title>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
-
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
-
 <style>
-
-:root{
-
---paper:#FAF5E9;
-
---paper-line:#E9E1CF;
-
---ink:#22283A;
-
---ink-soft:#5B6178;
-
---violet:#6C4CF7;
-
---violet-soft:#EEE8FF;
-
---coral:#FF5B57;
-
---coral-soft:#FFEAE8;
-
---green:#4CAF8E;
-
---green-soft:#E3F5EE;
-
---blue:#4C8BF5;
-
---blue-soft:#E7F0FF;
-
---teal:#2EC4C6;
-
---teal-soft:#E4FAF9;
-
---card:#FFFFFF;
-
---shadow: 0 10px 30px rgba(34,40,58,0.08);
-
-}
-
-*{box-sizing:border-box;}
-
-html,body{margin:0;padding:0;}
-
-body{
-
-background:
-
-linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px,
-
-var(--paper);
-
-color:var(--ink);
-
-font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
-
-min-height:100vh;
-
-padding: 40px 20px 90px;
-
-}
-
-.wrap{max-width:1080px;margin:0 auto;}
-
-.eyebrow{
-
-display:inline-flex;align-items:center;gap:8px;
-
-font-family:'Do Hyeon',sans-serif;
-
-color:var(--violet);
-
-background:var(--violet-soft);
-
-padding:6px 14px;border-radius:999px;
-
-font-size:14px;letter-spacing:0.02em;
-
-margin-bottom:14px;
-
-}
-
-h1{
-
-font-family:'Do Hyeon',sans-serif;
-
-font-weight:400;
-
-font-size:clamp(30px,5vw,50px);
-
-line-height:1.25;
-
-margin:0 0 12px;
-
-}
-
-h1 span{color:var(--coral);}
-
-.sub{
-
-color:var(--ink-soft);
-
-font-size:16px;
-
-line-height:1.75;
-
-max-width:64ch;
-
-margin:0 0 30px;
-
-}
-
-/* filter bar */
-
-.filter-bar{
-
-display:flex;flex-wrap:wrap;gap:10px;
-
-margin-bottom:38px;
-
-position:sticky;top:12px;z-index:10;
-
-}
-
-.filter-btn{
-
-font-family:'Do Hyeon',sans-serif;font-size:15px;
-
-background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);
-
-border-radius:999px;padding:9px 18px;cursor:pointer;
-
-box-shadow:var(--shadow);
-
-transition:all .15s ease;
-
-}
-
-.filter-btn:hover{border-color:var(--violet);color:var(--violet);}
-
-.filter-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
-
-.filter-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
-
-/* category sections */
-
-.category{margin-bottom:44px;}
-
-.category-head{
-
-display:flex;align-items:center;gap:12px;margin-bottom:18px;
-
-}
-
-.category-dot{width:14px;height:14px;border-radius:5px;flex:none;}
-
-.category-title{
-
-font-family:'Do Hyeon',sans-serif;font-size:22px;color:var(--ink);
-
-}
-
-.category-count{
-
-font-size:13px;color:var(--ink-soft);
-
-background:var(--paper);border:1px solid var(--paper-line);
-
-border-radius:999px;padding:3px 10px;
-
-}
-
-.grid{
-
-display:grid;
-
-grid-template-columns:repeat(auto-fill, minmax(250px,1fr));
-
-gap:18px;
-
-}
-
-.card{
-
-background:var(--card);
-
-border-radius:20px;
-
-box-shadow:var(--shadow);
-
-padding:22px;
-
-display:flex;flex-direction:column;gap:12px;
-
-text-decoration:none;color:var(--ink);
-
-border:2px solid transparent;
-
-transition:transform .18s ease, border-color .18s ease;
-
-position:relative;
-
-}
-
-.card.live:hover{transform:translateY(-4px);border-color:var(--card-accent, var(--violet));}
-
-.card.disabled{opacity:0.55;cursor:default;}
-
-.card.disabled:hover{transform:none;}
-
-.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
-
-.card-icon{
-
-width:38px;height:38px;border-radius:11px;
-
-display:flex;align-items:center;justify-content:center;
-
-font-size:19px;flex:none;
-
-}
-
-.status{
-
-font-size:11.5px;font-family:'Do Hyeon',sans-serif;
-
-padding:4px 9px;border-radius:999px;white-space:nowrap;
-
-}
-
-.status.live{background:var(--green-soft);color:var(--green);}
-
-.status.soon{background:var(--paper);color:var(--ink-soft);border:1px solid var(--paper-line);}
-
-.card-title{font-family:'Do Hyeon',sans-serif;font-size:18px;line-height:1.4;}
-
-.card-desc{font-size:13.5px;color:var(--ink-soft);line-height:1.6;flex:1;}
-
-.grade-tags{display:flex;gap:6px;flex-wrap:wrap;}
-
-.grade-tag{
-
-font-size:11.5px;padding:3px 9px;border-radius:999px;
-
-background:var(--paper);color:var(--ink-soft);border:1px solid var(--paper-line);
-
-}
-
-.grade-tag.low{background:#FFF3E0;color:#B45309;border-color:#FBE3BE;}
-
-.grade-tag.high{background:var(--green-soft);color:var(--green);border-color:#CDEDE1;}
-
-.grade-tag.mid{background:var(--violet-soft);color:var(--violet);border-color:#DCD1FE;}
-
-.card-cta{
-
-font-family:'Do Hyeon',sans-serif;font-size:14px;
-
-color:var(--card-accent,var(--violet));
-
-display:flex;align-items:center;gap:4px;
-
-}
-
-footer{max-width:1080px;margin:20px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
-
+  :root{
+    --paper:#FAF5E9;
+    --paper-line:#E9E1CF;
+    --ink:#22283A;
+    --ink-soft:#5B6178;
+    --violet:#6C4CF7;
+    --violet-soft:#EEE8FF;
+    --coral:#FF5B57;
+    --coral-soft:#FFEAE8;
+    --green:#4CAF8E;
+    --green-soft:#E3F5EE;
+    --blue:#4C8BF5;
+    --blue-soft:#E7F0FF;
+    --teal:#2EC4C6;
+    --teal-soft:#E4FAF9;
+    --card:#FFFFFF;
+    --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px,
+      var(--paper);
+    color:var(--ink);
+    font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh;
+    padding: 40px 20px 90px;
+  }
+  .wrap{max-width:1080px;margin:0 auto;}
+
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Do Hyeon',sans-serif;
+    color:var(--violet);
+    background:var(--violet-soft);
+    padding:6px 14px;border-radius:999px;
+    font-size:14px;letter-spacing:0.02em;
+    margin-bottom:14px;
+  }
+  h1{
+    font-family:'Do Hyeon',sans-serif;
+    font-weight:400;
+    font-size:clamp(30px,5vw,50px);
+    line-height:1.25;
+    margin:0 0 12px;
+  }
+  h1 span{color:var(--coral);}
+  .sub{
+    color:var(--ink-soft);
+    font-size:16px;
+    line-height:1.75;
+    max-width:64ch;
+    margin:0 0 30px;
+  }
+
+  /* filter bar */
+  .filter-bar{
+    display:flex;flex-wrap:wrap;gap:10px;
+    margin-bottom:38px;
+    position:sticky;top:12px;z-index:10;
+  }
+  .filter-btn{
+    font-family:'Do Hyeon',sans-serif;font-size:15px;
+    background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);
+    border-radius:999px;padding:9px 18px;cursor:pointer;
+    box-shadow:var(--shadow);
+    transition:all .15s ease;
+  }
+  .filter-btn:hover{border-color:var(--violet);color:var(--violet);}
+  .filter-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+  .filter-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+
+  /* category sections */
+  .category{margin-bottom:44px;}
+  .category-head{
+    display:flex;align-items:center;gap:12px;margin-bottom:18px;
+  }
+  .category-dot{width:14px;height:14px;border-radius:5px;flex:none;}
+  .category-title{
+    font-family:'Do Hyeon',sans-serif;font-size:22px;color:var(--ink);
+  }
+  .category-count{
+    font-size:13px;color:var(--ink-soft);
+    background:var(--paper);border:1px solid var(--paper-line);
+    border-radius:999px;padding:3px 10px;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(250px,1fr));
+    gap:18px;
+  }
+
+  .card{
+    background:var(--card);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:22px;
+    display:flex;flex-direction:column;gap:12px;
+    text-decoration:none;color:var(--ink);
+    border:2px solid transparent;
+    transition:transform .18s ease, border-color .18s ease;
+    position:relative;
+  }
+  .card.live:hover{transform:translateY(-4px);border-color:var(--card-accent, var(--violet));}
+  .card.disabled{opacity:0.55;cursor:default;}
+  .card.disabled:hover{transform:none;}
+
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+  .card-icon{
+    width:38px;height:38px;border-radius:11px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:19px;flex:none;
+  }
+  .status{
+    font-size:11.5px;font-family:'Do Hyeon',sans-serif;
+    padding:4px 9px;border-radius:999px;white-space:nowrap;
+  }
+  .status.live{background:var(--green-soft);color:var(--green);}
+  .status.soon{background:var(--paper);color:var(--ink-soft);border:1px solid var(--paper-line);}
+
+  .card-title{font-family:'Do Hyeon',sans-serif;font-size:18px;line-height:1.4;}
+  .card-desc{font-size:13.5px;color:var(--ink-soft);line-height:1.6;flex:1;}
+
+  .grade-tags{display:flex;gap:6px;flex-wrap:wrap;}
+  .grade-tag{
+    font-size:11.5px;padding:3px 9px;border-radius:999px;
+    background:var(--paper);color:var(--ink-soft);border:1px solid var(--paper-line);
+  }
+  .grade-tag.low{background:#FFF3E0;color:#B45309;border-color:#FBE3BE;}
+  .grade-tag.high{background:var(--green-soft);color:var(--green);border-color:#CDEDE1;}
+  .grade-tag.mid{background:var(--violet-soft);color:var(--violet);border-color:#DCD1FE;}
+
+  .card-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px;}
+  .card-action{
+    font-family:'Do Hyeon',sans-serif;font-size:13px;
+    text-decoration:none;color:var(--card-accent,var(--violet));
+    background:var(--paper);border:1px solid var(--paper-line);
+    padding:6px 12px;border-radius:999px;
+    transition:all .15s ease;
+  }
+  .card-action:hover{border-color:var(--card-accent,var(--violet));background:#fff;}
+  .card-action.primary{
+    background:var(--card-accent,var(--violet));color:#fff;border-color:transparent;
+  }
+  .card-action.primary:hover{filter:brightness(1.08);}
+
+  footer{max-width:1080px;margin:20px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+  footer p{margin:0 0 10px;}
+  .footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
+  .footer-nav a:hover{color:var(--ink);text-decoration:underline;}
 </style>
-
 </head>
-
 <body>
-
 <div class="wrap">
+  <span class="eyebrow">🧮 수학 시각화 실험실</span>
+  <h1>숫자를 <span>직접 만져보며</span><br>이해하는 수학</h1>
+  <p class="sub">슬라이더를 움직이고 값을 바꿔보면서 개념이 왜 그런지 눈으로 확인하는 사이트예요. 학년 필터로 우리 수준에 맞는 주제를 찾아보세요.</p>
 
-<span class="eyebrow">🧮 수학 시각화 실험실</span>
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-btn active" data-grade="all">전체</button>
+    <button class="filter-btn" data-grade="low">초등 저학년 (1~3학년)</button>
+    <button class="filter-btn" data-grade="high">초등 고학년 (4~6학년)</button>
+    <button class="filter-btn" data-grade="mid">중학생</button>
+  </div>
 
-<h1>숫자를 <span>직접 만져보며</span><br>이해하는 수학</h1>
+  <div id="categories"></div>
 
-<p class="sub">슬라이더를 움직이고 값을 바꿔보면서 개념이 왜 그런지 눈으로 확인하는 사이트예요. 학년 필터로 우리 수준에 맞는 주제를 찾아보세요.</p>
-
-<div class="filter-bar" id="filterBar">
-
-<button class="filter-btn active" data-grade="all">전체</button>
-
-<button class="filter-btn" data-grade="low">초등 저학년 (1~3학년)</button>
-
-<button class="filter-btn" data-grade="high">초등 고학년 (4~6학년)</button>
-
-<button class="filter-btn" data-grade="mid">중학생</button>
-
-</div>
-
-<div id="categories"></div>
-
-<footer>✅ 완성 = 지금 바로 체험할 수 있어요</footer>
-
+  <footer>
+    <p>✅ 완성 = 지금 바로 체험할 수 있어요 · 준비 중 = 다음에 추가될 예정이에요</p>
+    <nav class="footer-nav">
+      <a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a>
+    </nav>
+  </footer>
 </div>
 
 <script>
-
-const CATEGORIES = [
-
-{
-
-key: 'geometry', title: '도형 · 기하', color: 'var(--violet)', bg: 'var(--violet-soft)',
-
-items: [
-
-{ title:'다각형 내각의 합', desc:'변의 개수를 바꾸면 삼각형으로 쪼개지는 모습을 보며 (n−2)×180° 공식을 확인해요.', grades:['high','mid'], status:'live', href:'polygon-angle-sum.html', icon:'△' },
-
-{ title:'원주율(π) 체험', desc:'원을 굴려서 지름의 몇 배만큼 굴러가는지 직접 확인해요.', grades:['high','mid'], status:'live', href:'pi-circumference.html', icon:'◯' },
-
-{ title:'피타고라스 정리', desc:'직각삼각형 세 변 위에 정사각형을 그려 a²+b²=c²를 눈으로 확인해요.', grades:['mid'], status:'live', href:'pythagorean-theorem.html', icon:'◺' },
-
-{ title:'원의 넓이', desc:'원을 피자 조각처럼 잘라 직사각형으로 이어붙이며 넓이 공식을 확인해요.', grades:['high'], status:'live', href:'circle-area.html', icon:'🍕' },
-
-{ title:'닮음과 합동', desc:'배율을 조절하면 도형이 커지고 작아지며 넓이·둘레 비율이 바뀌는 걸 확인해요.', grades:['mid'], status:'live', href:'similarity-congruence.html', icon:'⧉' },
-
-{ title:'합동조건 (SSS·SAS·ASA·RHS·RHA)', desc:'조건에 맞는 숫자를 입력해 삼각형을 만들고, 겹쳐보며 합동을 확인해요.', grades:['mid'], status:'live', href:'congruence-conditions.html', icon:'≅' },
-
-]
-
-},
-
-{
-
-key: 'number', title: '수와 연산', color: 'var(--coral)', bg: 'var(--coral-soft)',
-
-items: [
-
-{ title:'소수 탐험', desc:'에라토스테네스의 체 애니메이션으로 소수를 걸러내는 과정을 확인해요.', grades:['high','mid'], status:'live', href:'prime-sieve.html', icon:'🔢' },
-
-{ title:'최대공약수 · 최소공배수', desc:'두 수를 입력하면 배수 목록에서 겹치는 부분을 시각적으로 찾아요.', grades:['high'], status:'live', href:'gcd-lcm.html', icon:'🔗' },
-
-{ title:'분수 크기 비교', desc:'분자와 분모를 바꾸면 원 그래프와 막대그래프로 크기를 비교해요.', grades:['low','high'], status:'live', href:'fraction-compare.html', icon:'🍰' },
-
-{ title:'약수 찾기', desc:'숫자를 입력하면 직사각형 배열로 약수를 모두 찾아 보여줘요.', grades:['high'], status:'live', href:'divisor-finder.html', icon:'▦' },
-
-]
-
-},
-
-{
-
-key: 'stats', title: '확률과 통계', color: 'var(--green)', bg: 'var(--green-soft)',
-
-items: [
-
-{ title:'동전 · 주사위 시뮬레이터', desc:'시행 횟수를 늘리면 실제 확률에 가까워지는 과정을 그래프로 확인해요.', grades:['high','mid'], status:'live', href:'coin-dice-simulator.html', icon:'🎲' },
-
-{ title:'평균 · 중앙값 · 최빈값', desc:'숫자를 직접 입력하면 세 값이 어떻게 달라지는지 확인해요.', grades:['high','mid'], status:'live', href:'mean-median-mode.html', icon:'📊' },
-
-]
-
-},
-
-{
-
-key: 'function', title: '함수와 그래프', color: 'var(--blue)', bg: 'var(--blue-soft)',
-
-items: [
-
-{ title:'일차함수 그래프', desc:'기울기와 y절편을 슬라이더로 조절하면 직선이 실시간으로 움직여요.', grades:['mid'], status:'live', href:'linear-function-graph.html', icon:'📈' },
-
-{ title:'비례와 반비례', desc:'상수 k를 바꾸면 그래프 모양이 어떻게 달라지는지 관찰해요.', grades:['high','mid'], status:'live', href:'proportion-inverse.html', icon:'⇄' },
-
-{ title:'좌표평면 위 도형 이동', desc:'점을 클릭하거나 좌표를 입력해 대칭·평행이동·회전을 확인해요.', grades:['mid'], status:'live', href:'coordinate-transform.html', icon:'⊹' },
-
-]
-
-},
-
-{
-
-key: 'pattern', title: '재미있는 패턴', color: 'var(--teal)', bg: 'var(--teal-soft)',
-
-items: [
-
-{ title:'파스칼의 삼각형', desc:'줄 수를 입력하면 삼각형이 그려지고 짝수·홀수 패턴이 색칠돼요.', grades:['mid'], status:'live', href:'pascal-triangle.html', icon:'▲' },
-
-{ title:'피보나치 수열과 나선', desc:'항의 개수를 입력하면 나선과 사각형이 자라나는 모습을 확인해요.', grades:['high','mid'], status:'live', href:'fibonacci-spiral.html', icon:'🌀' },
-
-]
-
-},
-
-];
-
-const gradeNames = { low:'초등 저학년', high:'초등 고학년', mid:'중학생' };
-
-const container = document.getElementById('categories');
-
-function cardHtml(item, accentColor){
-
-const gradeTags = item.grades.map(g=>`<span class="grade-tag ${g}">${gradeNames[g]}</span>`).join('');
-
-const gradeAttr = item.grades.join(' ');
-
-const isLive = item.status === 'live';
-
-const tag = isLive ? 'a' : 'div';
-
-const hrefAttr = isLive ? `href="${item.href}"` : '';
-
-return `
-
-<${tag} ${hrefAttr} class="card ${isLive ? 'live' : 'disabled'}" style="--card-accent:${accentColor}" data-grade="${gradeAttr}">
-
-<div class="card-top">
-
-<div class="card-icon" style="background:${accentColor}22;color:${accentColor}">${item.icon}</div>
-
-<span class="status ${isLive ? 'live' : 'soon'}">${isLive ? '✅ 완성' : '준비 중'}</span>
-
-</div>
-
-<div class="card-title">${item.title}</div>
-
-<div class="card-desc">${item.desc}</div>
-
-<div class="grade-tags">${gradeTags}</div>
-
-${isLive ? `<div class="card-cta">바로 체험하기 →</div>` : ''}
-
-</${tag}>
-
-`;
-
-}
-
-function renderCategories(){
-
-container.innerHTML = CATEGORIES.map(cat => `
-
-<div class="category" data-cat="${cat.key}">
-
-<div class="category-head">
-
-<span class="category-dot" style="background:${cat.color}"></span>
-
-<span class="category-title">${cat.title}</span>
-
-<span class="category-count">${cat.items.length}개</span>
-
-</div>
-
-<div class="grid">
-
-${cat.items.map(item => cardHtml(item, cat.color)).join('')}
-
-</div>
-
-</div>
-
-`).join('');
-
-}
-
-function applyFilter(grade){
-
-document.querySelectorAll('.card').forEach(card=>{
-
-const grades = card.dataset.grade.split(' ');
-
-const show = grade === 'all' || grades.includes(grade);
-
-card.style.display = show ? '' : 'none';
-
-});
-
-document.querySelectorAll('.category').forEach(cat=>{
-
-const visibleCards = cat.querySelectorAll('.card:not([style*="display: none"])');
-
-cat.style.display = visibleCards.length ? '' : 'none';
-
-});
-
-}
-
-document.getElementById('filterBar').addEventListener('click', (e)=>{
-
-const btn = e.target.closest('.filter-btn');
-
-if(!btn) return;
-
-document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-
-btn.classList.add('active');
-
-applyFilter(btn.dataset.grade);
-
-});
-
-renderCategories();
-
+  const CATEGORIES = [
+    {
+      key: 'geometry', title: '도형 · 기하', color: 'var(--violet)', bg: 'var(--violet-soft)',
+      items: [
+        { title:'다각형 내각의 합', desc:'변의 개수를 바꾸면 삼각형으로 쪼개지는 모습을 보며 (n−2)×180° 공식을 확인해요.', grades:['high','mid'], status:'live', href:'polygon-angle-sum.html', article:'article-polygon-angle-sum.html', icon:'△' },
+        { title:'원주율(π) 체험', desc:'원을 굴려서 지름의 몇 배만큼 굴러가는지 직접 확인해요.', grades:['high','mid'], status:'live', href:'pi-circumference.html', article:'article-pi-circumference.html', icon:'◯' },
+        { title:'피타고라스 정리', desc:'직각삼각형 세 변 위에 정사각형을 그려 a²+b²=c²를 눈으로 확인해요.', grades:['mid'], status:'live', href:'pythagorean-theorem.html', article:'article-pythagorean-theorem.html', icon:'◺' },
+        { title:'원의 넓이', desc:'원을 피자 조각처럼 잘라 직사각형으로 이어붙이며 넓이 공식을 확인해요.', grades:['high'], status:'soon', article:'article-circle-area.html', icon:'🍕' },
+        { title:'닮음과 합동', desc:'배율을 조절하면 도형이 커지고 작아지며 넓이·둘레 비율이 바뀌는 걸 확인해요.', grades:['mid'], status:'soon', article:'article-similarity-congruence.html', icon:'⧉' },
+      ]
+    },
+    {
+      key: 'number', title: '수와 연산', color: 'var(--coral)', bg: 'var(--coral-soft)',
+      items: [
+        { title:'소수 탐험', desc:'에라토스테네스의 체 애니메이션으로 소수를 걸러내는 과정을 확인해요.', grades:['high','mid'], status:'soon', article:'article-prime-sieve.html', icon:'🔢' },
+        { title:'최대공약수 · 최소공배수', desc:'두 수를 입력하면 배수 목록에서 겹치는 부분을 시각적으로 찾아요.', grades:['high'], status:'soon', article:'article-gcd-lcm.html', icon:'🔗' },
+        { title:'분수 크기 비교', desc:'분자와 분모를 바꾸면 원 그래프와 막대그래프로 크기를 비교해요.', grades:['low','high'], status:'soon', article:'article-fraction-compare.html', icon:'🍰' },
+        { title:'약수 찾기', desc:'숫자를 입력하면 직사각형 배열로 약수를 모두 찾아 보여줘요.', grades:['high'], status:'soon', article:'article-divisors.html', icon:'▦' },
+      ]
+    },
+    {
+      key: 'stats', title: '확률과 통계', color: 'var(--green)', bg: 'var(--green-soft)',
+      items: [
+        { title:'동전 · 주사위 시뮬레이터', desc:'시행 횟수를 늘리면 실제 확률에 가까워지는 과정을 그래프로 확인해요.', grades:['high','mid'], status:'soon', article:'article-coin-dice-probability.html', icon:'🎲' },
+        { title:'평균 · 중앙값 · 최빈값', desc:'숫자를 직접 입력하면 세 값이 어떻게 달라지는지 확인해요.', grades:['high','mid'], status:'soon', article:'article-mean-median-mode.html', icon:'📊' },
+      ]
+    },
+    {
+      key: 'function', title: '함수와 그래프', color: 'var(--blue)', bg: 'var(--blue-soft)',
+      items: [
+        { title:'일차함수 그래프', desc:'기울기와 y절편을 슬라이더로 조절하면 직선이 실시간으로 움직여요.', grades:['mid'], status:'soon', article:'article-linear-function.html', icon:'📈' },
+        { title:'비례와 반비례', desc:'상수 k를 바꾸면 그래프 모양이 어떻게 달라지는지 관찰해요.', grades:['high','mid'], status:'soon', article:'article-proportion-inverse.html', icon:'⇄' },
+        { title:'좌표평면 위 도형 이동', desc:'점을 클릭하거나 좌표를 입력해 대칭·평행이동·회전을 확인해요.', grades:['mid'], status:'soon', icon:'⊹' },
+      ]
+    },
+    {
+      key: 'pattern', title: '재미있는 패턴', color: 'var(--teal)', bg: 'var(--teal-soft)',
+      items: [
+        { title:'파스칼의 삼각형', desc:'줄 수를 입력하면 삼각형이 그려지고 짝수·홀수 패턴이 색칠돼요.', grades:['mid'], status:'soon', article:'article-pascals-triangle.html', icon:'▲' },
+        { title:'피보나치 수열과 나선', desc:'항의 개수를 입력하면 나선과 사각형이 자라나는 모습을 확인해요.', grades:['high','mid'], status:'soon', article:'article-fibonacci-spiral.html', icon:'🌀' },
+      ]
+    },
+  ];
+
+  const gradeNames = { low:'초등 저학년', high:'초등 고학년', mid:'중학생' };
+
+  const container = document.getElementById('categories');
+
+  function cardHtml(item, accentColor){
+    const gradeTags = item.grades.map(g=>`<span class="grade-tag ${g}">${gradeNames[g]}</span>`).join('');
+    const gradeAttr = item.grades.join(' ');
+    const isLive = item.status === 'live';
+    const hasAnyLink = isLive || !!item.article;
+    const actions = [];
+    if(isLive){
+      actions.push(`<a class="card-action primary" href="${item.href}">🎮 체험하기</a>`);
+    }
+    if(item.article){
+      actions.push(`<a class="card-action" href="${item.article}">📖 설명 글 읽기</a>`);
+    }
+    return `
+      <div class="card ${hasAnyLink ? 'live' : 'disabled'}" style="--card-accent:${accentColor}" data-grade="${gradeAttr}">
+        <div class="card-top">
+          <div class="card-icon" style="background:${accentColor}22;color:${accentColor}">${item.icon}</div>
+          <span class="status ${isLive ? 'live' : 'soon'}">${isLive ? '✅ 완성' : '준비 중'}</span>
+        </div>
+        <div class="card-title">${item.title}</div>
+        <div class="card-desc">${item.desc}</div>
+        <div class="grade-tags">${gradeTags}</div>
+        ${actions.length ? `<div class="card-actions">${actions.join('')}</div>` : ''}
+      </div>
+    `;
+  }
+
+  function renderCategories(){
+    container.innerHTML = CATEGORIES.map(cat => `
+      <div class="category" data-cat="${cat.key}">
+        <div class="category-head">
+          <span class="category-dot" style="background:${cat.color}"></span>
+          <span class="category-title">${cat.title}</span>
+          <span class="category-count">${cat.items.length}개</span>
+        </div>
+        <div class="grid">
+          ${cat.items.map(item => cardHtml(item, cat.color)).join('')}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function applyFilter(grade){
+    document.querySelectorAll('.card').forEach(card=>{
+      const grades = card.dataset.grade.split(' ');
+      const show = grade === 'all' || grades.includes(grade);
+      card.style.display = show ? '' : 'none';
+    });
+    document.querySelectorAll('.category').forEach(cat=>{
+      const visibleCards = cat.querySelectorAll('.card:not([style*="display: none"])');
+      cat.style.display = visibleCards.length ? '' : 'none';
+    });
+  }
+
+  document.getElementById('filterBar').addEventListener('click', (e)=>{
+    const btn = e.target.closest('.filter-btn');
+    if(!btn) return;
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilter(btn.dataset.grade);
+  });
+
+  renderCategories();
 </script>
-
 </body>
-
 </html>

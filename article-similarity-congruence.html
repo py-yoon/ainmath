@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>닮음과 합동, 확대해도 변하지 않는 것 | 수학 시각화 실험실</title>
+<meta name="description" content="사진을 확대하거나 축소해 본 적 있으신가요? 원본 사진과 확대된 사진은 크기는 다르지만 모양은 똑같죠. 수학에서는 이런 관계를 '닮음'이라고 부...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{
+    display:inline-flex;align-items:center;gap:6px;
+    color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;
+  }
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;
+    padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;
+  }
+  h1{
+    font-family:'Do Hyeon',sans-serif;font-weight:400;
+    font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;
+  }
+  .meta{color:var(--ink-soft);font-size:13.5px;margin:0 0 26px;}
+  .card{
+    background:var(--card);border-radius:22px;box-shadow:var(--shadow);
+    padding:clamp(20px,4vw,40px);
+  }
+  .article-body p{
+    font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;
+  }
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;
+    background:#6C4CF7;text-decoration:none;
+    padding:14px 22px;border-radius:14px;
+    transition:transform .15s ease;
+  }
+  .cta-btn:hover{transform:translateY(-2px);}
+  .cta-soon{font-size:14px;color:var(--ink-soft);margin:0;}
+  .cta-soon a{color:#6C4CF7;}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:12.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#6C4CF7;background:#EEE8FF">📐 도형·기하</span>
+  <h1>닮음과 합동, 확대해도 변하지 않는 것</h1>
+  <p class="meta">중학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>사진을 확대하거나 축소해 본 적 있으신가요? 원본 사진과 확대된 사진은 크기는 다르지만 모양은 똑같죠. 수학에서는 이런 관계를 '닮음'이라고 부릅니다. 반면 크기와 모양이 완전히 똑같아서 겹쳐놓으면 딱 맞는 도형은 '합동'이라고 해요.</p>
+      <p>닮음과 합동을 구분하는 게 처음엔 헷갈릴 수 있어요. 두 도형의 대응하는 각이 모두 같으면 일단 닮음의 조건 중 하나는 만족한 거고, 거기에 변의 길이 비율까지 똑같으면 완전한 닮음이 됩니다. 만약 그 비율이 1:1이라면, 즉 크기까지 똑같다면 그건 합동이 되는 거예요. 그러니까 합동은 닮음의 특별한 경우라고 볼 수 있죠.</p>
+      <p>이 개념이 재미있는 이유는 배율을 조절했을 때 넓이가 변하는 방식이에요. 변의 길이를 2배로 늘리면 넓이는 2배가 아니라 4배(2²)가 되고, 3배로 늘리면 넓이는 9배(3²)가 됩니다. 부피가 있는 입체 도형이라면 3배로 늘렸을 때 부피는 무려 27배(3³)가 되고요. 이 '제곱과 세제곱의 마법'을 모르고 지도나 축척을 계산하면 큰 오차가 생길 수 있어요.</p>
+      <p>실생활에서 닮음은 지도 제작, 건축 설계도, 모형 자동차나 프라모델을 만들 때 아주 중요하게 쓰입니다. 실제 건물을 1:100 비율로 줄인 설계도를 보고 실제 크기를 계산하려면 닮음비 개념이 필수예요. 사진 인화점에서 사진 크기를 확대할 때 비율이 안 맞으면 사진이 이상하게 늘어나 보이는 것도 닮음이 깨졌기 때문입니다.</p>
+      <p>중학교 과정에서는 두 삼각형이 닮음인지 판단하는 세 가지 조건도 함께 배우게 됩니다. 세 변의 비율이 모두 같은 경우, 두 변의 비율이 같고 그 사이에 낀 각이 같은 경우, 두 각이 각각 같은 경우예요. 이 중에서 '두 각이 같으면 닮음'이라는 조건이 특히 유용한 이유는, 삼각형의 세 내각의 합이 항상 180도라는 사실 때문에 두 각만 같아도 나머지 한 각은 자동으로 같아지기 때문이에요. 그래서 실제 문제를 풀 때는 각 두 개만 확인하면 되니 계산이 훨씬 간단해집니다. 그림자를 이용해 나무나 건물의 높이를 재는 유명한 방법도 바로 이 원리를 이용한 거예요. 막대기 하나와 그 그림자 길이만 알면, 같은 시간에 생기는 큰 건물의 그림자 길이를 재서 닮음비로 건물의 실제 높이를 계산할 수 있답니다.</p>
+      <p>아이들과 함께 공부할 때는 같은 도형을 여러 배율로 그려보고, 넓이가 몇 배로 커지는지 직접 세어보게 하는 활동을 추천해요. 처음엔 "2배로 늘렸으니까 넓이도 2배겠지"라고 예상했다가, 실제로 세어보고 4배라는 걸 알게 되면 그 놀라움이 오래 기억에 남거든요. 저희 체험 페이지에서도 배율 슬라이더를 움직이며 넓이와 둘레가 어떻게 달라지는지 실시간으로 확인할 수 있도록 준비하고 있습니다. 처음 예상과 실제 결과가 다르게 나오는 순간을 직접 경험하게 해주는 것이, 어떤 설명보다도 닮음의 제곱·세제곱 법칙을 오래 기억하게 만드는 가장 확실한 방법이라고 생각해요. 실제로 우리 집 마당이나 교실 바닥을 축소한 도면을 함께 그려보면서 실제 길이와 도면 위 길이를 번갈아 계산해보는 것도, 닮음비 개념을 몸에 익히는 데 아주 좋은 활동이 됩니다.</p>
+    </div>
+    <div class="cta">
+      <p class="cta-soon">체험 페이지는 곧 추가될 예정이에요. <a href="index.html">전체 목록 보러가기 →</a></p>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>수학 시각화 실험실 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>피보나치 수열과 나선, 해바라기 속 숨은 규칙 | 수학 시각화 실험실</title>
+<meta name="description" content="해바라기 씨앗이 촘촘히 박힌 모양이나 솔방울의 비늘 배열을 자세히 보면, 시계 방향과 반시계 방향으로 도는 나선의 개수가 특정한 숫자들로 딱 떨...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{
+    display:inline-flex;align-items:center;gap:6px;
+    color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;
+  }
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;
+    padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;
+  }
+  h1{
+    font-family:'Do Hyeon',sans-serif;font-weight:400;
+    font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;
+  }
+  .meta{color:var(--ink-soft);font-size:13.5px;margin:0 0 26px;}
+  .card{
+    background:var(--card);border-radius:22px;box-shadow:var(--shadow);
+    padding:clamp(20px,4vw,40px);
+  }
+  .article-body p{
+    font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;
+  }
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;
+    background:#2EC4C6;text-decoration:none;
+    padding:14px 22px;border-radius:14px;
+    transition:transform .15s ease;
+  }
+  .cta-btn:hover{transform:translateY(-2px);}
+  .cta-soon{font-size:14px;color:var(--ink-soft);margin:0;}
+  .cta-soon a{color:#2EC4C6;}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:12.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#2EC4C6;background:#E4FAF9">🌀 재미있는 패턴</span>
+  <h1>피보나치 수열과 나선, 해바라기 속 숨은 규칙</h1>
+  <p class="meta">초등 고학년 ~ 중학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>해바라기 씨앗이 촘촘히 박힌 모양이나 솔방울의 비늘 배열을 자세히 보면, 시계 방향과 반시계 방향으로 도는 나선의 개수가 특정한 숫자들로 딱 떨어진다는 사실, 알고 계셨나요? 그 숫자들이 바로 1, 1, 2, 3, 5, 8, 13, 21...로 이어지는 피보나치 수열입니다.</p>
+      <p>피보나치 수열을 만드는 규칙은 아주 단순해요. 앞의 두 숫자를 더하면 다음 숫자가 나옵니다. 1과 1을 더하면 2, 1과 2를 더하면 3, 2와 3을 더하면 5, 이런 식으로 끝없이 이어져요. 이렇게 단순한 규칙에서 자연의 신비로운 패턴이 나온다는 게 이 수열이 유명해진 이유입니다.</p>
+      <p>피보나치 수열에서 이어지는 두 숫자의 비율을 계속 계산해 나가면, 그 값이 점점 1.618...이라는 특별한 숫자에 가까워져요. 이 숫자를 황금비라고 부르는데, 사람들이 가장 아름답다고 느끼는 비율로 알려져 있습니다. 파르테논 신전의 기둥 비율, 명함이나 신용카드의 가로세로 비율, 유명 화가들의 그림 구도에서도 황금비가 발견된다는 이야기는 한 번쯤 들어보셨을 거예요.</p>
+      <p>피보나치 수열을 정사각형으로 시각화하면 아름다운 나선이 만들어져요. 크기가 1, 1, 2, 3, 5, 8인 정사각형을 나란히 이어 붙이고, 각 정사각형 안에 사분원을 그려 연결하면 자연스럽게 소용돌이 모양의 나선이 그려집니다. 이 나선 모양이 앵무조개 껍데기의 단면, 태풍의 구름 모양, 은하수의 팔 모양과 신기할 정도로 닮아있어서 '자연의 수학'이라고도 불려요.</p>
+      <p>피보나치 수열이 식물에서 자주 발견되는 데는 과학적인 이유가 있다는 가설도 있어요. 식물이 줄기 둘레를 따라 잎을 배치할 때, 이웃한 잎끼리 서로 햇빛을 가장 적게 가리도록 특정한 각도로 어긋나게 자라는데, 이 각도가 황금비와 깊은 관련이 있다는 거예요. 결과적으로 잎이나 씨앗이 나선 모양으로 촘촘하게, 그러면서도 서로 겹치지 않게 배열되는 효율적인 구조가 만들어진다고 해요. 물론 식물마다 예외도 많고 아직 완벽하게 밝혀지지 않은 부분도 있지만, 자연이 생존을 위해 스스로 수학적인 최적의 배열을 찾아낸다는 이야기 자체가 아이들의 호기심을 자극하기에 충분합니다. 요즘은 피보나치 수열이 컴퓨터 프로그래밍을 처음 배울 때 '재귀 함수'라는 개념을 설명하는 단골 예제로도 쓰이는데, 앞의 두 항을 계속 참조하는 이 수열의 구조가 재귀의 개념과 정확히 맞아떨어지기 때문이에요.</p>
+      <p>숫자만으로 배우면 다소 딱딱하게 느껴질 수 있지만, 실제 자연 사진과 함께 나선을 그려보면 아이들이 훨씬 흥미로워합니다. 저희 체험 페이지에서는 항의 개수를 입력하면 정사각형들이 하나씩 늘어나면서 나선이 자라나는 과정을 애니메이션으로 볼 수 있도록 준비하고 있어요. 규칙 하나가 이렇게 아름다운 그림으로 이어진다는 걸 직접 확인해보시길 바랍니다. 나선을 다 그린 뒤에는 해바라기나 솔방울, 소라 껍데기 사진과 나란히 놓고 비교해보는 것도 좋은 마무리 활동이에요. 화면 속 도형과 진짜 자연이 닮아있다는 걸 눈으로 확인하는 순간, 수학이 교과서 밖에도 살아있다는 걸 실감하게 될 거예요.</p>
+    </div>
+    <div class="cta">
+      <p class="cta-soon">체험 페이지는 곧 추가될 예정이에요. <a href="index.html">전체 목록 보러가기 →</a></p>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>수학 시각화 실험실 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

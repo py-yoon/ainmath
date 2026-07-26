@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>파스칼의 삼각형, 덧셈 하나로 쏟아지는 패턴 | 수학 시각화 실험실</title>
+<meta name="description" content="숫자 1로 시작해서 아래로 내려갈수록 점점 넓어지는 삼각형 모양의 숫자 배열을 본 적 있나요? 각 줄의 숫자는 바로 위 두 숫자를 더해서 만들어...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{
+    display:inline-flex;align-items:center;gap:6px;
+    color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;
+  }
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;
+    padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;
+  }
+  h1{
+    font-family:'Do Hyeon',sans-serif;font-weight:400;
+    font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;
+  }
+  .meta{color:var(--ink-soft);font-size:13.5px;margin:0 0 26px;}
+  .card{
+    background:var(--card);border-radius:22px;box-shadow:var(--shadow);
+    padding:clamp(20px,4vw,40px);
+  }
+  .article-body p{
+    font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;
+  }
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;
+    background:#2EC4C6;text-decoration:none;
+    padding:14px 22px;border-radius:14px;
+    transition:transform .15s ease;
+  }
+  .cta-btn:hover{transform:translateY(-2px);}
+  .cta-soon{font-size:14px;color:var(--ink-soft);margin:0;}
+  .cta-soon a{color:#2EC4C6;}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:12.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#2EC4C6;background:#E4FAF9">🌀 재미있는 패턴</span>
+  <h1>파스칼의 삼각형, 덧셈 하나로 쏟아지는 패턴</h1>
+  <p class="meta">중학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>숫자 1로 시작해서 아래로 내려갈수록 점점 넓어지는 삼각형 모양의 숫자 배열을 본 적 있나요? 각 줄의 숫자는 바로 위 두 숫자를 더해서 만들어지는데, 이게 바로 파스칼의 삼각형이에요. 단순한 덧셈 규칙 하나로 이렇게 다양한 수학적 패턴이 쏟아져 나온다는 게 정말 신기합니다.</p>
+      <p>만드는 방법은 아주 간단해요. 맨 위에 1을 놓고, 그 아래 줄에는 항상 양 끝에 1을 두고, 가운데 숫자들은 바로 위 두 숫자를 더한 값을 적으면 됩니다. 세 번째 줄은 1, 2, 1이 되고, 네 번째 줄은 1, 3, 3, 1이 되는 식이죠. 이렇게 계속 만들다 보면 다섯 번째 줄은 1, 4, 6, 4, 1이 됩니다.</p>
+      <p>이 삼각형 안에는 놀라운 패턴들이 숨어 있어요. 각 줄의 숫자를 모두 더하면 2의 거듭제곱(1, 2, 4, 8, 16...)이 정확히 나오고, 짝수와 홀수를 다른 색으로 칠하면 프랙탈이라는 자기 반복 패턴이 나타납니다. 대각선 방향으로 숫자를 더해가면 피보나치 수열이 숨어 있다는 것도 발견할 수 있어요. 하나의 삼각형에 이렇게 많은 수학적 보물이 숨어 있다는 게 파스칼의 삼각형이 오랫동안 사랑받는 이유예요.</p>
+      <p>실용적으로는 확률과 조합 계산에 파스칼의 삼각형이 직접 쓰입니다. 동전을 여러 번 던졌을 때 앞면이 몇 번 나올 확률이 얼마인지, 여러 개 중에서 몇 개를 고르는 경우의 수가 얼마인지를 계산할 때, 파스칼의 삼각형의 각 줄이 정확한 답을 알려줘요. 대수학에서 (x+y)의 거듭제곱을 전개할 때 나오는 계수들도 파스칼의 삼각형과 정확히 일치합니다.</p>
+      <p>파스칼의 삼각형은 조합의 개수를 나타내는 표이기도 해요. n번째 줄의 r번째 숫자는 정확히 'n개 중에서 r개를 고르는 경우의 수'와 같습니다. 예를 들어 다섯 명 중에서 두 명을 뽑는 경우의 수가 궁금하다면, 파스칼의 삼각형에서 다섯 번째 줄을 찾아 세 번째 숫자를 보면 바로 답(10가지)을 확인할 수 있어요. 복잡한 조합 공식을 계산기 없이 암산으로 풀 수 있다는 게 이 삼각형의 큰 매력이죠. 또 짝수와 홀수를 색칠해서 만든 패턴을 계속 확대해서 보면, '시에르핀스키 삼각형'이라는 프랙탈 도형과 놀랍도록 비슷한 모양이 나타납니다. 하나의 숫자 삼각형에서 확률, 조합, 프랙탈까지 이어진다는 게, 왜 수학자들이 파스칼의 삼각형을 두고두고 연구해왔는지 잘 보여주는 부분이에요.</p>
+      <p>아이들과 함께 할 때는 직접 삼각형을 그려가며 짝수는 노란색, 홀수는 파란색으로 칠해보게 하는 걸 추천해요. 줄 수가 늘어날수록 신기한 무늬가 나타나는 걸 보면 다들 눈을 반짝이더라고요. 저희 사이트에서는 줄 수를 입력하면 삼각형이 자동으로 그려지고 짝수, 홀수 패턴이 색으로 표시되도록 준비하고 있습니다. 줄 수를 10, 20, 30으로 점점 늘려가며 무늬가 점점 촘촘하고 복잡해지는 모습을 지켜보면, 단순한 덧셈 규칙 하나가 이렇게 아름다운 패턴을 만들어낸다는 사실에 아이들도 감탄하게 될 거예요. 색칠하다 보면 삼각형 모양 안에 또 다른 작은 삼각형들이 반복해서 나타나는 걸 눈치채는 아이들도 있는데, 그 순간이 바로 프랙탈이라는 개념을 몸으로 먼저 만나는 순간이랍니다.</p>
+    </div>
+    <div class="cta">
+      <p class="cta-soon">체험 페이지는 곧 추가될 예정이에요. <a href="index.html">전체 목록 보러가기 →</a></p>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>수학 시각화 실험실 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

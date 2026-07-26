@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>다각형 내각의 합, 삼각형 쪼개기부터 시작해요 | 수학 시각화 실험실</title>
+<meta name="description" content="어릴 때 학교 운동장에 그려진 육각형 모양의 정글짐을 보면서, 저 뾰족뾰족한 모서리 각도를 다 더하면 얼마나 될까 괜히 궁금했던 기억이 있어요....">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{
+    display:inline-flex;align-items:center;gap:6px;
+    color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;
+  }
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;
+    padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;
+  }
+  h1{
+    font-family:'Do Hyeon',sans-serif;font-weight:400;
+    font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;
+  }
+  .meta{color:var(--ink-soft);font-size:13.5px;margin:0 0 26px;}
+  .card{
+    background:var(--card);border-radius:22px;box-shadow:var(--shadow);
+    padding:clamp(20px,4vw,40px);
+  }
+  .article-body p{
+    font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;
+  }
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;
+    background:#6C4CF7;text-decoration:none;
+    padding:14px 22px;border-radius:14px;
+    transition:transform .15s ease;
+  }
+  .cta-btn:hover{transform:translateY(-2px);}
+  .cta-soon{font-size:14px;color:var(--ink-soft);margin:0;}
+  .cta-soon a{color:#6C4CF7;}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:12.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#6C4CF7;background:#EEE8FF">📐 도형·기하</span>
+  <h1>다각형 내각의 합, 삼각형 쪼개기부터 시작해요</h1>
+  <p class="meta">초등 고학년 ~ 중학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>어릴 때 학교 운동장에 그려진 육각형 모양의 정글짐을 보면서, 저 뾰족뾰족한 모서리 각도를 다 더하면 얼마나 될까 괜히 궁금했던 기억이 있어요. 나중에 배운 공식은 딱 하나, (n-2)×180°였는데, 처음엔 그냥 외웠지만 나중에 왜 이런 식이 나오는지 이해하고 나니 훨씬 재미있어졌습니다.</p>
+      <p>핵심은 '삼각형 쪼개기'예요. 어떤 다각형이든 한 꼭짓점에서 다른 꼭짓점들로 대각선을 쭉 그어보면, 도형이 여러 개의 삼각형으로 나뉘어요. 예를 들어 오각형은 대각선 두 개를 그으면 삼각형 세 개로 쪼개지죠. 삼각형 하나의 내각의 합은 무조건 180도이니, 삼각형이 세 개면 180×3=540도가 오각형 내각의 합이 되는 거예요. 변이 하나 늘어날 때마다 삼각형도 하나씩 늘어나고, 그래서 (변의 개수-2)×180이라는 식이 나옵니다.</p>
+      <p>이 원리를 처음 배우는 학생들이 자주 헷갈려 하는 부분은 '왜 꼭 한 꼭짓점에서만 그어야 하나'예요. 사실 아무 점에서나 대각선을 그어도 상관없지만, 한 꼭짓점에서 그으면 삼각형 개수를 세기가 가장 깔끔하고 헷갈리지 않아서 그렇게 배우는 거랍니다. 자를 대고 직접 오각형, 육각형, 칠각형에 대각선을 그어보면 금방 감이 와요.</p>
+      <p>실생활에서도 이 개념은 은근히 자주 쓰입니다. 벌집의 육각형 모양이 왜 그렇게 안정적인지, 축구공의 오각형과 육각형 조각들이 왜 저런 비율로 섞여 있는지도 결국 내각의 합과 관련이 있어요. 건축에서 지붕 트러스를 설계할 때도 다각형의 각도 계산이 기본이 되고요.</p>
+      <p>이 단원에서 종종 나오는 심화 질문 중 하나가 '정다각형의 한 내각은 몇 도인가'예요. 내각의 합을 구했다면 그 값을 변의 개수로 나누기만 하면 되는데, 예를 들어 정육각형은 내각의 합이 720도이니 한 내각은 720÷6=120도가 됩니다. 반대로 외각(한 변을 연장했을 때 생기는 바깥쪽 각)의 합은 다각형의 모양과 상관없이 항상 360도라는 사실도 함께 알아두면 좋아요. 마치 사람이 다각형 둘레를 한 바퀴 걸으면서 매 꼭짓점마다 방향을 꺾는데, 한 바퀴를 다 돌고 나면 결국 원래 방향으로 정확히 360도를 돌아온 셈이 되는 거죠. 이 외각의 합 개념까지 연결해서 설명해주면, 아이들이 '아, 다각형이 크든 작든 결국 한 바퀴 도는 건 똑같구나'라는 훨씬 큰 그림을 그릴 수 있게 됩니다.</p>
+      <p>아이와 함께 공부할 때는 공식을 먼저 외우게 하기보다, 색종이로 다각형을 오려서 실제로 대각선을 그어보고 삼각형 개수를 세어보게 하는 걸 추천해요. 손으로 직접 나눠보면 숫자로만 보던 공식이 훨씬 오래 기억에 남거든요. 저희 사이트의 체험 페이지에서는 변의 개수를 슬라이더로 바꿔가며 삼각형이 자동으로 나뉘는 모습을 볼 수 있으니, 종이와 가위 없이도 비슷한 효과를 얻을 수 있을 거예요. 처음엔 삼각형과 사각형부터 시작해서 오각형, 육각형으로 점점 변의 개수를 늘려가며 규칙을 스스로 발견하게 하면, 공식을 알려주기 전에 아이가 먼저 "어? 변이 하나 늘 때마다 180도씩 늘어나네요?"라고 말하는 순간을 만나게 될 거예요. 그 순간이야말로 공식을 진짜로 이해했다는 가장 확실한 신호랍니다.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="polygon-angle-sum.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>수학 시각화 실험실 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

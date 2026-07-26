@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일차함수 그래프, 식과 그림이 만나는 순간 | 수학 시각화 실험실</title>
+<meta name="description" content="y=2x+3이라는 식을 보면 처음엔 그냥 문자와 숫자의 나열처럼 보이지만, 이걸 좌표평면에 그려보면 기울기가 있는 직선 하나가 뚝딱 나타나요. ...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{
+    display:inline-flex;align-items:center;gap:6px;
+    color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;
+  }
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;
+    padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;
+  }
+  h1{
+    font-family:'Do Hyeon',sans-serif;font-weight:400;
+    font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;
+  }
+  .meta{color:var(--ink-soft);font-size:13.5px;margin:0 0 26px;}
+  .card{
+    background:var(--card);border-radius:22px;box-shadow:var(--shadow);
+    padding:clamp(20px,4vw,40px);
+  }
+  .article-body p{
+    font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;
+  }
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;
+    background:#4C8BF5;text-decoration:none;
+    padding:14px 22px;border-radius:14px;
+    transition:transform .15s ease;
+  }
+  .cta-btn:hover{transform:translateY(-2px);}
+  .cta-soon{font-size:14px;color:var(--ink-soft);margin:0;}
+  .cta-soon a{color:#4C8BF5;}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:12.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#4C8BF5;background:#E7F0FF">📈 함수와 그래프</span>
+  <h1>일차함수 그래프, 식과 그림이 만나는 순간</h1>
+  <p class="meta">중학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>y=2x+3이라는 식을 보면 처음엔 그냥 문자와 숫자의 나열처럼 보이지만, 이걸 좌표평면에 그려보면 기울기가 있는 직선 하나가 뚝딱 나타나요. 일차함수는 수학에서 '식'과 '그림'이 정확히 연결된다는 걸 처음으로 실감하게 해주는 단원이라고 생각해요.</p>
+      <p>일차함수 y=ax+b에서 a는 기울기, b는 y절편이라고 부릅니다. 기울기 a는 그래프가 얼마나 가파른지, 그리고 오른쪽 위로 올라가는지(a가 양수) 오른쪽 아래로 내려가는지(a가 음수)를 결정해요. y절편 b는 그래프가 y축과 만나는 지점, 즉 그래프의 출발점 높이를 정해줍니다. 이 두 숫자만 알면 직선을 완벽하게 그릴 수 있다는 게 일차함수의 핵심이에요.</p>
+      <p>학생들이 자주 헷갈리는 부분은 기울기의 부호와 크기예요. 기울기가 클수록 가파르다는 건 알지만, 기울기가 음수일 때 그래프가 어느 방향으로 기우는지 헷갈려 합니다. 저는 이렇게 설명해요. "x가 오른쪽으로 갈 때 y가 따라 올라가면 양의 기울기, y가 따라 내려가면 음의 기울기"라고요. 그리고 기울기 숫자를 계단의 높이라고 상상하게 하면, 숫자가 클수록 계단이 가파르다는 게 직관적으로 이해됩니다.</p>
+      <p>일차함수는 택시 요금 계산, 휴대폰 요금제, 물탱크에 물이 차오르는 속도 등 우리 생활 속 '일정한 비율로 변하는 상황'을 표현하는 데 정말 자주 쓰여요. 두 요금제 중 어느 게 더 유리한지 비교할 때, 그래프 두 개를 겹쳐 그려서 교차하는 지점을 찾는 것도 일차함수의 대표적인 활용법입니다.</p>
+      <p>일차함수 그래프에서 y절편만큼이나 중요한 게 바로 x절편이에요. x절편은 그래프가 x축과 만나는 지점으로, 이때 y값은 항상 0이 됩니다. 식으로 보면 y=ax+b에서 y 대신 0을 넣고 x에 대해 풀면 x절편을 구할 수 있어요. 이 x절편은 사실 일차방정식 ax+b=0의 해와 정확히 같은 값이기도 합니다. 즉 그래프에서 직선이 x축과 만나는 점을 찾는 것과, 방정식을 계산으로 풀어서 답을 구하는 것이 결국 같은 답을 준다는 거예요. 이 연결고리를 이해하고 나면 방정식과 함수가 별개의 단원이 아니라 서로 다른 방식으로 같은 문제를 보는 두 가지 시선이라는 걸 깨닫게 됩니다. 그래프로 눈으로 확인하고, 식으로 손으로 계산해보는 두 가지 방법을 오가며 연습하면 훨씬 단단한 이해가 만들어져요.</p>
+      <p>기울기와 y절편을 숫자로만 배우면 금방 잊어버리기 쉽지만, 슬라이더로 직접 조절하면서 그래프가 실시간으로 움직이는 걸 보면 감각이 훨씬 오래갑니다. 저희 체험 페이지에서는 두 값을 자유롭게 바꾸면서 직선이 어떻게 변하는지 바로 확인할 수 있도록 준비하고 있어요. 기울기를 0으로 만들면 어떻게 될지, 음수로 만들면 어떻게 될지 미리 예상해보고 슬라이더로 확인하는 식으로 접근하면, 그래프를 그저 눈으로 보는 데서 그치지 않고 예측하고 검증하는 진짜 수학적 사고를 연습할 수 있어요. 두 직선을 동시에 그려서 어디서 만나는지 찾아보는 활동으로 이어가면, 나중에 연립방정식을 배울 때도 "두 그래프가 만나는 그 점"이라는 이미지가 먼저 떠올라 훨씬 수월하게 받아들이게 됩니다.</p>
+    </div>
+    <div class="cta">
+      <p class="cta-soon">체험 페이지는 곧 추가될 예정이에요. <a href="index.html">전체 목록 보러가기 →</a></p>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>수학 시각화 실험실 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
