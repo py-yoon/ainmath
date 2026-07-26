@@ -178,7 +178,6 @@
   <div id="categories"></div>
 
   <footer>
-    <p>✅ 완성 = 지금 바로 체험할 수 있어요</p>
     <nav class="footer-nav">
       <a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a>
     </nav>
@@ -256,7 +255,7 @@
       <div class="card ${hasAnyLink ? 'live' : 'disabled'}" style="--card-accent:${accentColor}" data-grade="${gradeAttr}">
         <div class="card-top">
           <div class="card-icon" style="background:${accentColor}22;color:${accentColor}">${item.icon}</div>
-          <span class="status ${isLive ? 'live' : 'soon'}">${isLive ? '✅ 완성' : '준비 중'}</span>
+          ${!isLive ? `<span class="status soon">준비 중</span>` : ''}
         </div>
         <div class="card-title">${item.title}</div>
         <div class="card-desc">${item.desc}</div>
