@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>순열과 조합 실험실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --green:#4CAF8E; --green-soft:#E3F5EE;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1040px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--green);background:var(--green-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--coral);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.2fr 0.8fr;gap:32px;align-items:start;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+.howto{background:var(--green-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--green);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+.tabs{display:flex;gap:10px;max-width:420px;margin-bottom:18px;}
+.tab-btn{flex:1;font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:11px;cursor:pointer;transition:all .15s ease;}
+.tab-btn.active{background:var(--green);border-color:var(--green);color:#fff;}
+.tab-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+.control-row{width:100%;max-width:420px;display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--green-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--green);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,175,142,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--green);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,175,142,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+.item-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
+.item-chip{width:38px;height:38px;border-radius:50%;background:var(--paper);border:2px solid var(--paper-line);
+  display:flex;align-items:center;justify-content:center;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.result-list{display:flex;flex-direction:column;gap:6px;max-height:260px;overflow-y:auto;padding-right:4px;}
+.result-row{display:flex;flex-wrap:wrap;gap:4px;align-items:center;font-family:'Do Hyeon',sans-serif;font-size:13px;}
+.result-row .seq-chip{background:var(--violet-soft);color:var(--violet);border-radius:6px;padding:3px 7px;}
+.too-many{font-size:13.5px;color:var(--ink-soft);padding:8px 0;}
+.panel{display:flex;flex-direction:column;gap:18px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px 20px;text-align:center;}
+.equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(16px,2.6vw,19px);color:var(--ink-soft);}
+.equation .result{font-family:'Do Hyeon',sans-serif;font-size:clamp(36px,6vw,48px);color:var(--coral);margin-top:6px;line-height:1;}
+.equation .result span{font-size:0.4em;color:var(--ink-soft);}
+.fact{background:var(--green-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+.fact b{color:var(--green);}
+footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">🔀 순열과 조합 실험실</span>
+  <h1>같은 숫자 n, r인데<br>순서를 <span>따지느냐 마느냐</span>로 답이 달라져요</h1>
+  <p class="sub">n명 중에서 r명을 뽑을 때, "누가 1등, 누가 2등인지"까지 따지면 순열, 그냥 "누가 뽑혔는지"만 보면 조합이에요. 탭을 눌러 두 경우의 수가 얼마나 다른지 직접 비교해보세요.</p>
+
+  <div class="stage">
+    <div>
+      <div class="howto">
+        <p><b>순열(P)</b>은 순서가 있는 경우의 수예요. "1등, 2등, 3등을 정하는 방법"처럼 누가 어느 자리에 오는지가 중요해요. <b>조합(C)</b>은 순서가 없는 경우의 수예요. "대표 3명을 뽑는 방법"처럼 누가 뽑혔는지만 중요하고, 뽑힌 순서는 상관없어요.</p>
+        <p>그래서 조합은 항상 순열보다 작거나 같아요. 같은 사람들을 뽑아도 순서를 구분하지 않으면 여러 순열이 하나의 조합으로 겹쳐지기 때문이에요. 정확히 r명의 순서를 배열하는 방법의 수(r!)만큼 겹쳐요.</p>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" data-mode="perm">순열 (순서 O)</button>
+        <button class="tab-btn" data-mode="comb">조합 (순서 X)</button>
+      </div>
+
+      <div class="control-row">
+        <div class="control-label"><span>전체 인원 (n)</span><b id="nLabel">5</b></div>
+        <input id="sliderN" type="range" min="2" max="8" value="5" step="1" aria-label="전체 인원 n">
+      </div>
+      <div class="control-row">
+        <div class="control-label"><span>뽑는 인원 (r)</span><b id="rLabel">2</b></div>
+        <input id="sliderR" type="range" min="1" max="8" value="2" step="1" aria-label="뽑는 인원 r">
+      </div>
+
+      <div class="item-row" id="itemRow"></div>
+      <div class="result-list" id="resultList"></div>
+    </div>
+
+    <div class="panel">
+      <div class="equation">
+        <div class="formula" id="formula">₅P₂ = 5 × 4</div>
+        <div class="result" id="resultNum">20<span>가지</span></div>
+      </div>
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+  <footer>순열 공식은 nPr = n!/(n-r)!, 조합 공식은 nCr = n!/(r!×(n-r)!)예요. 파스칼의 삼각형에 나오는 숫자들이 바로 이 nCr 값이라는 것도 알아두면 재미있어요.</footer>
+</div>
+
+<script>
+const sliderN = document.getElementById('sliderN');
+const sliderR = document.getElementById('sliderR');
+const nLabel = document.getElementById('nLabel');
+const rLabel = document.getElementById('rLabel');
+const itemRow = document.getElementById('itemRow');
+const resultList = document.getElementById('resultList');
+const formula = document.getElementById('formula');
+const resultNum = document.getElementById('resultNum');
+const factBox = document.getElementById('fact');
+const tabs = document.querySelectorAll('.tab-btn');
+
+let mode = 'perm';
+const LABELS = ['A','B','C','D','E','F','G','H'];
+
+function factorial(n){ let r=1; for(let i=2;i<=n;i++) r*=i; return r; }
+function toSubscript(n){ return n.toString().split('').map(d=>'₀₁₂₃₄₅₆₇₈₉'[parseInt(d)]).join(''); }
+
+function permute(arr, r){
+  const results = [];
+  function helper(current, remaining){
+    if(current.length===r){ results.push([...current]); return; }
+    for(let i=0;i<remaining.length;i++){
+      const next = remaining.slice(0,i).concat(remaining.slice(i+1));
+      helper([...current, remaining[i]], next);
+    }
+  }
+  helper([], arr);
+  return results;
+}
+
+function combine(arr, r){
+  const results = [];
+  function helper(start, current){
+    if(current.length===r){ results.push([...current]); return; }
+    for(let i=start;i<arr.length;i++){
+      helper(i+1, [...current, arr[i]]);
+    }
+  }
+  helper(0, []);
+  return results;
+}
+
+function render(){
+  const n = parseInt(sliderN.value);
+  let r = parseInt(sliderR.value);
+  if(r > n){ r = n; sliderR.value = n; }
+  sliderR.max = n;
+  nLabel.textContent = n;
+  rLabel.textContent = r;
+
+  const items = LABELS.slice(0, n);
+  itemRow.innerHTML = items.map(l=>`<div class="item-chip">${l}</div>`).join('');
+
+  const permCount = factorial(n)/factorial(n-r);
+  const combCount = permCount/factorial(r);
+
+  if(mode==='perm'){
+    formula.innerHTML = `${n}P${toSubscript(r)} = ${Array.from({length:r},(_,i)=>n-i).join(' × ')}`;
+    resultNum.innerHTML = `${permCount}<span>가지</span>`;
+  } else {
+    formula.innerHTML = `${n}C${toSubscript(r)} = ${n}P${toSubscript(r)} ÷ ${r}!`;
+    resultNum.innerHTML = `${combCount}<span>가지</span>`;
+  }
+
+  const results = mode==='perm' ? permute(items, r) : combine(items, r);
+  const maxShow = 40;
+  if(results.length <= maxShow){
+    resultList.innerHTML = results.map(seq=>`<div class="result-row">${seq.map(x=>`<span class="seq-chip">${x}</span>`).join(mode==='perm'?'<span>→</span>':'')}</div>`).join('');
+  } else {
+    resultList.innerHTML = `<div class="too-many">경우의 수가 ${results.length}가지나 되어 전부 나열하기엔 너무 많아요. n이나 r을 줄여서 직접 나열되는 걸 확인해보세요.</div>`;
+  }
+
+  if(mode==='perm'){
+    factBox.innerHTML = `${n}명 중 ${r}명을 뽑아 <b>순서까지 정하는</b> 방법은 ${permCount}가지예요. 첫 자리는 ${n}명 중 아무나, 둘째 자리는 남은 ${n-1}명 중 아무나... 이런 식으로 ${r}번 곱해서 구해요.`;
+  } else {
+    factBox.innerHTML = `${n}명 중 ${r}명을 <b>순서 상관없이</b> 뽑는 방법은 ${combCount}가지예요. 순열 ${permCount}가지를 구한 다음, 같은 ${r}명이라도 순서만 다른 경우가 ${factorial(r)}가지씩 겹치니 그만큼 나눠준 거예요.`;
+  }
+}
+
+tabs.forEach(t=>t.addEventListener('click', ()=>{
+  mode = t.dataset.mode;
+  tabs.forEach(x=>x.classList.toggle('active', x===t));
+  render();
+}));
+sliderN.addEventListener('input', render);
+sliderR.addEventListener('input', render);
+render();
+</script>
+</body>
+</html>

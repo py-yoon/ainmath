@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>이차함수 그래프 실험실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --green:#4CAF8E; --green-soft:#E3F5EE;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--coral);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.15fr 0.85fr;gap:32px;align-items:start;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+.canvas-area{display:flex;flex-direction:column;align-items:center;gap:18px;}
+svg{width:100%;max-width:460px;height:auto;overflow:visible;}
+.howto{background:var(--blue-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--blue);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+.control-row{width:100%;max-width:420px;display:flex;flex-direction:column;gap:8px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--blue-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+.presets{display:flex;gap:8px;flex-wrap:wrap;width:100%;max-width:420px;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:13px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:12px;padding:7px 10px;cursor:pointer;transition:all .15s ease;}
+.preset-btn:hover{border-color:var(--blue);color:var(--blue);}
+.preset-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+.panel{display:flex;flex-direction:column;gap:18px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px 20px;text-align:center;}
+.equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(20px,3.4vw,26px);color:var(--ink);}
+.equation .formula .a{color:var(--blue);}
+.equation .formula .b{color:var(--green);}
+.equation .formula .c{color:var(--coral);}
+.equation .subline{margin-top:12px;font-size:14px;color:var(--ink-soft);line-height:1.6;}
+.fact{background:var(--blue-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+.fact b{color:var(--blue);}
+.axis-label{font-family:'Do Hyeon',sans-serif;font-size:13px;fill:var(--ink-soft);}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">📈 이차함수 그래프 실험실</span>
+  <h1>a, b, c를 바꾸면<br>포물선은 <span>어떻게</span> 움직일까?</h1>
+  <p class="sub">y = ax² + bx + c에서 세 상수를 슬라이더로 조절해보세요. a는 포물선이 벌어지는 정도와 방향을, b와 c는 포물선의 위치를 결정해요.</p>
+
+  <div class="stage">
+    <div class="canvas-area">
+      <svg id="svg" viewBox="0 0 440 440"></svg>
+      <div class="control-row">
+        <div class="control-label"><span>a (이차항 계수)</span><b id="aLabel">1</b></div>
+        <input id="sliderA" type="range" min="-3" max="3" value="1" step="0.5" aria-label="a 조절">
+      </div>
+      <div class="control-row">
+        <div class="control-label"><span>b (일차항 계수)</span><b id="bLabel">0</b></div>
+        <input id="sliderB" type="range" min="-6" max="6" value="0" step="1" aria-label="b 조절">
+      </div>
+      <div class="control-row">
+        <div class="control-label"><span>c (상수항)</span><b id="cLabel">0</b></div>
+        <input id="sliderC" type="range" min="-6" max="6" value="0" step="1" aria-label="c 조절">
+      </div>
+      <div class="presets" id="presetRow"></div>
+    </div>
+
+    <div class="panel">
+      <div class="equation">
+        <div class="formula">y = <span class="a" id="aInFormula">1</span>x² + <span class="b" id="bInFormula">0</span>x + <span class="c" id="cInFormula">0</span></div>
+        <div class="subline" id="vertexLine">꼭짓점: (0, 0) · 축: x = 0</div>
+      </div>
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+  <footer>a의 부호가 포물선이 위로 볼록한지(a&gt;0) 아래로 볼록한지(a&lt;0)를 결정하고, |a|가 클수록 폭이 좁아져요. 꼭짓점의 x좌표는 항상 -b/(2a)로 구할 수 있어요.</footer>
+</div>
+
+<script>
+const svg = document.getElementById('svg');
+const sliderA = document.getElementById('sliderA');
+const sliderB = document.getElementById('sliderB');
+const sliderC = document.getElementById('sliderC');
+const aLabel = document.getElementById('aLabel');
+const bLabel = document.getElementById('bLabel');
+const cLabel = document.getElementById('cLabel');
+const aInFormula = document.getElementById('aInFormula');
+const bInFormula = document.getElementById('bInFormula');
+const cInFormula = document.getElementById('cInFormula');
+const vertexLine = document.getElementById('vertexLine');
+const factBox = document.getElementById('fact');
+const presetRow = document.getElementById('presetRow');
+
+const PRESETS = [
+  {a:1,b:0,c:0,label:'기본 y=x²'},
+  {a:-1,b:0,c:3,label:'위로 볼록'},
+  {a:0.5,b:-2,c:-1,label:'납작하게'},
+  {a:2,b:4,c:2,label:'한 점에서 접함'},
+];
+
+const RANGE = 6;
+const SIZE = 440;
+const CX = SIZE/2, CY = SIZE/2;
+const SCALE = (SIZE/2 - 30) / RANGE;
+
+function toSvg(x,y){ return [CX + x*SCALE, CY - y*SCALE]; }
+function fmt(n){ return (Math.round(n*100)/100).toString(); }
+
+function buildPresets(){
+  presetRow.innerHTML = PRESETS.map((p,i)=>`<button class="preset-btn" data-i="${i}">${p.label}</button>`).join('');
+  presetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const p = PRESETS[parseInt(btn.dataset.i)];
+      sliderA.value=p.a; sliderB.value=p.b; sliderC.value=p.c;
+      render();
+    });
+  });
+}
+
+function render(){
+  const a = parseFloat(sliderA.value);
+  const b = parseFloat(sliderB.value);
+  const c = parseFloat(sliderC.value);
+  aLabel.textContent = fmt(a); bLabel.textContent = fmt(b); cLabel.textContent = fmt(c);
+  aInFormula.textContent = fmt(a); bInFormula.textContent = fmt(b); cInFormula.textContent = fmt(c);
+
+  let html = '';
+  for(let i=-RANGE;i<=RANGE;i++){
+    const [gx1,gy1] = toSvg(i,-RANGE), [gx2,gy2] = toSvg(i,RANGE);
+    html += `<line x1="${gx1}" y1="${gy1}" x2="${gx2}" y2="${gy2}" stroke="var(--paper-line)" stroke-width="1"></line>`;
+    const [hx1,hy1] = toSvg(-RANGE,i), [hx2,hy2] = toSvg(RANGE,i);
+    html += `<line x1="${hx1}" y1="${hy1}" x2="${hx2}" y2="${hy2}" stroke="var(--paper-line)" stroke-width="1"></line>`;
+  }
+  const [ax1,ay1] = toSvg(-RANGE,0), [ax2,ay2] = toSvg(RANGE,0);
+  const [oy1x,oy1y] = toSvg(0,-RANGE), [oy2x,oy2y] = toSvg(0,RANGE);
+  html += `<line x1="${ax1}" y1="${ay1}" x2="${ax2}" y2="${ay2}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+  html += `<line x1="${oy1x}" y1="${oy1y}" x2="${oy2x}" y2="${oy2y}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+  html += `<text class="axis-label" x="${ax2-8}" y="${ay2-8}">x</text>`;
+  html += `<text class="axis-label" x="${oy2x+8}" y="${oy2y+8}">y</text>`;
+
+  // 포물선 (a=0이면 직선)
+  let path = '';
+  const steps = 200;
+  for(let i=0;i<=steps;i++){
+    const x = -RANGE + (2*RANGE)*(i/steps);
+    let y = a*x*x + b*x + c;
+    y = Math.max(-RANGE*1.4, Math.min(RANGE*1.4, y)); // 화면 밖으로 너무 벗어나지 않게 클램프
+    const [px,py] = toSvg(x,y);
+    path += (i===0?'M':'L') + px.toFixed(1) + ',' + py.toFixed(1) + ' ';
+  }
+  html += `<path d="${path}" fill="none" stroke="var(--blue)" stroke-width="3.5" stroke-linecap="round"></path>`;
+
+  let vertexX = null, vertexY = null, axisText = '';
+  if(Math.abs(a) > 1e-9){
+    vertexX = -b/(2*a);
+    vertexY = a*vertexX*vertexX + b*vertexX + c;
+    const [vx,vy] = toSvg(vertexX, vertexY);
+    if(Math.abs(vertexY) <= RANGE*1.4){
+      html += `<circle cx="${vx}" cy="${vy}" r="6" fill="var(--coral)"></circle>`;
+    }
+    axisText = `x = ${fmt(vertexX)}`;
+  }
+
+  // y절편
+  const [yiX,yiY] = toSvg(0,c);
+  if(Math.abs(c) <= RANGE*1.4){
+    html += `<circle cx="${yiX}" cy="${yiY}" r="5" fill="var(--green)"></circle>`;
+  }
+
+  // x절편 (실근이 있을 때)
+  let roots = [];
+  if(Math.abs(a) > 1e-9){
+    const D = b*b - 4*a*c;
+    if(D > 1e-9){
+      const sq = Math.sqrt(D);
+      roots = [(-b+sq)/(2*a), (-b-sq)/(2*a)];
+    } else if(Math.abs(D) <= 1e-9){
+      roots = [-b/(2*a)];
+    }
+  }
+  roots.forEach(r=>{
+    const [rx,ry] = toSvg(r,0);
+    html += `<circle cx="${rx}" cy="${ry}" r="5" fill="var(--violet)"></circle>`;
+  });
+
+  svg.innerHTML = html;
+
+  vertexLine.textContent = vertexX!==null
+    ? `꼭짓점: (${fmt(vertexX)}, ${fmt(vertexY)}) · 축: ${axisText}`
+    : `a=0이라 이차함수가 아니에요 (일차함수 y=${fmt(b)}x+${fmt(c)}가 돼요)`;
+
+  let factText;
+  if(Math.abs(a) < 1e-9){
+    factText = `a가 0이 되면 x² 항이 사라져서 더 이상 포물선이 아니라 직선이 돼요. 이차함수가 되려면 a는 반드시 0이 아니어야 해요.`;
+  } else {
+    const shape = a>0 ? '아래로 볼록(∪ 모양)' : '위로 볼록(∩ 모양)';
+    const width = Math.abs(a)>1 ? '폭이 좁고 뾰족한' : (Math.abs(a)<1 ? '폭이 넓고 완만한' : '기본적인 폭의');
+    let rootText;
+    if(roots.length===2) rootText = `x절편은 두 개, x=${fmt(roots[0])}와 x=${fmt(roots[1])}에서 곡선이 x축을 지나요.`;
+    else if(roots.length===1) rootText = `x절편은 하나뿐이에요. 꼭짓점이 정확히 x축 위에 닿아있거든요(중근).`;
+    else rootText = `이 곡선은 x축과 만나지 않아요. 실근이 없다는 뜻이에요.`;
+    factText = `a=${fmt(a)}이므로 <b>${shape}</b>, ${width} 포물선이에요. 꼭짓점은 (${fmt(vertexX)}, ${fmt(vertexY)})이고, ${rootText}`;
+  }
+  factBox.innerHTML = factText;
+}
+
+sliderA.addEventListener('input', render);
+sliderB.addEventListener('input', render);
+sliderC.addEventListener('input', render);
+buildPresets();
+render();
+</script>
+</body>
+</html>

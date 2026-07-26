@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>이차함수 그래프, 포물선이 그리는 궤적의 비밀 | 수학 시각화 실험실</title>
+<meta name="description" content="공을 위로 던지면 포물선을 그리며 날아가다 떨어지죠. 다리의 아치, 분수의 물줄기, 위성 접시 안테나의 단면도 모두 포물선 모양이에요. 이런 곡선을 수식으로...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:13.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#4C8BF5;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:12.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#4C8BF5;background:#E7F0FF">📈 함수와 그래프</span>
+  <h1>이차함수 그래프, 포물선이 그리는 궤적의 비밀</h1>
+  <p class="meta">중학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>공을 위로 던지면 포물선을 그리며 날아가다 떨어지죠. 다리의 아치, 분수의 물줄기, 위성 접시 안테나의 단면도 모두 포물선 모양이에요. 이런 곡선을 수식으로 나타낸 것이 바로 이차함수, y = ax² + bx + c예요. 일차함수의 그래프가 항상 직선이었던 것과 달리, 이차함수의 그래프는 부드럽게 휘어지는 곡선이라는 게 가장 큰 차이예요.</p>
+      <p>세 상수 a, b, c는 각자 다른 역할을 해요. a는 포물선이 위로 볼록한지(∪ 모양) 아래로 볼록한지(∩ 모양)를 정하는데, a가 양수면 ∪, 음수면 ∩ 모양이 됩니다. |a|가 클수록 폭이 좁고 뾰족해지고, 0에 가까울수록 완만하고 넓게 퍼져요. c는 그래프가 y축과 만나는 지점(y절편)을 정하고, b는 그래프가 좌우로 얼마나 치우치는지에 관여해요. 세 값이 함께 작용해서 포물선의 정점, 즉 '꼭짓점'의 위치가 정해지는데, 꼭짓점의 x좌표는 항상 -b/(2a)라는 공식으로 구할 수 있어요.</p>
+      <p>이차함수에서 가장 중요하게 다루는 것 중 하나가 'x절편'이에요. 그래프가 x축과 만나는 지점을 뜻하는데, 이 지점의 x값은 ax²+bx+c=0이라는 이차방정식의 해와 정확히 같아요. 즉 이차함수의 그래프를 그려서 x축과 만나는 지점을 보는 것만으로도 이차방정식을 '눈으로 푸는' 셈이 되는 거예요. 판별식(b²-4ac)의 부호에 따라 x절편이 두 개, 한 개(꼭짓점이 x축에 닿는 경우), 또는 아예 없는 경우로 나뉘는데, 그래프로 보면 이 세 가지 경우가 왜 그런지 훨씬 직관적으로 이해돼요.</p>
+      <p>포물선은 물리학에서도 핵심적인 역할을 해요. 공기 저항을 무시했을 때, 던진 물체의 이동 경로는 정확히 포물선을 그려요. 그래서 대포의 사거리를 계산하거나 야구공이 어디에 떨어질지 예측하는 데 이차함수가 쓰입니다. 위성 안테나나 손전등 반사판이 포물선 단면(포물면)으로 만들어지는 이유도 재미있어요. 포물선에는 한 점(초점)에서 나온 빛이나 전파가 반사되면 모두 같은 방향으로 나란히 나가는 성질이 있어서, 신호를 모으거나 멀리 보내는 데 최적의 모양이거든요.</p>
+      <p>아이들과 공부할 때는 a, b, c를 하나씩만 바꿔가며 그래프가 어떻게 달라지는지 순서대로 관찰하게 하는 게 효과적이에요. 먼저 b=0, c=0으로 고정하고 a만 바꿔보면서 볼록한 방향과 폭이 바뀌는 걸 확인하고, 그다음 a를 고정한 채 c만 바꾸며 그래프가 위아래로 움직이는 걸 보고, 마지막으로 b를 바꿔가며 꼭짓점이 좌우로 이동하는 모습을 살펴보는 식이에요. 이렇게 한 번에 하나씩 변수를 바꾸는 접근은 이차함수뿐 아니라 이후에 배우는 모든 다변수 함수를 이해하는 데도 아주 유용한 습관이 됩니다.</p>
+      <p>저희 체험 페이지에서는 a, b, c 세 슬라이더를 자유롭게 조절하면서 포물선과 꼭짓점, x절편·y절편이 실시간으로 어떻게 바뀌는지 확인할 수 있어요. a를 0으로 만들면 포물선이 사라지고 직선이 되는 것도 직접 확인해볼 수 있는데, 이 순간이 "이차함수가 되려면 a가 0이 아니어야 한다"는 조건을 가장 생생하게 이해시켜주는 경험이 될 거예요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="quadratic-function-graph.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>수학 시각화 실험실 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

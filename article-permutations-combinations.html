@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>순열과 조합, 순서를 따지느냐가 만드는 차이 | 수학 시각화 실험실</title>
+<meta name="description" content="친구 5명 중 반장, 부반장을 뽑는 방법과 청소 당번 2명을 뽑는 방법, 둘 다 '5명 중 2명 뽑기'인데 답이 달라요. 하나는 순서가 중요하고 하나는 아니기 때문이죠...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:13.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#4CAF8E;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:12.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#4CAF8E;background:#E3F5EE">📊 확률과 통계</span>
+  <h1>순열과 조합, 순서를 따지느냐가 만드는 차이</h1>
+  <p class="meta">중학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>친구 5명 중에서 반장과 부반장을 뽑는 방법과, 청소 당번 2명을 뽑는 방법. 둘 다 "5명 중 2명을 뽑는 것"인데 답이 다르다는 게 처음엔 이상하게 느껴질 수 있어요. 반장·부반장은 누가 반장이고 누가 부반장인지 순서(역할)가 중요하지만, 청소 당번은 그냥 두 명이 뽑히기만 하면 되니 순서가 상관없거든요. 이 차이를 다루는 게 바로 순열과 조합이에요.</p>
+      <p>순서가 중요한 경우의 수를 '순열'이라고 하고 nPr로 나타내요. 5명 중 2명을 순서까지 정해서 뽑는다면, 첫 자리는 5명 중 아무나 올 수 있고, 둘째 자리는 남은 4명 중 아무나 올 수 있으니 5×4=20가지예요. 순서가 상관없는 경우의 수는 '조합'이라고 하고 nCr로 나타내는데, 앞서 구한 순열 20가지에서 "같은 두 명이지만 순서만 다른" 경우들을 하나로 묶어줘야 해요. 두 명을 배열하는 방법은 2!=2가지이니, 20을 2로 나눈 10가지가 조합의 답이 됩니다.</p>
+      <p>이 관계를 일반화하면 nCr = nPr ÷ r! 이라는 공식이 나와요. 조합은 항상 순열보다 작거나 같은데, 그 이유가 바로 "순서를 구분하지 않아서 여러 경우가 하나로 겹쳐지기 때문"이라는 걸 기억하면 공식을 외우지 않아도 스스로 유도할 수 있어요. 재미있게도 nCr 값들을 순서대로 늘어놓으면 파스칼의 삼각형에 나오는 숫자들과 정확히 일치해요. 파스칼의 삼각형 n번째 줄의 r번째 숫자가 바로 nCr이거든요. 두 개념이 전혀 다른 곳에서 출발했는데 결국 같은 숫자로 만난다는 사실이 조합론의 매력이에요.</p>
+      <p>순열과 조합은 일상 곳곳에 숨어 있어요. 자물쇠 비밀번호처럼 순서가 다르면 완전히 다른 결과가 되는 건 순열이고, 로또처럼 어떤 번호 6개가 뽑혔는지만 중요하고 뽑힌 순서는 상관없는 건 조합이에요. 로또 6/45의 당첨 확률이 그렇게 낮은 이유도, 45개 숫자 중 6개를 순서 상관없이 고르는 조합의 수(45C6)가 800만 가지가 넘을 정도로 엄청나게 크기 때문이에요. 카드 게임에서 정확한 패의 순서까지 따지는 경우와, 그냥 어떤 카드 조합을 들고 있는지만 보는 경우도 각각 순열과 조합의 좋은 예시가 됩니다.</p>
+      <p>아이들과 공부할 때는 작은 숫자부터 직접 손으로 나열해보게 하는 게 가장 효과적이에요. 예를 들어 3명(A, B, C) 중 2명을 뽑는 경우를 순열로 나열하면 AB, BA, AC, CA, BC, CB로 6가지가 나오고, 조합으로 보면 AB(=BA), AC(=CA), BC(=CB)를 각각 하나로 묶어서 3가지가 되는 걸 직접 써보게 하면 공식이 왜 그렇게 생겼는지 몸으로 이해하게 돼요. 숫자가 조금만 커져도 손으로 다 세는 게 힘들어지는 걸 느끼게 한 다음 공식을 알려주면, 공식의 필요성도 자연스럽게 와닿습니다.</p>
+      <p>저희 체험 페이지에서는 전체 인원(n)과 뽑는 인원(r)을 슬라이더로 바꾸면서, 순열과 조합 각각의 경우의 수와 실제 나열까지 확인할 수 있어요. 숫자가 작을 때는 모든 경우가 직접 나열되니, 왜 조합이 순열보다 항상 작은지를 눈으로 세어보며 확인해볼 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="permutations-combinations.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>수학 시각화 실험실 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
