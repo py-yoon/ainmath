@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>좌표평면 위 도형 이동, 좌표만 보고 모양을 예측하는 법 | 수학 시각화 실험실</title>
+<meta name="description" content="게임 속 캐릭터가 화면 위에서 움직이거나, 지도 앱에서 내 위치가 바뀌는 것도 사실 전부 좌표평면 위의 이동이에요. 대칭·평행이동·회전, 세 가지 이동을...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{
+    display:inline-flex;align-items:center;gap:6px;
+    color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;
+  }
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;
+    padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;
+  }
+  h1{
+    font-family:'Do Hyeon',sans-serif;font-weight:400;
+    font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;
+  }
+  .meta{color:var(--ink-soft);font-size:13.5px;margin:0 0 26px;}
+  .card{
+    background:var(--card);border-radius:22px;box-shadow:var(--shadow);
+    padding:clamp(20px,4vw,40px);
+  }
+  .article-body p{
+    font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;
+  }
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;
+    background:#4C8BF5;text-decoration:none;
+    padding:14px 22px;border-radius:14px;
+    transition:transform .15s ease;
+  }
+  .cta-btn:hover{transform:translateY(-2px);}
+  .cta-soon{font-size:14px;color:var(--ink-soft);margin:0;}
+  .cta-soon a{color:#4C8BF5;}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:12.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#4C8BF5;background:#E7F0FF">📈 함수와 그래프</span>
+  <h1>좌표평면 위 도형 이동, 좌표만 보고 모양을 예측하는 법</h1>
+  <p class="meta">중학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>게임 속 캐릭터가 화면 위에서 움직이거나, 지도 앱에서 내 위치 표시가 이동하는 것도 사실 전부 좌표평면 위의 이동이에요. 중학교 수학에서는 이런 이동을 크게 세 가지, 대칭이동·평행이동·회전이동으로 나눠서 배워요. 셋 다 도형의 크기와 모양은 그대로 두고 위치나 방향만 바꾼다는 공통점이 있어서, 이런 이동을 통틀어 '합동이동'이라고 부르기도 해요.</p>
+      <p>대칭이동은 거울에 비친 모습을 생각하면 가장 쉬워요. x축을 거울 삼아 뒤집으면 위아래만 바뀌니까 y좌표의 부호만 바뀌고(x, y) → (x, -y), y축을 거울 삼으면 좌우만 바뀌니까 x좌표의 부호만 바뀌어요(x, y) → (-x, y). 원점 대칭은 두 거울을 동시에 적용한 셈이라 x, y 둘 다 부호가 바뀌는데, 흥미롭게도 이건 180° 회전과 결과가 완전히 똑같아요. 평행이동은 도형을 통째로 들어서 다른 자리로 옮기는 것뿐이라 규칙이 제일 단순해요. 모든 점의 x좌표에 dx를, y좌표에 dy를 더하기만 하면 되거든요. 회전이동은 원점을 중심으로 도형을 일정한 각도만큼 돌리는 건데, 90°씩 돌 때마다 x와 y가 서로 자리를 바꾸면서 부호가 하나씩 바뀌는 규칙이 숨어 있어요.</p>
+      <p>이 규칙들이 왜 중요할까요? 좌표라는 '숫자'만으로 도형의 움직임을 완벽하게 표현할 수 있다는 게 핵심이에요. 프랑스 수학자 데카르트가 좌표평면을 처음 고안하기 전까지는, 도형을 다루는 기하학과 숫자를 다루는 대수학이 거의 별개의 세계였어요. 좌표평면이 생기고 나서야 "삼각형을 90도 돌린다"는 도형 이야기를, "(x,y)를 (-y,x)로 바꾼다"는 숫자 계산으로 완전히 바꿔 쓸 수 있게 됐죠. 이 발상의 전환 덕분에 컴퓨터그래픽, 게임 엔진, 로봇 팔의 움직임 계산까지, 눈에 보이는 모든 움직임을 컴퓨터가 순전히 숫자 연산만으로 처리할 수 있게 됐어요.</p>
+      <p>대칭이동은 자연과 예술 속에서도 자주 만날 수 있어요. 나비의 날개, 사람 얼굴, 눈송이의 결정 구조는 모두 선대칭이나 점대칭에 가까운 모양을 하고 있어요. 화가 에셔(M.C. Escher)의 작품들은 도형을 반복해서 대칭·평행이동시키는 방식으로 신비로운 착시 그림을 만들어낸 것으로 유명하고요. 회전대칭은 바람개비나 불가사리, 자동차 바퀴의 볼트 배치에서 쉽게 찾아볼 수 있어요. 이런 실제 사례를 함께 찾아보면 "도형 이동"이라는 추상적인 단원이 훨씬 친근하게 다가올 거예요.</p>
+      <p>아이들과 공부할 때는 좌표를 예측한 다음 확인하는 순서로 접근하는 걸 추천해요. 예를 들어 삼각형의 꼭짓점 (2,3)을 y축 대칭시키면 어디로 갈지 먼저 손으로 계산해보게 하고, 그다음 실제로 좌표평면에 점을 찍어서 맞는지 확인하는 식이에요. 90° 회전을 두 번 하면 180° 회전과 같은 결과가 나오는지, 대칭이동을 두 번 반복하면 원래 자리로 돌아오는지도 직접 확인해보면 규칙이 몸에 훨씬 잘 붙어요. 저희 체험 페이지에서는 버튼 하나로 삼각형을 대칭·평행이동·회전시켜보고, 원래 좌표와 바뀐 좌표를 나란히 비교할 수 있어요. 버튼을 누르기 전에 "이번엔 어떤 좌표가 나올까"를 먼저 예상해보고 눌러서 확인하는 방식으로 활용하면 가장 효과적이에요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="coordinate-transform.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>수학 시각화 실험실 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
