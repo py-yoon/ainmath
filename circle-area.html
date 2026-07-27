@@ -18,6 +18,7 @@
     --coral:#FF5B57;
     --coral-soft:#FFEAE8;
     --green:#4CAF8E;
+    --green-soft:#E3F5EE;
     --card:#FFFFFF;
     --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
@@ -131,14 +132,45 @@
   }
   .fact b{color:var(--violet);}
 
+  .note{
+    font-size:13.5px;line-height:1.6;color:var(--ink-soft);
+  }
+  .note b{color:var(--violet);}
+
+  .howto{
+    background:var(--green-soft);border-radius:16px;padding:18px 20px;
+    font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;
+  }
+  .howto b{color:var(--green);}
+  .howto p{margin:0 0 10px;}
+  .howto p:last-child{margin-bottom:0;}
+
+  .tick-label{font-family:'Do Hyeon',sans-serif;font-size:13px;fill:var(--ink-soft);text-anchor:middle;}
+
+  .back-link{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:'Do Hyeon',sans-serif;font-size:14px;
+    color:var(--ink-soft);text-decoration:none;
+    margin-bottom:14px;
+  }
+  .back-link:hover{color:var(--coral);}
+
   footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+  footer a{color:var(--violet);}
 </style>
 </head>
 <body>
 <div class="wrap">
+  <a class="back-link" href="index.html">← 목록으로 돌아가기</a>
   <span class="eyebrow">🍕 원의 넓이 실험실</span>
-  <h1>원을 피자 조각처럼 자르면,<br>넓이 공식이 <span>저절로</span> 보여요</h1>
+  <h1>원을 피자처럼 잘라서<br>다시 이어붙이면 <span>무슨 모양</span>이 될까?</h1>
   <p class="sub">조각의 개수와 반지름을 바꿔보고, "펼치기" 버튼을 눌러보세요. 원을 잘게 자른 조각들을 위아래로 번갈아 이어 붙이면 점점 직사각형에 가까운 모양이 돼요. 이 직사각형의 밑변은 원주의 절반(πr), 높이는 반지름(r)이니까, 넓이는 <b>πr × r = πr²</b>가 됩니다.</p>
+
+  <div class="howto">
+    <p>원의 넓이 공식 πr²이 어디서 왔는지 궁금했던 적 있나요? 사실 이건 대단한 계산이 아니라 <b>자르고 다시 붙이기</b>라는 단순한 발상에서 나와요. 피자 조각처럼 등분한 다음 위·아래로 번갈아 뒤집어 붙이면, 삐죽삐죽하던 가장자리가 조각을 잘게 자를수록 점점 매끈해지면서 직사각형에 가까워지거든요.</p>
+    <p>이 직사각형의 가로 길이는 원래 원 둘레를 반으로 나눈 값(πr)이 되고, 세로 길이는 반지름(r) 그대로예요. 직사각형 넓이는 가로 곱하기 세로니까 πr × r = πr² — 이게 바로 원의 넓이 공식이에요.</p>
+    <p>중요한 건, 조각을 몇 개로 자르든 실제 넓이는 절대 변하지 않는다는 거예요. 자르고 위치만 바꿔 붙였을 뿐이니까요. 조각 수가 적을 땐 이어붙인 모양의 가장자리가 울퉁불퉁해서 완벽한 직사각형처럼 보이지 않을 뿐이에요. 슬라이더로 조각 수를 늘려가면서 직접 확인해보세요.</p>
+  </div>
 
   <div class="stage">
     <div class="canvas-area">
