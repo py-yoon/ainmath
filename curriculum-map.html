@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>교과과정 지도 | 아인매스</title>
+<meta name="description" content="2022 개정 교육과정 기준으로 초등학교 1학년부터 중학교 3학년까지 학년별 수학 단원을 정리하고, 아인매스의 체험·설명 콘텐츠와 연결했어요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --green:#4CAF8E; --green-soft:#E3F5EE;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --teal:#2EC4C6; --teal-soft:#E4FAF9;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 90px;
+}
+.wrap{max-width:900px;margin:0 auto;}
+.back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+.back-link:hover{color:var(--ink);}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,42px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral);}
+.sub{color:var(--ink-soft);font-size:15.5px;line-height:1.75;max-width:70ch;margin:0 0 20px;}
+.note{background:var(--violet-soft);border-radius:14px;padding:14px 18px;font-size:13.5px;line-height:1.7;color:var(--ink);margin-bottom:26px;}
+.note b{color:var(--violet);}
+
+.jumpnav{
+  display:flex;flex-wrap:wrap;gap:8px;margin-bottom:34px;
+  position:sticky;top:10px;z-index:5;background:var(--paper);padding:10px 0;
+}
+.jump-btn{
+  font-family:'Do Hyeon',sans-serif;font-size:13.5px;
+  background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);
+  border-radius:999px;padding:7px 14px;cursor:pointer;text-decoration:none;
+  box-shadow:var(--shadow); transition:all .15s ease;
+}
+.jump-btn:hover{border-color:var(--violet);color:var(--violet);}
+
+.grade-section{margin-bottom:40px;scroll-margin-top:70px;}
+.grade-head{
+  display:flex;align-items:baseline;gap:10px;margin-bottom:16px;
+  padding-bottom:10px;border-bottom:3px solid var(--ink);
+}
+.grade-title{font-family:'Do Hyeon',sans-serif;font-size:24px;color:var(--ink);}
+.grade-count{font-size:13px;color:var(--ink-soft);}
+
+.domain-block{margin-bottom:18px;}
+.domain-label{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:'Do Hyeon',sans-serif;font-size:13.5px;
+  padding:4px 12px;border-radius:999px;margin-bottom:10px;
+}
+.domain-label.number{background:var(--coral-soft);color:var(--coral);}
+.domain-label.change{background:var(--blue-soft);color:var(--blue);}
+.domain-label.shape{background:var(--violet-soft);color:var(--violet);}
+.domain-label.data{background:var(--green-soft);color:var(--green);}
+
+.unit-list{display:flex;flex-direction:column;gap:8px;}
+.unit-row{
+  background:var(--card);border-radius:14px;box-shadow:var(--shadow);
+  padding:12px 16px;display:flex;justify-content:space-between;align-items:center;
+  gap:12px;flex-wrap:wrap;
+}
+.unit-name{font-size:14.5px;color:var(--ink);flex:1;min-width:120px;}
+.unit-links{display:flex;gap:6px;flex-wrap:wrap;}
+.unit-link{
+  font-family:'Do Hyeon',sans-serif;font-size:12.5px;text-decoration:none;
+  padding:6px 11px;border-radius:999px;transition:all .15s ease;
+  border:1px solid transparent;
+}
+.unit-link.exp{background:var(--ink);color:#fff;}
+.unit-link.exp:hover{background:var(--violet);}
+.unit-link.art{background:var(--paper);color:var(--ink-soft);border-color:var(--paper-line);}
+.unit-link.art:hover{border-color:var(--violet);color:var(--violet);}
+.badge-soon{
+  font-family:'Do Hyeon',sans-serif;font-size:12.5px;color:var(--ink-soft);
+  background:var(--paper);border:1px solid var(--paper-line);padding:6px 11px;border-radius:999px;
+}
+.unit-row.linked{border-left:4px solid var(--violet);}
+
+.explore-section{margin-top:44px;padding-top:30px;border-top:3px dashed var(--paper-line);}
+.explore-head{display:flex;align-items:baseline;gap:10px;margin-bottom:8px;}
+.explore-title{font-family:'Do Hyeon',sans-serif;font-size:22px;color:var(--teal);}
+.explore-desc{font-size:14px;color:var(--ink-soft);margin-bottom:16px;line-height:1.7;}
+
+footer{max-width:900px;margin:36px auto 0;color:var(--ink-soft);font-size:12.5px;text-align:center;line-height:1.8;}
+footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+footer a:hover{color:var(--ink);text-decoration:underline;}
+@media (max-width:600px){
+  .unit-row{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow">🗂️ 교과과정 지도</span>
+  <h1>우리 학년 교과서에서<br><span>지금 배우는 단원</span>을 찾아보세요</h1>
+  <p class="sub">2022 개정 교육과정을 기준으로 초등학교 1학년부터 중학교 3학년까지 수학 단원을 학년별로 정리했어요. 보라색 테두리가 있는 단원은 아인매스에서 체험 페이지와 설명 글로 바로 확인할 수 있어요.</p>
+  <div class="note">📌 <b>안내</b>: 실제 교과서는 출판사마다 단원 순서나 세부 명칭이 조금씩 다를 수 있어요. 이 페이지는 교육부가 고시한 2022 개정 교육과정의 성취기준을 기준으로 정리한 참고용 지도예요.</div>
+
+  <div class="jumpnav">
+    <a class="jump-btn" href="#g12">초1~2</a>
+    <a class="jump-btn" href="#g34">초3~4</a>
+    <a class="jump-btn" href="#g56">초5~6</a>
+    <a class="jump-btn" href="#m1">중1</a>
+    <a class="jump-btn" href="#m2">중2</a>
+    <a class="jump-btn" href="#m3">중3</a>
+    <a class="jump-btn" href="#explore">쉬는 시간</a>
+  </div>
+
+  <div id="root"></div>
+
+  <div class="explore-section" id="explore">
+    <div class="explore-head">
+      <span class="explore-title">🌀 쉬는 시간 · 수학 탐구</span>
+    </div>
+    <p class="explore-desc">특정 학년 교과서 단원에 딱 매이지는 않지만, 수학사 속에서 오랫동안 사랑받아 온 재미있는 패턴들이에요. 초등 고학년부터 중학생까지 누구나 즐길 수 있어요.</p>
+    <div class="unit-list" id="exploreList"></div>
+  </div>
+
+  <footer>
+    <p>참고: 국가교육과정정보센터(NCIC) 고시 2022 개정 교육과정 수학과 성취기준을 바탕으로 정리했어요.</p>
+    <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+  </footer>
+</div>
+
+<script>
+// 각 항목: { name: 단원명, exp: [ {label, href} ], art: [ {label, href} ], note: 부가설명 }
+// exp/art가 비어있으면(둘 다 없음) "아직 없어요" 배지로 표시됨
+
+const DOMAIN_LABEL = { number:'🔢 수와 연산', change:'📈 변화와 관계', shape:'📐 도형과 측정', data:'📊 자료와 가능성' };
+
+const GRADES = [
+  {
+    id:'g12', title:'초등학교 1~2학년군',
+    domains: {
+      number: [
+        { name:'100까지의 수 / 덧셈과 뺄셈', exp:[{label:'10 만들기', href:'make-ten.html'}], art:[{label:'설명 글', href:'article-make-ten.html'}] },
+        { name:'곱셈구구', exp:[{label:'곱셈구구 놀이', href:'multiplication-array.html'}], art:[{label:'설명 글', href:'article-multiplication-array.html'}] },
+      ],
+      change: [
+        { name:'규칙 찾기', exp:[{label:'규칙 찾기', href:'pattern-finder.html'}], art:[{label:'설명 글', href:'article-pattern-finder.html'}] },
+      ],
+      shape: [
+        { name:'여러 가지 도형', exp:[{label:'평면도형 모양 찾기', href:'shape-finder.html'}], art:[{label:'설명 글', href:'article-shape-finder.html'}] },
+        { name:'길이 재기 · 시각과 시간', exp:[{label:'시계 보기', href:'clock-reading.html'}], art:[{label:'설명 글', href:'article-clock-reading.html'}] },
+      ],
+      data: [
+        { name:'표와 그림그래프', exp:[{label:'그림그래프로 나타내기', href:'pictogram-graph.html'}], art:[{label:'설명 글', href:'article-pictogram-graph.html'}] },
+      ],
+    }
+  },
+  {
+    id:'g34', title:'초등학교 3~4학년군',
+    domains: {
+      number: [
+        { name:'큰 수', exp:[], art:[] },
+        { name:'곱셈과 나눗셈', exp:[], art:[] },
+        { name:'분수와 소수', exp:[{label:'분수 크기 비교', href:'fraction-compare.html'}], art:[{label:'설명 글', href:'article-fraction-compare.html'}] },
+      ],
+      shape: [
+        { name:'원 / 여러 가지 삼각형·사각형', exp:[], art:[] },
+        { name:'각도', exp:[], art:[] },
+        { name:'평면도형의 이동', exp:[{label:'좌표평면 위 도형 이동', href:'coordinate-transform.html'}], art:[{label:'설명 글', href:'article-coordinate-transform.html'}], note:'좌표를 이용한 확장판 — 좌표평면 자체는 중1에서 배워요' },
+      ],
+      data: [
+        { name:'막대그래프 · 꺾은선그래프', exp:[], art:[] },
+      ],
+    }
+  },
+  {
+    id:'g56', title:'초등학교 5~6학년군',
+    domains: {
+      number: [
+        { name:'약수와 배수', exp:[{label:'최대공약수·최소공배수', href:'gcd-lcm.html'},{label:'약수 찾기', href:'divisor-finder.html'}], art:[{label:'설명 글', href:'article-gcd-lcm.html'},{label:'설명 글', href:'article-divisors.html'}] },
+        { name:'약분과 통분 / 분수·소수의 계산', exp:[], art:[] },
+      ],
+      change: [
+        { name:'비와 비율', exp:[{label:'비와 비율', href:'ratio-proportion.html'}], art:[{label:'설명 글', href:'article-ratio-proportion.html'}] },
+        { name:'비례식과 비례배분', exp:[], art:[] },
+      ],
+      shape: [
+        { name:'합동과 대칭', exp:[], art:[] },
+        { name:'원주율과 원의 넓이', exp:[{label:'원주율(π) 체험', href:'pi-circumference.html'},{label:'원의 넓이', href:'circle-area.html'}], art:[{label:'설명 글', href:'article-pi-circumference.html'},{label:'설명 글', href:'article-circle-area.html'}] },
+        { name:'직육면체의 겉넓이와 부피', exp:[], art:[] },
+      ],
+      data: [
+        { name:'평균', exp:[{label:'평균·중앙값·최빈값', href:'mean-median-mode.html'}], art:[{label:'설명 글', href:'article-mean-median-mode.html'}], note:'중앙값·최빈값은 중1에서 정식으로 배워요' },
+        { name:'가능성', exp:[{label:'동전·주사위 시뮬레이터', href:'coin-dice-simulator.html'}], art:[{label:'설명 글', href:'article-coin-dice-probability.html'}], note:'정식 확률 개념은 중2에서 배워요' },
+        { name:'원그래프', exp:[], art:[] },
+      ],
+    }
+  },
+  {
+    id:'m1', title:'중학교 1학년',
+    domains: {
+      number: [
+        { name:'소인수분해', exp:[{label:'소수 탐험', href:'prime-sieve.html'}], art:[{label:'설명 글', href:'article-prime-sieve.html'}], note:'최대공약수·최소공배수를 소인수분해로 구하는 방법도 이 단원이에요' },
+        { name:'정수와 유리수', exp:[], art:[] },
+      ],
+      change: [
+        { name:'문자와 식 / 일차방정식', exp:[], art:[] },
+        { name:'좌표평면과 그래프 (정비례·반비례)', exp:[{label:'비례와 반비례', href:'proportion-inverse.html'}], art:[{label:'설명 글', href:'article-proportion-inverse.html'}] },
+      ],
+      shape: [
+        { name:'기본 도형', exp:[], art:[] },
+        { name:'작도와 합동', exp:[{label:'합동조건', href:'congruence-conditions.html'}], art:[{label:'설명 글', href:'article-congruence-conditions.html'}] },
+        { name:'평면도형의 성질', exp:[{label:'다각형 내각의 합', href:'polygon-angle-sum.html'}], art:[{label:'설명 글', href:'article-polygon-angle-sum.html'}] },
+        { name:'입체도형의 성질', exp:[{label:'원기둥과 원뿔의 부피', href:'cylinder-cone-volume.html'}], art:[{label:'설명 글', href:'article-cylinder-cone-volume.html'}] },
+      ],
+      data: [
+        { name:'대푯값 (중앙값·최빈값)', exp:[{label:'평균·중앙값·최빈값', href:'mean-median-mode.html'}], art:[{label:'설명 글', href:'article-mean-median-mode.html'}] },
+        { name:'도수분포표와 상대도수', exp:[], art:[] },
+      ],
+    }
+  },
+  {
+    id:'m2', title:'중학교 2학년',
+    domains: {
+      number: [
+        { name:'유리수와 순환소수', exp:[], art:[] },
+      ],
+      change: [
+        { name:'식의 계산', exp:[], art:[] },
+        { name:'일차부등식 / 연립일차방정식', exp:[], art:[] },
+        { name:'일차함수와 그래프', exp:[{label:'일차함수 그래프', href:'linear-function-graph.html'}], art:[{label:'설명 글', href:'article-linear-function.html'}] },
+      ],
+      shape: [
+        { name:'삼각형과 사각형의 성질', exp:[], art:[] },
+        { name:'도형의 닮음', exp:[{label:'닮음과 합동', href:'similarity-congruence.html'}], art:[{label:'설명 글', href:'article-similarity-congruence.html'}] },
+        { name:'피타고라스 정리', exp:[{label:'피타고라스 정리', href:'pythagorean-theorem.html'}], art:[{label:'설명 글', href:'article-pythagorean-theorem.html'}] },
+      ],
+      data: [
+        { name:'경우의 수와 확률', exp:[{label:'동전·주사위 시뮬레이터', href:'coin-dice-simulator.html'},{label:'순열과 조합', href:'permutations-combinations.html'}], art:[{label:'설명 글', href:'article-coin-dice-probability.html'},{label:'설명 글', href:'article-permutations-combinations.html'}], note:'순열과 조합은 고등학교 확률과 통계로 이어지는 심화 내용이에요' },
+      ],
+    }
+  },
+  {
+    id:'m3', title:'중학교 3학년',
+    domains: {
+      number: [
+        { name:'제곱근과 실수', exp:[], art:[] },
+      ],
+      change: [
+        { name:'다항식의 곱셈과 인수분해 / 이차방정식', exp:[], art:[] },
+        { name:'이차함수와 그래프', exp:[{label:'이차함수 그래프', href:'quadratic-function-graph.html'}], art:[{label:'설명 글', href:'article-quadratic-function.html'}] },
+      ],
+      shape: [
+        { name:'삼각비', exp:[{label:'삼각비', href:'trig-ratios.html'}], art:[{label:'설명 글', href:'article-trig-ratios.html'}] },
+        { name:'원의 성질 (원주각)', exp:[], art:[] },
+      ],
+      data: [
+        { name:'산포도 / 상자그림과 산점도', exp:[], art:[] },
+      ],
+    }
+  },
+];
+
+const EXPLORE = [
+  { name:'파스칼의 삼각형', exp:[{label:'체험하기', href:'pascal-triangle.html'}], art:[{label:'설명 글', href:'article-pascals-triangle.html'}] },
+  { name:'피보나치 수열과 나선', exp:[{label:'체험하기', href:'fibonacci-spiral.html'}], art:[{label:'설명 글', href:'article-fibonacci-spiral.html'}] },
+  { name:'테셀레이션 (쪽매맞춤)', exp:[{label:'체험하기', href:'tessellation.html'}], art:[{label:'설명 글', href:'article-tessellation.html'}] },
+];
+
+function unitRowHtml(u){
+  const hasLink = (u.exp && u.exp.length) || (u.art && u.art.length);
+  const links = [
+    ...(u.exp||[]).map(l=>`<a class="unit-link exp" href="${l.href}">🎮 ${l.label}</a>`),
+    ...(u.art||[]).map(l=>`<a class="unit-link art" href="${l.href}">📖 ${l.label}</a>`),
+  ].join('');
+  return `
+    <div class="unit-row ${hasLink?'linked':''}">
+      <div class="unit-name">${u.name}${u.note ? `<div style="font-size:12px;color:var(--ink-soft);margin-top:3px;">${u.note}</div>` : ''}</div>
+      ${hasLink ? `<div class="unit-links">${links}</div>` : `<span class="badge-soon">아직 없어요</span>`}
+    </div>
+  `;
+}
+
+function render(){
+  const root = document.getElementById('root');
+  root.innerHTML = GRADES.map(g=>{
+    const domainOrder = ['number','change','shape','data'];
+    const blocks = domainOrder.filter(d=>g.domains[d] && g.domains[d].length).map(d=>`
+      <div class="domain-block">
+        <span class="domain-label ${d}">${DOMAIN_LABEL[d]}</span>
+        <div class="unit-list">${g.domains[d].map(unitRowHtml).join('')}</div>
+      </div>
+    `).join('');
+    const total = domainOrder.reduce((a,d)=>a+(g.domains[d]?g.domains[d].length:0),0);
+    const covered = domainOrder.reduce((a,d)=>a+(g.domains[d]?g.domains[d].filter(u=>(u.exp&&u.exp.length)||(u.art&&u.art.length)).length:0),0);
+    return `
+      <div class="grade-section" id="${g.id}">
+        <div class="grade-head">
+          <span class="grade-title">${g.title}</span>
+          <span class="grade-count">${total}개 단원 중 ${covered}개 체험 가능</span>
+        </div>
+        ${blocks}
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('exploreList').innerHTML = EXPLORE.map(unitRowHtml).join('');
+}
+
+render();
+</script>
+</body>
+</html>

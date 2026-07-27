@@ -83,6 +83,15 @@
   .filter-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
   .filter-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
 
+  .curriculum-banner{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--violet);
+    background:var(--violet-soft);border:2px solid transparent;
+    padding:12px 20px;border-radius:14px;text-decoration:none;
+    margin-bottom:30px;transition:all .15s ease;
+  }
+  .curriculum-banner:hover{border-color:var(--violet);transform:translateY(-2px);}
+
   /* category sections */
   .category{margin-bottom:44px;}
   .category-head{
@@ -170,6 +179,8 @@
   <h1>숫자를 <span>직접 만져보며</span><br>이해하는 수학</h1>
   <p class="sub">슬라이더를 움직이고 값을 바꿔보면서 개념이 왜 그런지 눈으로 확인하는 사이트예요. 학년 필터로 우리 수준에 맞는 주제를 찾아보세요.</p>
 
+  <a href="curriculum-map.html" class="curriculum-banner">🗂️ 우리 학년 교과과정에서 찾아보기 →</a>
+
   <div class="filter-bar" id="filterBar">
     <button class="filter-btn active" data-grade="all">전체</button>
     <button class="filter-btn" data-grade="low">초등 저학년 (1~3학년)</button>
@@ -181,7 +192,7 @@
 
   <footer>
     <nav class="footer-nav">
-      <a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a>
+      <a href="curriculum-map.html">교과과정 지도</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a>
     </nav>
   </footer>
 </div>
