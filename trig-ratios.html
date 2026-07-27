@@ -49,6 +49,11 @@ input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--co
 .preset-btn:hover{border-color:var(--violet);color:var(--violet);}
 .preset-btn.active{background:var(--violet);border-color:var(--violet);color:#fff;}
 .preset-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+.side-picker{display:flex;gap:8px;flex-wrap:wrap;width:100%;max-width:420px;margin:14px 0 4px;}
+.side-btn{flex:1;min-width:110px;font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:12px;padding:9px 10px;cursor:pointer;transition:all .15s ease;}
+.side-btn:hover{border-color:var(--coral);color:var(--coral);}
+.side-btn.active{background:var(--coral);border-color:var(--coral);color:#fff;}
+.side-btn:focus-visible{outline:3px solid var(--violet);outline-offset:2px;}
 .side-label{font-family:'Do Hyeon',sans-serif;font-size:14px;}
 .angle-label{font-family:'Do Hyeon',sans-serif;font-size:15px;fill:var(--coral);}
 .panel{display:flex;flex-direction:column;gap:16px;}
@@ -77,6 +82,7 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
       <div class="howto">
         <p>직각삼각형에서 각 θ를 기준으로, θ와 마주보는 변을 <b>대변</b>, θ에 붙어있는 변(빗변 제외)을 <b>인접변(밑변)</b>, 직각과 마주보는 가장 긴 변을 <b>빗변</b>이라고 불러요.</p>
         <p><b>sin θ = 대변÷빗변</b>, <b>cos θ = 인접변÷빗변</b>, <b>tan θ = 대변÷인접변</b>이에요. 삼각형의 크기가 달라져도 각도 θ만 같으면 이 비율은 항상 똑같이 유지돼요 — 그래서 "삼각비"라고 불러요.</p>
+        <p>아래에서 빗변·인접변·대변 중 하나를 골라 길이를 직접 입력해보세요. 고른 변의 길이는 그대로 고정되고, 나머지 두 변은 각도에 맞춰 자동으로 계산돼요.</p>
       </div>
       <svg id="svg" viewBox="0 0 460 380"></svg>
       <div class="control-row">
@@ -84,9 +90,10 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
         <input id="sliderAngle" type="range" min="5" max="85" value="40" step="1" aria-label="각도 조절">
       </div>
       <div class="presets" id="presetRow"></div>
+      <div class="side-picker" id="sidePicker"></div>
       <div class="control-row">
-        <div class="control-label"><span>빗변 길이</span><b id="hypLabel">6</b><span>cm</span></div>
-        <input id="sliderHyp" type="range" min="3" max="20" value="6" step="1" aria-label="빗변 길이 조절">
+        <div class="control-label"><span id="fixedSideLabel">빗변 길이</span><b id="fixedLenLabel">6</b><span>cm</span></div>
+        <input id="sliderLen" type="range" min="3" max="20" value="6" step="1" aria-label="고정할 변의 길이 조절">
       </div>
     </div>
 
@@ -109,16 +116,18 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
     </div>
   </div>
 
-  <footer>θ가 커질수록 대변은 길어지고 인접변은 짧아져서, sin은 점점 커지고 cos은 점점 작아져요. θ가 0°에 가까워지면 삼각형이 납작해지면서 sin은 0에, cos은 1에 가까워지고, 90°에 가까워지면 반대가 돼요.</footer>
+  <footer>θ가 커질수록 대변은 길어지고 인접변은 짧아져서, sin은 점점 커지고 cos은 점점 작아져요. θ가 0°에 가까워지면 삼각형이 납작해지면서 sin은 0에, cos은 1에 가까워지고, 90°에 가까워지면 반대가 돼요. 빗변·인접변·대변 중 어떤 변을 고정하든, 각도가 같다면 sin·cos·tan 값은 항상 똑같아요.</footer>
 </div>
 
 <script>
 const svg = document.getElementById('svg');
 const sliderAngle = document.getElementById('sliderAngle');
-const sliderHyp = document.getElementById('sliderHyp');
+const sliderLen = document.getElementById('sliderLen');
 const angleLabel = document.getElementById('angleLabel');
-const hypLabel = document.getElementById('hypLabel');
+const fixedSideLabel = document.getElementById('fixedSideLabel');
+const fixedLenLabel = document.getElementById('fixedLenLabel');
 const presetRow = document.getElementById('presetRow');
+const sidePicker = document.getElementById('sidePicker');
 const sinExpr = document.getElementById('sinExpr');
 const cosExpr = document.getElementById('cosExpr');
 const tanExpr = document.getElementById('tanExpr');
@@ -133,6 +142,24 @@ const SPECIAL = {
   45: {sin:'√2/2', cos:'√2/2', tan:'1'},
   60: {sin:'√3/2', cos:'1/2', tan:'√3'},
 };
+const SIDES = [
+  {key:'hyp', name:'빗변'},
+  {key:'adj', name:'인접변'},
+  {key:'opp', name:'대변'},
+];
+let fixedSide = 'hyp';
+
+function buildSidePicker(){
+  sidePicker.innerHTML = SIDES.map(s=>`<button class="side-btn${s.key===fixedSide?' active':''}" data-k="${s.key}">${s.name} 고정</button>`).join('');
+  sidePicker.querySelectorAll('.side-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      fixedSide = btn.dataset.k;
+      buildSidePicker();
+      fixedSideLabel.textContent = SIDES.find(s=>s.key===fixedSide).name + ' 길이';
+      render();
+    });
+  });
+}
 
 function buildPresets(){
   presetRow.innerHTML = PRESETS.map(p=>`<button class="preset-btn" data-a="${p}">${p}°(특수각)</button>`).join('');
@@ -154,17 +181,23 @@ function fmt(n){ return (Math.round(n*100)/100).toString(); }
 
 function render(){
   const angle = parseInt(sliderAngle.value);
-  const hyp = parseInt(sliderHyp.value);
+  const rad = angle*Math.PI/180;
+  const L = parseInt(sliderLen.value); // 사용자가 고정한 변의 실제 길이(cm)
   angleLabel.textContent = angle;
-  hypLabel.textContent = hyp;
+  fixedLenLabel.textContent = L;
   updatePresetActive(angle);
 
-  const rad = angle*Math.PI/180;
+  // 고정한 변의 종류에 따라 빗변(hyp)을 역산한 다음, 나머지 두 변을 계산해요.
+  let hyp;
+  if(fixedSide==='hyp') hyp = L;
+  else if(fixedSide==='adj') hyp = L/Math.cos(rad);
+  else hyp = L/Math.sin(rad); // 'opp'
+
   const opposite = hyp*Math.sin(rad);   // 대변 (실제 길이, cm)
   const adjacent = hyp*Math.cos(rad);   // 인접변 (실제 길이, cm)
 
-  // 화면에 그리는 크기는 실제 cm 값과 분리해서, 빗변을 항상 고정된 화면 크기로 정규화해요.
-  // 이렇게 하면 빗변이 3cm든 20cm든 삼각형이 캔버스를 벗어나지 않아요.
+  // 화면에 그리는 크기는 실제 cm 값과 분리해서, 항상 각도만으로 정규화된 크기로 그려요.
+  // 이렇게 하면 어떤 변을 고정하고 어떤 값을 넣든 삼각형이 캔버스를 벗어나지 않아요.
   const DISPLAY_HYP_PX = 250;
   const oppPx = DISPLAY_HYP_PX * Math.sin(rad);
   const adjPx = DISPLAY_HYP_PX * Math.cos(rad);
@@ -195,17 +228,20 @@ function render(){
   const lx = Ax + labelR*Math.cos(midAng*Math.PI/180), ly = Ay + labelR*Math.sin(midAng*Math.PI/180);
   html += `<text class="angle-label" x="${lx}" y="${ly}" text-anchor="middle">θ=${angle}°</text>`;
 
-  // 변 라벨 (실제 cm 값을 표시하되, 위치는 화면 정규화된 좌표 기준)
-  html += `<text class="side-label" x="${(Ax+Bx)/2}" y="${Ay+26}" text-anchor="middle" fill="var(--blue)">인접변 ${fmt(adjacent)}cm</text>`;
-  html += `<text class="side-label" x="${Bx+14}" y="${(By+Cy)/2}" text-anchor="start" fill="var(--violet)">대변 ${fmt(opposite)}cm</text>`;
+  // 변 라벨 (고정한 변에는 🔒 표시)
+  const adjTag = fixedSide==='adj' ? ' 🔒' : '';
+  const oppTag = fixedSide==='opp' ? ' 🔒' : '';
+  const hypTag = fixedSide==='hyp' ? ' 🔒' : '';
+  html += `<text class="side-label" x="${(Ax+Bx)/2}" y="${Ay+26}" text-anchor="middle" fill="var(--blue)">인접변 ${fmt(adjacent)}cm${adjTag}</text>`;
+  html += `<text class="side-label" x="${Bx+14}" y="${(By+Cy)/2}" text-anchor="start" fill="var(--violet)">대변 ${fmt(opposite)}cm${oppTag}</text>`;
   const midx=(Ax+Cx)/2 - 26, midy=(Ay+Cy)/2;
-  html += `<text class="side-label" x="${midx}" y="${midy}" text-anchor="middle" fill="var(--coral)">빗변 ${hyp}cm</text>`;
+  html += `<text class="side-label" x="${midx}" y="${midy}" text-anchor="middle" fill="var(--coral)">빗변 ${fmt(hyp)}cm${hypTag}</text>`;
 
   svg.innerHTML = html;
 
   const sinV = opposite/hyp, cosV = adjacent/hyp, tanV = opposite/adjacent;
-  sinExpr.textContent = `대변 ÷ 빗변 = ${fmt(opposite)} ÷ ${hyp}`;
-  cosExpr.textContent = `인접변 ÷ 빗변 = ${fmt(adjacent)} ÷ ${hyp}`;
+  sinExpr.textContent = `대변 ÷ 빗변 = ${fmt(opposite)} ÷ ${fmt(hyp)}`;
+  cosExpr.textContent = `인접변 ÷ 빗변 = ${fmt(adjacent)} ÷ ${fmt(hyp)}`;
   tanExpr.textContent = `대변 ÷ 인접변 = ${fmt(opposite)} ÷ ${fmt(adjacent)}`;
 
   const special = SPECIAL[angle];
@@ -213,13 +249,15 @@ function render(){
   cosVal.innerHTML = special ? `${fmt(cosV)} <span style="font-size:13px;color:var(--ink-soft)">(=${special.cos})</span>` : fmt(cosV);
   tanVal.innerHTML = special ? `${fmt(tanV)} <span style="font-size:13px;color:var(--ink-soft)">(=${special.tan})</span>` : fmt(tanV);
 
+  const sideName = SIDES.find(s=>s.key===fixedSide).name;
   let extra = special ? ` ${angle}°는 값이 깔끔한 분수·근호로 딱 떨어지는 <b>특수각</b>이에요.` : '';
-  factBox.innerHTML = `θ=${angle}°일 때, 빗변 ${hyp}cm인 직각삼각형의 대변은 ${fmt(opposite)}cm, 인접변은 ${fmt(adjacent)}cm예요. 그래서 sin${angle}°≈${fmt(sinV)}, cos${angle}°≈${fmt(cosV)}, tan${angle}°≈${fmt(tanV)}이 돼요.${extra} 빗변 길이를 바꿔도 삼각형이 커지고 작아질 뿐, θ가 그대로면 이 비율들은 절대 변하지 않아요.`;
+  factBox.innerHTML = `<b>${sideName}을(를) ${L}cm로 고정</b>했어요. θ=${angle}°일 때 나머지 두 변은 빗변 ${fmt(hyp)}cm, 대변 ${fmt(opposite)}cm, 인접변 ${fmt(adjacent)}cm로 계산돼요. 그래서 sin${angle}°≈${fmt(sinV)}, cos${angle}°≈${fmt(cosV)}, tan${angle}°≈${fmt(tanV)}이 돼요.${extra} 각도가 그대로면 어떤 변을 고정하든 이 비율들은 절대 변하지 않아요.`;
 }
 
 sliderAngle.addEventListener('input', render);
-sliderHyp.addEventListener('input', render);
+sliderLen.addEventListener('input', render);
 buildPresets();
+buildSidePicker();
 render();
 </script>
 </body>
