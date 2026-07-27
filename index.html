@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3661100956787514"
-     crossorigin="anonymous"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>아인매스</title>
+<title>수학 시각화 실험실</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
@@ -144,29 +142,18 @@
   .grade-tag.high{background:var(--green-soft);color:var(--green);border-color:#CDEDE1;}
   .grade-tag.mid{background:var(--violet-soft);color:var(--violet);border-color:#DCD1FE;}
 
-  .card-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px;}
-  .card-action{
-    font-family:'Do Hyeon',sans-serif;font-size:13px;
-    text-decoration:none;color:var(--card-accent,var(--violet));
-    background:var(--paper);border:1px solid var(--paper-line);
-    padding:6px 12px;border-radius:999px;
-    transition:all .15s ease;
+  .card-cta{
+    font-family:'Do Hyeon',sans-serif;font-size:14px;
+    color:var(--card-accent,var(--violet));
+    display:flex;align-items:center;gap:4px;
   }
-  .card-action:hover{border-color:var(--card-accent,var(--violet));background:#fff;}
-  .card-action.primary{
-    background:var(--card-accent,var(--violet));color:#fff;border-color:transparent;
-  }
-  .card-action.primary:hover{filter:brightness(1.08);}
 
   footer{max-width:1080px;margin:20px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
-  footer p{margin:0 0 10px;}
-  .footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
-  .footer-nav a:hover{color:var(--ink);text-decoration:underline;}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <span class="eyebrow">🧮 아인매스</span>
+  <span class="eyebrow">🧮 수학 시각화 실험실</span>
   <h1>숫자를 <span>직접 만져보며</span><br>이해하는 수학</h1>
   <p class="sub">슬라이더를 움직이고 값을 바꿔보면서 개념이 왜 그런지 눈으로 확인하는 사이트예요. 학년 필터로 우리 수준에 맞는 주제를 찾아보세요.</p>
 
@@ -179,11 +166,7 @@
 
   <div id="categories"></div>
 
-  <footer>
-    <nav class="footer-nav">
-      <a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a>
-    </nav>
-  </footer>
+  <footer>✅ 완성 = 지금 바로 체험할 수 있어요 · 준비 중 = 다음에 추가될 예정이에요</footer>
 </div>
 
 <script>
@@ -191,53 +174,44 @@
     {
       key: 'geometry', title: '도형 · 기하', color: 'var(--violet)', bg: 'var(--violet-soft)',
       items: [
-        { title:'다각형 내각의 합', desc:'변의 개수를 바꾸면 삼각형으로 쪼개지는 모습을 보며 (n−2)×180° 공식을 확인해요.', grades:['high','mid'], status:'live', href:'polygon-angle-sum.html', article:'article-polygon-angle-sum.html', icon:'△' },
-        { title:'원주율(π) 체험', desc:'원을 굴려서 지름의 몇 배만큼 굴러가는지 직접 확인해요.', grades:['high','mid'], status:'live', href:'pi-circumference.html', article:'article-pi-circumference.html', icon:'◯' },
-        { title:'피타고라스 정리', desc:'직각삼각형 세 변 위에 정사각형을 그려 a²+b²=c²를 눈으로 확인해요.', grades:['mid'], status:'live', href:'pythagorean-theorem.html', article:'article-pythagorean-theorem.html', icon:'◺' },
-        { title:'원의 넓이', desc:'원을 피자 조각처럼 잘라 직사각형으로 이어붙이며 넓이 공식을 확인해요.', grades:['high'], status:'live', href:'circle-area.html', article:'article-circle-area.html', icon:'🍕' },
-        { title:'닮음과 합동', desc:'배율을 조절하면 도형이 커지고 작아지며 넓이·둘레 비율이 바뀌는 걸 확인해요.', grades:['mid'], status:'live', href:'similarity-congruence.html', article:'article-similarity-congruence.html', icon:'⧉' },
-        { title:'합동조건 (SSS·SAS·ASA·RHS·RHA)', desc:'조건에 맞는 숫자를 입력해 삼각형을 만들고, 겹쳐보며 합동을 확인해요.', grades:['mid'], status:'live', href:'congruence-conditions.html', article:'article-congruence-conditions.html', icon:'≅' },
-        { title:'원기둥과 원뿔의 부피', desc:'반지름과 높이를 조절하며 원뿔이 원기둥 부피의 정확히 1/3인 걸 확인해요.', grades:['high','mid'], status:'live', href:'cylinder-cone-volume.html', article:'article-cylinder-cone-volume.html', icon:'🧊' },
-        { title:'평면도형 모양 찾기', desc:'도형을 고르면 변과 꼭짓점을 하나씩 세어주고, 이름 맞히기 퀴즈도 풀어봐요.', grades:['low'], status:'live', href:'shape-finder.html', article:'article-shape-finder.html', icon:'🔺' },
+        { title:'다각형 내각의 합', desc:'변의 개수를 바꾸면 삼각형으로 쪼개지는 모습을 보며 (n−2)×180° 공식을 확인해요.', grades:['high','mid'], status:'live', href:'polygon-angle-sum.html', icon:'△' },
+        { title:'원주율(π) 체험', desc:'원을 굴려서 지름의 몇 배만큼 굴러가는지 직접 확인해요.', grades:['high','mid'], status:'live', href:'pi-circumference.html', icon:'◯' },
+        { title:'피타고라스 정리', desc:'직각삼각형 세 변 위에 정사각형을 그려 a²+b²=c²를 눈으로 확인해요.', grades:['mid'], status:'live', href:'pythagorean-theorem.html', icon:'◺' },
+        { title:'원의 넓이', desc:'원을 피자 조각처럼 잘라 직사각형으로 이어붙이며 넓이 공식을 확인해요.', grades:['high'], status:'live', href:'circle-area.html', icon:'🍕' },
+        { title:'닮음과 합동', desc:'배율을 조절하면 도형이 커지고 작아지며 넓이·둘레 비율이 바뀌는 걸 확인해요.', grades:['mid'], status:'live', href:'similarity-congruence.html', icon:'⧉' },
+        { title:'합동조건 (SSS·SAS·ASA·RHS·RHA)', desc:'조건에 맞는 숫자를 입력해 삼각형을 만들고, 겹쳐보며 합동을 확인해요.', grades:['mid'], status:'live', href:'congruence-conditions.html', icon:'≅' },
+        { title:'삼각비 (사인·코사인·탄젠트)', desc:'각도 하나로 sin·cos·tan의 정의, 특수각, 기울기, sin²+cos²=1까지 한 번에 확인해요.', grades:['mid'], status:'live', href:'trig-ratios.html', icon:'📐' },
       ]
     },
     {
       key: 'number', title: '수와 연산', color: 'var(--coral)', bg: 'var(--coral-soft)',
       items: [
-        { title:'소수 탐험', desc:'에라토스테네스의 체 애니메이션으로 소수를 걸러내는 과정을 확인해요.', grades:['high','mid'], status:'live', href:'prime-sieve.html', article:'article-prime-sieve.html', icon:'🔢' },
-        { title:'최대공약수 · 최소공배수', desc:'두 수를 입력하면 배수 목록에서 겹치는 부분을 시각적으로 찾아요.', grades:['high'], status:'live', href:'gcd-lcm.html', article:'article-gcd-lcm.html', icon:'🔗' },
-        { title:'분수 크기 비교', desc:'분자와 분모를 바꾸면 원 그래프와 막대그래프로 크기를 비교해요.', grades:['low','high'], status:'live', href:'fraction-compare.html', article:'article-fraction-compare.html', icon:'🍰' },
-        { title:'약수 찾기', desc:'숫자를 입력하면 직사각형 배열로 약수를 모두 찾아 보여줘요.', grades:['high'], status:'live', href:'divisor-finder.html', article:'article-divisors.html', icon:'▦' },
-        { title:'비와 비율', desc:'지도 축척과 설탕물 농도로, 두 양의 비율이 어떻게 유지되는지 확인해요.', grades:['high','mid'], status:'live', href:'ratio-proportion.html', article:'article-ratio-proportion.html', icon:'⚖️' },
-        { title:'10 만들기', desc:'열 칸 표의 빨간 점을 보고, 10을 만드는 짝꿍 수를 맞혀봐요.', grades:['low'], status:'live', href:'make-ten.html', article:'article-make-ten.html', icon:'🔟' },
-        { title:'시계 보기 (몇 시 몇 분)', desc:'짧은바늘과 긴바늘을 보고 몇 시 몇 분인지 맞히는 퀴즈를 풀어봐요.', grades:['low'], status:'live', href:'clock-reading.html', article:'article-clock-reading.html', icon:'🕐' },
+        { title:'소수 탐험', desc:'에라토스테네스의 체 애니메이션으로 소수를 걸러내는 과정을 확인해요.', grades:['high','mid'], status:'soon', icon:'🔢' },
+        { title:'최대공약수 · 최소공배수', desc:'두 수를 입력하면 배수 목록에서 겹치는 부분을 시각적으로 찾아요.', grades:['high'], status:'soon', icon:'🔗' },
+        { title:'분수 크기 비교', desc:'분자와 분모를 바꾸면 원 그래프와 막대그래프로 크기를 비교해요.', grades:['low','high'], status:'soon', icon:'🍰' },
+        { title:'약수 찾기', desc:'숫자를 입력하면 직사각형 배열로 약수를 모두 찾아 보여줘요.', grades:['high'], status:'soon', icon:'▦' },
       ]
     },
     {
       key: 'stats', title: '확률과 통계', color: 'var(--green)', bg: 'var(--green-soft)',
       items: [
-        { title:'동전 · 주사위 시뮬레이터', desc:'시행 횟수를 늘리면 실제 확률에 가까워지는 과정을 그래프로 확인해요.', grades:['high','mid'], status:'live', href:'coin-dice-simulator.html', article:'article-coin-dice-probability.html', icon:'🎲' },
-        { title:'평균 · 중앙값 · 최빈값', desc:'숫자를 직접 입력하면 세 값이 어떻게 달라지는지 확인해요.', grades:['high','mid'], status:'live', href:'mean-median-mode.html', article:'article-mean-median-mode.html', icon:'📊' },
-        { title:'순열과 조합', desc:'n명 중 r명을 뽑을 때, 순서를 따지는지에 따라 경우의 수가 어떻게 달라지는지 확인해요.', grades:['high','mid'], status:'live', href:'permutations-combinations.html', article:'article-permutations-combinations.html', icon:'🔀' },
-        { title:'그림그래프로 나타내기', desc:'과일 버튼을 눌러 자료를 세고, 그림그래프로 쌓이는 걸 확인해요.', grades:['low'], status:'live', href:'pictogram-graph.html', article:'article-pictogram-graph.html', icon:'🍎' },
+        { title:'동전 · 주사위 시뮬레이터', desc:'시행 횟수를 늘리면 실제 확률에 가까워지는 과정을 그래프로 확인해요.', grades:['high','mid'], status:'soon', icon:'🎲' },
+        { title:'평균 · 중앙값 · 최빈값', desc:'숫자를 직접 입력하면 세 값이 어떻게 달라지는지 확인해요.', grades:['high','mid'], status:'soon', icon:'📊' },
       ]
     },
     {
       key: 'function', title: '함수와 그래프', color: 'var(--blue)', bg: 'var(--blue-soft)',
       items: [
-        { title:'일차함수 그래프', desc:'기울기와 y절편을 슬라이더로 조절하면 직선이 실시간으로 움직여요.', grades:['mid'], status:'live', href:'linear-function-graph.html', article:'article-linear-function.html', icon:'📈' },
-        { title:'비례와 반비례', desc:'상수 k를 바꾸면 그래프 모양이 어떻게 달라지는지 관찰해요.', grades:['high','mid'], status:'live', href:'proportion-inverse.html', article:'article-proportion-inverse.html', icon:'⇄' },
-        { title:'좌표평면 위 도형 이동', desc:'점을 클릭하거나 좌표를 입력해 대칭·평행이동·회전을 확인해요.', grades:['mid'], status:'live', href:'coordinate-transform.html', article:'article-coordinate-transform.html', icon:'⊹' },
-        { title:'이차함수 그래프', desc:'a, b, c를 슬라이더로 조절하면 포물선과 꼭짓점이 실시간으로 움직여요.', grades:['mid'], status:'live', href:'quadratic-function-graph.html', article:'article-quadratic-function.html', icon:'⋃' },
+        { title:'일차함수 그래프', desc:'기울기와 y절편을 슬라이더로 조절하면 직선이 실시간으로 움직여요.', grades:['mid'], status:'soon', icon:'📈' },
+        { title:'비례와 반비례', desc:'상수 k를 바꾸면 그래프 모양이 어떻게 달라지는지 관찰해요.', grades:['high','mid'], status:'soon', icon:'⇄' },
+        { title:'좌표평면 위 도형 이동', desc:'점을 클릭하거나 좌표를 입력해 대칭·평행이동·회전을 확인해요.', grades:['mid'], status:'soon', icon:'⊹' },
       ]
     },
     {
       key: 'pattern', title: '재미있는 패턴', color: 'var(--teal)', bg: 'var(--teal-soft)',
       items: [
-        { title:'파스칼의 삼각형', desc:'줄 수를 입력하면 삼각형이 그려지고 짝수·홀수 패턴이 색칠돼요.', grades:['mid'], status:'live', href:'pascal-triangle.html', article:'article-pascals-triangle.html', icon:'▲' },
-        { title:'피보나치 수열과 나선', desc:'항의 개수를 입력하면 나선과 사각형이 자라나는 모습을 확인해요.', grades:['high','mid'], status:'live', href:'fibonacci-spiral.html', article:'article-fibonacci-spiral.html', icon:'🌀' },
-        { title:'테셀레이션(쪽매맞춤)', desc:'정다각형을 골라 한 꼭짓점에 모아보며, 어떤 도형이 평면을 빈틈없이 채우는지 확인해요.', grades:['high','mid'], status:'live', href:'tessellation.html', article:'article-tessellation.html', icon:'🔷' },
-        { title:'규칙 찾기 (패턴 완성하기)', desc:'모양이 반복되는 규칙을 보고, "?" 자리에 올 모양을 맞혀봐요.', grades:['low'], status:'live', href:'pattern-finder.html', article:'article-pattern-finder.html', icon:'🔁' },
+        { title:'파스칼의 삼각형', desc:'줄 수를 입력하면 삼각형이 그려지고 짝수·홀수 패턴이 색칠돼요.', grades:['mid'], status:'soon', icon:'▲' },
+        { title:'피보나치 수열과 나선', desc:'항의 개수를 입력하면 나선과 사각형이 자라나는 모습을 확인해요.', grades:['high','mid'], status:'live', href:'fibonacci-spiral.html', icon:'🌀' },
       ]
     },
   ];
@@ -250,25 +224,19 @@
     const gradeTags = item.grades.map(g=>`<span class="grade-tag ${g}">${gradeNames[g]}</span>`).join('');
     const gradeAttr = item.grades.join(' ');
     const isLive = item.status === 'live';
-    const hasAnyLink = isLive || !!item.article;
-    const actions = [];
-    if(isLive){
-      actions.push(`<a class="card-action primary" href="${item.href}">🎮 체험하기</a>`);
-    }
-    if(item.article){
-      actions.push(`<a class="card-action" href="${item.article}">📖 설명 글 읽기</a>`);
-    }
+    const tag = isLive ? 'a' : 'div';
+    const hrefAttr = isLive ? `href="${item.href}"` : '';
     return `
-      <div class="card ${hasAnyLink ? 'live' : 'disabled'}" style="--card-accent:${accentColor}" data-grade="${gradeAttr}">
+      <${tag} ${hrefAttr} class="card ${isLive ? 'live' : 'disabled'}" style="--card-accent:${accentColor}" data-grade="${gradeAttr}">
         <div class="card-top">
           <div class="card-icon" style="background:${accentColor}22;color:${accentColor}">${item.icon}</div>
-          ${!isLive ? `<span class="status soon">준비 중</span>` : ''}
+          <span class="status ${isLive ? 'live' : 'soon'}">${isLive ? '✅ 완성' : '준비 중'}</span>
         </div>
         <div class="card-title">${item.title}</div>
         <div class="card-desc">${item.desc}</div>
         <div class="grade-tags">${gradeTags}</div>
-        ${actions.length ? `<div class="card-actions">${actions.join('')}</div>` : ''}
-      </div>
+        ${isLive ? `<div class="card-cta">바로 체험하기 →</div>` : ''}
+      </${tag}>
     `;
   }
 
