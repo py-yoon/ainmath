@@ -16,6 +16,7 @@
   --green:#4CAF8E; --green-soft:#E3F5EE;
   --blue:#4C8BF5; --blue-soft:#E7F0FF;
   --teal:#2EC4C6; --teal-soft:#E4FAF9;
+  --amber:#D97706; --amber-soft:#FEF0D9;
   --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
 }
 *{box-sizing:border-box;}
@@ -45,15 +46,30 @@ h1 span{color:var(--coral);}
   border-radius:999px;padding:7px 14px;cursor:pointer;text-decoration:none;
   box-shadow:var(--shadow); transition:all .15s ease;
 }
-.jump-btn:hover{border-color:var(--violet);color:var(--violet);}
+.jump-btn:hover{ transform:translateY(-1px); }
 
-.grade-section{margin-bottom:40px;scroll-margin-top:70px;}
-.grade-head{
-  display:flex;align-items:baseline;gap:10px;margin-bottom:16px;
-  padding-bottom:10px;border-bottom:3px solid var(--ink);
+.grade-section{
+  margin-bottom:30px;scroll-margin-top:70px;
+  border-radius:24px;padding:24px clamp(16px,3.5vw,32px) 28px;
+  border:3px solid transparent;
+  box-shadow:var(--shadow);
 }
-.grade-title{font-family:'Do Hyeon',sans-serif;font-size:24px;color:var(--ink);}
+.grade-head{
+  display:flex;align-items:center;gap:16px;margin-bottom:20px;
+}
+.grade-badge{
+  flex:none;width:56px;height:56px;border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Do Hyeon',sans-serif;font-size:19px;color:#fff;
+  box-shadow:0 4px 10px rgba(0,0,0,0.15);
+}
+.grade-titlewrap{flex:1;}
+.grade-title{font-family:'Do Hyeon',sans-serif;font-size:24px;color:var(--ink);display:block;}
 .grade-count{font-size:13px;color:var(--ink-soft);}
+.school-tag{
+  font-family:'Do Hyeon',sans-serif;font-size:12px;
+  padding:3px 10px;border-radius:999px;background:rgba(255,255,255,0.6);
+}
 
 .domain-block{margin-bottom:18px;}
 .domain-label{
@@ -110,15 +126,7 @@ footer a:hover{color:var(--ink);text-decoration:underline;}
   <p class="sub">2022 개정 교육과정을 기준으로 초등학교 1학년부터 중학교 3학년까지 수학 단원을 학년별로 정리했어요. 보라색 테두리가 있는 단원은 아인매스에서 체험 페이지와 설명 글로 바로 확인할 수 있어요.</p>
   <div class="note">📌 <b>안내</b>: 실제 교과서는 출판사마다 단원 순서나 세부 명칭이 조금씩 다를 수 있어요. 이 페이지는 교육부가 고시한 2022 개정 교육과정의 성취기준을 기준으로 정리한 참고용 지도예요.</div>
 
-  <div class="jumpnav">
-    <a class="jump-btn" href="#g12">초1~2</a>
-    <a class="jump-btn" href="#g34">초3~4</a>
-    <a class="jump-btn" href="#g56">초5~6</a>
-    <a class="jump-btn" href="#m1">중1</a>
-    <a class="jump-btn" href="#m2">중2</a>
-    <a class="jump-btn" href="#m3">중3</a>
-    <a class="jump-btn" href="#explore">쉬는 시간</a>
-  </div>
+  <div class="jumpnav" id="jumpnav"></div>
 
   <div id="root"></div>
 
@@ -144,7 +152,7 @@ const DOMAIN_LABEL = { number:'🔢 수와 연산', change:'📈 변화와 관�
 
 const GRADES = [
   {
-    id:'g12', title:'초등학교 1~2학년군',
+    id:'g12', title:'초등학교 1~2학년군', badge:'초 1~2', school:'초등학교', color:'coral',
     domains: {
       number: [
         { name:'100까지의 수 / 덧셈과 뺄셈', exp:[{label:'10 만들기', href:'make-ten.html'}], art:[{label:'설명 글', href:'article-make-ten.html'}] },
@@ -163,7 +171,7 @@ const GRADES = [
     }
   },
   {
-    id:'g34', title:'초등학교 3~4학년군',
+    id:'g34', title:'초등학교 3~4학년군', badge:'초 3~4', school:'초등학교', color:'green',
     domains: {
       number: [
         { name:'큰 수', exp:[], art:[] },
@@ -181,7 +189,7 @@ const GRADES = [
     }
   },
   {
-    id:'g56', title:'초등학교 5~6학년군',
+    id:'g56', title:'초등학교 5~6학년군', badge:'초 5~6', school:'초등학교', color:'blue',
     domains: {
       number: [
         { name:'약수와 배수', exp:[{label:'최대공약수·최소공배수', href:'gcd-lcm.html'},{label:'약수 찾기', href:'divisor-finder.html'}], art:[{label:'설명 글', href:'article-gcd-lcm.html'},{label:'설명 글', href:'article-divisors.html'}] },
@@ -204,7 +212,7 @@ const GRADES = [
     }
   },
   {
-    id:'m1', title:'중학교 1학년',
+    id:'m1', title:'중학교 1학년', badge:'중 1', school:'중학교', color:'violet',
     domains: {
       number: [
         { name:'소인수분해', exp:[{label:'소수 탐험', href:'prime-sieve.html'}], art:[{label:'설명 글', href:'article-prime-sieve.html'}], note:'최대공약수·최소공배수를 소인수분해로 구하는 방법도 이 단원이에요' },
@@ -227,7 +235,7 @@ const GRADES = [
     }
   },
   {
-    id:'m2', title:'중학교 2학년',
+    id:'m2', title:'중학교 2학년', badge:'중 2', school:'중학교', color:'teal',
     domains: {
       number: [
         { name:'유리수와 순환소수', exp:[], art:[] },
@@ -248,7 +256,7 @@ const GRADES = [
     }
   },
   {
-    id:'m3', title:'중학교 3학년',
+    id:'m3', title:'중학교 3학년', badge:'중 3', school:'중학교', color:'amber',
     domains: {
       number: [
         { name:'제곱근과 실수', exp:[], art:[] },
@@ -288,6 +296,12 @@ function unitRowHtml(u){
   `;
 }
 
+function buildJumpnav(){
+  const nav = document.getElementById('jumpnav');
+  const gradeBtns = GRADES.map(g=>`<a class="jump-btn" href="#${g.id}" style="border-color:var(--${g.color});color:var(--${g.color})">${g.badge}</a>`).join('');
+  nav.innerHTML = gradeBtns + `<a class="jump-btn" href="#explore" style="border-color:var(--teal);color:var(--teal)">🌀 쉬는 시간</a>`;
+}
+
 function render(){
   const root = document.getElementById('root');
   root.innerHTML = GRADES.map(g=>{
@@ -301,10 +315,14 @@ function render(){
     const total = domainOrder.reduce((a,d)=>a+(g.domains[d]?g.domains[d].length:0),0);
     const covered = domainOrder.reduce((a,d)=>a+(g.domains[d]?g.domains[d].filter(u=>(u.exp&&u.exp.length)||(u.art&&u.art.length)).length:0),0);
     return `
-      <div class="grade-section" id="${g.id}">
+      <div class="grade-section" id="${g.id}" style="background:var(--${g.color}-soft);border-color:var(--${g.color})">
         <div class="grade-head">
-          <span class="grade-title">${g.title}</span>
-          <span class="grade-count">${total}개 단원 중 ${covered}개 체험 가능</span>
+          <div class="grade-badge" style="background:var(--${g.color})">${g.badge}</div>
+          <div class="grade-titlewrap">
+            <span class="school-tag" style="color:var(--${g.color})">${g.school}</span>
+            <span class="grade-title">${g.title}</span>
+            <span class="grade-count">${total}개 단원 중 ${covered}개 체험 가능</span>
+          </div>
         </div>
         ${blocks}
       </div>
@@ -314,6 +332,7 @@ function render(){
   document.getElementById('exploreList').innerHTML = EXPLORE.map(unitRowHtml).join('');
 }
 
+buildJumpnav();
 render();
 </script>
 </body>
