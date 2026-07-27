@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>삼각비, 크기가 달라도 변하지 않는 신기한 비율 | 아인매스</title>
+<meta name="description" content="경사로가 얼마나 가파른지, 산의 높이가 얼마나 되는지, 직접 재지 않고도 각도만 알면 계산할 수 있어요. 그 비밀이 바로 사인, 코사인, 탄젠트라는...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:13.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#6C4CF7;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:12.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#6C4CF7;background:#EEE8FF">📐 도형·기하</span>
+  <h1>삼각비, 크기가 달라도 변하지 않는 신기한 비율</h1>
+  <p class="meta">중학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>경사로가 얼마나 가파른지, 멀리 있는 산의 높이가 얼마나 되는지, 직접 자로 재지 않고도 각도 하나만 알면 계산할 수 있다면 믿어지시나요? 그 비밀이 바로 사인(sin), 코사인(cos), 탄젠트(tan)라는 '삼각비'예요. 직각삼각형에서 한 각의 크기가 정해지면, 삼각형이 아무리 커지거나 작아져도 세 변 사이의 비율은 항상 똑같이 유지된다는 놀라운 성질을 이용하는 거예요.</p>
+      <p>직각삼각형에서 직각이 아닌 한 각을 θ(세타)라고 하면, 세 변에는 각자 이름이 있어요. θ와 마주보는 변을 '대변', θ에 붙어있는 변(빗변 제외)을 '인접변', 직각과 마주보는 가장 긴 변을 '빗변'이라고 불러요. 이 세 변의 비율을 정의한 게 삼각비예요. sin θ = 대변÷빗변, cos θ = 인접변÷빗변, tan θ = 대변÷인접변. 처음 보면 외울 게 많아 보이지만, 사실 핵심은 하나예요 — "각도가 같으면 삼각형 크기와 상관없이 이 비율이 항상 같다"는 거예요.</p>
+      <p>왜 이런 일이 가능할까요? 각 θ가 같은 두 직각삼각형은 서로 '닮음'이에요. 닮은 도형은 크기만 다를 뿐 모양이 완전히 똑같아서, 대응하는 변끼리의 비율이 항상 일정하거든요. 큰 삼각형의 대변과 빗변의 비율이나, 그와 닮은 작은 삼각형의 대변과 빗변의 비율이나 결국 똑같은 값이 나오는 거예요. 그래서 삼각비는 삼각형의 '크기'가 아니라 오직 '각도'에만 의존하는 값이 돼요.</p>
+      <p>30°, 45°, 60°처럼 자주 쓰이는 각도는 '특수각'이라고 불리는데, 이 각도들의 삼각비 값은 분수와 근호(√)로 깔끔하게 딱 떨어져요. 예를 들어 sin30°=1/2, cos45°=√2/2, tan60°=√3처럼요. 이런 특수각의 값은 정삼각형이나 정사각형을 반으로 잘라서 생기는 직각삼각형의 변 길이 비율에서 직접 유도할 수 있어서, 외우기보다는 그림으로 이해해두면 훨씬 오래 기억에 남아요.</p>
+      <p>삼각비는 실생활에서 '재지 않고 계산하는' 도구로 많이 쓰여요. 건물이나 산처럼 직접 높이를 잴 수 없는 대상도, 멀리서 올려다본 각도와 그 지점까지의 거리만 알면 높이를 계산할 수 있어요. 이런 방법을 '삼각측량'이라고 하는데, 옛날부터 지도를 만들거나 땅의 넓이를 재는 데 널리 쓰였어요. 요즘은 GPS, 건축 설계, 게임 속 3D 그래픽, 비행기의 항로 계산에도 삼각비가 기본 원리로 들어가 있어요.</p>
+      <p>아이들과 공부할 때는 직각삼각형 모형을 직접 만들어서 각도를 바꿔가며 변의 길이를 재보는 활동이 효과적이에요. 각도기로 각을 30°, 45°, 60°로 맞춰가며 삼각형을 그리고, 대변과 빗변의 길이를 자로 재서 나눠보면 정말로 sin 값이 일정하게 나오는지 직접 확인할 수 있어요. 삼각형의 크기를 다르게 해도(예: 빗변을 5cm, 10cm로 바꿔도) 같은 각도라면 비율이 똑같이 나온다는 걸 발견하는 순간이, 삼각비의 핵심을 이해하는 결정적인 계기가 될 거예요.</p>
+      <p>저희 체험 페이지에서는 각도와 빗변 길이를 슬라이더로 자유롭게 조절하면서, 삼각형의 세 변 길이와 sin·cos·tan 값이 실시간으로 바뀌는 걸 확인할 수 있어요. 30°·45°·60° 특수각 버튼을 누르면 분수·근호로 정리된 정확한 값도 함께 볼 수 있으니, 각도만 바꿔서 비율이 일정하게 유지되는지 직접 실험해보세요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="trig-ratios.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

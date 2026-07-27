@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>삼각비(사인·코사인·탄젠트) 실험실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --green:#4CAF8E; --green-soft:#E3F5EE;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1040px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--coral);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.2fr 0.8fr;gap:32px;align-items:start;}
+@media (max-width:860px){ .stage{grid-template-columns:1fr;} }
+.howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--violet);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+.canvas-area{display:flex;flex-direction:column;align-items:center;gap:16px;}
+svg{width:100%;max-width:460px;height:auto;overflow:visible;}
+.control-row{width:100%;max-width:420px;display:flex;flex-direction:column;gap:8px;margin-bottom:6px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--violet-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+.presets{display:flex;gap:8px;flex-wrap:wrap;width:100%;max-width:420px;margin-top:4px;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:12px;padding:8px 12px;cursor:pointer;transition:all .15s ease;}
+.preset-btn:hover{border-color:var(--violet);color:var(--violet);}
+.preset-btn.active{background:var(--violet);border-color:var(--violet);color:#fff;}
+.preset-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+.side-label{font-family:'Do Hyeon',sans-serif;font-size:14px;}
+.angle-label{font-family:'Do Hyeon',sans-serif;font-size:15px;fill:var(--coral);}
+.panel{display:flex;flex-direction:column;gap:16px;}
+.ratio-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:16px 18px;}
+.ratio-row{display:flex;justify-content:space-between;align-items:center;font-family:'Do Hyeon',sans-serif;font-size:16px;padding:8px 0;border-bottom:1px solid var(--paper-line);}
+.ratio-row:last-child{border-bottom:none;}
+.ratio-row .name{color:var(--ink-soft);}
+.ratio-row .expr{font-size:14px;color:var(--ink-soft);}
+.ratio-row .val{font-size:22px;}
+.ratio-row.sin .val{color:var(--violet);}
+.ratio-row.cos .val{color:var(--blue);}
+.ratio-row.tan .val{color:var(--coral);}
+.fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+.fact b{color:var(--violet);}
+footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">📐 삼각비 실험실</span>
+  <h1>각도를 바꾸면<br>사인·코사인·탄젠트 값은 <span>어떻게</span> 변할까?</h1>
+  <p class="sub">직각삼각형에서 각 θ를 슬라이더로 바꿔보세요. 세 변의 길이가 실시간으로 바뀌면서, 그 비율인 사인(sin)·코사인(cos)·탄젠트(tan) 값이 어떻게 달라지는지 확인할 수 있어요.</p>
+
+  <div class="stage">
+    <div class="canvas-area">
+      <div class="howto">
+        <p>직각삼각형에서 각 θ를 기준으로, θ와 마주보는 변을 <b>대변</b>, θ에 붙어있는 변(빗변 제외)을 <b>인접변(밑변)</b>, 직각과 마주보는 가장 긴 변을 <b>빗변</b>이라고 불러요.</p>
+        <p><b>sin θ = 대변÷빗변</b>, <b>cos θ = 인접변÷빗변</b>, <b>tan θ = 대변÷인접변</b>이에요. 삼각형의 크기가 달라져도 각도 θ만 같으면 이 비율은 항상 똑같이 유지돼요 — 그래서 "삼각비"라고 불러요.</p>
+      </div>
+      <svg id="svg" viewBox="0 0 460 380"></svg>
+      <div class="control-row">
+        <div class="control-label"><span>각도 θ</span><b id="angleLabel">40</b><span>°</span></div>
+        <input id="sliderAngle" type="range" min="5" max="85" value="40" step="1" aria-label="각도 조절">
+      </div>
+      <div class="presets" id="presetRow"></div>
+      <div class="control-row">
+        <div class="control-label"><span>빗변 길이</span><b id="hypLabel">6</b><span>cm</span></div>
+        <input id="sliderHyp" type="range" min="3" max="20" value="6" step="1" aria-label="빗변 길이 조절">
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="ratio-box">
+        <div class="ratio-row sin">
+          <div><div class="name">sin θ (사인)</div><div class="expr" id="sinExpr">대변 ÷ 빗변 = 3.86 ÷ 6</div></div>
+          <div class="val" id="sinVal">0.643</div>
+        </div>
+        <div class="ratio-row cos">
+          <div><div class="name">cos θ (코사인)</div><div class="expr" id="cosExpr">인접변 ÷ 빗변 = 4.60 ÷ 6</div></div>
+          <div class="val" id="cosVal">0.766</div>
+        </div>
+        <div class="ratio-row tan">
+          <div><div class="name">tan θ (탄젠트)</div><div class="expr" id="tanExpr">대변 ÷ 인접변 = 3.86 ÷ 4.60</div></div>
+          <div class="val" id="tanVal">0.839</div>
+        </div>
+      </div>
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+  <footer>θ가 커질수록 대변은 길어지고 인접변은 짧아져서, sin은 점점 커지고 cos은 점점 작아져요. θ가 0°에 가까워지면 삼각형이 납작해지면서 sin은 0에, cos은 1에 가까워지고, 90°에 가까워지면 반대가 돼요.</footer>
+</div>
+
+<script>
+const svg = document.getElementById('svg');
+const sliderAngle = document.getElementById('sliderAngle');
+const sliderHyp = document.getElementById('sliderHyp');
+const angleLabel = document.getElementById('angleLabel');
+const hypLabel = document.getElementById('hypLabel');
+const presetRow = document.getElementById('presetRow');
+const sinExpr = document.getElementById('sinExpr');
+const cosExpr = document.getElementById('cosExpr');
+const tanExpr = document.getElementById('tanExpr');
+const sinVal = document.getElementById('sinVal');
+const cosVal = document.getElementById('cosVal');
+const tanVal = document.getElementById('tanVal');
+const factBox = document.getElementById('fact');
+
+const PRESETS = [30, 45, 60];
+const SPECIAL = {
+  30: {sin:'1/2', cos:'√3/2', tan:'1/√3 (=√3/3)'},
+  45: {sin:'√2/2', cos:'√2/2', tan:'1'},
+  60: {sin:'√3/2', cos:'1/2', tan:'√3'},
+};
+
+function buildPresets(){
+  presetRow.innerHTML = PRESETS.map(p=>`<button class="preset-btn" data-a="${p}">${p}°(특수각)</button>`).join('');
+  presetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      sliderAngle.value = btn.dataset.a;
+      render();
+    });
+  });
+}
+
+function updatePresetActive(angle){
+  presetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.classList.toggle('active', parseInt(btn.dataset.a)===angle);
+  });
+}
+
+function fmt(n){ return (Math.round(n*100)/100).toString(); }
+
+function render(){
+  const angle = parseInt(sliderAngle.value);
+  const hyp = parseInt(sliderHyp.value);
+  angleLabel.textContent = angle;
+  hypLabel.textContent = hyp;
+  updatePresetActive(angle);
+
+  const rad = angle*Math.PI/180;
+  const opposite = hyp*Math.sin(rad);   // 대변 (실제 길이, cm)
+  const adjacent = hyp*Math.cos(rad);   // 인접변 (실제 길이, cm)
+
+  // 화면에 그리는 크기는 실제 cm 값과 분리해서, 빗변을 항상 고정된 화면 크기로 정규화해요.
+  // 이렇게 하면 빗변이 3cm든 20cm든 삼각형이 캔버스를 벗어나지 않아요.
+  const DISPLAY_HYP_PX = 250;
+  const oppPx = DISPLAY_HYP_PX * Math.sin(rad);
+  const adjPx = DISPLAY_HYP_PX * Math.cos(rad);
+
+  // A(각 θ, 왼쪽 아래) - B(직각, 오른쪽 아래) - C(위)
+  const Ax = 70, Ay = 320;
+  const Bx = Ax + adjPx, By = Ay;
+  const Cx = Bx, Cy = Ay - oppPx;
+
+  let html = '';
+  html += `<polygon points="${Ax},${Ay} ${Bx},${By} ${Cx},${Cy}" fill="var(--violet)" fill-opacity="0.15" stroke="var(--violet)" stroke-width="3.5"></polygon>`;
+
+  // 직각 표시와 각도 호 크기는 가장 짧은 변보다 항상 작게 — 변 길이를 벗어나 삐져나오지 않도록
+  const minSidePx = Math.min(oppPx, adjPx);
+  const sq = Math.max(8, Math.min(16, minSidePx*0.35));
+  const arcR = Math.max(14, Math.min(38, minSidePx*0.55));
+
+  // 직각 표시
+  html += `<polyline points="${Bx-sq},${By} ${Bx-sq},${By-sq} ${Bx},${By-sq}" fill="none" stroke="var(--ink-soft)" stroke-width="2.5"></polyline>`;
+  // 각 θ 호 표시
+  const startAng = 0;
+  const endAng = -angle;
+  const sx = Ax + arcR*Math.cos(startAng*Math.PI/180), sy = Ay + arcR*Math.sin(startAng*Math.PI/180);
+  const ex = Ax + arcR*Math.cos(endAng*Math.PI/180), ey = Ay + arcR*Math.sin(endAng*Math.PI/180);
+  html += `<path d="M${sx},${sy} A${arcR},${arcR} 0 0,0 ${ex},${ey}" fill="none" stroke="var(--coral)" stroke-width="2.5"></path>`;
+  const midAng = -angle/2;
+  const labelR = arcR + 22;
+  const lx = Ax + labelR*Math.cos(midAng*Math.PI/180), ly = Ay + labelR*Math.sin(midAng*Math.PI/180);
+  html += `<text class="angle-label" x="${lx}" y="${ly}" text-anchor="middle">θ=${angle}°</text>`;
+
+  // 변 라벨 (실제 cm 값을 표시하되, 위치는 화면 정규화된 좌표 기준)
+  html += `<text class="side-label" x="${(Ax+Bx)/2}" y="${Ay+26}" text-anchor="middle" fill="var(--blue)">인접변 ${fmt(adjacent)}cm</text>`;
+  html += `<text class="side-label" x="${Bx+14}" y="${(By+Cy)/2}" text-anchor="start" fill="var(--violet)">대변 ${fmt(opposite)}cm</text>`;
+  const midx=(Ax+Cx)/2 - 26, midy=(Ay+Cy)/2;
+  html += `<text class="side-label" x="${midx}" y="${midy}" text-anchor="middle" fill="var(--coral)">빗변 ${hyp}cm</text>`;
+
+  svg.innerHTML = html;
+
+  const sinV = opposite/hyp, cosV = adjacent/hyp, tanV = opposite/adjacent;
+  sinExpr.textContent = `대변 ÷ 빗변 = ${fmt(opposite)} ÷ ${hyp}`;
+  cosExpr.textContent = `인접변 ÷ 빗변 = ${fmt(adjacent)} ÷ ${hyp}`;
+  tanExpr.textContent = `대변 ÷ 인접변 = ${fmt(opposite)} ÷ ${fmt(adjacent)}`;
+
+  const special = SPECIAL[angle];
+  sinVal.innerHTML = special ? `${fmt(sinV)} <span style="font-size:13px;color:var(--ink-soft)">(=${special.sin})</span>` : fmt(sinV);
+  cosVal.innerHTML = special ? `${fmt(cosV)} <span style="font-size:13px;color:var(--ink-soft)">(=${special.cos})</span>` : fmt(cosV);
+  tanVal.innerHTML = special ? `${fmt(tanV)} <span style="font-size:13px;color:var(--ink-soft)">(=${special.tan})</span>` : fmt(tanV);
+
+  let extra = special ? ` ${angle}°는 값이 깔끔한 분수·근호로 딱 떨어지는 <b>특수각</b>이에요.` : '';
+  factBox.innerHTML = `θ=${angle}°일 때, 빗변 ${hyp}cm인 직각삼각형의 대변은 ${fmt(opposite)}cm, 인접변은 ${fmt(adjacent)}cm예요. 그래서 sin${angle}°≈${fmt(sinV)}, cos${angle}°≈${fmt(cosV)}, tan${angle}°≈${fmt(tanV)}이 돼요.${extra} 빗변 길이를 바꿔도 삼각형이 커지고 작아질 뿐, θ가 그대로면 이 비율들은 절대 변하지 않아요.`;
+}
+
+sliderAngle.addEventListener('input', render);
+sliderHyp.addEventListener('input', render);
+buildPresets();
+render();
+</script>
+</body>
+</html>
