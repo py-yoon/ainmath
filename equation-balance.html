@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>방정식 저울 실험실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --green:#4CAF8E; --green-soft:#E3F5EE;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1040px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--violet);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.2fr 0.8fr;gap:32px;align-items:start;}
+@media (max-width:860px){ .stage{grid-template-columns:1fr;} }
+.howto{background:var(--blue-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--blue);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+svg{width:100%;max-width:480px;height:auto;overflow:visible;display:block;margin:0 auto 16px;}
+.controls{display:flex;flex-direction:column;gap:14px;margin-bottom:18px;}
+.control-row{display:flex;flex-direction:column;gap:6px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);}
+.control-label b{font-size:19px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--blue-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+.step-row{display:flex;gap:10px;flex-wrap:wrap;}
+.step-btn{flex:1;min-width:150px;font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:13px 16px;cursor:pointer;transition:all .15s ease;}
+.step-btn:hover:not(:disabled){background:var(--violet);}
+.step-btn:disabled{opacity:0.35;cursor:default;}
+.step-btn:focus-visible{outline:3px solid var(--violet);outline-offset:2px;}
+.reset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:12px;padding:10px;cursor:pointer;width:100%;}
+.reset-btn:hover{border-color:var(--blue);color:var(--blue);}
+.panel{display:flex;flex-direction:column;gap:16px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px;text-align:center;}
+.equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(24px,4vw,32px);color:var(--ink);}
+.equation .formula .x{color:var(--violet);}
+.step-list{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:14px 18px;font-size:13.5px;color:var(--ink-soft);line-height:1.8;}
+.step-list b{color:var(--ink);}
+.fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+.fact b{color:var(--violet);}
+footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">⚖️ 방정식 저울 실험실</span>
+  <h1>저울이 기울지 않게<br><span>양쪽에 똑같이</span> 해주면 돼요</h1>
+  <p class="sub">저울 양쪽에 x 블록과 숫자 블록이 있어요. 양쪽에서 똑같은 만큼 덜어내거나, 양쪽을 똑같이 나누면 저울은 계속 균형을 유지해요. 이 방법으로 x 하나의 무게(값)를 알아내는 게 바로 방정식을 푸는 거예요.</p>
+
+  <div class="stage">
+    <div>
+      <div class="howto">
+        <p>등식의 성질: <b>양쪽에 같은 수를 더하거나 빼도, 같은 수로 곱하거나 나눠도</b> 등식은 그대로 성립해요. 이 성질을 이용해서 왼쪽에 x만 남을 때까지 차근차근 정리하면, 남은 오른쪽 숫자가 바로 x의 값이에요.</p>
+      </div>
+      <svg id="svg" viewBox="0 0 480 260"></svg>
+      <div class="controls">
+        <div class="control-row">
+          <div class="control-label"><span>x의 개수 (a)</span><b id="aLabel">2</b></div>
+          <input id="sliderA" type="range" min="1" max="5" value="2" step="1" aria-label="x 계수">
+        </div>
+        <div class="control-row">
+          <div class="control-label"><span>더해진 수 (b)</span><b id="bLabel">3</b></div>
+          <input id="sliderB" type="range" min="0" max="9" value="3" step="1" aria-label="상수항">
+        </div>
+        <div class="control-row">
+          <div class="control-label"><span>오른쪽 값 (c)</span><b id="cLabel">11</b></div>
+          <input id="sliderC" type="range" min="0" max="40" value="11" step="1" aria-label="우변 값">
+        </div>
+      </div>
+      <div class="step-row">
+        <button class="step-btn" id="step1Btn">① 양쪽에서 b 빼기</button>
+        <button class="step-btn" id="step2Btn" disabled>② 양쪽을 a로 나누기</button>
+      </div>
+      <br>
+      <button class="reset-btn" id="resetBtn">↺ 처음부터 다시 풀기</button>
+    </div>
+
+    <div class="panel">
+      <div class="equation">
+        <div class="formula" id="formula"><span class="x">2x</span> + 3 = 11</div>
+      </div>
+      <div class="step-list" id="stepList"></div>
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+  <footer>이 방법의 핵심은 "등식의 양변에 같은 조작을 하면 등식이 유지된다"는 성질이에요. 어떤 순서로 풀어도 상관없지만, 보통은 상수항을 먼저 정리하고 마지막에 계수로 나누는 순서가 가장 깔끔해요.</footer>
+</div>
+
+<script>
+const svg = document.getElementById('svg');
+const sliderA = document.getElementById('sliderA');
+const sliderB = document.getElementById('sliderB');
+const sliderC = document.getElementById('sliderC');
+const aLabel = document.getElementById('aLabel');
+const bLabel = document.getElementById('bLabel');
+const cLabel = document.getElementById('cLabel');
+const formula = document.getElementById('formula');
+const stepList = document.getElementById('stepList');
+const factBox = document.getElementById('fact');
+const step1Btn = document.getElementById('step1Btn');
+const step2Btn = document.getElementById('step2Btn');
+const resetBtn = document.getElementById('resetBtn');
+
+let step = 0; // 0: 초기, 1: b 뺀 후, 2: a로 나눈 후
+
+function fmt(n){ return (Math.round(n*100)/100).toString(); }
+
+function drawPan(cx, topY, xCount, numCount, color){
+  let html = '';
+  // 접시
+  const panW = 150;
+  html += `<line x1="${cx}" y1="${topY}" x2="${cx}" y2="${topY-50}" stroke="var(--ink-soft)" stroke-width="3"></line>`;
+  html += `<path d="M${cx-panW/2},${topY} Q${cx},${topY+22} ${cx+panW/2},${topY}" fill="none" stroke="var(--ink)" stroke-width="4"></path>`;
+
+  // 블록들 배치
+  const blocks = [];
+  for(let i=0;i<xCount;i++) blocks.push('x');
+  for(let i=0;i<numCount;i++) blocks.push('1');
+  const cols = 6;
+  const bw = 26, gap=4;
+  const totalW = Math.min(blocks.length,cols)*(bw+gap)-gap;
+  const startX = cx - totalW/2;
+  blocks.forEach((b,i)=>{
+    const col = i%cols, row = Math.floor(i/cols);
+    const bx = startX + col*(bw+gap);
+    const by = topY - 14 - row*(bw+gap) - bw;
+    if(b==='x'){
+      html += `<rect x="${bx}" y="${by}" width="${bw}" height="${bw}" rx="6" fill="${color}" fill-opacity="0.85"></rect>`;
+      html += `<text x="${bx+bw/2}" y="${by+bw/2+5}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="#fff">x</text>`;
+    } else {
+      html += `<circle cx="${bx+bw/2}" cy="${by+bw/2}" r="${bw/2-2}" fill="${color}" fill-opacity="0.4" stroke="${color}" stroke-width="2"></circle>`;
+      html += `<text x="${bx+bw/2}" y="${by+bw/2+4}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="${color}">1</text>`;
+    }
+  });
+  return html;
+}
+
+function currentState(){
+  const a = parseInt(sliderA.value);
+  const b = parseInt(sliderB.value);
+  const c = parseInt(sliderC.value);
+  if(step===0) return {leftX:a, leftNum:b, rightNum:c};
+  if(step===1) return {leftX:a, leftNum:0, rightNum:c-b};
+  // step===2
+  const rNum = (c-b)/a;
+  return {leftX:1, leftNum:0, rightNum:rNum, isFinal:true};
+}
+
+function render(){
+  const a = parseInt(sliderA.value);
+  const b = parseInt(sliderB.value);
+  const c = parseInt(sliderC.value);
+  aLabel.textContent=a; bLabel.textContent=b; cLabel.textContent=c;
+
+  const st = currentState();
+
+  // 저울 기울기: 왼쪽 무게 vs 오른쪽 무게로 대략 표현(그림상 큰 의미는 없고 항상 수평 유지 — 등식이니까)
+  const leftY = 170, rightY = 170;
+  let html = '';
+  html += `<line x1="40" y1="60" x2="440" y2="60" stroke="var(--ink)" stroke-width="6" stroke-linecap="round"></line>`;
+  html += `<polygon points="240,20 225,60 255,60" fill="var(--ink)"></polygon>`;
+  html += `<rect x="230" y="60" width="20" height="90" fill="var(--ink)"></rect>`;
+
+  html += drawPan(140, leftY, st.leftX, st.leftNum, 'var(--violet)');
+  html += drawPan(340, rightY, 0, Math.round(st.rightNum), 'var(--blue)');
+
+  svg.innerHTML = html;
+
+  // 수식 표시
+  let leftExpr = st.leftX===1 ? 'x' : `${st.leftX}x`;
+  if(st.leftNum>0) leftExpr += ` + ${st.leftNum}`;
+  formula.innerHTML = `<span class="x">${leftExpr}</span> = ${fmt(st.rightNum)}`;
+
+  // 단계 안내
+  let stepsHtml = `<b>처음 식:</b> ${a}x + ${b} = ${c}<br>`;
+  if(step>=1) stepsHtml += `<b>① 양쪽에서 ${b} 빼기:</b> ${a}x = ${c-b}<br>`;
+  if(step>=2) stepsHtml += `<b>② 양쪽을 ${a}로 나누기:</b> x = ${fmt((c-b)/a)}`;
+  stepList.innerHTML = stepsHtml;
+
+  step1Btn.disabled = (step!==0) || b===0;
+  step2Btn.disabled = (step!==1);
+
+  if(step===0){
+    factBox.innerHTML = b>0
+      ? `저울 왼쪽에는 <b>x가 ${a}개</b>와 <b>숫자 ${b}</b>가, 오른쪽에는 <b>${c}</b>가 있어요. 먼저 왼쪽의 숫자 ${b}를 없애볼까요? 양쪽에서 똑같이 ${b}를 빼면 저울은 그대로 균형을 유지해요.`
+      : `상수항 b가 0이라 ①단계는 필요 없어요! 바로 ②단계로 넘어가서 양쪽을 ${a}로 나눠보세요.`;
+  } else if(step===1){
+    factBox.innerHTML = `왼쪽에 <b>${a}x</b>만 남았어요! 이제 x 한 개의 값을 알아내려면, 양쪽을 <b>${a}</b>로 똑같이 나누면 돼요.`;
+  } else {
+    factBox.innerHTML = `🎉 x = <b>${fmt((c-b)/a)}</b>를 찾았어요! 저울 양쪽에 같은 조작만 반복했을 뿐인데, x 하나의 값이 정확히 나왔어요.`;
+  }
+}
+
+step1Btn.addEventListener('click', ()=>{ if(step===0){ step=1; render(); } });
+step2Btn.addEventListener('click', ()=>{ if(step===1){ step=2; render(); } });
+resetBtn.addEventListener('click', ()=>{ step=0; render(); });
+[sliderA,sliderB,sliderC].forEach(s=>s.addEventListener('input', ()=>{ step=0; render(); }));
+
+render();
+</script>
+</body>
+</html>

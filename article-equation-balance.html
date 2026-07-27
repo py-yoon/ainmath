@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>방정식, 저울의 균형을 지키며 미지수를 찾는 게임 | 아인매스</title>
+<meta name="description" content="방정식이라는 말은 어렵게 들리지만, 원리는 초등학생도 이해할 수 있는 저울 놀이예요. 양쪽 무게가 똑같은 저울에서, 양쪽에 똑같은 조작만 하면...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:13.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#FF5B57;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:12.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#FF5B57;background:#FFEAE8">🔢 수와 연산</span>
+  <h1>방정식, 저울의 균형을 지키며 미지수를 찾는 게임</h1>
+  <p class="meta">중학교 1학년 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>방정식이라는 말은 어렵게 들리지만, 원리는 저울 놀이와 똑같아요. 양팔저울 양쪽에 무게가 똑같이 있으면 저울은 수평을 이뤄요. 여기서 한쪽에 모르는 무게(x)가 섞여 있다고 해봐요. 저울이 수평을 유지한 채로 양쪽에서 물건을 똑같이 덜어내거나, 양쪽을 똑같은 비율로 나누다 보면, 결국 x 하나의 정확한 무게를 알아낼 수 있어요. 이게 바로 방정식을 "푼다"는 것의 의미예요.</p>
+      <p>이때 사용하는 규칙을 <b>등식의 성질</b>이라고 불러요. 등식(양쪽이 같다는 식)은 양쪽에 같은 수를 더하거나 빼도, 같은 수를 곱하거나 나눠도 여전히 등식으로 유지돼요. 예를 들어 3x + 4 = 19라는 방정식이 있다면, 먼저 양쪽에서 4를 빼서 3x = 15로 만들고, 그다음 양쪽을 3으로 나눠서 x = 5를 얻어요. 저울이 기울지 않도록 항상 "양쪽에 똑같이"만 해준다는 걸 기억하면, 어떤 방정식이든 차근차근 풀어나갈 수 있어요.</p>
+      <p>왜 하필 이 순서(상수항을 먼저, 계수는 나중에)로 풀까요? 사실 순서를 바꿔도 답은 같아요. 다만 보통 상수항을 먼저 정리해서 "x의 배수 = 어떤 수" 형태로 만든 다음, 마지막에 계수로 나눠 x를 딱 하나만 남기는 방식이 계산 실수를 줄이고 이해하기도 쉬워서 널리 쓰이는 관행이에요. 나중에 더 복잡한 방정식(문자가 양쪽에 다 있거나, 괄호가 있는 경우)을 풀 때도 "정리해서 단순하게 만든 다음, 마지막에 나눈다"는 이 큰 흐름은 똑같이 적용돼요.</p>
+      <p>방정식은 "모르는 값을 구해야 하는" 모든 상황에서 쓰여요. 물건을 몇 개 사면 예산에 딱 맞을지, 두 사람이 몇 분 후에 만날지, 자동차가 몇 시간 후 목적지에 도착할지 같은 문제들이 전부 방정식으로 표현돼요. 미지수를 x라고 이름 붙이고 상황을 식으로 바꾸는 능력은, 복잡한 문장제 문제를 계산 가능한 형태로 바꾸는 강력한 도구가 돼요.</p>
+      <p>아이들과 공부할 때는 실제 저울(또는 저울 그림)에 물건을 올려보는 활동이 정말 효과적이에요. 사탕 봉지 여러 개와 낱개 사탕을 이용해서 "봉지 2개랑 사탕 3개가 사탕 11개랑 똑같은 무게야, 봉지 하나엔 사탕이 몇 개 들어있을까?" 같은 문제를 실제로 손으로 덜어내며 풀어보게 하세요. 숫자로만 풀 때보다 "양쪽에서 똑같이 덜어낸다"는 감각이 훨씬 확실하게 남아요.</p>
+      <p>저희 체험 페이지에서는 계수(a), 상수항(b), 우변 값(c)을 슬라이더로 직접 정해서 나만의 방정식을 만들고, 버튼을 눌러 한 단계씩 저울을 정리하며 x 값을 찾아갈 수 있어요. 블록이 저울에서 하나씩 없어지는 걸 보면서, 방정식을 푸는 매 단계가 실제로 무엇을 하는 건지 확인해보세요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="equation-balance.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>평행선과 각의 관계 실험실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --green:#4CAF8E; --green-soft:#E3F5EE;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1040px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--violet);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.2fr 0.8fr;gap:32px;align-items:start;}
+@media (max-width:860px){ .stage{grid-template-columns:1fr;} }
+.howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--violet);}
+svg{width:100%;max-width:480px;height:auto;overflow:visible;display:block;margin:0 auto 16px;}
+.control-row{width:100%;max-width:440px;margin:0 auto 18px;display:flex;flex-direction:column;gap:8px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--violet-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+.pair-tabs{display:flex;gap:10px;max-width:440px;margin:0 auto;}
+.pair-btn{flex:1;font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:11px;cursor:pointer;transition:all .15s ease;}
+.pair-btn.active{background:var(--violet);border-color:var(--violet);color:#fff;}
+.pair-btn:focus-visible{outline:3px solid var(--violet);outline-offset:2px;}
+.angle-label{font-family:'Do Hyeon',sans-serif;font-size:14px;}
+.panel{display:flex;flex-direction:column;gap:16px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px;text-align:center;}
+.equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(24px,4vw,30px);color:var(--violet);}
+.fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+.fact b{color:var(--violet);}
+footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">📐 평행선과 각의 관계 실험실</span>
+  <h1>평행선을 가로지르면<br>어떤 각들이 <span>항상 똑같을까?</span></h1>
+  <p class="sub">두 평행선을 비스듬한 직선(가로지르는 선)이 지나가요. 각도를 바꿔가며 맞꼭지각·동위각·엇각을 하나씩 골라 확인해보세요. 평행선이 유지되는 한, 이 관계는 항상 성립해요.</p>
+
+  <div class="stage">
+    <div>
+      <div class="howto">
+        <p><b>맞꼭지각</b>은 한 점에서 만나는 두 직선이 만드는 마주보는 각, <b>동위각</b>은 두 교점에서 같은 위치에 있는 각, <b>엇각</b>은 두 평행선 사이에서 가로지르는 선의 반대쪽에 있는 각이에요. 두 직선이 평행할 때 이 세 관계의 각들은 항상 크기가 같아요.</p>
+      </div>
+      <svg id="svg" viewBox="0 0 460 420"></svg>
+      <div class="control-row">
+        <div class="control-label"><span>가로지르는 선의 기울기</span><b id="angleLabel">55</b><span>°</span></div>
+        <input id="sliderAngle" type="range" min="20" max="80" value="55" step="1" aria-label="가로지르는 선의 각도">
+      </div>
+      <div class="pair-tabs" id="pairTabs"></div>
+    </div>
+
+    <div class="panel">
+      <div class="equation">
+        <div class="formula" id="formula">∠a = ∠b = 55°</div>
+      </div>
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+  <footer>맞꼭지각이 같은 이유는 간단해요 — 두 직선이 만나는 한 점에서, 마주보는 두 각은 항상 나머지 각과 함께 180°를 이루기 때문이에요. 동위각과 엇각이 같은 이유는 평행선이라는 조건 덕분인데, 이는 공리(증명 없이 참으로 받아들이는 성질)로 다뤄요.</footer>
+</div>
+
+<script>
+const svg = document.getElementById('svg');
+const sliderAngle = document.getElementById('sliderAngle');
+const angleLabel = document.getElementById('angleLabel');
+const pairTabs = document.getElementById('pairTabs');
+const formula = document.getElementById('formula');
+const factBox = document.getElementById('fact');
+
+const PAIRS = [
+  {key:'vertical', name:'맞꼭지각'},
+  {key:'corresponding', name:'동위각'},
+  {key:'alternate', name:'엇각'},
+];
+let pair = 'vertical';
+
+function buildPairTabs(){
+  pairTabs.innerHTML = PAIRS.map(p=>`<button class="pair-btn${p.key===pair?' active':''}" data-k="${p.key}">${p.name}</button>`).join('');
+  pairTabs.querySelectorAll('.pair-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      pair = btn.dataset.k;
+      buildPairTabs();
+      render();
+    });
+  });
+}
+
+const CX = 230;
+const Y1 = 140, Y2 = 300; // 두 평행선의 y좌표
+const LINE_HALF = 180;
+
+function render(){
+  const theta = parseInt(sliderAngle.value); // 가로지르는 선이 수평선과 이루는 예각
+  angleLabel.textContent = theta;
+  const rad = theta*Math.PI/180;
+
+  // 가로지르는 선의 기울기(왼쪽아래->오른쪽위 "/" 모양으로 고정)
+  const dx = Math.cos(rad), dy = -Math.sin(rad); // 위쪽 방향 벡터
+  const len = 260;
+
+  // 두 교점: 직선은 x = CX + t*dx, y = 어떤 기준점 + t*dy 형태로, Y1과 Y2를 지나도록 계산
+  // 교점 P1 (top line y=Y1), P2 (bottom line y=Y2) 를 그냥 CX를 기준점으로 사용
+  const P1 = {x:CX, y:Y1};
+  // 기울기로부터 P2 계산: 같은 직선 위의 점, y가 Y2가 되는 지점
+  const t = (Y2-Y1)/dy;
+  const P2 = {x:CX + t*dx, y:Y2};
+
+  const transStart = {x:P1.x - dx*len, y:P1.y - dy*len};
+  const transEnd = {x:P2.x + dx*len, y:P2.y + dy*len};
+
+  let html = '';
+  // 두 평행선
+  html += `<line x1="${CX-LINE_HALF}" y1="${Y1}" x2="${CX+LINE_HALF}" y2="${Y1}" stroke="var(--ink)" stroke-width="3"></line>`;
+  html += `<line x1="${CX-LINE_HALF}" y1="${Y2}" x2="${CX+LINE_HALF}" y2="${Y2}" stroke="var(--ink)" stroke-width="3"></line>`;
+  html += `<text class="angle-label" x="${CX-LINE_HALF-14}" y="${Y1+5}" text-anchor="end">l</text>`;
+  html += `<text class="angle-label" x="${CX-LINE_HALF-14}" y="${Y2+5}" text-anchor="end">m</text>`;
+  // 가로지르는 선
+  html += `<line x1="${transStart.x}" y1="${transStart.y}" x2="${transEnd.x}" y2="${transEnd.y}" stroke="var(--violet)" stroke-width="3"></line>`;
+
+  // 각 표시 도우미: 교점, 사분면(TR,TL,BL,BR), 각도값
+  // TR/BL = theta, TL/BR = 180-theta (일관된 "/" 기울기 기준)
+  function arcAndLabel(P, quadrant, value, highlight){
+    const r = 34;
+    let startA, endA; // 화면좌표계(y아래+) 기준 각도(도), 0=오른쪽,90=아래,180=왼쪽,270=위
+    if(quadrant==='TR'){ startA=0; endA = -theta; }
+    else if(quadrant==='TL'){ startA = -theta; endA=-180; }
+    else if(quadrant==='BL'){ startA=180; endA=180-theta; }
+    else { startA = 180-theta; endA=360; }
+    const s = startA*Math.PI/180, e = endA*Math.PI/180;
+    const sx = P.x + r*Math.cos(s), sy = P.y + r*Math.sin(s);
+    const ex = P.x + r*Math.cos(e), ey = P.y + r*Math.sin(e);
+    const largeArc = Math.abs(endA-startA)>180 ? 1 : 0;
+    const midA = (s+e)/2;
+    const lx = P.x + (r+20)*Math.cos(midA), ly = P.y + (r+20)*Math.sin(midA);
+    const color = highlight ? 'var(--violet)' : 'var(--ink-soft)';
+    let out = `<path d="M${sx},${sy} A${r},${r} 0 ${largeArc},0 ${ex},${ey}" fill="none" stroke="${color}" stroke-width="${highlight?3:1.5}"></path>`;
+    out += `<text class="angle-label" x="${lx}" y="${ly}" text-anchor="middle" fill="${color}" font-weight="${highlight?'bold':'normal'}">${Math.round(value)}°</text>`;
+    return out;
+  }
+
+  // 하이라이트 대상 결정
+  let hi1=null, hi2=null, val=null;
+  if(pair==='vertical'){ hi1={P:P1,q:'TR'}; hi2={P:P1,q:'BL'}; val=theta; }
+  else if(pair==='corresponding'){ hi1={P:P1,q:'TR'}; hi2={P:P2,q:'TR'}; val=theta; }
+  else { hi1={P:P1,q:'BL'}; hi2={P:P2,q:'TR'}; val=theta; }
+
+  ['TR','TL','BL','BR'].forEach(q=>{
+    const v = (q==='TR'||q==='BL') ? theta : 180-theta;
+    const isHighlighted = (hi1.P===P1 && hi1.q===q) || (hi2.P===P1 && hi2.q===q);
+    html += arcAndLabel(P1, q, v, isHighlighted);
+  });
+  ['TR','TL','BL','BR'].forEach(q=>{
+    const v = (q==='TR'||q==='BL') ? theta : 180-theta;
+    const isHighlighted = (hi1.P===P2 && hi1.q===q) || (hi2.P===P2 && hi2.q===q);
+    html += arcAndLabel(P2, q, v, isHighlighted);
+  });
+
+  svg.innerHTML = html;
+
+  const pairName = PAIRS.find(p=>p.key===pair).name;
+  formula.innerHTML = `${pairName} = ${Math.round(val)}°`;
+
+  let explain;
+  if(pair==='vertical') explain = `한 교점에서 서로 마주 보는 두 각(맞꼭지각)은 항상 크기가 같아요. 두 각 모두 나머지 각과 합쳐서 180°를 이루기 때문에, 자동으로 서로 같아질 수밖에 없어요.`;
+  else if(pair==='corresponding') explain = `두 교점에서 같은 위치(오른쪽 위)에 있는 두 각(동위각)이에요. 두 직선이 평행하기 때문에, 마치 도장을 찍은 것처럼 같은 모양이 반복돼서 각도도 똑같아요.`;
+  else explain = `가로지르는 선을 사이에 두고 서로 반대쪽, 두 평행선 사이(안쪽)에 있는 두 각(엇각)이에요. 동위각이 같다는 성질과 맞꼭지각이 같다는 성질을 합치면, 엇각도 같다는 걸 알 수 있어요.`;
+
+  factBox.innerHTML = `강조된 두 각은 모두 <b>${Math.round(val)}°</b>예요. ${explain} 슬라이더로 기울기를 바꿔도 두 각은 항상 똑같이 움직여요.`;
+}
+
+pairTabs.querySelectorAll && null;
+sliderAngle.addEventListener('input', render);
+buildPairTabs();
+render();
+</script>
+</body>
+</html>
