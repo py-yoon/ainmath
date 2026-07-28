@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>미니 스도쿠 실험실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --green:#4CAF8E; --green-soft:#E3F5EE;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --teal:#2EC4C6; --teal-soft:#E4FAF9;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:900px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--teal);background:var(--teal-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--coral);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;display:flex;flex-direction:column;align-items:center;}
+.howto{background:var(--teal-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;width:100%;max-width:600px;}
+.howto b{color:var(--teal);}
+.level-tabs{display:flex;gap:10px;margin-bottom:20px;}
+.level-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:11px 18px;cursor:pointer;transition:all .15s ease;}
+.level-btn.active{background:var(--teal);border-color:var(--teal);color:#fff;}
+.level-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+.grid{display:grid;gap:2px;background:var(--ink);border:3px solid var(--ink);border-radius:8px;margin-bottom:20px;}
+.cell{
+  background:#fff;display:flex;align-items:center;justify-content:center;
+  font-family:'Do Hyeon',sans-serif;font-size:22px;color:var(--ink);cursor:pointer;
+  user-select:none; transition:background .15s ease;
+}
+.cell.given{color:var(--ink);background:var(--paper);cursor:default;font-weight:bold;}
+.cell.selected{background:var(--teal-soft);outline:2px solid var(--teal);}
+.cell.conflict{background:var(--coral-soft);color:var(--coral);}
+.numpad{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:20px;}
+.num-btn{width:50px;height:50px;border-radius:12px;background:var(--ink);color:#fff;border:none;font-family:'Do Hyeon',sans-serif;font-size:20px;cursor:pointer;transition:all .15s ease;}
+.num-btn:hover{background:var(--teal);}
+.num-btn.erase{background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.num-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+.action-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.action-btn:hover{border-color:var(--teal);color:var(--teal);}
+.action-btn.primary{background:var(--ink);color:#fff;border-color:transparent;}
+.action-btn.primary:hover{background:var(--teal);}
+.action-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+.fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);margin-top:20px;text-align:center;width:100%;max-width:600px;}
+.fact b{color:var(--violet);}
+.fact.win{background:var(--green-soft);}
+.fact.win b{color:var(--green);}
+footer{max-width:900px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">🧩 미니 스도쿠 실험실</span>
+  <h1>가로줄, 세로줄, 굵은 상자<br>모두 <span>1~숫자</span>가 한 번씩!</h1>
+  <p class="sub">빈칸을 채워서 가로줄, 세로줄, 그리고 굵은 선으로 나뉜 작은 상자 안에 같은 숫자가 겹치지 않게 만들어보세요.</p>
+
+  <div class="stage">
+    <div class="howto">
+      <p>규칙은 딱 하나예요 — <b>같은 가로줄, 같은 세로줄, 같은 상자 안에는 같은 숫자가 두 번 들어갈 수 없어요.</b> 빈칸을 하나 골라 숫자 버튼을 누르면 채워지고, 규칙에 어긋나면 빨갛게 표시돼요.</p>
+    </div>
+    <div class="level-tabs" id="levelTabs"></div>
+    <div class="grid" id="grid"></div>
+    <div class="numpad" id="numpad"></div>
+    <div class="action-row">
+      <button class="action-btn" id="checkBtn">✔ 확인하기</button>
+      <button class="action-btn primary" id="newBtn">🎲 새 퍼즐</button>
+    </div>
+    <div class="fact" id="fact">빈칸을 선택하고 숫자를 눌러 채워보세요!</div>
+  </div>
+
+  <footer>어떤 칸에 들어갈 숫자가 하나로 정해지는 이유를 찾아보세요 — 그 줄, 그 칸, 그 상자에 이미 있는 숫자들을 하나씩 지워나가면 답이 보여요. 이런 사고방식을 "소거법"이라고 불러요.</footer>
+</div>
+
+<script>
+const gridEl = document.getElementById('grid');
+const numpadEl = document.getElementById('numpad');
+const levelTabsEl = document.getElementById('levelTabs');
+const checkBtn = document.getElementById('checkBtn');
+const newBtn = document.getElementById('newBtn');
+const factBox = document.getElementById('fact');
+
+const LEVELS = [
+  {key:'4x4', size:4, boxW:2, boxH:2, name:'4×4 (쉬움)', removeCount:7},
+  {key:'6x6', size:6, boxW:3, boxH:2, name:'6×6 (도전)', removeCount:16},
+];
+let level = LEVELS[0];
+let solution = [];
+let board = [];
+let given = [];
+let selectedCell = null;
+
+function buildLevelTabs(){
+  levelTabsEl.innerHTML = LEVELS.map(l=>`<button class="level-btn${l.key===level.key?' active':''}" data-k="${l.key}">${l.name}</button>`).join('');
+  levelTabsEl.querySelectorAll('.level-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      level = LEVELS.find(l=>l.key===btn.dataset.k);
+      buildLevelTabs();
+      newPuzzle();
+    });
+  });
+}
+
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+  }
+  return arr;
+}
+
+function isValid(grid, r, c, val, size, boxW, boxH){
+  for(let i=0;i<size;i++){
+    if(grid[r][i]===val) return false;
+    if(grid[i][c]===val) return false;
+  }
+  const br = Math.floor(r/boxH)*boxH, bc = Math.floor(c/boxW)*boxW;
+  for(let i=0;i<boxH;i++){
+    for(let j=0;j<boxW;j++){
+      if(grid[br+i][bc+j]===val) return false;
+    }
+  }
+  return true;
+}
+
+function fillGrid(grid, size, boxW, boxH, pos=0){
+  if(pos===size*size) return true;
+  const r = Math.floor(pos/size), c = pos%size;
+  const nums = shuffle(Array.from({length:size},(_,i)=>i+1));
+  for(const n of nums){
+    if(isValid(grid, r, c, n, size, boxW, boxH)){
+      grid[r][c] = n;
+      if(fillGrid(grid, size, boxW, boxH, pos+1)) return true;
+      grid[r][c] = 0;
+    }
+  }
+  return false;
+}
+
+function genSolution(size, boxW, boxH){
+  const grid = Array.from({length:size},()=>Array(size).fill(0));
+  fillGrid(grid, size, boxW, boxH);
+  return grid;
+}
+
+function newPuzzle(){
+  const {size, boxW, boxH, removeCount} = level;
+  solution = genSolution(size, boxW, boxH);
+  board = solution.map(row=>[...row]);
+  given = solution.map(row=>row.map(()=>true));
+
+  // 무작위로 removeCount개의 칸을 비움
+  const positions = shuffle(Array.from({length:size*size},(_,i)=>i));
+  for(let k=0;k<removeCount && k<positions.length;k++){
+    const p = positions[k];
+    const r = Math.floor(p/size), c = p%size;
+    board[r][c] = 0;
+    given[r][c] = false;
+  }
+
+  selectedCell = null;
+  factBox.className = 'fact';
+  factBox.textContent = '빈칸을 선택하고 숫자를 눌러 채워보세요!';
+  buildNumpad();
+  render();
+}
+
+function buildNumpad(){
+  const {size} = level;
+  let html = '';
+  for(let n=1;n<=size;n++){
+    html += `<button class="num-btn" data-n="${n}">${n}</button>`;
+  }
+  html += `<button class="num-btn erase" data-n="0">지우기</button>`;
+  numpadEl.innerHTML = html;
+  numpadEl.querySelectorAll('.num-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(!selectedCell) return;
+      const {r,c} = selectedCell;
+      if(given[r][c]) return;
+      board[r][c] = parseInt(btn.dataset.n);
+      render();
+    });
+  });
+}
+
+function hasConflict(r,c){
+  const val = board[r][c];
+  if(val===0) return false;
+  const {size, boxW, boxH} = level;
+  for(let i=0;i<size;i++){
+    if(i!==c && board[r][i]===val) return true;
+    if(i!==r && board[i][c]===val) return true;
+  }
+  const br = Math.floor(r/boxH)*boxH, bc = Math.floor(c/boxW)*boxW;
+  for(let i=0;i<boxH;i++){
+    for(let j=0;j<boxW;j++){
+      const rr=br+i, cc=bc+j;
+      if((rr!==r||cc!==c) && board[rr][cc]===val) return true;
+    }
+  }
+  return false;
+}
+
+function render(){
+  const {size, boxW, boxH} = level;
+  const cellPx = size===4 ? 64 : 48;
+  gridEl.style.gridTemplateColumns = `repeat(${size}, ${cellPx}px)`;
+  gridEl.style.gridTemplateRows = `repeat(${size}, ${cellPx}px)`;
+
+  let html = '';
+  for(let r=0;r<size;r++){
+    for(let c=0;c<size;c++){
+      const val = board[r][c];
+      const isGiven = given[r][c];
+      const conflict = hasConflict(r,c);
+      const isSelected = selectedCell && selectedCell.r===r && selectedCell.c===c;
+      // 상자 경계 굵게
+      const borderStyles = [];
+      if(c%boxW===0) borderStyles.push('border-left:3px solid var(--ink)');
+      if(r%boxH===0) borderStyles.push('border-top:3px solid var(--ink)');
+      if(c===size-1) borderStyles.push('border-right:3px solid var(--ink)');
+      if(r===size-1) borderStyles.push('border-bottom:3px solid var(--ink)');
+      const cls = `cell${isGiven?' given':''}${isSelected?' selected':''}${conflict?' conflict':''}`;
+      html += `<div class="${cls}" data-r="${r}" data-c="${c}" style="${borderStyles.join(';')}">${val||''}</div>`;
+    }
+  }
+  gridEl.innerHTML = html;
+  gridEl.querySelectorAll('.cell').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const r = parseInt(el.dataset.r), c = parseInt(el.dataset.c);
+      if(given[r][c]) return;
+      selectedCell = {r,c};
+      render();
+    });
+  });
+}
+
+checkBtn.addEventListener('click', ()=>{
+  const {size} = level;
+  let filled = true, hasConf = false;
+  for(let r=0;r<size;r++){
+    for(let c=0;c<size;c++){
+      if(board[r][c]===0) filled=false;
+      if(hasConflict(r,c)) hasConf=true;
+    }
+  }
+  if(hasConf){
+    factBox.className='fact';
+    factBox.innerHTML = `빨간 칸이 있어요! 같은 줄이나 상자에 겹치는 숫자를 다시 확인해보세요.`;
+  } else if(!filled){
+    factBox.className='fact';
+    factBox.innerHTML = `아직 빈칸이 남아있어요. 계속 채워보세요!`;
+  } else {
+    factBox.className='fact win';
+    factBox.innerHTML = `🎉 완성했어요! 모든 줄과 상자에 숫자가 한 번씩만 들어갔어요.`;
+  }
+});
+
+newBtn.addEventListener('click', newPuzzle);
+
+buildLevelTabs();
+newPuzzle();
+</script>
+</body>
+</html>

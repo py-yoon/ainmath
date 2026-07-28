@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>업다운 숫자야구 실험실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --green:#4CAF8E; --green-soft:#E3F5EE;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --teal:#2EC4C6; --teal-soft:#E4FAF9;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:900px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--teal);background:var(--teal-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--coral);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;display:flex;flex-direction:column;align-items:center;}
+.howto{background:var(--teal-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;width:100%;max-width:600px;}
+.howto b{color:var(--teal);}
+.level-tabs{display:flex;gap:10px;margin-bottom:20px;}
+.level-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:11px 18px;cursor:pointer;transition:all .15s ease;}
+.level-btn.active{background:var(--teal);border-color:var(--teal);color:#fff;}
+.level-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+.guess-display{display:flex;gap:10px;margin-bottom:16px;}
+.digit-box{width:56px;height:64px;border-radius:14px;background:var(--paper);border:3px solid var(--paper-line);display:flex;align-items:center;justify-content:center;font-family:'Do Hyeon',sans-serif;font-size:28px;color:var(--ink);}
+.digit-box.filled{border-color:var(--teal);}
+.numpad{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:16px;max-width:400px;}
+.num-btn{width:50px;height:50px;border-radius:12px;background:var(--ink);color:#fff;border:none;font-family:'Do Hyeon',sans-serif;font-size:20px;cursor:pointer;transition:all .15s ease;}
+.num-btn:hover:not(:disabled){background:var(--teal);}
+.num-btn:disabled{opacity:0.3;cursor:default;}
+.num-btn.erase{background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.num-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+.action-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:20px;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.action-btn:hover{border-color:var(--teal);color:var(--teal);}
+.action-btn.primary{background:var(--ink);color:#fff;border-color:transparent;}
+.action-btn.primary:hover{background:var(--teal);}
+.action-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+.history{width:100%;max-width:420px;display:flex;flex-direction:column;gap:6px;margin-bottom:16px;max-height:260px;overflow-y:auto;}
+.history-row{display:flex;justify-content:space-between;align-items:center;background:var(--paper);border-radius:12px;padding:8px 14px;font-family:'Do Hyeon',sans-serif;font-size:15px;}
+.history-row .guess-num{letter-spacing:4px;color:var(--ink);}
+.history-row .result{color:var(--ink-soft);font-size:13px;}
+.history-row .result b{color:var(--teal);}
+.fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);text-align:center;width:100%;max-width:600px;}
+.fact b{color:var(--violet);}
+.fact.win{background:var(--green-soft);}
+.fact.win b{color:var(--green);}
+footer{max-width:900px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">⚾ 업다운 숫자야구 실험실</span>
+  <h1>서로 다른 숫자로 된<br>비밀 번호를 <span>추리</span>해보세요</h1>
+  <p class="sub">컴퓨터가 서로 다른 숫자로 비밀 번호를 정했어요. 숫자를 하나씩 넣어보면 "스트라이크(숫자와 자리 모두 맞음)"와 "볼(숫자는 맞지만 자리가 틀림)"을 알려줘요. 힌트를 모아서 논리적으로 좁혀보세요!</p>
+
+  <div class="stage">
+    <div class="howto">
+      <p><b>스트라이크</b>는 숫자도 맞고 자리도 맞은 개수, <b>볼</b>은 숫자는 있지만 자리가 틀린 개수예요. 아무것도 안 맞으면 <b>아웃</b>이에요. 자릿수만큼 전부 스트라이크가 나오면 승리!</p>
+    </div>
+    <div class="level-tabs" id="levelTabs"></div>
+    <div class="guess-display" id="guessDisplay"></div>
+    <div class="numpad" id="numpad"></div>
+    <div class="action-row">
+      <button class="action-btn" id="submitBtn">✔ 제출하기</button>
+      <button class="action-btn primary" id="newBtn">🎲 새 게임</button>
+    </div>
+    <div class="history" id="history"></div>
+    <div class="fact" id="fact">숫자를 채우고 제출해보세요!</div>
+  </div>
+
+  <footer>스트라이크·볼 힌트를 표로 정리해가며 추리하면 훨씬 효율적이에요. 예를 들어 첫 시도에서 볼이 많이 나온 숫자들은 "포함되어 있지만 자리가 다른" 숫자니, 다음 시도에서 자리를 바꿔 넣어보는 게 좋은 전략이에요.</footer>
+</div>
+
+<script>
+const guessDisplayEl = document.getElementById('guessDisplay');
+const numpadEl = document.getElementById('numpad');
+const levelTabsEl = document.getElementById('levelTabs');
+const submitBtn = document.getElementById('submitBtn');
+const newBtn = document.getElementById('newBtn');
+const historyEl = document.getElementById('history');
+const factBox = document.getElementById('fact');
+
+const LEVELS = [
+  {key:'3', digits:3, name:'3자리 (쉬움)'},
+  {key:'4', digits:4, name:'4자리 (도전)'},
+];
+let level = LEVELS[0];
+let secret = [];
+let current = [];
+let history = [];
+let gameOver = false;
+
+function buildLevelTabs(){
+  levelTabsEl.innerHTML = LEVELS.map(l=>`<button class="level-btn${l.key===level.key?' active':''}" data-k="${l.key}">${l.name}</button>`).join('');
+  levelTabsEl.querySelectorAll('.level-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      level = LEVELS.find(l=>l.key===btn.dataset.k);
+      buildLevelTabs();
+      newGame();
+    });
+  });
+}
+
+function genSecret(digits){
+  const pool = [1,2,3,4,5,6,7,8,9,0];
+  // 첫 자리는 0이 아니도록
+  const first = 1+Math.floor(Math.random()*9);
+  const rest = pool.filter(n=>n!==first);
+  for(let i=rest.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [rest[i],rest[j]]=[rest[j],rest[i]];
+  }
+  return [first, ...rest.slice(0,digits-1)];
+}
+
+function newGame(){
+  secret = genSecret(level.digits);
+  current = [];
+  history = [];
+  gameOver = false;
+  factBox.className = 'fact';
+  factBox.textContent = '숫자를 채우고 제출해보세요!';
+  buildNumpad();
+  renderGuess();
+  renderHistory();
+}
+
+function buildNumpad(){
+  let html = '';
+  for(let n=0;n<=9;n++){
+    html += `<button class="num-btn" data-n="${n}">${n}</button>`;
+  }
+  html += `<button class="num-btn erase" data-n="back">지우기</button>`;
+  numpadEl.innerHTML = html;
+  numpadEl.querySelectorAll('.num-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(gameOver) return;
+      if(btn.dataset.n==='back'){
+        current.pop();
+      } else if(current.length<level.digits){
+        current.push(parseInt(btn.dataset.n));
+      }
+      renderGuess();
+    });
+  });
+}
+
+function renderGuess(){
+  let html = '';
+  for(let i=0;i<level.digits;i++){
+    const v = current[i];
+    html += `<div class="digit-box${v!==undefined?' filled':''}">${v!==undefined?v:''}</div>`;
+  }
+  guessDisplayEl.innerHTML = html;
+}
+
+function judge(guess, secret){
+  let strike=0, ball=0;
+  for(let i=0;i<secret.length;i++){
+    if(guess[i]===secret[i]) strike++;
+    else if(secret.includes(guess[i])) ball++;
+  }
+  return {strike, ball};
+}
+
+function renderHistory(){
+  historyEl.innerHTML = history.map(h=>`
+    <div class="history-row">
+      <span class="guess-num">${h.guess.join(' ')}</span>
+      <span class="result"><b>${h.strike}</b>스트라이크 · ${h.ball}볼${h.strike===0&&h.ball===0?' · 아웃':''}</span>
+    </div>
+  `).join('');
+}
+
+submitBtn.addEventListener('click', ()=>{
+  if(gameOver) return;
+  if(current.length < level.digits){
+    factBox.className='fact';
+    factBox.textContent = `숫자를 ${level.digits}개 모두 채워주세요!`;
+    return;
+  }
+  const dup = new Set(current).size !== current.length;
+  if(dup){
+    factBox.className='fact';
+    factBox.textContent = `숫자는 서로 달라야 해요! 겹치는 숫자가 있어요.`;
+    return;
+  }
+  const {strike, ball} = judge(current, secret);
+  history.unshift({guess:[...current], strike, ball});
+  renderHistory();
+
+  if(strike===level.digits){
+    gameOver = true;
+    factBox.className = 'fact win';
+    factBox.innerHTML = `🎉 정답이에요! 비밀 번호는 <b>${secret.join('')}</b>였어요. ${history.length}번 만에 맞혔어요!`;
+  } else {
+    factBox.className = 'fact';
+    factBox.innerHTML = `<b>${strike}스트라이크 ${ball}볼</b>이에요. 힌트를 보고 다시 추리해보세요!`;
+  }
+  current = [];
+  renderGuess();
+});
+
+newBtn.addEventListener('click', newGame);
+
+buildLevelTabs();
+newGame();
+</script>
+</body>
+</html>

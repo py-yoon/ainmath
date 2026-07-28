@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>칠교판(탱그램) 실험실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --green:#4CAF8E; --green-soft:#E3F5EE;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--coral);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;display:flex;flex-direction:column;align-items:center;}
+.howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;width:100%;max-width:700px;}
+.howto b{color:var(--violet);}
+.target-tabs{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;justify-content:center;}
+.target-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:12px;padding:9px 14px;cursor:pointer;transition:all .15s ease;}
+.target-btn.active{background:var(--violet);border-color:var(--violet);color:#fff;}
+.target-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+svg{width:100%;max-width:560px;height:auto;overflow:visible;touch-action:none;margin-bottom:16px;background:var(--paper);border-radius:16px;}
+.piece{cursor:grab;}
+.piece:active{cursor:grabbing;}
+.piece.selected{filter:drop-shadow(0 0 0 3px var(--ink));}
+.action-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.action-btn:hover{border-color:var(--violet);color:var(--violet);}
+.action-btn.primary{background:var(--ink);color:#fff;border-color:transparent;}
+.action-btn.primary:hover{background:var(--violet);}
+.action-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+.fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);margin-top:20px;text-align:center;width:100%;max-width:700px;}
+.fact b{color:var(--coral);}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">🔷 칠교판(탱그램) 실험실</span>
+  <h1>일곱 조각으로<br>어떤 <span>모양</span>이든 만들어보세요</h1>
+  <p class="sub">조각을 끌어서 옮기고, 눌러서 고른 다음 회전·뒤집기 버튼으로 방향을 바꿔보세요. 점선으로 된 목표 모양 안에 일곱 조각을 딱 맞게 채워보는 게 도전 과제예요!</p>
+
+  <div class="stage">
+    <div class="howto">
+      <p>칠교판(탱그램)은 정사각형 하나를 큰 삼각형 2개, 중간 삼각형 1개, 작은 삼각형 2개, 정사각형 1개, 평행사변형 1개 — 이렇게 <b>일곱 조각</b>으로 나눈 퍼즐이에요. 이 조각들을 돌리고 뒤집어 다시 조합하면 정사각형뿐 아니라 다양한 모양을 만들 수 있어요.</p>
+    </div>
+
+    <div class="target-tabs" id="targetTabs"></div>
+
+    <svg id="svg" viewBox="0 0 560 420"></svg>
+
+    <div class="action-row">
+      <button class="action-btn" id="rotateBtn">↻ 회전 (45°)</button>
+      <button class="action-btn" id="flipBtn">⇋ 뒤집기</button>
+      <button class="action-btn primary" id="resetBtn">↺ 조각 흩어놓기</button>
+    </div>
+
+    <div class="fact" id="fact">조각을 하나 눌러서 선택한 다음, 회전·뒤집기 버튼을 눌러보세요!</div>
+  </div>
+
+  <footer>정사각형 하나로 시작했지만, 같은 일곱 조각으로 집, 배, 고양이, 화살표처럼 수백 가지 다른 모양을 만들 수 있어요. 조각의 각도(90°, 45°)를 눈여겨보면 어떤 조각끼리 딱 맞는지 감이 생겨요.</footer>
+</div>
+
+<script>
+const svg = document.getElementById('svg');
+const targetTabsEl = document.getElementById('targetTabs');
+const rotateBtn = document.getElementById('rotateBtn');
+const flipBtn = document.getElementById('flipBtn');
+const resetBtn = document.getElementById('resetBtn');
+const factBox = document.getElementById('fact');
+
+const U = 40; // 기본 단위 (작은 삼각형의 직각변 길이)
+const COLORS = ['#FF5B57','#4C8BF5','#4CAF8E','#6C4CF7','#2EC4C6','#F5A623','#EC6BAD'];
+
+// 각 조각의 로컬 좌표(기준점 0,0 근처) - 넓이 비율: 큰삼각형(4)x2, 중간삼각형(2), 작은삼각형(1)x2, 정사각형(2), 평행사변형(2)
+function tri(leg){ return [[0,0],[leg,0],[0,leg]]; }
+const PIECES = [
+  {key:'large1', points: tri(2*U)},
+  {key:'large2', points: tri(2*U)},
+  {key:'medium', points: tri(Math.SQRT2*U)},
+  {key:'small1', points: tri(U)},
+  {key:'small2', points: tri(U)},
+  {key:'square', points: [[0,0],[U,0],[U,U],[0,U]]},
+  {key:'parallelogram', points: [[0,0],[U,0],[1.5*U,-U],[0.5*U,-U]]},
+];
+
+let state = []; // {key, points, x, y, rot, flip}
+let selectedIdx = null;
+let target = 'free';
+
+const TARGETS = [
+  {key:'free', name:'자유롭게'},
+  {key:'square', name:'□ 정사각형에 도전'},
+  {key:'triangle', name:'△ 큰 삼각형에 도전'},
+];
+
+function buildTargetTabs(){
+  targetTabsEl.innerHTML = TARGETS.map(t=>`<button class="target-btn${t.key===target?' active':''}" data-k="${t.key}">${t.name}</button>`).join('');
+  targetTabsEl.querySelectorAll('.target-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      target = btn.dataset.k;
+      buildTargetTabs();
+      render();
+    });
+  });
+}
+
+function scatterPositions(){
+  const slots = [
+    {x:60,y:60},{x:460,y:60},{x:60,y:340},{x:460,y:340},
+    {x:280,y:40},{x:120,y:200},{x:420,y:200},
+  ];
+  state = PIECES.map((p,i)=>({
+    key:p.key, points:p.points,
+    x: slots[i].x, y: slots[i].y, rot:0, flip:1,
+  }));
+  selectedIdx = null;
+}
+
+function pointsToStr(points){
+  return points.map(p=>p.join(',')).join(' ');
+}
+
+function render(){
+  let html = '';
+
+  // 목표 윤곽선 (점선 가이드)
+  if(target==='square'){
+    const s = 4*U;
+    const cx=280, cy=210;
+    html += `<rect x="${cx-s/2}" y="${cy-s/2}" width="${s}" height="${s}" fill="none" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="8 6" opacity="0.5"></rect>`;
+  } else if(target==='triangle'){
+    const s = 4*U;
+    const cx=280, cy=210;
+    html += `<polygon points="${cx-s},${cy+s/2} ${cx+s},${cy+s/2} ${cx},${cy-s/2}" fill="none" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="8 6" opacity="0.5"></polygon>`;
+  }
+
+  state.forEach((p, i)=>{
+    const transform = `translate(${p.x},${p.y}) rotate(${p.rot}) scale(${p.flip},1)`;
+    const color = COLORS[i % COLORS.length];
+    const sel = i===selectedIdx ? 'stroke="var(--ink)" stroke-width="3"' : 'stroke="#fff" stroke-width="2"';
+    html += `<polygon class="piece${i===selectedIdx?' selected':''}" data-i="${i}" points="${pointsToStr(p.points)}" fill="${color}" fill-opacity="0.85" ${sel} transform="${transform}"></polygon>`;
+  });
+
+  svg.innerHTML = html;
+
+  svg.querySelectorAll('.piece').forEach(el=>{
+    el.addEventListener('pointerdown', onPointerDown);
+  });
+}
+
+let dragInfo = null;
+
+function onPointerDown(e){
+  e.preventDefault();
+  const idx = parseInt(e.currentTarget.dataset.i);
+  selectedIdx = idx;
+  const pt = svg.createSVGPoint();
+  const svgRect = svg.getBoundingClientRect();
+  const viewBox = svg.viewBox.baseVal;
+  const scaleX = viewBox.width / svgRect.width;
+  const scaleY = viewBox.height / svgRect.height;
+  const startClientX = e.clientX, startClientY = e.clientY;
+  const piece = state[idx];
+  const startX = piece.x, startY = piece.y;
+  let moved = false;
+
+  function onMove(ev){
+    const dx = (ev.clientX-startClientX)*scaleX;
+    const dy = (ev.clientY-startClientY)*scaleY;
+    if(Math.abs(dx)>2 || Math.abs(dy)>2) moved = true;
+    piece.x = startX+dx;
+    piece.y = startY+dy;
+    render();
+    // 선택 유지
+    selectedIdx = idx;
+    svg.querySelector(`.piece[data-i="${idx}"]`)?.classList.add('selected');
+  }
+  function onUp(){
+    document.removeEventListener('pointermove', onMove);
+    document.removeEventListener('pointerup', onUp);
+    render();
+    if(!moved){
+      factBox.innerHTML = `조각을 선택했어요. 회전·뒤집기 버튼으로 방향을 바꿔보세요!`;
+    }
+  }
+  document.addEventListener('pointermove', onMove);
+  document.addEventListener('pointerup', onUp);
+}
+
+rotateBtn.addEventListener('click', ()=>{
+  if(selectedIdx===null){ factBox.innerHTML = `먼저 조각을 하나 선택해주세요!`; return; }
+  state[selectedIdx].rot = (state[selectedIdx].rot + 45) % 360;
+  render();
+});
+flipBtn.addEventListener('click', ()=>{
+  if(selectedIdx===null){ factBox.innerHTML = `먼저 조각을 하나 선택해주세요!`; return; }
+  state[selectedIdx].flip *= -1;
+  render();
+});
+resetBtn.addEventListener('click', ()=>{
+  scatterPositions();
+  factBox.innerHTML = `조각을 다시 흩어놓았어요. 새로 시작해보세요!`;
+  render();
+});
+
+buildTargetTabs();
+scatterPositions();
+render();
+</script>
+</body>
+</html>

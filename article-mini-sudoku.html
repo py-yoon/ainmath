@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>스도쿠, 숫자로 하는 순수한 논리 게임 | 아인매스</title>
+<meta name="description" content="스도쿠에는 계산이 하나도 없어요. 덧셈도 곱셈도 필요 없죠. 그런데도 전 세계에서 가장 사랑받는 숫자 퍼즐이 된 이유는, 이 게임이 사실 산수가 아니라...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:13.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#2EC4C6;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:12.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#2EC4C6;background:#E4FAF9">🌀 재미있는 패턴</span>
+  <h1>스도쿠, 숫자로 하는 순수한 논리 게임</h1>
+  <p class="meta">초등 고학년 ~ 중학생 · 읽는 데 약 3분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>스도쿠에는 계산이 하나도 없어요. 더하기도 곱하기도 필요 없죠. 그런데도 전 세계에서 가장 사랑받는 숫자 퍼즐이 된 이유는, 이 게임이 사실 산수가 아니라 <b>논리적 추론</b>을 다루기 때문이에요. 숫자 1, 2, 3, 4는 그저 서로 다른 네 개의 기호일 뿐이고, 정말 중요한 건 "이 칸에는 어떤 기호가 들어갈 수 있고, 어떤 기호는 들어갈 수 없는지"를 추론하는 과정이에요.</p>
+      <p>규칙은 단 하나예요. 같은 가로줄, 같은 세로줄, 같은 상자(굵은 선으로 나뉜 작은 구역) 안에는 같은 숫자가 두 번 들어갈 수 없어요. 이 하나의 규칙만으로도 충분히 복잡하고 흥미로운 퍼즐이 만들어진다는 게 스도쿠의 놀라운 점이에요. 스도쿠라는 이름도 일본어로 "숫자(수)는 홀로(독)있어야 한다"는 뜻에서 왔어요.</p>
+      <p>스도쿠를 풀 때 가장 기본이 되는 전략은 <b>소거법</b>이에요. 빈칸 하나를 골랐을 때, 그 줄과 상자에 이미 있는 숫자들을 하나씩 지워나가면 결국 들어갈 수 있는 숫자가 하나만 남는 경우가 많아요. 이렇게 "될 수 없는 것들을 지워서 답을 찾는" 사고방식은 수학뿐 아니라 과학 실험, 탐정 추리, 심지어 컴퓨터 프로그램이 오류를 찾는 방식(디버깅)에서도 똑같이 쓰이는 아주 강력한 사고 도구예요.</p>
+      <p>스도쿠는 4×4처럼 작은 크기부터 9×9, 심지어 16×16까지 크기를 자유롭게 키울 수 있어요. 크기가 커질수록 고려해야 할 경우의 수가 기하급수적으로 늘어나서 난이도가 확 올라가요. 그래서 처음 스도쿠를 배울 땐 4×4나 6×6처럼 작은 크기로 규칙과 전략을 충분히 익힌 다음, 표준 크기인 9×9로 넘어가는 게 훨씬 수월해요.</p>
+      <p>재미있게도 스도쿠는 "라틴방진"이라는 훨씬 오래된 수학 개념에 뿌리를 두고 있어요. 라틴방진은 18세기 수학자 오일러가 연구했던, 각 줄과 칸에 기호가 겹치지 않게 배열하는 문제예요. 스도쿠는 여기에 "상자" 규칙 하나를 추가한 버전인 셈이에요. 지금도 수학자들은 "몇 개의 힌트만 있으면 답이 하나로 정해지는지" 같은 스도쿠 관련 문제를 진지하게 연구하고 있어요.</p>
+      <p>아이들과 풀 때는 처음부터 어려운 걸 시도하기보다, 4×4로 시작해서 "이 줄엔 뭐가 이미 있지?", "이 상자엔 뭐가 있지?"를 소리 내어 말하며 하나씩 지워보는 연습을 함께 하는 게 좋아요. 틀렸을 때 빨갛게 표시되는 걸 보고 스스로 고쳐나가는 경험도, 실수를 두려워하지 않고 논리적으로 검토하는 태도를 길러줘요.</p>
+      <p>저희 체험 페이지에서는 4×4와 6×6 중 난이도를 골라서 풀어볼 수 있고, 규칙에 어긋나면 바로 빨간색으로 표시돼요. 새 퍼즐 버튼을 눌러 계속 다른 문제에 도전해보세요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="mini-sudoku.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

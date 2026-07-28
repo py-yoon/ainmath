@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>24 게임 실험실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --green:#4CAF8E; --green-soft:#E3F5EE;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--violet);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.howto{background:var(--coral-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--coral);}
+.scoreboard{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:22px;}
+.score-box{flex:1;min-width:120px;background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:12px 16px;text-align:center;}
+.score-box .label{font-size:12.5px;color:var(--ink-soft);font-family:'Do Hyeon',sans-serif;}
+.score-box .val{font-family:'Do Hyeon',sans-serif;font-size:24px;color:var(--ink);}
+.tiles-area{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:24px;min-height:100px;align-items:center;}
+.tile{
+  width:84px;height:84px;border-radius:16px;background:var(--violet);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-family:'Do Hyeon',sans-serif;
+  font-size:18px;cursor:pointer;transition:all .15s ease;border:3px solid transparent;
+  padding:6px;text-align:center;word-break:break-all;line-height:1.2;
+}
+.tile:hover{transform:translateY(-2px);}
+.tile.selected{border-color:var(--coral);background:var(--coral);}
+.op-row{display:flex;justify-content:center;gap:10px;margin-bottom:24px;flex-wrap:wrap;}
+.op-btn{
+  width:56px;height:56px;border-radius:14px;background:var(--ink);color:#fff;border:none;
+  font-family:'Do Hyeon',sans-serif;font-size:24px;cursor:pointer;transition:all .15s ease;
+}
+.op-btn:hover:not(:disabled){background:var(--violet);}
+.op-btn:disabled{opacity:0.3;cursor:default;}
+.op-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+.action-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.action-btn:hover{border-color:var(--coral);color:var(--coral);}
+.action-btn.primary{background:var(--ink);color:#fff;border-color:transparent;}
+.action-btn.primary:hover{background:var(--coral);}
+.action-btn:focus-visible{outline:3px solid var(--violet);outline-offset:2px;}
+.fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);margin-top:20px;text-align:center;}
+.fact b{color:var(--violet);}
+.fact.win{background:var(--green-soft);}
+.fact.win b{color:var(--green);}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">🎯 24 게임 실험실</span>
+  <h1>숫자 4개로<br><span>24</span>를 만들어보세요!</h1>
+  <p class="sub">더하기, 빼기, 곱하기, 나누기를 자유롭게 써서 네 숫자를 딱 24로 만들어보세요. 숫자 두 개와 연산 기호를 순서대로 눌러서 하나로 합쳐나가요.</p>
+
+  <div class="stage">
+    <div class="howto">
+      <p><b>사용법</b>: 숫자 타일 하나를 누르고, 연산 기호를 누른 다음, 다른 숫자 타일을 누르면 두 숫자가 계산 결과 하나로 합쳐져요. 이 과정을 반복해서 타일이 <b>1개</b>만 남았을 때 그 값이 <b>24</b>이면 성공이에요!</p>
+    </div>
+
+    <div class="scoreboard">
+      <div class="score-box"><div class="label">푼 문제</div><div class="val" id="solvedCount">0</div></div>
+      <div class="score-box"><div class="label">경과 시간</div><div class="val" id="timer">0:00</div></div>
+    </div>
+
+    <div class="tiles-area" id="tilesArea"></div>
+
+    <div class="op-row">
+      <button class="op-btn" data-op="+">+</button>
+      <button class="op-btn" data-op="−">−</button>
+      <button class="op-btn" data-op="×">×</button>
+      <button class="op-btn" data-op="÷">÷</button>
+    </div>
+
+    <div class="action-row">
+      <button class="action-btn" id="undoBtn">↺ 실행 취소</button>
+      <button class="action-btn" id="hintBtn">💡 힌트 보기</button>
+      <button class="action-btn primary" id="newBtn">🎲 새 문제</button>
+    </div>
+
+    <div class="fact" id="fact">숫자와 연산 기호를 눌러서 24를 만들어보세요!</div>
+  </div>
+
+  <footer>같은 숫자 4개로도 24를 만드는 방법이 여러 가지일 때가 많아요. 하나를 풀고 나면, "다른 방법은 없을까?"도 생각해보세요.</footer>
+</div>
+
+<script>
+const tilesArea = document.getElementById('tilesArea');
+const solvedCountEl = document.getElementById('solvedCount');
+const timerEl = document.getElementById('timer');
+const undoBtn = document.getElementById('undoBtn');
+const hintBtn = document.getElementById('hintBtn');
+const newBtn = document.getElementById('newBtn');
+const factBox = document.getElementById('fact');
+const opBtns = document.querySelectorAll('.op-btn');
+
+let tiles = []; // {val, expr, id}
+let history = [];
+let selected = [];
+let selectedOp = null;
+let solvedCount = 0;
+let startTime = Date.now();
+let solvedThisRound = false;
+let nextId = 0;
+
+function fmtVal(v){
+  const r = Math.round(v*1000)/1000;
+  return r.toString();
+}
+
+function newTile(val, expr){
+  return {val, expr, id: nextId++};
+}
+
+// 4개 숫자로 24를 만들 수 있는지 재귀적으로 탐색 (힌트/생성 검증용)
+function solve(list){
+  if(list.length===1){
+    if(Math.abs(list[0].val-24) < 1e-6) return list[0].expr;
+    return null;
+  }
+  for(let i=0;i<list.length;i++){
+    for(let j=0;j<list.length;j++){
+      if(i===j) continue;
+      const a=list[i], b=list[j];
+      const rest = list.filter((_,k)=>k!==i&&k!==j);
+      const cands = [
+        {v:a.val+b.val, e:`(${a.expr}+${b.expr})`},
+        {v:a.val-b.val, e:`(${a.expr}-${b.expr})`},
+        {v:a.val*b.val, e:`(${a.expr}×${b.expr})`},
+      ];
+      if(Math.abs(b.val)>1e-9) cands.push({v:a.val/b.val, e:`(${a.expr}÷${b.expr})`});
+      for(const c of cands){
+        const res = solve([...rest, {val:c.v, expr:c.e}]);
+        if(res) return res;
+      }
+    }
+  }
+  return null;
+}
+
+function genPuzzle(){
+  let nums, sol;
+  let attempts = 0;
+  do{
+    nums = Array.from({length:4}, ()=>1+Math.floor(Math.random()*9));
+    sol = solve(nums.map(n=>newTile(n, String(n))));
+    attempts++;
+  } while(!sol && attempts<300);
+  return nums;
+}
+
+function startNew(){
+  const nums = genPuzzle();
+  tiles = nums.map(n=>newTile(n, String(n)));
+  history = [];
+  selected = [];
+  selectedOp = null;
+  solvedThisRound = false;
+  factBox.className = 'fact';
+  factBox.textContent = '숫자와 연산 기호를 눌러서 24를 만들어보세요!';
+  render();
+}
+
+function render(){
+  tilesArea.innerHTML = tiles.map(t=>`
+    <div class="tile${selected.includes(t.id)?' selected':''}" data-id="${t.id}">${fmtVal(t.val)}</div>
+  `).join('');
+  tilesArea.querySelectorAll('.tile').forEach(el=>{
+    el.addEventListener('click', ()=>onTileClick(parseInt(el.dataset.id)));
+  });
+  opBtns.forEach(b=>{
+    b.classList.toggle('active', b.dataset.op===selectedOp);
+    b.style.background = b.dataset.op===selectedOp ? 'var(--coral)' : '';
+  });
+}
+
+function onTileClick(id){
+  if(solvedThisRound) return;
+  if(selected.includes(id)){
+    selected = selected.filter(x=>x!==id);
+    render();
+    return;
+  }
+  selected.push(id);
+  if(selected.length===2 && selectedOp){
+    doCombine();
+  } else {
+    render();
+  }
+}
+
+function doCombine(){
+  const [idA, idB] = selected;
+  const a = tiles.find(t=>t.id===idA);
+  const b = tiles.find(t=>t.id===idB);
+  if(!a || !b) { selected=[]; render(); return; }
+
+  let val, symbol=selectedOp;
+  if(symbol==='+') val = a.val+b.val;
+  else if(symbol==='−') val = a.val-b.val;
+  else if(symbol==='×') val = a.val*b.val;
+  else { // ÷
+    if(Math.abs(b.val)<1e-9){
+      factBox.className='fact';
+      factBox.innerHTML = `0으로 나눌 수는 없어요! 다른 조합을 시도해보세요.`;
+      selected=[]; selectedOp=null; render();
+      return;
+    }
+    val = a.val/b.val;
+  }
+  const expr = `(${a.expr}${symbol}${b.expr})`;
+
+  history.push(tiles.map(t=>({...t})));
+  tiles = tiles.filter(t=>t.id!==idA && t.id!==idB);
+  tiles.push(newTile(val, expr));
+  selected = [];
+  selectedOp = null;
+  render();
+  checkWin();
+}
+
+function checkWin(){
+  if(tiles.length===1){
+    if(Math.abs(tiles[0].val-24)<1e-6){
+      solvedCount++;
+      solvedCountEl.textContent = solvedCount;
+      solvedThisRound = true;
+      factBox.className = 'fact win';
+      factBox.innerHTML = `🎉 정답이에요! ${tiles[0].expr} = 24`;
+    } else {
+      factBox.className = 'fact';
+      factBox.innerHTML = `아쉬워요, 결과가 <b>${fmtVal(tiles[0].val)}</b>이 됐어요. "실행 취소"로 다시 시도해보세요.`;
+    }
+  }
+}
+
+opBtns.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    if(solvedThisRound) return;
+    selectedOp = (selectedOp===btn.dataset.op) ? null : btn.dataset.op;
+    if(selected.length===2 && selectedOp) doCombine();
+    else render();
+  });
+});
+
+undoBtn.addEventListener('click', ()=>{
+  if(history.length===0) return;
+  tiles = history.pop();
+  selected = [];
+  selectedOp = null;
+  solvedThisRound = false;
+  factBox.className='fact';
+  factBox.textContent = '되돌렸어요. 다시 시도해보세요!';
+  render();
+});
+
+hintBtn.addEventListener('click', ()=>{
+  const sol = solve(tiles.map(t=>({...t})));
+  if(sol){
+    factBox.className='fact';
+    factBox.innerHTML = `💡 힌트: ${sol} = 24 (이 방법 말고 다른 방법도 있을 수 있어요!)`;
+  } else {
+    factBox.className='fact';
+    factBox.innerHTML = `지금 남은 숫자로는 24를 만들 수 없어요. "실행 취소"를 눌러보세요.`;
+  }
+});
+
+newBtn.addEventListener('click', startNew);
+
+setInterval(()=>{
+  const sec = Math.floor((Date.now()-startTime)/1000);
+  const m = Math.floor(sec/60), s = sec%60;
+  timerEl.textContent = `${m}:${s.toString().padStart(2,'0')}`;
+}, 1000);
+
+startNew();
+</script>
+</body>
+</html>
