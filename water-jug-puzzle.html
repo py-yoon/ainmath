@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>양동이 물 맞추기 실험실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --green:#4CAF8E; --green-soft:#E3F5EE;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+.howto{background:var(--blue-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--blue);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.15fr 0.85fr;gap:32px;align-items:start;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+
+.level-picker{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.level-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:10px 16px;cursor:pointer;transition:all .15s ease;}
+.level-btn:hover{border-color:var(--blue);color:var(--blue);}
+.level-btn.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+.level-btn:focus-visible{outline:4px solid var(--coral);outline-offset:2px;}
+
+.target-badge{font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--ink);background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:12px 16px;margin-bottom:20px;text-align:center;}
+.target-badge b{color:var(--blue);font-size:1.3em;}
+
+.jugs-row{display:flex;gap:26px;justify-content:center;align-items:flex-end;min-height:180px;margin-bottom:18px;flex-wrap:wrap;}
+.jug-col{display:flex;flex-direction:column;align-items:center;gap:10px;}
+.jug{width:72px;border:3px solid var(--blue);border-radius:0 0 16px 16px;border-top:none;position:relative;display:flex;align-items:flex-end;background:#fff;overflow:hidden;}
+.jug-fill{width:100%;background:var(--blue);opacity:.55;transition:height .3s ease;}
+.jug-cap-line{position:absolute;top:0;left:0;right:0;border-top:2px dashed var(--paper-line);}
+.jug-amt{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);}
+.jug-name{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--blue);}
+
+.jug-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:4px;}
+.mini-btn{font-family:'Do Hyeon',sans-serif;font-size:12.5px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:10px;padding:6px 9px;cursor:pointer;transition:all .15s ease;}
+.mini-btn:hover{border-color:var(--blue);color:var(--blue);}
+.mini-btn:disabled{opacity:.4;cursor:not-allowed;}
+.mini-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+
+.pour-section{margin-bottom:20px;}
+.pour-title{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);text-align:center;margin-bottom:8px;}
+.pour-grid{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.pour-btn{font-family:'Do Hyeon',sans-serif;font-size:13.5px;background:var(--card);border:2px solid var(--blue);color:var(--blue);border-radius:12px;padding:9px 13px;cursor:pointer;transition:all .15s ease;}
+.pour-btn:hover{background:var(--blue);color:#fff;}
+.pour-btn:disabled{opacity:.35;cursor:not-allowed;background:var(--card);color:var(--blue);}
+
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:12px 18px;cursor:pointer;flex:1;min-width:100px;transition:transform .15s ease, background .2s ease;}
+.action-btn:hover{background:var(--blue);}
+.action-btn:active{transform:scale(0.97);}
+.action-btn.secondary{background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.action-btn.secondary:hover{border-color:var(--blue);color:var(--blue);background:var(--card);}
+.action-btn:focus-visible{outline:4px solid var(--coral);outline-offset:2px;}
+
+.panel{display:flex;flex-direction:column;gap:18px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px;text-align:center;}
+.equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(15px,2.4vw,17px);color:var(--ink-soft);}
+.equation .result{font-family:'Do Hyeon',sans-serif;font-size:clamp(34px,5.6vw,44px);margin-top:6px;line-height:1;color:var(--blue);}
+.equation .result span{font-size:0.4em;color:var(--ink-soft);}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:10px 16px;text-align:center;}
+.progress-badge b{color:var(--blue);}
+.feedback{border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);background:var(--blue-soft);min-height:52px;}
+.feedback.ok{background:var(--green-soft);}
+.feedback.bad{background:var(--coral-soft);}
+.feedback b{color:var(--blue);}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">🪣 양동이 물 맞추기 실험실</span>
+  <h1>정해진 양동이만으로<br><span>정확한 양</span>을 만들 수 있을까?</h1>
+  <p class="sub">3L, 5L 양동이로 4L을 만드는 고전 퍼즐, 알고 계셨나요? 크기가 정해진 양동이 몇 개만 가지고 채우기·비우기·붓기만 반복해서 목표량을 정확히 만들어보는 퍼즐이에요.</p>
+
+  <div class="howto">
+    <p>할 수 있는 행동은 딱 세 가지예요: <b>채우기</b>(양동이를 가득 채움), <b>비우기</b>(양동이를 완전히 비움), <b>붓기</b>(한 양동이에서 다른 양동이로, 부어지는 쪽이 가득 차거나 붓는 쪽이 빌 때까지 옮기기). 이 세 가지만으로 목표한 양을 어느 양동이에든 정확히 만들면 성공이에요.</p>
+    <p>막히면 <b>힌트</b> 버튼을 눌러보세요. 지금 상태에서 가장 빠르게 목표에 다가가는 다음 행동 하나를 알려줘요.</p>
+  </div>
+
+  <div class="stage">
+    <div>
+      <div class="target-badge" id="targetBadge"></div>
+
+      <div class="jugs-row" id="jugsRow"></div>
+
+      <div class="pour-section">
+        <div class="pour-title">붓기</div>
+        <div class="pour-grid" id="pourGrid"></div>
+      </div>
+
+      <div class="btn-row">
+        <button class="action-btn secondary" id="hintBtn">💡 힌트</button>
+        <button class="action-btn secondary" id="resetBtn">↺ 다시 시작</button>
+        <button class="action-btn" id="newBtn">➡ 새 문제</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="equation">
+        <div class="formula">지금까지 행동 횟수</div>
+        <div class="result" id="moveNum">0<span>번</span></div>
+      </div>
+      <div class="progress-badge">성공한 문제 <b id="solvedNum">0</b>개</div>
+      <div class="feedback" id="feedback">채우기·비우기·붓기 버튼을 눌러 목표량을 만들어보세요!</div>
+    </div>
+  </div>
+
+  <footer>이런 문제를 "양동이 물 붓기 퍼즐"이라고 불러요. 사실 두 양동이 용량의 최대공약수(GCD)로 나누어떨어지는 양이면 무엇이든 만들 수 있다는 규칙이 숨어 있어요 — 3L·5L의 최대공약수는 1이라서 1L부터 5L까지 원하는 만큼 다 만들 수 있답니다.</footer>
+</div>
+
+<script>
+const targetBadge = document.getElementById('targetBadge');
+const jugsRow = document.getElementById('jugsRow');
+const pourGrid = document.getElementById('pourGrid');
+const hintBtn = document.getElementById('hintBtn');
+const resetBtn = document.getElementById('resetBtn');
+const newBtn = document.getElementById('newBtn');
+const moveNumEl = document.getElementById('moveNum');
+const solvedNumEl = document.getElementById('solvedNum');
+const feedbackEl = document.getElementById('feedback');
+
+const NUM_JUGS = 2;
+let solvedCount = 0;
+
+let caps = [];
+let target = 0;
+let state = [];
+let moveCount = 0;
+let solved = false;
+
+const PX_PER_L = 16;
+
+function gcd(a,b){ return b===0 ? a : gcd(b, a%b); }
+function gcdArray(arr){ return arr.reduce((a,b)=>gcd(a,b)); }
+
+function applyAction(st, action, capsArr){
+  const s = st.slice();
+  if(action.type==='fill') s[action.i] = capsArr[action.i];
+  else if(action.type==='empty') s[action.i] = 0;
+  else if(action.type==='pour'){
+    const amt = Math.min(s[action.i], capsArr[action.j]-s[action.j]);
+    s[action.i] -= amt;
+    s[action.j] += amt;
+  }
+  return s;
+}
+
+function allActions(n){
+  const acts = [];
+  for(let i=0;i<n;i++){
+    acts.push({type:'fill', i});
+    acts.push({type:'empty', i});
+    for(let j=0;j<n;j++){
+      if(i!==j) acts.push({type:'pour', i, j});
+    }
+  }
+  return acts;
+}
+
+function actionLabel(action){
+  if(action.type==='fill') return `${action.i+1}번 양동이를 가득 채우기`;
+  if(action.type==='empty') return `${action.i+1}번 양동이를 완전히 비우기`;
+  return `${action.i+1}번 양동이의 물을 ${action.j+1}번 양동이로 붓기`;
+}
+
+function bfsReachable(capsArr, startState){
+  const n = capsArr.length;
+  const actions = allActions(n);
+  const visited = new Set([startState.join(',')]);
+  const list = [startState];
+  const queue = [startState];
+  while(queue.length){
+    const cur = queue.shift();
+    for(const act of actions){
+      const nxt = applyAction(cur, act, capsArr);
+      const key = nxt.join(',');
+      if(!visited.has(key)){
+        visited.add(key);
+        queue.push(nxt);
+        list.push(nxt);
+      }
+    }
+  }
+  return list;
+}
+
+function isSolvable(capsArr, tgt){
+  const start = capsArr.map(()=>0);
+  return bfsReachable(capsArr, start).some(s=>s.includes(tgt));
+}
+
+function findHintAction(capsArr, curState, tgt){
+  if(curState.includes(tgt)) return null;
+  const n = capsArr.length;
+  const actions = allActions(n);
+  const visited = new Set([curState.join(',')]);
+  const queue = [{state:curState, first:null}];
+  while(queue.length){
+    const {state:cur, first} = queue.shift();
+    for(const act of actions){
+      const nxt = applyAction(cur, act, capsArr);
+      const key = nxt.join(',');
+      if(visited.has(key)) continue;
+      visited.add(key);
+      const f = first || act;
+      if(nxt.includes(tgt)) return f;
+      queue.push({state:nxt, first:f});
+    }
+  }
+  return null;
+}
+
+function generatePuzzle(n){
+  let attempts = 0;
+  while(attempts < 300){
+    attempts++;
+    const capsArr = [];
+    while(capsArr.length < n){
+      const c = 2 + Math.floor(Math.random()*7); // 2~8
+      if(!capsArr.includes(c)) capsArr.push(c);
+    }
+    const g = gcdArray(capsArr);
+    const maxCap = Math.max(...capsArr);
+    const candidates = [];
+    for(let t=1;t<maxCap;t++){
+      if(t % g === 0 && !capsArr.includes(t)) candidates.push(t);
+    }
+    if(candidates.length===0) continue;
+    const tgt = candidates[Math.floor(Math.random()*candidates.length)];
+    if(isSolvable(capsArr, tgt)){
+      return {caps:capsArr, target:tgt};
+    }
+  }
+  // 안전장치: 못 찾으면 고전 문제로 대체
+  return {caps:[3,5], target:4};
+}
+
+function newPuzzle(){
+  const p = generatePuzzle(NUM_JUGS);
+  caps = p.caps;
+  target = p.target;
+  state = caps.map(()=>0);
+  moveCount = 0;
+  solved = false;
+  feedbackEl.className = 'feedback';
+  feedbackEl.textContent = '채우기·비우기·붓기 버튼을 눌러 목표량을 만들어보세요!';
+  render();
+}
+
+function resetPuzzle(){
+  state = caps.map(()=>0);
+  moveCount = 0;
+  solved = false;
+  feedbackEl.className = 'feedback';
+  feedbackEl.textContent = '처음부터 다시 시작해요!';
+  render();
+}
+
+function doAction(action){
+  if(solved) return;
+  state = applyAction(state, action, caps);
+  moveCount++;
+  checkWin();
+  render();
+}
+
+function checkWin(){
+  if(state.includes(target)){
+    solved = true;
+    solvedCount++;
+    feedbackEl.className = 'feedback ok';
+    feedbackEl.innerHTML = `🎉 성공! 정확히 <b>${target}L</b>를 만들었어요. 총 ${moveCount}번 만에 해냈어요. "새 문제"를 눌러 다음 문제에 도전해보세요.`;
+  }
+}
+
+function render(){
+  moveNumEl.innerHTML = `${moveCount}<span>번</span>`;
+  solvedNumEl.textContent = solvedCount;
+  targetBadge.innerHTML = `목표: 어느 양동이든 정확히 <b>${target}L</b> 만들기`;
+
+  jugsRow.innerHTML = caps.map((cap,i)=>{
+    const h = cap*PX_PER_L;
+    const fillH = state[i]*PX_PER_L;
+    return `
+      <div class="jug-col">
+        <div class="jug-name">${i+1}번 (최대 ${cap}L)</div>
+        <div class="jug" style="height:${h}px;">
+          <div class="jug-fill" style="height:${fillH}px;"></div>
+        </div>
+        <div class="jug-amt">${state[i]} / ${cap} L</div>
+        <div class="jug-actions">
+          <button class="mini-btn" data-act="fill" data-i="${i}" ${solved?'disabled':''}>채우기</button>
+          <button class="mini-btn" data-act="empty" data-i="${i}" ${solved?'disabled':''}>비우기</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  let pourHtml = '';
+  for(let i=0;i<caps.length;i++){
+    for(let j=0;j<caps.length;j++){
+      if(i===j) continue;
+      pourHtml += `<button class="pour-btn" data-i="${i}" data-j="${j}" ${solved?'disabled':''}>${i+1}번 → ${j+1}번</button>`;
+    }
+  }
+  pourGrid.innerHTML = pourHtml;
+
+  jugsRow.querySelectorAll('.mini-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const i = parseInt(btn.dataset.i);
+      doAction({type:btn.dataset.act, i});
+    });
+  });
+  pourGrid.querySelectorAll('.pour-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const i = parseInt(btn.dataset.i), j = parseInt(btn.dataset.j);
+      doAction({type:'pour', i, j});
+    });
+  });
+
+  hintBtn.disabled = solved;
+}
+
+hintBtn.addEventListener('click', ()=>{
+  const act = findHintAction(caps, state, target);
+  if(!act){
+    feedbackEl.className = 'feedback';
+    feedbackEl.textContent = '이미 목표를 달성했어요!';
+    return;
+  }
+  feedbackEl.className = 'feedback';
+  feedbackEl.innerHTML = `💡 힌트: <b>${actionLabel(act)}</b> 해보세요.`;
+});
+
+resetBtn.addEventListener('click', resetPuzzle);
+newBtn.addEventListener('click', newPuzzle);
+
+newPuzzle();
+</script>
+</body>
+</html>
