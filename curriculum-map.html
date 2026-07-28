@@ -82,7 +82,8 @@ h1 span{color:var(--coral);}
 .domain-label.shape{background:var(--violet-soft);color:var(--violet);}
 .domain-label.data{background:var(--green-soft);color:var(--green);}
 
-.unit-list{display:flex;flex-direction:column;gap:8px;}
+.unit-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+@media (max-width:640px){ .unit-list{grid-template-columns:1fr;} }
 .unit-row{
   background:var(--card);border-radius:14px;box-shadow:var(--shadow);
   padding:12px 16px;display:flex;justify-content:space-between;align-items:center;
@@ -309,11 +310,8 @@ const EXPLORE = [
 ];
 
 function unitRowHtml(u){
-  const hasLink = (u.exp && u.exp.length) || (u.art && u.art.length);
-  const links = [
-    ...(u.exp||[]).map(l=>`<a class="unit-link exp" href="${l.href}">🎮 ${l.label}</a>`),
-    ...(u.art||[]).map(l=>`<a class="unit-link art" href="${l.href}">📖 ${l.label}</a>`),
-  ].join('');
+  const hasLink = (u.exp && u.exp.length) > 0;
+  const links = (u.exp||[]).map(l=>`<a class="unit-link exp" href="${l.href}">🎮 ${l.label}</a>`).join('');
   return `
     <div class="unit-row ${hasLink?'linked':''}">
       <div class="unit-name">${u.name}${u.note ? `<div style="font-size:12px;color:var(--ink-soft);margin-top:3px;">${u.note}</div>` : ''}</div>

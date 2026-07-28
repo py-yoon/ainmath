@@ -35,30 +35,6 @@ h1 span{color:var(--coral);}
 .tab-btn{flex:1;font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px;cursor:pointer;transition:all .15s ease;}
 .tab-btn.active{background:var(--green);border-color:var(--green);color:#fff;}
 .tab-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
-.tab-btn:disabled{opacity:.5;cursor:not-allowed;}
-
-/* 실물 던지기 애니메이션 영역 */
-.actor-wrap{
-  display:flex; align-items:center; gap:20px; flex-wrap:wrap;
-  background:var(--violet-soft); border-radius:18px; padding:18px 20px; margin-bottom:20px;
-}
-.actor-stage{ perspective:700px; width:92px; height:92px; flex:none; display:flex; align-items:center; justify-content:center; }
-#coinActor{
-  width:82px; height:82px; border-radius:50%; background:var(--card);
-  border:3px solid var(--violet); display:flex; align-items:center; justify-content:center;
-  font-family:'Do Hyeon',sans-serif; font-size:16px; color:var(--violet);
-  transform-style:preserve-3d; transition:transform .7s cubic-bezier(.2,.8,.3,1);
-}
-#diceActor{
-  display:none; width:80px; height:80px; border-radius:18px; background:var(--card);
-  border:3px solid var(--violet); position:relative;
-  transition:transform .7s cubic-bezier(.2,.8,.3,1);
-}
-.pip{ position:absolute; width:13px; height:13px; border-radius:50%; background:var(--violet); transform:translate(-50%,-50%); }
-.actor-text{ flex:1; min-width:160px; }
-.actor-label{ font-family:'Do Hyeon',sans-serif; font-size:13px; color:var(--violet); margin-bottom:4px; }
-.actor-result{ font-family:'Do Hyeon',sans-serif; font-size:20px; color:var(--ink); }
-
 .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px;}
 .action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:12px 18px;cursor:pointer;flex:1;min-width:110px;transition:transform .15s ease, background .2s ease;}
 .action-btn:hover{background:var(--green);}
@@ -66,7 +42,6 @@ h1 span{color:var(--coral);}
 .action-btn.secondary{background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);}
 .action-btn.secondary:hover{border-color:var(--green);color:var(--green);background:var(--card);}
 .action-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
-.action-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
 .chart{display:flex;align-items:flex-end;gap:14px;height:220px;padding:0 4px;border-bottom:2px solid var(--paper-line);}
 .bar-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;position:relative;}
 .bar-fill{width:70%;background:var(--green);border-radius:8px 8px 0 0;transition:height .4s ease;}
@@ -92,6 +67,10 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
 </head>
 <body>
 <div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-coin-dice-probability.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
   <span class="eyebrow">🎲 동전 · 주사위 시뮬레이터</span>
   <h1>시행 횟수가 많아질수록<br>결과는 <span>이론적 확률</span>에 가까워질까?</h1>
   <p class="sub">동전이나 주사위를 여러 번 던져보세요. 빨간 점선은 이론적으로 기대되는 확률이에요. 시행 횟수가 늘어날수록 막대 높이가 점선에 가까워지는지 확인해보세요 (이걸 <b>큰 수의 법칙</b>이라고 불러요).</p>
@@ -108,18 +87,6 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
         <button class="tab-btn active" data-mode="coin">🪙 동전 (앞/뒤)</button>
         <button class="tab-btn" data-mode="dice">🎲 주사위 (1~6)</button>
       </div>
-
-      <div class="actor-wrap">
-        <div class="actor-stage">
-          <div id="coinActor">앞</div>
-          <div id="diceActor"></div>
-        </div>
-        <div class="actor-text">
-          <div class="actor-label">1번 던지기 결과</div>
-          <div class="actor-result" id="actorResult" aria-live="polite">버튼을 눌러보세요</div>
-        </div>
-      </div>
-
       <div class="btn-row">
         <button class="action-btn" id="once">1번 던지기</button>
         <button class="action-btn" id="ten">10번 던지기</button>
@@ -135,7 +102,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
         <div class="formula">총 시행 횟수</div>
         <div class="result" id="totalNum">0<span>회</span></div>
       </div>
-      <div class="fact" id="fact" aria-live="polite">버튼을 눌러 던지기를 시작해보세요!</div>
+      <div class="fact" id="fact">버튼을 눌러 던지기를 시작해보세요!</div>
     </div>
   </div>
 
@@ -147,60 +114,18 @@ const chart = document.getElementById('chart');
 const totalNum = document.getElementById('totalNum');
 const factBox = document.getElementById('fact');
 const tabs = document.querySelectorAll('.tab-btn');
-const allButtons = document.querySelectorAll('.action-btn, .tab-btn');
-
-const coinActor = document.getElementById('coinActor');
-const diceActor = document.getElementById('diceActor');
-const actorResult = document.getElementById('actorResult');
 
 let mode = 'coin';
 let counts = [0,0];
 let total = 0;
-let animating = false;
-let coinTurns = 0;
-let diceTurnsX = 0;
-let diceTurnsY = 0;
 
 function outcomes(){ return mode==='coin' ? ['앞','뒤'] : ['1','2','3','4','5','6']; }
 function labelOf(idx){ return outcomes()[idx]; }
 function expectedProb(){ return mode==='coin' ? 0.5 : (1/6); }
 
-function setButtonsDisabled(disabled){
-  allButtons.forEach(function(b){ b.disabled = disabled; });
-}
-
-const pipMap = {
-  1: [[50,50]],
-  2: [[28,28],[72,72]],
-  3: [[28,28],[50,50],[72,72]],
-  4: [[28,28],[72,28],[28,72],[72,72]],
-  5: [[28,28],[72,28],[50,50],[28,72],[72,72]],
-  6: [[28,25],[72,25],[28,50],[72,50],[28,75],[72,75]]
-};
-
-function renderPips(n){
-  diceActor.innerHTML = '';
-  pipMap[n].forEach(function(p){
-    const dot = document.createElement('div');
-    dot.className = 'pip';
-    dot.style.left = p[0] + '%';
-    dot.style.top = p[1] + '%';
-    diceActor.appendChild(dot);
-  });
-}
-
-function showActor(){
-  coinActor.style.display = mode==='coin' ? 'flex' : 'none';
-  diceActor.style.display = mode==='dice' ? 'block' : 'none';
-  if(mode==='dice') renderPips(1);
-  actorResult.textContent = '버튼을 눌러보세요';
-}
-
 function switchMode(m){
-  if(animating) return;
   mode = m;
   tabs.forEach(t=>t.classList.toggle('active', t.dataset.mode===m));
-  showActor();
   resetAll();
 }
 
@@ -210,101 +135,63 @@ function resetAll(){
   total = 0;
   render();
   factBox.innerHTML = '버튼을 눌러 던지기를 시작해보세요!';
-  actorResult.textContent = '버튼을 눌러보세요';
 }
 
-function commentFor(){
-  const expectPct = expectedProb()*100;
-  const maxDev = counts.reduce(function(best,c,i){
-    const dev = Math.abs((c/total*100) - expectPct);
-    return dev > best.dev ? {dev:dev, i:i} : best;
-  }, {dev:-1, i:0});
-  const devPct = maxDev.dev;
-  const last = mode==='coin' ? '동전을' : '주사위를';
-
-  let comment;
-  if(total < 20){
-    comment = '아직 시행 횟수가 적어서 결과가 들쭉날쭉해요. 이 정도로는 확률을 판단하기 일러요.';
-  } else if(devPct < 2){
-    comment = '이론적 확률(' + expectPct.toFixed(1) + '%)과 거의 차이가 없어요! 시행 횟수가 쌓이니 큰 수의 법칙이 슬슬 힘을 발휘하고 있어요.';
-  } else if(devPct < 6){
-    comment = '이론적 확률(' + expectPct.toFixed(1) + '%)에 꽤 가까워졌어요. 더 많이 던지면 차이가 더 줄어들 거예요.';
-  } else {
-    comment = '아직 이론적 확률(' + expectPct.toFixed(1) + '%)과 최대 ' + devPct.toFixed(1) + '%p 정도 차이가 나요. 우연히 한쪽으로 치우친 거니, 더 던져서 균형이 맞는지 지켜보세요.';
-  }
-  return last + ' 총 <b>' + total + '번</b> 던졌어요. ' + comment;
+function flipOnce(){
+  const n = counts.length;
+  const idx = Math.floor(Math.random()*n);
+  counts[idx]++;
+  total++;
 }
 
 function flipMany(k){
-  for(let i=0;i<k;i++){
-    const n = counts.length;
-    const idx = Math.floor(Math.random()*n);
-    counts[idx]++;
-    total++;
-  }
+  for(let i=0;i<k;i++) flipOnce();
   render();
-  factBox.innerHTML = commentFor();
-}
+  const last = mode==='coin' ? '동전을' : '주사위를';
+  const expectPct = expectedProb()*100;
+  const maxDevIdx = counts.reduce((best,c,i)=>{
+    const dev = Math.abs((c/total*100) - expectPct);
+    return dev > best.dev ? {dev, i} : best;
+  }, {dev:-1, i:0});
+  const devPct = maxDevIdx.dev;
 
-function flipOnceAnimated(){
-  if(animating) return;
-  animating = true;
-  setButtonsDisabled(true);
-  actorResult.textContent = '';
-
-  const n = counts.length;
-  const idx = Math.floor(Math.random()*n);
-
-  if(mode==='coin'){
-    const spins = 4 + Math.floor(Math.random()*2);
-    coinTurns += spins*360;
-    coinActor.style.transform = 'rotateY(' + coinTurns + 'deg)';
+  let comment;
+  if(total < 20){
+    comment = `아직 시행 횟수가 적어서 결과가 들쭉날쭉해요. 이 정도로는 확률을 판단하기 일러요.`;
+  } else if(devPct < 2){
+    comment = `이론적 확률(${expectPct.toFixed(1)}%)과 거의 차이가 없어요! 시행 횟수가 쌓이니 큰 수의 법칙이 슬슬 힘을 발휘하고 있어요.`;
+  } else if(devPct < 6){
+    comment = `이론적 확률(${expectPct.toFixed(1)}%)에 꽤 가까워졌어요. 더 많이 던지면 차이가 더 줄어들 거예요.`;
   } else {
-    diceTurnsX += 360*(2+Math.floor(Math.random()*2));
-    diceTurnsY += 360*(2+Math.floor(Math.random()*2));
-    diceActor.style.transform = 'rotateX(' + diceTurnsX + 'deg) rotateY(' + diceTurnsY + 'deg)';
+    comment = `아직 이론적 확률(${expectPct.toFixed(1)}%)과 최대 ${devPct.toFixed(1)}%p 정도 차이가 나요. 우연히 한쪽으로 치우친 거니, 더 던져서 균형이 맞는지 지켜보세요.`;
   }
 
-  setTimeout(function(){
-    if(mode==='coin'){
-      coinActor.textContent = labelOf(idx);
-      actorResult.textContent = idx===0 ? '앞면이 나왔어요' : '뒷면이 나왔어요';
-    } else {
-      renderPips(idx+1);
-      actorResult.textContent = (idx+1) + '이(가) 나왔어요';
-    }
-    counts[idx]++;
-    total++;
-    render();
-    factBox.innerHTML = commentFor();
-    animating = false;
-    setButtonsDisabled(false);
-  }, 700);
+  factBox.innerHTML = `${last} 총 <b>${total}번</b> 던졌어요. ${comment}`;
 }
 
 function render(){
-  totalNum.innerHTML = total + '<span>회</span>';
+  totalNum.innerHTML = `${total}<span>회</span>`;
+  const n = counts.length;
   const expectPct = expectedProb()*100;
-  chart.innerHTML = counts.map(function(c,i){
+  chart.innerHTML = counts.map((c,i)=>{
     const pct = total>0 ? (c/total*100) : 0;
     const heightPct = Math.min(pct, 100);
     const expectHeightPct = Math.min(expectPct,100);
-    return '<div class="bar-col">' +
-      '<div class="bar-pct">' + (total>0 ? pct.toFixed(1)+'%' : '') + '</div>' +
-      '<div class="expect-line" style="bottom:' + expectHeightPct + '%"></div>' +
-      '<div class="bar-fill" style="height:' + heightPct + '%;"></div>' +
-      '<div class="bar-label">' + labelOf(i) + '</div>' +
-    '</div>';
+    return `<div class="bar-col">
+      <div class="bar-pct">${total>0?pct.toFixed(1)+'%':''}</div>
+      <div class="expect-line" style="bottom:${expectHeightPct}%"></div>
+      <div class="bar-fill" style="height:${heightPct}%;"></div>
+      <div class="bar-label">${labelOf(i)}</div>
+    </div>`;
   }).join('');
 }
 
-tabs.forEach(function(t){ t.addEventListener('click', function(){ switchMode(t.dataset.mode); }); });
-document.getElementById('once').addEventListener('click', flipOnceAnimated);
-document.getElementById('ten').addEventListener('click', function(){ flipMany(10); });
-document.getElementById('hundred').addEventListener('click', function(){ flipMany(100); });
+tabs.forEach(t=> t.addEventListener('click', ()=> switchMode(t.dataset.mode)));
+document.getElementById('once').addEventListener('click', ()=> flipMany(1));
+document.getElementById('ten').addEventListener('click', ()=> flipMany(10));
+document.getElementById('hundred').addEventListener('click', ()=> flipMany(100));
 document.getElementById('reset').addEventListener('click', resetAll);
 
-showActor();
 resetAll();
 </script>
 </body>

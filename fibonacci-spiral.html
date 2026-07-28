@@ -61,13 +61,17 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
 </head>
 <body>
 <div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-fibonacci-spiral.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
   <span class="eyebrow">🌀 피보나치 수열과 나선 실험실</span>
   <h1>바로 앞 두 항을 더하면,<br>정사각형이 <span>나선</span>을 그려요</h1>
-  <p class="sub">피보나치 수열(1, 1, 2, 3, 5, 8, …)은 앞의 두 수를 더해 다음 수를 만들어요. 이 숫자들을 한 변의 길이로 하는 정사각형을 이어 붙이고, 각 정사각형 안에 딱 맞는 사분원을 그려 이으면 나선 모양이 나타나요.</p>
+  <p class="sub">피보나치 수열(1, 1, 2, 3, 5, 8, …)은 앞의 두 수를 더해 다음 수를 만들어요. 이 숫자들을 한 변의 길이로 하는 정사각형을 이어 붙이면, 자연스럽게 나선 모양이 나타나요.</p>
 
   <div class="howto">
     <p>피보나치 수열은 원래 토끼 문제에서 나왔어요. 이탈리아 수학자 피보나치가 "한 쌍의 토끼가 매달 새끼 한 쌍을 낳고, 새끼는 두 달 후부터 번식할 수 있다면, 몇 달 후 토끼는 몇 쌍이 될까?"라는 문제를 풀다가 이 수열을 발견했다고 해요. 규칙은 단순해요 — 앞의 두 수를 더하면 다음 수가 나와요.</p>
-    <p>신기한 건 이 숫자들을 정사각형 한 변의 길이로 써서 나란히 이어 붙이면 저절로 나선 모양이 그려진다는 거예요. 나선은 각 정사각형에 꼭 맞는 사분원(반지름 = 그 정사각형의 변의 길이)을 순서대로 이어서 그려요. 그리고 이웃한 두 피보나치 수의 비율(예: 8÷5, 13÷8)은 항이 커질수록 <b>황금비(φ≈1.618)</b>라는 특별한 값에 점점 가까워져요. 황금비는 예로부터 가장 안정적이고 아름다운 비율로 여겨져 왔어요.</p>
+    <p>신기한 건 이 숫자들을 정사각형 한 변의 길이로 써서 나란히 이어 붙이면 저절로 나선 모양이 그려진다는 거예요. 그리고 이웃한 두 피보나치 수의 비율(예: 8÷5, 13÷8)은 항이 커질수록 <b>황금비(φ≈1.618)</b>라는 특별한 값에 점점 가까워져요. 황금비는 예로부터 가장 안정적이고 아름다운 비율로 여겨져 왔어요.</p>
     <p>이 나선 패턴은 교과서 밖에서도 자주 보여요. 해바라기씨 배열, 솔방울 비늘, 앵무조개 껍데기 단면에서도 비슷한 나선을 찾을 수 있거든요. 슬라이더로 항의 개수를 늘려가며 정사각형이 어떻게 자라나는지, 비율이 φ에 얼마나 가까워지는지 살펴보세요.</p>
   </div>
 
@@ -75,8 +79,8 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
     <div class="canvas-area">
       <svg id="svg" viewBox="0 0 460 460"></svg>
       <div class="control-row">
-        <div class="control-label"><span>항의 개수</span><b id="nLabel">10</b></div>
-        <input id="sliderN" type="range" min="3" max="18" value="10" step="1" aria-label="항의 개수 조절">
+        <div class="control-label"><span>항의 개수</span><b id="nLabel">8</b></div>
+        <input id="sliderN" type="range" min="3" max="12" value="8" step="1" aria-label="항의 개수 조절">
       </div>
       <div class="seq-row" id="seqRow"></div>
     </div>
@@ -91,7 +95,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
     </div>
   </div>
 
-  <footer>정사각형의 변의 길이가 피보나치 수를 그대로 따라가기 때문에, 이웃한 두 정사각형의 변의 비율은 피보나치 수열의 이웃한 두 항의 비율과 같아요. 항이 커질수록 이 비율은 황금비(약 1.618)에 점점 가까워지는데, 재밌게도 어떨 땐 황금비보다 조금 크고 어떨 땐 조금 작은 식으로 번갈아가며 다가가요. 나선은 각 정사각형에 내접하는 사분원을 정확히 이어 그린 것이라, 확대해서 봐도 선이 정사각형 모서리를 벗어나지 않아요.</footer>
+  <footer>정사각형의 변의 길이가 피보나치 수를 그대로 따라가기 때문에, 이웃한 두 정사각형의 변의 비율은 피보나치 수열의 이웃한 두 항의 비율과 같아요. 항이 커질수록 이 비율은 황금비(약 1.618)에 점점 가까워지는데, 재밌게도 어떨 땐 황금비보다 조금 크고 어떨 땐 조금 작은 식으로 번갈아가며 다가가요.</footer>
 </div>
 
 <script>
@@ -118,15 +122,14 @@ function fibSeq(n){
   return f.slice(0,n);
 }
 
-// 정사각형들을 시계반대(피보나치 타일링) 방향으로 배치. dir: 0=오른쪽,1=위,2=왼쪽,3=아래
 function buildSquares(fib){
-  const squares = [{x:0,y:0,size:fib[0],dir:3}]; // dir=3은 첫 사각형의 호를 잇기 위한 시드값
+  const squares = [{x:0,y:0,size:fib[0]}];
   let bx=0, by=0, bw=fib[0], bh=fib[0];
   if(fib.length>1){
-    squares.push({x:bx+bw, y:by, size:fib[1], dir:0});
+    squares.push({x:bx+bw, y:by, size:fib[1]});
     bw += fib[1];
   }
-  let d = 1;
+  let d = 1; // 0=right,1=up,2=left,3=down — 두번째 정사각형을 오른쪽에 놓았으니 다음은 위
   for(let i=2;i<fib.length;i++){
     const f = fib[i];
     let x,y;
@@ -134,41 +137,10 @@ function buildSquares(fib){
     else if(d===1){ x=bx; y=by+bh; bh+=f; }
     else if(d===2){ x=bx-f; y=by; bx-=f; bw+=f; }
     else { x=bx; y=by-f; by-=f; bh+=f; }
-    squares.push({x,y,size:f,dir:d});
+    squares.push({x,y,size:f});
     d = (d+1)%4;
   }
   return {squares, box:{bx,by,bw,bh}};
-}
-
-const GROWTH = [[1,0],[0,1],[-1,0],[0,-1]];
-function rotCCW(v){ return [-v[1], v[0]]; }
-
-// 각 정사각형에 내접하는 사분원(반지름=size, 중심=pivot)을 정확히 이어 붙여 나선 좌표를 만든다.
-// entry -> exit 가 다음 사각형의 entry로 이어지므로 사각형 경계와 선이 항상 일치한다.
-function buildSpiralPoints(squares){
-  let entry = [squares[0].x, squares[0].y + squares[0].size];
-  const pts = [];
-  const SEG = 14; // 사분원 하나를 몇 개의 선분으로 근사할지
-  squares.forEach(sq=>{
-    const g = GROWTH[sq.dir];
-    const pivot = [entry[0]+g[0]*sq.size, entry[1]+g[1]*sq.size];
-    const perp = rotCCW(g);
-    const exit = [pivot[0]+perp[0]*sq.size, pivot[1]+perp[1]*sq.size];
-
-    const a0 = Math.atan2(entry[1]-pivot[1], entry[0]-pivot[0]);
-    let a1 = Math.atan2(exit[1]-pivot[1], exit[0]-pivot[0]);
-    // 항상 최단(90도) 방향으로 회전하도록 각도 보정
-    let diff = a1 - a0;
-    while(diff > Math.PI) diff -= 2*Math.PI;
-    while(diff < -Math.PI) diff += 2*Math.PI;
-
-    for(let s=0; s<=SEG; s++){
-      const a = a0 + diff*(s/SEG);
-      pts.push([ pivot[0] + sq.size*Math.cos(a), pivot[1] + sq.size*Math.sin(a) ]);
-    }
-    entry = exit;
-  });
-  return pts;
 }
 
 function render(){
@@ -204,13 +176,20 @@ function render(){
     }
   });
 
-  // 사각형에 내접하는 사분원을 정확히 이어붙인 나선
-  const spiralLocal = buildSpiralPoints(squares);
-  const path = spiralLocal.map((p,i)=>{
-    const [px,py] = toSvg(p[0], p[1]);
-    return (i===0?'M':'L') + px.toFixed(2) + ',' + py.toFixed(2);
-  }).join(' ');
-  html += `<path d="${path}" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>`;
+  // 로그 나선 (근사) — 두 개의 단위 정사각형이 만나는 안쪽 점(1,1)을 중심으로
+  const centerLocal = [1,1];
+  const [ccx,ccy] = toSvg(centerLocal[0], centerLocal[1]);
+  const thetaMax = (n-1) * Math.PI/2;
+  let path = '';
+  const steps = 200;
+  for(let i=0;i<=steps;i++){
+    const theta = (thetaMax) * (i/steps);
+    const r = 0.42 * Math.pow(PHI, 2*theta/Math.PI) * scale;
+    const px = ccx + r*Math.cos(theta);
+    const py = ccy - r*Math.sin(theta);
+    path += (i===0?'M':'L') + px.toFixed(1) + ',' + py.toFixed(1) + ' ';
+  }
+  html += `<path d="${path}" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"></path>`;
 
   svg.innerHTML = html;
 
@@ -220,7 +199,7 @@ function render(){
   const ratio = last/prev;
   resultNum.innerHTML = `${ratio.toFixed(4)}`;
 
-  factBox.innerHTML = `${n}번째 항까지의 수열은 <b>${fib.join(', ')}</b>예요. 마지막 두 항 ${last}÷${prev} = <b>${ratio.toFixed(4)}</b>${ro(ratio.toFixed(4))}, 황금비 φ≈1.618에 ${n>=6?'꽤 가까워졌어요':'조금씩 가까워지고 있어요'}. 항의 개수를 늘릴수록 이 비율은 φ에 더 정확히 다가가고, 정사각형도 훨씬 큰 수까지 커져가는 걸 볼 수 있어요.`;
+  factBox.innerHTML = `${n}번째 항까지의 수열은 <b>${fib.join(', ')}</b>예요. 마지막 두 항 ${last}÷${prev} = <b>${ratio.toFixed(4)}</b>${ro(ratio.toFixed(4))}, 황금비 φ≈1.618에 ${n>=6?'꽤 가까워졌어요':'조금씩 가까워지고 있어요'}. 항의 개수를 늘릴수록 이 비율은 φ에 더 정확히 다가가요.`;
 }
 
 sliderN.addEventListener('input', render);

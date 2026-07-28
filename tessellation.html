@@ -52,30 +52,15 @@ svg{width:100%;max-width:460px;height:auto;overflow:visible;}
 .equation .result span{font-size:0.4em;color:var(--ink-soft);}
 .fact{background:var(--teal-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
 .fact b{color:var(--teal);}
-
-/* 벽 전체 보기 섹션 */
-.wall-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-top:24px;}
-.wall-head{margin-bottom:14px;}
-.wall-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(20px,3vw,26px);margin:0 0 8px;}
-.wall-head p{color:var(--ink-soft);font-size:14.5px;line-height:1.7;margin:0;max-width:70ch;}
-.wall-canvas-wrap{display:flex;justify-content:center;margin:18px 0 14px;}
-#wallSvg{width:100%;max-width:640px;height:auto;border-radius:14px;overflow:hidden;background:var(--paper);}
-.wall-legend{display:flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:center;font-size:13px;color:var(--ink-soft);margin-bottom:14px;}
-.wall-legend span{display:inline-flex;align-items:center;gap:6px;}
-.legend-chip{width:16px;height:16px;border-radius:4px;display:inline-block;}
-.legend-chip.filled{background:var(--teal);}
-.legend-chip.gap{background:repeating-linear-gradient(45deg, var(--coral-soft), var(--coral-soft) 3px, var(--coral) 3px, var(--coral) 5px);}
-.wall-fact{border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
-.wall-fact.ok{background:var(--green-soft);}
-.wall-fact.ok b{color:var(--green);}
-.wall-fact.bad{background:var(--coral-soft);}
-.wall-fact.bad b{color:var(--coral);}
-
 footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
 </style>
 </head>
 <body>
 <div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-tessellation.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
   <span class="eyebrow">🔷 테셀레이션(쪽매맞춤) 실험실</span>
   <h1>어떤 도형이<br>빈틈없이 <span>평면을 채울</span> 수 있을까?</h1>
   <p class="sub">정다각형 하나를 골라서, 한 꼭짓점에 여러 개를 모아보세요. 각도의 합이 정확히 360°가 되면 빈틈없이 채워지고, 안 되면 틈이 남거나 겹쳐요.</p>
@@ -98,21 +83,6 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
     </div>
   </div>
 
-  <div class="wall-stage">
-    <div class="wall-head">
-      <h2 id="wallTitle">🧱 벽 전체에 반복해서 붙여보면?</h2>
-      <p id="wallDesc">한 꼭짓점만 볼 때와 달리, 벽 전체에 반복해서 붙이면 빈틈이 있는지 없는지 훨씬 뚜렷하게 보여요.</p>
-    </div>
-    <div class="wall-canvas-wrap">
-      <svg id="wallSvg" viewBox="0 0 640 380"></svg>
-    </div>
-    <div class="wall-legend">
-      <span><i class="legend-chip filled"></i>도형이 채운 부분</span>
-      <span><i class="legend-chip gap"></i>줄무늬 = 못 채운 빈 공간</span>
-    </div>
-    <div class="wall-fact" id="wallFact"></div>
-  </div>
-
   <footer>정오각형(108°)은 360÷108=3.33...이라 세 개를 모으면 틈이 남고 네 개를 모으면 겹쳐요. 그래서 정오각형만으로는 평면을 빈틈없이 채울 수 없어요 — 대신 두 가지 이상의 도형을 섞으면 채울 수 있는 경우도 있답니다.</footer>
 </div>
 
@@ -122,11 +92,6 @@ const shapePicker = document.getElementById('shapePicker');
 const formula = document.getElementById('formula');
 const resultNum = document.getElementById('resultNum');
 const factBox = document.getElementById('fact');
-
-const wallSvg = document.getElementById('wallSvg');
-const wallTitle = document.getElementById('wallTitle');
-const wallDesc = document.getElementById('wallDesc');
-const wallFact = document.getElementById('wallFact');
 
 const SHAPES = [
   {n:3, name:'정삼각형'},
@@ -152,7 +117,7 @@ function buildPicker(){
   });
 }
 
-// 정n각형의 꼭짓점 좌표(로컬, 첫 꼭짓점이 원점, 첫 변 방향 0도)를 턴틀 그래픽 방식으로 계산
+// 정vN각형의 꼭짓점 좌표(로컬, 첫 꼭짓점이 원점, 첫 변 방향 0도)를 턴틀 그래픽 방식으로 계산
 function polyLocalPoints(n, L){
   const interior = (n-2)*180/n;
   const exterior = 180 - interior;
@@ -219,154 +184,6 @@ function render(){
   } else {
     factBox.innerHTML = `${SHAPES.find(s=>s.n===n).name}의 내각은 ${interior.toFixed(1)}°이고, 360 ÷ ${interior.toFixed(1)} ≈ <b>${exactCount.toFixed(2)}</b>로 정수가 아니에요. ${fullCopies}개를 모으면 <b>${gapAngle.toFixed(1)}°</b>의 틈이 남아서, 이 도형 하나만으로는 평면을 빈틈없이 채울 수 없어요.`;
   }
-
-  renderWall(n, interior, isExact, fullCopies, gapAngle, exactCount);
-}
-
-/* ---------- 벽 전체 보기 ---------- */
-
-const WALL_W = 640, WALL_H = 380;
-
-function wallBackground(){
-  return `
-    <defs>
-      <pattern id="gapPattern" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-        <rect width="12" height="12" fill="var(--coral-soft)"></rect>
-        <line x1="0" y1="0" x2="0" y2="12" stroke="var(--coral)" stroke-width="4"></line>
-      </pattern>
-    </defs>
-    <rect x="0" y="0" width="${WALL_W}" height="${WALL_H}" fill="url(#gapPattern)"></rect>
-  `;
-}
-
-function renderWall(n, interior, isExact, fullCopies, gapAngle, exactCount){
-  let body = wallBackground();
-
-  if(isExact){
-    if(n===3) body += triangleWall();
-    else if(n===4) body += squareWall();
-    else if(n===6) body += hexWall();
-  } else {
-    body += gapClusterWall(n, interior, fullCopies);
-  }
-
-  wallSvg.innerHTML = body;
-
-  const name = SHAPES.find(s=>s.n===n).name;
-  if(isExact){
-    wallTitle.textContent = '🧱 벽 전체에 반복해서 붙여보면? — 완전히 채워져요';
-    wallDesc.textContent = '변과 변이 정확히 맞물려서, 아무리 넓게 반복해도 빈틈이나 겹침 없이 벽 전체를 채울 수 있어요.';
-    wallFact.className = 'wall-fact ok';
-    wallFact.innerHTML = `${name}은(는) 한 꼭짓점에서 딱 맞아떨어졌던 것처럼, 옆으로 옆으로 계속 이어 붙여도 줄무늬(빈 공간)가 전혀 보이지 않아요. 이게 바로 <b>정칙 쪽매맞춤</b>이 갖는 특징이에요.`;
-  } else {
-    wallTitle.textContent = '🧱 벽 전체에 반복해서 붙여보면? — 빈틈이 계속 남아요';
-    wallDesc.textContent = '한 꼭짓점에서부터 이미 틈이 생겼기 때문에, 옆으로 넓게 반복해서 붙여도 그 틈이 사라지지 않고 벽 곳곳에 남아요.';
-    wallFact.className = 'wall-fact bad';
-    wallFact.innerHTML = `${name}은(는) 한 꼭짓점에 ${fullCopies}개를 모아도 ${gapAngle.toFixed(1)}°가 남았죠? 이 틈은 옆 자리로 넘어가도 그대로 반복돼서, 벽을 아무리 넓게 채워도 줄무늬로 표시된 <b>빈 공간이 계속 남을 수밖에 없어요.</b> 도형을 더 작게 만들거나 다르게 돌려도 이 틈 자체는 없어지지 않아요.`;
-  }
-}
-
-function squareWall(){
-  const L = 42;
-  const cols = Math.ceil(WALL_W/L)+1;
-  const rows = Math.ceil(WALL_H/L)+1;
-  let html = '';
-  for(let r=0;r<rows;r++){
-    for(let c=0;c<cols;c++){
-      const color = (r+c)%2===0 ? 'var(--teal)' : 'var(--blue)';
-      html += `<rect x="${c*L}" y="${r*L}" width="${L}" height="${L}" fill="${color}" fill-opacity="0.55" stroke="${color}" stroke-width="2"></rect>`;
-    }
-  }
-  return html;
-}
-
-function triangleWall(){
-  const L = 44;
-  const h = L*Math.sqrt(3)/2;
-  const rows = Math.ceil(WALL_H/h)+1;
-  const cols = Math.ceil(WALL_W/(L/2))+3;
-  let html = '';
-  for(let r=0;r<rows;r++){
-    const y0 = r*h, y1 = (r+1)*h;
-    for(let c=-1;c<cols;c++){
-      const x0 = c*(L/2);
-      const up = (r+c)%2===0;
-      const color = palette[(r+ (up?0:1)) % 3];
-      let pts;
-      if(up){
-        pts = [[x0,y1],[x0+L,y1],[x0+L/2,y0]];
-      } else {
-        pts = [[x0,y0],[x0+L,y0],[x0+L/2,y1]];
-      }
-      html += `<polygon points="${pts.map(p=>p.join(',')).join(' ')}" fill="${color}" fill-opacity="0.55" stroke="${color}" stroke-width="1.6"></polygon>`;
-    }
-  }
-  return html;
-}
-
-function hexWall(){
-  const size = 26; // 육각형의 외접원 반지름(=한 변의 길이)
-  const hexW = Math.sqrt(3)*size;
-  const hexH = 2*size;
-  const vertDist = 0.75*hexH;
-  const rows = Math.ceil(WALL_H/vertDist)+2;
-  const cols = Math.ceil(WALL_W/hexW)+2;
-  let html = '';
-  for(let r=-1;r<rows;r++){
-    const y = r*vertDist;
-    const offset = (((r%2)+2)%2===1) ? hexW/2 : 0;
-    for(let c=-1;c<cols;c++){
-      const x = c*hexW + offset;
-      const color = palette[(r+c+10)%3];
-      const pts = [];
-      for(let i=0;i<6;i++){
-        const ang = (-90 + i*60) * Math.PI/180; // 뾰족한 꼭짓점이 위로
-        pts.push([x+size*Math.cos(ang), y+size*Math.sin(ang)]);
-      }
-      html += `<polygon points="${pts.map(p=>p.join(',')).join(' ')}" fill="${color}" fill-opacity="0.55" stroke="${color}" stroke-width="1.6"></polygon>`;
-    }
-  }
-  return html;
-}
-
-function gapClusterWall(n, interior, fullCopies){
-  const Lc = 24; // 벽에 반복할 땐 클러스터를 조금 작게
-  const localPts = polyLocalPoints(n, Lc);
-
-  // 한 꼭짓점 둘레에 모이는 도형들(클러스터)의 상대 좌표 목록과, 그 클러스터가 실제로 차지하는 가로/세로 폭을 구한다
-  const clusterPolys = [];
-  let minX=Infinity, maxX=-Infinity, minY=Infinity, maxY=-Infinity;
-  for(let i=0;i<fullCopies;i++){
-    const rot = i*interior;
-    const pts = localPts.map(p=>rotatePt(p, rot));
-    pts.forEach(([x,y])=>{
-      minX=Math.min(minX,x); maxX=Math.max(maxX,x);
-      minY=Math.min(minY,y); maxY=Math.max(maxY,y);
-    });
-    clusterPolys.push(pts);
-  }
-  const clusterW = maxX-minX;
-  const clusterH = maxY-minY;
-
-  // 좌우는 클러스터의 실제 가로 폭에 맞춰 타이트하게, 세로는 벌집처럼 살짝 겹치도록 배치
-  const spacingX = clusterW*0.96;
-  const spacingY = clusterH*0.62;
-  const cols = Math.ceil(WALL_W/spacingX)+2;
-  const rows = Math.ceil(WALL_H/spacingY)+2;
-
-  let html = '';
-  for(let r=-1;r<rows;r++){
-    for(let c=-1;c<cols;c++){
-      const cx = c*spacingX + (r%2? spacingX/2 : 0) + spacingX/2;
-      const cy = r*spacingY + spacingY/2;
-      clusterPolys.forEach((pts, i)=>{
-        const color = palette[i % palette.length];
-        const worldPts = pts.map(([x,y])=>[cx+x, cy-y]);
-        html += `<polygon points="${worldPts.map(p=>p.join(',')).join(' ')}" fill="${color}" fill-opacity="0.6" stroke="${color}" stroke-width="1.4"></polygon>`;
-      });
-    }
-  }
-  return html;
 }
 
 buildPicker();
