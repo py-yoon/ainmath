@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>수의 범위와 올림·버림·반올림</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --green:#4CAF8E; --green-soft:#E3F5EE;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.5vw,42px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+
+.section-card{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:26px clamp(16px,4vw,36px) 30px;margin-bottom:28px;}
+.section-title{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink);margin:0 0 6px;}
+.section-desc{color:var(--ink-soft);font-size:14.5px;line-height:1.6;margin:0 0 20px;}
+
+svg{width:100%;max-width:640px;height:auto;display:block;margin:0 auto;overflow:visible;}
+
+.control-row{max-width:520px;margin:0 auto 16px;display:flex;flex-direction:column;gap:8px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--coral-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--violet);outline-offset:2px;}
+
+.btn-row{max-width:520px;margin:0 auto 18px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.type-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;}
+.type-btn:hover{border-color:var(--coral);color:var(--coral);}
+.type-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+.type-btn:focus-visible{outline:3px solid var(--violet);outline-offset:2px;}
+
+.fact{max-width:560px;margin:14px auto 0;background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);text-align:center;}
+.fact b{color:var(--coral);}
+
+.result-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:20px;}
+.result-card{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:16px 20px;text-align:center;min-width:120px;}
+.result-card .label{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);margin-bottom:6px;}
+.result-card .value{font-family:'Do Hyeon',sans-serif;font-size:26px;color:var(--ink);}
+.result-card.up .value{color:var(--blue);}
+.result-card.down .value{color:var(--green);}
+.result-card.round .value{color:var(--coral);}
+
+footer{max-width:1000px;margin:12px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">🎯 수의 범위와 올림·버림·반올림</span>
+  <h1>어디까지 <span>포함</span>되고,<br>어디로 <span>맞춰</span>질까?</h1>
+  <p class="sub">기준이 되는 수를 정하고, 그 수가 포함되는지 아닌지, 그리고 어림한 값이 어느 쪽으로 가는지 직접 확인해요.</p>
+
+  <div class="section-card">
+    <p class="section-title">① 수의 범위 — 이상·이하·초과·미만</p>
+    <p class="section-desc">기준 수를 정하고, 네 가지 표현 중 하나를 골라보세요. 기준 수 자체가 포함되는지 아닌지가 달라져요.</p>
+
+    <svg id="rangeSvg" viewBox="0 0 640 120"></svg>
+
+    <div class="control-row">
+      <div class="control-label"><span>기준 수</span><b id="baseLabel">12</b></div>
+      <input id="baseSlider" type="range" min="0" max="20" value="12" step="1" aria-label="기준 수 조절">
+    </div>
+    <div class="btn-row" id="typeRow">
+      <button class="type-btn active" data-type="ge">이상 (기준 포함, 큰 쪽)</button>
+      <button class="type-btn" data-type="le">이하 (기준 포함, 작은 쪽)</button>
+      <button class="type-btn" data-type="gt">초과 (기준 제외, 큰 쪽)</button>
+      <button class="type-btn" data-type="lt">미만 (기준 제외, 작은 쪽)</button>
+    </div>
+    <div class="fact" id="rangeFact"></div>
+  </div>
+
+  <div class="section-card">
+    <p class="section-title">② 올림·버림·반올림</p>
+    <p class="section-desc">수와 자리를 정하면, 그 자리를 기준으로 올림·버림·반올림한 값이 각각 어떻게 다른지 한 번에 비교해요.</p>
+
+    <svg id="roundSvg" viewBox="0 0 640 130"></svg>
+
+    <div class="control-row">
+      <div class="control-label"><span>원래 수</span><b id="numLabel">1234</b></div>
+      <input id="numSlider" type="range" min="0" max="9999" value="1234" step="1" aria-label="원래 수 조절">
+    </div>
+    <div class="btn-row" id="placeRow">
+      <button class="type-btn" data-place="1">일의 자리까지 (그대로)</button>
+      <button class="type-btn active" data-place="10">십의 자리까지</button>
+      <button class="type-btn" data-place="100">백의 자리까지</button>
+      <button class="type-btn" data-place="1000">천의 자리까지</button>
+    </div>
+
+    <div class="result-row">
+      <div class="result-card up"><div class="label">올림</div><div class="value" id="upValue">1240</div></div>
+      <div class="result-card down"><div class="label">버림</div><div class="value" id="downValue">1230</div></div>
+      <div class="result-card round"><div class="label">반올림</div><div class="value" id="roundValue">1230</div></div>
+    </div>
+    <div class="fact" id="roundFact"></div>
+  </div>
+
+  <footer>올림은 무조건 큰 쪽으로, 버림은 무조건 작은 쪽으로, 반올림은 더 가까운 쪽으로 맞춰요.</footer>
+</div>
+
+<script>
+/* ===== 섹션 1: 수의 범위 ===== */
+const rangeSvg = document.getElementById('rangeSvg');
+const baseSlider = document.getElementById('baseSlider');
+const baseLabel = document.getElementById('baseLabel');
+const typeRow = document.getElementById('typeRow');
+const rangeFact = document.getElementById('rangeFact');
+
+const RMIN = 0, RMAX = 20;
+let rangeType = 'ge';
+
+const typeInfo = {
+  ge: { name:'이상', includeBase:true, dir:1, desc:(n)=>`${n} 이상인 수는 ${n}과 ${n}보다 큰 수예요. ${n}도 포함돼요.` },
+  le: { name:'이하', includeBase:true, dir:-1, desc:(n)=>`${n} 이하인 수는 ${n}과 ${n}보다 작은 수예요. ${n}도 포함돼요.` },
+  gt: { name:'초과', includeBase:false, dir:1, desc:(n)=>`${n} 초과인 수는 ${n}보다 큰 수예요. ${n}은 포함되지 않아요.` },
+  lt: { name:'미만', includeBase:false, dir:-1, desc:(n)=>`${n} 미만인 수는 ${n}보다 작은 수예요. ${n}은 포함되지 않아요.` },
+};
+
+function xPos(v){ return 30 + (v-RMIN)/(RMAX-RMIN) * 580; }
+
+function renderRange(){
+  const base = parseInt(baseSlider.value);
+  baseLabel.textContent = base;
+  const info = typeInfo[rangeType];
+
+  let html = '';
+  // 눈금선
+  html += `<line x1="30" y1="60" x2="610" y2="60" stroke="var(--paper-line)" stroke-width="3"></line>`;
+  for(let i=RMIN;i<=RMAX;i++){
+    const x = xPos(i);
+    html += `<line x1="${x}" y1="55" x2="${x}" y2="65" stroke="var(--ink-soft)" stroke-width="1.5"></line>`;
+    if(i%2===0) html += `<text x="${x}" y="82" text-anchor="middle" font-family="'Gowun Dodum',sans-serif" font-size="12" fill="var(--ink-soft)">${i}</text>`;
+  }
+
+  // 강조 구간
+  const baseX = xPos(base);
+  const endX = info.dir===1 ? 610 : 30;
+  html += `<line x1="${info.dir===1?baseX:endX}" y1="60" x2="${info.dir===1?endX:baseX}" y2="60" stroke="var(--coral)" stroke-width="6" stroke-linecap="round"></line>`;
+
+  // 기준점: 포함이면 채운 원, 아니면 빈 원
+  if(info.includeBase){
+    html += `<circle cx="${baseX}" cy="60" r="9" fill="var(--coral)" stroke="var(--coral)" stroke-width="2"></circle>`;
+  } else {
+    html += `<circle cx="${baseX}" cy="60" r="9" fill="var(--card)" stroke="var(--coral)" stroke-width="3"></circle>`;
+  }
+  html += `<text x="${baseX}" y="40" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--coral)">${base}</text>`;
+
+  rangeSvg.innerHTML = html;
+  rangeFact.innerHTML = `<b>${base} ${info.name}</b> — ${info.desc(base)}`;
+}
+
+baseSlider.addEventListener('input', renderRange);
+typeRow.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.type-btn');
+  if(!btn) return;
+  typeRow.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  rangeType = btn.dataset.type;
+  renderRange();
+});
+
+/* ===== 섹션 2: 올림·버림·반올림 ===== */
+const roundSvg = document.getElementById('roundSvg');
+const numSlider = document.getElementById('numSlider');
+const numLabel = document.getElementById('numLabel');
+const placeRow = document.getElementById('placeRow');
+const upValue = document.getElementById('upValue');
+const downValue = document.getElementById('downValue');
+const roundValue = document.getElementById('roundValue');
+const roundFact = document.getElementById('roundFact');
+
+let place = 10;
+
+function renderRound(){
+  const n = parseInt(numSlider.value);
+  numLabel.textContent = n;
+
+  const down = Math.floor(n/place)*place;
+  const up = place===1 ? n : down + place;
+  const remainder = n - down;
+  const roundedVal = place===1 ? n : (remainder*2 >= place ? up : down);
+
+  upValue.textContent = up.toLocaleString();
+  downValue.textContent = down.toLocaleString();
+  roundValue.textContent = roundedVal.toLocaleString();
+
+  if(place===1){
+    roundFact.innerHTML = `일의 자리까지는 어림할 게 없어요. 원래 수 그대로 <b>${n.toLocaleString()}</b>이에요.`;
+    roundSvg.innerHTML = '';
+    return;
+  }
+
+  const placeName = place===10?'십':place===100?'백':'천';
+
+  // 숫자선: down ~ up 구간을 확대해서 표시
+  const x0 = 60, x1 = 580;
+  function xr(v){ return x0 + (v-down)/(up-down) * (x1-x0); }
+  const nx = xr(n);
+  const midx = xr(down + place/2);
+
+  let html = '';
+  html += `<line x1="${x0}" y1="70" x2="${x1}" y2="70" stroke="var(--paper-line)" stroke-width="3"></line>`;
+
+  // 아래쪽(버림) 눈금
+  html += `<line x1="${x0}" y1="60" x2="${x0}" y2="80" stroke="var(--green)" stroke-width="2.5"></line>`;
+  html += `<text x="${x0}" y="45" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--green)">${down.toLocaleString()}</text>`;
+  // 위쪽(올림) 눈금
+  html += `<line x1="${x1}" y1="60" x2="${x1}" y2="80" stroke="var(--blue)" stroke-width="2.5"></line>`;
+  html += `<text x="${x1}" y="45" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--blue)">${up.toLocaleString()}</text>`;
+  // 정확히 절반 지점 (반올림 기준선)
+  html += `<line x1="${midx}" y1="55" x2="${midx}" y2="85" stroke="var(--ink-soft)" stroke-width="1.5" stroke-dasharray="4,3"></line>`;
+  html += `<text x="${midx}" y="102" text-anchor="middle" font-family="'Gowun Dodum',sans-serif" font-size="12" fill="var(--ink-soft)">절반 지점</text>`;
+
+  // 원래 수 위치
+  html += `<circle cx="${nx}" cy="70" r="8" fill="var(--coral)"></circle>`;
+  html += `<text x="${nx}" y="125" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--coral)">${n.toLocaleString()}</text>`;
+
+  roundSvg.innerHTML = html;
+
+  const placeCompare = place===10?'일의 자리':place===100?'십의 자리':'백의 자리';
+  roundFact.innerHTML = remainder*2 >= place
+    ? `${n.toLocaleString()}은 절반 지점보다 <b>큰 쪽(${up.toLocaleString()})</b>에 더 가까워서, 반올림하면 ${up.toLocaleString()}이 돼요.`
+    : `${n.toLocaleString()}은 절반 지점보다 <b>작은 쪽(${down.toLocaleString()})</b>에 더 가까워서, 반올림하면 ${down.toLocaleString()}이 돼요.`;
+}
+
+numSlider.addEventListener('input', renderRound);
+placeRow.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.type-btn');
+  if(!btn) return;
+  placeRow.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  place = parseInt(btn.dataset.place);
+  renderRound();
+});
+
+renderRange();
+renderRound();
+</script>
+</body>
+</html>
