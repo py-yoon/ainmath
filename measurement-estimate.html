@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>길이·들이·무게 어림하기 실험실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --green:#4CAF8E; --green-soft:#E3F5EE;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--green);background:var(--green-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.tab-picker{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:10px 16px;cursor:pointer;transition:all .15s ease;}
+.tab-btn:hover{border-color:var(--green);color:var(--green);}
+.tab-btn.active{background:var(--green);border-color:var(--green);color:#fff;}
+
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
+.slider-row{display:flex;align-items:center;gap:12px;margin:16px 0 22px;}
+.slider-row input[type=range]{flex:1;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--green);min-width:90px;text-align:right;}
+.convert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;}
+.convert-card{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:14px;text-align:center;}
+.convert-card .unit{font-size:13px;color:var(--ink-soft);}
+.convert-card .num{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--green);margin-top:4px;}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:8px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--green);}
+.quiz-question{font-family:'Do Hyeon',sans-serif;font-size:17px;margin:10px 0 16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:14.5px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:11px 16px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--green);color:var(--green);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green);color:var(--green);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral);color:var(--coral);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;}
+.action-btn:hover{background:var(--green);}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">📏 길이·들이·무게 어림하기 실험실</span>
+  <h1>단위를 바꿔보고<br><span>얼마나 되는지</span> 어림해보아요</h1>
+  <p class="sub">슬라이더로 값을 바꾸면서 단위끼리 어떻게 바뀌는지 확인하고, 주변 물건이 대략 얼마쯤 되는지 어림하는 퀴즈에 도전해보세요.</p>
+
+  <div class="tab-picker" id="tabPicker"></div>
+
+  <div class="stage">
+    <div class="slider-row">
+      <span id="sliderLabel" style="font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);">값</span>
+      <input type="range" id="valueSlider" min="1" max="500" value="100" step="1">
+      <span class="val" id="sliderVal"></span>
+    </div>
+    <div class="convert-grid" id="convertGrid"></div>
+  </div>
+
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 어림하기 퀴즈</h2>
+      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+    </div>
+    <div class="quiz-question" id="quizQuestion"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextBtn">➡ 다음 문제</button>
+  </div>
+
+  <footer>단위를 어림하는 감각은 실제로 재본 경험에서 나와요. 우유 한 팩이 200mL라는 걸 알면, 2L 페트병이 그 10배라는 것도 쉽게 짐작할 수 있어요.</footer>
+</div>
+
+<script>
+const CATEGORIES = {
+  length: {
+    name:'길이', color:'green', sliderLabel:'길이(cm)', sliderMax:500, sliderDefault:100,
+    convert:(cm)=>[
+      {unit:'mm', val:(cm*10).toLocaleString()},
+      {unit:'cm', val:cm.toLocaleString()},
+      {unit:'m', val:(cm/100).toFixed(2)},
+      {unit:'km', val:(cm/100000).toFixed(4)},
+    ],
+    items:[
+      {name:'연필 한 자루', correct:'약 15cm', options:['약 15mm','약 15cm','약 15m','약 15km']},
+      {name:'축구 골대의 폭', correct:'약 7m', options:['약 7mm','약 7cm','약 7m','약 7km']},
+      {name:'내 새끼손가락 길이', correct:'약 5cm', options:['약 5mm','약 5cm','약 5m','약 5km']},
+      {name:'서울에서 부산까지의 거리', correct:'약 400km', options:['약 400cm','약 400m','약 400km','약 4km']},
+      {name:'교실 칠판의 긴 쪽 길이', correct:'약 3m', options:['약 3mm','약 3cm','약 3m','약 3km']},
+    ]
+  },
+  volume: {
+    name:'들이', color:'blue', sliderLabel:'들이(mL)', sliderMax:3000, sliderDefault:500,
+    convert:(ml)=>[
+      {unit:'mL', val:ml.toLocaleString()},
+      {unit:'L', val:(ml/1000).toFixed(2)},
+    ],
+    items:[
+      {name:'우유 한 팩', correct:'약 200mL', options:['약 2mL','약 200mL','약 20L','약 2L']},
+      {name:'생수 한 병', correct:'약 500mL', options:['약 5mL','약 500mL','약 50L','약 5L']},
+      {name:'욕조에 받은 물', correct:'약 200L', options:['약 200mL','약 2L','약 20L','약 200L']},
+      {name:'종이컵 한 잔의 물', correct:'약 180mL', options:['약 18mL','약 180mL','약 1.8L','약 18L']},
+    ]
+  },
+  weight: {
+    name:'무게', color:'coral', sliderLabel:'무게(g)', sliderMax:3000, sliderDefault:300,
+    convert:(g)=>[
+      {unit:'g', val:g.toLocaleString()},
+      {unit:'kg', val:(g/1000).toFixed(2)},
+    ],
+    items:[
+      {name:'사과 한 개', correct:'약 200g', options:['약 2g','약 20g','약 200g','약 2kg']},
+      {name:'초등학생 몸무게', correct:'약 30kg', options:['약 3kg','약 30kg','약 300kg','약 30g']},
+      {name:'수학책 한 권', correct:'약 400g', options:['약 4g','약 40g','약 400g','약 4kg']},
+      {name:'강아지(소형견) 한 마리', correct:'약 5kg', options:['약 500g','약 5kg','약 50kg','약 5g']},
+    ]
+  },
+};
+
+let activeCat = 'length';
+let score=0, tries=0, answered=false, correctItem=null;
+
+const tabPicker = document.getElementById('tabPicker');
+const sliderLabel = document.getElementById('sliderLabel');
+const valueSlider = document.getElementById('valueSlider');
+const sliderVal = document.getElementById('sliderVal');
+const convertGrid = document.getElementById('convertGrid');
+const quizQuestion = document.getElementById('quizQuestion');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextBtn = document.getElementById('nextBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+const triesNumEl = document.getElementById('triesNum');
+
+function buildTabs(){
+  tabPicker.innerHTML = Object.entries(CATEGORIES).map(([key,c])=>
+    `<button class="tab-btn${key===activeCat?' active':''}" data-k="${key}">${c.name}</button>`
+  ).join('');
+  tabPicker.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(btn.dataset.k===activeCat) return;
+      activeCat = btn.dataset.k;
+      buildTabs();
+      setupSlider();
+      newQuizQuestion();
+    });
+  });
+}
+
+function setupSlider(){
+  const c = CATEGORIES[activeCat];
+  sliderLabel.textContent = c.sliderLabel;
+  valueSlider.max = c.sliderMax;
+  valueSlider.value = c.sliderDefault;
+  renderConvert();
+}
+
+function renderConvert(){
+  const c = CATEGORIES[activeCat];
+  const v = parseInt(valueSlider.value);
+  sliderVal.textContent = v.toLocaleString();
+  const rows = c.convert(v);
+  convertGrid.innerHTML = rows.map(r=>`
+    <div class="convert-card">
+      <div class="num">${r.val}</div>
+      <div class="unit">${r.unit}</div>
+    </div>
+  `).join('');
+}
+valueSlider.addEventListener('input', renderConvert);
+
+function newQuizQuestion(){
+  answered = false;
+  quizFeedback.textContent = '';
+  const c = CATEGORIES[activeCat];
+  correctItem = c.items[Math.floor(Math.random()*c.items.length)];
+  quizQuestion.textContent = `${correctItem.name}은(는) ${c.name === '무게' ? '얼마나' : '얼마나'} 될까요?`;
+  const options = [...correctItem.options].sort(()=>Math.random()-0.5);
+  quizOpts.innerHTML = options.map(o=>`<button class="opt-btn" data-o="${o}">${o}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered = true;
+      tries++;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      if(btn.dataset.o===correctItem.correct){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${correctItem.correct}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `아쉬워요! 정답은 "${correctItem.correct}"였어요. (정답 ${score} / 시도 ${tries})`;
+      }
+      scoreNumEl.textContent = score;
+      triesNumEl.textContent = tries;
+    });
+  });
+}
+
+nextBtn.addEventListener('click', newQuizQuestion);
+
+buildTabs();
+setupSlider();
+newQuizQuestion();
+</script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>다각형 이름 맞추기 실험실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --green:#4CAF8E; --green-soft:#E3F5EE;
+  --teal:#2EC4C6; --teal-soft:#E4FAF9;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--teal);background:var(--teal-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.15fr 0.85fr;gap:32px;align-items:start;margin-bottom:24px;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+svg{width:100%;max-width:320px;height:auto;display:block;margin:0 auto;}
+.slider-row{display:flex;align-items:center;gap:12px;margin-top:16px;}
+.slider-row input[type=range]{flex:1;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--teal);min-width:60px;text-align:right;}
+.panel{display:flex;flex-direction:column;gap:16px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px;text-align:center;}
+.equation .formula{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.equation .result{font-family:'Do Hyeon',sans-serif;font-size:clamp(26px,4.4vw,34px);margin-top:6px;color:var(--teal);}
+.fact{background:var(--green-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+.fact b{color:var(--green);}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:8px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--teal);}
+.quiz-question{font-family:'Do Hyeon',sans-serif;font-size:16px;margin:8px 0 16px;}
+.quiz-body{display:flex;gap:28px;flex-wrap:wrap;align-items:center;}
+#quizSvg{width:200px;max-width:200px;flex:none;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;flex:1;min-width:220px;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:14.5px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:11px 16px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--teal);color:var(--teal);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green);color:var(--green);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral);color:var(--coral);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;}
+.action-btn:hover{background:var(--teal);}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">🔺 다각형 이름 맞추기 실험실</span>
+  <h1>변의 개수를 바꿔가며<br><span>다각형 이름</span>을 익혀보아요</h1>
+  <p class="sub">슬라이더로 변의 개수를 바꿔서 정다각형을 만들어보고, 아래 퀴즈에서 여러 다각형의 이름과 볼록·오목 여부를 맞혀보세요.</p>
+
+  <div class="stage">
+    <div>
+      <svg id="polySvg" viewBox="0 0 300 300"></svg>
+      <div class="slider-row">
+        <span style="font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);">변의 개수</span>
+        <input type="range" id="sidesSlider" min="3" max="10" value="5" step="1">
+        <span class="val" id="sidesVal">5개</span>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="equation">
+        <div class="formula">이 도형의 이름</div>
+        <div class="result" id="polyName">오각형</div>
+      </div>
+      <div class="fact" id="polyFact">변이 5개, 꼭짓점도 5개예요.</div>
+    </div>
+  </div>
+
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 다각형 퀴즈</h2>
+      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+    </div>
+    <div class="quiz-question" id="quizQuestion"></div>
+    <div class="quiz-body">
+      <svg id="quizSvg" viewBox="0 0 200 200"></svg>
+      <div class="quiz-opts" id="quizOpts"></div>
+    </div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextBtn">➡ 다음 문제</button>
+  </div>
+
+  <footer>변이 안쪽으로 움푹 들어간 다각형을 "오목다각형", 어느 방향으로도 움푹 들어간 곳이 없는 다각형을 "볼록다각형"이라고 해요. 모든 정다각형은 볼록다각형이랍니다.</footer>
+</div>
+
+<script>
+const POLY_NAMES = {3:'삼각형',4:'사각형',5:'오각형',6:'육각형',7:'칠각형',8:'팔각형',9:'구각형',10:'십각형'};
+
+function regularPolygonPoints(n, R){
+  const pts = [];
+  for(let i=0;i<n;i++){
+    const ang = (-90 + i*360/n)*Math.PI/180;
+    pts.push([R*Math.cos(ang), R*Math.sin(ang)]);
+  }
+  return pts;
+}
+
+function transformPoints(pts, rotDeg, scale, cx, cy){
+  const rad = rotDeg*Math.PI/180;
+  return pts.map(([x,y])=>{
+    const sx=x*scale, sy=y*scale;
+    const rx = sx*Math.cos(rad) - sy*Math.sin(rad);
+    const ry = sx*Math.sin(rad) + sy*Math.cos(rad);
+    return [cx+rx, cy+ry];
+  });
+}
+
+// 오목다각형(화살표 모양) 로컬 좌표
+const CONCAVE_SHAPE = [[0,-70],[25,-10],[70,-10],[35,20],[50,70],[0,35],[-50,70],[-35,20],[-70,-10],[-25,-10]];
+
+const polySvg = document.getElementById('polySvg');
+const sidesSlider = document.getElementById('sidesSlider');
+const sidesVal = document.getElementById('sidesVal');
+const polyName = document.getElementById('polyName');
+const polyFact = document.getElementById('polyFact');
+
+function renderPoly(){
+  const n = parseInt(sidesSlider.value);
+  sidesVal.textContent = n+'개';
+  const pts = transformPoints(regularPolygonPoints(n,110), 0, 1, 150, 150);
+  polySvg.innerHTML = `<polygon points="${pts.map(p=>p.join(',')).join(' ')}" fill="var(--teal-soft)" stroke="var(--teal)" stroke-width="3"></polygon>` +
+    pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="var(--ink)"></circle>`).join('');
+  polyName.textContent = POLY_NAMES[n];
+  polyFact.innerHTML = `변이 <b>${n}개</b>, 꼭짓점도 <b>${n}개</b>예요. 변의 개수가 이름을 정해요 — 3개면 삼각형, 4개면 사각형이죠.`;
+}
+sidesSlider.addEventListener('input', renderPoly);
+renderPoly();
+
+// ---------- 퀴즈 ----------
+const quizSvg = document.getElementById('quizSvg');
+const quizOpts = document.getElementById('quizOpts');
+const quizQuestion = document.getElementById('quizQuestion');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextBtn = document.getElementById('nextBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+const triesNumEl = document.getElementById('triesNum');
+
+let score=0, tries=0, answered=false;
+let quizType='', correctAnswer='';
+
+function newQuizQuestion(){
+  answered = false;
+  quizFeedback.textContent = '';
+  quizType = Math.random()<0.7 ? 'name' : 'convex';
+
+  if(quizType==='name'){
+    quizQuestion.textContent = '이 도형의 이름은 무엇일까요?';
+    const n = 3 + Math.floor(Math.random()*8); // 3~10
+    correctAnswer = String(n);
+    const rot = Math.floor(Math.random()*360);
+    const pts = transformPoints(regularPolygonPoints(n,80), rot, 1, 100, 100);
+    quizSvg.innerHTML = `<polygon points="${pts.map(p=>p.join(',')).join(' ')}" fill="var(--teal-soft)" stroke="var(--teal)" stroke-width="3"></polygon>`;
+
+    const nums = Object.keys(POLY_NAMES).map(Number);
+    let distractors = nums.filter(x=>x!==n).sort(()=>Math.random()-0.5).slice(0,3);
+    const options = [n, ...distractors].sort(()=>Math.random()-0.5).map(x=>({key:String(x), label:POLY_NAMES[x]}));
+    quizOpts.innerHTML = options.map(o=>`<button class="opt-btn" data-k="${o.key}">${o.label}</button>`).join('');
+  } else {
+    quizQuestion.textContent = '이 도형은 볼록다각형일까요, 오목다각형일까요?';
+    const isConvex = Math.random()<0.5;
+    correctAnswer = isConvex ? 'convex' : 'concave';
+    const rot = Math.floor(Math.random()*360);
+    let pts;
+    if(isConvex){
+      const n = 5 + Math.floor(Math.random()*4);
+      pts = transformPoints(regularPolygonPoints(n,80), rot, 1, 100, 100);
+    } else {
+      pts = transformPoints(CONCAVE_SHAPE, rot, 0.85, 100, 100);
+    }
+    quizSvg.innerHTML = `<polygon points="${pts.map(p=>p.join(',')).join(' ')}" fill="var(--coral-soft)" stroke="var(--coral)" stroke-width="3"></polygon>`;
+
+    const options = [
+      {key:'convex', label:'볼록다각형'},
+      {key:'concave', label:'오목다각형'},
+    ].sort(()=>Math.random()-0.5);
+    quizOpts.innerHTML = options.map(o=>`<button class="opt-btn" data-k="${o.key}">${o.label}</button>`).join('');
+  }
+
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered = true;
+      tries++;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      const labelOf = k => quizType==='name' ? POLY_NAMES[parseInt(k)] : (k==='convex'?'볼록다각형':'오목다각형');
+      if(btn.dataset.k===correctAnswer){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-k="${correctAnswer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `아쉬워요! 정답은 "${labelOf(correctAnswer)}"이었어요. (정답 ${score} / 시도 ${tries})`;
+      }
+      scoreNumEl.textContent = score;
+      triesNumEl.textContent = tries;
+    });
+  });
+}
+
+nextBtn.addEventListener('click', newQuizQuestion);
+newQuizQuestion();
+</script>
+</body>
+</html>
