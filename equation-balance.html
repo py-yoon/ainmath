@@ -76,7 +76,7 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
       <div class="howto">
         <p>등식의 성질: <b>양쪽에 같은 수를 더하거나 빼도, 같은 수로 곱하거나 나눠도</b> 등식은 그대로 성립해요. 이 성질을 이용해서 왼쪽에 x만 남을 때까지 차근차근 정리하면, 남은 오른쪽 숫자가 바로 x의 값이에요.</p>
       </div>
-      <svg id="svg" viewBox="0 0 480 260"></svg>
+      <svg id="svg" viewBox="0 0 480 300"></svg>
       <div class="controls">
         <div class="control-row">
           <div class="control-label"><span>x의 개수 (a)</span><b id="aLabel">2</b></div>
@@ -130,33 +130,69 @@ let step = 0; // 0: 초기, 1: b 뺀 후, 2: a로 나눈 후
 
 function fmt(n){ return (Math.round(n*100)/100).toString(); }
 
-function drawPan(cx, topY, xCount, numCount, color){
+// 저울대(빔)와 그것을 받치는 스탠드를 그림
+function drawBeamAndStand(beamX1, beamX2, beamY, centerX, groundY){
   let html = '';
-  // 접시
+  // 바닥 받침
+  html += `<rect x="${centerX-52}" y="${groundY}" width="104" height="10" rx="5" fill="var(--ink)"></rect>`;
+  // 삼각 기둥(빔 중앙 아래에서 받쳐줌)
+  html += `<polygon points="${centerX-30},${groundY} ${centerX+30},${groundY} ${centerX+6},${beamY} ${centerX-6},${beamY}" fill="var(--ink)"></polygon>`;
+  // 저울대
+  html += `<line x1="${beamX1}" y1="${beamY}" x2="${beamX2}" y2="${beamY}" stroke="var(--ink)" stroke-width="6" stroke-linecap="round"></line>`;
+  // 중심 회전축
+  html += `<circle cx="${centerX}" cy="${beamY}" r="7" fill="var(--violet)"></circle>`;
+  return html;
+}
+
+// 접시 하나를 그림: beamY의 매달림 지점부터 접시, 그 위에 블록들을 쌓아 표시
+// xCount: x블록 개수(정수, 작음), numValue: 숫자 값(정수 또는 소수, 클 수도 있음)
+function drawPan(cx, topY, beamY, xCount, numValue, color){
+  let html = '';
+  const bw = 26, gap = 4, cols = 6;
   const panW = 150;
-  html += `<line x1="${cx}" y1="${topY}" x2="${cx}" y2="${topY-50}" stroke="var(--ink-soft)" stroke-width="3"></line>`;
+
+  // 매달림 줄: 빔에서 접시까지 쭉 이어지도록 연결
+  html += `<line x1="${cx}" y1="${beamY}" x2="${cx}" y2="${topY}" stroke="var(--ink-soft)" stroke-width="3"></line>`;
+  html += `<circle cx="${cx}" cy="${beamY}" r="4" fill="var(--ink)"></circle>`;
+  // 접시
   html += `<path d="M${cx-panW/2},${topY} Q${cx},${topY+22} ${cx+panW/2},${topY}" fill="none" stroke="var(--ink)" stroke-width="4"></path>`;
 
-  // 블록들 배치
-  const blocks = [];
-  for(let i=0;i<xCount;i++) blocks.push('x');
-  for(let i=0;i<numCount;i++) blocks.push('1');
-  const cols = 6;
-  const bw = 26, gap=4;
-  const totalW = Math.min(blocks.length,cols)*(bw+gap)-gap;
+  // 숫자 값이 9 이하의 정수면 낱개 원으로, 그보다 크거나 소수면 큰 숫자 타일 하나로 표시(넘침 방지)
+  const useUnits = Number.isInteger(numValue) && numValue > 0 && numValue <= 9;
+  const numUnits = useUnits ? numValue : 0;
+  const bigTileLabel = (!useUnits && numValue > 0) ? fmt(numValue) : null;
+
+  const totalSmall = xCount + numUnits;
+  const rowsSmall = totalSmall > 0 ? Math.ceil(totalSmall/cols) : 0;
+  const smallHeight = rowsSmall * (bw+gap);
+  const totalW = Math.min(totalSmall, cols)*(bw+gap) - gap;
   const startX = cx - totalW/2;
-  blocks.forEach((b,i)=>{
-    const col = i%cols, row = Math.floor(i/cols);
+
+  let idx = 0;
+  for(let i=0;i<xCount;i++, idx++){
+    const col = idx%cols, row = Math.floor(idx/cols);
     const bx = startX + col*(bw+gap);
     const by = topY - 14 - row*(bw+gap) - bw;
-    if(b==='x'){
-      html += `<rect x="${bx}" y="${by}" width="${bw}" height="${bw}" rx="6" fill="${color}" fill-opacity="0.85"></rect>`;
-      html += `<text x="${bx+bw/2}" y="${by+bw/2+5}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="#fff">x</text>`;
-    } else {
-      html += `<circle cx="${bx+bw/2}" cy="${by+bw/2}" r="${bw/2-2}" fill="${color}" fill-opacity="0.4" stroke="${color}" stroke-width="2"></circle>`;
-      html += `<text x="${bx+bw/2}" y="${by+bw/2+4}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="${color}">1</text>`;
-    }
-  });
+    html += `<rect x="${bx}" y="${by}" width="${bw}" height="${bw}" rx="6" fill="${color}" fill-opacity="0.85"></rect>`;
+    html += `<text x="${bx+bw/2}" y="${by+bw/2+5}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="#fff">x</text>`;
+  }
+  for(let i=0;i<numUnits;i++, idx++){
+    const col = idx%cols, row = Math.floor(idx/cols);
+    const bx = startX + col*(bw+gap);
+    const by = topY - 14 - row*(bw+gap) - bw;
+    html += `<circle cx="${bx+bw/2}" cy="${by+bw/2}" r="${bw/2-2}" fill="${color}" fill-opacity="0.4" stroke="${color}" stroke-width="2"></circle>`;
+    html += `<text x="${bx+bw/2}" y="${by+bw/2+4}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="${color}">1</text>`;
+  }
+
+  if(bigTileLabel){
+    const tileW = Math.max(46, 18+bigTileLabel.length*13);
+    const tileH = 38;
+    const ty = topY - 14 - smallHeight - 8 - tileH;
+    const tx = cx - tileW/2;
+    html += `<rect x="${tx}" y="${ty}" width="${tileW}" height="${tileH}" rx="10" fill="${color}" fill-opacity="0.85"></rect>`;
+    html += `<text x="${cx}" y="${ty+tileH/2+6}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="17" fill="#fff">${bigTileLabel}</text>`;
+  }
+
   return html;
 }
 
@@ -179,15 +215,13 @@ function render(){
 
   const st = currentState();
 
-  // 저울 기울기: 왼쪽 무게 vs 오른쪽 무게로 대략 표현(그림상 큰 의미는 없고 항상 수평 유지 — 등식이니까)
-  const leftY = 170, rightY = 170;
-  let html = '';
-  html += `<line x1="40" y1="60" x2="440" y2="60" stroke="var(--ink)" stroke-width="6" stroke-linecap="round"></line>`;
-  html += `<polygon points="240,20 225,60 255,60" fill="var(--ink)"></polygon>`;
-  html += `<rect x="230" y="60" width="20" height="90" fill="var(--ink)"></rect>`;
+  const beamY = 70, beamX1 = 60, beamX2 = 420, centerX = 240, groundY = 260;
+  const leftCx = 140, rightCx = 340, topY = 210;
 
-  html += drawPan(140, leftY, st.leftX, st.leftNum, 'var(--violet)');
-  html += drawPan(340, rightY, 0, Math.round(st.rightNum), 'var(--blue)');
+  let html = '';
+  html += drawBeamAndStand(beamX1, beamX2, beamY, centerX, groundY);
+  html += drawPan(leftCx, topY, beamY, st.leftX, st.leftNum, 'var(--violet)');
+  html += drawPan(rightCx, topY, beamY, 0, st.rightNum, 'var(--blue)');
 
   svg.innerHTML = html;
 
