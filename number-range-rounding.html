@@ -36,6 +36,7 @@ h1 span{color:var(--coral);}
 svg{width:100%;max-width:640px;height:auto;display:block;margin:0 auto;overflow:visible;}
 
 .control-row{max-width:520px;margin:0 auto 16px;display:flex;flex-direction:column;gap:8px;}
+.control-row.wide{max-width:900px;}
 .control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
 .control-label b{font-size:22px;color:var(--ink);}
 input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--coral-soft);outline:none;}
@@ -94,9 +95,15 @@ footer{max-width:1000px;margin:12px auto 0;color:var(--ink-soft);font-size:13px;
 
     <svg id="roundSvg" viewBox="0 0 640 130"></svg>
 
-    <div class="control-row">
-      <div class="control-label"><span>원래 수</span><b id="numLabel">1234</b></div>
-      <input id="numSlider" type="range" min="0" max="9999" value="1234" step="1" aria-label="원래 수 조절">
+    <div class="control-row wide">
+      <div class="control-label"><span>원래 수</span><b id="numLabel">234</b></div>
+      <input id="numSlider" type="range" min="0" max="999" value="234" step="1" aria-label="원래 수 조절">
+      <div class="btn-row" id="stepRow" style="margin:2px auto 0;">
+        <button class="type-btn" data-step="-100">◀◀ 100</button>
+        <button class="type-btn" data-step="-10">◀ 10</button>
+        <button class="type-btn" data-step="10">10 ▶</button>
+        <button class="type-btn" data-step="100">100 ▶▶</button>
+      </div>
     </div>
     <div class="btn-row" id="placeRow">
       <button class="type-btn" data-place="1">일의 자리까지 (그대로)</button>
@@ -194,8 +201,8 @@ function renderRound(){
   numLabel.textContent = n;
 
   const down = Math.floor(n/place)*place;
-  const up = place===1 ? n : down + place;
   const remainder = n - down;
+  const up = place===1 ? n : (remainder===0 ? down : down + place);
   const roundedVal = place===1 ? n : (remainder*2 >= place ? up : down);
 
   upValue.textContent = up.toLocaleString();
@@ -205,6 +212,19 @@ function renderRound(){
   if(place===1){
     roundFact.innerHTML = `일의 자리까지는 어림할 게 없어요. 원래 수 그대로 <b>${n.toLocaleString()}</b>이에요.`;
     roundSvg.innerHTML = '';
+    return;
+  }
+
+  if(remainder===0){
+    // 이미 그 자리에서 딱 나누어떨어지는 경우 - 올림·버림·반올림이 모두 원래 수와 같음
+    const cx = 320;
+    let html = '';
+    html += `<line x1="60" y1="70" x2="580" y2="70" stroke="var(--paper-line)" stroke-width="3"></line>`;
+    html += `<circle cx="${cx}" cy="70" r="9" fill="var(--coral)"></circle>`;
+    html += `<text x="${cx}" y="45" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--coral)">${n.toLocaleString()}</text>`;
+    html += `<text x="${cx}" y="100" text-anchor="middle" font-family="'Gowun Dodum',sans-serif" font-size="13" fill="var(--ink-soft)">이미 정확히 나누어떨어져요</text>`;
+    roundSvg.innerHTML = html;
+    roundFact.innerHTML = `${n.toLocaleString()}은 이미 그 자리에서 딱 나누어떨어져요. 그래서 올림·버림·반올림 모두 <b>${n.toLocaleString()}</b>으로 똑같아요.`;
     return;
   }
 
@@ -242,6 +262,14 @@ function renderRound(){
 }
 
 numSlider.addEventListener('input', renderRound);
+document.getElementById('stepRow').addEventListener('click', (e)=>{
+  const btn = e.target.closest('.type-btn');
+  if(!btn) return;
+  const step = parseInt(btn.dataset.step);
+  const newVal = Math.min(999, Math.max(0, parseInt(numSlider.value)+step));
+  numSlider.value = newVal;
+  renderRound();
+});
 placeRow.addEventListener('click', (e)=>{
   const btn = e.target.closest('.type-btn');
   if(!btn) return;
