@@ -35,23 +35,45 @@ h1 span{color:var(--violet);}
 .score-box{flex:1;min-width:120px;background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:12px 16px;text-align:center;}
 .score-box .label{font-size:12.5px;color:var(--ink-soft);font-family:'Do Hyeon',sans-serif;}
 .score-box .val{font-family:'Do Hyeon',sans-serif;font-size:24px;color:var(--ink);}
-.tiles-area{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:24px;min-height:100px;align-items:center;}
-.tile{
-  width:84px;height:84px;border-radius:16px;background:var(--violet);color:#fff;
+
+.equation-row{
+  display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;
+  margin-bottom:28px;padding:20px 10px;
+}
+.num-tile{
+  width:64px;height:64px;border-radius:16px;background:var(--violet);color:#fff;
   display:flex;align-items:center;justify-content:center;font-family:'Do Hyeon',sans-serif;
-  font-size:18px;cursor:pointer;transition:all .15s ease;border:3px solid transparent;
-  padding:6px;text-align:center;word-break:break-all;line-height:1.2;
+  font-size:24px;flex:none;
 }
-.tile:hover{transform:translateY(-2px);}
-.tile.selected{border-color:var(--coral);background:var(--coral);}
-.op-row{display:flex;justify-content:center;gap:10px;margin-bottom:24px;flex-wrap:wrap;}
-.op-btn{
-  width:56px;height:56px;border-radius:14px;background:var(--ink);color:#fff;border:none;
-  font-family:'Do Hyeon',sans-serif;font-size:24px;cursor:pointer;transition:all .15s ease;
+.num-tile.target{background:var(--green);}
+.equals-sign{font-family:'Do Hyeon',sans-serif;font-size:28px;color:var(--ink-soft);flex:none;}
+.op-slot{
+  width:60px;height:60px;border-radius:16px;flex:none;
+  border:3px dashed var(--paper-line);background:var(--paper);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Do Hyeon',sans-serif;font-size:26px;color:var(--ink-soft);
+  cursor:pointer;transition:all .15s ease;
 }
-.op-btn:hover:not(:disabled){background:var(--violet);}
-.op-btn:disabled{opacity:0.3;cursor:default;}
-.op-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+.op-slot.filled{border-style:solid;border-color:var(--coral);background:#fff;color:var(--coral);}
+.op-slot.dragover{border-color:var(--violet);background:var(--violet-soft);transform:scale(1.06);}
+.op-slot.selectable:hover{border-color:var(--violet);}
+
+.op-source-label{text-align:center;font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);margin-bottom:10px;}
+.op-source{display:flex;justify-content:center;gap:14px;margin-bottom:24px;flex-wrap:wrap;}
+.op-chip{
+  width:60px;height:60px;border-radius:16px;background:var(--ink);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-family:'Do Hyeon',sans-serif;
+  font-size:26px;cursor:grab;touch-action:none;user-select:none;transition:all .15s ease;
+  border:3px solid transparent;
+}
+.op-chip:active{cursor:grabbing;}
+.op-chip.picked{border-color:var(--coral);background:var(--coral);}
+.op-chip-ghost{
+  position:fixed;width:60px;height:60px;border-radius:16px;background:var(--coral);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-family:'Do Hyeon',sans-serif;
+  font-size:26px;pointer-events:none;z-index:9999;opacity:0.92;box-shadow:0 8px 20px rgba(0,0,0,0.25);
+}
+
 .action-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
 .action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
 .action-btn:hover{border-color:var(--coral);color:var(--coral);}
@@ -72,12 +94,12 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
     <a href="article-game-24.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
   </div>
   <span class="eyebrow">🎯 24 게임 실험실</span>
-  <h1>숫자 4개로<br><span>24</span>를 만들어보세요!</h1>
-  <p class="sub">더하기, 빼기, 곱하기, 나누기를 자유롭게 써서 네 숫자를 딱 24로 만들어보세요. 숫자 두 개와 연산 기호를 순서대로 눌러서 하나로 합쳐나가요.</p>
+  <h1>숫자 사이 빈칸에<br><span>연산 기호</span>를 끌어와보세요!</h1>
+  <p class="sub">아래 연산 기호를 숫자 사이 빈칸으로 드래그해서 넣어보세요. 세 칸을 모두 채웠을 때 식의 결과가 정확히 24가 되면 성공이에요!</p>
 
   <div class="stage">
     <div class="howto">
-      <p><b>사용법</b>: 숫자 타일 하나를 누르고, 연산 기호를 누른 다음, 다른 숫자 타일을 누르면 두 숫자가 계산 결과 하나로 합쳐져요. 이 과정을 반복해서 타일이 <b>1개</b>만 남았을 때 그 값이 <b>24</b>이면 성공이에요!</p>
+      <p><b>사용법</b>: +, −, ×, ÷ 기호를 원하는 빈칸으로 드래그해서 놓아보세요. (기호를 살짝 탭한 다음 빈칸을 탭해도 놓을 수 있어요.) 채워진 칸을 다시 누르면 지워져요. 곱하기·나누기는 더하기·빼기보다 먼저 계산돼요.</p>
     </div>
 
     <div class="scoreboard">
@@ -85,205 +107,271 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
       <div class="score-box"><div class="label">경과 시간</div><div class="val" id="timer">0:00</div></div>
     </div>
 
-    <div class="tiles-area" id="tilesArea"></div>
+    <div class="equation-row" id="equationRow"></div>
 
-    <div class="op-row">
-      <button class="op-btn" data-op="+">+</button>
-      <button class="op-btn" data-op="−">−</button>
-      <button class="op-btn" data-op="×">×</button>
-      <button class="op-btn" data-op="÷">÷</button>
+    <p class="op-source-label">↓ 이 기호들을 위 빈칸으로 끌어다 놓으세요</p>
+    <div class="op-source" id="opSource">
+      <div class="op-chip" data-op="+">+</div>
+      <div class="op-chip" data-op="−">−</div>
+      <div class="op-chip" data-op="×">×</div>
+      <div class="op-chip" data-op="÷">÷</div>
     </div>
 
     <div class="action-row">
-      <button class="action-btn" id="undoBtn">↺ 실행 취소</button>
+      <button class="action-btn" id="clearBtn">↺ 초기화</button>
       <button class="action-btn" id="hintBtn">💡 힌트 보기</button>
       <button class="action-btn primary" id="newBtn">🎲 새 문제</button>
     </div>
 
-    <div class="fact" id="fact">숫자와 연산 기호를 눌러서 24를 만들어보세요!</div>
+    <div class="fact" id="fact">연산 기호를 빈칸으로 끌어와서 24를 만들어보세요!</div>
   </div>
 
   <footer>같은 숫자 4개로도 24를 만드는 방법이 여러 가지일 때가 많아요. 하나를 풀고 나면, "다른 방법은 없을까?"도 생각해보세요.</footer>
 </div>
 
 <script>
-const tilesArea = document.getElementById('tilesArea');
+const equationRow = document.getElementById('equationRow');
+const opSource = document.getElementById('opSource');
 const solvedCountEl = document.getElementById('solvedCount');
 const timerEl = document.getElementById('timer');
-const undoBtn = document.getElementById('undoBtn');
+const clearBtn = document.getElementById('clearBtn');
 const hintBtn = document.getElementById('hintBtn');
 const newBtn = document.getElementById('newBtn');
 const factBox = document.getElementById('fact');
-const opBtns = document.querySelectorAll('.op-btn');
 
-let tiles = []; // {val, expr, id}
-let history = [];
-let selected = [];
+const OPS = ['+','−','×','÷'];
+
+let currentNums = [];
+let currentSlots = [null, null, null];
+let currentSolution = null;
 let selectedOp = null;
 let solvedCount = 0;
 let startTime = Date.now();
 let solvedThisRound = false;
-let nextId = 0;
 
 function fmtVal(v){
   const r = Math.round(v*1000)/1000;
   return r.toString();
 }
 
-function newTile(val, expr){
-  return {val, expr, id: nextId++};
+// 표준 연산 순서(곱셈·나눗셈 먼저)로 4개의 수와 3개의 연산 기호를 계산
+function evalLinear(nums, ops){
+  if(ops.some(o=>o===null||o===undefined)) return null;
+  let vals = [nums[0]];
+  let pendingOps = [];
+  for(let i=0;i<3;i++){
+    const op = ops[i];
+    if(op==='×' || op==='÷'){
+      const prev = vals.pop();
+      if(op==='×'){
+        vals.push(prev*nums[i+1]);
+      } else {
+        if(Math.abs(nums[i+1]) < 1e-9) return null;
+        vals.push(prev/nums[i+1]);
+      }
+    } else {
+      vals.push(nums[i+1]);
+      pendingOps.push(op);
+    }
+  }
+  let result = vals[0];
+  for(let i=0;i<pendingOps.length;i++){
+    result = pendingOps[i]==='+' ? result+vals[i+1] : result-vals[i+1];
+  }
+  return result;
 }
 
-// 4개 숫자로 24를 만들 수 있는지 재귀적으로 탐색 (힌트/생성 검증용)
-function solve(list){
-  if(list.length===1){
-    if(Math.abs(list[0].val-24) < 1e-6) return list[0].expr;
-    return null;
-  }
-  for(let i=0;i<list.length;i++){
-    for(let j=0;j<list.length;j++){
-      if(i===j) continue;
-      const a=list[i], b=list[j];
-      const rest = list.filter((_,k)=>k!==i&&k!==j);
-      const cands = [
-        {v:a.val+b.val, e:`(${a.expr}+${b.expr})`},
-        {v:a.val-b.val, e:`(${a.expr}-${b.expr})`},
-        {v:a.val*b.val, e:`(${a.expr}×${b.expr})`},
-      ];
-      if(Math.abs(b.val)>1e-9) cands.push({v:a.val/b.val, e:`(${a.expr}÷${b.expr})`});
-      for(const c of cands){
-        const res = solve([...rest, {val:c.v, expr:c.e}]);
-        if(res) return res;
-      }
-    }
+function findSolution(nums){
+  for(const o1 of OPS) for(const o2 of OPS) for(const o3 of OPS){
+    const r = evalLinear(nums, [o1,o2,o3]);
+    if(r!==null && Math.abs(r-24) < 1e-6) return [o1,o2,o3];
   }
   return null;
 }
 
 function genPuzzle(){
-  let nums, sol;
-  let attempts = 0;
+  let nums, sol, attempts = 0;
   do{
     nums = Array.from({length:4}, ()=>1+Math.floor(Math.random()*9));
-    sol = solve(nums.map(n=>newTile(n, String(n))));
+    sol = findSolution(nums);
     attempts++;
-  } while(!sol && attempts<300);
-  return nums;
+  } while(!sol && attempts<500);
+  return {nums, sol};
 }
 
-function startNew(){
-  const nums = genPuzzle();
-  tiles = nums.map(n=>newTile(n, String(n)));
-  history = [];
-  selected = [];
+function clearChipSelection(){
   selectedOp = null;
-  solvedThisRound = false;
-  factBox.className = 'fact';
-  factBox.textContent = '숫자와 연산 기호를 눌러서 24를 만들어보세요!';
+  opSource.querySelectorAll('.op-chip').forEach(c=>c.classList.remove('picked'));
+}
+
+function placeOp(idx, op){
+  if(solvedThisRound) return;
+  currentSlots[idx] = op;
   render();
+  evaluateIfReady();
+}
+
+function renderEquation(){
+  let html = '';
+  currentNums.forEach((n,i)=>{
+    html += `<div class="num-tile">${n}</div>`;
+    if(i<3){
+      const op = currentSlots[i];
+      html += `<div class="op-slot selectable ${op?'filled':''}" data-idx="${i}">${op || ''}</div>`;
+    }
+  });
+  html += `<div class="equals-sign">=</div><div class="num-tile target">24</div>`;
+  equationRow.innerHTML = html;
+
+  equationRow.querySelectorAll('.op-slot').forEach(slot=>{
+    slot.addEventListener('click', ()=>{
+      if(solvedThisRound) return;
+      const idx = parseInt(slot.dataset.idx);
+      if(currentSlots[idx]){
+        currentSlots[idx] = null;
+        render();
+        evaluateIfReady();
+        return;
+      }
+      if(selectedOp){
+        placeOp(idx, selectedOp);
+        clearChipSelection();
+      }
+    });
+  });
 }
 
 function render(){
-  tilesArea.innerHTML = tiles.map(t=>`
-    <div class="tile${selected.includes(t.id)?' selected':''}" data-id="${t.id}">${fmtVal(t.val)}</div>
-  `).join('');
-  tilesArea.querySelectorAll('.tile').forEach(el=>{
-    el.addEventListener('click', ()=>onTileClick(parseInt(el.dataset.id)));
-  });
-  opBtns.forEach(b=>{
-    b.classList.toggle('active', b.dataset.op===selectedOp);
-    b.style.background = b.dataset.op===selectedOp ? 'var(--coral)' : '';
-  });
+  renderEquation();
 }
 
-function onTileClick(id){
-  if(solvedThisRound) return;
-  if(selected.includes(id)){
-    selected = selected.filter(x=>x!==id);
-    render();
+function evaluateIfReady(){
+  const filled = currentSlots.every(s=>s!==null);
+  if(!filled){
+    factBox.className = 'fact';
+    factBox.textContent = '연산 기호를 빈칸으로 끌어와서 24를 만들어보세요!';
     return;
   }
-  selected.push(id);
-  if(selected.length===2 && selectedOp){
-    doCombine();
+  const result = evalLinear(currentNums, currentSlots);
+  if(result===null){
+    factBox.className = 'fact';
+    factBox.innerHTML = `0으로 나눌 수는 없어요! 다른 기호를 시도해보세요.`;
+    return;
+  }
+  if(Math.abs(result-24) < 1e-6){
+    solvedThisRound = true;
+    solvedCount++;
+    solvedCountEl.textContent = solvedCount;
+    factBox.className = 'fact win';
+    const exprStr = currentNums.map((n,i)=> i<3 ? `${n} ${currentSlots[i]} ` : `${n}`).join('');
+    factBox.innerHTML = `🎉 정답이에요! ${exprStr} = 24`;
   } else {
-    render();
+    factBox.className = 'fact';
+    factBox.innerHTML = `아쉬워요, 결과가 <b>${fmtVal(result)}</b>이 됐어요. 기호를 다시 눌러서 지우고 다른 방법을 시도해보세요.`;
   }
 }
 
-function doCombine(){
-  const [idA, idB] = selected;
-  const a = tiles.find(t=>t.id===idA);
-  const b = tiles.find(t=>t.id===idB);
-  if(!a || !b) { selected=[]; render(); return; }
-
-  let val, symbol=selectedOp;
-  if(symbol==='+') val = a.val+b.val;
-  else if(symbol==='−') val = a.val-b.val;
-  else if(symbol==='×') val = a.val*b.val;
-  else { // ÷
-    if(Math.abs(b.val)<1e-9){
-      factBox.className='fact';
-      factBox.innerHTML = `0으로 나눌 수는 없어요! 다른 조합을 시도해보세요.`;
-      selected=[]; selectedOp=null; render();
-      return;
-    }
-    val = a.val/b.val;
-  }
-  const expr = `(${a.expr}${symbol}${b.expr})`;
-
-  history.push(tiles.map(t=>({...t})));
-  tiles = tiles.filter(t=>t.id!==idA && t.id!==idB);
-  tiles.push(newTile(val, expr));
-  selected = [];
-  selectedOp = null;
-  render();
-  checkWin();
-}
-
-function checkWin(){
-  if(tiles.length===1){
-    if(Math.abs(tiles[0].val-24)<1e-6){
-      solvedCount++;
-      solvedCountEl.textContent = solvedCount;
-      solvedThisRound = true;
-      factBox.className = 'fact win';
-      factBox.innerHTML = `🎉 정답이에요! ${tiles[0].expr} = 24`;
-    } else {
-      factBox.className = 'fact';
-      factBox.innerHTML = `아쉬워요, 결과가 <b>${fmtVal(tiles[0].val)}</b>이 됐어요. "실행 취소"로 다시 시도해보세요.`;
-    }
-  }
-}
-
-opBtns.forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    if(solvedThisRound) return;
-    selectedOp = (selectedOp===btn.dataset.op) ? null : btn.dataset.op;
-    if(selected.length===2 && selectedOp) doCombine();
-    else render();
-  });
-});
-
-undoBtn.addEventListener('click', ()=>{
-  if(history.length===0) return;
-  tiles = history.pop();
-  selected = [];
-  selectedOp = null;
+function startNew(){
+  const {nums, sol} = genPuzzle();
+  currentNums = nums;
+  currentSolution = sol;
+  currentSlots = [null, null, null];
   solvedThisRound = false;
-  factBox.className='fact';
-  factBox.textContent = '되돌렸어요. 다시 시도해보세요!';
+  clearChipSelection();
+  factBox.className = 'fact';
+  factBox.textContent = '연산 기호를 빈칸으로 끌어와서 24를 만들어보세요!';
   render();
+}
+
+/* ===== 드래그 앤 드롭 (포인터 이벤트 기반, 데스크톱·모바일 공통) ===== */
+function attachDragHandlers(chip){
+  chip.addEventListener('pointerdown', (e)=>{
+    if(solvedThisRound) return;
+    e.preventDefault();
+    const op = chip.dataset.op;
+    const startX = e.clientX, startY = e.clientY;
+    let moved = false;
+
+    const ghost = document.createElement('div');
+    ghost.className = 'op-chip-ghost';
+    ghost.textContent = op;
+    ghost.style.left = (e.clientX-30)+'px';
+    ghost.style.top = (e.clientY-30)+'px';
+    document.body.appendChild(ghost);
+
+    function clearSlotHighlights(){
+      equationRow.querySelectorAll('.op-slot').forEach(s=>s.classList.remove('dragover'));
+    }
+
+    function onMove(ev){
+      if(Math.abs(ev.clientX-startX) > 6 || Math.abs(ev.clientY-startY) > 6) moved = true;
+      ghost.style.left = (ev.clientX-30)+'px';
+      ghost.style.top = (ev.clientY-30)+'px';
+      clearSlotHighlights();
+      const el = document.elementFromPoint(ev.clientX, ev.clientY);
+      const slot = el && el.closest('.op-slot');
+      if(slot) slot.classList.add('dragover');
+    }
+
+    function onUp(ev){
+      document.removeEventListener('pointermove', onMove);
+      document.removeEventListener('pointerup', onUp);
+      ghost.remove();
+      clearSlotHighlights();
+
+      if(moved){
+        const el = document.elementFromPoint(ev.clientX, ev.clientY);
+        const slot = el && el.closest('.op-slot');
+        if(slot){
+          placeOp(parseInt(slot.dataset.idx), op);
+        }
+      } else {
+        if(selectedOp===op){
+          clearChipSelection();
+        } else {
+          clearChipSelection();
+          selectedOp = op;
+          chip.classList.add('picked');
+        }
+      }
+    }
+
+    document.addEventListener('pointermove', onMove);
+    document.addEventListener('pointerup', onUp);
+  });
+}
+
+opSource.querySelectorAll('.op-chip').forEach(attachDragHandlers);
+
+clearBtn.addEventListener('click', ()=>{
+  currentSlots = [null, null, null];
+  solvedThisRound = false;
+  clearChipSelection();
+  render();
+  evaluateIfReady();
 });
 
 hintBtn.addEventListener('click', ()=>{
-  const sol = solve(tiles.map(t=>({...t})));
-  if(sol){
-    factBox.className='fact';
-    factBox.innerHTML = `💡 힌트: ${sol} = 24 (이 방법 말고 다른 방법도 있을 수 있어요!)`;
+  if(!currentSolution){
+    factBox.className = 'fact';
+    factBox.textContent = '지금 문제는 힌트를 준비하지 못했어요. 새 문제를 눌러보세요.';
+    return;
+  }
+  const emptyIdx = currentSlots.findIndex(s=>s===null);
+  if(emptyIdx === -1){
+    const exprStr = currentNums.map((n,i)=> i<3 ? `${n} ${currentSolution[i]} ` : `${n}`).join('');
+    factBox.className = 'fact';
+    factBox.innerHTML = `💡 정답 예시: ${exprStr} = 24`;
+    return;
+  }
+  currentSlots[emptyIdx] = currentSolution[emptyIdx];
+  render();
+  const stillEmpty = currentSlots.some(s=>s===null);
+  if(stillEmpty){
+    factBox.className = 'fact';
+    factBox.innerHTML = `💡 한 칸을 채워드렸어요! 나머지 칸도 채워보세요.`;
   } else {
-    factBox.className='fact';
-    factBox.innerHTML = `지금 남은 숫자로는 24를 만들 수 없어요. "실행 취소"를 눌러보세요.`;
+    evaluateIfReady();
   }
 });
 
