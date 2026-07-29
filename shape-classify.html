@@ -59,6 +59,8 @@ svg{width:100%;max-width:340px;height:auto;display:block;margin:0 auto;}
 .quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;}
 .action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;}
 .action-btn:hover{background:var(--blue);}
+.legend-note{margin-top:10px;font-size:13px;color:var(--ink-soft);display:flex;align-items:center;gap:6px;}
+.legend-note svg{width:34px;max-width:34px;flex:none;}
 
 footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
 </style>
@@ -67,7 +69,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
 <div class="wrap">
   <span class="eyebrow">⭕ 원·삼각형·사각형 분류 실험실</span>
   <h1>원의 구조를 확인하고<br>여러 가지 <span>삼각형·사각형</span>을 구분해보아요</h1>
-  <p class="sub">반지름을 움직여서 원의 구조를 확인한 다음, 다양한 삼각형과 사각형을 보고 이름을 맞혀보는 퀴즈에 도전해보세요.</p>
+  <p class="sub">반지름을 움직여서 원의 구조를 확인한 다음, 다양한 삼각형과 사각형을 보고 이름을 맞혀보는 퀴즈에 도전해보세요. 변 위의 짧은 표시(◟◞)는 길이가 같은 변을 뜻해요.</p>
 
   <div class="stage">
     <div>
@@ -98,6 +100,14 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
     </div>
     <div class="quiz-feedback" id="quizFeedback"></div>
     <button class="action-btn" id="nextBtn">➡ 다음 문제</button>
+    <div class="legend-note">
+      <svg viewBox="0 0 40 20"><line x1="14" y1="4" x2="20" y2="16" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round"></line></svg>
+      표시 개수가 같은 변끼리 길이가 서로 같아요 (표시 1개 = 1개짜리끼리, 2개 = 2개짜리끼리)
+    </div>
+    <div class="legend-note">
+      <svg viewBox="0 0 40 20"><polyline points="14,16 14,6 24,6" fill="none" stroke="var(--ink)" stroke-width="2.5"></polyline></svg>
+      꼭짓점의 작은 사각형(⌐)은 그 각이 직각(90°)이라는 표시예요
+    </div>
   </div>
 
   <footer>삼각형은 변의 길이나 각의 크기에 따라, 사각형은 변이 평행한 개수나 길이에 따라 이름이 달라져요. 모양이 조금 비뚤어져도 규칙만 지키면 이름은 똑같답니다.</footer>
@@ -129,18 +139,20 @@ radiusSlider.addEventListener('input', renderCircle);
 renderCircle();
 
 // ---------- 퀴즈 ----------
+// pts: 변형 전 좌표, ticks: 각 변(pts[i] -> pts[i+1])에 그릴 등변 표시 개수 (0이면 표시 없음, 숫자가 같으면 같은 길이)
+// rightAngles: 직각(90°) 표시를 그릴 꼭짓점 인덱스 목록
 const TRIANGLE_SHAPES = {
-  equilateral: { label:'정삼각형', pts:[[0,-58],[50,29],[-50,29]] },
-  isosceles:   { label:'이등변삼각형', pts:[[0,-60],[48,40],[-48,40]] },
-  right:       { label:'직각삼각형', pts:[[-50,45],[50,45],[-50,-45]] },
-  obtuse:      { label:'둔각삼각형', pts:[[-55,30],[60,25],[-10,0]] },
+  equilateral: { label:'정삼각형', pts:[[0,-58],[50,29],[-50,29]], ticks:[1,1,1], rightAngles:[] },
+  isosceles:   { label:'이등변삼각형', pts:[[0,-60],[48,40],[-48,40]], ticks:[1,0,1], rightAngles:[] },
+  right:       { label:'직각삼각형', pts:[[-50,45],[50,45],[-50,-45]], ticks:[0,0,0], rightAngles:[0] },
+  obtuse:      { label:'둔각삼각형', pts:[[-55,30],[60,25],[-10,0]], ticks:[0,0,0], rightAngles:[] },
 };
 const QUAD_SHAPES = {
-  square:        { label:'정사각형', pts:[[-45,-45],[45,-45],[45,45],[-45,45]] },
-  rectangle:     { label:'직사각형', pts:[[-62,-34],[62,-34],[62,34],[-62,34]] },
-  parallelogram: { label:'평행사변형', pts:[[-55,-30],[35,-30],[55,30],[-35,30]] },
-  rhombus:       { label:'마름모', pts:[[0,-58],[48,0],[0,58],[-48,0]] },
-  trapezoid:     { label:'사다리꼴', pts:[[-30,-40],[30,-40],[58,38],[-58,38]] },
+  square:        { label:'정사각형', pts:[[-45,-45],[45,-45],[45,45],[-45,45]], ticks:[1,1,1,1], rightAngles:[0,1,2,3] },
+  rectangle:     { label:'직사각형', pts:[[-62,-34],[62,-34],[62,34],[-62,34]], ticks:[1,2,1,2], rightAngles:[0,1,2,3] },
+  parallelogram: { label:'평행사변형', pts:[[-55,-30],[35,-30],[55,30],[-35,30]], ticks:[1,2,1,2], rightAngles:[] },
+  rhombus:       { label:'마름모', pts:[[0,-58],[48,0],[0,58],[-48,0]], ticks:[1,1,1,1], rightAngles:[] },
+  trapezoid:     { label:'사다리꼴', pts:[[-30,-40],[30,-40],[58,38],[-58,38]], ticks:[0,1,0,1], rightAngles:[] },
 };
 
 function transformPoints(pts, rotDeg, scale, cx, cy){
@@ -151,6 +163,49 @@ function transformPoints(pts, rotDeg, scale, cx, cy){
     const ry = sx*Math.sin(rad) + sy*Math.cos(rad);
     return [cx+rx, cy+ry];
   });
+}
+
+// 변의 중점에 등변 표시(짧은 사선)를 개수만큼 그려서 길이가 같은 변을 표시
+function tickMarksSVG(pix, tickCounts, color){
+  let svg = '';
+  const n = pix.length;
+  for(let i=0;i<n;i++){
+    const count = tickCounts[i];
+    if(!count) continue;
+    const [x1,y1] = pix[i], [x2,y2] = pix[(i+1)%n];
+    const mx=(x1+x2)/2, my=(y1+y2)/2;
+    const dx=x2-x1, dy=y2-y1;
+    const len=Math.sqrt(dx*dx+dy*dy) || 1;
+    const ux=dx/len, uy=dy/len;   // 변 방향 단위벡터
+    const px=-uy, py=ux;          // 수직 단위벡터
+    const tickLen=7, gap=6;
+    for(let t=0;t<count;t++){
+      const offset=(t-(count-1)/2)*gap;
+      const cx=mx+ux*offset, cy=my+uy*offset;
+      svg += `<line x1="${cx-px*tickLen}" y1="${cy-py*tickLen}" x2="${cx+px*tickLen}" y2="${cy+py*tickLen}" stroke="${color}" stroke-width="2.5" stroke-linecap="round"></line>`;
+    }
+  }
+  return svg;
+}
+
+// 꼭짓점에서 만나는 두 변이 직각(90°)임을 뜻하는 작은 사각형 기호를 그림
+function rightAngleMarksSVG(pix, indices, color, size){
+  let svg = '';
+  const n = pix.length;
+  indices.forEach(i=>{
+    const [cx,cy] = pix[i];
+    const [px1,py1] = pix[(i-1+n)%n];
+    const [nx1,ny1] = pix[(i+1)%n];
+    const d1x=px1-cx, d1y=py1-cy, len1=Math.sqrt(d1x*d1x+d1y*d1y)||1;
+    const d2x=nx1-cx, d2y=ny1-cy, len2=Math.sqrt(d2x*d2x+d2y*d2y)||1;
+    const u1x=d1x/len1*size, u1y=d1y/len1*size;
+    const u2x=d2x/len2*size, u2y=d2y/len2*size;
+    const p1x=cx+u1x, p1y=cy+u1y;
+    const cornerX=cx+u1x+u2x, cornerY=cy+u1y+u2y;
+    const p2x=cx+u2x, p2y=cy+u2y;
+    svg += `<polyline points="${p1x},${p1y} ${cornerX},${cornerY} ${p2x},${p2y}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linejoin="miter"></polyline>`;
+  });
+  return svg;
 }
 
 const quizSvg = document.getElementById('quizSvg');
@@ -176,7 +231,9 @@ function newQuizQuestion(){
   const scale = 0.85 + Math.random()*0.3;
   const pix = transformPoints(shape.pts, rot, scale, 100, 100);
   const color = family==='triangle' ? 'var(--coral)' : 'var(--violet)';
-  quizSvg.innerHTML = `<polygon points="${pix.map(p=>p.join(',')).join(' ')}" fill="${color}" fill-opacity="0.35" stroke="${color}" stroke-width="3"></polygon>`;
+  const ticksSvg = tickMarksSVG(pix, shape.ticks, 'var(--ink)');
+  const rightAngleSvg = rightAngleMarksSVG(pix, shape.rightAngles || [], 'var(--ink)', 12);
+  quizSvg.innerHTML = `<polygon points="${pix.map(p=>p.join(',')).join(' ')}" fill="${color}" fill-opacity="0.35" stroke="${color}" stroke-width="3"></polygon>${ticksSvg}${rightAngleSvg}`;
 
   const options = keys.map(k=>({key:k, label:bank[k].label})).sort(()=>Math.random()-0.5);
   quizOpts.innerHTML = options.map(o=>`<button class="opt-btn" data-k="${o.key}">${o.label}</button>`).join('');
