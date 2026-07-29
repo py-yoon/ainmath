@@ -107,7 +107,6 @@ const seqRow = document.getElementById('seqRow');
 const resultNum = document.getElementById('resultNum');
 const factBox = document.getElementById('fact');
 
-const PHI = (1+Math.sqrt(5))/2;
 const palette = ['var(--teal)','var(--blue)','var(--violet)','var(--green)','var(--coral)'];
 
 // 숫자 마지막 자리 발음에 맞춰 로/으로를 골라주는 헬퍼
@@ -144,6 +143,32 @@ function buildSquares(fib){
   return {squares, box:{bx,by,bw,bh}};
 }
 
+// 정사각형 하나마다 정확히 그 정사각형의 모서리에서 시작해 이웃 모서리로 끝나는
+// 사분원(90°) 호를 이어 붙여요. 각 호의 중심·시작점·끝점은 모두 그 정사각형의
+// 실제 꼭짓점이라서, buildSquares()가 만든 사각형과 항상 정확히 들어맞아요.
+function buildSpiralArcs(fib){
+  const arcs = [];
+  let bx=0, by=0, bw=fib[0], bh=fib[0];
+  {
+    const f = fib[1];
+    const entry=[bx+bw,by], center=[bx+bw,by+bh], exit=[bx+bw+f,by+bh];
+    arcs.push({center, entry, exit, r:f});
+    bw += f;
+  }
+  let d = 1;
+  for(let i=2;i<fib.length;i++){
+    const f = fib[i];
+    let entry, center, exit;
+    if(d===0){ entry=[bx+bw,by]; center=[bx+bw,by+bh]; exit=[bx+bw+f,by+bh]; bw+=f; }
+    else if(d===1){ entry=[bx+bw,by+bh]; center=[bx,by+bh]; exit=[bx,by+bh+f]; bh+=f; }
+    else if(d===2){ entry=[bx,by+bh]; center=[bx,by]; exit=[bx-f,by]; bx-=f; bw+=f; }
+    else { entry=[bx,by]; center=[bx+bw,by]; exit=[bx+bw,by-f]; by-=f; bh+=f; }
+    arcs.push({center, entry, exit, r:f});
+    d = (d+1)%4;
+  }
+  return arcs;
+}
+
 function render(){
   const n = parseInt(sliderN.value);
   nLabel.textContent = n;
@@ -177,19 +202,15 @@ function render(){
     }
   });
 
-  // 로그 나선 (근사) — 두 개의 단위 정사각형이 만나는 안쪽 점(1,1)을 중심으로
-  const centerLocal = [1,1];
-  const [ccx,ccy] = toSvg(centerLocal[0], centerLocal[1]);
-  const thetaMax = (n-1) * Math.PI/2;
-  let path = '';
-  const steps = 200;
-  for(let i=0;i<=steps;i++){
-    const theta = (thetaMax) * (i/steps);
-    const r = 0.42 * Math.pow(PHI, 2*theta/Math.PI) * scale;
-    const px = ccx + r*Math.cos(theta);
-    const py = ccy - r*Math.sin(theta);
-    path += (i===0?'M':'L') + px.toFixed(1) + ',' + py.toFixed(1) + ' ';
-  }
+  // 나선 — 정사각형마다 정확히 그 모서리에서 시작해 이웃 모서리로 끝나는 사분원 호를 이어 붙여요.
+  const arcs = buildSpiralArcs(fib);
+  const [startX,startY] = toSvg(arcs[0].entry[0], arcs[0].entry[1]);
+  let path = `M ${startX.toFixed(1)},${startY.toFixed(1)} `;
+  arcs.forEach(arc=>{
+    const [ex,ey] = toSvg(arc.exit[0], arc.exit[1]);
+    const r = arc.r * scale;
+    path += `A ${r.toFixed(1)},${r.toFixed(1)} 0 0 1 ${ex.toFixed(1)},${ey.toFixed(1)} `;
+  });
   html += `<path d="${path}" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"></path>`;
 
   svg.innerHTML = html;

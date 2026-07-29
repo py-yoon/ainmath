@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>업다운 숫자야구 실험실</title>
+<title>숫자야구 실험실</title>
 <meta name="description" content="스트라이크·볼 힌트를 모아 컴퓨터가 정한 비밀 번호를 추리해봐요.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,7 +44,7 @@ h1 span{color:var(--coral);}
 .num-btn{width:50px;height:50px;border-radius:12px;background:var(--ink);color:#fff;border:none;font-family:'Do Hyeon',sans-serif;font-size:20px;cursor:pointer;transition:all .15s ease;}
 .num-btn:hover:not(:disabled){background:var(--teal);}
 .num-btn:disabled{opacity:0.3;cursor:default;}
-.num-btn.erase{background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.num-btn.erase{width:auto;padding:0 18px;background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);}
 .num-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
 .action-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:20px;}
 .action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
@@ -57,6 +57,7 @@ h1 span{color:var(--coral);}
 .history-row .guess-num{letter-spacing:4px;color:var(--ink);}
 .history-row .result{color:var(--ink-soft);font-size:13px;}
 .history-row .result b{color:var(--teal);}
+.history-row .result b.ball{color:var(--coral);}
 .fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);text-align:center;width:100%;max-width:600px;}
 .fact b{color:var(--violet);}
 .fact.win{background:var(--green-soft);}
@@ -70,7 +71,7 @@ footer{max-width:900px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;t
     <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
     <a href="article-number-baseball.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
   </div>
-  <span class="eyebrow">⚾ 업다운 숫자야구 실험실</span>
+  <span class="eyebrow">⚾ 숫자야구 실험실</span>
   <h1>서로 다른 숫자로 된<br>비밀 번호를 <span>추리</span>해보세요</h1>
   <p class="sub">컴퓨터가 서로 다른 숫자로 비밀 번호를 정했어요. 숫자를 하나씩 넣어보면 "스트라이크(숫자와 자리 모두 맞음)"와 "볼(숫자는 맞지만 자리가 틀림)"을 알려줘요. 힌트를 모아서 논리적으로 좁혀보세요!</p>
 
@@ -188,7 +189,7 @@ function renderHistory(){
   historyEl.innerHTML = history.map(h=>`
     <div class="history-row">
       <span class="guess-num">${h.guess.join(' ')}</span>
-      <span class="result"><b>${h.strike}</b>스트라이크 · ${h.ball}볼${h.strike===0&&h.ball===0?' · 아웃':''}</span>
+      <span class="result"><b>${h.strike}</b>스트라이크 · <b class="ball">${h.ball}</b>볼${h.strike===0&&h.ball===0?' · 아웃':''}</span>
     </div>
   `).join('');
 }

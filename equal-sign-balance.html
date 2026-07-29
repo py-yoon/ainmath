@@ -166,18 +166,30 @@ const exprLine = document.getElementById('exprLine');
 const signLine = document.getElementById('signLine');
 const scaleFact = document.getElementById('scaleFact');
 
-function drawScale(leftSum, rightVal){
+function drawScale(A, B, rightVal){
+  const leftSum = A+B;
   const tilt = Math.max(-20, Math.min(20, (leftSum-rightVal)*3));
   const cx=150, cy=60;
   const leftX=70, rightX=230;
   const leftY = cy+tilt, rightY = cy-tilt;
   let html = `<polygon points="${cx-14},${cy+18} ${cx+14},${cy+18} ${cx},${cy}" fill="var(--ink-soft)"></polygon>`;
   html += `<line x1="${leftX}" y1="${leftY}" x2="${rightX}" y2="${rightY}" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"></line>`;
-  html += `<rect x="${leftX-24}" y="${leftY+8}" width="48" height="30" rx="6" fill="var(--coral)"></rect>`;
-  html += `<text x="${leftX}" y="${leftY+28}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="#fff">${leftSum}</text>`;
+
+  // 왼쪽 접시: 가(A)와 나(B) 두 개의 추를 나란히 매달아요
+  const boxW=34, boxH=28, gap=4;
+  const box1X = leftX - (boxW*2+gap)/2;
+  const box2X = box1X + boxW + gap;
+  html += `<line x1="${box1X+boxW/2}" y1="${leftY}" x2="${box1X+boxW/2}" y2="${leftY+8}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+  html += `<line x1="${box2X+boxW/2}" y1="${leftY}" x2="${box2X+boxW/2}" y2="${leftY+8}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+  html += `<rect x="${box1X}" y="${leftY+8}" width="${boxW}" height="${boxH}" rx="6" fill="var(--coral)"></rect>`;
+  html += `<text x="${box1X+boxW/2}" y="${leftY+8+boxH/2+5}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="#fff">${A}</text>`;
+  html += `<rect x="${box2X}" y="${leftY+8}" width="${boxW}" height="${boxH}" rx="6" fill="var(--coral)"></rect>`;
+  html += `<text x="${box2X+boxW/2}" y="${leftY+8+boxH/2+5}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="#fff">${B}</text>`;
+  html += `<text x="${box1X+boxW/2}" y="${leftY+8+boxH+14}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">가</text>`;
+  html += `<text x="${box2X+boxW/2}" y="${leftY+8+boxH+14}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">나</text>`;
+
   html += `<rect x="${rightX-24}" y="${rightY+8}" width="48" height="30" rx="6" fill="var(--blue)"></rect>`;
   html += `<text x="${rightX}" y="${rightY+28}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="#fff">${rightVal}</text>`;
-  html += `<line x1="${leftX}" y1="${leftY}" x2="${leftX}" y2="${leftY+8}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
   html += `<line x1="${rightX}" y1="${rightY}" x2="${rightX}" y2="${rightY+8}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
   scaleSvg.innerHTML = html;
 }
@@ -186,7 +198,7 @@ function renderScale(){
   const A = parseInt(sliderA.value), B = parseInt(sliderB.value), R = parseInt(sliderR.value);
   valA.textContent = A; valB.textContent = B; valR.textContent = R;
   const leftSum = A+B;
-  drawScale(leftSum, R);
+  drawScale(A, B, R);
   exprLine.textContent = `${A} + ${B} ⚖ ${R}`;
   if(leftSum===R){
     signLine.textContent = '=';
