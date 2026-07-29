@@ -9,6 +9,10 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/article-clock-reading.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/article-coin-dice-probability.html</loc>
     <priority>0.5</priority>
   </url>
@@ -21,11 +25,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/article-cuboid-surface-volume.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/article-cylinder-cone-volume.html</loc>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://ainmath.com/article-divisors.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-equation-balance.html</loc>
     <priority>0.5</priority>
   </url>
   <url>
@@ -37,7 +49,27 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/article-frequency-table.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-game-24.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/article-gcd-lcm.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-geoboard-area.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-hanoi-tower.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-integer-number-line.html</loc>
     <priority>0.5</priority>
   </url>
   <url>
@@ -45,11 +77,51 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/article-lines-angles-basics.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-magic-square.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-make-ten.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/article-mean-median-mode.html</loc>
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/article-measurement-estimate.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-mini-sudoku.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-multiplication-array.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-number-baseball.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-number-range-rounding.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-parallel-angles.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/article-pascals-triangle.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-pattern-finder.html</loc>
     <priority>0.5</priority>
   </url>
   <url>
@@ -61,7 +133,23 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/article-pictogram-graph.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-pie-chart.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-place-value-blocks.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/article-polygon-angle-sum.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-polygon-name-quiz.html</loc>
     <priority>0.5</priority>
   </url>
   <url>
@@ -70,6 +158,10 @@
   </url>
   <url>
     <loc>https://ainmath.com/article-proportion-inverse.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-protractor-measure.html</loc>
     <priority>0.5</priority>
   </url>
   <url>
@@ -85,7 +177,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/article-shape-classify.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-shape-finder.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/article-similarity-congruence.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-tangram-puzzle.html</loc>
     <priority>0.5</priority>
   </url>
   <url>
@@ -93,7 +197,23 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/article-time-calculator.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-trig-ratios.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-water-jug-puzzle.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/circle-area.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/clock-reading.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
@@ -113,11 +233,23 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/cuboid-surface-volume.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/curriculum-map.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/cylinder-cone-volume.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://ainmath.com/divisor-finder.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/equation-balance.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
@@ -129,7 +261,23 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/frequency-table.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/game-24.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/gcd-lcm.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/geoboard-area.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/hanoi-tower.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
@@ -137,7 +285,23 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/integer-number-line.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/linear-function-graph.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/lines-angles-basics.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/magic-square.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/make-ten.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
@@ -145,7 +309,35 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/measurement-estimate.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/mini-sudoku.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/multiplication-array.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/number-baseball.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/number-range-rounding.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/parallel-angles.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/pascal-triangle.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/pattern-finder.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
@@ -157,7 +349,23 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/pictogram-graph.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/pie-chart.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/place-value-blocks.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/polygon-angle-sum.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/polygon-name-quiz.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
@@ -173,6 +381,10 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/protractor-measure.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/pythagorean-theorem.html</loc>
     <priority>0.8</priority>
   </url>
@@ -185,7 +397,19 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/shape-classify.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/shape-finder.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/similarity-congruence.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/tangram-puzzle.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
@@ -194,6 +418,18 @@
   </url>
   <url>
     <loc>https://ainmath.com/tessellation.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/time-calculator.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/trig-ratios.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/water-jug-puzzle.html</loc>
     <priority>0.8</priority>
   </url>
 </urlset>

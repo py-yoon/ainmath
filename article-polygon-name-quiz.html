@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>변의 개수가 이름을 정해요 — 다각형 이야기 | 아인매스</title>
+<meta name="description" content="변이 3개면 삼각형, 4개면 사각형. 다각형의 이름은 변의 개수가 정하고, 볼록·오목은 또 다른 기준으로 나뉘어요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:760px;margin:0 auto;}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-soft);text-decoration:none;margin-bottom:18px;}
+.back-link:hover{color:var(--violet);}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,40px);line-height:1.3;margin:0 0 14px;}
+h1 span{color:var(--violet);}
+.sub{color:var(--ink-soft);font-size:16.5px;line-height:1.75;margin:0 0 30px;}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;}
+.cta{font-family:'Do Hyeon',sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:999px;transition:all .15s ease;}
+.cta.primary{background:var(--violet);color:#fff;}
+.cta.primary:hover{filter:brightness(1.06);}
+.cta.secondary{background:var(--card);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.cta.secondary:hover{border-color:var(--violet);color:var(--violet);}
+article{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:clamp(24px,5vw,44px);}
+h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:22px;color:var(--ink);margin:34px 0 14px;}
+h2:first-child{margin-top:0;}
+h2 .num{color:var(--violet);margin-right:8px;}
+p{font-size:15.5px;line-height:1.85;color:var(--ink);margin:0 0 16px;}
+p:last-child{margin-bottom:0;}
+.example{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px 20px;margin:18px 0;text-align:center;}
+.example .eq{font-family:'Do Hyeon',sans-serif;font-size:18px;margin-bottom:8px;}
+.example p{font-size:14.5px;color:var(--ink-soft);margin:8px 0 0;}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0;}
+.grid4 .box{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:10px 8px;font-size:13.5px;line-height:1.5;text-align:center;}
+.grid4 .box b{display:block;font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--violet);margin-bottom:4px;}
+.callout{background:var(--violet-soft);border-radius:16px;padding:18px 20px;margin:18px 0;font-size:14.5px;line-height:1.75;color:var(--ink);}
+.callout b{color:var(--violet);}
+.tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
+.tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.tip-list b{color:var(--violet);}
+footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+.footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
+.footer-nav a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 목록으로 돌아가기</a>
+  <span class="eyebrow">🔺 설명 글</span>
+  <h1>변의 개수가<br><span>이름을 정해요</span></h1>
+  <p class="sub">삼각형, 사각형, 오각형… 다각형의 이름은 사실 아주 간단한 규칙 하나로 정해져요. 바로 변이 몇 개인지 세는 것이에요.</p>
+
+  <div class="cta-row">
+    <a class="cta primary" href="polygon-name-quiz.html">🎮 다각형 이름 맞추기 체험하기</a>
+    <a class="cta secondary" href="index.html">📚 다른 주제도 보기</a>
+  </div>
+
+  <article>
+    <h2><span class="num">1</span>변이 n개면, n각형이에요</h2>
+    <p>다각형은 곧은 선분들로 둘러싸인 도형이에요. 이름은 변의 개수를 그대로 따라가요. 변이 5개면 오각형, 6개면 육각형이 되는 식이죠. 그리고 변의 개수와 꼭짓점의 개수는 항상 같아요.</p>
+    <div class="grid4">
+      <div class="box"><b>3</b>삼각형</div>
+      <div class="box"><b>4</b>사각형</div>
+      <div class="box"><b>5</b>오각형</div>
+      <div class="box"><b>6</b>육각형</div>
+      <div class="box"><b>7</b>칠각형</div>
+      <div class="box"><b>8</b>팔각형</div>
+      <div class="box"><b>9</b>구각형</div>
+      <div class="box"><b>10</b>십각형</div>
+    </div>
+
+    <h2><span class="num">2</span>정다각형은 변과 각이 모두 똑같아요</h2>
+    <p>변의 길이가 모두 같고, 각의 크기도 모두 같은 다각형을 <b>정다각형</b>이라고 해요. 정삼각형, 정사각형처럼요. 체험 페이지에서 변의 개수를 바꿔가며 만들어보는 도형이 바로 이 정다각형이에요.</p>
+
+    <h2><span class="num">3</span>볼록과 오목은 또 다른 기준이에요</h2>
+    <p>변의 개수와 상관없이, 다각형은 <b>볼록다각형</b>과 <b>오목다각형</b>으로도 나눌 수 있어요. 어느 방향으로도 안쪽으로 움푹 들어간 곳이 없으면 볼록다각형, 화살표처럼 한 군데라도 움푹 들어간 곳이 있으면 오목다각형이에요.</p>
+    <div class="example">
+      <div class="eq">볼록다각형 vs 오목다각형</div>
+      <p>모든 정다각형은 볼록다각형이에요. 하지만 오목다각형은 정다각형이 될 수 없어요.</p>
+    </div>
+    <div class="callout">
+      <b>확인하는 방법이 있어요.</b><br>
+      다각형의 어느 두 점을 골라 선으로 이었을 때, 그 선이 도형 바깥으로 나가면 오목다각형, 항상 도형 안에만 있으면 볼록다각형이에요.
+    </div>
+
+    <h2><span class="num">4</span>이렇게 놀아보세요</h2>
+    <ul class="tip-list">
+      <li><b>변의 개수를 하나씩 늘려보세요.</b> 변이 늘어날수록 정다각형의 모양이 원에 점점 가까워지는 걸 확인해보세요.</li>
+      <li><b>이름 맞히기 퀴즈에 도전해보세요.</b> 도형을 보자마자 변의 개수를 세지 않고도 이름을 맞힐 수 있는지 연습해보세요.</li>
+      <li><b>볼록·오목을 구분해보세요.</b> 두 점을 잇는 선이 도형 밖으로 나가는지 상상하면서 판단해보세요.</li>
+    </ul>
+  </article>
+
+  <footer>
+    <p>다각형 이름 맞추기로 돌아가서 슬라이더와 퀴즈를 직접 풀어보세요.</p>
+    <nav class="footer-nav">
+      <a href="index.html">전체 목록</a>·<a href="polygon-name-quiz.html">다각형 이름 맞추기</a>·<a href="about.html">소개</a>·<a href="contact.html">문의하기</a>
+    </nav>
+  </footer>
+</div>
+</body>
+</html>

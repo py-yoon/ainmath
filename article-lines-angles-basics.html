@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>만나거나, 만나지 않거나 — 두 직선 이야기 | 아인매스</title>
+<meta name="description" content="두 직선을 그리면 늘 평행이거나, 수직이거나, 아니면 그냥 만나요. 이 세 가지를 가르는 기준이 무엇인지 알아봐요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:760px;margin:0 auto;}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-soft);text-decoration:none;margin-bottom:18px;}
+.back-link:hover{color:var(--violet);}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,40px);line-height:1.3;margin:0 0 14px;}
+h1 span{color:var(--violet);}
+.sub{color:var(--ink-soft);font-size:16.5px;line-height:1.75;margin:0 0 30px;}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;}
+.cta{font-family:'Do Hyeon',sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:999px;transition:all .15s ease;}
+.cta.primary{background:var(--violet);color:#fff;}
+.cta.primary:hover{filter:brightness(1.06);}
+.cta.secondary{background:var(--card);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.cta.secondary:hover{border-color:var(--violet);color:var(--violet);}
+article{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:clamp(24px,5vw,44px);}
+h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:22px;color:var(--ink);margin:34px 0 14px;}
+h2:first-child{margin-top:0;}
+h2 .num{color:var(--violet);margin-right:8px;}
+p{font-size:15.5px;line-height:1.85;color:var(--ink);margin:0 0 16px;}
+p:last-child{margin-bottom:0;}
+.example{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px 20px;margin:18px 0;text-align:center;}
+.example .eq{font-family:'Do Hyeon',sans-serif;font-size:18px;margin-bottom:8px;}
+.example p{font-size:14.5px;color:var(--ink-soft);margin:8px 0 0;}
+.grid4{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0;}
+.grid4 .box{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.6;text-align:center;}
+.grid4 .box b{display:block;font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--violet);margin-bottom:4px;}
+.callout{background:var(--violet-soft);border-radius:16px;padding:18px 20px;margin:18px 0;font-size:14.5px;line-height:1.75;color:var(--ink);}
+.callout b{color:var(--violet);}
+.tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
+.tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.tip-list b{color:var(--violet);}
+footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+.footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
+.footer-nav a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 목록으로 돌아가기</a>
+  <span class="eyebrow">📏 설명 글</span>
+  <h1>두 직선을 그리면<br><span>세 가지 중 하나</span>가 돼요</h1>
+  <p class="sub">책상 모서리, 창문 틀, 도로의 가로줄과 세로줄 — 우리 주변의 두 직선은 늘 평행이거나 수직이거나, 아니면 그냥 만나요.</p>
+
+  <div class="cta-row">
+    <a class="cta primary" href="lines-angles-basics.html">🎮 직선과 각의 관계 체험하기</a>
+    <a class="cta secondary" href="index.html">📚 다른 주제도 보기</a>
+  </div>
+
+  <article>
+    <h2><span class="num">1</span>평행은 "절대 만나지 않는" 관계예요</h2>
+    <p>두 직선이 아무리 길게 늘어나도 어느 지점에서도 만나지 않는다면, 이 두 직선은 <b>평행</b>이에요. 두 직선 사이의 간격이 처음부터 끝까지 항상 똑같기 때문에 만날 일이 없어요.</p>
+
+    <h2><span class="num">2</span>수직은 "직각으로 만나는" 관계예요</h2>
+    <p>두 직선이 만나서 생기는 각이 정확히 90°(직각)일 때, 이 두 직선은 <b>수직</b>이라고 해요. 평행과 달리 수직인 두 직선은 실제로 한 점에서 만나요. 다만 그 만나는 방식이 아주 반듯할 뿐이에요.</p>
+    <div class="example">
+      <div class="eq">각도 = 90° → 수직</div>
+      <p>체험 페이지에서 슬라이더를 90°에 딱 맞추면, 두 직선이 만드는 모양이 확 달라지는 게 보여요.</p>
+    </div>
+
+    <h2><span class="num">3</span>그 외에는 그냥 "만난다"고만 해요</h2>
+    <p>각도가 90°도 아니고, 평행하지도 않다면 특별한 이름 없이 그냥 "두 직선이 만난다"고 표현해요. 두 직선의 관계에 이름이 붙는 경우는 딱 평행과 수직, 이 두 가지뿐이에요.</p>
+    <div class="grid4">
+      <div class="box"><b>평행</b>영원히 만나지 않음</div>
+      <div class="box"><b>수직</b>90°로 만남</div>
+      <div class="box"><b>그 외</b>이름 없이 그냥 만남</div>
+    </div>
+
+    <h2><span class="num">4</span>기준이 되는 건 오직 "각도"예요</h2>
+    <p>두 직선의 관계를 정하는 건 오직 하나, 두 직선이 만나는 각도예요. 각도가 0°(또는 180°)면 평행, 90°면 수직, 그 사이 어디쯤이면 그냥 만나는 관계가 돼요.</p>
+    <div class="callout">
+      <b>주변에서 찾아보세요.</b><br>
+      책의 가로줄과 세로줄, 사다리의 가로대와 기둥, 신호등 기둥과 도로 — 모두 평행 또는 수직 관계를 이루고 있어요.
+    </div>
+
+    <h2><span class="num">5</span>이렇게 놀아보세요</h2>
+    <ul class="tip-list">
+      <li><b>슬라이더를 아주 천천히 움직여보세요.</b> 각도가 90°에 가까워질 때와 멀어질 때, 관계 표시가 언제 바뀌는지 확인해보세요.</li>
+      <li><b>평행 상태를 만들어보세요.</b> 두 직선이 절대 만나지 않는 각도가 어디인지 찾아보세요.</li>
+      <li><b>관계 맞히기 퀴즈에 도전해보세요.</b> 각도만 보고 평행·수직·그 외를 바로 구분할 수 있는지 연습해보세요.</li>
+    </ul>
+  </article>
+
+  <footer>
+    <p>직선과 각의 관계로 돌아가서 슬라이더를 직접 움직여보세요.</p>
+    <nav class="footer-nav">
+      <a href="index.html">전체 목록</a>·<a href="lines-angles-basics.html">직선과 각의 관계</a>·<a href="about.html">소개</a>·<a href="contact.html">문의하기</a>
+    </nav>
+  </footer>
+</div>
+</body>
+</html>
