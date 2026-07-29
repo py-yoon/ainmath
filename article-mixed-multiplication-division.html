@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나누어서 계산하면 쉬워져요 — 곱셈과 나눗셈 이야기 | 아인매스</title>
+<meta name="description" content="두 자리 수 곱셈은 자릿값별로 나누어 계산하면 쉬워지고, 나눗셈은 몇 묶음이 되고 얼마가 남는지로 이해할 수 있어요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:760px;margin:0 auto;}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-soft);text-decoration:none;margin-bottom:18px;}
+.back-link:hover{color:var(--coral);}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,40px);line-height:1.3;margin:0 0 14px;}
+h1 span{color:var(--coral);}
+.sub{color:var(--ink-soft);font-size:16.5px;line-height:1.75;margin:0 0 30px;}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;}
+.cta{font-family:'Do Hyeon',sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:999px;transition:all .15s ease;}
+.cta.primary{background:var(--coral);color:#fff;}
+.cta.primary:hover{filter:brightness(1.06);}
+.cta.secondary{background:var(--card);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.cta.secondary:hover{border-color:var(--coral);color:var(--coral);}
+article{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:clamp(24px,5vw,44px);}
+h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:22px;color:var(--ink);margin:34px 0 14px;}
+h2:first-child{margin-top:0;}
+h2 .num{color:var(--coral);margin-right:8px;}
+p{font-size:15.5px;line-height:1.85;color:var(--ink);margin:0 0 16px;}
+p:last-child{margin-bottom:0;}
+.example{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px 20px;margin:18px 0;text-align:center;}
+.example .eq{font-family:'Do Hyeon',sans-serif;font-size:17px;margin-bottom:8px;}
+.example p{font-size:14.5px;color:var(--ink-soft);margin:8px 0 0;}
+.callout{background:var(--coral-soft);border-radius:16px;padding:18px 20px;margin:18px 0;font-size:14.5px;line-height:1.75;color:var(--ink);}
+.callout b{color:var(--coral);}
+.tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
+.tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.tip-list b{color:var(--coral);}
+footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+.footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
+.footer-nav a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 목록으로 돌아가기</a>
+  <span class="eyebrow">✖️ 설명 글</span>
+  <h1>큰 수는<br><span>나누어서 계산</span>하면 쉬워요</h1>
+  <p class="sub">34 × 6처럼 두 자리 수 곱셈이 어렵게 느껴진다면, 34를 30과 4로 나누어 각각 계산한 다음 더해보세요. 훨씬 쉬워져요.</p>
+
+  <div class="cta-row">
+    <a class="cta primary" href="mixed-multiplication-division.html">🎮 곱셈과 나눗셈 체험하기</a>
+    <a class="cta secondary" href="index.html">📚 다른 주제도 보기</a>
+  </div>
+
+  <article>
+    <h2><span class="num">1</span>두 자리 수는 자릿값으로 쪼갤 수 있어요</h2>
+    <p>34는 사실 30과 4를 더한 수예요. 이렇게 자릿값별로 쪼개서 곱셈을 하면, 큰 수 곱셈도 작은 곱셈 두 번으로 나눌 수 있어요.</p>
+    <div class="example">
+      <div class="eq">34 × 6 = (30 × 6) + (4 × 6) = 180 + 24 = 204</div>
+      <p>30×6과 4×6은 구구단으로 쉽게 계산할 수 있는 곱셈이에요.</p>
+    </div>
+
+    <h2><span class="num">2</span>두 자리 수끼리 곱할 때도 같은 방법을 써요</h2>
+    <p>곱하는 수도 두 자리라면, 그 수도 자릿값으로 쪼개서 곱한 다음 더해요. 세로셈에서 "한 줄씩 곱해서 더하는" 이유가 바로 이거예요.</p>
+    <div class="example">
+      <div class="eq">34 × 27 = (34 × 7) + (34 × 20) = 238 + 680 = 918</div>
+      <p>먼저 곱하는 수의 일의 자리와 곱하고, 그다음 십의 자리와 곱해서 더해요.</p>
+    </div>
+
+    <h2><span class="num">3</span>나눗셈은 "몇 묶음이 되는지"를 찾는 거예요</h2>
+    <p>38 ÷ 7은 "38개를 7개씩 묶으면 몇 묶음이 되고, 얼마가 남을까?"를 묻는 거예요. 7개씩 묶다 보면 5묶음(35개)을 만들고 3개가 남아요.</p>
+    <div class="example">
+      <div class="eq">38 ÷ 7 = 5 ... 3</div>
+      <p>몫은 5, 나머지는 3이에요.</p>
+    </div>
+
+    <h2><span class="num">4</span>검산으로 답이 맞는지 확인할 수 있어요</h2>
+    <div class="callout">
+      <b>몫 × 나누는 수 + 나머지 = 나누어지는 수</b><br>
+      38 ÷ 7 = 5 … 3이 맞다면, 7 × 5 + 3 = 38이 성립해야 해요. 이렇게 거꾸로 계산해보면 답이 맞는지 확인할 수 있어요.
+    </div>
+
+    <h2><span class="num">5</span>이렇게 놀아보세요</h2>
+    <ul class="tip-list">
+      <li><b>슬라이더로 다른 숫자를 만들어보세요.</b> 두 자리 수와 곱하는 수를 바꿔가며 부분곱이 어떻게 달라지는지 확인해보세요.</li>
+      <li><b>나눗셈 격자를 세어보세요.</b> 보라색 칸이 몇 묶음인지, 주황색 칸(나머지)이 몇 개인지 직접 세어보고 화면의 답과 비교해보세요.</li>
+      <li><b>검산식을 직접 계산해보세요.</b> 몫과 나머지를 구한 다음, 검산식으로 원래 수가 나오는지 확인해보세요.</li>
+    </ul>
+  </article>
+
+  <footer>
+    <p>곱셈과 나눗셈으로 돌아가서 슬라이더를 직접 움직여보세요.</p>
+    <nav class="footer-nav">
+      <a href="index.html">전체 목록</a>·<a href="mixed-multiplication-division.html">곱셈과 나눗셈</a>·<a href="about.html">소개</a>·<a href="contact.html">문의하기</a>
+    </nav>
+  </footer>
+</div>
+</body>
+</html>

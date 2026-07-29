@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>자연수의 혼합 계산 실험실</title>
+<meta name="description" content="괄호, 곱셈·나눗셈, 덧셈·뺄셈 중 어떤 걸 먼저 계산해야 할까요? 버튼을 눌러 계산 순서를 한 단계씩 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --green:#4CAF8E; --green-soft:#E3F5EE;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+.howto{background:var(--coral-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--coral);}
+
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
+.preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;}
+.preset-btn:hover{border-color:var(--coral);color:var(--coral);}
+.preset-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+.expr-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:32px 20px;text-align:center;margin-bottom:18px;}
+.expr-text{font-family:'Do Hyeon',sans-serif;font-size:clamp(24px,5vw,34px);color:var(--ink);letter-spacing:0.02em;}
+.expr-text mark{background:var(--coral-soft);color:var(--coral);border-radius:8px;padding:2px 8px;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
+.step-note{font-size:14.5px;color:var(--ink-soft);margin-top:14px;min-height:22px;}
+.step-note b{color:var(--coral);}
+
+.controls{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 20px;cursor:pointer;transition:background .2s ease;}
+.action-btn:hover{background:var(--coral);}
+.action-btn:disabled{background:var(--paper-line);color:var(--ink-soft);cursor:not-allowed;}
+.action-btn.ghost{background:var(--card);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.action-btn.ghost:hover{border-color:var(--coral);color:var(--coral);}
+
+.rule-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0 0;}
+@media (max-width:640px){ .rule-grid{grid-template-columns:1fr;} }
+.rule-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14px;line-height:1.6;}
+.rule-box b{display:block;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--coral);margin-bottom:4px;}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--coral);}
+.quiz-expr{font-family:'Do Hyeon',sans-serif;font-size:clamp(20px,4vw,26px);text-align:center;background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:20px;margin-bottom:16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--coral);color:var(--coral);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green);color:var(--green);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral);color:var(--coral);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">🔢 자연수의 혼합 계산 실험실</span>
+  <h1>어디부터 계산해야 할까?<br><span>순서를 한 단계씩</span> 확인해요</h1>
+  <p class="sub">덧셈, 뺄셈, 곱셈, 나눗셈, 괄호가 뒤섞여 있을 때는 아무 순서로나 계산하면 안 돼요. 버튼을 눌러 어떤 부분을 먼저 계산해야 하는지 하나씩 확인해보세요.</p>
+
+  <div class="howto">
+    <p><b>계산 순서</b>: ① 괄호 안 → ② 곱셈·나눗셈 (왼쪽부터) → ③ 덧셈·뺄셈 (왼쪽부터) 순서로 계산해요.</p>
+  </div>
+
+  <div class="stage">
+    <div class="preset-row" id="presetRow"></div>
+    <div class="expr-box">
+      <div class="expr-text" id="exprText"></div>
+      <div class="step-note" id="stepNote"></div>
+    </div>
+    <div class="controls">
+      <button class="action-btn ghost" id="resetBtn">↺ 처음부터</button>
+      <button class="action-btn" id="nextStepBtn">➡ 다음 단계</button>
+    </div>
+    <div class="rule-grid">
+      <div class="rule-box"><b>① 괄호</b>가장 먼저, 안쪽부터 계산해요.</div>
+      <div class="rule-box"><b>② 곱셈 · 나눗셈</b>괄호 다음, 왼쪽부터 순서대로 계산해요.</div>
+      <div class="rule-box"><b>③ 덧셈 · 뺄셈</b>맨 마지막, 왼쪽부터 순서대로 계산해요.</div>
+    </div>
+  </div>
+
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 먼저 계산할 부분 찾기 퀴즈</h2>
+      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+    </div>
+    <div class="quiz-expr" id="quizExpr"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <div class="controls" style="margin-top:14px;">
+      <button class="action-btn" id="nextQuizBtn">➡ 다음 문제</button>
+    </div>
+  </div>
+
+  <footer>괄호 → 곱셈·나눗셈 → 덧셈·뺄셈. 이 순서만 기억하면 아무리 복잡한 식도 차근차근 풀 수 있어요.</footer>
+</div>
+
+<script>
+// 각 문제는 미리 계산해 둔 "단계별 화면"의 배열이에요. 단계마다 다음에 계산할 부분을 <mark>로 표시해요.
+const PROBLEMS = [
+  {
+    label:'12 + 8 × 3',
+    stages: [
+      { html:'12 + <mark>8 × 3</mark>', note:'곱셈·나눗셈이 덧셈·뺄셈보다 먼저예요. 8 × 3 = 24' },
+      { html:'<mark>12 + 24</mark>', note:'이제 남은 덧셈을 계산해요. 12 + 24 = 36' },
+      { html:'36', note:'✅ 계산 완료!' },
+    ]
+  },
+  {
+    label:'(12 + 8) × 3',
+    stages: [
+      { html:'<mark>(12 + 8)</mark> × 3', note:'괄호 안을 가장 먼저 계산해요. 12 + 8 = 20' },
+      { html:'<mark>20 × 3</mark>', note:'이제 곱셈을 계산해요. 20 × 3 = 60' },
+      { html:'60', note:'✅ 계산 완료!' },
+    ]
+  },
+  {
+    label:'20 - 12 ÷ 4',
+    stages: [
+      { html:'20 - <mark>12 ÷ 4</mark>', note:'나눗셈이 뺄셈보다 먼저예요. 12 ÷ 4 = 3' },
+      { html:'<mark>20 - 3</mark>', note:'이제 남은 뺄셈을 계산해요. 20 - 3 = 17' },
+      { html:'17', note:'✅ 계산 완료!' },
+    ]
+  },
+  {
+    label:'6 × 4 ÷ 2',
+    stages: [
+      { html:'<mark>6 × 4</mark> ÷ 2', note:'곱셈과 나눗셈은 같은 순위라서 왼쪽부터 계산해요. 6 × 4 = 24' },
+      { html:'<mark>24 ÷ 2</mark>', note:'이제 남은 나눗셈을 계산해요. 24 ÷ 2 = 12' },
+      { html:'12', note:'✅ 계산 완료!' },
+    ]
+  },
+  {
+    label:'(5 + 3) × (10 - 6)',
+    stages: [
+      { html:'<mark>(5 + 3)</mark> × (10 - 6)', note:'괄호가 두 개면 왼쪽 괄호부터 계산해요. 5 + 3 = 8' },
+      { html:'8 × <mark>(10 - 6)</mark>', note:'이제 남은 괄호를 계산해요. 10 - 6 = 4' },
+      { html:'<mark>8 × 4</mark>', note:'마지막으로 곱셈을 계산해요. 8 × 4 = 32' },
+      { html:'32', note:'✅ 계산 완료!' },
+    ]
+  },
+  {
+    label:'50 ÷ 5 + 6 × 2',
+    stages: [
+      { html:'<mark>50 ÷ 5</mark> + 6 × 2', note:'곱셈·나눗셈은 왼쪽부터. 먼저 50 ÷ 5 = 10' },
+      { html:'10 + <mark>6 × 2</mark>', note:'다음 곱셈을 계산해요. 6 × 2 = 12' },
+      { html:'<mark>10 + 12</mark>', note:'마지막으로 덧셈을 계산해요. 10 + 12 = 22' },
+      { html:'22', note:'✅ 계산 완료!' },
+    ]
+  },
+];
+
+const presetRow = document.getElementById('presetRow');
+const exprText = document.getElementById('exprText');
+const stepNote = document.getElementById('stepNote');
+const nextStepBtn = document.getElementById('nextStepBtn');
+const resetBtn = document.getElementById('resetBtn');
+
+let problemIdx = 0, stageIdx = 0;
+
+function buildPresets(){
+  presetRow.innerHTML = PROBLEMS.map((p,i)=>`<button class="preset-btn" data-i="${i}">${p.label}</button>`).join('');
+  presetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      problemIdx = parseInt(btn.dataset.i);
+      stageIdx = 0;
+      renderStage();
+    });
+  });
+}
+
+function renderStage(){
+  presetRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===problemIdx));
+  const p = PROBLEMS[problemIdx];
+  const s = p.stages[stageIdx];
+  exprText.innerHTML = s.html;
+  stepNote.innerHTML = s.note;
+  nextStepBtn.disabled = stageIdx >= p.stages.length-1;
+  nextStepBtn.textContent = stageIdx >= p.stages.length-1 ? '✅ 끝까지 계산했어요' : '➡ 다음 단계';
+}
+
+nextStepBtn.addEventListener('click', ()=>{
+  const p = PROBLEMS[problemIdx];
+  if(stageIdx < p.stages.length-1){ stageIdx++; renderStage(); }
+});
+resetBtn.addEventListener('click', ()=>{ stageIdx = 0; renderStage(); });
+
+buildPresets();
+renderStage();
+
+// ---------- 퀴즈 ----------
+const QUIZ_POOL = [
+  { html:'7 + 3 × <b>5</b>', highlight:'3 × 5', options:['7 + 3','3 × 5','전체를 한 번에'], answer:'3 × 5' },
+  { html:'(9 - 4) × 6', highlight:'9 - 4', options:['9 - 4','4 × 6','전체를 한 번에'], answer:'9 - 4' },
+  { html:'18 ÷ 2 - 3', highlight:'18 ÷ 2', options:['18 ÷ 2','2 - 3','오른쪽부터'], answer:'18 ÷ 2' },
+  { html:'4 × 3 + 2 × 5', highlight:'4 × 3', options:['4 × 3 (왼쪽 곱셈)','2 × 5 (오른쪽 곱셈)','3 + 2'], answer:'4 × 3 (왼쪽 곱셈)' },
+  { html:'(2 + 6) ÷ (5 - 1)', highlight:'왼쪽 괄호', options:['왼쪽 괄호 (2+6)','오른쪽 괄호 (5-1)','나눗셈부터'], answer:'왼쪽 괄호 (2+6)' },
+  { html:'30 - 4 × 5 + 1', highlight:'4 × 5', options:['30 - 4','4 × 5','5 + 1'], answer:'4 × 5' },
+];
+
+const quizExpr = document.getElementById('quizExpr');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextQuizBtn = document.getElementById('nextQuizBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+const triesNumEl = document.getElementById('triesNum');
+let score = 0, tries = 0, answered = false, currentQuiz = null;
+
+function newQuizQuestion(){
+  answered = false;
+  quizFeedback.textContent = '';
+  currentQuiz = QUIZ_POOL[Math.floor(Math.random()*QUIZ_POOL.length)];
+  quizExpr.innerHTML = currentQuiz.html;
+  const opts = [...currentQuiz.options].sort(()=>Math.random()-0.5);
+  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${o}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered = true;
+      tries++;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      if(btn.dataset.o===currentQuiz.answer){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 맞았어요! 가장 먼저 계산할 부분은 "${currentQuiz.answer}"예요. (정답 ${score} / 시도 ${tries})`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${currentQuiz.answer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `아쉬워요! 정답은 "${currentQuiz.answer}"였어요. (정답 ${score} / 시도 ${tries})`;
+      }
+      scoreNumEl.textContent = score;
+      triesNumEl.textContent = tries;
+    });
+  });
+}
+
+nextQuizBtn.addEventListener('click', newQuizQuestion);
+newQuizQuestion();
+</script>
+</body>
+</html>

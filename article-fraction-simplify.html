@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>크기는 그대로, 숫자만 간단하게 — 약분과 통분 이야기 | 아인매스</title>
+<meta name="description" content="약분은 분수를 더 간단한 숫자로, 통분은 분모를 같게 맞추는 것이에요. 두 방법 모두 분수의 실제 크기는 그대로 유지돼요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:760px;margin:0 auto;}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-soft);text-decoration:none;margin-bottom:18px;}
+.back-link:hover{color:var(--coral);}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,40px);line-height:1.3;margin:0 0 14px;}
+h1 span{color:var(--coral);}
+.sub{color:var(--ink-soft);font-size:16.5px;line-height:1.75;margin:0 0 30px;}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;}
+.cta{font-family:'Do Hyeon',sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:999px;transition:all .15s ease;}
+.cta.primary{background:var(--coral);color:#fff;}
+.cta.primary:hover{filter:brightness(1.06);}
+.cta.secondary{background:var(--card);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.cta.secondary:hover{border-color:var(--coral);color:var(--coral);}
+article{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:clamp(24px,5vw,44px);}
+h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:22px;color:var(--ink);margin:34px 0 14px;}
+h2:first-child{margin-top:0;}
+h2 .num{color:var(--coral);margin-right:8px;}
+p{font-size:15.5px;line-height:1.85;color:var(--ink);margin:0 0 16px;}
+p:last-child{margin-bottom:0;}
+.example{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px 20px;margin:18px 0;text-align:center;}
+.example .eq{font-family:'Do Hyeon',sans-serif;font-size:18px;margin-bottom:8px;}
+.example p{font-size:14.5px;color:var(--ink-soft);margin:8px 0 0;}
+.callout{background:var(--coral-soft);border-radius:16px;padding:18px 20px;margin:18px 0;font-size:14.5px;line-height:1.75;color:var(--ink);}
+.callout b{color:var(--coral);}
+.tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
+.tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.tip-list b{color:var(--coral);}
+footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+.footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
+.footer-nav a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 목록으로 돌아가기</a>
+  <span class="eyebrow">🍰 설명 글</span>
+  <h1>숫자는 바뀌어도<br><span>크기는 그대로</span>예요</h1>
+  <p class="sub">8/12과 2/3은 완전히 다른 숫자처럼 보이지만, 사실 똑같은 크기의 분수예요. 약분과 통분은 이런 "같은 크기, 다른 표현"을 다루는 방법이에요.</p>
+
+  <div class="cta-row">
+    <a class="cta primary" href="fraction-simplify.html">🎮 약분과 통분 체험하기</a>
+    <a class="cta secondary" href="index.html">📚 다른 주제도 보기</a>
+  </div>
+
+  <article>
+    <h2><span class="num">1</span>약분은 분자와 분모를 같은 수로 나누는 거예요</h2>
+    <p>분수의 분자와 분모를 <b>둘 다 똑같은 수</b>로 나누면, 숫자는 작아지지만 분수가 나타내는 크기는 전혀 변하지 않아요. 이렇게 더 간단한 분수로 만드는 걸 약분이라고 해요.</p>
+    <div class="example">
+      <div class="eq">8/12 → (8÷4)/(12÷4) → 2/3</div>
+      <p>8과 12를 둘 다 4로 나누면 2/3이 돼요. 막대 그림에서 색칠된 부분의 비율은 똑같아요.</p>
+    </div>
+
+    <h2><span class="num">2</span>최대공약수로 나누면 한 번에 가장 간단해져요</h2>
+    <p>분자와 분모를 조금씩 나눠도 되지만, 둘의 <b>최대공약수</b>로 한 번에 나누면 더 이상 나눌 수 없는 가장 간단한 분수가 바로 나와요. 최대공약수가 1이면, 그 분수는 이미 가장 간단한 상태예요.</p>
+
+    <h2><span class="num">3</span>통분은 분모를 같게 맞추는 거예요</h2>
+    <p>분모가 다른 분수는 크기를 바로 비교하기 어려워요. 그래서 분자와 분모에 <b>똑같은 수</b>를 곱해서, 두 분수의 분모를 같게 만들어요. 이 과정을 통분이라고 해요.</p>
+    <div class="example">
+      <div class="eq">1/3 = 4/12, 1/4 = 3/12</div>
+      <p>3과 4의 최소공배수인 12를 공통분모로 삼으면, 두 분수를 같은 기준으로 비교할 수 있어요.</p>
+    </div>
+
+    <h2><span class="num">4</span>최소공배수로 맞추면 숫자가 가장 작아요</h2>
+    <p>공통분모는 사실 두 분모의 공배수라면 뭐든 될 수 있어요. 하지만 <b>최소공배수</b>로 맞추면 숫자가 가장 작아져서 계산이 훨씬 편해져요.</p>
+    <div class="callout">
+      <b>약분과 통분은 반대 방향의 작업이에요.</b><br>
+      약분은 분모를 작게 만들고, 통분은 분모를 필요에 맞게 키워요. 하지만 둘 다 분자와 분모에 "같은 수"를 곱하거나 나눈다는 점은 똑같아요.
+    </div>
+
+    <h2><span class="num">5</span>이렇게 놀아보세요</h2>
+    <ul class="tip-list">
+      <li><b>슬라이더로 분모를 계속 바꿔보세요.</b> 최대공약수가 1일 때와 아닐 때, 화면 설명이 어떻게 달라지는지 확인해보세요.</li>
+      <li><b>통분 전후 막대를 비교해보세요.</b> 분모가 달랐을 때는 비교하기 어려웠던 두 분수가, 통분 후에는 어떻게 한눈에 비교되는지 살펴보세요.</li>
+      <li><b>퀴즈에서 암산으로 먼저 풀어보세요.</b> 화면을 보기 전에 스스로 약분·통분을 해보고, 정답과 비교해보세요.</li>
+    </ul>
+  </article>
+
+  <footer>
+    <p>약분과 통분으로 돌아가서 슬라이더와 막대 그림을 직접 움직여보세요.</p>
+    <nav class="footer-nav">
+      <a href="index.html">전체 목록</a>·<a href="fraction-simplify.html">약분과 통분</a>·<a href="about.html">소개</a>·<a href="contact.html">문의하기</a>
+    </nav>
+  </footer>
+</div>
+</body>
+</html>

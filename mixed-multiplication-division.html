@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>곱셈과 나눗셈 실험실</title>
+<meta name="description" content="두 자리 수 곱셈을 자릿값으로 나누어 계산하는 원리와, 나머지가 있는 나눗셈의 몫과 나머지를 눈으로 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --green:#4CAF8E; --green-soft:#E3F5EE;
+  --amber:#D97706; --amber-soft:#FEF0D9;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.section-title{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink);margin:0 0 16px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
+
+.mode-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.mode-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;}
+.mode-btn:hover{border-color:var(--coral);color:var(--coral);}
+.mode-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+.slider-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.slider-row label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);min-width:110px;}
+.slider-row input[type=range]{flex:1;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:17px;color:var(--coral);min-width:40px;text-align:right;}
+
+.equation-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:22px;text-align:center;margin:16px 0;}
+.equation-box .line{font-family:'Do Hyeon',sans-serif;font-size:clamp(18px,3.6vw,23px);color:var(--ink);margin:6px 0;}
+.equation-box .line .a{color:var(--violet);}
+.equation-box .line .b{color:var(--blue);}
+.equation-box .line .total{color:var(--green);}
+
+.fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--coral);}
+
+.division-grid{display:grid;gap:4px;max-width:360px;margin:16px auto;justify-content:center;}
+.division-grid .cell{width:22px;height:22px;border-radius:5px;}
+.division-grid .cell.group{background:var(--violet);}
+.division-grid .cell.rest{background:var(--amber);}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--coral);}
+.quiz-q{font-size:17px;line-height:1.7;text-align:center;background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:20px;margin-bottom:16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--coral);color:var(--coral);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green);color:var(--green);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral);color:var(--coral);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
+.action-btn:hover{background:var(--coral);}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">✖️ 곱셈과 나눗셈 실험실</span>
+  <h1>큰 수의 곱셈과 나눗셈,<br><span>나누어서 계산</span>해보아요</h1>
+  <p class="sub">두 자리 수 곱셈은 자릿값별로 나누어 계산하면 쉬워져요. 나눗셈은 몇 묶음이 되고 얼마가 남는지로 이해할 수 있어요.</p>
+
+  <div class="stage">
+    <div class="section-title">✖️ 곱셈 — 자릿값으로 나누어 곱하기</div>
+    <div class="mode-row" id="multModeRow"></div>
+    <div class="slider-row">
+      <label id="multLabelA">두 자리 수</label>
+      <input type="range" id="multSliderA" min="10" max="99" value="34">
+      <span class="val" id="multValA">34</span>
+    </div>
+    <div class="slider-row">
+      <label id="multLabelB">곱하는 수</label>
+      <input type="range" id="multSliderB" min="2" max="9" value="6">
+      <span class="val" id="multValB">6</span>
+    </div>
+    <div class="equation-box" id="multEquationBox"></div>
+    <div class="fact" id="multFact"></div>
+  </div>
+
+  <div class="stage">
+    <div class="section-title">➗ 나눗셈 — 몫과 나머지</div>
+    <div class="slider-row">
+      <label>나누어지는 수</label>
+      <input type="range" id="divSliderA" min="10" max="99" value="38">
+      <span class="val" id="divValA">38</span>
+    </div>
+    <div class="slider-row">
+      <label>나누는 수</label>
+      <input type="range" id="divSliderB" min="2" max="9" value="7">
+      <span class="val" id="divValB">7</span>
+    </div>
+    <div class="division-grid" id="divGrid"></div>
+    <div class="equation-box" id="divEquationBox"></div>
+    <div class="fact" id="divFact"></div>
+  </div>
+
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 곱셈·나눗셈 퀴즈</h2>
+      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+    </div>
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextQuizBtn">➡ 다음 문제</button>
+  </div>
+
+  <footer>몫 × 나누는 수 + 나머지 = 나누어지는 수. 이 식으로 나눗셈이 맞았는지 항상 검산할 수 있어요.</footer>
+</div>
+
+<script>
+function randInt(min,max){ return min + Math.floor(Math.random()*(max-min+1)); }
+function distractors(answer, count){
+  const opts = new Set([answer]);
+  let guard = 0;
+  while(opts.size < count+1 && guard < 200){
+    guard++;
+    const delta = randInt(-30,30);
+    if(delta!==0 && answer+delta>0) opts.add(answer+delta);
+  }
+  let extra = 1;
+  while(opts.size < count+1){ opts.add(answer+extra); extra++; }
+  return [...opts];
+}
+
+// ---------- 곱셈 ----------
+let multMode = 'oneDigit'; // oneDigit | twoDigit
+const multModeRow = document.getElementById('multModeRow');
+const multLabelA = document.getElementById('multLabelA');
+const multLabelB = document.getElementById('multLabelB');
+const multSliderA = document.getElementById('multSliderA');
+const multSliderB = document.getElementById('multSliderB');
+const multValA = document.getElementById('multValA');
+const multValB = document.getElementById('multValB');
+const multEquationBox = document.getElementById('multEquationBox');
+const multFact = document.getElementById('multFact');
+
+function buildMultModes(){
+  multModeRow.innerHTML = `
+    <button class="mode-btn" data-m="oneDigit">두 자리 × 한 자리</button>
+    <button class="mode-btn" data-m="twoDigit">두 자리 × 두 자리</button>
+  `;
+  multModeRow.querySelectorAll('.mode-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      multMode = btn.dataset.m;
+      if(multMode==='twoDigit'){ multSliderB.min=10; multSliderB.max=99; if(multSliderB.value<10) multSliderB.value=24; }
+      else { multSliderB.min=2; multSliderB.max=9; if(multSliderB.value>9) multSliderB.value=6; }
+      renderMult();
+    });
+  });
+}
+
+function renderMult(){
+  multModeRow.querySelectorAll('.mode-btn').forEach(b=>b.classList.toggle('active', b.dataset.m===multMode));
+  const AB = parseInt(multSliderA.value);
+  const other = parseInt(multSliderB.value);
+  multValA.textContent = AB; multValB.textContent = other;
+  multLabelA.textContent = '두 자리 수';
+  multLabelB.textContent = multMode==='oneDigit' ? '곱하는 한 자리 수' : '곱하는 두 자리 수';
+
+  if(multMode==='oneDigit'){
+    const tens = Math.floor(AB/10)*10, ones = AB%10, C = other;
+    const p1 = tens*C, p2 = ones*C, total = p1+p2;
+    multEquationBox.innerHTML = `
+      <div class="line">${AB} × ${C} = (<span class="a">${tens}</span> × ${C}) + (<span class="b">${ones}</span> × ${C})</div>
+      <div class="line">= <span class="a">${p1}</span> + <span class="b">${p2}</span></div>
+      <div class="line total">= ${total}</div>
+    `;
+    multFact.innerHTML = `${AB}를 <b>${tens}</b>과 <b>${ones}</b>로 나누어, 각각 ${C}를 곱한 다음 더하면 ${total}이 돼요.`;
+  } else {
+    const CD = other;
+    const cTens = Math.floor(CD/10)*10, dOnes = CD%10;
+    const p1 = AB*dOnes, p2 = AB*cTens, total = p1+p2;
+    multEquationBox.innerHTML = `
+      <div class="line">${AB} × ${CD} = (${AB} × <span class="a">${dOnes}</span>) + (${AB} × <span class="b">${cTens}</span>)</div>
+      <div class="line">= <span class="a">${p1}</span> + <span class="b">${p2}</span></div>
+      <div class="line total">= ${total}</div>
+    `;
+    multFact.innerHTML = `${CD}를 <b>${cTens}</b>과 <b>${dOnes}</b>로 나누어, ${AB}에 각각 곱한 다음 더하면 ${total}이 돼요.`;
+  }
+}
+
+multSliderA.addEventListener('input', renderMult);
+multSliderB.addEventListener('input', renderMult);
+buildMultModes();
+multModeRow.querySelector('[data-m="oneDigit"]').classList.add('active');
+renderMult();
+
+// ---------- 나눗셈 ----------
+const divSliderA = document.getElementById('divSliderA');
+const divSliderB = document.getElementById('divSliderB');
+const divValA = document.getElementById('divValA');
+const divValB = document.getElementById('divValB');
+const divGrid = document.getElementById('divGrid');
+const divEquationBox = document.getElementById('divEquationBox');
+const divFact = document.getElementById('divFact');
+
+function renderDiv(){
+  const dividend = parseInt(divSliderA.value);
+  const divisor = parseInt(divSliderB.value);
+  divValA.textContent = dividend; divValB.textContent = divisor;
+
+  const quotient = Math.floor(dividend/divisor);
+  const remainder = dividend % divisor;
+
+  divGrid.style.gridTemplateColumns = `repeat(${divisor}, 22px)`;
+  let cells = '';
+  for(let i=0;i<quotient*divisor;i++) cells += `<div class="cell group"></div>`;
+  for(let i=0;i<remainder;i++) cells += `<div class="cell rest"></div>`;
+  divGrid.innerHTML = cells;
+
+  divEquationBox.innerHTML = `
+    <div class="line">${dividend} ÷ ${divisor} = <span class="a">${quotient}</span> ... <span class="b">${remainder}</span></div>
+    <div class="line total">${divisor} × ${quotient} + ${remainder} = ${divisor*quotient+remainder}</div>
+  `;
+  divFact.innerHTML = remainder===0
+    ? `${dividend}는 ${divisor}로 나누어떨어져요. 몫은 <b>${quotient}</b>이고 나머지는 없어요.`
+    : `${divisor}개씩 <b>${quotient}묶음</b>을 만들고 나면, <b>${remainder}개</b>가 남아요.`;
+}
+
+divSliderA.addEventListener('input', renderDiv);
+divSliderB.addEventListener('input', renderDiv);
+renderDiv();
+
+// ---------- 퀴즈 ----------
+const quizQ = document.getElementById('quizQ');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextQuizBtn = document.getElementById('nextQuizBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+const triesNumEl = document.getElementById('triesNum');
+let score = 0, tries = 0, answered = false, quizAnswer = 0;
+
+function newQuizQuestion(){
+  answered = false;
+  quizFeedback.textContent = '';
+  const isMult = Math.random() < 0.5;
+
+  if(isMult){
+    const AB = randInt(11,98);
+    const C = randInt(2,9);
+    const tens = Math.floor(AB/10)*10, ones = AB%10;
+    const total = AB*C;
+    quizAnswer = total;
+    quizQ.innerHTML = `${AB} × ${C} = (${tens} × ${C}) + (${ones} × ${C})<br>이 식을 계산하면 답은 얼마일까요?`;
+    const opts = distractors(total,3).sort(()=>Math.random()-0.5);
+    quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${o}</button>`).join('');
+  } else {
+    const divisor = randInt(2,9);
+    const quotient = randInt(2,12);
+    const remainder = randInt(0,divisor-1);
+    const dividend = divisor*quotient+remainder;
+    quizAnswer = `${quotient}...${remainder}`;
+    quizQ.innerHTML = `${dividend} ÷ ${divisor}의 몫과 나머지는?`;
+    const wrongOpts = new Set([quizAnswer]);
+    while(wrongOpts.size<4){
+      const wq = Math.max(0, quotient + randInt(-2,2));
+      const wr = randInt(0, divisor-1);
+      const cand = `${wq}...${wr}`;
+      if(cand!==quizAnswer) wrongOpts.add(cand);
+    }
+    const opts = [...wrongOpts].sort(()=>Math.random()-0.5);
+    quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${o.replace('...',' … ')}</button>`).join('');
+  }
+
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered = true;
+      tries++;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      if(btn.dataset.o==String(quizAnswer)){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `아쉬워요! 정답은 ${String(quizAnswer).replace('...',' … ')}였어요. (정답 ${score} / 시도 ${tries})`;
+      }
+      scoreNumEl.textContent = score;
+      triesNumEl.textContent = tries;
+    });
+  });
+}
+
+nextQuizBtn.addEventListener('click', newQuizQuestion);
+newQuizQuestion();
+</script>
+</body>
+</html>

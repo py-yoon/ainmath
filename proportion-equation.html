@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>비례식과 비례배분 실험실</title>
+<meta name="description" content="비례식을 세워 모르는 값을 구하고, 정해진 비로 전체를 나누는 비례배분을 슬라이더로 직접 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --green:#4CAF8E; --green-soft:#E3F5EE;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.section-title{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink);margin:0 0 16px;display:flex;align-items:center;gap:8px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
+
+.preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;}
+.preset-btn:hover{border-color:var(--coral);color:var(--coral);}
+.preset-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+.slider-row{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+.slider-row label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);min-width:90px;}
+.slider-row input[type=range]{flex:1;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--coral);min-width:56px;text-align:right;}
+
+.equation-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:24px;text-align:center;margin-bottom:16px;}
+.equation-box .expr{font-family:'Do Hyeon',sans-serif;font-size:clamp(22px,4.5vw,30px);color:var(--ink);}
+.equation-box .expr .unknown{color:var(--coral);}
+.equation-box .check{font-size:14.5px;color:var(--ink-soft);margin-top:12px;}
+.equation-box .check b{color:var(--green);}
+
+.fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--coral);}
+
+.bar-total{display:flex;height:44px;border-radius:10px;overflow:hidden;border:2px solid var(--paper-line);margin:18px 0 10px;}
+.bar-total .part1{background:var(--coral);display:flex;align-items:center;justify-content:center;font-family:'Do Hyeon',sans-serif;color:#fff;font-size:14px;}
+.bar-total .part2{background:var(--blue);display:flex;align-items:center;justify-content:center;font-family:'Do Hyeon',sans-serif;color:#fff;font-size:14px;}
+.total-label{text-align:center;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);margin-bottom:14px;}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--coral);}
+.quiz-q{font-size:15.5px;line-height:1.7;text-align:center;background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:20px;margin-bottom:16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--coral);color:var(--coral);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green);color:var(--green);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral);color:var(--coral);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
+.action-btn:hover{background:var(--coral);}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">⚖️ 비례식과 비례배분 실험실</span>
+  <h1>같은 비율을 <span>유지</span>하며<br>모르는 값을 <span>구해보아요</span></h1>
+  <p class="sub">비례식은 두 비가 같다는 걸 이용해 모르는 값을 구하는 식이고, 비례배분은 전체를 정해진 비로 나누는 것이에요.</p>
+
+  <div class="stage">
+    <div class="section-title">🧮 비례식 — 모르는 값 구하기</div>
+    <div class="preset-row" id="ratioPresetRow"></div>
+    <div class="slider-row">
+      <label>배율 (k)</label>
+      <input type="range" id="kSlider" min="1" max="8" value="3" step="1">
+      <span class="val" id="kVal">3</span>
+    </div>
+    <div class="equation-box">
+      <div class="expr" id="propExpr"></div>
+      <div class="check" id="propCheck"></div>
+    </div>
+    <div class="fact" id="propFact"></div>
+  </div>
+
+  <div class="stage">
+    <div class="section-title">🍬 비례배분 — 정해진 비로 나누기</div>
+    <div class="preset-row" id="splitPresetRow"></div>
+    <div class="slider-row">
+      <label>전체 양</label>
+      <input type="range" id="totalSlider" min="5" max="50" value="20" step="5">
+      <span class="val" id="totalVal">20</span>
+    </div>
+    <div class="total-label" id="totalLabel"></div>
+    <div class="bar-total" id="splitBar"></div>
+    <div class="fact" id="splitFact"></div>
+  </div>
+
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 비례식·비례배분 퀴즈</h2>
+      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+    </div>
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextQuizBtn">➡ 다음 문제</button>
+  </div>
+
+  <footer>비례식에서는 "바깥쪽 두 수를 곱한 값"과 "안쪽 두 수를 곱한 값"이 항상 같아요. 이걸 외항과 내항의 곱이 같다고 해요.</footer>
+</div>
+
+<script>
+function gcd(a,b){ return b===0 ? a : gcd(b, a%b); }
+
+// ---------- 비례식 ----------
+const RATIO_PRESETS = [ [2,3], [3,4], [5,2], [1,4], [4,5], [3,5] ];
+let ratioIdx = 0;
+const ratioPresetRow = document.getElementById('ratioPresetRow');
+const kSlider = document.getElementById('kSlider');
+const kVal = document.getElementById('kVal');
+const propExpr = document.getElementById('propExpr');
+const propCheck = document.getElementById('propCheck');
+const propFact = document.getElementById('propFact');
+
+function buildRatioPresets(){
+  ratioPresetRow.innerHTML = RATIO_PRESETS.map((p,i)=>`<button class="preset-btn" data-i="${i}">${p[0]} : ${p[1]}</button>`).join('');
+  ratioPresetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      ratioIdx = parseInt(btn.dataset.i);
+      renderProportion();
+    });
+  });
+}
+
+function renderProportion(){
+  ratioPresetRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===ratioIdx));
+  const [a,b] = RATIO_PRESETS[ratioIdx];
+  const k = parseInt(kSlider.value);
+  kVal.textContent = k;
+  const c = a*k, d = b*k;
+
+  propExpr.innerHTML = `${a} : ${b} = ${c} : <span class="unknown">${d}</span>`;
+  propCheck.innerHTML = `외항의 곱 ${a}×${d} = <b>${a*d}</b> &nbsp;=&nbsp; 내항의 곱 ${b}×${c} = <b>${b*c}</b>`;
+  propFact.innerHTML = `${a} : ${b}에 똑같이 <b>${k}배</b>를 하면 ${c} : ${d}가 돼요. 비율이 같으니까 외항(${a}, ${d})의 곱과 내항(${b}, ${c})의 곱도 항상 같아요.`;
+}
+
+kSlider.addEventListener('input', renderProportion);
+buildRatioPresets();
+renderProportion();
+
+// ---------- 비례배분 ----------
+const SPLIT_PRESETS = [ [2,3], [1,4], [3,5], [1,1], [3,2] ];
+let splitIdx = 0;
+const splitPresetRow = document.getElementById('splitPresetRow');
+const totalSlider = document.getElementById('totalSlider');
+const totalVal = document.getElementById('totalVal');
+const totalLabel = document.getElementById('totalLabel');
+const splitBar = document.getElementById('splitBar');
+const splitFact = document.getElementById('splitFact');
+
+function buildSplitPresets(){
+  splitPresetRow.innerHTML = SPLIT_PRESETS.map((p,i)=>`<button class="preset-btn" data-i="${i}">${p[0]} : ${p[1]}</button>`).join('');
+  splitPresetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      splitIdx = parseInt(btn.dataset.i);
+      setupTotalSlider();
+      renderSplit();
+    });
+  });
+}
+
+function setupTotalSlider(){
+  const [m,n] = SPLIT_PRESETS[splitIdx];
+  const step = m+n;
+  totalSlider.min = step;
+  totalSlider.max = step*10;
+  totalSlider.step = step;
+  totalSlider.value = step*4;
+}
+
+function renderSplit(){
+  splitPresetRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===splitIdx));
+  const [m,n] = SPLIT_PRESETS[splitIdx];
+  const total = parseInt(totalSlider.value);
+  totalVal.textContent = total;
+  const share1 = total*m/(m+n), share2 = total*n/(m+n);
+
+  totalLabel.textContent = `전체 ${total}개를 ${m} : ${n}로 나누기`;
+  const pct1 = m/(m+n)*100;
+  splitBar.innerHTML = `
+    <div class="part1" style="width:${pct1}%">${share1}개</div>
+    <div class="part2" style="width:${100-pct1}%">${share2}개</div>
+  `;
+  splitFact.innerHTML = `전체를 ${m}+${n} = <b>${m+n}묶음</b>으로 나눈다고 생각하면, 한 묶음은 ${total}÷${m+n} = ${total/(m+n)}개예요. 그래서 ${m}묶음은 ${share1}개, ${n}묶음은 ${share2}개가 돼요.`;
+}
+
+totalSlider.addEventListener('input', renderSplit);
+buildSplitPresets();
+setupTotalSlider();
+renderSplit();
+
+// ---------- 퀴즈 ----------
+const quizQ = document.getElementById('quizQ');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextQuizBtn = document.getElementById('nextQuizBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+const triesNumEl = document.getElementById('triesNum');
+let score = 0, tries = 0, answered = false, quizAnswer = 0;
+
+function randInt(min,max){ return min + Math.floor(Math.random()*(max-min+1)); }
+
+// 정답 근처의 서로 다른 양의 정수 오답들을 안전하게 만들어요 (무한루프 방지용 상한 포함)
+function distractors(answer, count){
+  const opts = new Set([answer]);
+  let guard = 0;
+  while(opts.size < count+1 && guard < 200){
+    guard++;
+    const delta = randInt(-4,4);
+    if(delta!==0 && answer+delta>0) opts.add(answer+delta);
+  }
+  let extra = 1;
+  while(opts.size < count+1){ opts.add(answer+extra); extra++; }
+  return [...opts];
+}
+
+function newQuizQuestion(){
+  answered = false;
+  quizFeedback.textContent = '';
+  const isProportion = Math.random() < 0.5;
+
+  if(isProportion){
+    const [a,b] = RATIO_PRESETS[randInt(0,RATIO_PRESETS.length-1)];
+    const k = randInt(2,6);
+    const c = a*k, d = b*k;
+    quizAnswer = d;
+    quizQ.innerHTML = `${a} : ${b} = ${c} : ▢ 에서, ▢에 들어갈 수는?`;
+    renderOpts(distractors(d,3).sort(()=>Math.random()-0.5), v=>`${v}`);
+  } else {
+    const [m,n] = SPLIT_PRESETS[randInt(0,SPLIT_PRESETS.length-1)];
+    const mult = randInt(2,8);
+    const total = mult*(m+n);
+    const askFirst = Math.random()<0.5;
+    const answer = askFirst ? mult*m : mult*n;
+    quizAnswer = answer;
+    quizQ.innerHTML = `전체 ${total}개를 ${m} : ${n}로 나누면, ${askFirst?'앞쪽':'뒤쪽'} 몫은 몇 개일까요?`;
+    renderOpts(distractors(answer,3).sort(()=>Math.random()-0.5), v=>`${v}개`);
+  }
+}
+
+function renderOpts(opts, formatter){
+  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${formatter(o)}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered = true;
+      tries++;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      if(parseInt(btn.dataset.o)===quizAnswer){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `아쉬워요! 정답은 ${quizAnswer}였어요. (정답 ${score} / 시도 ${tries})`;
+      }
+      scoreNumEl.textContent = score;
+      triesNumEl.textContent = tries;
+    });
+  });
+}
+
+nextQuizBtn.addEventListener('click', newQuizQuestion);
+newQuizQuestion();
+</script>
+</body>
+</html>

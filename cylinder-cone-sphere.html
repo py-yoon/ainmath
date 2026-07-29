@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>원기둥·원뿔·구 실험실</title>
+<meta name="description" content="원기둥, 원뿔, 구를 탭으로 바꿔가며 밑면·옆면·모선 같은 부분의 이름과 전개도를 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --green:#4CAF8E; --green-soft:#E3F5EE;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--violet);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.15fr 0.85fr;gap:32px;align-items:start;margin-bottom:24px;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+.canvas-area{display:flex;flex-direction:column;align-items:center;gap:16px;}
+svg{width:100%;max-width:340px;height:auto;overflow:visible;}
+.tab-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:9px 16px;cursor:pointer;transition:all .15s ease;}
+.tab-btn:hover{border-color:var(--violet);color:var(--violet);}
+.tab-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+.view-row{display:flex;gap:8px;}
+.view-btn{font-family:'Do Hyeon',sans-serif;font-size:13.5px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:7px 14px;cursor:pointer;transition:all .15s ease;}
+.view-btn:hover{border-color:var(--violet);color:var(--violet);}
+.view-btn.active{background:var(--violet);border-color:var(--violet);color:#fff;}
+.panel{display:flex;flex-direction:column;gap:16px;}
+.part-list{display:flex;flex-direction:column;gap:10px;}
+.part-item{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:12px 16px;font-size:14.5px;line-height:1.6;}
+.part-item b{color:var(--violet);}
+.fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--violet);}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--violet);}
+.quiz-q{font-size:15.5px;line-height:1.7;text-align:center;background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:20px;margin-bottom:16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--violet);color:var(--violet);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green);color:var(--green);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral);color:var(--coral);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
+.action-btn:hover{background:var(--violet);}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">🥫 원기둥·원뿔·구 실험실</span>
+  <h1>둥근 입체도형,<br><span>세 가지</span>를 비교해보아요</h1>
+  <p class="sub">원기둥, 원뿔, 구는 모두 둥근 부분을 가진 입체도형이지만, 밑면의 개수와 모양이 서로 달라요.</p>
+
+  <div class="stage">
+    <div class="canvas-area">
+      <div class="tab-row" id="tabRow"></div>
+      <svg id="svg" viewBox="0 0 300 300"></svg>
+      <div class="view-row" id="viewRow"></div>
+    </div>
+
+    <div class="panel">
+      <div class="part-list" id="partList"></div>
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 도형 맞히기 퀴즈</h2>
+      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+    </div>
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextQuizBtn">➡ 다음 문제</button>
+  </div>
+
+  <footer>구는 평평한 면이 하나도 없어서, 종이를 잘라 펼치는 전개도를 그릴 수 없는 특별한 입체도형이에요.</footer>
+</div>
+
+<script>
+const svg = document.getElementById('svg');
+const tabRow = document.getElementById('tabRow');
+const viewRow = document.getElementById('viewRow');
+const partList = document.getElementById('partList');
+const factBox = document.getElementById('fact');
+
+const SHAPES = {
+  cylinder: {
+    label:'원기둥', icon:'🥫',
+    parts:[
+      {name:'밑면', desc:'위와 아래에 있는 합동인 원 2개'},
+      {name:'옆면', desc:'옆을 둘러싼 굽은 면 1개'},
+      {name:'높이', desc:'두 밑면 사이의 거리'},
+    ],
+    fact:'원기둥은 밑면이 2개, 옆면이 굽은 면 1개인 입체도형이에요. 옆면을 펼치면 직사각형이 돼요.'
+  },
+  cone: {
+    label:'원뿔', icon:'🍦',
+    parts:[
+      {name:'밑면', desc:'아래에 있는 원 1개'},
+      {name:'옆면', desc:'옆을 둘러싼 굽은 면 1개'},
+      {name:'모선', desc:'꼭짓점에서 밑면 둘레까지 이은 선분'},
+      {name:'높이', desc:'꼭짓점에서 밑면까지의 거리'},
+    ],
+    fact:'원뿔은 밑면이 1개뿐이고, 옆면이 뾰족한 꼭짓점으로 모여요. 옆면을 펼치면 부채꼴이 돼요.'
+  },
+  sphere: {
+    label:'구', icon:'⚽',
+    parts:[
+      {name:'중심', desc:'구의 한가운데 점'},
+      {name:'반지름', desc:'중심에서 겉면까지의 거리'},
+    ],
+    fact:'구는 평평한 면이 전혀 없는 완전히 둥근 입체도형이에요. 어느 방향에서 잘라도 단면은 항상 원이 돼요.'
+  }
+};
+
+let shapeKey = 'cylinder';
+let view = '3d';
+
+function buildTabs(){
+  tabRow.innerHTML = Object.keys(SHAPES).map(k=>`<button class="tab-btn" data-k="${k}">${SHAPES[k].icon} ${SHAPES[k].label}</button>`).join('');
+  tabRow.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ shapeKey = btn.dataset.k; view='3d'; render(); });
+  });
+}
+function buildViewToggle(){
+  viewRow.innerHTML = `
+    <button class="view-btn" data-v="3d">🧊 입체로 보기</button>
+    <button class="view-btn" data-v="net">📐 전개도로 보기</button>
+  `;
+  viewRow.querySelectorAll('.view-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ view = btn.dataset.v; render(); });
+  });
+}
+
+function draw3D(key){
+  const cx=150;
+  if(key==='cylinder'){
+    const rx=80, ry=22, topY=90, botY=210;
+    return `
+      <line x1="${cx-rx}" y1="${topY}" x2="${cx-rx}" y2="${botY}" stroke="var(--violet)" stroke-width="2.5"></line>
+      <line x1="${cx+rx}" y1="${topY}" x2="${cx+rx}" y2="${botY}" stroke="var(--violet)" stroke-width="2.5"></line>
+      <ellipse cx="${cx}" cy="${botY}" rx="${rx}" ry="${ry}" fill="var(--violet-soft)" stroke="var(--violet)" stroke-width="2.5"></ellipse>
+      <path d="M ${cx-rx} ${topY} A ${rx} ${ry} 0 0 0 ${cx+rx} ${topY}" fill="none" stroke="var(--violet)" stroke-width="2.5" stroke-dasharray="4,4"></path>
+      <path d="M ${cx-rx} ${topY} A ${rx} ${ry} 0 0 1 ${cx+rx} ${topY}" fill="var(--violet-soft)" stroke="var(--violet)" stroke-width="2.5"></path>
+      <line x1="${cx+rx+26}" y1="${topY}" x2="${cx+rx+26}" y2="${botY}" stroke="var(--ink-soft)" stroke-width="1.5" stroke-dasharray="3,3"></line>
+      <text x="${cx+rx+34}" y="${(topY+botY)/2+5}" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink-soft)">높이</text>
+    `;
+  }
+  if(key==='cone'){
+    const rx=80, ry=22, botY=220, apex=[cx,50];
+    return `
+      <line x1="${apex[0]}" y1="${apex[1]}" x2="${cx-rx}" y2="${botY}" stroke="var(--violet)" stroke-width="2.5"></line>
+      <line x1="${apex[0]}" y1="${apex[1]}" x2="${cx+rx}" y2="${botY}" stroke="var(--violet)" stroke-width="2.5"></line>
+      <ellipse cx="${cx}" cy="${botY}" rx="${rx}" ry="${ry}" fill="var(--violet-soft)" stroke="var(--violet)" stroke-width="2.5"></ellipse>
+      <line x1="${cx}" y1="${apex[1]}" x2="${cx}" y2="${botY}" stroke="var(--ink-soft)" stroke-width="1.5" stroke-dasharray="3,3"></line>
+      <circle cx="${apex[0]}" cy="${apex[1]}" r="4" fill="var(--coral)"></circle>
+      <text x="${(apex[0]+cx+rx)/2+14}" y="${(apex[1]+botY)/2-4}" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral)">모선</text>
+    `;
+  }
+  // sphere
+  const r=90;
+  return `
+    <circle cx="${cx}" cy="150" r="${r}" fill="var(--violet-soft)" stroke="var(--violet)" stroke-width="2.5"></circle>
+    <ellipse cx="${cx}" cy="150" rx="${r}" ry="${r*0.3}" fill="none" stroke="var(--violet)" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.7"></ellipse>
+    <line x1="${cx}" y1="150" x2="${cx+r}" y2="150" stroke="var(--coral)" stroke-width="2"></line>
+    <circle cx="${cx}" cy="150" r="4" fill="var(--coral)"></circle>
+    <text x="${cx+r/2-10}" y="142" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral)">반지름</text>
+  `;
+}
+
+function drawNet(key){
+  const cx=150;
+  if(key==='cylinder'){
+    const rectW=170, rectH=80, r=27;
+    const rx0=cx-rectW/2, ry0=90;
+    return `
+      <rect x="${rx0}" y="${ry0}" width="${rectW}" height="${rectH}" fill="var(--violet-soft)" stroke="var(--violet)" stroke-width="2.5" rx="4"></rect>
+      <text x="${cx}" y="${ry0+rectH/2+5}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--violet)">옆면 (직사각형)</text>
+      <circle cx="${cx}" cy="${ry0-r-6}" r="${r}" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2.5"></circle>
+      <text x="${cx}" y="${ry0-r-2}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--blue)">밑면</text>
+      <circle cx="${cx}" cy="${ry0+rectH+r+6}" r="${r}" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2.5"></circle>
+      <text x="${cx}" y="${ry0+rectH+r+10}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--blue)">밑면</text>
+    `;
+  }
+  if(key==='cone'){
+    const R=110, cyc=110;
+    return `
+      <path d="M ${cx} ${cyc} L ${cx} ${cyc-R} A ${R} ${R} 0 0 1 ${cx+R*Math.sin(2.0)} ${cyc-R*Math.cos(2.0)} Z" fill="var(--violet-soft)" stroke="var(--violet)" stroke-width="2.5"></path>
+      <text x="${cx+20}" y="${cyc-30}" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--violet)">옆면 (부채꼴)</text>
+      <circle cx="${cx}" cy="${cyc+70}" r="30" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2.5"></circle>
+      <text x="${cx}" y="${cyc+75}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--blue)">밑면</text>
+    `;
+  }
+  return `<text x="150" y="150" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--ink-soft)">구는 전개도가 없어요</text>`;
+}
+
+function render(){
+  tabRow.querySelectorAll('.tab-btn').forEach(btn=>btn.classList.toggle('active', btn.dataset.k===shapeKey));
+  const netAvailable = shapeKey!=='sphere';
+  viewRow.querySelectorAll('.view-btn').forEach(btn=>{
+    btn.classList.toggle('active', btn.dataset.v===view);
+  });
+
+  svg.innerHTML = view==='3d' ? draw3D(shapeKey) : drawNet(shapeKey);
+
+  const s = SHAPES[shapeKey];
+  partList.innerHTML = s.parts.map(p=>`<div class="part-item"><b>${p.name}</b> — ${p.desc}</div>`).join('');
+  factBox.innerHTML = view==='net' && !netAvailable
+    ? `<b>구는 전개도를 그릴 수 없어요.</b> 평평한 면이 하나도 없어서, 종이를 접어 만들 수 있는 전개도 자체가 존재하지 않아요.`
+    : s.fact;
+}
+
+buildTabs();
+buildViewToggle();
+render();
+
+// ---------- 퀴즈 ----------
+const QUIZ_POOL = [
+  { q:'밑면이 2개이고, 옆면이 굽은 면인 도형은?', a:'원기둥' },
+  { q:'밑면이 1개이고, 뾰족한 꼭짓점이 있는 도형은?', a:'원뿔' },
+  { q:'평평한 면이 하나도 없는 도형은?', a:'구' },
+  { q:'전개도를 펼치면 옆면이 직사각형이 되는 도형은?', a:'원기둥' },
+  { q:'전개도를 펼치면 옆면이 부채꼴이 되는 도형은?', a:'원뿔' },
+  { q:'어느 방향에서 잘라도 단면이 항상 원이 되는 도형은?', a:'구' },
+  { q:'꼭짓점에서 밑면 둘레까지 이은 선분(모선)이 있는 도형은?', a:'원뿔' },
+];
+
+const quizQ = document.getElementById('quizQ');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextQuizBtn = document.getElementById('nextQuizBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+const triesNumEl = document.getElementById('triesNum');
+let score = 0, tries = 0, answered = false, quizAnswer = '';
+
+function newQuizQuestion(){
+  answered = false;
+  quizFeedback.textContent = '';
+  const item = QUIZ_POOL[Math.floor(Math.random()*QUIZ_POOL.length)];
+  quizAnswer = item.a;
+  quizQ.textContent = item.q;
+  const opts = ['원기둥','원뿔','구'].sort(()=>Math.random()-0.5);
+  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${o}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered = true;
+      tries++;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      if(btn.dataset.o===quizAnswer){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `아쉬워요! 정답은 "${quizAnswer}"였어요. (정답 ${score} / 시도 ${tries})`;
+      }
+      scoreNumEl.textContent = score;
+      triesNumEl.textContent = tries;
+    });
+  });
+}
+
+nextQuizBtn.addEventListener('click', newQuizQuestion);
+newQuizQuestion();
+</script>
+</body>
+</html>

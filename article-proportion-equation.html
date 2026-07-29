@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>같은 비율을 유지하며 — 비례식과 비례배분 이야기 | 아인매스</title>
+<meta name="description" content="비례식은 두 비가 같다는 사실을 이용해 모르는 값을 구하고, 비례배분은 전체를 정해진 비로 나눠요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:760px;margin:0 auto;}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-soft);text-decoration:none;margin-bottom:18px;}
+.back-link:hover{color:var(--coral);}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,40px);line-height:1.3;margin:0 0 14px;}
+h1 span{color:var(--coral);}
+.sub{color:var(--ink-soft);font-size:16.5px;line-height:1.75;margin:0 0 30px;}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;}
+.cta{font-family:'Do Hyeon',sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:999px;transition:all .15s ease;}
+.cta.primary{background:var(--coral);color:#fff;}
+.cta.primary:hover{filter:brightness(1.06);}
+.cta.secondary{background:var(--card);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.cta.secondary:hover{border-color:var(--coral);color:var(--coral);}
+article{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:clamp(24px,5vw,44px);}
+h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:22px;color:var(--ink);margin:34px 0 14px;}
+h2:first-child{margin-top:0;}
+h2 .num{color:var(--coral);margin-right:8px;}
+p{font-size:15.5px;line-height:1.85;color:var(--ink);margin:0 0 16px;}
+p:last-child{margin-bottom:0;}
+.example{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px 20px;margin:18px 0;text-align:center;}
+.example .eq{font-family:'Do Hyeon',sans-serif;font-size:18px;margin-bottom:8px;}
+.example p{font-size:14.5px;color:var(--ink-soft);margin:8px 0 0;}
+.callout{background:var(--coral-soft);border-radius:16px;padding:18px 20px;margin:18px 0;font-size:14.5px;line-height:1.75;color:var(--ink);}
+.callout b{color:var(--coral);}
+.tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
+.tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.tip-list b{color:var(--coral);}
+footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+.footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
+.footer-nav a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 목록으로 돌아가기</a>
+  <span class="eyebrow">⚖️ 설명 글</span>
+  <h1>비율을 유지한 채<br><span>모르는 값</span>을 찾아요</h1>
+  <p class="sub">2:3과 4:6은 숫자는 다르지만 같은 비율이에요. 비례식은 이 성질을 이용해서 모르는 값을 찾고, 비례배분은 전체를 정해진 비율대로 나눠요.</p>
+
+  <div class="cta-row">
+    <a class="cta primary" href="proportion-equation.html">🎮 비례식과 비례배분 체험하기</a>
+    <a class="cta secondary" href="index.html">📚 다른 주제도 보기</a>
+  </div>
+
+  <article>
+    <h2><span class="num">1</span>비례식은 "두 비가 같다"는 식이에요</h2>
+    <p>비례식은 2:3 = 4:6처럼 두 비가 같음을 나타내는 식이에요. 앞의 비와 뒤의 비에 똑같은 수를 곱하면 언제나 같은 비율이 유지돼요.</p>
+    <div class="example">
+      <div class="eq">2 : 3 = 4 : ▢</div>
+      <p>2에 2배를 하면 4가 되니까, 3에도 2배를 하면 ▢ = 6이에요.</p>
+    </div>
+
+    <h2><span class="num">2</span>외항의 곱과 내항의 곱은 항상 같아요</h2>
+    <p>비례식 a:b = c:d에서, 바깥쪽에 있는 a와 d를 <b>외항</b>, 안쪽에 있는 b와 c를 <b>내항</b>이라고 해요. 비례식이 성립하면 외항의 곱(a×d)과 내항의 곱(b×c)은 항상 같아요.</p>
+    <div class="example">
+      <div class="eq">2 : 3 = 4 : 6 → 2×6 = 3×4 = 12</div>
+      <p>이 성질을 이용하면, 모르는 값이 있어도 곱셈만으로 답을 구할 수 있어요.</p>
+    </div>
+
+    <h2><span class="num">3</span>비례배분은 "전체를 비대로 나누기"예요</h2>
+    <p>비례배분은 전체 양을 정해진 비로 나누는 거예요. 핵심은 전체를 <b>비의 합만큼의 묶음</b>으로 나눈다고 생각하는 거예요.</p>
+    <div class="example">
+      <div class="eq">사탕 20개를 2:3으로 나누기</div>
+      <p>2+3=5묶음으로 나누면 한 묶음은 20÷5=4개. 그래서 2묶음은 8개, 3묶음은 12개가 돼요.</p>
+    </div>
+
+    <h2><span class="num">4</span>두 개념 모두 "비율은 그대로"가 핵심이에요</h2>
+    <div class="callout">
+      <b>비례식과 비례배분은 같은 아이디어의 다른 활용이에요.</b><br>
+      비례식은 비율을 유지하며 숫자를 늘리거나 줄이는 것이고, 비례배분은 그 비율대로 전체를 쪼개는 것이에요.
+    </div>
+
+    <h2><span class="num">5</span>이렇게 놀아보세요</h2>
+    <ul class="tip-list">
+      <li><b>배율 슬라이더를 바꿔보세요.</b> 배율이 달라져도 외항의 곱과 내항의 곱이 항상 똑같아지는지 확인해보세요.</li>
+      <li><b>비를 바꿔가며 비례배분을 해보세요.</b> 1:1로 나눌 때와 1:4로 나눌 때, 막대 그림이 어떻게 달라지는지 비교해보세요.</li>
+      <li><b>퀴즈에서 곱셈만으로 풀어보세요.</b> 외항의 곱과 내항의 곱이 같다는 성질만 이용해서 빠르게 답을 구해보세요.</li>
+    </ul>
+  </article>
+
+  <footer>
+    <p>비례식과 비례배분으로 돌아가서 슬라이더를 직접 움직여보세요.</p>
+    <nav class="footer-nav">
+      <a href="index.html">전체 목록</a>·<a href="proportion-equation.html">비례식과 비례배분</a>·<a href="about.html">소개</a>·<a href="contact.html">문의하기</a>
+    </nav>
+  </footer>
+</div>
+</body>
+</html>

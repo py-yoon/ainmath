@@ -5,7 +5,15 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/article-bar-line-graph.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/article-circle-area.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-classify-objects.html</loc>
     <priority>0.5</priority>
   </url>
   <url>
@@ -17,6 +25,10 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/article-comparison-basics.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/article-congruence-conditions.html</loc>
     <priority>0.5</priority>
   </url>
@@ -25,7 +37,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/article-corresponding-quantities.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-cuboid-parts.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/article-cuboid-surface-volume.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-cylinder-cone-sphere.html</loc>
     <priority>0.5</priority>
   </url>
   <url>
@@ -34,6 +58,10 @@
   </url>
   <url>
     <loc>https://ainmath.com/article-divisors.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-equal-sign-balance.html</loc>
     <priority>0.5</priority>
   </url>
   <url>
@@ -46,6 +74,10 @@
   </url>
   <url>
     <loc>https://ainmath.com/article-fraction-compare.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-fraction-simplify.html</loc>
     <priority>0.5</priority>
   </url>
   <url>
@@ -98,6 +130,14 @@
   </url>
   <url>
     <loc>https://ainmath.com/article-mini-sudoku.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-mixed-calculation.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-mixed-multiplication-division.html</loc>
     <priority>0.5</priority>
   </url>
   <url>
@@ -157,6 +197,14 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/article-prism-pyramid.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-proportion-equation.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/article-proportion-inverse.html</loc>
     <priority>0.5</priority>
   </url>
@@ -189,6 +237,14 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/article-solid-shape-families.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/article-symmetry-shapes.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/article-tangram-puzzle.html</loc>
     <priority>0.5</priority>
   </url>
@@ -205,11 +261,23 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/article-unit-cube-count.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/article-water-jug-puzzle.html</loc>
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/bar-line-graph.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/circle-area.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/classify-objects.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
@@ -218,6 +286,10 @@
   </url>
   <url>
     <loc>https://ainmath.com/coin-dice-simulator.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/comparison-basics.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
@@ -233,6 +305,14 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/corresponding-quantities.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/cuboid-parts.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/cuboid-surface-volume.html</loc>
     <priority>0.8</priority>
   </url>
@@ -241,11 +321,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/cylinder-cone-sphere.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/cylinder-cone-volume.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://ainmath.com/divisor-finder.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/equal-sign-balance.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
@@ -258,6 +346,10 @@
   </url>
   <url>
     <loc>https://ainmath.com/fraction-compare.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/fraction-simplify.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
@@ -317,6 +409,14 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/mixed-calculation.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/mixed-multiplication-division.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/multiplication-array.html</loc>
     <priority>0.8</priority>
   </url>
@@ -373,8 +473,16 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/prism-pyramid.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/privacy-policy.html</loc>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/proportion-equation.html</loc>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://ainmath.com/proportion-inverse.html</loc>
@@ -409,6 +517,14 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/solid-shape-families.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/symmetry-shapes.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/tangram-puzzle.html</loc>
     <priority>0.8</priority>
   </url>
@@ -426,6 +542,10 @@
   </url>
   <url>
     <loc>https://ainmath.com/trig-ratios.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/unit-cube-count.html</loc>
     <priority>0.8</priority>
   </url>
   <url>

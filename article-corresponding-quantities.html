@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>둘이 함께 바뀌어요 — 대응 관계 이야기 | 아인매스</title>
+<meta name="description" content="세발자전거가 늘어나면 바퀴 수도 늘어나요. 이렇게 짝을 지어 함께 변하는 두 양의 관계, 대응 관계를 알아봐요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:760px;margin:0 auto;}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-soft);text-decoration:none;margin-bottom:18px;}
+.back-link:hover{color:var(--blue);}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,40px);line-height:1.3;margin:0 0 14px;}
+h1 span{color:var(--blue);}
+.sub{color:var(--ink-soft);font-size:16.5px;line-height:1.75;margin:0 0 30px;}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;}
+.cta{font-family:'Do Hyeon',sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:999px;transition:all .15s ease;}
+.cta.primary{background:var(--blue);color:#fff;}
+.cta.primary:hover{filter:brightness(1.06);}
+.cta.secondary{background:var(--card);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.cta.secondary:hover{border-color:var(--blue);color:var(--blue);}
+article{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:clamp(24px,5vw,44px);}
+h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:22px;color:var(--ink);margin:34px 0 14px;}
+h2:first-child{margin-top:0;}
+h2 .num{color:var(--blue);margin-right:8px;}
+p{font-size:15.5px;line-height:1.85;color:var(--ink);margin:0 0 16px;}
+p:last-child{margin-bottom:0;}
+.example{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px 20px;margin:18px 0;text-align:center;}
+.example .eq{font-family:'Do Hyeon',sans-serif;font-size:18px;margin-bottom:8px;}
+.example p{font-size:14.5px;color:var(--ink-soft);margin:8px 0 0;}
+.callout{background:var(--blue-soft);border-radius:16px;padding:18px 20px;margin:18px 0;font-size:14.5px;line-height:1.75;color:var(--ink);}
+.callout b{color:var(--blue);}
+.tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
+.tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.tip-list b{color:var(--blue);}
+footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+.footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
+.footer-nav a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 목록으로 돌아가기</a>
+  <span class="eyebrow">📈 설명 글</span>
+  <h1>하나가 바뀌면<br><span>다른 하나도</span> 바뀌어요</h1>
+  <p class="sub">세발자전거가 2대면 바퀴는 6개, 3대면 9개예요. 자전거 수와 바퀴 수는 항상 짝을 지어 함께 변해요. 이런 관계를 대응 관계라고 해요.</p>
+
+  <div class="cta-row">
+    <a class="cta primary" href="corresponding-quantities.html">🎮 대응 관계 체험하기</a>
+    <a class="cta secondary" href="index.html">📚 다른 주제도 보기</a>
+  </div>
+
+  <article>
+    <h2><span class="num">1</span>대응 관계는 "짝짓기"예요</h2>
+    <p>대응 관계란 한 양이 변할 때 다른 양도 짝을 지어 함께 변하는 관계예요. 세발자전거 수(x)와 바퀴 수(y)처럼, x값 하나에 y값 하나가 정확히 짝지어져요.</p>
+    <div class="example">
+      <div class="eq">세발자전거 1대 → 바퀴 3개, 2대 → 바퀴 6개, 3대 → 바퀴 9개</div>
+      <p>자전거가 1대씩 늘어날 때마다 바퀴는 항상 3개씩 늘어나요.</p>
+    </div>
+
+    <h2><span class="num">2</span>표로 정리하면 규칙이 보여요</h2>
+    <p>x와 y의 값을 표로 나란히 적어보면, 숫자가 어떤 규칙으로 늘어나는지 훨씬 잘 보여요. 표의 아래로 내려갈수록 y값이 일정하게 늘어난다면, 그 사이에 규칙이 숨어있다는 뜻이에요.</p>
+
+    <h2><span class="num">3</span>표를 점으로 찍으면 그래프가 돼요</h2>
+    <p>표에 있는 x, y 짝을 하나씩 점으로 찍으면, 점들이 일정한 흐름을 그리는 걸 볼 수 있어요. 점들이 곧게 늘어서 있다면, x와 y 사이에 아주 단순한 규칙이 있다는 신호예요.</p>
+    <div class="callout">
+      <b>모든 대응 관계가 곱셈만은 아니에요.</b><br>
+      정삼각형을 이어 붙일 때 필요한 성냥개비 수처럼, "몇 배 하고 몇 개를 더하는" 규칙도 있어요. 표를 보면서 규칙을 직접 찾아보는 연습이 중요해요.
+    </div>
+
+    <h2><span class="num">4</span>이 규칙은 나중에 "함수"라는 이름으로 배워요</h2>
+    <p>지금은 표와 그래프로 규칙을 관찰하는 정도지만, 중학교에 올라가면 이 규칙을 문자와 식으로 나타내는 방법을 배우게 돼요. 그게 바로 함수의 시작이에요.</p>
+
+    <h2><span class="num">5</span>이렇게 놀아보세요</h2>
+    <ul class="tip-list">
+      <li><b>여러 상황을 비교해보세요.</b> 세발자전거, 정삼각형, 식탁 이어붙이기의 규칙이 서로 어떻게 다른지 살펴보세요.</li>
+      <li><b>표를 가리고 규칙을 예상해보세요.</b> x=1, 2, 3일 때 y값만 보고, x=10일 때 y가 얼마일지 미리 짐작해보세요.</li>
+      <li><b>퀴즈로 규칙을 직접 적용해보세요.</b> 화면의 규칙 설명을 보지 않고, 표의 흐름만으로 답을 구할 수 있는지 도전해보세요.</li>
+    </ul>
+  </article>
+
+  <footer>
+    <p>대응 관계로 돌아가서 표와 그래프를 직접 만들어보세요.</p>
+    <nav class="footer-nav">
+      <a href="index.html">전체 목록</a>·<a href="corresponding-quantities.html">대응 관계</a>·<a href="about.html">소개</a>·<a href="contact.html">문의하기</a>
+    </nav>
+  </footer>
+</div>
+</body>
+</html>
