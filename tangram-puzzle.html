@@ -39,6 +39,12 @@ svg{width:100%;max-width:560px;height:auto;overflow:visible;touch-action:none;ma
 .piece{cursor:grab;}
 .piece:active{cursor:grabbing;}
 .piece.selected{filter:drop-shadow(0 0 0 3px var(--ink));}
+.rotate-handle{cursor:grab;}
+.rotate-handle:active{cursor:grabbing;}
+.rotate-handle circle{fill:#fff;stroke:var(--ink);stroke-width:2;}
+.rotate-handle line{stroke:var(--ink);stroke-width:2;}
+.snap-flash{animation:snapPulse .3s ease;}
+@keyframes snapPulse{ 0%{ filter:drop-shadow(0 0 6px var(--green)); } 100%{ filter:none; } }
 .action-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
 .action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
 .action-btn:hover{border-color:var(--violet);color:var(--violet);}
@@ -63,6 +69,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
   <div class="stage">
     <div class="howto">
       <p>칠교판(탱그램)은 정사각형 하나를 큰 삼각형 2개, 중간 삼각형 1개, 작은 삼각형 2개, 정사각형 1개, 평행사변형 1개 — 이렇게 <b>일곱 조각</b>으로 나눈 퍼즐이에요. 이 조각들을 돌리고 뒤집어 다시 조합하면 정사각형뿐 아니라 다양한 모양을 만들 수 있어요.</p>
+      <p>조각을 선택하면 조각 바깥쪽에 <b>회전 손잡이(⚬)</b>가 나타나요. 손잡이를 끌어서 돌리면 조각이 자유롭게 회전하고, 손을 떼는 순간 <b>자석처럼 45° 단위로 딱 붙어요</b>. 옮길 때도 손을 떼면 격자에 맞춰 위치가 살짝 정돈돼서, 조각끼리 더 깔끔하게 맞물려요.</p>
     </div>
 
     <div class="target-tabs" id="targetTabs"></div>
@@ -91,6 +98,9 @@ const factBox = document.getElementById('fact');
 
 const U = 40; // 기본 단위 (작은 삼각형의 직각변 길이)
 const COLORS = ['#FF5B57','#4C8BF5','#4CAF8E','#6C4CF7','#2EC4C6','#F5A623','#EC6BAD'];
+const GRID = U/4;       // 위치 스냅 격자 크기
+const ANGLE_SNAP = 45;  // 회전 스냅 단위(도)
+const HANDLE_DIST = 55; // 회전 손잡이가 조각 기준점에서 떨어진 거리
 
 // 각 조각의 로컬 좌표(기준점 0,0 근처) - 넓이 비율: 큰삼각형(4)x2, 중간삼각형(2), 작은삼각형(1)x2, 정사각형(2), 평행사변형(2)
 function tri(leg){ return [[0,0],[leg,0],[0,leg]]; }
@@ -141,6 +151,29 @@ function pointsToStr(points){
   return points.map(p=>p.join(',')).join(' ');
 }
 
+function toSvgPoint(clientX, clientY){
+  const svgRect = svg.getBoundingClientRect();
+  const viewBox = svg.viewBox.baseVal;
+  const scaleX = viewBox.width / svgRect.width;
+  const scaleY = viewBox.height / svgRect.height;
+  return {
+    x: (clientX - svgRect.left) * scaleX,
+    y: (clientY - svgRect.top) * scaleY,
+  };
+}
+
+function snapValue(v, step){
+  return Math.round(v/step)*step;
+}
+
+function flashSnap(idx){
+  const el = svg.querySelector(`.piece[data-i="${idx}"]`);
+  if(el){
+    el.classList.add('snap-flash');
+    setTimeout(()=>el.classList.remove('snap-flash'), 300);
+  }
+}
+
 function render(){
   let html = '';
 
@@ -162,10 +195,23 @@ function render(){
     html += `<polygon class="piece${i===selectedIdx?' selected':''}" data-i="${i}" points="${pointsToStr(p.points)}" fill="${color}" fill-opacity="0.85" ${sel} transform="${transform}"></polygon>`;
   });
 
+  // 선택된 조각에만 회전 손잡이 표시 (뒤집기 값과 무관하게 항상 같은 방향으로 잡히도록 flip 미적용)
+  if(selectedIdx!==null){
+    const p = state[selectedIdx];
+    const handleTransform = `translate(${p.x},${p.y}) rotate(${p.rot})`;
+    html += `<g class="rotate-handle" data-i="${selectedIdx}" transform="${handleTransform}">
+      <line x1="0" y1="0" x2="${HANDLE_DIST}" y2="0"></line>
+      <circle cx="${HANDLE_DIST}" cy="0" r="11"></circle>
+    </g>`;
+  }
+
   svg.innerHTML = html;
 
   svg.querySelectorAll('.piece').forEach(el=>{
     el.addEventListener('pointerdown', onPointerDown);
+  });
+  svg.querySelectorAll('.rotate-handle').forEach(el=>{
+    el.addEventListener('pointerdown', onRotateHandleDown);
   });
 }
 
@@ -199,10 +245,53 @@ function onPointerDown(e){
   function onUp(){
     document.removeEventListener('pointermove', onMove);
     document.removeEventListener('pointerup', onUp);
+    if(moved){
+      // 자석 효과: 놓는 순간 격자에 맞춰 위치를 살짝 정돈
+      piece.x = snapValue(piece.x, GRID);
+      piece.y = snapValue(piece.y, GRID);
+      flashSnap(idx);
+    }
     render();
     if(!moved){
-      factBox.innerHTML = `조각을 선택했어요. 회전·뒤집기 버튼으로 방향을 바꿔보세요!`;
+      factBox.innerHTML = `조각을 선택했어요. 손잡이를 끌어서 돌리거나, 회전·뒤집기 버튼을 눌러보세요!`;
+    } else {
+      factBox.innerHTML = `자석처럼 격자에 맞춰 딱 놓였어요!`;
     }
+  }
+  document.addEventListener('pointermove', onMove);
+  document.addEventListener('pointerup', onUp);
+}
+
+function onRotateHandleDown(e){
+  e.preventDefault();
+  e.stopPropagation();
+  const idx = parseInt(e.currentTarget.dataset.i);
+  selectedIdx = idx;
+  const piece = state[idx];
+  let moved = false;
+
+  function angleFromPivot(clientX, clientY){
+    const pt = toSvgPoint(clientX, clientY);
+    const dx = pt.x - piece.x;
+    const dy = pt.y - piece.y;
+    return Math.atan2(dy, dx) * 180 / Math.PI;
+  }
+
+  function onMove(ev){
+    moved = true;
+    piece.rot = angleFromPivot(ev.clientX, ev.clientY);
+    render();
+  }
+  function onUp(){
+    document.removeEventListener('pointermove', onMove);
+    document.removeEventListener('pointerup', onUp);
+    if(moved){
+      // 자석 효과: 놓는 순간 45° 단위로 딱 붙음
+      piece.rot = snapValue(piece.rot, ANGLE_SNAP) % 360;
+      flashSnap(idx);
+      factBox.innerHTML = `자석처럼 45° 단위로 딱 맞춰 회전했어요!`;
+    }
+    render();
   }
   document.addEventListener('pointermove', onMove);
   document.addEventListener('pointerup', onUp);
