@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>하노이의 탑, 원반 하나가 늘 때마다 두 배로 어려워지는 이유 | 아인매스</title>
+<meta name="description" content="원반 3개는 금방 옮기는데, 왜 10개는 그렇게 오래 걸릴까요? 하노이의 탑에 숨어 있는 건 사실 지수적으로 폭발하는 숫자의 세계예요...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:13.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#2EC4C6;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:12.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#2EC4C6;background:#E4FAF9">🌀 재미있는 패턴</span>
+  <h1>하노이의 탑, 원반 하나가 늘 때마다 두 배로 어려워지는 이유</h1>
+  <p class="meta">초등 고학년 ~ 중학생 · 읽는 데 약 3분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>원반 3개를 옮기는 건 몇 번만 시도하면 금방 성공해요. 그런데 원반이 5개, 7개로 늘어나면 갑자기 훨씬 오래 걸리고, 10개쯤 되면 손으로 다 세기도 힘들 만큼 많은 이동이 필요해져요. 왜 원반 하나 늘었을 뿐인데 이렇게 급격히 어려워질까요? 그 답은 하노이의 탑이 "지수적으로 증가하는" 문제이기 때문이에요.</p>
+      <p>규칙은 간단해요. 세 개의 기둥이 있고, 첫 번째 기둥에 크기 순서대로 쌓인 원반들을 세 번째 기둥으로 전부 옮기면 돼요. 조건은 딱 두 가지 — 한 번에 원반 하나만 옮길 수 있고, 큰 원반을 작은 원반 위에 올릴 수 없어요. 원반이 n개일 때 필요한 최소 이동 횟수는 정확히 <b>2ⁿ − 1</b>번이에요. 원반이 1개면 1번, 2개면 3번, 3개면 7번, 4개면 15번… 이런 식으로 원반이 하나 늘어날 때마다 필요한 횟수가 거의 두 배로 뛰어요.</p>
+      <p>왜 하필 2ⁿ−1일까요? n개의 원반을 옮기려면, 먼저 맨 아래 큰 원반을 뺀 위쪽 n−1개를 보조 기둥으로 옮기고(이때 이미 2ⁿ⁻¹−1번이 필요해요), 맨 아래 원반을 목표 기둥으로 옮기고(1번), 마지막으로 보조 기둥에 있던 n−1개를 다시 목표 기둥으로 옮기면(또 2ⁿ⁻¹−1번) 끝나요. 이걸 식으로 쓰면 (2ⁿ⁻¹−1) + 1 + (2ⁿ⁻¹−1) = 2ⁿ−1이 되는데, 이렇게 "큰 문제를 같은 모양의 작은 문제로 쪼개서 해결하는" 방식을 <b>재귀</b>라고 불러요. 하노이의 탑은 재귀적 사고를 배우는 데 가장 유명한 예제로, 컴퓨터공학과에서도 프로그래밍을 처음 배울 때 단골로 등장해요.</p>
+      <p>이 퍼즐에는 인도의 사원에 관한 유명한 전설도 얽혀 있어요. 승려들이 64개의 금 원반을 이 규칙에 따라 옮기고 있으며, 다 옮기고 나면 세상이 끝난다는 이야기예요. 64개 원반의 최소 이동 횟수는 2⁶⁴−1번인데, 1초에 하나씩 쉬지 않고 옮겨도 약 5,850억 년이 걸려요. 우주의 나이(약 138억 년)보다도 훨씬 긴 시간이에요. 이 전설 덕분에 하노이의 탑은 "지수적으로 증가하는 양이 얼마나 무서운 속도로 커지는지"를 보여주는 대표적인 예시로 자주 인용돼요.</p>
+      <p>이런 지수적 증가는 하노이의 탑 밖에서도 중요하게 다뤄져요. 세균이 일정 시간마다 두 배로 늘어나는 것, 종이를 반으로 계속 접었을 때 두께가 순식간에 엄청나게 두꺼워지는 것도 같은 원리예요. "작아 보이는 규칙이 반복되면 상상 이상으로 커진다"는 감각을 익히는 데, 하노이의 탑만큼 직관적인 예제도 드물어요.</p>
+      <p>아이들과 풀어볼 때는 원반 3개부터 시작해서 최소 횟수(7번)로 풀어보게 하고, 그다음 원반 4개(15번), 5개(31번)로 늘려가며 "몇 번 만에 풀었는지" 기록해보게 하세요. 원반이 늘어날 때마다 필요한 횟수가 정확히 두 배 조금 넘게 늘어난다는 걸 직접 확인하면, 지수 증가라는 추상적인 개념이 훨씬 생생하게 다가올 거예요.</p>
+      <p>저희 체험 페이지에서는 원반 3개부터 6개까지 난이도를 골라 도전할 수 있고, 이론상 최소 이동 횟수와 지금까지 옮긴 횟수를 실시간으로 비교해볼 수 있어요. 최소 횟수에 정확히 맞춰서 풀어보는 것에도 도전해보세요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="hanoi-tower.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

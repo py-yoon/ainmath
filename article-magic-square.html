@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>마방진, 3천 년 전 전설에서 시작된 숫자 퍼즐 | 아인매스</title>
+<meta name="description" content="중국 전설에 따르면, 강에서 나온 거북이 등껍질에 신비로운 숫자 배열이 새겨져 있었대요. 가로도 세로도 대각선도 합이 똑같았던 그 배열이...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:13.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#2EC4C6;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:12.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#2EC4C6;background:#E4FAF9">🌀 재미있는 패턴</span>
+  <h1>마방진, 3천 년 전 전설에서 시작된 숫자 퍼즐</h1>
+  <p class="meta">초등 저학년 ~ 고학년 · 읽는 데 약 3분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>중국 전설에 따르면, 큰 홍수가 났을 때 낙수라는 강에서 신비로운 거북이 한 마리가 나타났대요. 그 등껍질에는 점으로 된 숫자 배열이 새겨져 있었는데, 가로줄도 세로줄도 대각선도 모두 합이 똑같았다고 해요. "낙서(洛書)"라고 불리는 이 전설의 배열이 바로 우리가 아는 <b>마방진</b>의 시초로 여겨져요. 3천 년도 더 된 이야기지만, 마방진은 지금까지도 수학자와 퍼즐 애호가들을 매료시키는 주제예요.</p>
+      <p>마방진의 규칙은 명확해요. 1부터 9까지(3×3인 경우) 숫자를 한 번씩만 써서 정사각형을 채우는데, 가로줄 3개, 세로줄 3개, 대각선 2개, 총 8개 줄의 합이 모두 똑같아야 해요. 3×3 마방진에서 이 합은 항상 <b>15</b>가 될 수밖에 없어요. 1부터 9까지 다 더하면 45이고, 이 45를 가로 3줄로 똑같이 나눠야 하니 45÷3=15가 되는 거예요. 참고로 가운데 칸에는 항상 5가 들어가야 해요 — 가운데를 지나는 줄(가로, 세로, 대각선 2개, 총 4개 줄)이 모두 가운데 숫자를 공유하기 때문에, 평균값인 5가 아니면 합을 맞추기가 불가능해지거든요.</p>
+      <p>3×3 마방진은 사실 딱 하나의 배열만 존재해요. 다만 그 하나를 돌리거나(회전) 뒤집으면(대칭) 겉보기엔 다른 8가지 모양이 나오는데, 본질적으로는 모두 같은 마방진이에요. 4×4, 5×5로 커지면 가능한 마방진의 개수가 폭발적으로 늘어나는데, 4×4는 무려 880가지, 5×5는 2억 7천 개가 넘는 서로 다른 마방진이 존재한다고 알려져 있어요.</p>
+      <p>마방진은 단순한 퍼즐을 넘어 수학사에서 진지하게 연구된 주제예요. 독일 화가 알브레히트 뒤러는 1514년 작품 "멜랑콜리아 I"에 4×4 마방진을 그려 넣었는데, 심지어 맨 아래 줄 가운데 두 칸에 작품을 만든 연도(1514)가 나타나도록 정교하게 설계했어요. 인도의 천재 수학자 라마누잔은 자신의 생일이 들어가는 마방진을 즉석에서 만들어 보였다는 일화로도 유명해요. 이렇게 마방진은 수학적 아름다움과 예술적 영감이 만나는 지점에 있는 특별한 주제예요.</p>
+      <p>마방진을 만드는 데도 규칙적인 방법이 있어요. 홀수 크기(3×3, 5×5, 7×7...)의 마방진은 "시테르 방법"이라는 간단한 규칙으로 순서대로 채워나갈 수 있어요. 1을 맨 윗줄 가운데 놓고, 다음 숫자는 오른쪽 위 대각선 방향으로 이동하며 채우다가, 칸을 벗어나면 반대쪽 끝으로 돌아오고, 이미 채워진 칸을 만나면 바로 아래 칸에 놓는 식이에요. 이 규칙만 알면 아무리 큰 홀수 크기 마방진도 막힘없이 완성할 수 있어요.</p>
+      <p>아이들과 풀어볼 때는 먼저 빈칸이 적은 "쉬움" 단계로 규칙에 익숙해진 다음, 빈칸이 많은 단계로 도전해보게 하는 게 좋아요. 한 줄의 합이 15가 되려면 나머지 숫자들이 무엇이어야 하는지 거꾸로 계산해보는 연습이, 자연스럽게 덧셈과 뺄셈 감각을 함께 길러줘요.</p>
+      <p>저희 체험 페이지에서는 난이도별로 빈칸 개수가 다른 마방진에 도전할 수 있고, 각 줄의 합이 15에 맞는지 실시간으로 색깔로 확인할 수 있어요. 막히면 힌트 버튼으로 한 칸씩 채워가며 완성해보세요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="magic-square.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

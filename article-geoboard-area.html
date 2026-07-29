@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>지오보드, 공식 없이 넓이를 알아내는 법 | 아인매스</title>
+<meta name="description" content="울퉁불퉁한 도형의 넓이를 구하려면 꼭 공식이 있어야 할까요? 못판(지오보드)과 고무줄만 있으면, 칸을 세는 것만으로도 어떤 모양의 넓이든 알아낼 수 있어요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:13.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#4CAF8E;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:12.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#4CAF8E;background:#E3F5EE">📐 도형·기하</span>
+  <h1>지오보드, 공식 없이 넓이를 알아내는 법</h1>
+  <p class="meta">초등 저학년 ~ 고학년 · 읽는 데 약 3분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>울퉁불퉁한 도형의 넓이를 구하려면 꼭 복잡한 공식이 있어야 할까요? 사실 그렇지 않아요. 못판에 고무줄을 걸어 도형을 만드는 "지오보드"만 있으면, 칸을 하나하나 세는 것만으로도 넓이를 알아낼 수 있어요. 삼각형 넓이 공식(밑변×높이÷2)을 아직 배우지 않은 아이라도, 칸 세기만으로 정확한 넓이를 구할 수 있다는 게 지오보드의 매력이에요.</p>
+      <p>방법은 간단해요. 도형 안에 완전히 들어간 칸은 1칸으로 세고, 대각선으로 반이 잘린 삼각형 모양의 칸은 0.5칸으로 세면 돼요. 이렇게 세어나가면 아무리 복잡하게 생긴 도형이라도 넓이를 정확히 구할 수 있어요. 이 방법이 통하는 이유는, 정사각형 격자 위에서 만들 수 있는 모든 다각형은 결국 "완전한 정사각형 칸"과 "반으로 잘린 삼각형 칸"의 조합으로 나눌 수 있기 때문이에요.</p>
+      <p>이렇게 격자점 위에 그려진 도형의 넓이를 구하는 더 우아한 방법도 있어요. 바로 "픽의 정리(Pick's theorem)"라는 공식인데, 넓이 = (도형 안에 있는 점의 개수) + (도형의 변 위에 있는 점의 개수)÷2 − 1로 계산해요. 신기하게도 이 공식으로 구한 값은 칸을 일일이 센 값과 정확히 일치해요. 오스트리아 수학자 게오르크 픽이 1899년에 증명한 이 정리는, 복잡해 보이는 넓이 문제도 "점을 세는" 아주 단순한 작업으로 바꿔놓을 수 있다는 걸 보여줘요.</p>
+      <p>지오보드는 원래 1950년대 영국의 수학 교육자 캐일럽 개츠고가 학생들이 도형을 손으로 직접 만들어보며 배우도록 고안한 교구예요. 실제 못판과 고무줄을 쓰면 도형을 만들고 부수고 다시 만드는 과정이 매우 자유로워서, 종이에 그리는 것보다 훨씬 다양한 시도를 편하게 해볼 수 있어요. 삼각형, 사각형뿐 아니라 오목한 도형이나 별 모양처럼 특이한 모양도 쉽게 만들어볼 수 있고, 그 과정에서 "넓이"라는 개념이 단순히 공식을 대입하는 게 아니라 "차지하는 공간의 크기"라는 본질적인 의미로 다가오게 돼요.</p>
+      <p>이런 칸 세기 방식은 나중에 배우는 좌표평면 위의 도형 넓이 공식과도 자연스럽게 연결돼요. 삼각형이나 사각형의 넓이 공식을 배운 뒤에 지오보드로 다시 확인해보면, "아, 그 공식이 결국 칸 세기와 같은 답을 주는구나"라는 걸 깨닫게 되죠. 공식을 외우기 전에 이런 직접적인 경험을 먼저 해보는 게, 나중에 공식을 훨씬 의미 있게 받아들이는 데 도움이 돼요.</p>
+      <p>아이들과 활동할 때는 실제 못판과 고무줄(또는 점이 찍힌 종이와 색연필)을 준비해서, 목표 넓이를 정해주고 그 넓이에 맞는 도형을 최대한 다양한 모양으로 만들어보게 하는 게 좋아요. 같은 넓이라도 삼각형, 사각형, 오각형 등 완전히 다른 모양으로 만들 수 있다는 걸 발견하면, 넓이라는 개념을 훨씬 유연하게 이해하게 돼요.</p>
+      <p>저희 체험 페이지에서는 점을 순서대로 눌러 도형을 만들고, 목표로 주어진 넓이를 정확히 맞혀보는 퍼즐로 즐길 수 있어요. 쉬움(5×5)과 어려움(7×7) 난이도를 오가며 칸 세기 감각을 길러보세요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="geoboard-area.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
