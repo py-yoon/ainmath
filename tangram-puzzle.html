@@ -70,7 +70,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <div class="stage">
     <div class="howto">
       <p>칠교판(탱그램)은 정사각형 하나를 큰 삼각형 2개, 중간 삼각형 1개, 작은 삼각형 2개, 정사각형 1개, 평행사변형 1개 — 이렇게 <b>일곱 조각</b>으로 나눈 퍼즐이에요. 이 조각들을 돌리고 뒤집어 다시 조합하면 정사각형뿐 아니라 다양한 모양을 만들 수 있어요.</p>
-      <p>조각을 선택하면 조각 바깥쪽에 색깔 있는 <b>회전 손잡이(↻)</b>가 나타나요. 점선 원 위에 찍힌 점들이 바로 <b>딱 붙는 위치(45° 간격)</b>예요. 손잡이를 끌면 지금 각도가 숫자로 보이고, 가장 가까운 점이 크게 표시돼요. 손을 떼는 순간 그 점으로 <b>자석처럼 딱 붙어요</b>. 옮길 때도 손을 떼면 격자에 맞춰 위치가 살짝 정돈돼서, 조각끼리 더 깔끔하게 맞물려요.</p>
+      <p>조각을 선택하면 조각 바깥쪽에 색깔 있는 <b>회전 손잡이(↻)</b>가 나타나요. 점선 원 위에 찍힌 점들이 바로 <b>딱 붙는 위치(45° 간격)</b>예요. 손잡이를 끌면 지금 각도가 숫자로 보이고, 가장 가까운 점이 크게 표시돼요. 손을 떼는 순간 그 점으로 <b>자석처럼 딱 붙어요</b>. 조각을 옮길 때도 목표 윤곽선이나 다른 조각의 꼭짓점에 가까워지면 초록색 원으로 표시되고, 손을 떼는 순간 그 자리에 <b>딱 맞게 달라붙어요</b>.</p>
     </div>
 
     <div class="target-tabs" id="targetTabs"></div>
@@ -110,9 +110,10 @@ const factBox = document.getElementById('fact');
 
 const U = 40; // 기본 단위 (작은 삼각형의 직각변 길이)
 const COLORS = ['#FF5B57','#4C8BF5','#4CAF8E','#6C4CF7','#2EC4C6','#F5A623','#EC6BAD'];
-const GRID = U/4;       // 위치 스냅 격자 크기
+const GRID = U/4;       // 스냅할 꼭짓점이 근처에 없을 때 쓰는 예비 격자 크기
 const ANGLE_SNAP = 45;  // 회전 스냅 단위(도)
 const HANDLE_DIST = 55; // 회전 손잡이가 조각 기준점에서 떨어진 거리
+const SNAP_DIST = 16;   // 자석처럼 붙는 최대 거리(px, svg 좌표 기준)
 
 // 각 조각의 로컬 좌표(기준점 0,0 근처) - 넓이 비율: 큰삼각형(4)x2, 중간삼각형(2), 작은삼각형(1)x2, 정사각형(2), 평행사변형(2)
 function tri(leg){ return [[0,0],[leg,0],[0,leg]]; }
@@ -129,6 +130,7 @@ const PIECES = [
 let state = []; // {key, points, x, y, rot, flip}
 let selectedIdx = null;
 let target = 'free';
+let snapPreviewPoint = null; // 드래그 중 자석처럼 붙을 위치 미리보기
 
 const TARGETS = [
   {key:'free', name:'자유롭게'},
@@ -186,21 +188,67 @@ function flashSnap(idx){
   }
 }
 
+// 일곱 조각의 실제 총 넓이는 8U² — 목표 도형도 넓이가 정확히 8U²가 되도록 한 변을 2√2·U로 맞춰요.
+const TARGET_CENTER = {x:280, y:210};
+function targetOutlineVertices(){
+  const s = 2*Math.SQRT2*U;
+  const {x:cx, y:cy} = TARGET_CENTER;
+  if(target==='square'){
+    const h = s/2;
+    return [{x:cx-h,y:cy-h},{x:cx+h,y:cy-h},{x:cx+h,y:cy+h},{x:cx-h,y:cy+h}];
+  }
+  if(target==='triangle'){
+    return [{x:cx-s,y:cy+s/2},{x:cx+s,y:cy+s/2},{x:cx,y:cy-s/2}];
+  }
+  return [];
+}
+
+function rotatePoint(x, y, deg){
+  const rad = deg*Math.PI/180;
+  const c = Math.cos(rad), s = Math.sin(rad);
+  return { x: x*c - y*s, y: x*s + y*c };
+}
+
+// 조각의 로컬 꼭짓점들을 translate/rotate/scale(flip)까지 반영한 실제 화면 좌표로 변환
+function pieceWorldVertices(piece){
+  return piece.points.map(([lx,ly])=>{
+    const r = rotatePoint(lx*piece.flip, ly, piece.rot);
+    return { x: piece.x+r.x, y: piece.y+r.y };
+  });
+}
+
+// 목표 윤곽선 꼭짓점 + 다른 조각들의 꼭짓점을 모두 모은, 자석처럼 붙을 수 있는 후보 지점들
+function snapCandidates(excludeIdx){
+  const pts = targetOutlineVertices();
+  state.forEach((p,i)=>{
+    if(i===excludeIdx) return;
+    pts.push(...pieceWorldVertices(p));
+  });
+  return pts;
+}
+
+// 지금 위치의 조각 꼭짓점들 중, 후보 지점과 가장 가깝고 SNAP_DIST 이내인 짝을 찾아요
+function findBestSnap(piece, candidates){
+  const verts = pieceWorldVertices(piece);
+  let best = null;
+  verts.forEach(v=>{
+    candidates.forEach(c=>{
+      const d = Math.hypot(v.x-c.x, v.y-c.y);
+      if(d<=SNAP_DIST && (!best || d<best.dist)){
+        best = { from:v, to:c, dist:d };
+      }
+    });
+  });
+  return best;
+}
+
 function render(){
   let html = '';
 
-  // 목표 윤곽선 (점선 가이드)
-  // 일곱 조각의 실제 총 넓이는 8U² — 목표 도형도 넓이가 정확히 8U²가 되도록 한 변을 2√2·U로 맞춰요.
-  // (한 변을 4U로 그리면 넓이가 16U²가 되어, 조각을 다 채워도 항상 절반이 비게 돼요.)
-  const OUTLINE = 2*Math.SQRT2*U;
-  if(target==='square'){
-    const s = OUTLINE;
-    const cx=280, cy=210;
-    html += `<rect x="${cx-s/2}" y="${cy-s/2}" width="${s}" height="${s}" fill="none" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="8 6" opacity="0.5"></rect>`;
-  } else if(target==='triangle'){
-    const s = OUTLINE;
-    const cx=280, cy=210;
-    html += `<polygon points="${cx-s},${cy+s/2} ${cx+s},${cy+s/2} ${cx},${cy-s/2}" fill="none" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="8 6" opacity="0.5"></polygon>`;
+  // 목표 윤곽선 (점선 가이드) — 실제 넓이(8U²)에 딱 맞춘 꼭짓점을 그대로 그려요
+  const outlineVerts = targetOutlineVertices();
+  if(outlineVerts.length){
+    html += `<polygon points="${outlineVerts.map(v=>`${v.x},${v.y}`).join(' ')}" fill="none" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="8 6" opacity="0.5"></polygon>`;
   }
 
   state.forEach((p, i)=>{
@@ -209,6 +257,11 @@ function render(){
     const sel = i===selectedIdx ? 'stroke="var(--ink)" stroke-width="3"' : 'stroke="#fff" stroke-width="2"';
     html += `<polygon class="piece${i===selectedIdx?' selected':''}" data-i="${i}" points="${pointsToStr(p.points)}" fill="${color}" fill-opacity="0.85" ${sel} transform="${transform}"></polygon>`;
   });
+
+  // 드래그 중 자석처럼 붙을 위치를 초록 원으로 미리 보여줘요
+  if(snapPreviewPoint){
+    html += `<circle cx="${snapPreviewPoint.x}" cy="${snapPreviewPoint.y}" r="8" fill="none" stroke="var(--green)" stroke-width="3" opacity="0.9" style="pointer-events:none;"><animate attributeName="r" values="6;11;6" dur="0.5s" repeatCount="indefinite"></animate></circle>`;
+  }
 
   // 선택된 조각에만 회전 손잡이 표시 (뒤집기 값과 무관하게 항상 같은 방향으로 잡히도록 flip 미적용)
   if(selectedIdx!==null){
@@ -254,7 +307,6 @@ function onPointerDown(e){
   e.preventDefault();
   const idx = parseInt(e.currentTarget.dataset.i);
   selectedIdx = idx;
-  const pt = svg.createSVGPoint();
   const svgRect = svg.getBoundingClientRect();
   const viewBox = svg.viewBox.baseVal;
   const scaleX = viewBox.width / svgRect.width;
@@ -262,7 +314,9 @@ function onPointerDown(e){
   const startClientX = e.clientX, startClientY = e.clientY;
   const piece = state[idx];
   const startX = piece.x, startY = piece.y;
+  const candidates = snapCandidates(idx);
   let moved = false;
+  let activeSnap = null;
 
   function onMove(ev){
     const dx = (ev.clientX-startClientX)*scaleX;
@@ -270,6 +324,8 @@ function onPointerDown(e){
     if(Math.abs(dx)>2 || Math.abs(dy)>2) moved = true;
     piece.x = startX+dx;
     piece.y = startY+dy;
+    activeSnap = moved ? findBestSnap(piece, candidates) : null;
+    snapPreviewPoint = activeSnap ? activeSnap.to : null;
     render();
     // 선택 유지
     selectedIdx = idx;
@@ -279,16 +335,23 @@ function onPointerDown(e){
     document.removeEventListener('pointermove', onMove);
     document.removeEventListener('pointerup', onUp);
     if(moved){
-      // 자석 효과: 놓는 순간 격자에 맞춰 위치를 살짝 정돈
-      piece.x = snapValue(piece.x, GRID);
-      piece.y = snapValue(piece.y, GRID);
+      if(activeSnap){
+        // 자석 효과: 조각의 꼭짓점을 목표 윤곽선/다른 조각의 꼭짓점에 딱 붙여요
+        piece.x += activeSnap.to.x - activeSnap.from.x;
+        piece.y += activeSnap.to.y - activeSnap.from.y;
+        factBox.innerHTML = `자석처럼 선에 딱 붙었어요!`;
+      } else {
+        // 근처에 붙을 꼭짓점이 없으면 예비 격자에 맞춰 위치만 살짝 정돈
+        piece.x = snapValue(piece.x, GRID);
+        piece.y = snapValue(piece.y, GRID);
+        factBox.innerHTML = `위치를 살짝 정돈했어요. 목표 윤곽선이나 다른 조각 가까이로 옮겨보세요!`;
+      }
       flashSnap(idx);
     }
+    snapPreviewPoint = null;
     render();
     if(!moved){
       factBox.innerHTML = `조각을 선택했어요. 손잡이를 끌어서 돌리거나, 회전·뒤집기 버튼을 눌러보세요!`;
-    } else {
-      factBox.innerHTML = `자석처럼 격자에 맞춰 딱 놓였어요!`;
     }
   }
   document.addEventListener('pointermove', onMove);
