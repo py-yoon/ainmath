@@ -94,7 +94,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <div class="quiz-stage">
     <div class="quiz-head">
       <h2>🧩 개수 맞히기 퀴즈</h2>
-      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b> · 난이도 <b id="levelLabel">쉬움</b></div>
     </div>
     <div class="quiz-body">
       <svg id="quizSvg" viewBox="0 0 300 270"></svg>
@@ -192,7 +192,9 @@ const quizFeedback = document.getElementById('quizFeedback');
 const nextQuizBtn = document.getElementById('nextQuizBtn');
 const scoreNumEl = document.getElementById('scoreNum');
 const triesNumEl = document.getElementById('triesNum');
+const levelLabelEl = document.getElementById('levelLabel');
 let score = 0, tries = 0, answered = false, quizAnswer = 0;
+let lastGridKey = '';
 
 function randInt(min,max){ return min + Math.floor(Math.random()*(max-min+1)); }
 function distractors(answer, count){
@@ -208,10 +210,39 @@ function distractors(answer, count){
   return [...opts];
 }
 
+// 난이도가 오를수록 격자가 커지고, 높이 범위가 넓어지고, 빈 칸(구멍)이 더 자주 나와요.
+const LEVELS = [
+  {rows:2, cols:2, minH:1, maxH:2, holeProb:0,    label:'쉬움'},
+  {rows:2, cols:3, minH:1, maxH:3, holeProb:0.1,  label:'보통'},
+  {rows:3, cols:3, minH:1, maxH:3, holeProb:0.2,  label:'약간 어려움'},
+  {rows:3, cols:3, minH:1, maxH:5, holeProb:0.35, label:'어려움'},
+];
+
+function generateGrid(level){
+  const cfg = LEVELS[Math.min(level, LEVELS.length-1)];
+  let grid, key, guard = 0;
+  do {
+    grid = [];
+    for(let r=0;r<cfg.rows;r++){
+      const row = [];
+      for(let c=0;c<cfg.cols;c++){
+        row.push(Math.random() < cfg.holeProb ? 0 : randInt(cfg.minH, cfg.maxH));
+      }
+      grid.push(row);
+    }
+    key = JSON.stringify(grid);
+    guard++;
+  } while((grid.flat().every(v=>v===0) || key===lastGridKey) && guard<30);
+  lastGridKey = key;
+  return {grid, label: cfg.label};
+}
+
 function newQuizQuestion(){
   answered = false;
   quizFeedback.textContent = '';
-  const grid = PRESETS[randInt(0,PRESETS.length-1)];
+  const level = Math.min(Math.floor(tries/3), LEVELS.length-1);
+  const {grid, label} = generateGrid(level);
+  levelLabelEl.textContent = label;
   quizAnswer = grid.flat().reduce((a,b)=>a+b,0);
   quizSvg.innerHTML = isoSvg(grid, 150, 190);
   const opts = distractors(quizAnswer,3).sort(()=>Math.random()-0.5);
