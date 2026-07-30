@@ -38,30 +38,27 @@ h1 span{color:var(--violet-ink);}
 .howto{background:var(--blue-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 20px;}
 .howto b{color:var(--blue-ink);}
 svg{width:100%;max-width:480px;height:auto;overflow:visible;display:block;margin:0 auto 16px;}
-.answer-row{display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap;}
-.answer-row label{font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--ink);}
-.answer-row input[type=number]{width:90px;font-family:'Do Hyeon',sans-serif;font-size:18px;text-align:center;padding:10px;border-radius:12px;border:2px solid var(--paper-line);background:var(--paper);color:var(--ink);}
-.answer-row input[type=number]:focus{outline:none;border-color:var(--violet-ink);}
-.answer-row input:disabled{opacity:0.55;}
+.op-panel{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
+.op-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.op-row label{font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--ink);}
+.op-row input[type=number]{width:90px;font-family:'Do Hyeon',sans-serif;font-size:18px;text-align:center;padding:10px;border-radius:12px;border:2px solid var(--paper-line);background:var(--paper);color:var(--ink);}
+.op-row input[type=number]:focus{outline:none;border-color:var(--violet-ink);}
 .btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:12px 18px;cursor:pointer;transition:background .15s ease;}
-.btn:hover:not(:disabled){background:var(--violet);}
+.btn:hover:not(:disabled){background:var(--violet-ink);}
 .btn:disabled{opacity:0.35;cursor:default;}
 .btn.secondary{background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);}
 .btn.secondary:hover:not(:disabled){border-color:var(--blue-ink);color:var(--blue-ink);background:var(--paper);}
-.btn.accent{background:var(--violet);}
-.btn.accent:hover:not(:disabled){background:#5b3de0;}
+.btn.accent{background:var(--violet-ink);}
+.btn.accent:hover:not(:disabled){filter:brightness(1.1);}
 .quiz-feedback{min-height:24px;font-size:14.5px;line-height:1.6;margin:8px 0 14px;}
-.quiz-feedback.correct{color:var(--green-ink);}
-.quiz-feedback.wrong{color:var(--coral-ink);}
 .quiz-feedback.info{color:var(--ink-soft);}
-.step-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;}
-.step-row .btn{flex:1;min-width:150px;}
-.action-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;}
+.quiz-feedback.wrong{color:var(--coral-ink);}
+.action-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;}
 .panel{display:flex;flex-direction:column;gap:16px;}
 .equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px;text-align:center;}
 .equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(24px,4vw,32px);color:var(--ink);}
 .equation .formula .x{color:var(--violet-ink);}
-.step-list{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:14px 18px;font-size:14.5px;color:var(--ink-soft);line-height:1.8;min-height:24px;}
+.step-list{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:14px 18px;font-size:14.5px;color:var(--ink-soft);line-height:1.8;min-height:24px;max-height:220px;overflow-y:auto;}
 .step-list b{color:var(--ink);}
 .fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
 .fact b{color:var(--violet-ink);}
@@ -75,8 +72,8 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
     <a href="article-equation-balance.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
   </div>
   <span class="eyebrow">⚖️ 방정식 저울 문제풀이</span>
-  <h1>저울을 보고<br><span>x의 값</span>을 맞혀보세요</h1>
-  <p class="sub">문제가 무작위로 주어져요. 저울 왼쪽에는 x 블록과 숫자 블록이, 오른쪽에는 값이 놓여 있어요. 저울이 균형을 이루려면 x가 얼마여야 할지 계산해서 입력해보세요. 모르겠으면 풀이 보기로 과정을 확인할 수 있어요.</p>
+  <h1>저울 양쪽에<br>같은 조작을 하며 <span>x</span>를 구해보세요</h1>
+  <p class="sub">문제가 무작위로 주어져요. 양쪽에서 원하는 수를 빼거나, 양쪽을 원하는 수로 나누면서 저울이 계속 균형을 이루도록 만들어보세요. x의 계수가 1이 되고 상수항이 사라지면, x의 값을 직접 구한 거예요.</p>
 
   <div class="stage">
     <div>
@@ -85,23 +82,27 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
           <b>등식의 성질</b>을 이용해요: 양쪽에서 같은 수를 빼거나, 같은 수로 나눠도 저울은 계속 균형을 유지해요.
         </div>
       </div>
-      <div class="progress-badge" style="margin-bottom:14px;display:inline-block;">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+      <div class="progress-badge" style="margin-bottom:14px;display:inline-block;">해결 <b id="scoreNum">0</b>문제 · 이번 문제 조작 <b id="triesNum">0</b>번</div>
       <svg id="svg" viewBox="0 0 480 300"></svg>
 
-      <div class="answer-row">
-        <label for="answerInput">x =</label>
-        <input type="number" id="answerInput" placeholder="?" inputmode="numeric">
-        <button class="btn accent" id="checkBtn">정답 확인</button>
-        <button class="btn secondary" id="revealBtn">💡 풀이 보기</button>
+      <div class="op-panel">
+        <div class="op-row">
+          <label for="subInput">양쪽에서</label>
+          <input type="number" id="subInput" value="1" step="1" inputmode="decimal">
+          <label>만큼 빼기</label>
+          <button class="btn accent" id="subBtn">➖ 적용</button>
+        </div>
+        <div class="op-row">
+          <label for="divInput">양쪽을</label>
+          <input type="number" id="divInput" value="1" step="1" inputmode="decimal">
+          <label>로 나누기</label>
+          <button class="btn accent" id="divBtn">➗ 적용</button>
+        </div>
       </div>
       <div class="quiz-feedback" id="quizFeedback"></div>
 
-      <div class="step-row">
-        <button class="btn" id="step1Btn" disabled>① 양쪽에서 b 빼기</button>
-        <button class="btn" id="step2Btn" disabled>② 양쪽을 a로 나누기</button>
-      </div>
       <div class="action-row">
-        <button class="btn secondary" id="resetBtn" disabled>↺ 처음 상태로 보기</button>
+        <button class="btn secondary" id="resetBtn">↺ 이 문제 처음부터</button>
         <button class="btn accent" id="nextBtn">➡ 다음 문제</button>
       </div>
     </div>
@@ -110,23 +111,22 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
       <div class="equation">
         <div class="formula" id="formula"><span class="x">2x</span> + 3 = 11</div>
       </div>
-      <div class="step-list" id="stepList">풀이 과정은 정답을 맞히거나 풀이 보기를 누르면 여기에 나타나요.</div>
-      <div class="fact" id="fact">저울 그림을 잘 보고 x의 값을 예상해보세요. 왼쪽 접시 위 블록 무게(값)와 오른쪽 접시 위 블록 무게(값)가 같아야 저울이 수평을 이뤄요.</div>
+      <div class="step-list" id="stepList">양쪽에서 숫자를 빼거나 나눠서 x를 구해보세요.</div>
+      <div class="fact" id="fact"></div>
     </div>
   </div>
 
-  <footer>이 방법의 핵심은 "등식의 양변에 같은 조작을 하면 등식이 유지된다"는 성질이에요. 정답을 맞히지 못해도 괜찮아요 — 풀이 보기로 과정을 확인하고 다음 문제에서 다시 도전해보세요.</footer>
+  <footer>이 방법의 핵심은 "등식의 양변에 같은 조작을 하면 등식이 계속 유지된다"는 성질이에요. 뭘 빼고 얼마로 나눌지는 직접 정하는 거예요 — 순서를 잘못 골라도 상관없어요, 등식은 절대 무너지지 않으니까요.</footer>
 </div>
 
 <script>
 const svg = document.getElementById('svg');
-const answerInput = document.getElementById('answerInput');
-const checkBtn = document.getElementById('checkBtn');
-const revealBtn = document.getElementById('revealBtn');
-const nextBtn = document.getElementById('nextBtn');
-const step1Btn = document.getElementById('step1Btn');
-const step2Btn = document.getElementById('step2Btn');
+const subInput = document.getElementById('subInput');
+const divInput = document.getElementById('divInput');
+const subBtn = document.getElementById('subBtn');
+const divBtn = document.getElementById('divBtn');
 const resetBtn = document.getElementById('resetBtn');
+const nextBtn = document.getElementById('nextBtn');
 const formula = document.getElementById('formula');
 const stepList = document.getElementById('stepList');
 const factBox = document.getElementById('fact');
@@ -134,13 +134,36 @@ const quizFeedback = document.getElementById('quizFeedback');
 const scoreNumEl = document.getElementById('scoreNum');
 const triesNumEl = document.getElementById('triesNum');
 
-let a=2, b=3, xAns=4, c=11;   // 현재 문제: ax + b = c (c는 항상 a*xAns+b로 만들어 정수해 보장)
-let step = 0;                 // 0: 초기, 1: b 뺀 후, 2: a로 나눈 후
-let score = 0, tries = 0;
-let solved = false, revealed = false;
+let a=2, b=3, xAns=4, c=11;   // 문제: ax + b = c (c는 항상 a*xAns+b로 만들어 정수해 보장)
+let curA, curB, curC;         // 사용자가 조작 중인 현재 식의 계수
+let opsCount = 0;
+let score = 0;
+let solvedCounted = false;
+let history = [];
 
-function fmt(n){ return (Math.round(n*100)/100).toString(); }
+function fmt(n){
+  const r = Math.round(n*1000)/1000;
+  return Object.is(r,-0) ? '0' : r.toString();
+}
 function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+
+function formatXTerm(coef){
+  if(Math.abs(coef-1)<1e-9) return 'x';
+  if(Math.abs(coef+1)<1e-9) return '-x';
+  return fmt(coef)+'x';
+}
+function formatEquation(A,B,C){
+  let left = formatXTerm(A);
+  if(B>1e-9) left += ` + ${fmt(B)}`;
+  else if(B<-1e-9) left += ` - ${fmt(-B)}`;
+  return `${left} = ${fmt(C)}`;
+}
+function formulaHtml(A,B,C){
+  let left = formatXTerm(A);
+  if(B>1e-9) left += ` + ${fmt(B)}`;
+  else if(B<-1e-9) left += ` - ${fmt(-B)}`;
+  return `<span class="x">${left}</span> = ${fmt(C)}`;
+}
 
 // 저울대(빔)와 그것을 받치는 스탠드를 그림
 function drawBeamAndStand(beamX1, beamX2, beamY, centerX, groundY){
@@ -152,92 +175,103 @@ function drawBeamAndStand(beamX1, beamX2, beamY, centerX, groundY){
   return html;
 }
 
-// 접시 하나를 그림: 빔의 매달림 지점부터 접시까지, 그 위에 블록들을 쌓아 표시
-function drawPan(cx, topY, beamY, xCount, numValue, color){
+// 접시 하나에 값을 라벨로 적은 무게추 하나를 매닮
+function drawBlock(cx, topY, beamY, label, color){
   let html = '';
-  const bw = 26, gap = 4, cols = 6;
-  const panW = 150;
-
   html += `<line x1="${cx}" y1="${beamY}" x2="${cx}" y2="${topY}" stroke="var(--ink-soft)" stroke-width="3"></line>`;
   html += `<circle cx="${cx}" cy="${beamY}" r="4" fill="var(--ink)"></circle>`;
-  html += `<path d="M${cx-panW/2},${topY} Q${cx},${topY+22} ${cx+panW/2},${topY}" fill="none" stroke="var(--ink)" stroke-width="4"></path>`;
+  html += `<path d="M${cx-75},${topY} Q${cx},${topY+22} ${cx+75},${topY}" fill="none" stroke="var(--ink)" stroke-width="4"></path>`;
 
-  const useUnits = Number.isInteger(numValue) && numValue > 0 && numValue <= 9;
-  const numUnits = useUnits ? numValue : 0;
-  const bigTileLabel = (!useUnits && numValue > 0) ? fmt(numValue) : null;
-
-  const totalSmall = xCount + numUnits;
-  const rowsSmall = totalSmall > 0 ? Math.ceil(totalSmall/cols) : 0;
-  const smallHeight = rowsSmall * (bw+gap);
-  const totalW = Math.min(totalSmall, cols)*(bw+gap) - gap;
-  const startX = cx - totalW/2;
-
-  let idx = 0;
-  for(let i=0;i<xCount;i++, idx++){
-    const col = idx%cols, row = Math.floor(idx/cols);
-    const bx = startX + col*(bw+gap);
-    const by = topY - 14 - row*(bw+gap) - bw;
-    html += `<rect x="${bx}" y="${by}" width="${bw}" height="${bw}" rx="6" fill="${color}" fill-opacity="0.85"></rect>`;
-    html += `<text x="${bx+bw/2}" y="${by+bw/2+5}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="#fff">x</text>`;
-  }
-  for(let i=0;i<numUnits;i++, idx++){
-    const col = idx%cols, row = Math.floor(idx/cols);
-    const bx = startX + col*(bw+gap);
-    const by = topY - 14 - row*(bw+gap) - bw;
-    html += `<circle cx="${bx+bw/2}" cy="${by+bw/2}" r="${bw/2-2}" fill="${color}" fill-opacity="0.4" stroke="${color}" stroke-width="2"></circle>`;
-    html += `<text x="${bx+bw/2}" y="${by+bw/2+4}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="${color}">1</text>`;
-  }
-
-  if(bigTileLabel){
-    const tileW = Math.max(46, 18+bigTileLabel.length*13);
-    const tileH = 38;
-    const ty = topY - 14 - smallHeight - 8 - tileH;
-    const tx = cx - tileW/2;
-    html += `<rect x="${tx}" y="${ty}" width="${tileW}" height="${tileH}" rx="10" fill="${color}" fill-opacity="0.85"></rect>`;
-    html += `<text x="${cx}" y="${ty+tileH/2+6}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="17" fill="#fff">${bigTileLabel}</text>`;
-  }
-
+  const text = String(label);
+  const tileW = Math.max(56, 22+text.length*13);
+  const tileH = 40;
+  const ty = topY-14-tileH;
+  const tx = cx - tileW/2;
+  html += `<rect x="${tx}" y="${ty}" width="${tileW}" height="${tileH}" rx="10" fill="${color}" fill-opacity="0.88"></rect>`;
+  html += `<text x="${cx}" y="${ty+tileH/2+6}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="17" fill="#fff">${text}</text>`;
   return html;
 }
 
-function currentState(){
-  if(step===0) return {leftX:a, leftNum:b, rightNum:c};
-  if(step===1) return {leftX:a, leftNum:0, rightNum:c-b};
-  const rNum = (c-b)/a;
-  return {leftX:1, leftNum:0, rightNum:rNum, isFinal:true};
-}
-
 function render(){
-  const st = currentState();
-  const unlocked = solved || revealed;
-
   const beamY = 70, beamX1 = 60, beamX2 = 420, centerX = 240, groundY = 260;
-  const leftCx = 140, rightCx = 340, topY = 210;
+  const leftCx = 140, rightCx = 340, topY = 200;
 
   let html = '';
   html += drawBeamAndStand(beamX1, beamX2, beamY, centerX, groundY);
-  html += drawPan(leftCx, topY, beamY, st.leftX, st.leftNum, 'var(--violet)');
-  html += drawPan(rightCx, topY, beamY, 0, st.rightNum, 'var(--blue)');
+
+  let leftLabel = formatXTerm(curA);
+  if(curB>1e-9) leftLabel += ` + ${fmt(curB)}`;
+  else if(curB<-1e-9) leftLabel += ` - ${fmt(-curB)}`;
+
+  html += drawBlock(leftCx, topY, beamY, leftLabel, 'var(--violet)');
+  html += drawBlock(rightCx, topY, beamY, fmt(curC), 'var(--blue)');
   svg.innerHTML = html;
 
-  let leftExpr = st.leftX===1 ? 'x' : `${st.leftX}x`;
-  if(st.leftNum>0) leftExpr += ` + ${st.leftNum}`;
-  formula.innerHTML = `<span class="x">${leftExpr}</span> = ${fmt(st.rightNum)}`;
+  formula.innerHTML = formulaHtml(curA, curB, curC);
+}
 
-  step1Btn.textContent = `① 양쪽에서 ${b} 빼기`;
-  step2Btn.textContent = `② 양쪽을 ${a}로 나누기`;
-  step1Btn.disabled = !unlocked || step!==0 || b===0;
-  step2Btn.disabled = !unlocked || step!==1;
-  resetBtn.disabled = !unlocked || step===0;
+function isSolved(){
+  return Math.abs(curA-1)<1e-9 && Math.abs(curB)<1e-9;
+}
 
-  if(!unlocked){
-    stepList.innerHTML = '풀이 과정은 정답을 맞히거나 풀이 보기를 누르면 여기에 나타나요.';
+function updatePanels(){
+  stepList.innerHTML = history.length
+    ? history.map(h=>`· ${h}`).join('<br>')
+    : '양쪽에서 숫자를 빼거나 나눠서 x를 구해보세요.';
+
+  if(isSolved()){
+    factBox.innerHTML = `🎉 x = <b>${fmt(curC)}</b>를 구했어요! 양변에 항상 같은 조작을 했기 때문에, 저울은 한 번도 기울지 않고 계속 균형을 유지했어요.`;
+    if(!solvedCounted){
+      solvedCounted = true;
+      score++;
+      scoreNumEl.textContent = score;
+    }
+  } else if(curB!==0){
+    factBox.innerHTML = `아직 상수항 <b>${fmt(curB)}</b>이 남아있어요. 양쪽에서 ${fmt(curB)}만큼 빼보면 어떨까요?`;
   } else {
-    let stepsHtml = `<b>처음 식:</b> ${a}x + ${b} = ${c}<br>`;
-    if(step>=1) stepsHtml += `<b>① 양쪽에서 ${b} 빼기:</b> ${a}x = ${c-b}<br>`;
-    if(step>=2) stepsHtml += `<b>② 양쪽을 ${a}로 나누기:</b> x = ${fmt((c-b)/a)}`;
-    stepList.innerHTML = stepsHtml;
+    factBox.innerHTML = `이제 x의 계수 <b>${fmt(curA)}</b>만 남았어요. 양쪽을 ${fmt(curA)}로 나눠보면 x만 남게 돼요.`;
   }
+}
+
+function applySubtract(){
+  const raw = subInput.value.trim();
+  const k = parseFloat(raw);
+  if(raw==='' || Number.isNaN(k)){
+    quizFeedback.textContent = '뺄 숫자를 입력해주세요.';
+    quizFeedback.className = 'quiz-feedback info';
+    return;
+  }
+  const before = formatEquation(curA,curB,curC);
+  curB -= k; curC -= k;
+  opsCount++; triesNumEl.textContent = opsCount;
+  const after = formatEquation(curA,curB,curC);
+  history.push(`양쪽에서 ${fmt(k)} 빼기: ${before} → ${after}`);
+  quizFeedback.textContent = '';
+  render();
+  updatePanels();
+}
+
+function applyDivide(){
+  const raw = divInput.value.trim();
+  const k = parseFloat(raw);
+  if(raw==='' || Number.isNaN(k)){
+    quizFeedback.textContent = '나눌 숫자를 입력해주세요.';
+    quizFeedback.className = 'quiz-feedback info';
+    return;
+  }
+  if(k===0){
+    quizFeedback.textContent = '0으로는 나눌 수 없어요.';
+    quizFeedback.className = 'quiz-feedback wrong';
+    return;
+  }
+  const before = formatEquation(curA,curB,curC);
+  curA /= k; curB /= k; curC /= k;
+  opsCount++; triesNumEl.textContent = opsCount;
+  const after = formatEquation(curA,curB,curC);
+  history.push(`양쪽을 ${fmt(k)}로 나누기: ${before} → ${after}`);
+  quizFeedback.textContent = '';
+  render();
+  updatePanels();
 }
 
 function newProblem(){
@@ -245,74 +279,30 @@ function newProblem(){
   xAns = randInt(1,9);
   b = randInt(0,9);
   c = a*xAns + b;
-  step = 0; solved = false; revealed = false;
-
-  answerInput.value = '';
-  answerInput.disabled = false;
-  checkBtn.disabled = false;
-  revealBtn.disabled = false;
+  curA = a; curB = b; curC = c;
+  opsCount = 0; triesNumEl.textContent = 0;
+  solvedCounted = false;
+  history = [];
+  subInput.value = 1;
+  divInput.value = 1;
   quizFeedback.textContent = '';
-  quizFeedback.className = 'quiz-feedback';
-  factBox.innerHTML = '저울 그림을 잘 보고 x의 값을 예상해보세요. 왼쪽 접시 위 블록 무게(값)와 오른쪽 접시 위 블록 무게(값)가 같아야 저울이 수평을 이뤄요.';
 
   render();
-  answerInput.focus();
+  updatePanels();
 }
 
-function checkAnswer(){
-  if(solved) return;
-  const raw = answerInput.value.trim();
-  if(raw===''){
-    quizFeedback.textContent = '먼저 x의 값을 입력해주세요.';
-    quizFeedback.className = 'quiz-feedback info';
-    return;
-  }
-  const val = parseFloat(raw);
-  if(Number.isNaN(val)){
-    quizFeedback.textContent = '숫자를 입력해주세요.';
-    quizFeedback.className = 'quiz-feedback info';
-    return;
-  }
-  tries++;
-  triesNumEl.textContent = tries;
-
-  if(val === xAns){
-    score++;
-    scoreNumEl.textContent = score;
-    solved = true;
-    answerInput.disabled = true;
-    checkBtn.disabled = true;
-    revealBtn.disabled = true;
-    quizFeedback.innerHTML = `🎉 정답이에요! x = <b>${xAns}</b> (정답 ${score} / 시도 ${tries})`;
-    quizFeedback.className = 'quiz-feedback correct';
-    factBox.innerHTML = `🎉 저울 양쪽에 같은 조작만 반복했을 뿐인데, x = <b>${xAns}</b>가 정확히 나와요. 아래 ①②버튼으로 그 과정을 다시 확인해볼 수 있어요.`;
-  } else {
-    quizFeedback.innerHTML = `아쉬워요, 다시 한번 계산해보세요. (정답 ${score} / 시도 ${tries})`;
-    quizFeedback.className = 'quiz-feedback wrong';
-  }
+subBtn.addEventListener('click', applySubtract);
+divBtn.addEventListener('click', applyDivide);
+subInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') applySubtract(); });
+divInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') applyDivide(); });
+resetBtn.addEventListener('click', ()=>{
+  curA = a; curB = b; curC = c;
+  opsCount = 0; triesNumEl.textContent = 0;
+  history = [];
+  quizFeedback.textContent = '';
   render();
-}
-
-function revealAnswer(){
-  if(revealed || solved) return;
-  tries++;
-  triesNumEl.textContent = tries;
-  revealed = true;
-  answerInput.disabled = true;
-  checkBtn.disabled = true;
-  revealBtn.disabled = true;
-  quizFeedback.innerHTML = `정답은 x = <b>${xAns}</b>였어요. 아래 ①②버튼을 눌러 저울로 푸는 과정을 확인해보세요.`;
-  quizFeedback.className = 'quiz-feedback info';
-  factBox.innerHTML = `x = <b>${xAns}</b>예요. 아래 ①②버튼을 하나씩 눌러서 저울이 어떻게 정리되는지 살펴보세요.`;
-  render();
-}
-
-checkBtn.addEventListener('click', checkAnswer);
-revealBtn.addEventListener('click', revealAnswer);
-answerInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') checkAnswer(); });
-step1Btn.addEventListener('click', ()=>{ if((solved||revealed) && step===0){ step=1; render(); } });
-step2Btn.addEventListener('click', ()=>{ if((solved||revealed) && step===1){ step=2; render(); } });
-resetBtn.addEventListener('click', ()=>{ if(solved||revealed){ step=0; render(); } });
+  updatePanels();
+});
 nextBtn.addEventListener('click', newProblem);
 
 newProblem();
