@@ -162,11 +162,9 @@ function draw3D(key){
   if(key==='cylinder'){
     const rx=80, ry=22, topY=90, botY=210;
     return `
-      <line x1="${cx-rx}" y1="${topY}" x2="${cx-rx}" y2="${botY}" stroke="var(--violet)" stroke-width="2.5"></line>
-      <line x1="${cx+rx}" y1="${topY}" x2="${cx+rx}" y2="${botY}" stroke="var(--violet)" stroke-width="2.5"></line>
-      <ellipse cx="${cx}" cy="${botY}" rx="${rx}" ry="${ry}" fill="var(--violet-soft)" stroke="var(--violet)" stroke-width="2.5"></ellipse>
-      <path d="M ${cx-rx} ${topY} A ${rx} ${ry} 0 0 0 ${cx+rx} ${topY}" fill="none" stroke="var(--violet)" stroke-width="2.5" stroke-dasharray="4,4"></path>
-      <path d="M ${cx-rx} ${topY} A ${rx} ${ry} 0 0 1 ${cx+rx} ${topY}" fill="var(--violet-soft)" stroke="var(--violet)" stroke-width="2.5"></path>
+      <ellipse cx="${cx}" cy="${botY}" rx="${rx}" ry="${ry}" fill="var(--violet)" fill-opacity="0.5" stroke="var(--violet)" stroke-width="2"></ellipse>
+      <path d="M ${cx-rx} ${botY} A ${rx} ${ry} 0 0 1 ${cx+rx} ${botY} L ${cx+rx} ${topY} A ${rx} ${ry} 0 0 0 ${cx-rx} ${topY} Z" fill="var(--violet)" fill-opacity="0.55" stroke="var(--violet)" stroke-width="2"></path>
+      <ellipse cx="${cx}" cy="${topY}" rx="${rx}" ry="${ry}" fill="var(--violet-soft)" stroke="var(--violet)" stroke-width="2.5"></ellipse>
       <line x1="${cx+rx+26}" y1="${topY}" x2="${cx+rx+26}" y2="${botY}" stroke="var(--ink-soft)" stroke-width="1.5" stroke-dasharray="3,3"></line>
       <text x="${cx+rx+34}" y="${(topY+botY)/2+5}" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink-soft)">높이</text>
     `;
