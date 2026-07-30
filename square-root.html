@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>제곱근과 실수 실험실</title>
+<meta name="description" content="슬라이더로 숫자를 바꾸며 제곱근이 수직선 어디에 있는지 확인하고, 근호 안을 간단히 만들어봐요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 22px;}
+.howto{background:var(--coral-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--coral-ink);}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.15fr 0.85fr;gap:32px;align-items:start;margin-bottom:24px;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+.canvas-area{display:flex;flex-direction:column;align-items:center;gap:16px;}
+svg{width:100%;max-width:460px;height:auto;overflow:visible;}
+.control-row{width:100%;max-width:380px;display:flex;flex-direction:column;gap:8px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--coral-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--violet);outline-offset:2px;}
+.panel{display:flex;flex-direction:column;gap:16px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px;text-align:center;}
+.equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(26px,4.4vw,36px);color:var(--ink);}
+.equation .sub2{margin-top:10px;font-size:14.5px;color:var(--ink-soft);}
+.tag-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+.tag{font-family:'Do Hyeon',sans-serif;font-size:13.5px;padding:5px 12px;border-radius:999px;}
+.tag.rational{background:var(--green-soft);color:var(--green-ink);}
+.tag.irrational{background:var(--coral-soft);color:var(--coral-ink);}
+.fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--coral-ink);}
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--coral-ink);}
+.quiz-q{font-size:17px;line-height:1.7;text-align:center;font-family:'Do Hyeon',sans-serif;color:var(--ink);margin-bottom:16px;}
+.quiz-opts{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:20px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:14px 26px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover:not(:disabled){border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
+.action-btn:hover{background:var(--coral-ink);}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-square-root.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">√ 제곱근과 실수 실험실</span>
+  <h1>제곱근은 수직선 위<br><span>정확히 어디</span>에 있을까?</h1>
+  <p class="sub">숫자를 슬라이더로 바꾸며 그 수의 제곱근이 정확히 몇인지, 근호를 더 간단하게 만들 수 있는지, 수직선 위 어디쯤에 있는지 확인해보세요.</p>
+
+  <div class="howto"><b>제곱근</b>은 "제곱해서 그 수가 되는 수"예요. 제곱해서 정수가 되는 수(예: √4=2)는 <b>유리수</b>지만, 대부분의 제곱근은 소수점 아래가 끝없이 불규칙하게 이어지는 <b>무리수</b>예요. 유리수와 무리수를 합쳐서 <b>실수</b>라고 불러요.</p>
+
+  <div class="stage">
+    <div class="canvas-area">
+      <svg id="svg" viewBox="0 0 440 120"></svg>
+      <div class="control-row">
+        <div class="control-label"><span>√ 안의 수</span><b id="nLabel">12</b></div>
+        <input id="slider" type="range" min="2" max="30" value="12" step="1" aria-label="숫자 조절">
+      </div>
+    </div>
+    <div class="panel">
+      <div class="equation">
+        <div class="formula" id="formula">√12 ≈ 3.464</div>
+        <div class="sub2" id="simplified">간단히 하면: 2√3</div>
+      </div>
+      <div class="tag-row" id="tagRow"></div>
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 크기 비교 퀴즈</h2>
+      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+    </div>
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextQuizBtn">➡ 다음 문제</button>
+  </div>
+
+  <footer>제곱근 안의 수가 클수록 제곱근의 값도 커져요(단, 둘 다 양수일 때). 그래서 √a와 √b 중 무엇이 큰지 알고 싶다면, 실제로 계산하지 않아도 a와 b만 비교하면 바로 알 수 있어요.</footer>
+</div>
+
+<script>
+const svg = document.getElementById('svg');
+const slider = document.getElementById('slider');
+const nLabel = document.getElementById('nLabel');
+const formula = document.getElementById('formula');
+const simplifiedEl = document.getElementById('simplified');
+const tagRow = document.getElementById('tagRow');
+const factBox = document.getElementById('fact');
+
+function isPerfectSquare(n){ const r = Math.round(Math.sqrt(n)); return r*r === n; }
+
+function simplifyRadical(n){
+  let outside=1, inside=n;
+  for(let p=2; p*p<=inside; p++){
+    while(inside % (p*p) === 0){ inside/=(p*p); outside*=p; }
+  }
+  return {outside, inside};
+}
+
+function render(){
+  const n = parseInt(slider.value);
+  nLabel.textContent = n;
+  const val = Math.sqrt(n);
+  const perfect = isPerfectSquare(n);
+
+  formula.textContent = perfect ? `√${n} = ${Math.round(val)}` : `√${n} ≈ ${val.toFixed(3)}...`;
+
+  if(perfect){
+    simplifiedEl.textContent = `${n}은 어떤 정수(${Math.round(val)})의 제곱이라 근호가 완전히 사라져요.`;
+  } else {
+    const {outside, inside} = simplifyRadical(n);
+    simplifiedEl.textContent = outside > 1 ? `간단히 하면: ${outside}√${inside}` : `더 이상 간단히 만들 수 없어요.`;
+  }
+
+  tagRow.innerHTML = perfect
+    ? `<span class="tag rational">유리수</span>`
+    : `<span class="tag irrational">무리수</span>`;
+
+  // 수직선
+  const lo = Math.floor(val), hi = Math.ceil(val);
+  const rangeMax = 6;
+  const x1=20, x2=420, y=60;
+  let html = `<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+  for(let i=0;i<=rangeMax;i++){
+    const px = x1 + i*(x2-x1)/rangeMax;
+    html += `<line x1="${px}" y1="${y-6}" x2="${px}" y2="${y+6}" stroke="var(--paper-line)" stroke-width="2"></line>`;
+    html += `<text x="${px}" y="${y+24}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)">${i}</text>`;
+  }
+  const vx = x1 + Math.min(val,rangeMax)*(x2-x1)/rangeMax;
+  html += `<circle cx="${vx}" cy="${y}" r="7" fill="var(--coral)"></circle>`;
+  html += `<text x="${vx}" y="${y-16}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--coral-ink)">√${n}</text>`;
+  svg.innerHTML = html;
+
+  factBox.innerHTML = perfect
+    ? `<b>${n}</b>은 완전제곱수(어떤 정수를 제곱한 수)라서, 제곱근이 정수로 딱 떨어져요. 그래서 √${n}은 유리수예요.`
+    : `√${n}은 <b>${lo}</b>과 <b>${hi}</b> 사이에 있어요(${lo}²=${lo*lo} < ${n} < ${hi*hi}=${hi}²이니까요). 소수로 나타내면 끝없이 불규칙하게 이어져서 <b>무리수</b>예요.`;
+}
+
+slider.addEventListener('input', render);
+render();
+
+/* ---------- 퀴즈 ---------- */
+const quizQ = document.getElementById('quizQ');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextQuizBtn = document.getElementById('nextQuizBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+const triesNumEl = document.getElementById('triesNum');
+let score = 0, tries = 0, answered = false;
+
+function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+
+function newQuizQuestion(){
+  answered = false;
+  quizFeedback.textContent = '';
+  let a = randInt(2,40), b = randInt(2,40);
+  while(a===b){ b = randInt(2,40); }
+  quizQ.textContent = `√${a} 과 √${b} 중에서 어느 쪽이 더 클까요?`;
+  const correct = a>b ? 'a' : 'b';
+  quizOpts.innerHTML = `
+    <button class="opt-btn" data-o="a">√${a}</button>
+    <button class="opt-btn" data-o="b">√${b}</button>
+  `;
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered = true;
+      tries++;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      if(btn.dataset.o===correct){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 맞았어요! ${a>b?`${a} > ${b}`:`${b} > ${a}`}이니까 √${a>b?a:b}이 더 커요. (정답 ${score} / 시도 ${tries})`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${correct}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `아쉬워요! √${a>b?a:b}이 더 커요 — 근호 안의 수가 클수록 제곱근도 커져요. (정답 ${score} / 시도 ${tries})`;
+      }
+      scoreNumEl.textContent = score;
+      triesNumEl.textContent = tries;
+    });
+  });
+}
+
+nextQuizBtn.addEventListener('click', newQuizQuestion);
+newQuizQuestion();
+</script>
+</body>
+</html>

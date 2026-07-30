@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>제곱근과 실수, 수직선에는 정수만 있는 게 아니에요 | 아인매스</title>
+<meta name="description" content="제곱해서 어떤 수가 되는 수를 제곱근이라고 해요. 유리수와 무리수가 만나 수직선을 빈틈없이 채우는 실수의 세계를 알아봐요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#D90500;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#D90500;background:#FFEAE8">🔢 수와 연산</span>
+  <h1>제곱근과 실수, 수직선에는 정수만 있는 게 아니에요</h1>
+  <p class="meta">중학교 3학년 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>2를 제곱하면 4가 돼요. 그럼 반대로 "제곱해서 4가 되는 수는?"이라고 물으면 어떨까요? 2예요. 이렇게 제곱해서 어떤 수가 되는 수를 그 수의 <b>제곱근</b>이라고 해요. 4의 제곱근은 2(그리고 −2도 제곱하면 4가 되니까 함께 답이에요). 이 개념 자체는 간단한데, 흥미로운 건 모든 수의 제곱근이 2처럼 깔끔한 정수로 나오지는 않는다는 점이에요.</p>
+      <p>3의 제곱근을 생각해볼게요. 1²=1, 2²=4니까 3의 제곱근은 1과 2 사이 어딘가에 있어야 해요. 실제로 계산해보면 1.7320508...으로 소수점 아래가 끝없이 불규칙하게 이어져요. 이렇게 분수로 정확히 나타낼 수 없고, 소수로 써도 규칙 없이 끝없이 이어지는 수를 <b>무리수</b>라고 해요. 반대로 분수로 나타낼 수 있는 수(정수, 유한소수, 순환소수)는 모두 <b>유리수</b>고요. 유리수와 무리수를 합친 것을 <b>실수</b>라고 불러요 — 이름 그대로 "실제로 존재하는 모든 수"라는 뜻이에요.</p>
+      <p>어떤 수의 제곱근이 유리수가 되려면, 그 수가 <b>완전제곱수</b>(어떤 정수를 제곱한 수: 1, 4, 9, 16, 25...)여야 해요. 완전제곱수가 아닌 나머지 자연수들의 제곱근은 전부 무리수가 돼요. 그런데 재미있게도, 완전제곱수는 정수 전체에서 매우 드물어요. 1부터 100까지 중 완전제곱수는 딱 10개(1, 4, 9, ..., 100)뿐이니, 나머지 90개는 모두 제곱근이 무리수인 거예요.</p>
+      <p>제곱근을 다룰 때 유용한 기술이 <b>근호 간단히 하기</b>예요. 예를 들어 √12는 겉보기엔 복잡해 보이지만, 12 = 4×3이고 4는 완전제곱수니까 √12 = √4×√3 = 2√3으로 바꿀 수 있어요. 이렇게 근호 안의 수에서 완전제곱수인 인수를 최대한 밖으로 빼내면, 훨씬 간단하고 다루기 쉬운 형태가 돼요. 이후 제곱근끼리 더하거나 빼는 계산을 할 때도, 근호 안의 수가 똑같아야만(동류항처럼) 합칠 수 있기 때문에 이 간단히 하기 과정이 꼭 필요해요.</p>
+      <p>제곱근의 크기를 비교하는 것도 생각보다 쉬워요. 두 양수 a, b에 대해 a &lt; b이면 √a &lt; √b가 항상 성립해요. 근호 안의 수가 클수록 제곱근도 커진다는 뜻이에요. 그래서 직접 소수로 계산하지 않아도, 근호 안의 수만 비교하면 어느 제곱근이 더 큰지 바로 판단할 수 있어요.</p>
+      <p>무리수가 처음엔 낯설게 느껴질 수 있지만, 사실 우리 주변에도 많이 숨어 있어요. 정사각형의 대각선 길이, 원의 둘레와 지름의 비율(π)도 모두 무리수예요. 유리수만으로는 수직선을 완전히 채울 수 없고, 무리수가 그 빈틈을 메워야 비로소 수직선이 실수로 빽빽하게 채워진다는 것, 이게 실수라는 개념이 왜 필요한지를 보여주는 핵심이에요.</p>
+      <p>저희 체험 페이지에서는 숫자를 슬라이더로 바꾸며 그 수의 제곱근이 유리수인지 무리수인지, 근호를 더 간단히 만들 수 있는지, 수직선 위 정확히 어디에 위치하는지 확인할 수 있어요. 제곱근의 크기를 비교하는 퀴즈도 함께 풀어보세요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="square-root.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>산포도, 평균만으로는 알 수 없는 것 | 아인매스</title>
+<meta name="description" content="상자그림은 자료가 흩어진 정도를 다섯 숫자로 요약하고, 산점도는 두 변량 사이의 관계를 눈으로 보여줘요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#357A63;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#357A63;background:#E3F5EE">📊 확률과 통계</span>
+  <h1>산포도, 평균만으로는 알 수 없는 것</h1>
+  <p class="meta">중학교 3학년 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>두 반의 수학 시험 평균이 똑같이 70점이라고 해봐요. 그럼 두 반의 성적 분포도 비슷할까요? 꼭 그렇지는 않아요. 한 반은 모두가 65~75점 사이에 몰려 있는데, 다른 반은 절반이 30점대, 절반이 100점 근처일 수도 있어요. 평균은 똑같지만 "얼마나 흩어져 있는가"는 완전히 다른 거예요. 이 흩어진 정도를 나타내는 게 바로 <b>산포도</b>예요.</p>
+      <p>산포도를 한눈에 보여주는 대표적인 방법이 <b>상자그림</b>이에요. 자료를 크기 순서대로 쭉 줄 세운 다음, 다섯 개의 기준점을 찾아요: 가장 작은 값(최솟값), 가장 큰 값(최댓값), 정확히 가운데 있는 값(중앙값), 그리고 아래쪽 절반의 중앙값(제1사분위수, Q1)과 위쪽 절반의 중앙값(제3사분위수, Q3)이에요. 이 다섯 숫자로 상자를 그리면, 상자의 폭(Q3−Q1, 사분위범위)이 넓을수록 자료의 가운데 절반이 넓게 퍼져 있다는 뜻이 돼요. 상자그림 하나만 봐도 자료가 고르게 모여 있는지, 넓게 흩어져 있는지 바로 짐작할 수 있어요.</p>
+      <p>상자그림이 하나의 자료 뭉치가 얼마나 흩어져 있는지를 보여준다면, <b>산점도</b>는 서로 다른 두 자료(변량) 사이에 어떤 관계가 있는지를 보여줘요. 예를 들어 '공부 시간'과 '시험 점수'처럼 짝을 이루는 두 값을 각각 x축, y축에 놓고 점으로 찍는 거예요. 이때 점들이 대체로 오른쪽 위로 올라가는 모양이면, 한 값이 커질 때 다른 값도 커지는 경향이 있다는 뜻으로 <b>양의 상관관계</b>가 있다고 말해요. 반대로 오른쪽 아래로 내려가는 모양이면 한쪽이 커질 때 다른 쪽은 작아지는 <b>음의 상관관계</b>고요. 점들이 이렇다 할 방향 없이 흩어져 있으면 <b>상관관계가 없다</b>고 해요.</p>
+      <p>여기서 중요한 건, 상관관계가 있다고 해서 반드시 하나가 다른 하나의 '원인'이라는 뜻은 아니라는 거예요. 예를 들어 아이스크림 판매량과 물놀이 사고 건수는 둘 다 여름에 함께 늘어나서 양의 상관관계를 보이지만, 아이스크림이 사고를 일으키는 건 아니죠. 둘 다 '더운 날씨'라는 공통 원인 때문에 함께 변하는 거예요. 산점도로 관계를 확인하는 것과, 그 관계의 진짜 원인을 밝히는 것은 다른 문제라는 걸 기억해두면 좋아요.</p>
+      <p>상자그림과 산점도는 통계에서 아주 실용적인 도구예요. 숫자를 잔뜩 나열해서는 한눈에 파악하기 어려운 정보를, 그림 하나로 압축해서 보여주기 때문이에요. 뉴스나 보고서에서 "격차가 크다", "관계가 있어 보인다" 같은 이야기가 나올 때, 그 뒤에는 대개 이런 그래프들이 숨어 있어요.</p>
+      <p>저희 체험 페이지에서는 무작위로 만들어진 자료를 상자그림으로 정리해서 최솟값부터 최댓값까지 다섯 숫자를 직접 확인할 수 있고, 산점도를 보고 양의 상관관계·음의 상관관계·상관관계 없음 중 무엇인지 맞혀보는 퀴즈도 풀어볼 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="boxplot-scatter.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

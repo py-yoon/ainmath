@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>다항식의 곱셈·인수분해와 이차방정식, 넓이로 보면 쉬워요 | 아인매스</title>
+<meta name="description" content="곱셈공식을 정사각형 넓이로 이해하면, 인수분해와 이차방정식까지 자연스럽게 이어져요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#0D62F1;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#0D62F1;background:#E7F0FF">📈 함수와 그래프</span>
+  <h1>다항식의 곱셈·인수분해와 이차방정식, 넓이로 보면 쉬워요</h1>
+  <p class="meta">중학교 3학년 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>(a+b)² = a² + 2ab + b². 중학교 수학에서 가장 유명한 공식 중 하나지만, 그냥 외우기만 하면 왜 이렇게 되는지 와닿지 않을 수 있어요. 사실 이 공식은 정사각형의 넓이를 두 가지 방법으로 계산한 결과가 같다는, 아주 자연스러운 사실에서 나온 거예요.</p>
+      <p>한 변의 길이가 (a+b)인 정사각형을 하나 그려볼게요. 이 정사각형의 넓이는 당연히 (a+b)² 이에요. 그런데 이 정사각형을 가로세로로 각각 a와 b만큼 나누면, 작은 조각 4개가 생겨요: a×a 크기의 정사각형 하나, b×b 크기의 정사각형 하나, 그리고 a×b 크기의 직사각형 두 개예요. 이 네 조각의 넓이를 모두 더하면 a² + ab + ab + b² = a² + 2ab + b²가 되고, 이건 처음에 구한 (a+b)²과 정확히 같아야 해요. 그래서 두 식이 같다는 게 증명되는 거예요 — 외운 공식이 아니라, 넓이라는 눈에 보이는 양으로 확인할 수 있는 사실인 거죠.</p>
+      <p>이제 이 곱셈공식을 거꾸로 뒤집어볼게요. x² + 5x + 6이라는 식이 있다고 해봐요. 이걸 (x+2)(x+3)으로 다시 쓸 수 있어요 — 실제로 전개해보면 x² + 3x + 2x + 6 = x² + 5x + 6이 되어 맞아떨어져요. 이렇게 여러 항으로 이루어진 식을, 곱셈으로 이루어진 식으로 다시 묶는 과정을 <b>인수분해</b>라고 해요. 곱셈공식이 "쪼개진 것을 하나로 합치는" 방향이라면, 인수분해는 "합쳐진 것을 다시 쪼개는" 반대 방향인 셈이에요.</p>
+      <p>인수분해가 특히 강력한 이유는 <b>이차방정식을 푸는 데</b> 쓰이기 때문이에요. x² + 5x + 6 = 0이라는 방정식을 생각해보세요. 이걸 인수분해하면 (x+2)(x+3) = 0이 돼요. 두 수를 곱해서 0이 되려면, 둘 중 적어도 하나는 반드시 0이어야 해요(0이 아닌 두 수를 아무리 곱해도 0이 될 수 없으니까요). 그래서 x+2=0 또는 x+3=0이 되고, 각각 풀면 x=−2 또는 x=−3이 나와요. 복잡해 보이던 이차방정식이, 인수분해 한 번으로 훨씬 간단한 두 개의 일차방정식으로 쪼개지는 거예요.</p>
+      <p>인수분해를 빠르게 하는 요령은, 두 근을 곱한 값이 상수항이 되고 두 근을 더한 값에 부호를 반대로 한 값이 x의 계수가 된다는 관계를 거꾸로 이용하는 거예요. x² + bx + c = 0에서, 곱해서 c가 되고 더해서 −b가 되는 두 수를 찾으면 그게 바로 두 근이에요. 예를 들어 x² − x − 6 = 0이라면, 곱해서 −6이고 더해서 1이 되는 두 수는 3과 −2예요. 그래서 (x−3)(x+2)=0, 즉 x=3 또는 x=−2가 돼요.</p>
+      <p>곱셈공식, 인수분해, 이차방정식은 겉보기엔 다른 주제 같지만 사실 하나로 연결된 이야기예요. 곱셈공식으로 식을 펼치는 법을 배우고, 그 반대 과정인 인수분해로 식을 다시 묶는 법을 배우면, 이차방정식이라는 새로운 문제를 이미 알고 있던 도구로 자연스럽게 풀어낼 수 있게 되는 거예요.</p>
+      <p>저희 체험 페이지에서는 슬라이더로 a, b를 바꾸며 (a+b)²이 왜 그런 공식이 되는지 정사각형 넓이로 확인할 수 있고, 인수분해로 이차방정식의 두 근을 직접 맞혀보는 연습도 할 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="factoring-quadratic.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

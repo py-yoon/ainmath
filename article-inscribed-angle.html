@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>원의 성질(원주각), 어디서 봐도 똑같은 각도 | 아인매스</title>
+<meta name="description" content="원 위 어느 점에서 보든 같은 호에 대한 원주각은 항상 똑같아요. 그 이유와 중심각과의 관계를 알아봐요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#6847F7;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#6847F7;background:#EEE8FF">📐 도형·기하</span>
+  <h1>원의 성질(원주각), 어디서 봐도 똑같은 각도</h1>
+  <p class="meta">중학교 3학년 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>원 위에 두 점 A, B를 찍고 호 AB를 정해보세요. 이제 그 호의 반대쪽(나머지 큰 호) 위에 점 P를 하나 더 찍고, 각 APB를 재보세요. 그 다음 P를 원 위 다른 자리로 옮겨서 다시 각을 재보면 어떨까요? 신기하게도 P를 어디로 옮기든 각 APB의 크기는 항상 똑같아요. 이 각을 호 AB에 대한 <b>원주각</b>이라고 부르고, 이 성질을 <b>원주각의 성질</b>이라고 해요.</p>
+      <p>원주각이 왜 항상 같은지 이해하려면 <b>중심각</b>과의 관계를 알아야 해요. 중심각은 원의 중심 O에서 A와 B를 바라본 각(∠AOB)이에요. 원주각의 성질에 따르면, 같은 호에 대한 원주각은 항상 중심각의 <b>정확히 절반</b>이에요. 중심각은 P의 위치와 상관없이 항상 고정된 하나의 값이니까, 그 절반인 원주각도 P가 어디에 있든 항상 똑같은 값을 가질 수밖에 없는 거예요. 결국 "원주각이 일정하다"는 사실은 "원주각 = 중심각 ÷ 2"라는 더 근본적인 관계에서 자연스럽게 따라 나오는 결과예요.</p>
+      <p>이 성질에는 특별히 유명한 특수한 경우가 있어요. 만약 A와 B가 원의 중심을 사이에 두고 정반대에 있다면(즉, 선분 AB가 지름이라면), 중심각은 180°가 돼요. 그럼 원주각은 180°의 절반인 <b>90°</b>가 되죠. 다시 말해, 지름을 바라보는 원주각은 항상 직각이에요. 이 사실은 고대 그리스 수학자 탈레스의 이름을 따서 "탈레스의 정리"라고도 불려요. 반원 안에 어떤 삼각형을 그려도, 지름을 마주보는 꼭짓점의 각은 항상 정확히 90°가 되는 거예요.</p>
+      <p>원주각의 성질은 원과 관련된 여러 도형 문제에서 각도를 구하는 핵심 도구로 쓰여요. 복잡해 보이는 원 안의 도형도, "이 두 각이 같은 호를 보고 있는 원주각이구나"를 알아채는 순간 문제가 훨씬 쉬워지는 경우가 많아요. 반대로 어떤 각이 90°라는 걸 알고 있다면, 그 각이 지름을 바라보고 있다는 것도 거꾸로 추론할 수 있고요.</p>
+      <p>이 성질을 증명할 때는 삼각형의 외각 성질(한 외각은 이웃하지 않은 두 내각의 합과 같다는 성질)을 이용해요. 중심 O와 점 P를 연결하는 보조선을 그으면, 이등변삼각형 두 개가 생기는데, 그 삼각형들의 각도 관계를 차근차근 따라가면 원주각이 정확히 중심각의 절반이라는 게 증명돼요. 지금 단계에서는 증명 과정을 완벽히 외우기보다, "왜 항상 절반이 되는지" 그림으로 느끼는 게 더 중요해요.</p>
+      <p>저희 체험 페이지에서는 중심각을 슬라이더로 바꾸고, 점 P를 원 위에서 자유롭게 움직이면서 원주각이 정말 항상 중심각의 절반으로 유지되는지 직접 확인할 수 있어요. "지름으로 만들기" 버튼을 누르면 탈레스의 정리도 바로 확인해볼 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="inscribed-angle.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
