@@ -164,15 +164,20 @@ function render(){
   html += `<text class="axis-label" x="${ax2-8}" y="${ay2-8}">x</text>`;
   html += `<text class="axis-label" x="${oy2x+8}" y="${oy2y+8}">y</text>`;
 
-  // 포물선 (a=0이면 직선)
+  // 포물선 (a=0이면 직선) — 화면(격자) 범위를 벗어나면 선을 끊어서, 위아래로 평평하게 잘리는 선이 생기지 않도록 해요.
   let path = '';
+  let drawing = false;
   const steps = 200;
   for(let i=0;i<=steps;i++){
     const x = -RANGE + (2*RANGE)*(i/steps);
-    let y = a*x*x + b*x + c;
-    y = Math.max(-RANGE*1.4, Math.min(RANGE*1.4, y)); // 화면 밖으로 너무 벗어나지 않게 클램프
+    const y = a*x*x + b*x + c;
+    if(Math.abs(y) > RANGE){
+      drawing = false;
+      continue;
+    }
     const [px,py] = toSvg(x,y);
-    path += (i===0?'M':'L') + px.toFixed(1) + ',' + py.toFixed(1) + ' ';
+    path += (drawing?'L':'M') + px.toFixed(1) + ',' + py.toFixed(1) + ' ';
+    drawing = true;
   }
   html += `<path d="${path}" fill="none" stroke="var(--blue)" stroke-width="3.5" stroke-linecap="round"></path>`;
 
