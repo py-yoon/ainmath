@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일차부등식과 연립방정식 실험실</title>
+<meta name="description" content="저울과 수직선으로 일차부등식을 풀고, 그래프의 교점으로 연립방정식의 해를 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue-ink);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 22px;}
+.tab-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:10px 18px;cursor:pointer;transition:all .15s ease;box-shadow:var(--shadow);}
+.tab-btn:hover{border-color:var(--blue-ink);color:var(--blue-ink);}
+.tab-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+.panel-wrap{display:none;}
+.panel-wrap.active{display:block;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.15fr 0.85fr;gap:32px;align-items:start;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+.canvas-area{display:flex;flex-direction:column;align-items:center;gap:16px;}
+svg{width:100%;max-width:440px;height:auto;overflow:visible;}
+.howto{background:var(--blue-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 22px;}
+.howto b{color:var(--blue-ink);}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;align-self:center;}
+.progress-badge b{color:var(--blue-ink);}
+.panel{display:flex;flex-direction:column;gap:16px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px;text-align:center;}
+.equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(22px,3.6vw,28px);color:var(--ink);}
+.step-row{display:flex;gap:10px;flex-wrap:wrap;}
+.step-row .btn{flex:1;min-width:150px;}
+.btn{font-family:'Do Hyeon',sans-serif;font-size:14.5px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:12px 16px;cursor:pointer;transition:background .15s ease;}
+.btn:hover:not(:disabled){background:var(--blue-ink);}
+.btn:disabled{opacity:0.35;cursor:default;}
+.btn.secondary{background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);}
+.btn.secondary:hover:not(:disabled){border-color:var(--blue-ink);color:var(--blue-ink);background:var(--paper);}
+.btn.accent{background:var(--blue-ink);}
+.btn.accent:hover:not(:disabled){filter:brightness(1.1);}
+.action-row{display:flex;gap:10px;flex-wrap:wrap;}
+.step-list{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:14px 18px;font-size:14.5px;color:var(--ink-soft);line-height:1.8;min-height:24px;}
+.step-list b{color:var(--ink);}
+.fact{background:var(--blue-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--blue-ink);}
+.quiz-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.quiz-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:11px 18px;cursor:pointer;transition:all .15s ease;}
+.quiz-btn:hover:not(:disabled){border-color:var(--blue-ink);color:var(--blue-ink);}
+.quiz-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.quiz-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.quiz-btn:disabled{cursor:not-allowed;}
+.quiz-q{font-size:16px;text-align:center;font-family:'Do Hyeon',sans-serif;color:var(--ink);}
+.quiz-feedback{min-height:22px;font-size:14.5px;text-align:center;color:var(--ink-soft);}
+.answer-row{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;}
+.answer-row label{font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--ink);}
+.answer-row input[type=number]{width:70px;font-family:'Do Hyeon',sans-serif;font-size:17px;text-align:center;padding:8px;border-radius:10px;border:2px solid var(--paper-line);background:var(--paper);color:var(--ink);}
+.answer-row input[type=number]:focus{outline:none;border-color:var(--blue-ink);}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-inequality-and-system.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">⚖️ 일차부등식과 연립방정식 실험실</span>
+  <h1>부등호는 언제 <span>방향이 바뀔까?</span><br>두 직선은 어디서 만날까?</h1>
+  <p class="sub">부등식은 방정식과 풀이 방법이 거의 같지만, 음수를 곱하거나 나눌 때 방향이 뒤집힌다는 점이 달라요. 연립방정식은 두 식을 각각 그래프로 그렸을 때 만나는 점이 바로 해가 돼요.</p>
+
+  <div class="tab-row" id="tabRow">
+    <button class="tab-btn active" data-t="ineq">📏 일차부등식</button>
+    <button class="tab-btn" data-t="sys">📈 연립방정식</button>
+  </div>
+
+  <div class="panel-wrap active" id="panel-ineq">
+    <div class="howto"><b>부등식의 성질</b>: 양쪽에 같은 수를 더하거나 빼면 방향은 그대로예요. 양쪽에 <b>양수</b>를 곱하거나 나눠도 방향은 그대로지만, 양쪽에 <b>음수</b>를 곱하거나 나누면 부등호 방향이 <b>반대로 바뀌어요</b>.</div>
+    <div class="stage">
+      <div class="canvas-area">
+        <div class="progress-badge">정답 <b id="ineqScoreNum">0</b> / 시도 <b id="ineqTriesNum">0</b></div>
+        <svg id="ineqSvg" viewBox="0 0 440 120"></svg>
+        <div class="quiz-row" id="ineqQuizRow" style="display:none;"></div>
+        <div class="quiz-feedback" id="ineqQuizFeedback"></div>
+        <div class="action-row">
+          <button class="btn secondary" id="ineqNextBtn">➡ 다음 문제</button>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="equation">
+          <div class="formula" id="ineqFormula"></div>
+        </div>
+        <div class="step-row">
+          <button class="btn" id="ineqStep1Btn">① 양쪽에서 b 없애기</button>
+          <button class="btn" id="ineqStep2Btn" disabled>② 양쪽을 a로 나누기</button>
+        </div>
+        <div class="step-list" id="ineqStepList">①번 버튼을 눌러 풀이를 시작해보세요.</div>
+        <div class="fact" id="ineqFact">해가 정해지면 그 값을 확인하는 문제가 나와요.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-wrap" id="panel-sys">
+    <div class="howto"><b>연립방정식</b>은 식 두 개를 동시에 만족하는 x, y를 찾는 거예요. 두 식을 각각 그래프로 그리면, 두 직선이 만나는 점의 좌표가 바로 정답이에요.</div>
+    <div class="stage">
+      <div class="canvas-area">
+        <svg id="sysSvg" viewBox="0 0 400 400"></svg>
+        <div class="answer-row">
+          <label>x =</label><input type="number" id="sysX" inputmode="numeric">
+          <label>y =</label><input type="number" id="sysY" inputmode="numeric">
+          <button class="btn accent" id="sysCheckBtn">정답 확인</button>
+          <button class="btn secondary" id="sysRevealBtn">💡 풀이 보기</button>
+        </div>
+        <div class="quiz-feedback" id="sysFeedback"></div>
+        <button class="btn secondary" id="sysNextBtn">➡ 다음 문제</button>
+      </div>
+      <div class="panel">
+        <div class="equation">
+          <div class="formula" id="sysFormula"></div>
+        </div>
+        <div class="step-list" id="sysStepList">정답을 맞히거나 풀이 보기를 누르면 소거법 과정이 나와요.</div>
+        <div class="fact">두 직선의 <b style="color:var(--coral-ink);">교점</b>은 두 식을 동시에 만족하는 단 하나의 점이에요. 이게 바로 연립방정식의 해예요.</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>부등식은 "범위"를, 방정식은 "점 하나"를 답으로 가져요. 두 개념 모두 등식(또는 부등식)의 성질을 이용해서 양쪽에 같은 조작을 반복하는 게 핵심이에요.</footer>
+</div>
+
+<script>
+/* ---------- 탭 전환 ---------- */
+document.getElementById('tabRow').addEventListener('click', (e)=>{
+  const btn = e.target.closest('.tab-btn');
+  if(!btn) return;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.panel-wrap').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+btn.dataset.t).classList.add('active');
+});
+
+/* ================= 일차부등식 ================= */
+const ineqSvg = document.getElementById('ineqSvg');
+const ineqFormula = document.getElementById('ineqFormula');
+const ineqStep1Btn = document.getElementById('ineqStep1Btn');
+const ineqStep2Btn = document.getElementById('ineqStep2Btn');
+const ineqStepList = document.getElementById('ineqStepList');
+const ineqFact = document.getElementById('ineqFact');
+const ineqQuizRow = document.getElementById('ineqQuizRow');
+const ineqQuizFeedback = document.getElementById('ineqQuizFeedback');
+const ineqNextBtn = document.getElementById('ineqNextBtn');
+const ineqScoreNumEl = document.getElementById('ineqScoreNum');
+const ineqTriesNumEl = document.getElementById('ineqTriesNum');
+
+let ia, ib, ic, ix0, idir; // a x + b (dir) c
+let iStep = 0;
+let iScore = 0, iTries = 0;
+
+function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+
+function ineqNewProblem(){
+  ia = [1,2,3,-1,-2,-3][randInt(0,5)];
+  ib = randInt(0,9);
+  ix0 = randInt(-5,5);
+  idir = Math.random()<0.5 ? '>' : '<';
+  ic = ia*ix0 + ib;
+  iStep = 0;
+  ineqStep1Btn.disabled = false;
+  ineqStep2Btn.disabled = true;
+  ineqQuizRow.style.display = 'none';
+  ineqQuizFeedback.textContent = '';
+  ineqStepList.textContent = '①번 버튼을 눌러 풀이를 시작해보세요.';
+  ineqFact.textContent = '해가 정해지면 그 값을 확인하는 문제가 나와요.';
+  drawNumberLine(null, null);
+  renderIneqFormula();
+}
+
+function renderIneqFormula(){
+  const bTerm = ib===0 ? '' : ` + ${ib}`;
+  const aTerm = Math.abs(ia)===1 ? (ia<0?'-x':'x') : `${ia}x`;
+  if(iStep===0){
+    ineqFormula.textContent = `${aTerm}${bTerm} ${idir} ${ic}`;
+  } else if(iStep===1){
+    ineqFormula.textContent = `${aTerm} ${idir} ${ic-ib}`;
+  } else {
+    const finalDir = ia<0 ? (idir==='>'?'<':'>') : idir;
+    ineqFormula.textContent = `x ${finalDir} ${fmt((ic-ib)/ia)}`;
+  }
+}
+function fmt(n){ return (Math.round(n*100)/100).toString(); }
+
+function drawNumberLine(boundary, finalDir){
+  const y = 60, x1=20, x2=420;
+  let html = `<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+  for(let i=-10;i<=10;i++){
+    const px = x1 + (i+10)*(x2-x1)/20;
+    html += `<line x1="${px}" y1="${y-6}" x2="${px}" y2="${y+6}" stroke="var(--paper-line)" stroke-width="2"></line>`;
+    if(i%5===0) html += `<text x="${px}" y="${y+24}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)">${i}</text>`;
+  }
+  if(boundary!==null && boundary>=-10 && boundary<=10){
+    const bx = x1 + (boundary+10)*(x2-x1)/20;
+    if(finalDir==='>'){
+      html += `<line x1="${bx}" y1="${y}" x2="${x2}" y2="${y}" stroke="var(--coral)" stroke-width="6"></line>`;
+    } else {
+      html += `<line x1="${x1}" y1="${y}" x2="${bx}" y2="${y}" stroke="var(--coral)" stroke-width="6"></line>`;
+    }
+    html += `<circle cx="${bx}" cy="${y}" r="7" fill="var(--paper)" stroke="var(--coral-ink)" stroke-width="3"></circle>`;
+  }
+  ineqSvg.innerHTML = html;
+}
+
+function startIneqQuiz(){
+  const finalDir = ia<0 ? (idir==='>'?'<':'>') : idir;
+  const xAns = fmt((ic-ib)/ia);
+  drawNumberLine(parseFloat(xAns), finalDir);
+
+  const testVal = Math.round(parseFloat(xAns)) + (Math.random()<0.5 ? randInt(1,3) : -randInt(1,3));
+  const satisfies = finalDir==='>' ? testVal > parseFloat(xAns) : testVal < parseFloat(xAns);
+
+  ineqQuizRow.style.display = 'flex';
+  ineqQuizRow.innerHTML = `
+    <div class="quiz-q" style="width:100%;margin-bottom:8px;">x = ${testVal}은 이 부등식을 만족할까요?</div>
+    <button class="quiz-btn" data-v="yes">✅ 만족해요</button>
+    <button class="quiz-btn" data-v="no">❌ 만족 안 해요</button>
+  `;
+  ineqQuizFeedback.textContent = '';
+  ineqQuizRow.querySelectorAll('.quiz-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      iTries++;
+      ineqTriesNumEl.textContent = iTries;
+      ineqQuizRow.querySelectorAll('.quiz-btn').forEach(b=>b.disabled=true);
+      const guess = btn.dataset.v==='yes';
+      if(guess===satisfies){
+        iScore++;
+        ineqScoreNumEl.textContent = iScore;
+        btn.classList.add('correct');
+        ineqQuizFeedback.innerHTML = `🎉 정답이에요! 해는 <b>x ${finalDir} ${xAns}</b>예요.`;
+      } else {
+        btn.classList.add('wrong');
+        ineqQuizFeedback.innerHTML = `아쉬워요! 해는 <b>x ${finalDir} ${xAns}</b>예요. 수직선의 빨간 부분을 다시 확인해보세요.`;
+      }
+    });
+  });
+}
+
+ineqStep1Btn.addEventListener('click', ()=>{
+  if(iStep!==0) return;
+  iStep = 1;
+  ineqStep1Btn.disabled = true;
+  ineqStep2Btn.disabled = false;
+  renderIneqFormula();
+  ineqStepList.innerHTML = `<b>처음 식:</b> ${Math.abs(ia)===1?(ia<0?'-x':'x'):ia+'x'}${ib?` + ${ib}`:''} ${idir} ${ic}<br><b>① 양쪽에서 ${ib} 빼기:</b> 방향은 그대로예요.`;
+});
+ineqStep2Btn.addEventListener('click', ()=>{
+  if(iStep!==1) return;
+  iStep = 2;
+  ineqStep2Btn.disabled = true;
+  renderIneqFormula();
+  const flip = ia<0;
+  ineqStepList.innerHTML += `<br><b>② 양쪽을 ${ia}로 나누기:</b> ${flip ? '<span style="color:var(--coral-ink);">음수로 나눴으니 부등호 방향이 반대로 바뀌어요!</span>' : '양수로 나눴으니 방향은 그대로예요.'}`;
+  ineqFact.innerHTML = flip
+    ? `<b>a가 음수</b>일 때는 양쪽을 나누면서 부등호를 뒤집어야 해요. 안 그러면 완전히 틀린 답이 나와요!`
+    : `<b>a가 양수</b>일 때는 방향을 바꿀 필요가 없어요. 방정식을 풀 때와 똑같은 방식이에요.`;
+  startIneqQuiz();
+});
+ineqNextBtn.addEventListener('click', ineqNewProblem);
+ineqNewProblem();
+
+/* ================= 연립방정식 ================= */
+const sysSvg = document.getElementById('sysSvg');
+const sysFormula = document.getElementById('sysFormula');
+const sysX = document.getElementById('sysX');
+const sysY = document.getElementById('sysY');
+const sysCheckBtn = document.getElementById('sysCheckBtn');
+const sysRevealBtn = document.getElementById('sysRevealBtn');
+const sysNextBtn = document.getElementById('sysNextBtn');
+const sysFeedback = document.getElementById('sysFeedback');
+const sysStepList = document.getElementById('sysStepList');
+
+let sx0, sy0, sc1, sc2; // x+y=c1, x-y=c2
+let sSolved = false, sRevealed = false;
+
+const RANGE = 8, SIZE = 400, CX = SIZE/2, CY = SIZE/2, SCALE = (SIZE/2-30)/RANGE;
+function toSvg(x,y){ return [CX + x*SCALE, CY - y*SCALE]; }
+
+function sysNewProblem(){
+  sx0 = randInt(-4,4);
+  sy0 = randInt(-4,4);
+  sc1 = sx0 + sy0;
+  sc2 = sx0 - sy0;
+  sSolved = false; sRevealed = false;
+  sysX.value = ''; sysY.value = '';
+  sysX.disabled = false; sysY.disabled = false;
+  sysCheckBtn.disabled = false; sysRevealBtn.disabled = false;
+  sysFeedback.textContent = '';
+  sysStepList.textContent = '정답을 맞히거나 풀이 보기를 누르면 소거법 과정이 나와요.';
+  sysFormula.innerHTML = `x + y = ${sc1}<br>x − y = ${sc2}`;
+  drawSysGraph(false);
+}
+
+function drawSysGraph(showSolution){
+  let html = '';
+  for(let i=-RANGE;i<=RANGE;i++){
+    const [gx1,gy1] = toSvg(i,-RANGE), [gx2,gy2] = toSvg(i,RANGE);
+    html += `<line x1="${gx1}" y1="${gy1}" x2="${gx2}" y2="${gy2}" stroke="var(--paper-line)" stroke-width="1"></line>`;
+    const [hx1,hy1] = toSvg(-RANGE,i), [hx2,hy2] = toSvg(RANGE,i);
+    html += `<line x1="${hx1}" y1="${hy1}" x2="${hx2}" y2="${hy2}" stroke="var(--paper-line)" stroke-width="1"></line>`;
+  }
+  const [ax1,ay1] = toSvg(-RANGE,0), [ax2,ay2] = toSvg(RANGE,0);
+  const [oy1x,oy1y] = toSvg(0,-RANGE), [oy2x,oy2y] = toSvg(0,RANGE);
+  html += `<line x1="${ax1}" y1="${ay1}" x2="${ax2}" y2="${ay2}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+  html += `<line x1="${oy1x}" y1="${oy1y}" x2="${oy2x}" y2="${oy2y}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+
+  // eq1: y = -x + c1
+  const [l1x1,l1y1] = toSvg(-RANGE, -(-RANGE)+sc1);
+  const [l1x2,l1y2] = toSvg(RANGE, -(RANGE)+sc1);
+  html += `<line x1="${l1x1}" y1="${l1y1}" x2="${l1x2}" y2="${l1y2}" stroke="var(--violet)" stroke-width="3" stroke-linecap="round"></line>`;
+  // eq2: y = x - c2
+  const [l2x1,l2y1] = toSvg(-RANGE, -RANGE-sc2);
+  const [l2x2,l2y2] = toSvg(RANGE, RANGE-sc2);
+  html += `<line x1="${l2x1}" y1="${l2y1}" x2="${l2x2}" y2="${l2y2}" stroke="var(--blue)" stroke-width="3" stroke-linecap="round"></line>`;
+
+  if(showSolution){
+    const [sxp,syp] = toSvg(sx0,sy0);
+    html += `<circle cx="${sxp}" cy="${syp}" r="8" fill="var(--coral)"></circle>`;
+    html += `<text x="${sxp+12}" y="${syp-10}" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--coral-ink)">(${sx0}, ${sy0})</text>`;
+  }
+  sysSvg.innerHTML = html;
+}
+
+function sysFinish(){
+  sSolved = true;
+  sysX.disabled = true; sysY.disabled = true;
+  sysCheckBtn.disabled = true; sysRevealBtn.disabled = true;
+  drawSysGraph(true);
+  sysStepList.innerHTML = `<b>① 두 식을 더하기:</b> (x+y) + (x−y) = ${sc1} + ${sc2} → 2x = ${sc1+sc2} → x = ${sx0}<br><b>② x를 대입하기:</b> ${sx0} + y = ${sc1} → y = ${sy0}`;
+}
+
+sysCheckBtn.addEventListener('click', ()=>{
+  if(sSolved) return;
+  const vx = parseFloat(sysX.value), vy = parseFloat(sysY.value);
+  if(Number.isNaN(vx) || Number.isNaN(vy)){
+    sysFeedback.textContent = 'x와 y 값을 모두 입력해주세요.';
+    return;
+  }
+  if(vx===sx0 && vy===sy0){
+    sysFeedback.innerHTML = `🎉 정답이에요! (${sx0}, ${sy0})가 두 직선의 교점이에요.`;
+    sysFinish();
+  } else {
+    sysFeedback.textContent = '아쉬워요, 그래프의 교점을 다시 살펴보세요.';
+  }
+});
+sysRevealBtn.addEventListener('click', ()=>{
+  if(sSolved) return;
+  sRevealed = true;
+  sysFeedback.innerHTML = `정답은 (${sx0}, ${sy0})예요.`;
+  sysFinish();
+});
+sysNextBtn.addEventListener('click', sysNewProblem);
+sysNewProblem();
+</script>
+</body>
+</html>

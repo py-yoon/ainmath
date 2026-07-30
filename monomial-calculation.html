@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>식의 계산 실험실 — 지수법칙과 다항식 정리</title>
+<meta name="description" content="슬라이더로 지수법칙을 확인하고, 흩어진 항들을 동류항끼리 묶어 다항식을 정리해봐요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue-ink);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 22px;}
+.tab-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:10px 18px;cursor:pointer;transition:all .15s ease;box-shadow:var(--shadow);}
+.tab-btn:hover{border-color:var(--blue-ink);color:var(--blue-ink);}
+.tab-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+.panel-wrap{display:none;}
+.panel-wrap.active{display:block;}
+
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.15fr 0.85fr;gap:32px;align-items:start;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+.canvas-area{display:flex;flex-direction:column;align-items:center;gap:16px;}
+.op-row{display:flex;gap:8px;}
+.op-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 18px;cursor:pointer;transition:all .15s ease;}
+.op-btn:hover{border-color:var(--blue-ink);color:var(--blue-ink);}
+.op-btn.active{background:var(--blue-ink);border-color:var(--blue-ink);color:#fff;}
+.control-row{width:100%;max-width:380px;display:flex;flex-direction:column;gap:8px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--blue-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+.tile-area{display:flex;flex-direction:column;gap:8px;width:100%;max-width:420px;min-height:110px;}
+.tile-row{display:flex;flex-wrap:wrap;gap:5px;align-items:center;min-height:34px;}
+.tile-row .rowlabel{font-family:'Do Hyeon',sans-serif;font-size:13.5px;color:var(--ink-soft);width:60px;flex:none;}
+.tile{width:26px;height:26px;border-radius:6px;background:var(--blue-ink);color:#fff;font-family:'Do Hyeon',sans-serif;font-size:14px;display:flex;align-items:center;justify-content:center;transition:opacity .3s ease;}
+.tile.n{background:var(--coral-ink);}
+.tile.gone{opacity:0.18;text-decoration:line-through;}
+.panel{display:flex;flex-direction:column;gap:16px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px;text-align:center;}
+.equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(20px,3.4vw,28px);color:var(--ink);}
+.equation .formula sup{font-size:0.6em;}
+.equation .formula .m{color:var(--blue-ink);}
+.equation .formula .n{color:var(--coral-ink);}
+.fact{background:var(--blue-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--blue-ink);}
+.howto{background:var(--blue-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 22px;}
+.howto b{color:var(--blue-ink);}
+
+/* 다항식 탭 */
+.poly-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;min-height:48px;align-items:center;}
+.chip{font-family:'Do Hyeon',sans-serif;font-size:17px;padding:8px 14px;border-radius:12px;transition:all .3s ease;}
+.chip.x{background:var(--violet-soft);color:var(--violet-ink);}
+.chip.c{background:var(--coral-soft);color:var(--coral-ink);}
+.poly-groups{display:flex;flex-direction:column;gap:10px;width:100%;max-width:420px;}
+.group-label{font-family:'Do Hyeon',sans-serif;font-size:13.5px;color:var(--ink-soft);}
+.result-box{background:var(--green-soft);border-radius:16px;padding:16px 18px;text-align:center;font-family:'Do Hyeon',sans-serif;font-size:22px;color:var(--green-ink);min-height:30px;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;align-self:center;}
+.progress-badge b{color:var(--blue-ink);}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:12px 20px;cursor:pointer;transition:background .2s ease;}
+.action-btn:hover{background:var(--blue-ink);}
+.action-btn:disabled{opacity:0.4;cursor:not-allowed;}
+.action-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-monomial-calculation.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🧮 식의 계산 실험실</span>
+  <h1>지수법칙을 확인하고<br><span>동류항</span>끼리 정리해봐요</h1>
+  <p class="sub">문자를 사용한 식도 결국 규칙만 알면 어렵지 않아요. 지수끼리 더하고 빼는 지수법칙, 그리고 같은 종류의 항끼리 모아서 계산하는 동류항 정리를 직접 조작하며 확인해보세요.</p>
+
+  <div class="tab-row" id="tabRow">
+    <button class="tab-btn active" data-t="exp">🔢 지수법칙 · 단항식 계산</button>
+    <button class="tab-btn" data-t="poly">🧩 다항식 정리하기</button>
+  </div>
+
+  <div class="panel-wrap active" id="panel-exp">
+    <div class="howto"><b>지수법칙</b>: 밑이 같은 두 수를 곱하면 지수는 더해지고(x<sup>m</sup>×x<sup>n</sup>=x<sup>m+n</sup>), 나누면 지수는 빼져요(x<sup>m</sup>÷x<sup>n</sup>=x<sup>m−n</sup>). x를 m번 곱한 것과 n번 곱한 것을 합치면 결국 x를 (m+n)번 곱한 것과 같기 때문이에요.</div>
+    <div class="stage">
+      <div class="canvas-area">
+        <div class="op-row" id="opRow">
+          <button class="op-btn active" data-op="mul">✖️ 곱셈</button>
+          <button class="op-btn" data-op="div">➗ 나눗셈</button>
+        </div>
+        <div class="control-row">
+          <div class="control-label"><span>x의 지수 m</span><b id="mLabel">3</b></div>
+          <input id="sliderM" type="range" min="1" max="6" value="3" step="1" aria-label="지수 m 조절">
+        </div>
+        <div class="control-row">
+          <div class="control-label"><span>x의 지수 n</span><b id="nLabel">2</b></div>
+          <input id="sliderN" type="range" min="1" max="6" value="2" step="1" aria-label="지수 n 조절">
+        </div>
+        <div class="tile-area" id="tileArea"></div>
+      </div>
+      <div class="panel">
+        <div class="equation">
+          <div class="formula" id="expFormula"></div>
+        </div>
+        <div class="fact" id="expFact"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-wrap" id="panel-poly">
+    <div class="howto"><b>동류항</b>이란 문자와 차수가 똑같은 항이에요(예: 3x와 −2x는 동류항, 3x와 3x²는 동류항이 아니에요). 흩어진 항들을 동류항끼리 모으면 다항식을 훨씬 간단하게 정리할 수 있어요.</div>
+    <div class="stage">
+      <div class="canvas-area">
+        <div class="progress-badge">문제 <b id="polyCount">1</b>번째</div>
+        <div class="poly-row" id="polyScattered"></div>
+        <div class="action-row">
+          <button class="action-btn" id="groupBtn">🧲 동류항끼리 묶기</button>
+          <button class="action-btn" id="polyNextBtn" style="background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);">➡ 다음 문제</button>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="poly-groups" id="polyGroups"></div>
+        <div class="result-box" id="polyResult">묶기 버튼을 누르면 정리된 식이 여기 나타나요</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>지수법칙과 동류항 정리는 이후 배우는 인수분해, 이차방정식, 함수 단원에서도 계속 쓰이는 기본기예요. 문자가 섞여 있어도 결국 "같은 것끼리 모으고 세는" 계산이라는 걸 기억해두세요.</footer>
+</div>
+
+<script>
+/* ---------- 탭 전환 ---------- */
+document.getElementById('tabRow').addEventListener('click', (e)=>{
+  const btn = e.target.closest('.tab-btn');
+  if(!btn) return;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.panel-wrap').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+btn.dataset.t).classList.add('active');
+});
+
+/* ---------- 지수법칙 탭 ---------- */
+const opRow = document.getElementById('opRow');
+const sliderM = document.getElementById('sliderM');
+const sliderN = document.getElementById('sliderN');
+const mLabel = document.getElementById('mLabel');
+const nLabel = document.getElementById('nLabel');
+const tileArea = document.getElementById('tileArea');
+const expFormula = document.getElementById('expFormula');
+const expFact = document.getElementById('expFact');
+let op = 'mul';
+
+function tileRow(label, count, cls){
+  let html = `<div class="tile-row"><span class="rowlabel">${label}</span>`;
+  for(let i=0;i<count;i++){ html += `<div class="tile ${cls}">x</div>`; }
+  html += `</div>`;
+  return html;
+}
+
+function renderExp(){
+  let m = parseInt(sliderM.value);
+  let n = parseInt(sliderN.value);
+  if(op==='div' && n>m){ n = m; sliderN.value = n; }
+  sliderN.max = op==='div' ? m : 6;
+  mLabel.textContent = m;
+  nLabel.textContent = n;
+
+  if(op==='mul'){
+    expFormula.innerHTML = `x<sup class="m">${m}</sup> × x<sup class="n">${n}</sup> = x<sup>${m}+${n}</sup> = x<sup>${m+n}</sup>`;
+    let html = tileRow('x'+m+'개', m, 'x');
+    html += tileRow('x'+n+'개', n, 'n');
+    html += tileRow('합치면', m+n, 'x');
+    tileArea.innerHTML = html;
+    expFact.innerHTML = `x를 <b>${m}번</b> 곱한 것과 <b>${n}번</b> 곱한 것을 이어 붙이면, x를 <b>${m+n}번</b> 곱한 것과 똑같아요. 그래서 지수끼리 <b>더하기만</b> 하면 돼요.`;
+  } else {
+    expFormula.innerHTML = `x<sup class="m">${m}</sup> ÷ x<sup class="n">${n}</sup> = x<sup>${m}−${n}</sup> = x<sup>${m-n}</sup>`;
+    let html = tileRow('x'+m+'개', m, 'x');
+    let cancelHtml = `<div class="tile-row"><span class="rowlabel">${n}개 지우기</span>`;
+    for(let i=0;i<m;i++){ cancelHtml += `<div class="tile ${i<n?'gone':'x'}">x</div>`; }
+    cancelHtml += `</div>`;
+    html += cancelHtml;
+    html += tileRow('남은 것', m-n, 'x');
+    tileArea.innerHTML = html;
+    expFact.innerHTML = `x가 <b>${m}개</b> 있는데, 분모의 x <b>${n}개</b>와 분자의 x ${n}개가 서로 지워져요(약분). 그래서 지수끼리 <b>빼기만</b> 하면 돼요. 남은 개수는 <b>${m-n}개</b>예요.`;
+  }
+}
+
+opRow.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.op-btn');
+  if(!btn) return;
+  op = btn.dataset.op;
+  opRow.querySelectorAll('.op-btn').forEach(b=>b.classList.toggle('active', b===btn));
+  renderExp();
+});
+sliderM.addEventListener('input', renderExp);
+sliderN.addEventListener('input', renderExp);
+renderExp();
+
+/* ---------- 다항식 정리 탭 ---------- */
+const polyScattered = document.getElementById('polyScattered');
+const polyGroups = document.getElementById('polyGroups');
+const polyResult = document.getElementById('polyResult');
+const groupBtn = document.getElementById('groupBtn');
+const polyNextBtn = document.getElementById('polyNextBtn');
+const polyCount = document.getElementById('polyCount');
+
+let problemNum = 1;
+let terms = [];
+let grouped = false;
+
+function randNonZero(range){
+  let v = 0;
+  while(v===0){ v = Math.floor(Math.random()*(range*2+1)) - range; }
+  return v;
+}
+function fmtTerm(val, isX){
+  const abs = Math.abs(val);
+  const unit = isX ? (abs===1 ? 'x' : abs+'x') : String(abs);
+  return (val<0 ? '−' : '+') + unit;
+}
+
+function newPolyProblem(){
+  grouped = false;
+  const xCount = 2 + Math.floor(Math.random()*3);   // 2~4
+  const cCount = 2 + Math.floor(Math.random()*3);   // 2~4
+  terms = [];
+  for(let i=0;i<xCount;i++) terms.push({type:'x', val: randNonZero(9)});
+  for(let i=0;i<cCount;i++) terms.push({type:'c', val: randNonZero(9)});
+  const shuffled = [...terms].sort(()=>Math.random()-0.5);
+
+  polyScattered.innerHTML = shuffled.map(t=>`<span class="chip ${t.type}">${fmtTerm(t.val, t.type==='x')}</span>`).join('');
+  polyGroups.innerHTML = '';
+  polyResult.textContent = '묶기 버튼을 누르면 정리된 식이 여기 나타나요';
+  polyResult.style.color = '';
+  groupBtn.disabled = false;
+  problemNum++;
+  polyCount.textContent = problemNum-1;
+}
+
+function groupTerms(){
+  if(grouped) return;
+  grouped = true;
+  groupBtn.disabled = true;
+
+  const xTerms = terms.filter(t=>t.type==='x');
+  const cTerms = terms.filter(t=>t.type==='c');
+  const sumX = xTerms.reduce((a,t)=>a+t.val,0);
+  const sumC = cTerms.reduce((a,t)=>a+t.val,0);
+
+  polyGroups.innerHTML = `
+    <div class="group-label">x 항끼리</div>
+    <div class="poly-row">${xTerms.map(t=>`<span class="chip x">${fmtTerm(t.val,true)}</span>`).join('')}</div>
+    <div class="group-label">상수항끼리</div>
+    <div class="poly-row">${cTerms.map(t=>`<span class="chip c">${fmtTerm(t.val,false)}</span>`).join('')}</div>
+  `;
+
+  let resultParts = [];
+  if(sumX!==0) resultParts.push((sumX>0 && resultParts.length===0 ? '' : (sumX>0?'+':'')) + (sumX===1?'x': sumX===-1?'-x' : sumX+'x'));
+  if(sumC!==0) resultParts.push((sumC>0 && resultParts.length===0 ? '' : (sumC>0?'+':'')) + sumC);
+  const resultText = resultParts.length ? resultParts.join(' ').replace(/^\+/,'') : '0';
+
+  polyResult.innerHTML = `정리 결과: <b>${resultText}</b>`;
+}
+
+groupBtn.addEventListener('click', groupTerms);
+polyNextBtn.addEventListener('click', newPolyProblem);
+newPolyProblem();
+</script>
+</body>
+</html>

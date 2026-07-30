@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일차부등식과 연립방정식, 방향이 바뀌는 순간과 두 직선의 만남 | 아인매스</title>
+<meta name="description" content="부등식은 음수를 곱하거나 나눌 때 방향이 바뀌어요. 연립방정식의 해는 두 직선이 만나는 단 하나의 점이에요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#0D62F1;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#0D62F1;background:#E7F0FF">📈 함수와 그래프</span>
+  <h1>일차부등식과 연립방정식, 방향이 바뀌는 순간과 두 직선의 만남</h1>
+  <p class="meta">중학교 2학년 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>방정식은 "정확히 얼마인지"를 찾는 거라면, 부등식은 "어느 범위인지"를 찾는 거예요. 예를 들어 2x + 3 = 11은 x가 정확히 4일 때만 참이지만, 2x + 3 &gt; 11은 x가 4보다 큰 모든 수에서 참이 돼요. 풀이 방법은 방정식과 거의 똑같지만, 딱 한 가지 다른 점이 있어요. 바로 음수를 곱하거나 나눌 때예요.</p>
+      <p>왜 그런지 숫자로 확인해볼게요. 2 &lt; 5는 참이에요. 양쪽에 똑같이 −1을 곱하면 어떻게 될까요? −2와 −5가 되는데, 이때 −2 &lt; −5는 거짓이에요. 실제로는 −2 &gt; −5가 맞아요. 그러니까 양쪽에 음수를 곱하는 순간, 부등호의 방향이 저절로 뒤집혀야 식이 계속 참이 되는 거예요. 이건 규칙을 외워야 하는 게 아니라, 수직선 위에서 음수를 곱하면 큰 수와 작은 수의 위치 자체가 서로 바뀌기 때문에 생기는 당연한 결과예요.</p>
+      <p>그래서 일차부등식 ax + b &gt; c를 풀 때는, 양쪽에서 b를 빼는 것까지는 방정식과 똑같아요(ax &gt; c−b). 문제는 마지막에 양쪽을 a로 나눌 때예요. a가 양수면 방향을 그대로 유지하면 되지만, a가 음수라면 방향을 반드시 뒤집어야 해요. 이 한 단계를 놓치면 답의 범위가 완전히 반대로 나와버려요. 그래서 부등식 문제를 풀 때는 "지금 나누는 수가 음수인가?"를 항상 마지막에 한 번 더 확인하는 습관이 중요해요.</p>
+      <p>이제 연립방정식으로 넘어가볼게요. 연립방정식은 미지수가 2개(보통 x, y)인 식 2개를 동시에 만족시키는 값을 찾는 문제예요. 예를 들어 x + y = 5와 x − y = 1을 동시에 만족하는 x, y를 찾아야 해요. 이럴 때 쓰는 방법이 '가감법(소거법)'인데, 두 식을 더하거나 빼서 미지수 하나를 아예 없애버리는 방법이에요. 위 예시에서 두 식을 더하면 y가 사라져요: (x+y)+(x−y) = 5+1 → 2x = 6 → x = 3. x를 구했으니 아무 식에나 대입하면 y = 2가 나와요.</p>
+      <p>이걸 그래프로 보면 훨씬 직관적이에요. x + y = 5와 x − y = 1은 각각 좌표평면 위에서 하나의 직선이 돼요. 두 직선은 보통 한 점에서 만나는데, 그 교점이 바로 두 식을 동시에 만족하는 (x, y) 값이에요. 그래서 "연립방정식을 푼다"는 것은 결국 "두 직선이 어디서 만나는지 찾는다"는 것과 똑같은 의미예요. 그래프로 확인하면 계산이 맞았는지 눈으로도 검산할 수 있어요.</p>
+      <p>부등식과 연립방정식은 서로 다른 개념 같지만, 둘 다 등식(또는 부등식)의 성질을 이용해서 "양쪽에 같은 조작을 한다"는 같은 원리 위에 서 있어요. 방정식 저울 실험실에서 익혔던 감각을 그대로 가져오면, 두 개념 모두 훨씬 자연스럽게 이해할 수 있어요.</p>
+      <p>저희 체험 페이지에서는 부등식을 단계별로 풀면서 음수로 나눌 때 방향이 실제로 바뀌는 걸 확인할 수 있고, 연립방정식은 두 직선을 그래프로 그려 교점을 직접 맞혀볼 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="inequality-and-system.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

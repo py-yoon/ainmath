@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>유리수와 순환소수, 나눗셈이 언제 끝나는지 미리 아는 법 | 아인매스</title>
+<meta name="description" content="분수를 소수로 바꾸면 어떤 건 딱 떨어지고 어떤 건 같은 숫자가 영원히 반복돼요. 분모만 보고 미리 알 수 있는 방법을 알아봐요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#D90500;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#D90500;background:#FFEAE8">🔢 수와 연산</span>
+  <h1>유리수와 순환소수, 나눗셈이 언제 끝나는지 미리 아는 법</h1>
+  <p class="meta">중학교 2학년 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>1/2을 소수로 바꾸면 0.5로 딱 떨어져요. 그런데 1/3을 소수로 바꾸면 0.333333...으로 3이 끝없이 반복돼요. 같은 나눗셈인데 왜 하나는 끝나고 하나는 끝나지 않을까요? 사실 이건 순전히 운이 아니라, 분모만 보고도 미리 알 수 있는 규칙이 있어요.</p>
+      <p>먼저 용어부터 정리해볼게요. 0.5처럼 소수점 뒤에 숫자가 정해진 개수만 있고 끝나는 소수를 <b>유한소수</b>라고 해요. 0.333...처럼 소수점 아래 어떤 숫자(또는 숫자 묶음)가 끝없이 되풀이되는 소수를 <b>순환소수</b>라고 하고요. 반복되는 부분을 '순환마디'라고 부르는데, 1/3은 '3'이 순환마디고, 1/7은 '142857'이라는 여섯 자리 숫자 묶음 전체가 순환마디예요.</p>
+      <p>분수를 소수로 바꾸는 과정은 결국 나눗셈이에요. 그런데 나눗셈을 계속하다 보면 나머지가 나올 수 있는 경우의 수는 분모보다 작은 자연수(0부터 분모-1까지)로 정해져 있어요. 그러니까 나눗셈을 분모만큼 반복하면, 나머지가 언젠가 이전에 나왔던 나머지와 똑같이 나오게 돼요. 나머지가 같아지는 순간, 그다음에 나오는 몫도 똑같이 반복될 수밖에 없어요. 이게 바로 순환소수가 생기는 이유예요.</p>
+      <p>그럼 언제 나머지가 0이 되어서(=나눗셈이 끝나서) 유한소수가 될까요? 분수를 기약분수(더 이상 약분되지 않는 분수)로 만들고 분모를 소인수분해했을 때, 소인수가 <b>2와 5</b>뿐이라면 유한소수가 돼요. 이유는 우리가 쓰는 숫자 체계(10진법)의 10이 2×5이기 때문이에요. 분모가 2나 5의 거듭제곱으로만 이루어져 있으면, 분모와 분자에 적당한 수를 곱해서 분모를 10, 100, 1000... 같은 10의 거듭제곱으로 만들 수 있고, 그러면 나눗셈이 정확히 떨어져요. 반대로 분모에 3, 7, 11처럼 2와 5가 아닌 소인수가 하나라도 있으면, 아무리 곱해도 분모를 10의 거듭제곱으로 만들 수 없어서 순환소수가 돼요.</p>
+      <p>예를 들어 5/6을 볼게요. 6을 소인수분해하면 2×3이에요. 2뿐 아니라 3도 있으니까 순환소수가 될 거라고 미리 예상할 수 있어요. 실제로 계산해보면 5/6 = 0.8333...으로, '3'이 반복되는 순환소수가 맞아요. 반대로 7/8은 어떨까요? 8 = 2×2×2로 소인수가 2뿐이니 유한소수일 거예요. 실제로 계산하면 7/8 = 0.875로 정확히 딱 떨어져요.</p>
+      <p>이 규칙을 알면 실제로 나눗셈을 끝까지 하지 않고도 "이 분수는 유한소수가 될까, 순환소수가 될까?"를 분모만 보고 미리 판단할 수 있어요. 시험에서 나눗셈을 오래 붙잡고 있을 필요 없이, 분모를 소인수분해하는 것만으로 답을 예측할 수 있는 거예요. 그리고 유한소수든 순환소수든, 분수로 나타낼 수 있는 모든 수는 '유리수'라는 하나의 큰 범주에 속해요 — 유리수라는 이름 자체가 "비율(ratio)로 나타낼 수 있는 수"라는 뜻이에요.</p>
+      <p>저희 체험 페이지에서는 분수가 유한소수일지 순환소수일지 먼저 예상해본 다음, 실제 나눗셈 과정을 한 자리씩 확인하면서 순환마디가 어디서부터 시작되는지 직접 눈으로 볼 수 있어요. 분모의 소인수분해 결과도 함께 보여줘서, 규칙이 실제로 맞아떨어지는지 확인해볼 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="repeating-decimal.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

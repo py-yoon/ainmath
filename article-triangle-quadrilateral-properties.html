@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>삼각형과 사각형의 성질, 모양이 바뀌어도 변하지 않는 것 | 아인매스</title>
+<meta name="description" content="이등변삼각형과 여러 사각형들이 저마다 어떤 변하지 않는 성질을 갖고 있는지, 그리고 그 성질들이 어떻게 서로 연결되는지 알아봐요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#6847F7;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#6847F7;background:#EEE8FF">📐 도형·기하</span>
+  <h1>삼각형과 사각형의 성질, 모양이 바뀌어도 변하지 않는 것</h1>
+  <p class="meta">중학교 2학년 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>삼각형과 사각형은 초등학교 때부터 봐온 익숙한 도형이지만, 중학교에서는 "왜 그런지"를 논리적으로 설명하는 단계로 넘어가요. 크기나 각도를 아무리 바꿔도 절대 변하지 않는 성질들이 있는데, 그 성질을 알면 도형 문제를 훨씬 빠르게 풀 수 있어요.</p>
+      <p><b>이등변삼각형</b>부터 볼게요. 두 변의 길이가 같은 삼각형인데, 재미있는 점은 "두 변의 길이가 같다"는 조건 하나만으로 "그 변과 마주보는 두 각(밑각)의 크기도 같다"는 결론이 자동으로 따라온다는 거예요. 변의 길이라는 조건이 각도라는 전혀 다른 성질을 결정해버리는 거죠. 이걸 증명할 때는 꼭짓점에서 밑변에 수선을 내려 삼각형을 정확히 반으로 접는 방법을 쓰는데, 접었을 때 완전히 겹쳐진다는 사실(합동)에서 두 밑각이 같다는 게 밝혀져요.</p>
+      <p>사각형 이야기로 넘어가면, <b>평행사변형</b>이 가장 기본이 되는 도형이에요. 마주보는 두 쌍의 변이 각각 평행하기만 하면 평행사변형이라고 불러요. 이 조건 하나로부터 "마주보는 변의 길이가 같다", "마주보는 각의 크기가 같다", "두 대각선이 서로를 정확히 반으로 나눈다(이등분한다)"는 성질들이 줄줄이 따라와요. 특별한 조건을 더 추가하지 않아도, 평행하다는 사실 하나만으로 이렇게 많은 성질이 자동으로 생기는 게 평행사변형의 매력이에요.</p>
+      <p>평행사변형에 조건을 하나씩 더 얹으면 더 특별한 사각형이 돼요. 네 각을 모두 90°로 만들면 <b>직사각형</b>이 되고, 이때는 추가로 "두 대각선의 길이가 서로 같다"는 성질이 생겨요. 반대로 네 변의 길이를 모두 같게 만들면 <b>마름모</b>가 되는데, 이번엔 "두 대각선이 서로 수직으로 만난다"는 성질이 생겨요. 그리고 이 두 조건(네 각이 90°, 네 변이 같다)을 동시에 만족시키면 <b>정사각형</b>이 돼요 — 정사각형은 직사각형이면서 동시에 마름모인 셈이라, 두 도형의 성질을 전부 물려받아요.</p>
+      <p>마지막으로 <b>사다리꼴</b>은 평행사변형보다 훨씬 느슨한 조건을 가져요. 딱 한 쌍의 변만 평행하면 사다리꼴이라고 부를 수 있어요. 그래서 사다리꼴은 다리(양옆 변)의 길이가 서로 달라도, 각도가 어떻든 상관없어요. 평행사변형이 "두 쌍 다 평행"이라는 엄격한 조건이라면, 사다리꼴은 "한 쌍만 평행"이라는 훨씬 널널한 조건인 셈이에요.</p>
+      <p>이렇게 보면 사각형들 사이에는 포함 관계가 있어요. 정사각형은 마름모에도, 직사각형에도 속하고, 마름모와 직사각형은 둘 다 평행사변형에 속해요. 마치 동물 분류에서 "포유류 안에 개가 있고, 개 안에 진돗개가 있는" 것처럼, 조건이 늘어날수록 더 좁고 특별한 도형이 되는 거예요. 도형 문제를 풀 때 "이 사각형이 정확히 어떤 종류인지"를 먼저 파악하면, 그 도형이 가진 모든 성질을 한꺼번에 쓸 수 있어서 훨씬 유리해요.</p>
+      <p>저희 체험 페이지에서는 슬라이더로 각 도형의 모양을 자유롭게 바꿔가며, 같은 길이의 변과 같은 크기의 각이 색깔로 표시되는 걸 확인할 수 있어요. 아무리 모양을 바꿔도 표시된 성질들은 절대 무너지지 않는다는 걸 직접 눈으로 확인해보세요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="triangle-quadrilateral-properties.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
