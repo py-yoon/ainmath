@@ -56,7 +56,9 @@ input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--co
 .howto b{color:var(--teal-ink);}
 .howto p{margin:0 0 10px;}
 .howto p:last-child{margin-bottom:0;}
-.sq-label{font-family:'Do Hyeon',sans-serif;fill:#fff;text-anchor:middle;dominant-baseline:middle;}
+.sq-label{font-family:'Do Hyeon',sans-serif;fill:#fff;text-anchor:middle;dominant-baseline:middle;transition:x .5s cubic-bezier(.22,.8,.25,1), y .5s cubic-bezier(.22,.8,.25,1), font-size .5s cubic-bezier(.22,.8,.25,1), opacity .35s ease;}
+.sq-rect{transition:x .5s cubic-bezier(.22,.8,.25,1), y .5s cubic-bezier(.22,.8,.25,1), width .5s cubic-bezier(.22,.8,.25,1), height .5s cubic-bezier(.22,.8,.25,1), opacity .35s ease;}
+#spiralPath{transition:opacity .3s ease;}
 footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
@@ -180,6 +182,9 @@ function buildSpiralArcs(fib){
   return arcs;
 }
 
+const SVG_NS = 'http://www.w3.org/2000/svg';
+let prevSquareCount = 0;
+
 function render(){
   const n = parseInt(sliderN.value);
   nLabel.textContent = n;
@@ -202,18 +207,87 @@ function render(){
     return [offX + x*scale, offY + (maxY-y)*scale];
   }
 
-  let html = '';
+  // 정사각형·라벨은 매번 새로 그리지 않고, 같은 DOM 노드의 x/y/width/height만 갱신해요.
+  // 그러면 CSS transition이 이전 모양에서 새 모양으로 자연스럽게 자라나듯 움직여요.
+  let squaresGroup = svg.querySelector('#squaresGroup');
+  let spiralPath = svg.querySelector('#spiralPath');
+  if(!squaresGroup){
+    squaresGroup = document.createElementNS(SVG_NS,'g');
+    squaresGroup.setAttribute('id','squaresGroup');
+    svg.appendChild(squaresGroup);
+    spiralPath = document.createElementNS(SVG_NS,'path');
+    spiralPath.setAttribute('id','spiralPath');
+    spiralPath.setAttribute('fill','none');
+    spiralPath.setAttribute('stroke','var(--ink)');
+    spiralPath.setAttribute('stroke-width','3');
+    spiralPath.setAttribute('stroke-linecap','round');
+    svg.appendChild(spiralPath);
+  }
+
   squares.forEach((s,i)=>{
     const [sx,sy] = toSvg(s.x, s.y+s.size);
     const w = s.size*scale, h = s.size*scale;
     const color = palette[i % palette.length];
-    html += `<rect x="${sx}" y="${sy}" width="${w}" height="${h}" fill="${color}" fill-opacity="0.5" stroke="var(--card)" stroke-width="2"></rect>`;
-    if(w>18){
-      html += `<text class="sq-label" x="${sx+w/2}" y="${sy+h/2}" font-size="${Math.min(w,h)*0.32}" fill="${color}" style="fill:${color}">${s.size}</text>`;
+    const showLabel = w>18;
+    const fontSize = Math.min(w,h)*0.32;
+
+    let rect = squaresGroup.querySelector(`#sq-${i}`);
+    let label = squaresGroup.querySelector(`#lbl-${i}`);
+    if(!rect){
+      rect = document.createElementNS(SVG_NS,'rect');
+      rect.setAttribute('id',`sq-${i}`);
+      rect.setAttribute('class','sq-rect');
+      rect.setAttribute('fill-opacity','0.5');
+      rect.setAttribute('stroke','var(--card)');
+      rect.setAttribute('stroke-width','2');
+      label = document.createElementNS(SVG_NS,'text');
+      label.setAttribute('id',`lbl-${i}`);
+      label.setAttribute('class','sq-label');
+      // 새로 추가된 정사각형은 자기 중심의 한 점에서 시작해 자라나듯 나타나요.
+      const cx = sx+w/2, cy = sy+h/2;
+      rect.setAttribute('x', cx); rect.setAttribute('y', cy);
+      rect.setAttribute('width', 0); rect.setAttribute('height', 0);
+      rect.style.opacity = '0';
+      label.setAttribute('x', cx); label.setAttribute('y', cy);
+      label.setAttribute('font-size', 0);
+      label.style.opacity = '0';
+      squaresGroup.appendChild(rect);
+      squaresGroup.appendChild(label);
+      rect.getBoundingClientRect(); // 강제 리플로우로 시작 상태를 확정한 다음 목표 값으로 넘어가요.
     }
+    rect.setAttribute('fill', color);
+    rect.setAttribute('x', sx); rect.setAttribute('y', sy);
+    rect.setAttribute('width', w); rect.setAttribute('height', h);
+    rect.style.opacity = '1';
+    label.setAttribute('x', sx+w/2); label.setAttribute('y', sy+h/2);
+    label.setAttribute('font-size', fontSize);
+    label.setAttribute('fill', color);
+    label.style.fill = color;
+    label.style.opacity = showLabel ? '1' : '0';
+    label.textContent = s.size;
   });
 
+  // 항 개수가 줄어들면, 넘치는 정사각형은 살짝 사라지는 애니메이션 후에 지워요.
+  for(let i=squares.length; i<prevSquareCount; i++){
+    const rect = squaresGroup.querySelector(`#sq-${i}`);
+    const label = squaresGroup.querySelector(`#lbl-${i}`);
+    if(rect){
+      rect.style.opacity = '0';
+      const w = parseFloat(rect.getAttribute('width'))||0, h = parseFloat(rect.getAttribute('height'))||0;
+      const cx = parseFloat(rect.getAttribute('x'))+w/2, cy = parseFloat(rect.getAttribute('y'))+h/2;
+      rect.setAttribute('x', cx); rect.setAttribute('y', cy);
+      rect.setAttribute('width', 0); rect.setAttribute('height', 0);
+      setTimeout(()=>rect.remove(), 360);
+    }
+    if(label){
+      label.style.opacity = '0';
+      setTimeout(()=>label.remove(), 360);
+    }
+  }
+  prevSquareCount = squares.length;
+
   // 나선 — 정사각형마다 정확히 그 모서리에서 시작해 이웃 모서리로 끝나는 사분원 호를 이어 붙여요.
+  // 호의 개수 자체가 매번 달라져서 경로를 매끄럽게 모핑할 수는 없으니, 잠깐 옅어졌다 다시 나타나게 해요.
   const arcs = buildSpiralArcs(fib);
   const [startX,startY] = toSvg(arcs[0].entry[0], arcs[0].entry[1]);
   let path = `M ${startX.toFixed(1)},${startY.toFixed(1)} `;
@@ -222,9 +296,13 @@ function render(){
     const r = arc.r * scale;
     path += `A ${r.toFixed(1)},${r.toFixed(1)} 0 0 1 ${ex.toFixed(1)},${ey.toFixed(1)} `;
   });
-  html += `<path d="${path}" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"></path>`;
-
-  svg.innerHTML = html;
+  if(spiralPath.getAttribute('d') !== path){
+    spiralPath.style.opacity = '0';
+    setTimeout(()=>{
+      spiralPath.setAttribute('d', path);
+      spiralPath.style.opacity = '1';
+    }, 180);
+  }
 
   seqRow.innerHTML = fib.map((f,i)=>`<span class="seq-chip${i===fib.length-1?' last':''}">${f}</span>`).join('');
 
