@@ -194,6 +194,7 @@ function updatePresetActive(angle){
 }
 
 function fmt(n){ return (Math.round(n*100)/100).toString(); }
+function fmtRatio(n){ return n.toFixed(4); }
 
 function render(){
   const angle = parseInt(sliderAngle.value);
@@ -261,13 +262,13 @@ function render(){
   tanExpr.textContent = `대변 ÷ 인접변 = ${fmt(opposite)} ÷ ${fmt(adjacent)}`;
 
   const special = SPECIAL[angle];
-  sinVal.innerHTML = special ? `${fmt(sinV)} <span style="font-size:14px;color:var(--ink-soft)">(=${special.sin})</span>` : fmt(sinV);
-  cosVal.innerHTML = special ? `${fmt(cosV)} <span style="font-size:14px;color:var(--ink-soft)">(=${special.cos})</span>` : fmt(cosV);
-  tanVal.innerHTML = special ? `${fmt(tanV)} <span style="font-size:14px;color:var(--ink-soft)">(=${special.tan})</span>` : fmt(tanV);
+  sinVal.innerHTML = special ? `${fmtRatio(sinV)} <span style="font-size:14px;color:var(--ink-soft)">(=${special.sin})</span>` : fmtRatio(sinV);
+  cosVal.innerHTML = special ? `${fmtRatio(cosV)} <span style="font-size:14px;color:var(--ink-soft)">(=${special.cos})</span>` : fmtRatio(cosV);
+  tanVal.innerHTML = special ? `${fmtRatio(tanV)} <span style="font-size:14px;color:var(--ink-soft)">(=${special.tan})</span>` : fmtRatio(tanV);
 
   const sideName = SIDES.find(s=>s.key===fixedSide).name;
   let extra = special ? ` ${angle}°는 값이 깔끔한 분수·근호로 딱 떨어지는 <b>특수각</b>이에요.` : '';
-  factBox.innerHTML = `<b>${sideName}을(를) ${L}cm로 고정</b>했어요. θ=${angle}°일 때 나머지 두 변은 빗변 ${fmt(hyp)}cm, 대변 ${fmt(opposite)}cm, 인접변 ${fmt(adjacent)}cm로 계산돼요. 그래서 sin${angle}°≈${fmt(sinV)}, cos${angle}°≈${fmt(cosV)}, tan${angle}°≈${fmt(tanV)}이 돼요.${extra} 각도가 그대로면 어떤 변을 고정하든 이 비율들은 절대 변하지 않아요.`;
+  factBox.innerHTML = `<b>${sideName}을(를) ${L}cm로 고정</b>했어요. θ=${angle}°일 때 나머지 두 변은 빗변 ${fmt(hyp)}cm, 대변 ${fmt(opposite)}cm, 인접변 ${fmt(adjacent)}cm로 계산돼요. 그래서 sin${angle}°≈${fmtRatio(sinV)}, cos${angle}°≈${fmtRatio(cosV)}, tan${angle}°≈${fmtRatio(tanV)}이 돼요.${extra} 각도가 그대로면 어떤 변을 고정하든 이 비율들은 절대 변하지 않아요.`;
 }
 
 sliderAngle.addEventListener('input', render);
