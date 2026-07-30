@@ -185,7 +185,7 @@ footer a{color:var(--violet-ink);}
 
   <div class="stage">
     <div class="canvas-area">
-      <svg id="svg" viewBox="0 0 600 460"></svg>
+      <svg id="svg" viewBox="0 0 600 460"><g id="sliceLayer"></g><g id="guideLayer"></g></svg>
       <div class="legend">
         <span><i class="swatch" style="background:var(--green)"></i>위로 향한 조각</span>
         <span><i class="swatch" style="background:var(--blue)"></i>아래로 향한 조각</span>
@@ -196,19 +196,19 @@ footer a{color:var(--violet-ink);}
         <button class="action-btn secondary" id="resetBtn">↺ 다시 원으로</button>
       </div>
       <div class="control-row">
-        <div class="control-label"><span>조각 수 (m)</span><b id="mLabel">16</b></div>
-        <input id="sliderM" type="range" min="6" max="48" value="16" step="2" aria-label="조각 수 조절">
+        <div class="control-label"><span>조각 수 (m)</span><b id="mLabel">12</b></div>
+        <input id="sliderM" type="range" min="6" max="60" value="12" step="2" aria-label="조각 수 조절">
       </div>
       <div class="presets" id="presetRow"></div>
       <div class="control-row">
-        <div class="control-label"><span>반지름 (r)</span><b id="rLabel">6</b><span>cm</span></div>
-        <input id="sliderR" type="range" min="3" max="9" value="6" step="1" aria-label="반지름 조절(cm)">
+        <div class="control-label"><span>반지름 (r)</span><b id="rLabel">5</b><span>cm</span></div>
+        <input id="sliderR" type="range" min="2" max="8" value="5" step="1" aria-label="반지름 조절(cm)">
       </div>
     </div>
 
     <div class="panel">
       <div class="equation">
-        <div class="formula">넓이 = π × <b id="rInFormula">6</b>²</div>
+        <div class="formula">넓이 = π × <b id="rInFormula">5</b>²</div>
         <div class="result" id="resultNum">113.1<span>cm²</span></div>
         <div class="subline">밑변(둘레의 절반) ≈ <b id="baseLine">18.8cm</b> · 높이 ≈ <b id="heightLine">6cm</b></div>
       </div>
@@ -222,6 +222,8 @@ footer a{color:var(--violet-ink);}
 
 <script>
 const svg = document.getElementById('svg');
+const sliceLayer = document.getElementById('sliceLayer');
+const guideLayer = document.getElementById('guideLayer');
 const sliderM = document.getElementById('sliderM');
 const sliderR = document.getElementById('sliderR');
 const mLabel = document.getElementById('mLabel');
@@ -237,12 +239,12 @@ const unfoldBtn = document.getElementById('unfoldBtn');
 const resetBtn = document.getElementById('resetBtn');
 const presetRow = document.getElementById('presetRow');
 
-const PX_PER_CM = 16;
+const PX_PER_CM = 18;
 const CX = 300, CY = 220;
 const PRESETS = [6, 12, 24, 48];
 
-let m = 16;
-let r = 6;
+let m = 12;
+let r = 5;
 let unfolded = false;
 
 function fmt(n, d=1){ return (Math.round(n*Math.pow(10,d))/Math.pow(10,d)).toString(); }
@@ -253,7 +255,7 @@ function buildPresets(){
     btn.addEventListener('click', ()=>{
       m = parseInt(btn.dataset.m);
       sliderM.value = m;
-      render();
+      rebuildAll();
     });
   });
 }
@@ -270,7 +272,27 @@ function sectorPath(rPx, a0, a1){
   return `M0,0 L${p1[0]},${p1[1]} A${rPx},${rPx} 0 0,1 ${p2[0]},${p2[1]} Z`;
 }
 
-function render(){
+// 조각 도형을 새로 만들어요 (조각 수·반지름처럼 모양 자체가 바뀔 때만 호출)
+function buildSlices(){
+  const rPx = r * PX_PER_CM;
+  const theta = 2*Math.PI/m;
+  let html = '';
+  for(let i=0;i<m;i++){
+    const a0 = -Math.PI/2 + i*theta;
+    const a1 = a0 + theta;
+    const isUp = (i % 2 === 0);
+    const color = isUp ? 'var(--green)' : 'var(--blue)';
+    const d = sectorPath(rPx, a0, a1);
+    html += `<g class="slice" id="slice-${i}" style="transition:transform .9s cubic-bezier(.4,0,.2,1);">`;
+    html += `<path d="${d}" fill="${color}" fill-opacity="0.6" stroke="var(--card)" stroke-width="2"></path>`;
+    html += `</g>`;
+  }
+  sliceLayer.innerHTML = html;
+  positionSlices(false);
+}
+
+// 이미 만들어진 조각들의 위치(transform)만 옮겨요 — animate=true일 때만 실제로 부드럽게 움직여요
+function positionSlices(animate){
   const rPx = r * PX_PER_CM;
   const theta = 2*Math.PI/m;
   const chordLen = 2 * rPx * Math.sin(theta/2); // 조각의 현(직선 거리) 길이 (px) — 맞물림 간격의 기준
@@ -279,7 +301,75 @@ function render(){
   const startX = CX - totalWidth/2;
   const bandHalf = rPx/2; // 위/아래로 향한 조각의 꼭짓점이 놓이는 위치(중심에서 r/2 만큼 떨어진 띠의 위아래 끝)
 
-  // 라벨 & 수치
+  for(let i=0;i<m;i++){
+    const g = document.getElementById(`slice-${i}`);
+    if(!g) continue;
+    const a0 = -Math.PI/2 + i*theta;
+    const bisector = a0 + theta/2;
+    const isUp = (i % 2 === 0);
+    const groupIndex = Math.floor(i/2);
+
+    let tx, ty, rotDeg;
+    if(!unfolded){
+      tx = CX; ty = CY; rotDeg = 0;
+    } else {
+      const targetAngle = isUp ? -Math.PI/2 : Math.PI/2;
+      const deltaRad = targetAngle - bisector;
+      rotDeg = deltaRad * 180/Math.PI;
+      if(isUp){
+        // 위로 향한 조각: 꼭짓점이 띠의 아래쪽 끝에 위치, 호는 위쪽으로
+        tx = startX + groupIndex*chordLen;
+        ty = CY + bandHalf;
+      } else {
+        // 아래로 향한 조각: 꼭짓점이 띠의 위쪽 끝에 위치, 위쪽 조각들 사이에 정확히 절반칸 어긋나게 끼워져 옆변이 맞물림
+        tx = startX + (groupIndex+0.5)*chordLen;
+        ty = CY - bandHalf;
+      }
+    }
+
+    if(!animate){
+      // 슬라이더 등으로 모양 자체가 바뀔 때는 애니메이션 없이 즉시 제자리로 스냅해요
+      g.style.transition = 'none';
+      g.style.transform = `translate(${tx}px,${ty}px) rotate(${rotDeg}deg)`;
+      void g.getBoundingClientRect(); // 강제로 리플로우시켜서, 이후 트랜지션이 다시 걸리도록 해요
+      g.style.transition = 'transform .9s cubic-bezier(.4,0,.2,1)';
+      g.style.transitionDelay = '0ms';
+    } else {
+      const delay = i * (unfolded ? 12 : 5);
+      g.style.transitionDelay = `${delay}ms`;
+      g.style.transform = `translate(${tx}px,${ty}px) rotate(${rotDeg}deg)`;
+    }
+  }
+}
+
+// 펼쳐졌을 때만 보이는 기준선·치수 안내예요 (움직이지 않고 즉시 나타나거나 사라져요)
+function renderGuides(){
+  if(!unfolded){
+    guideLayer.innerHTML = '';
+    return;
+  }
+  const rPx = r * PX_PER_CM;
+  const theta = 2*Math.PI/m;
+  const chordLen = 2 * rPx * Math.sin(theta/2);
+  const halfCount = m/2;
+  const totalWidth = halfCount * chordLen;
+  const startX = CX - totalWidth/2;
+  const bandHalf = rPx/2;
+  const circumHalf = Math.PI * r;
+
+  const y0 = CY - bandHalf, y1 = CY + bandHalf;
+  const x0 = startX, x1 = startX + totalWidth;
+  let html = '';
+  html += `<line x1="${x0}" y1="${CY}" x2="${x1}" y2="${CY}" stroke="var(--ink-soft)" stroke-width="1.5" stroke-dasharray="4 5" opacity="0.6"></line>`;
+  html += `<line x1="${x0-14}" y1="${y0}" x2="${x0-14}" y2="${y1}" stroke="var(--coral)" stroke-width="2"></line>`;
+  html += `<text class="tick-label" x="${x0-30}" y="${CY+4}" transform="rotate(-90 ${x0-30} ${CY+4})" fill="var(--coral)">r=${r}cm</text>`;
+  html += `<line x1="${x0}" y1="${y1+16}" x2="${x1}" y2="${y1+16}" stroke="var(--green)" stroke-width="2"></line>`;
+  html += `<text class="tick-label" x="${(x0+x1)/2}" y="${y1+34}" fill="var(--green)">πr ≈ ${fmt(circumHalf)}cm</text>`;
+  guideLayer.innerHTML = html;
+}
+
+// 라벨·수식·설명 텍스트만 업데이트해요 (모션과 무관해요)
+function updateText(){
   mLabel.textContent = m;
   rLabel.textContent = r;
   rInFormula.textContent = r;
@@ -301,62 +391,31 @@ function render(){
     noteBox.innerHTML = `조각 수(m)가 많을수록 한 조각의 호는 거의 <b>직선</b>처럼 보여요. 그래서 이어붙였을 때 진짜 직사각형에 아주 가까워져요.`;
   }
 
-  let html = '';
-  for(let i=0;i<m;i++){
-    const a0 = -Math.PI/2 + i*theta;
-    const a1 = a0 + theta;
-    const bisector = a0 + theta/2;
-    const isUp = (i % 2 === 0);
-    const groupIndex = Math.floor(i/2);
-    const color = isUp ? 'var(--green)' : 'var(--blue)';
-
-    let tx, ty, rotDeg;
-    if(!unfolded){
-      tx = CX; ty = CY; rotDeg = 0;
-    } else {
-      const targetAngle = isUp ? -Math.PI/2 : Math.PI/2;
-      const deltaRad = targetAngle - bisector;
-      rotDeg = deltaRad * 180/Math.PI;
-      if(isUp){
-        // 위로 향한 조각: 꼭짓점이 띠의 아래쪽 끝에 위치, 호는 위쪽으로
-        tx = startX + groupIndex*chordLen;
-        ty = CY + bandHalf;
-      } else {
-        // 아래로 향한 조각: 꼭짓점이 띠의 위쪽 끝에 위치, 위쪽 조각들 사이에 정확히 절반칸 어긋나게 끼워져 옆변이 맞물림
-        tx = startX + (groupIndex+0.5)*chordLen;
-        ty = CY - bandHalf;
-      }
-    }
-
-    const d = sectorPath(rPx, a0, a1);
-    const delay = i * (unfolded ? 12 : 5);
-    html += `<g class="slice" style="transition:transform .9s cubic-bezier(.4,0,.2,1);transition-delay:${delay}ms;transform:translate(${tx}px,${ty}px) rotate(${rotDeg}deg)">`;
-    html += `<path d="${d}" fill="${color}" fill-opacity="0.6" stroke="var(--card)" stroke-width="2"></path>`;
-    html += `</g>`;
-  }
-
-  // 펼친 상태일 때 기준선/치수 안내
-  if(unfolded){
-    const y0 = CY - bandHalf, y1 = CY + bandHalf;
-    const x0 = startX, x1 = startX + totalWidth;
-    html += `<line x1="${x0}" y1="${CY}" x2="${x1}" y2="${CY}" stroke="var(--ink-soft)" stroke-width="1.5" stroke-dasharray="4 5" opacity="0.6"></line>`;
-    html += `<line x1="${x0-14}" y1="${y0}" x2="${x0-14}" y2="${y1}" stroke="var(--coral)" stroke-width="2"></line>`;
-    html += `<text class="tick-label" x="${x0-30}" y="${CY+4}" transform="rotate(-90 ${x0-30} ${CY+4})" fill="var(--coral)">r=${r}cm</text>`;
-    html += `<line x1="${x0}" y1="${y1+16}" x2="${x1}" y2="${y1+16}" stroke="var(--green)" stroke-width="2"></line>`;
-    html += `<text class="tick-label" x="${(x0+x1)/2}" y="${y1+34}" fill="var(--green)">πr ≈ ${fmt(circumHalf)}cm</text>`;
-  }
-
-  svg.innerHTML = html;
   updatePresetActive();
 }
 
-unfoldBtn.addEventListener('click', ()=>{ unfolded = true; render(); });
-resetBtn.addEventListener('click', ()=>{ unfolded = false; render(); });
-sliderM.addEventListener('input', (e)=>{ m = parseInt(e.target.value); render(); });
-sliderR.addEventListener('input', (e)=>{ r = parseFloat(e.target.value); render(); });
+// 조각 수·반지름처럼 모양 자체가 바뀔 때: 조각을 다시 만들고, 애니메이션 없이 제자리에 배치해요
+function rebuildAll(){
+  buildSlices();
+  renderGuides();
+  updateText();
+}
+
+// 펼치기·되돌리기 버튼: 조각은 그대로 두고 위치만 부드럽게 움직여요 — 실제로 모션이 보이는 부분이에요
+function setUnfolded(next){
+  unfolded = next;
+  positionSlices(true);
+  renderGuides();
+  updateText();
+}
+
+unfoldBtn.addEventListener('click', ()=>{ setUnfolded(true); });
+resetBtn.addEventListener('click', ()=>{ setUnfolded(false); });
+sliderM.addEventListener('input', (e)=>{ m = parseInt(e.target.value); rebuildAll(); });
+sliderR.addEventListener('input', (e)=>{ r = parseFloat(e.target.value); rebuildAll(); });
 
 buildPresets();
-render();
+rebuildAll();
 </script>
 </body>
 </html>
