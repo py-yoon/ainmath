@@ -53,6 +53,11 @@ svg{width:100%;max-width:460px;height:auto;overflow:visible;}
 .equation .result span{font-size:0.4em;color:var(--ink-soft);}
 .fact{background:var(--teal-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
 .fact b{color:var(--teal-ink);}
+.wall-section{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:24px clamp(16px,4vw,36px) 28px;margin-top:24px;}
+.wall-head{font-family:'Do Hyeon',sans-serif;font-size:17px;color:var(--teal-ink);margin-bottom:14px;}
+#wallSvg{width:100%;max-width:none;height:auto;display:block;border-radius:16px;background:var(--paper);overflow:hidden;}
+.wall-msg{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+.wall-msg b{color:var(--coral-ink);}
 footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
@@ -82,6 +87,12 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
       </div>
       <div class="fact" id="fact"></div>
     </div>
+  </div>
+
+  <div class="wall-section" id="wallSection">
+    <div class="wall-head" id="wallHead">🧱 정육각형 하나로 채운 벽</div>
+    <svg id="wallSvg" viewBox="0 0 900 240"></svg>
+    <div class="wall-msg" id="wallMsg" style="display:none;"></div>
   </div>
 
     <!-- prev-next-nav -->
@@ -149,6 +160,87 @@ function rotatePt([x,y], deg){
   return [x*Math.cos(r)-y*Math.sin(r), x*Math.sin(r)+y*Math.cos(r)];
 }
 
+/* ==================== "빈틈없이 채운 벽" 타일링 (정삼각형·정사각형·정육각형만 혼자서 가능) ==================== */
+function triangleWallTiles(L, W, H){
+  const h = L*Math.sqrt(3)/2;
+  const rows = Math.ceil(H/h)+1;
+  const margin = 2;
+  const cols = Math.ceil(W/L)+margin*2;
+  const tiles = [];
+  for(let j=0;j<rows;j++){
+    const topOffset = (j%2)*(L/2);
+    const botOffset = (L/2)-topOffset;
+    const topX = i=>i*L+topOffset, botX = i=>i*L+botOffset;
+    const topY = j*h, botY = (j+1)*h;
+    for(let i=-margin;i<cols-margin;i++){
+      tiles.push({pts:[[topX(i),topY],[topX(i+1),topY],[botX(i),botY]], parity:0});
+      tiles.push({pts:[[botX(i),botY],[botX(i+1),botY],[topX(i+1),topY]], parity:1});
+    }
+  }
+  return tiles;
+}
+
+function squareWallTiles(L, W, H){
+  const rows = Math.ceil(H/L)+1, cols = Math.ceil(W/L)+1;
+  const tiles = [];
+  for(let j=0;j<rows;j++) for(let i=0;i<cols;i++){
+    const x=i*L, y=j*L;
+    tiles.push({pts:[[x,y],[x+L,y],[x+L,y+L],[x,y+L]], parity:(i+j)%2});
+  }
+  return tiles;
+}
+
+function hexWallTiles(L, W, H){
+  const w = Math.sqrt(3)*L, vert = 1.5*L;
+  const rows = Math.ceil(H/vert)+2, cols = Math.ceil(W/w)+2;
+  const tiles = [];
+  for(let r=-1;r<rows;r++){
+    const rowOffset = (((r%2)+2)%2)*(w/2);
+    for(let c=-1;c<cols;c++){
+      const cx = c*w+rowOffset, cy = r*vert;
+      const pts = [];
+      for(let k=0;k<6;k++){
+        const ang = (60*k-90)*Math.PI/180;
+        pts.push([cx+L*Math.cos(ang), cy+L*Math.sin(ang)]);
+      }
+      tiles.push({pts, parity:0});
+    }
+  }
+  return tiles;
+}
+
+const wallSvg = document.getElementById('wallSvg');
+const wallHead = document.getElementById('wallHead');
+const wallMsg = document.getElementById('wallMsg');
+
+function renderWall(n, isExact){
+  const name = SHAPES.find(s=>s.n===n).name;
+  wallHead.textContent = `🧱 ${name} 하나로 채운 벽`;
+
+  if(!isExact){
+    wallSvg.style.display = 'none';
+    wallMsg.style.display = '';
+    wallMsg.innerHTML = `<b>${name}</b> 하나만으로는 벽을 빈틈없이 채울 수 없어요. 위 그림처럼 꼭짓점마다 틈이 남거나 겹치기 때문에, 실제로 벽에 붙이면 줄이 어긋나거나 이가 갈라져요.`;
+    return;
+  }
+  wallMsg.style.display = 'none';
+  wallSvg.style.display = '';
+
+  const VB_W=900, VB_H=240;
+  let L, tiles;
+  if(n===3){ L=58; tiles = triangleWallTiles(L, VB_W, VB_H); }
+  else if(n===4){ L=60; tiles = squareWallTiles(L, VB_W, VB_H); }
+  else { L=34; tiles = hexWallTiles(L, VB_W, VB_H); }
+
+  const colorA='var(--teal)', colorB='var(--blue)';
+  const html = tiles.map(t=>{
+    const fill = n===6 ? colorA : (t.parity===0 ? colorA : colorB);
+    return `<polygon points="${t.pts.map(p=>p.join(',')).join(' ')}" fill="${fill}" fill-opacity="0.55" stroke="var(--card)" stroke-width="2"></polygon>`;
+  }).join('');
+  wallSvg.setAttribute('viewBox', `0 0 ${VB_W} ${VB_H}`);
+  wallSvg.innerHTML = html;
+}
+
 function render(){
   const n = currentN;
   const interior = (n-2)*180/n;
@@ -196,6 +288,8 @@ function render(){
   } else {
     factBox.innerHTML = `${SHAPES.find(s=>s.n===n).name}의 내각은 ${interior.toFixed(1)}°이고, 360 ÷ ${interior.toFixed(1)} ≈ <b>${exactCount.toFixed(2)}</b>로 정수가 아니에요. ${fullCopies}개를 모으면 <b>${gapAngle.toFixed(1)}°</b>의 틈이 남아서, 이 도형 하나만으로는 평면을 빈틈없이 채울 수 없어요.`;
   }
+
+  renderWall(n, isExact);
 }
 
 buildPicker();
