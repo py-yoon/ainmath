@@ -138,41 +138,64 @@ function buildModes(){
   });
 }
 
-function ngonPoints(n, cx, cy, r, squish){
+function ngonPoints(n, cx, cy, r, squish, rotOffset){
   const pts = [];
   for(let i=0;i<n;i++){
-    const th = -Math.PI/2 + i*(2*Math.PI/n);
-    pts.push([cx + r*Math.cos(th), cy + r*Math.sin(th)*squish]);
+    const th = -Math.PI/2 + (rotOffset||0) + i*(2*Math.PI/n);
+    pts.push({x: cx + r*Math.cos(th), y: cy + r*Math.sin(th)*squish, th});
   }
   return pts;
 }
-function pointsAttr(pts){ return pts.map(p=>p.join(',')).join(' '); }
+function pointsAttr(pts){ return pts.map(p=>`${p.x},${p.y}`).join(' '); }
+// 두 각도의 "가운데 방향"을 구해요 (wrap-around에도 안전하도록 벡터 평균 사용)
+function midAngle(th1, th2){ return Math.atan2(Math.sin(th1)+Math.sin(th2), Math.cos(th1)+Math.cos(th2)); }
+// 위에서 내려다보는 각도라, 아래쪽 절반(정면)만 정면으로 보여요
+function isFrontFacing(th1, th2){ return Math.sin(midAngle(th1, th2)) > -0.05; }
 
 function render(){
   modeRow.querySelectorAll('.mode-btn').forEach(btn=>btn.classList.toggle('active', btn.dataset.t===shapeType));
   const n = parseInt(nSlider.value);
   nLabel.textContent = n;
 
+  // 육각형·팔각형은 꼭짓점이 정면에 오면 납작해 보여서, 변이 정면을 보도록 살짝 돌려줘요.
+  const rotOffset = n===6 ? Math.PI/6 : (n===8 ? Math.PI/8 : 0);
   const cx = 170, r = 110, squish = 0.38;
   const bottomY = 230, topY = 90;
-  const bottomPts = ngonPoints(n, cx, bottomY, r, squish);
+  const bottomPts = ngonPoints(n, cx, bottomY, r, squish, rotOffset);
   let html = '';
 
   if(shapeType==='prism'){
-    const topPts = ngonPoints(n, cx, topY, r, squish);
-    // 옆 모서리 먼저(뒤에 깔리도록)
+    const topPts = ngonPoints(n, cx, topY, r, squish, rotOffset);
+
+    // 바닥면 (옆면과 같은 톤으로 깔아, 이음매가 비지 않도록 해요)
+    html += `<polygon points="${pointsAttr(bottomPts)}" fill="var(--violet)" fill-opacity="0.5" stroke="var(--violet)" stroke-width="1.5"></polygon>`;
+
+    // 옆면: 위에서 내려다볼 때 보이는 앞쪽 절반은 색을 채운 면으로, 안 보이는 뒤쪽 절반은 점선으로
     for(let i=0;i<n;i++){
-      html += `<line x1="${bottomPts[i][0]}" y1="${bottomPts[i][1]}" x2="${topPts[i][0]}" y2="${topPts[i][1]}" stroke="var(--violet)" stroke-width="2"></line>`;
+      const j = (i+1)%n;
+      if(isFrontFacing(bottomPts[i].th, bottomPts[j].th)){
+        const face = [bottomPts[i], bottomPts[j], topPts[j], topPts[i]];
+        html += `<polygon points="${pointsAttr(face)}" fill="var(--violet)" fill-opacity="0.55" stroke="var(--violet)" stroke-width="1.5"></polygon>`;
+      } else {
+        html += `<line x1="${bottomPts[i].x}" y1="${bottomPts[i].y}" x2="${topPts[i].x}" y2="${topPts[i].y}" stroke="var(--violet)" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.6"></line>`;
+      }
     }
-    html += `<polygon points="${pointsAttr(bottomPts)}" fill="var(--violet-soft)" stroke="var(--violet)" stroke-width="2.5"></polygon>`;
-    html += `<polygon points="${pointsAttr(topPts)}" fill="var(--violet-soft)" stroke="var(--violet)" stroke-width="2.5" opacity="0.9"></polygon>`;
+
+    // 윗면: 내려다볼 때 가장 크게 보이는 면이라 가장 밝고 또렷하게, 맨 위에 그려요
+    html += `<polygon points="${pointsAttr(topPts)}" fill="var(--violet-soft)" stroke="var(--violet)" stroke-width="2.5"></polygon>`;
   } else {
-    const apex = [cx, topY+20];
-    for(let i=0;i<n;i++){
-      html += `<line x1="${bottomPts[i][0]}" y1="${bottomPts[i][1]}" x2="${apex[0]}" y2="${apex[1]}" stroke="var(--violet)" stroke-width="2"></line>`;
-    }
+    const apex = {x: cx, y: topY+20};
     html += `<polygon points="${pointsAttr(bottomPts)}" fill="var(--violet-soft)" stroke="var(--violet)" stroke-width="2.5"></polygon>`;
-    html += `<circle cx="${apex[0]}" cy="${apex[1]}" r="5" fill="var(--coral)"></circle>`;
+
+    for(let i=0;i<n;i++){
+      const j = (i+1)%n;
+      if(isFrontFacing(bottomPts[i].th, bottomPts[j].th)){
+        html += `<polygon points="${bottomPts[i].x},${bottomPts[i].y} ${bottomPts[j].x},${bottomPts[j].y} ${apex.x},${apex.y}" fill="var(--violet)" fill-opacity="0.55" stroke="var(--violet)" stroke-width="1.5"></polygon>`;
+      } else {
+        html += `<line x1="${bottomPts[i].x}" y1="${bottomPts[i].y}" x2="${apex.x}" y2="${apex.y}" stroke="var(--violet)" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.6"></line>`;
+      }
+    }
+    html += `<circle cx="${apex.x}" cy="${apex.y}" r="5" fill="var(--coral)"></circle>`;
   }
   svg.innerHTML = html;
 
