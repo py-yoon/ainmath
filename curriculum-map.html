@@ -47,6 +47,7 @@ h1 span{color:var(--coral-ink);}
   box-shadow:var(--shadow); transition:all .15s ease;
 }
 .jump-btn:hover{ transform:translateY(-1px); }
+.jump-btn.grade-btn.active{ transform:translateY(-1px); box-shadow:0 6px 14px rgba(0,0,0,0.18); }
 
 .grade-section{
   margin-bottom:30px;scroll-margin-top:70px;
@@ -106,7 +107,7 @@ h1 span{color:var(--coral-ink);}
 }
 .unit-row.linked{border-left:4px solid var(--violet);}
 
-.explore-section{margin-top:44px;padding-top:30px;border-top:3px dashed var(--paper-line);}
+.explore-section{margin-top:44px;padding-top:30px;border-top:3px dashed var(--paper-line);scroll-margin-top:70px;}
 .explore-head{display:flex;align-items:baseline;gap:10px;margin-bottom:8px;}
 .explore-title{font-family:'Do Hyeon',sans-serif;font-size:22px;color:var(--teal-ink);}
 .explore-desc{font-size:14px;color:var(--ink-soft);margin-bottom:16px;line-height:1.7;}
@@ -124,7 +125,7 @@ footer a:hover{color:var(--ink);text-decoration:underline;}
   <a class="back-link" href="index.html">← 전체 목록으로</a>
   <span class="eyebrow">🗂️ 교과과정 지도</span>
   <h1>우리 학년 교과서에서<br><span>지금 배우는 단원</span>을 찾아보세요</h1>
-  <p class="sub">2022 개정 교육과정을 기준으로 초등학교 1학년부터 중학교 3학년까지 수학 단원을 학년별로 정리했어요. 보라색 테두리가 있는 단원은 아인매스에서 체험 페이지와 설명 글로 바로 확인할 수 있어요.</p>
+  <p class="sub">2022 개정 교육과정을 기준으로 초등학교 1학년부터 중학교 3학년까지 수학 단원을 학년별로 정리했어요. 아래 학년 버튼을 눌러 보고 싶은 학년만 볼 수 있어요. 보라색 테두리가 있는 단원은 아인매스에서 체험 페이지와 설명 글로 바로 확인할 수 있어요.</p>
   <div class="note">📌 <b>안내</b>: 실제 교과서는 출판사마다 단원 순서나 세부 명칭이 조금씩 다를 수 있어요. 이 페이지는 교육부가 고시한 2022 개정 교육과정의 성취기준을 기준으로 정리한 참고용 지도예요.</div>
 
   <div class="jumpnav" id="jumpnav"></div>
@@ -322,38 +323,61 @@ function unitRowHtml(u){
   `;
 }
 
+let selectedGrade = GRADES[0].id;
+
 function buildJumpnav(){
   const nav = document.getElementById('jumpnav');
-  const gradeBtns = GRADES.map(g=>`<a class="jump-btn" href="#${g.id}" style="border-color:var(--${g.color});color:var(--${g.color})">${g.badge}</a>`).join('');
+  const gradeBtns = GRADES.map(g=>`<button type="button" class="jump-btn grade-btn" data-grade="${g.id}" data-color="${g.color}">${g.badge}</button>`).join('');
   nav.innerHTML = gradeBtns + `<a class="jump-btn" href="#explore" style="border-color:var(--teal);color:var(--teal)">🌀 쉬는 시간</a>`;
+
+  nav.querySelectorAll('.jump-btn[data-grade]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      selectedGrade = btn.dataset.grade;
+      render();
+      updateJumpnavActive();
+      document.getElementById('root').scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+  updateJumpnavActive();
+}
+
+function updateJumpnavActive(){
+  document.querySelectorAll('.jump-btn[data-grade]').forEach(btn=>{
+    const color = btn.dataset.color;
+    const active = btn.dataset.grade === selectedGrade;
+    btn.classList.toggle('active', active);
+    btn.style.borderColor = `var(--${color})`;
+    btn.style.background = active ? `var(--${color})` : 'var(--card)';
+    btn.style.color = active ? '#fff' : `var(--${color})`;
+  });
 }
 
 function render(){
   const root = document.getElementById('root');
-  root.innerHTML = GRADES.map(g=>{
-    const domainOrder = ['number','change','shape','data'];
-    const blocks = domainOrder.filter(d=>g.domains[d] && g.domains[d].length).map(d=>`
-      <div class="domain-block">
-        <span class="domain-label ${d}">${DOMAIN_LABEL[d]}</span>
-        <div class="unit-list">${g.domains[d].map(unitRowHtml).join('')}</div>
-      </div>
-    `).join('');
-    const total = domainOrder.reduce((a,d)=>a+(g.domains[d]?g.domains[d].length:0),0);
-    const covered = domainOrder.reduce((a,d)=>a+(g.domains[d]?g.domains[d].filter(u=>(u.exp&&u.exp.length)||(u.art&&u.art.length)).length:0),0);
-    return `
-      <div class="grade-section" id="${g.id}" style="background:var(--${g.color}-soft);border-color:var(--${g.color})">
-        <div class="grade-head">
-          <div class="grade-badge" style="background:var(--${g.color})">${g.badge}</div>
-          <div class="grade-titlewrap">
-            <span class="school-tag" style="color:var(--${g.color})">${g.school}</span>
-            <span class="grade-title">${g.title}</span>
-            <span class="grade-count">${total}개 단원 중 ${covered}개 체험 가능</span>
-          </div>
+  const g = GRADES.find(x=>x.id===selectedGrade) || GRADES[0];
+  const domainOrder = ['number','change','shape','data'];
+  const blocks = domainOrder.filter(d=>g.domains[d] && g.domains[d].length).map(d=>`
+    <div class="domain-block">
+      <span class="domain-label ${d}">${DOMAIN_LABEL[d]}</span>
+      <div class="unit-list">${g.domains[d].map(unitRowHtml).join('')}</div>
+    </div>
+  `).join('');
+  const total = domainOrder.reduce((a,d)=>a+(g.domains[d]?g.domains[d].length:0),0);
+  const covered = domainOrder.reduce((a,d)=>a+(g.domains[d]?g.domains[d].filter(u=>(u.exp&&u.exp.length)||(u.art&&u.art.length)).length:0),0);
+
+  root.innerHTML = `
+    <div class="grade-section" id="${g.id}" style="background:var(--${g.color}-soft);border-color:var(--${g.color})">
+      <div class="grade-head">
+        <div class="grade-badge" style="background:var(--${g.color})">${g.badge}</div>
+        <div class="grade-titlewrap">
+          <span class="school-tag" style="color:var(--${g.color})">${g.school}</span>
+          <span class="grade-title">${g.title}</span>
+          <span class="grade-count">${total}개 단원 중 ${covered}개 체험 가능</span>
         </div>
-        ${blocks}
       </div>
-    `;
-  }).join('');
+      ${blocks}
+    </div>
+  `;
 
   document.getElementById('exploreList').innerHTML = EXPLORE.map(unitRowHtml).join('');
 }
