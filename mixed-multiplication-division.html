@@ -33,6 +33,10 @@ h1 span{color:var(--coral-ink);}
 
 .section-title{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink);margin:0 0 16px;}
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
+.howto{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 20px;}
+.howto b{color:var(--coral-ink);}
+.area-svg{width:100%;max-width:360px;height:auto;display:block;margin:18px auto 4px;}
+.div-note{font-size:13.5px;color:var(--ink-soft);text-align:center;margin:6px 0 0;line-height:1.6;}
 
 .mode-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
 .mode-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;}
@@ -53,7 +57,7 @@ h1 span{color:var(--coral-ink);}
 .fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
 .fact b{color:var(--coral-ink);}
 
-.division-grid{display:grid;gap:4px;max-width:360px;margin:16px auto;justify-content:center;}
+.division-grid{display:grid;gap:9px 4px;max-width:360px;margin:16px auto;justify-content:center;}
 .division-grid .cell{width:22px;height:22px;border-radius:5px;}
 .division-grid .cell.group{background:var(--violet);}
 .division-grid .cell.rest{background:var(--amber);}
@@ -85,6 +89,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
 
   <div class="stage">
     <div class="section-title">✖️ 곱셈 — 자릿값으로 나누어 곱하기</div>
+    <div class="howto">두 자리 수를 한 번에 곱하면 헷갈리기 쉬워요. 그럴 땐 <b>십의 자리와 일의 자리로 뚝 나누어서</b> 따로 곱한 다음, 두 결과를 더하면 훨씬 쉬워져요. 아래 색칠된 네모 두 개가 바로 그 두 부분이에요.</div>
     <div class="mode-row" id="multModeRow"></div>
     <div class="slider-row">
       <label id="multLabelA">두 자리 수</label>
@@ -96,12 +101,14 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
       <input type="range" id="multSliderB" min="2" max="9" value="6">
       <span class="val" id="multValB">6</span>
     </div>
+    <svg class="area-svg" id="multAreaSvg" viewBox="0 0 340 170"></svg>
     <div class="equation-box" id="multEquationBox"></div>
     <div class="fact" id="multFact"></div>
   </div>
 
   <div class="stage">
     <div class="section-title">➗ 나눗셈 — 몫과 나머지</div>
+    <div class="howto">나눗셈은 물건을 <b>똑같은 개수씩</b> 나누어 담는 것과 같아요. 몇 묶음이 만들어지는지가 <b>몫</b>이고, 다 못 나누고 남는 것이 <b>나머지</b>예요. 아래 그림에서 보라색이 한 묶음, 주황색이 남는 것이에요.</div>
     <div class="slider-row">
       <label>나누어지는 수</label>
       <input type="range" id="divSliderA" min="10" max="99" value="38">
@@ -113,6 +120,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
       <span class="val" id="divValB">7</span>
     </div>
     <div class="division-grid" id="divGrid"></div>
+    <div class="div-note" id="divNote"></div>
     <div class="equation-box" id="divEquationBox"></div>
     <div class="fact" id="divFact"></div>
   </div>
@@ -155,8 +163,34 @@ const multSliderA = document.getElementById('multSliderA');
 const multSliderB = document.getElementById('multSliderB');
 const multValA = document.getElementById('multValA');
 const multValB = document.getElementById('multValB');
+const multAreaSvg = document.getElementById('multAreaSvg');
 const multEquationBox = document.getElementById('multEquationBox');
 const multFact = document.getElementById('multFact');
+
+// 사각형을 두 부분(partA=보라, partB=파랑)으로 나누어, 곱셈이 왜 나뉘어 계산되는지 넓이로 보여줘요
+function areaModelSvg(partA, partB, multiplier){
+  const x0=10, y0=36, h=88, availW=320;
+  let html = '';
+  if(partB===0){
+    html += `<rect x="${x0}" y="${y0}" width="${availW}" height="${h}" rx="12" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2.5"></rect>`;
+    html += `<text x="${x0+availW/2}" y="${y0-12}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--violet-ink)">${partA}</text>`;
+    html += `<text x="${x0+availW/2}" y="${y0+h/2+7}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="19" fill="var(--violet-ink)">${partA*multiplier}</text>`;
+  } else {
+    const gap = 8, total = partA+partB;
+    const w1 = Math.max(availW*0.22, Math.round((partA/total)*(availW-gap)));
+    const w2 = (availW-gap) - w1;
+    html += `<rect x="${x0}" y="${y0}" width="${w1}" height="${h}" rx="12" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2.5"></rect>`;
+    html += `<text x="${x0+w1/2}" y="${y0-12}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--violet-ink)">${partA}</text>`;
+    html += `<text x="${x0+w1/2}" y="${y0+h/2+7}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="19" fill="var(--violet-ink)">${partA*multiplier}</text>`;
+
+    const x2 = x0+w1+gap;
+    html += `<rect x="${x2}" y="${y0}" width="${w2}" height="${h}" rx="12" fill="var(--blue-soft)" stroke="var(--blue-ink)" stroke-width="2.5"></rect>`;
+    html += `<text x="${x2+w2/2}" y="${y0-12}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--blue-ink)">${partB}</text>`;
+    html += `<text x="${x2+w2/2}" y="${y0+h/2+7}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="19" fill="var(--blue-ink)">${partB*multiplier}</text>`;
+  }
+  html += `<text x="${x0}" y="${y0+h+24}" text-anchor="start" font-family="'Gowun Dodum','Noto Sans KR',sans-serif" font-size="13.5" fill="var(--ink-soft)">두 네모 모두 세로 길이는 ×${multiplier}이에요</text>`;
+  return html;
+}
 
 function buildMultModes(){
   multModeRow.innerHTML = `
@@ -184,6 +218,7 @@ function renderMult(){
   if(multMode==='oneDigit'){
     const tens = Math.floor(AB/10)*10, ones = AB%10, C = other;
     const p1 = tens*C, p2 = ones*C, total = p1+p2;
+    multAreaSvg.innerHTML = areaModelSvg(tens, ones, C);
     multEquationBox.innerHTML = `
       <div class="line">${AB} × ${C} = (<span class="a">${tens}</span> × ${C}) + (<span class="b">${ones}</span> × ${C})</div>
       <div class="line">= <span class="a">${p1}</span> + <span class="b">${p2}</span></div>
@@ -194,6 +229,7 @@ function renderMult(){
     const CD = other;
     const cTens = Math.floor(CD/10)*10, dOnes = CD%10;
     const p1 = AB*dOnes, p2 = AB*cTens, total = p1+p2;
+    multAreaSvg.innerHTML = areaModelSvg(dOnes, cTens, AB);
     multEquationBox.innerHTML = `
       <div class="line">${AB} × ${CD} = (${AB} × <span class="a">${dOnes}</span>) + (${AB} × <span class="b">${cTens}</span>)</div>
       <div class="line">= <span class="a">${p1}</span> + <span class="b">${p2}</span></div>
@@ -215,8 +251,11 @@ const divSliderB = document.getElementById('divSliderB');
 const divValA = document.getElementById('divValA');
 const divValB = document.getElementById('divValB');
 const divGrid = document.getElementById('divGrid');
+const divNote = document.getElementById('divNote');
 const divEquationBox = document.getElementById('divEquationBox');
 const divFact = document.getElementById('divFact');
+
+const DIV_MAX_ROWS = 10; // 그림이 너무 길어지지 않도록, 묶음은 최대 이만큼만 그려요
 
 function renderDiv(){
   const dividend = parseInt(divSliderA.value);
@@ -225,12 +264,19 @@ function renderDiv(){
 
   const quotient = Math.floor(dividend/divisor);
   const remainder = dividend % divisor;
+  const truncated = quotient > DIV_MAX_ROWS;
+  const visualQuotient = Math.min(quotient, DIV_MAX_ROWS);
 
   divGrid.style.gridTemplateColumns = `repeat(${divisor}, 22px)`;
   let cells = '';
-  for(let i=0;i<quotient*divisor;i++) cells += `<div class="cell group"></div>`;
-  for(let i=0;i<remainder;i++) cells += `<div class="cell rest"></div>`;
+  for(let i=0;i<visualQuotient*divisor;i++) cells += `<div class="cell group"></div>`;
+  if(!truncated){
+    for(let i=0;i<remainder;i++) cells += `<div class="cell rest"></div>`;
+  }
   divGrid.innerHTML = cells;
+  divNote.textContent = truncated
+    ? `그림에는 ${DIV_MAX_ROWS}묶음까지만 보여드려요 — 실제로는 ${quotient}묶음이 만들어지고 ${remainder}개가 남아요.`
+    : '보라색 한 줄이 한 묶음, 주황색이 남는 것이에요.';
 
   divEquationBox.innerHTML = `
     <div class="line">${dividend} ÷ ${divisor} = <span class="a">${quotient}</span> ... <span class="b">${remainder}</span></div>
