@@ -107,7 +107,18 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
     </div>
   </div>
 
-  <footer>시행 횟수가 적을 때는 결과가 들쭉날쭉하지만, 수백 번 이상 반복하면 각 결과가 나올 상대도수가 이론적 확률(동전 1/2, 주사위 1/6)에 점점 가까워져요. 다만 "큰 수의 법칙"은 예전 결과가 다음 결과에 영향을 준다는 뜻은 아니에요 — 동전이 앞면만 5번 연속 나왔어도, 다음 던지기에서 뒷면이 나올 확률은 여전히 정확히 1/2이랍니다.</footer>
+    <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="classify-objects.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">분류하기</span>
+    </a>
+    <a href="mean-median-mode.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">평균 · 중앙값 · 최빈값</span>
+    </a>
+  </nav>
+<footer>시행 횟수가 적을 때는 결과가 들쭉날쭉하지만, 수백 번 이상 반복하면 각 결과가 나올 상대도수가 이론적 확률(동전 1/2, 주사위 1/6)에 점점 가까워져요. 다만 "큰 수의 법칙"은 예전 결과가 다음 결과에 영향을 준다는 뜻은 아니에요 — 동전이 앞면만 5번 연속 나왔어도, 다음 던지기에서 뒷면이 나올 확률은 여전히 정확히 1/2이랍니다.</footer>
 </div>
 
 <script>

@@ -93,6 +93,7 @@
     cursor:pointer;padding:4px 8px;display:none;
   }
   .search-row .clear-btn.show{display:block;}
+  .result-count{font-size:13.5px;color:var(--ink-soft);padding-left:4px;min-height:1.4em;}
 
   .filter-bar{display:flex;flex-wrap:wrap;gap:8px;}
   .filter-btn{
@@ -129,6 +130,17 @@
     margin-bottom:30px;transition:all .15s ease;
   }
   .curriculum-banner:hover{border-color:var(--violet-ink);transform:translateY(-2px);}
+
+  /* recommended starter section */
+  .recommended-section{
+    margin-bottom:30px;
+    background:#FFF8E6;
+    border:2px solid #FBE3BE;
+    border-radius:26px;
+    padding:22px clamp(16px,3vw,28px) 26px;
+  }
+  .recommended-head{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+  .recommended-title{font-family:'Do Hyeon',sans-serif;font-size:19px;color:#B45309;}
 
   /* category sections */
   .category{
@@ -169,8 +181,10 @@
     position:relative;
   }
   .card.live:hover{transform:translateY(-4px);border-color:var(--card-accent, var(--violet));}
+  .card.live[data-href]{cursor:pointer;}
   .card.disabled{opacity:0.55;cursor:default;}
   .card.disabled:hover{transform:none;}
+  .card[tabindex]:focus-visible{outline:3px solid var(--coral);outline-offset:3px;}
 
   .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
   .card-icon{
@@ -225,12 +239,20 @@
 
   <a href="curriculum-map.html" class="curriculum-banner">🗂️ 우리 학년 교과과정에서 찾아보기 →</a>
 
+  <div class="recommended-section" id="recommendedSection">
+    <div class="recommended-head">
+      <span class="recommended-title">🌟 처음이라면 이걸로 시작해보세요</span>
+    </div>
+    <div class="grid" id="recommended"></div>
+  </div>
+
   <div class="toolbar">
     <div class="search-row">
       <span class="icon">🔍</span>
-      <input type="text" id="searchInput" placeholder="찾고 싶은 주제를 검색해보세요 (예: 분수, 원, 확률...)">
+      <input type="text" id="searchInput" aria-label="주제 검색" placeholder="찾고 싶은 주제를 검색해보세요 (예: 분수, 원, 확률...)">
       <button class="clear-btn" id="clearSearch" aria-label="검색어 지우기">✕</button>
     </div>
+    <div class="result-count" id="resultCount" aria-live="polite"></div>
     <div class="filter-bar" id="filterBar">
       <button class="filter-btn active" data-grade="all">전체</button>
       <button class="filter-btn" data-grade="low">초등 저학년 (1~3학년)</button>
@@ -241,7 +263,7 @@
   </div>
 
   <div id="categories"></div>
-  <div class="no-results" id="noResults" style="display:none;">검색 결과가 없어요. 다른 낱말로 찾아보세요.</div>
+  <div class="no-results" id="noResults" aria-live="polite" style="display:none;">검색 결과가 없어요. 다른 낱말로 찾아보세요.</div>
 
   <footer>
     <nav class="footer-nav">
@@ -265,23 +287,23 @@
         { title:'평면도형 모양 찾기', desc:'도형을 고르면 변과 꼭짓점을 하나씩 세어주고, 이름 맞히기 퀴즈도 풀어봐요.', grades:['low'], status:'live', href:'shape-finder.html', article:'article-shape-finder.html', icon:'🔺' },
         { title:'입체도형의 모양 찾기', desc:'상자 모양, 기둥 모양, 공 모양! 우리 주변 물건이 어떤 모양 가족인지 맞혀봐요.', grades:['low'], status:'live', href:'solid-shape-families.html', article:'article-solid-shape-families.html', icon:'📦' },
         { title:'비교하기', desc:'길이·무게·넓이·들이를 슬라이더로 비교하며 어느 쪽이 더 큰지 확인해요.', grades:['low'], status:'live', href:'comparison-basics.html', article:'article-comparison-basics.html', icon:'📏' },
-        { title:'삼각비 (사인·코사인·탄젠트)', desc:'각도와 고정할 변을 선택하며 sin·cos·tan 값이 어떻게 변하는지 확인해요.', grades:['mid'], status:'live', href:'trig-ratios.html', article:'article-trig-ratios.html', icon:'📏' },
+        { title:'삼각비 (사인·코사인·탄젠트)', desc:'각도와 고정할 변을 선택하며 sin·cos·tan 값이 어떻게 변하는지 확인해요.', grades:['mid'], status:'live', href:'trig-ratios.html', article:'article-trig-ratios.html', icon:'∠' },
         { title:'평행선과 각의 관계', desc:'가로지르는 선의 기울기를 바꾸며 맞꼭지각·동위각·엇각을 하나씩 확인해요.', grades:['mid'], status:'live', href:'parallel-angles.html', article:'article-parallel-angles.html', icon:'∥' },
         { title:'지오보드 넓이 퍼즐', desc:'점을 이어 도형을 만들고 격자 칸을 세어 목표 넓이를 정확히 맞혀보는 퍼즐이에요. 공식을 몰라도 칸 세기로 넓이를 확인할 수 있어요.', grades:['low','high'], status:'live', href:'geoboard-area.html', article:'article-geoboard-area.html', icon:'📐' },
         { title:'칠교판(탱그램) 퍼즐', desc:'일곱 조각을 끌고 돌리고 뒤집어서 정사각형이나 나만의 모양을 만들어봐요.', grades:['low','high'], status:'live', href:'tangram-puzzle.html', article:'article-tangram-puzzle.html', icon:'🔶' },
-        { title:'직육면체의 겉넓이와 부피', desc:'가로·세로·높이를 슬라이더로 바꾸고 전개도로 펼쳐보며 겉넓이와 부피가 어떻게 달라지는지 확인해요.', grades:['high'], status:'live', href:'cuboid-surface-volume.html', article:'article-cuboid-surface-volume.html', icon:'📦' },
-        { title:'직선과 각의 관계', desc:'슬라이더로 두 직선의 각도를 바꿔보며 평행·수직 관계를 확인하고, 관계 맞히기 퀴즈에 도전해요.', grades:['mid'], status:'live', href:'lines-angles-basics.html', article:'article-lines-angles-basics.html', icon:'📏' },
-        { title:'원·삼각형·사각형 분류', desc:'원의 반지름·지름 구조를 확인하고, 다양한 삼각형·사각형을 보고 이름을 맞혀보는 퀴즈예요.', grades:['mid'], status:'live', href:'shape-classify.html', article:'article-shape-classify.html', icon:'⭕' },
-        { title:'다각형 이름 맞추기', desc:'변의 개수를 바꿔가며 정다각형 이름을 익히고, 볼록·오목다각형을 구분하는 퀴즈에 도전해요.', grades:['mid'], status:'live', href:'polygon-name-quiz.html', article:'article-polygon-name-quiz.html', icon:'🔺' },
-        { title:'각도 재기', desc:'가상 각도기로 각을 직접 벌려보고, 눈금만 보고 각도를 읽어내는 퀴즈로 연습해요.', grades:['mid'], status:'live', href:'protractor-measure.html', article:'article-protractor-measure.html', icon:'📐' },
-        { title:'길이·들이·무게 어림하기', desc:'슬라이더로 단위를 바꿔보고, 주변 물건이 대략 얼마나 되는지 어림하는 퀴즈에 도전해요.', grades:['mid'], status:'live', href:'measurement-estimate.html', article:'article-measurement-estimate.html', icon:'📏' },
+        { title:'직육면체의 겉넓이와 부피', desc:'가로·세로·높이를 슬라이더로 바꾸고 전개도로 펼쳐보며 겉넓이와 부피가 어떻게 달라지는지 확인해요.', grades:['high'], status:'live', href:'cuboid-surface-volume.html', article:'article-cuboid-surface-volume.html', icon:'🧱' },
+        { title:'직선과 각의 관계', desc:'슬라이더로 두 직선의 각도를 바꿔보며 평행·수직 관계를 확인하고, 관계 맞히기 퀴즈에 도전해요.', grades:['mid'], status:'live', href:'lines-angles-basics.html', article:'article-lines-angles-basics.html', icon:'⊥' },
+        { title:'원·삼각형·사각형 분류', desc:'원의 반지름·지름 구조를 확인하고, 다양한 삼각형·사각형을 보고 이름을 맞혀보는 퀴즈예요.', grades:['mid'], status:'live', href:'shape-classify.html', article:'article-shape-classify.html', icon:'🔵' },
+        { title:'다각형 이름 맞추기', desc:'변의 개수를 바꿔가며 정다각형 이름을 익히고, 볼록·오목다각형을 구분하는 퀴즈에 도전해요.', grades:['mid'], status:'live', href:'polygon-name-quiz.html', article:'article-polygon-name-quiz.html', icon:'🔸' },
+        { title:'각도 재기', desc:'가상 각도기로 각을 직접 벌려보고, 눈금만 보고 각도를 읽어내는 퀴즈로 연습해요.', grades:['mid'], status:'live', href:'protractor-measure.html', article:'article-protractor-measure.html', icon:'🧭' },
+        { title:'길이·들이·무게 어림하기', desc:'슬라이더로 단위를 바꿔보고, 주변 물건이 대략 얼마나 되는지 어림하는 퀴즈에 도전해요.', grades:['mid'], status:'live', href:'measurement-estimate.html', article:'article-measurement-estimate.html', icon:'⚖️' },
         { title:'시각과 시간 계산기', desc:'시곗바늘을 움직여 시각을 확인하고, 경과 시간을 계산하는 퀴즈를 풀어봐요.', grades:['mid'], status:'live', href:'time-calculator.html', article:'article-time-calculator.html', icon:'🕐' },
         { title:'합동과 대칭', desc:'도형을 거울에 비추거나 180° 돌려보면서 선대칭도형과 점대칭도형을 확인해요.', grades:['high'], status:'live', href:'symmetry-shapes.html', article:'article-symmetry-shapes.html', icon:'🔷' },
-        { title:'직육면체와 정육면체', desc:'상자의 면, 모서리, 꼭짓점을 하나씩 세어보며 기본 구조를 확인해요.', grades:['high'], status:'live', href:'cuboid-parts.html', article:'article-cuboid-parts.html', icon:'📦' },
-        { title:'각기둥과 각뿔', desc:'밑면의 변 개수를 바꿔가며 각기둥과 각뿔의 면·모서리·꼭짓점 개수가 어떻게 달라지는지 확인해요.', grades:['high'], status:'live', href:'prism-pyramid.html', article:'article-prism-pyramid.html', icon:'🔺' },
+        { title:'직육면체와 정육면체', desc:'상자의 면, 모서리, 꼭짓점을 하나씩 세어보며 기본 구조를 확인해요.', grades:['high'], status:'live', href:'cuboid-parts.html', article:'article-cuboid-parts.html', icon:'🎁' },
+        { title:'각기둥과 각뿔', desc:'밑면의 변 개수를 바꿔가며 각기둥과 각뿔의 면·모서리·꼭짓점 개수가 어떻게 달라지는지 확인해요.', grades:['high'], status:'live', href:'prism-pyramid.html', article:'article-prism-pyramid.html', icon:'🔻' },
         { title:'원기둥·원뿔·구', desc:'둥근 입체도형 세 가지를 탭으로 바꿔가며 부분의 이름과 전개도를 확인해요.', grades:['high'], status:'live', href:'cylinder-cone-sphere.html', article:'article-cylinder-cone-sphere.html', icon:'🥫' },
-        { title:'쌓기나무 세어보기', desc:'쌓여 있는 쌓기나무 그림을 보고 모두 몇 개인지 세어보며 공간 감각을 키워요.', grades:['high'], status:'live', href:'unit-cube-count.html', article:'article-unit-cube-count.html', icon:'🧊' },
-        { title:'삼각형과 사각형의 성질', desc:'이등변삼각형과 여러 사각형을 슬라이더로 조절하며 변·각·대각선의 성질이 절대 변하지 않는다는 걸 확인해요.', grades:['mid'], status:'live', href:'triangle-quadrilateral-properties.html', article:'article-triangle-quadrilateral-properties.html', icon:'📐' },
+        { title:'쌓기나무 세어보기', desc:'쌓여 있는 쌓기나무 그림을 보고 모두 몇 개인지 세어보며 공간 감각을 키워요.', grades:['high'], status:'live', href:'unit-cube-count.html', article:'article-unit-cube-count.html', icon:'🎲' },
+        { title:'삼각형과 사각형의 성질', desc:'이등변삼각형과 여러 사각형을 슬라이더로 조절하며 변·각·대각선의 성질이 절대 변하지 않는다는 걸 확인해요.', grades:['mid'], status:'live', href:'triangle-quadrilateral-properties.html', article:'article-triangle-quadrilateral-properties.html', icon:'◇' },
         { title:'원주각의 성질', desc:'원 위의 점을 움직여도 원주각의 크기가 왜 항상 똑같은지, 중심각의 절반이 되는 이유를 슬라이더로 확인해요.', grades:['mid'], status:'live', href:'inscribed-angle.html', article:'article-inscribed-angle.html', icon:'⚪' },
       ]
     },
@@ -296,15 +318,15 @@
         { title:'비와 비율', desc:'지도 축척과 설탕물 농도로, 두 양의 비율이 어떻게 유지되는지 확인해요.', grades:['high','mid'], status:'live', href:'ratio-proportion.html', article:'article-ratio-proportion.html', icon:'⚖️' },
         { title:'10 만들기', desc:'열 칸 표의 빨간 점을 보고, 10을 만드는 짝꿍 수를 맞혀봐요.', grades:['low'], status:'live', href:'make-ten.html', article:'article-make-ten.html', icon:'🔟' },
         { title:'곱셈구구 놀이', desc:'묶음 수와 한 묶음의 개수를 슬라이더로 바꿔보며, 곱셈이 왜 그런 답이 나오는지 배열 그림으로 확인해요.', grades:['low'], status:'live', href:'multiplication-array.html', article:'article-multiplication-array.html', icon:'✖️' },
-        { title:'자릿값과 큰 수 읽기', desc:'자리(만·천·백·십·일)마다 슬라이더로 숫자를 바꾸면 자릿값에 따라 블록 크기가 달라지는 걸 확인하고, 큰 수 읽는 법도 익혀요.', grades:['low','high'], status:'live', href:'place-value-blocks.html', article:'article-place-value-blocks.html', icon:'🔟' },
-        { title:'곱셈과 나눗셈', desc:'두 자리 수 곱셈을 자릿값으로 나누어 계산하고, 나머지가 있는 나눗셈의 몫과 나머지를 확인해요.', grades:['low','high'], status:'live', href:'mixed-multiplication-division.html', article:'article-mixed-multiplication-division.html', icon:'✖️' },
+        { title:'자릿값과 큰 수 읽기', desc:'자리(만·천·백·십·일)마다 슬라이더로 숫자를 바꾸면 자릿값에 따라 블록 크기가 달라지는 걸 확인하고, 큰 수 읽는 법도 익혀요.', grades:['low','high'], status:'live', href:'place-value-blocks.html', article:'article-place-value-blocks.html', icon:'🧮' },
+        { title:'곱셈과 나눗셈', desc:'두 자리 수 곱셈을 자릿값으로 나누어 계산하고, 나머지가 있는 나눗셈의 몫과 나머지를 확인해요.', grades:['low','high'], status:'live', href:'mixed-multiplication-division.html', article:'article-mixed-multiplication-division.html', icon:'➗' },
         { title:'시계 보기 (몇 시 몇 분)', desc:'짧은바늘과 긴바늘을 보고 몇 시 몇 분인지 맞히는 퀴즈를 풀어봐요.', grades:['low'], status:'live', href:'clock-reading.html', article:'article-clock-reading.html', icon:'🕐' },
         { title:'정수와 유리수 (수직선 놀이)', desc:'시작하는 수와 이동할 크기를 정하면, 화살표가 수직선 위에서 움직이며 덧셈·뺄셈을 보여줘요.', grades:['mid'], status:'live', href:'integer-number-line.html', article:'article-integer-number-line.html', icon:'🌡️' },
         { title:'양동이 물 맞추기', desc:'정해진 양동이 몇 개로 채우기·비우기·붓기만 반복해서 목표량을 정확히 만드는 퍼즐이에요. 최대공약수로 나누어떨어지는 양만 만들 수 있다는 원리를 몸으로 익혀요.', grades:['high','mid'], status:'live', href:'water-jug-puzzle.html', article:'article-water-jug-puzzle.html', icon:'🪣' },
         { title:'24 게임', desc:'숫자 네 개와 사칙연산을 자유롭게 조합해서 정확히 24를 만들어봐요.', grades:['high','mid'], status:'live', href:'game-24.html', article:'article-game-24.html', icon:'🎯' },
-        { title:'자연수의 혼합 계산', desc:'괄호, 곱셈·나눗셈, 덧셈·뺄셈 중 어디부터 계산해야 하는지 순서를 한 단계씩 확인해요.', grades:['high'], status:'live', href:'mixed-calculation.html', article:'article-mixed-calculation.html', icon:'🔢' },
-        { title:'약분과 통분', desc:'분수를 슬라이더로 바꾸며 약분과 통분이 어떻게 이루어지는지 막대 그림으로 확인해요.', grades:['high'], status:'live', href:'fraction-simplify.html', article:'article-fraction-simplify.html', icon:'🍰' },
-        { title:'비례식과 비례배분', desc:'비례식을 세워 모르는 값을 구하고, 정해진 비로 전체를 나누는 비례배분을 확인해요.', grades:['high'], status:'live', href:'proportion-equation.html', article:'article-proportion-equation.html', icon:'⚖️' },
+        { title:'자연수의 혼합 계산', desc:'괄호, 곱셈·나눗셈, 덧셈·뺄셈 중 어디부터 계산해야 하는지 순서를 한 단계씩 확인해요.', grades:['high'], status:'live', href:'mixed-calculation.html', article:'article-mixed-calculation.html', icon:'🔣' },
+        { title:'약분과 통분', desc:'분수를 슬라이더로 바꾸며 약분과 통분이 어떻게 이루어지는지 막대 그림으로 확인해요.', grades:['high'], status:'live', href:'fraction-simplify.html', article:'article-fraction-simplify.html', icon:'🍕' },
+        { title:'비례식과 비례배분', desc:'비례식을 세워 모르는 값을 구하고, 정해진 비로 전체를 나누는 비례배분을 확인해요.', grades:['high'], status:'live', href:'proportion-equation.html', article:'article-proportion-equation.html', icon:'📊' },
         { title:'스피드 암산 챌린지', desc:'60초 안에 문제를 최대한 많이 풀어 점수를 쌓는 타임어택 게임이에요. 연속으로 맞히면 콤보 보너스도 받을 수 있어요.', grades:['low','high','mid'], status:'live', href:'speed-math-challenge.html', article:'article-speed-math-challenge.html', icon:'⚡' },
         { title:'유리수와 순환소수', desc:'분수를 소수로 바꾸면 딱 떨어질지 계속 반복될지 먼저 예상해보고, 나눗셈 과정으로 직접 확인해요.', grades:['mid'], status:'live', href:'repeating-decimal.html', article:'article-repeating-decimal.html', icon:'🔁' },
         { title:'제곱근과 실수', desc:'슬라이더로 숫자를 바꾸며 제곱근이 수직선 어디에 있는지, 유리수인지 무리수인지 확인해요.', grades:['mid'], status:'live', href:'square-root.html', article:'article-square-root.html', icon:'√' },
@@ -317,7 +339,7 @@
         { title:'평균 · 중앙값 · 최빈값', desc:'숫자를 직접 입력하면 세 값이 어떻게 달라지는지 확인해요.', grades:['high','mid'], status:'live', href:'mean-median-mode.html', article:'article-mean-median-mode.html', icon:'📊' },
         { title:'순열과 조합', desc:'n명 중 r명을 뽑을 때, 순서를 따지는지에 따라 경우의 수가 어떻게 달라지는지 확인해요.', grades:['high','mid'], status:'live', href:'permutations-combinations.html', article:'article-permutations-combinations.html', icon:'🔀' },
         { title:'그림그래프로 나타내기', desc:'과일 버튼을 눌러 자료를 세고, 그림그래프로 쌓이는 걸 확인해요.', grades:['low'], status:'live', href:'pictogram-graph.html', article:'article-pictogram-graph.html', icon:'🍎' },
-        { title:'막대그래프·꺾은선그래프', desc:'슬라이더로 값을 바꾸며 막대그래프와 꺾은선그래프가 어떻게 그려지는지 확인해요.', grades:['low','high'], status:'live', href:'bar-line-graph.html', article:'article-bar-line-graph.html', icon:'📊' },
+        { title:'막대그래프·꺾은선그래프', desc:'슬라이더로 값을 바꾸며 막대그래프와 꺾은선그래프가 어떻게 그려지는지 확인해요.', grades:['low','high'], status:'live', href:'bar-line-graph.html', article:'article-bar-line-graph.html', icon:'📈' },
         { title:'분류하기', desc:'색깔별로, 모양별로, 크기별로! 같은 물건도 기준을 바꾸면 다르게 나뉘는 걸 확인해요.', grades:['low'], status:'live', href:'classify-objects.html', article:'article-classify-objects.html', icon:'🟢' },
         { title:'원그래프로 나타내기', desc:'항목별 인원수를 슬라이더로 바꿔보며 원그래프의 부채꼴 크기(백분율·중심각)가 어떻게 달라지는지 확인해요.', grades:['high'], status:'live', href:'pie-chart.html', article:'article-pie-chart.html', icon:'🥧' },
         { title:'도수분포표 실험실', desc:'계급의 크기를 조절하며 원자료가 도수분포표와 히스토그램으로 정리되는 과정을 확인해요.', grades:['mid'], status:'live', href:'frequency-table.html', article:'article-frequency-table.html', icon:'📶' },
@@ -332,8 +354,8 @@
         { title:'좌표평면 위 도형 이동', desc:'점을 클릭하거나 좌표를 입력해 대칭·평행이동·회전을 확인해요.', grades:['mid'], status:'live', href:'coordinate-transform.html', article:'article-coordinate-transform.html', icon:'⊹' },
         { title:'이차함수 그래프', desc:'a, b, c를 슬라이더로 조절하면 포물선과 꼭짓점이 실시간으로 움직여요.', grades:['mid'], status:'live', href:'quadratic-function-graph.html', article:'article-quadratic-function.html', icon:'⋃' },
         { title:'방정식 저울 실험실', desc:'저울 양쪽에 같은 조작을 하며 일차방정식을 단계별로 풀어봐요.', grades:['mid'], status:'live', href:'equation-balance.html', article:'article-equation-balance.html', icon:'⚖️' },
-        { title:'대응 관계', desc:'두 양이 짝을 지어 함께 변하는 대응 관계를 표와 그래프로 확인해요.', grades:['high'], status:'live', href:'corresponding-quantities.html', article:'article-corresponding-quantities.html', icon:'📈' },
-        { title:'등호와 규칙', desc:'저울로 등호(=)가 양쪽이 같다는 뜻임을 확인하고, □와 △로 규칙을 나타내는 법을 알아봐요.', grades:['low','high'], status:'live', href:'equal-sign-balance.html', article:'article-equal-sign-balance.html', icon:'⚖️' },
+        { title:'대응 관계', desc:'두 양이 짝을 지어 함께 변하는 대응 관계를 표와 그래프로 확인해요.', grades:['high'], status:'live', href:'corresponding-quantities.html', article:'article-corresponding-quantities.html', icon:'🔗' },
+        { title:'등호와 규칙', desc:'저울로 등호(=)가 양쪽이 같다는 뜻임을 확인하고, □와 △로 규칙을 나타내는 법을 알아봐요.', grades:['low','high'], status:'live', href:'equal-sign-balance.html', article:'article-equal-sign-balance.html', icon:'🟰' },
         { title:'식의 계산 (지수법칙·동류항)', desc:'슬라이더로 지수법칙을 확인하고, 흩어진 항들을 동류항끼리 묶어 다항식을 정리해봐요.', grades:['mid'], status:'live', href:'monomial-calculation.html', article:'article-monomial-calculation.html', icon:'🧮' },
         { title:'일차부등식과 연립방정식', desc:'음수를 곱하거나 나누면 부등호 방향이 왜 바뀌는지 확인하고, 두 직선의 교점으로 연립방정식의 해를 찾아봐요.', grades:['mid'], status:'live', href:'inequality-and-system.html', article:'article-inequality-and-system.html', icon:'📏' },
         { title:'다항식의 곱셈·인수분해와 이차방정식', desc:'정사각형 넓이로 곱셈공식을 확인하고, 인수분해로 이차방정식의 두 근을 찾아봐요.', grades:['mid'], status:'live', href:'factoring-quadratic.html', article:'article-factoring-quadratic.html', icon:'🧩' },
@@ -351,7 +373,7 @@
         { title:'미니 스도쿠', desc:'4×4·6×6 스도쿠를 풀며 가로·세로·상자에 숫자가 겹치지 않게 채워봐요.', grades:['low','high'], status:'live', href:'mini-sudoku.html', article:'article-mini-sudoku.html', icon:'🧩' },
         { title:'숫자야구', desc:'스트라이크·볼 힌트를 모아 컴퓨터가 정한 비밀 번호를 추리해봐요.', grades:['high','mid'], status:'live', href:'number-baseball.html', article:'article-number-baseball.html', icon:'⚾' },
         { title:'숫자 탐정 놀이', desc:'단서를 하나씩 확인하며 조건에 꼭 맞는 숫자를 용의자 중에서 찾아내는 추리 게임이에요. 소거법으로 좁혀나가는 논리적 사고를 길러요.', grades:['low','high','mid'], status:'live', href:'number-detective.html', article:'article-number-detective.html', icon:'🔍' },
-        { title:'정다면체 탐구 실험실', desc:'정다면체가 왜 딱 5개만 있는지, 꼭짓점에 모이는 각도를 직접 조절해서 확인하고 3D로 돌려보며 알아봐요.', grades:['high','mid'], status:'live', href:'platonic-solids-lab.html', article:'article-platonic-solids-lab.html', icon:'🔷' },
+        { title:'정다면체 탐구 실험실', desc:'정다면체가 왜 딱 5개만 있는지, 꼭짓점에 모이는 각도를 직접 조절해서 확인하고 3D로 돌려보며 알아봐요.', grades:['high','mid'], status:'live', href:'platonic-solids-lab.html', article:'article-platonic-solids-lab.html', icon:'🧊' },
         { title:'자연 속 피보나치 찾기', desc:'해바라기 씨앗이 자라는 각도를 슬라이더로 바꿔보며, 겹치지 않고 가장 촘촘하게 채워지는 각도가 딱 하나뿐이라는 걸 확인해요.', grades:['high','mid'], status:'live', href:'fibonacci-in-nature.html', article:'article-fibonacci-in-nature.html', icon:'🌻' },
         { title:'손가락 계산 마법 트릭', desc:'손가락만 접으면 9단 곱셈 답이 바로 나와요. 몇 번째 손가락을 접을지 골라보고 정말 맞는지 확인해요.', grades:['low','high'], status:'live', href:'finger-multiplication-trick.html', article:'article-finger-multiplication-trick.html', icon:'🖐️' },
         { title:'프랙탈 확대경 실험실', desc:'코흐 눈송이와 시에르핀스키 삼각형의 단계를 늘려가며, 같은 규칙이 반복될 때 얼마나 복잡한 모양이 만들어지는지 확인해요.', grades:['high','mid'], status:'live', href:'fractal-explorer.html', article:'article-fractal-explorer.html', icon:'❄️' },
@@ -362,14 +384,28 @@
   ];
 
   const gradeNames = { low:'초등 저학년', high:'초등 고학년', mid:'중학생' };
+  const gradeRank = { low:0, high:1, mid:2 };
+  const RECOMMENDED_HREFS = ['make-ten.html','game-24.html','circle-area.html','platonic-solids-lab.html'];
 
   const container = document.getElementById('categories');
+
+  function sortedItems(items){
+    return items.map((item, i) => ({item, i}))
+      .sort((a, b) => {
+        const rankA = Math.min(...a.item.grades.map(g => gradeRank[g]));
+        const rankB = Math.min(...b.item.grades.map(g => gradeRank[g]));
+        if(rankA !== rankB) return rankA - rankB;
+        return a.i - b.i;
+      })
+      .map(x => x.item);
+  }
 
   function cardHtml(item, accentColor, textColor){
     const gradeTags = item.grades.map(g=>`<span class="grade-tag ${g}">${gradeNames[g]}</span>`).join('');
     const gradeAttr = item.grades.join(' ');
     const isLive = item.status === 'live';
     const hasAnyLink = isLive || !!item.article;
+    const primaryHref = isLive ? item.href : (item.article || '');
     const actions = [];
     if(isLive){
       actions.push(`<a class="card-action primary" href="${item.href}">🎮 체험하기</a>`);
@@ -378,8 +414,9 @@
       actions.push(`<a class="card-action" href="${item.article}">📖 설명 글 읽기</a>`);
     }
     const searchText = (item.title + ' ' + item.desc).toLowerCase();
+    const linkAttrs = hasAnyLink ? `data-href="${primaryHref}" tabindex="0" role="link"` : '';
     return `
-      <div class="card ${hasAnyLink ? 'live' : 'disabled'}" style="--card-accent:${accentColor};--card-accent-ink:${textColor}" data-grade="${gradeAttr}" data-search="${searchText.replace(/"/g,'&quot;')}">
+      <div class="card ${hasAnyLink ? 'live' : 'disabled'}" style="--card-accent:${accentColor};--card-accent-ink:${textColor}" data-grade="${gradeAttr}" data-search="${searchText.replace(/"/g,'&quot;')}" ${linkAttrs}>
         <div class="card-top">
           <div class="card-icon" style="background:${accentColor}22;color:${textColor}">${item.icon}</div>
           ${!isLive ? `<span class="status soon">준비 중</span>` : ''}
@@ -401,11 +438,36 @@
           <span class="category-count">${cat.items.length}개</span>
         </div>
         <div class="grid">
-          ${cat.items.map(item => cardHtml(item, cat.color, cat.textColor)).join('')}
+          ${sortedItems(cat.items).map(item => cardHtml(item, cat.color, cat.textColor)).join('')}
         </div>
       </div>
     `).join('');
   }
+
+  function renderRecommended(){
+    const cards = [];
+    RECOMMENDED_HREFS.forEach(href => {
+      for(const cat of CATEGORIES){
+        const item = cat.items.find(i => i.href === href);
+        if(item){ cards.push(cardHtml(item, cat.color, cat.textColor)); break; }
+      }
+    });
+    document.getElementById('recommended').innerHTML = cards.join('');
+  }
+
+  container.addEventListener('click', (e)=>{
+    if(e.target.closest('.card-action')) return;
+    const card = e.target.closest('.card[data-href]');
+    if(card) window.location.href = card.dataset.href;
+  });
+  container.addEventListener('keydown', (e)=>{
+    if(e.key !== 'Enter' && e.key !== ' ') return;
+    if(e.target.closest('.card-action')) return;
+    const card = e.target.closest('.card[data-href]');
+    if(!card) return;
+    e.preventDefault();
+    window.location.href = card.dataset.href;
+  });
 
   function renderJumpNav(){
     document.getElementById('jumpNav').innerHTML = CATEGORIES.map(cat => `
@@ -418,21 +480,30 @@
   let currentGrade = 'all';
   let currentSearch = '';
 
+  const resultCountEl = document.getElementById('resultCount');
+  const recommendedSectionEl = document.getElementById('recommendedSection');
+  const totalCardCount = CATEGORIES.reduce((sum, cat) => sum + cat.items.length, 0);
+
   function applyFilter(){
     let anyVisible = false;
-    document.querySelectorAll('.card').forEach(card=>{
+    let visibleCount = 0;
+    document.querySelectorAll('#categories .card').forEach(card=>{
       const grades = card.dataset.grade.split(' ');
       const gradeMatch = currentGrade === 'all' || grades.includes(currentGrade);
       const searchMatch = !currentSearch || card.dataset.search.includes(currentSearch);
       const show = gradeMatch && searchMatch;
       card.style.display = show ? '' : 'none';
-      if(show) anyVisible = true;
+      if(show){ anyVisible = true; visibleCount++; }
     });
     document.querySelectorAll('.category').forEach(cat=>{
       const visibleCards = cat.querySelectorAll('.card:not([style*="display: none"])');
       cat.style.display = visibleCards.length ? '' : 'none';
     });
     document.getElementById('noResults').style.display = anyVisible ? 'none' : '';
+
+    const isFiltering = currentGrade !== 'all' || !!currentSearch;
+    resultCountEl.textContent = isFiltering ? `${visibleCount}개 결과` : `총 ${totalCardCount}개 체험`;
+    if(recommendedSectionEl) recommendedSectionEl.style.display = isFiltering ? 'none' : '';
   }
 
   document.getElementById('filterBar').addEventListener('click', (e)=>{
@@ -466,8 +537,25 @@
     if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
   });
 
+  const recommendedGrid = document.getElementById('recommended');
+  recommendedGrid.addEventListener('click', (e)=>{
+    if(e.target.closest('.card-action')) return;
+    const card = e.target.closest('.card[data-href]');
+    if(card) window.location.href = card.dataset.href;
+  });
+  recommendedGrid.addEventListener('keydown', (e)=>{
+    if(e.key !== 'Enter' && e.key !== ' ') return;
+    if(e.target.closest('.card-action')) return;
+    const card = e.target.closest('.card[data-href]');
+    if(!card) return;
+    e.preventDefault();
+    window.location.href = card.dataset.href;
+  });
+
   renderCategories();
   renderJumpNav();
+  renderRecommended();
+  applyFilter();
 </script>
 </body>
 </html>

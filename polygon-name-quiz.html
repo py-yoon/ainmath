@@ -103,7 +103,18 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
     <button class="action-btn" id="nextBtn">➡ 다음 문제</button>
   </div>
 
-  <footer>변이 안쪽으로 움푹 들어간 다각형을 "오목다각형", 어느 방향으로도 움푹 들어간 곳이 없는 다각형을 "볼록다각형"이라고 해요. 모든 정다각형은 볼록다각형이랍니다.</footer>
+    <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="shape-classify.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">원·삼각형·사각형 분류</span>
+    </a>
+    <a href="protractor-measure.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">각도 재기</span>
+    </a>
+  </nav>
+<footer>변이 안쪽으로 움푹 들어간 다각형을 "오목다각형", 어느 방향으로도 움푹 들어간 곳이 없는 다각형을 "볼록다각형"이라고 해요. 모든 정다각형은 볼록다각형이랍니다.</footer>
 </div>
 
 <script>
