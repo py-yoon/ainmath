@@ -11,11 +11,11 @@
 <style>
 :root{
   --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
-  --violet:#6C4CF7; --violet-soft:#EEE8FF;
-  --coral:#FF5B57; --coral-soft:#FFEAE8;
-  --green:#4CAF8E; --green-soft:#E3F5EE;
-  --blue:#4C8BF5; --blue-soft:#E7F0FF;
-  --teal:#2EC4C6; --teal-soft:#E4FAF9;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --teal:#2EC4C6; --teal-soft:#E4FAF9;--teal-ink:#1D7C7E;
   --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
 }
 *{box-sizing:border-box;}
@@ -26,16 +26,16 @@ body{
   min-height:100vh; padding: 32px 20px 80px;
 }
 .wrap{max-width:900px;margin:0 auto;}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--teal);background:var(--teal-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--teal-ink);background:var(--teal-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
 h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
-h1 span{color:var(--coral);}
+h1 span{color:var(--coral-ink);}
 .sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;display:flex;flex-direction:column;align-items:center;}
 .howto{background:var(--teal-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;width:100%;max-width:600px;}
-.howto b{color:var(--teal);}
+.howto b{color:var(--teal-ink);}
 .level-tabs{display:flex;gap:10px;margin-bottom:20px;}
 .level-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:11px 18px;cursor:pointer;transition:all .15s ease;}
-.level-btn.active{background:var(--teal);border-color:var(--teal);color:#fff;}
+.level-btn.active{background:var(--teal-ink);border-color:var(--teal-ink);color:#fff;}
 .level-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
 .grid{display:grid;gap:2px;background:var(--ink);border:3px solid var(--ink);border-radius:8px;margin-bottom:20px;}
 .cell{
@@ -45,30 +45,30 @@ h1 span{color:var(--coral);}
 }
 .cell.given{color:var(--ink);background:var(--paper);cursor:default;font-weight:bold;}
 .cell.selected{background:var(--teal-soft);outline:2px solid var(--teal);}
-.cell.conflict{background:var(--coral-soft);color:var(--coral);}
+.cell.conflict{background:var(--coral-soft);color:var(--coral-ink);}
 .numpad{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:20px;}
 .num-btn{width:50px;height:50px;border-radius:12px;background:var(--ink);color:#fff;border:none;font-family:'Do Hyeon',sans-serif;font-size:20px;cursor:pointer;transition:all .15s ease;}
-.num-btn:hover{background:var(--teal);}
+.num-btn:hover{background:var(--teal-ink);}
 .num-btn.erase{background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);}
 .num-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
 .action-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
 .action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
-.action-btn:hover{border-color:var(--teal);color:var(--teal);}
+.action-btn:hover{border-color:var(--teal-ink);color:var(--teal-ink);}
 .action-btn.primary{background:var(--ink);color:#fff;border-color:transparent;}
 .action-btn.primary:hover{background:var(--teal);}
 .action-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
 .fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);margin-top:20px;text-align:center;width:100%;max-width:600px;}
-.fact b{color:var(--violet);}
+.fact b{color:var(--violet-ink);}
 .fact.win{background:var(--green-soft);}
-.fact.win b{color:var(--green);}
-footer{max-width:900px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+.fact.win b{color:var(--green-ink);}
+footer{max-width:900px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
     <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
-    <a href="article-mini-sudoku.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+    <a href="article-mini-sudoku.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
   </div>
   <span class="eyebrow">🧩 미니 스도쿠 실험실</span>
   <h1>가로줄, 세로줄, 굵은 상자<br>모두 <span>1~숫자</span>가 한 번씩!</h1>

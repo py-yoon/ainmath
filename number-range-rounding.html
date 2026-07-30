@@ -11,10 +11,10 @@
 <style>
 :root{
   --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
-  --coral:#FF5B57; --coral-soft:#FFEAE8;
-  --green:#4CAF8E; --green-soft:#E3F5EE;
-  --violet:#6C4CF7; --violet-soft:#EEE8FF;
-  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
   --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
 }
 *{box-sizing:border-box;}
@@ -25,9 +25,9 @@ body{
   min-height:100vh; padding: 32px 20px 80px;
 }
 .wrap{max-width:1000px;margin:0 auto;}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
 h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.5vw,42px);line-height:1.3;margin:0 0 10px;}
-h1 span{color:var(--coral);}
+h1 span{color:var(--coral-ink);}
 .sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
 
 .section-card{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:26px clamp(16px,4vw,36px) 30px;margin-bottom:28px;}
@@ -47,22 +47,22 @@ input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--vi
 
 .btn-row{max-width:520px;margin:0 auto 18px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
 .type-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;}
-.type-btn:hover{border-color:var(--coral);color:var(--coral);}
+.type-btn:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
 .type-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
 .type-btn:focus-visible{outline:3px solid var(--violet);outline-offset:2px;}
 
 .fact{max-width:560px;margin:14px auto 0;background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);text-align:center;}
-.fact b{color:var(--coral);}
+.fact b{color:var(--coral-ink);}
 
 .result-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:20px;}
 .result-card{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:16px 20px;text-align:center;min-width:120px;}
-.result-card .label{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);margin-bottom:6px;}
+.result-card .label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);margin-bottom:6px;}
 .result-card .value{font-family:'Do Hyeon',sans-serif;font-size:26px;color:var(--ink);}
-.result-card.up .value{color:var(--blue);}
-.result-card.down .value{color:var(--green);}
-.result-card.round .value{color:var(--coral);}
+.result-card.up .value{color:var(--blue-ink);}
+.result-card.down .value{color:var(--green-ink);}
+.result-card.round .value{color:var(--coral-ink);}
 
-footer{max-width:1000px;margin:12px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+footer{max-width:1000px;margin:12px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
 <body>
@@ -155,7 +155,7 @@ function renderRange(){
   for(let i=RMIN;i<=RMAX;i++){
     const x = xPos(i);
     html += `<line x1="${x}" y1="55" x2="${x}" y2="65" stroke="var(--ink-soft)" stroke-width="1.5"></line>`;
-    if(i%2===0) html += `<text x="${x}" y="82" text-anchor="middle" font-family="'Gowun Dodum',sans-serif" font-size="12" fill="var(--ink-soft)">${i}</text>`;
+    if(i%2===0) html += `<text x="${x}" y="82" text-anchor="middle" font-family="'Gowun Dodum',sans-serif" font-size="13" fill="var(--ink-soft)">${i}</text>`;
   }
 
   // 강조 구간
@@ -248,7 +248,7 @@ function renderRound(){
   html += `<text x="${x1}" y="45" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--blue)">${up.toLocaleString()}</text>`;
   // 정확히 절반 지점 (반올림 기준선)
   html += `<line x1="${midx}" y1="55" x2="${midx}" y2="85" stroke="var(--ink-soft)" stroke-width="1.5" stroke-dasharray="4,3"></line>`;
-  html += `<text x="${midx}" y="102" text-anchor="middle" font-family="'Gowun Dodum',sans-serif" font-size="12" fill="var(--ink-soft)">절반 지점</text>`;
+  html += `<text x="${midx}" y="102" text-anchor="middle" font-family="'Gowun Dodum',sans-serif" font-size="13" fill="var(--ink-soft)">절반 지점</text>`;
 
   // 원래 수 위치
   html += `<circle cx="${nx}" cy="70" r="8" fill="var(--coral)"></circle>`;

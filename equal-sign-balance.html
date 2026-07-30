@@ -11,10 +11,10 @@
 <style>
 :root{
   --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
-  --blue:#4C8BF5; --blue-soft:#E7F0FF;
-  --coral:#FF5B57; --coral-soft:#FFEAE8;
-  --green:#4CAF8E; --green-soft:#E3F5EE;
-  --violet:#6C4CF7; --violet-soft:#EEE8FF;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
   --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
 }
 *{box-sizing:border-box;}
@@ -25,9 +25,9 @@ body{
   min-height:100vh; padding: 32px 20px 80px;
 }
 .wrap{max-width:1000px;margin:0 auto;}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue-ink);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
 h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
-h1 span{color:var(--blue);}
+h1 span{color:var(--blue-ink);}
 .sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
 
 .section-title{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink);margin:0 0 16px;}
@@ -39,45 +39,45 @@ svg{width:100%;max-width:340px;height:auto;display:block;margin:0 auto;overflow:
 .slider-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
 .slider-row label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);min-width:70px;}
 .slider-row input[type=range]{flex:1;}
-.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:17px;color:var(--blue);min-width:34px;text-align:right;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:17px;color:var(--blue-ink);min-width:34px;text-align:right;}
 
 .panel{display:flex;flex-direction:column;gap:16px;}
 .result-card{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px;text-align:center;}
 .result-card .expr{font-family:'Do Hyeon',sans-serif;font-size:22px;color:var(--ink);}
 .result-card .sign{font-family:'Do Hyeon',sans-serif;font-size:34px;margin-top:8px;}
-.result-card .sign.eq{color:var(--green);}
-.result-card .sign.neq{color:var(--coral);}
+.result-card .sign.eq{color:var(--green-ink);}
+.result-card .sign.neq{color:var(--coral-ink);}
 .fact{background:var(--blue-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
-.fact b{color:var(--blue);}
+.fact b{color:var(--blue-ink);}
 
 .rule-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;}
 .rule-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:9px 16px;cursor:pointer;transition:all .15s ease;}
-.rule-btn:hover{border-color:var(--blue);color:var(--blue);}
+.rule-btn:hover{border-color:var(--blue-ink);color:var(--blue-ink);}
 .rule-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
 table{width:100%;border-collapse:collapse;font-size:15px;}
 th,td{padding:8px 6px;text-align:center;border-bottom:1px solid var(--paper-line);}
 th{font-family:'Do Hyeon',sans-serif;color:var(--ink-soft);font-weight:400;}
-td.box{color:var(--coral);font-family:'Do Hyeon',sans-serif;}
-td.tri{color:var(--blue);font-family:'Do Hyeon',sans-serif;}
+td.box{color:var(--coral-ink);font-family:'Do Hyeon',sans-serif;}
+td.tri{color:var(--blue-ink);font-family:'Do Hyeon',sans-serif;}
 tr.current{background:var(--blue-soft);}
 
 .quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
 .quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
 .quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
-.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
-.progress-badge b{color:var(--blue);}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--blue-ink);}
 .quiz-q{font-family:'Do Hyeon',sans-serif;font-size:20px;text-align:center;background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:20px;margin-bottom:16px;}
 .quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
 .opt-btn{font-family:'Do Hyeon',sans-serif;font-size:16px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 20px;cursor:pointer;transition:all .15s ease;}
-.opt-btn:hover{border-color:var(--blue);color:var(--blue);}
-.opt-btn.correct{background:var(--green-soft);border-color:var(--green);color:var(--green);}
-.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral);color:var(--coral);}
+.opt-btn:hover{border-color:var(--blue-ink);color:var(--blue-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
 .opt-btn:disabled{cursor:not-allowed;}
 .quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
 .action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
-.action-btn:hover{background:var(--blue);}
+.action-btn:hover{background:var(--blue-ink);}
 
-footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
 <body>
@@ -185,8 +185,8 @@ function drawScale(A, B, rightVal){
   html += `<text x="${box1X+boxW/2}" y="${leftY+8+boxH/2+5}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="#fff">${A}</text>`;
   html += `<rect x="${box2X}" y="${leftY+8}" width="${boxW}" height="${boxH}" rx="6" fill="var(--coral)"></rect>`;
   html += `<text x="${box2X+boxW/2}" y="${leftY+8+boxH/2+5}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="#fff">${B}</text>`;
-  html += `<text x="${box1X+boxW/2}" y="${leftY+8+boxH+14}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">가</text>`;
-  html += `<text x="${box2X+boxW/2}" y="${leftY+8+boxH+14}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">나</text>`;
+  html += `<text x="${box1X+boxW/2}" y="${leftY+8+boxH+14}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)">가</text>`;
+  html += `<text x="${box2X+boxW/2}" y="${leftY+8+boxH+14}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)">나</text>`;
 
   html += `<rect x="${rightX-24}" y="${rightY+8}" width="48" height="30" rx="6" fill="var(--blue)"></rect>`;
   html += `<text x="${rightX}" y="${rightY+28}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="#fff">${rightVal}</text>`;

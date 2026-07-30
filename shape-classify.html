@@ -11,10 +11,10 @@
 <style>
 :root{
   --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
-  --violet:#6C4CF7; --violet-soft:#EEE8FF;
-  --coral:#FF5B57; --coral-soft:#FFEAE8;
-  --green:#4CAF8E; --green-soft:#E3F5EE;
-  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
   --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
 }
 *{box-sizing:border-box;}
@@ -25,9 +25,9 @@ body{
   min-height:100vh; padding: 32px 20px 80px;
 }
 .wrap{max-width:1000px;margin:0 auto;}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue-ink);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
 h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
-h1 span{color:var(--coral);}
+h1 span{color:var(--coral-ink);}
 .sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
 
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
@@ -36,34 +36,34 @@ h1 span{color:var(--coral);}
 svg{width:100%;max-width:340px;height:auto;display:block;margin:0 auto;}
 .slider-row{display:flex;align-items:center;gap:12px;margin-top:16px;}
 .slider-row input[type=range]{flex:1;}
-.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--blue);min-width:52px;text-align:right;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--blue-ink);min-width:52px;text-align:right;}
 .panel{display:flex;flex-direction:column;gap:16px;}
 .equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px;text-align:center;}
 .equation .formula{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
 .equation .result{font-family:'Do Hyeon',sans-serif;font-size:clamp(22px,3.8vw,28px);margin-top:6px;color:var(--blue);}
 .fact{background:var(--green-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
-.fact b{color:var(--green);}
+.fact b{color:var(--green-ink);}
 
 .quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
 .quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
 .quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
-.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
-.progress-badge b{color:var(--blue);}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--blue-ink);}
 .quiz-body{display:flex;gap:28px;flex-wrap:wrap;align-items:center;}
 #quizSvg{width:200px;max-width:200px;flex:none;}
 .quiz-opts{display:flex;gap:10px;flex-wrap:wrap;flex:1;min-width:220px;}
 .opt-btn{font-family:'Do Hyeon',sans-serif;font-size:14.5px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:11px 16px;cursor:pointer;transition:all .15s ease;}
-.opt-btn:hover{border-color:var(--blue);color:var(--blue);}
-.opt-btn.correct{background:var(--green-soft);border-color:var(--green);color:var(--green);}
-.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral);color:var(--coral);}
+.opt-btn:hover{border-color:var(--blue-ink);color:var(--blue-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
 .opt-btn:disabled{cursor:not-allowed;}
 .quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;}
 .action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;}
-.action-btn:hover{background:var(--blue);}
-.legend-note{margin-top:10px;font-size:13px;color:var(--ink-soft);display:flex;align-items:center;gap:6px;}
+.action-btn:hover{background:var(--blue-ink);}
+.legend-note{margin-top:10px;font-size:14px;color:var(--ink-soft);display:flex;align-items:center;gap:6px;}
 .legend-note svg{width:34px;max-width:34px;flex:none;}
 
-footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
 <body>

@@ -11,12 +11,12 @@
 <style>
 :root{
   --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
-  --violet:#6C4CF7; --violet-soft:#EEE8FF;
-  --coral:#FF5B57; --coral-soft:#FFEAE8;
-  --green:#4CAF8E; --green-soft:#E3F5EE;
-  --blue:#4C8BF5; --blue-soft:#E7F0FF;
-  --teal:#2EC4C6; --teal-soft:#E4FAF9;
-  --amber:#D97706; --amber-soft:#FEF0D9;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --teal:#2EC4C6; --teal-soft:#E4FAF9;--teal-ink:#1D7C7E;
+  --amber:#D97706; --amber-soft:#FEF0D9;--amber-ink:#A55A05;
   --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
 }
 *{box-sizing:border-box;}
@@ -29,19 +29,19 @@ body{
 .wrap{max-width:900px;margin:0 auto;}
 .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
 .back-link:hover{color:var(--ink);}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
 h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,42px);line-height:1.3;margin:0 0 10px;}
-h1 span{color:var(--coral);}
+h1 span{color:var(--coral-ink);}
 .sub{color:var(--ink-soft);font-size:15.5px;line-height:1.75;max-width:70ch;margin:0 0 20px;}
-.note{background:var(--violet-soft);border-radius:14px;padding:14px 18px;font-size:13.5px;line-height:1.7;color:var(--ink);margin-bottom:26px;}
-.note b{color:var(--violet);}
+.note{background:var(--violet-soft);border-radius:14px;padding:14px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);margin-bottom:26px;}
+.note b{color:var(--violet-ink);}
 
 .jumpnav{
   display:flex;flex-wrap:wrap;gap:8px;margin-bottom:34px;
   position:sticky;top:10px;z-index:5;background:var(--paper);padding:10px 0;
 }
 .jump-btn{
-  font-family:'Do Hyeon',sans-serif;font-size:13.5px;
+  font-family:'Do Hyeon',sans-serif;font-size:14.5px;
   background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);
   border-radius:999px;padding:7px 14px;cursor:pointer;text-decoration:none;
   box-shadow:var(--shadow); transition:all .15s ease;
@@ -65,22 +65,22 @@ h1 span{color:var(--coral);}
 }
 .grade-titlewrap{flex:1;}
 .grade-title{font-family:'Do Hyeon',sans-serif;font-size:24px;color:var(--ink);display:block;}
-.grade-count{font-size:13px;color:var(--ink-soft);}
+.grade-count{font-size:14px;color:var(--ink-soft);}
 .school-tag{
-  font-family:'Do Hyeon',sans-serif;font-size:12px;
+  font-family:'Do Hyeon',sans-serif;font-size:13px;
   padding:3px 10px;border-radius:999px;background:rgba(255,255,255,0.6);
 }
 
 .domain-block{margin-bottom:18px;}
 .domain-label{
   display:inline-flex;align-items:center;gap:6px;
-  font-family:'Do Hyeon',sans-serif;font-size:13.5px;
+  font-family:'Do Hyeon',sans-serif;font-size:14.5px;
   padding:4px 12px;border-radius:999px;margin-bottom:10px;
 }
-.domain-label.number{background:var(--coral-soft);color:var(--coral);}
-.domain-label.change{background:var(--blue-soft);color:var(--blue);}
-.domain-label.shape{background:var(--violet-soft);color:var(--violet);}
-.domain-label.data{background:var(--green-soft);color:var(--green);}
+.domain-label.number{background:var(--coral-soft);color:var(--coral-ink);}
+.domain-label.change{background:var(--blue-soft);color:var(--blue-ink);}
+.domain-label.shape{background:var(--violet-soft);color:var(--violet-ink);}
+.domain-label.data{background:var(--green-soft);color:var(--green-ink);}
 
 .unit-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
 @media (max-width:640px){ .unit-list{grid-template-columns:1fr;} }
@@ -92,26 +92,26 @@ h1 span{color:var(--coral);}
 .unit-name{font-size:14.5px;color:var(--ink);flex:1;min-width:120px;}
 .unit-links{display:flex;gap:6px;flex-wrap:wrap;}
 .unit-link{
-  font-family:'Do Hyeon',sans-serif;font-size:12.5px;text-decoration:none;
+  font-family:'Do Hyeon',sans-serif;font-size:13.5px;text-decoration:none;
   padding:6px 11px;border-radius:999px;transition:all .15s ease;
   border:1px solid transparent;
 }
 .unit-link.exp{background:var(--ink);color:#fff;}
 .unit-link.exp:hover{background:var(--violet);}
 .unit-link.art{background:var(--paper);color:var(--ink-soft);border-color:var(--paper-line);}
-.unit-link.art:hover{border-color:var(--violet);color:var(--violet);}
+.unit-link.art:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
 .badge-soon{
-  font-family:'Do Hyeon',sans-serif;font-size:12.5px;color:var(--ink-soft);
+  font-family:'Do Hyeon',sans-serif;font-size:13.5px;color:var(--ink-soft);
   background:var(--paper);border:1px solid var(--paper-line);padding:6px 11px;border-radius:999px;
 }
 .unit-row.linked{border-left:4px solid var(--violet);}
 
 .explore-section{margin-top:44px;padding-top:30px;border-top:3px dashed var(--paper-line);}
 .explore-head{display:flex;align-items:baseline;gap:10px;margin-bottom:8px;}
-.explore-title{font-family:'Do Hyeon',sans-serif;font-size:22px;color:var(--teal);}
+.explore-title{font-family:'Do Hyeon',sans-serif;font-size:22px;color:var(--teal-ink);}
 .explore-desc{font-size:14px;color:var(--ink-soft);margin-bottom:16px;line-height:1.7;}
 
-footer{max-width:900px;margin:36px auto 0;color:var(--ink-soft);font-size:12.5px;text-align:center;line-height:1.8;}
+footer{max-width:900px;margin:36px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;line-height:1.8;}
 footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
 footer a:hover{color:var(--ink);text-decoration:underline;}
 @media (max-width:600px){
@@ -307,6 +307,8 @@ const EXPLORE = [
   { name:'미니 스도쿠', exp:[{label:'체험하기', href:'mini-sudoku.html'}], art:[{label:'설명 글', href:'article-mini-sudoku.html'}] },
   { name:'칠교판(탱그램) 퍼즐', exp:[{label:'체험하기', href:'tangram-puzzle.html'}], art:[{label:'설명 글', href:'article-tangram-puzzle.html'}] },
   { name:'숫자야구', exp:[{label:'체험하기', href:'number-baseball.html'}], art:[{label:'설명 글', href:'article-number-baseball.html'}] },
+  { name:'숫자 탐정 놀이', exp:[{label:'체험하기', href:'number-detective.html'}], art:[] },
+  { name:'스피드 암산 챌린지', exp:[{label:'체험하기', href:'speed-math-challenge.html'}], art:[] },
 ];
 
 function unitRowHtml(u){
@@ -314,7 +316,7 @@ function unitRowHtml(u){
   const links = (u.exp||[]).map(l=>`<a class="unit-link exp" href="${l.href}">🎮 ${l.label}</a>`).join('');
   return `
     <div class="unit-row ${hasLink?'linked':''}">
-      <div class="unit-name">${u.name}${u.note ? `<div style="font-size:12px;color:var(--ink-soft);margin-top:3px;">${u.note}</div>` : ''}</div>
+      <div class="unit-name">${u.name}${u.note ? `<div style="font-size:13px;color:var(--ink-soft);margin-top:3px;">${u.note}</div>` : ''}</div>
       ${hasLink ? `<div class="unit-links">${links}</div>` : `<span class="badge-soon">아직 없어요</span>`}
     </div>
   `;

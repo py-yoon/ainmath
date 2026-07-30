@@ -15,11 +15,11 @@
     --ink:#22283A;
     --ink-soft:#5B6178;
     --violet:#6C4CF7;
-    --violet-soft:#EEE8FF;
+    --violet-soft:#EEE8FF;--violet-ink:#6847F7;
     --coral:#FF5B57;
-    --coral-soft:#FFEAE8;
-    --green:#4CAF8E;
-    --blue:#4C8BF5;
+    --coral-soft:#FFEAE8;--coral-ink:#D90500;
+    --green:#4CAF8E;--green-ink:#357A63;
+    --blue:#4C8BF5;--blue-ink:#0D62F1;
     --card:#FFFFFF;
     --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
@@ -38,7 +38,7 @@
   .eyebrow{
     display:inline-flex;align-items:center;gap:8px;
     font-family:'Do Hyeon',sans-serif;
-    color:var(--violet);
+    color:var(--violet-ink);
     background:var(--violet-soft);
     padding:6px 14px;border-radius:999px;
     font-size:14px;letter-spacing:0.02em;
@@ -51,7 +51,7 @@
     line-height:1.25;
     margin:0 0 10px;
   }
-  h1 span{color:var(--coral);}
+  h1 span{color:var(--coral-ink);}
   .sub{
     color:var(--ink-soft);
     font-size:16px;
@@ -75,7 +75,7 @@
   .canvas-area{display:flex;flex-direction:column;align-items:center;gap:20px;}
   svg{width:100%;max-width:460px;height:auto;overflow:visible;}
 
-  .legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-size:13px;color:var(--ink-soft);}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-size:14px;color:var(--ink-soft);}
   .legend span{display:inline-flex;align-items:center;gap:6px;}
   .swatch{width:12px;height:12px;border-radius:3px;display:inline-block;}
   .swatch.dashed{background:transparent;border:2px dashed var(--ink-soft);}
@@ -110,8 +110,8 @@
     border-radius:12px;padding:8px 12px;cursor:pointer;
     transition:all .15s ease;
   }
-  .preset-btn:hover{border-color:var(--violet);color:var(--violet);}
-  .preset-btn.congruent{border-color:var(--coral);color:var(--coral);}
+  .preset-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+  .preset-btn.congruent{border-color:var(--coral-ink);color:var(--coral-ink);}
   .preset-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
 
   .panel{display:flex;flex-direction:column;gap:18px;}
@@ -127,7 +127,7 @@
   }
   .equation .result span{font-size:0.4em;color:var(--ink-soft);}
   .equation .subline{margin-top:12px;font-size:14px;color:var(--ink-soft);font-family:'Do Hyeon',sans-serif;}
-  .equation .subline b{color:var(--violet);}
+  .equation .subline b{color:var(--violet-ink);}
 
   .badge-win{
     display:none;
@@ -142,7 +142,7 @@
     background:var(--violet-soft);border-radius:16px;padding:16px 18px;
     font-size:14.5px;line-height:1.65;color:var(--ink);
   }
-  .fact b{color:var(--violet);}
+  .fact b{color:var(--violet-ink);}
 
   .side-label{font-family:'Do Hyeon',sans-serif;font-size:14px;}
   .vlabel{font-family:'Do Hyeon',sans-serif;font-size:14px;fill:var(--ink);}
@@ -150,8 +150,8 @@
   /* ---- 섹션 구분 ---- */
   .section-block{margin-top:52px;}
   .section-tag{
-    display:inline-block;font-family:'Do Hyeon',sans-serif;font-size:13px;
-    color:var(--coral);background:var(--coral-soft);
+    display:inline-block;font-family:'Do Hyeon',sans-serif;font-size:14px;
+    color:var(--coral-ink);background:var(--coral-soft);
     padding:4px 12px;border-radius:999px;margin-bottom:10px;
   }
   h2{
@@ -168,10 +168,10 @@
     border-radius:999px;padding:9px 18px;cursor:pointer;
     transition:all .15s ease;
   }
-  .rule-tab:hover{border-color:var(--violet);color:var(--violet);}
+  .rule-tab:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
   .rule-tab.active{background:var(--ink);border-color:var(--ink);color:#fff;}
   .rule-tab:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
-  .rule-note{font-size:13.5px;color:var(--ink-soft);margin:-8px 0 18px;line-height:1.6;}
+  .rule-note{font-size:14.5px;color:var(--ink-soft);margin:-8px 0 18px;line-height:1.6;}
 
   .btn-row{display:flex;gap:10px;flex-wrap:wrap;width:100%;max-width:420px;}
   .action-btn{
@@ -180,14 +180,14 @@
     padding:12px 18px;cursor:pointer;flex:1;min-width:130px;
     transition:transform .15s ease, background .2s ease;
   }
-  .action-btn:hover{background:var(--violet);}
+  .action-btn:hover{background:var(--violet-ink);}
   .action-btn:active{transform:scale(0.97);}
   .action-btn.secondary{background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);}
-  .action-btn.secondary:hover{border-color:var(--violet);color:var(--violet);background:var(--card);}
+  .action-btn.secondary:hover{border-color:var(--violet-ink);color:var(--violet-ink);background:var(--card);}
   .action-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
 
   .status-line{font-family:'Do Hyeon',sans-serif;font-size:14.5px;color:var(--ink-soft);text-align:center;}
-  .status-line.matched{color:var(--green);}
+  .status-line.matched{color:var(--green-ink);}
 
   /* ---- 그림자 계산기 ---- */
   .shadow-svg{background:var(--paper);border-radius:16px;}
@@ -206,18 +206,18 @@
     font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);
     background:var(--paper);
   }
-  table.compare td.hl{color:var(--violet);font-weight:bold;}
-  table.compare td.hl2{color:var(--coral);font-weight:bold;}
+  table.compare td.hl{color:var(--violet-ink);font-weight:bold;}
+  table.compare td.hl2{color:var(--coral-ink);font-weight:bold;}
   table.compare tr:last-child td{border-bottom:none;}
 
-  footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+  footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
     <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
-    <a href="article-similarity-congruence.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+    <a href="article-similarity-congruence.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
   </div>
   <span class="eyebrow">⧉ 닮음 실험실</span>
   <h1>도형을 확대·축소하면,<br>넓이는 <span>몇 배</span>가 될까?</h1>
@@ -682,7 +682,7 @@
     }
     function sideLabel(P,Q,cen,length,isGiven,color){
       const pos = outwardPos(P,Q,cen,16);
-      return `<text x="${pos[0]}" y="${pos[1]}" text-anchor="middle" font-family="Do Hyeon" font-size="12.5" fill="${isGiven?'var(--coral)':color}">${fmt(length)}cm</text>`;
+      return `<text x="${pos[0]}" y="${pos[1]}" text-anchor="middle" font-family="Do Hyeon" font-size="13" fill="${isGiven?'var(--coral)':color}">${fmt(length)}cm</text>`;
     }
 
     function renderSim(result, cond){
@@ -793,14 +793,14 @@
       html += `<line x1="${stickX}" y1="${GROUND_Y}" x2="${stickShadowX}" y2="${GROUND_Y}" stroke="var(--ink)" stroke-width="4" stroke-linecap="round" opacity="0.35"></line>`;
       html += `<line x1="${stickTopY===GROUND_Y?stickX:stickX}" y1="${stickTopY}" x2="${stickShadowX}" y2="${GROUND_Y}" stroke="#FFB627" stroke-width="2" stroke-dasharray="5 4"></line>`;
       html += `<text x="${stickX}" y="${stickTopY-10}" text-anchor="middle" font-family="Do Hyeon" font-size="13" fill="var(--green)">${fmt(h)}m</text>`;
-      html += `<text x="${(stickX+stickShadowX)/2}" y="${GROUND_Y+20}" text-anchor="middle" font-family="Do Hyeon" font-size="12" fill="var(--ink-soft)">${fmt(s)}m</text>`;
+      html += `<text x="${(stickX+stickShadowX)/2}" y="${GROUND_Y+20}" text-anchor="middle" font-family="Do Hyeon" font-size="13" fill="var(--ink-soft)">${fmt(s)}m</text>`;
 
       // 나무 + 그림자 + 햇빛 광선 (같은 태양각)
       html += `<line x1="${treeX}" y1="${GROUND_Y}" x2="${treeX}" y2="${treeTopY}" stroke="var(--violet)" stroke-width="7" stroke-linecap="round"></line>`;
       html += `<line x1="${treeX}" y1="${GROUND_Y}" x2="${treeShadowX}" y2="${GROUND_Y}" stroke="var(--ink)" stroke-width="4" stroke-linecap="round" opacity="0.35"></line>`;
       html += `<line x1="${treeX}" y1="${treeTopY}" x2="${treeShadowX}" y2="${GROUND_Y}" stroke="#FFB627" stroke-width="2" stroke-dasharray="5 4"></line>`;
       html += `<text x="${treeX}" y="${treeTopY-10}" text-anchor="middle" font-family="Do Hyeon" font-size="14" fill="var(--violet)">${fmt(th)}m</text>`;
-      html += `<text x="${(treeX+treeShadowX)/2}" y="${GROUND_Y+20}" text-anchor="middle" font-family="Do Hyeon" font-size="12" fill="var(--ink-soft)">${fmt(ts)}m</text>`;
+      html += `<text x="${(treeX+treeShadowX)/2}" y="${GROUND_Y+20}" text-anchor="middle" font-family="Do Hyeon" font-size="13" fill="var(--ink-soft)">${fmt(ts)}m</text>`;
 
       svg3.innerHTML = html;
 

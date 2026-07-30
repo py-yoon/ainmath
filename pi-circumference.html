@@ -15,9 +15,9 @@
     --ink:#22283A;
     --ink-soft:#5B6178;
     --violet:#6C4CF7;
-    --violet-soft:#EEE8FF;
-    --coral:#FF5B57;
-    --teal:#2EC4C6;
+    --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+    --coral:#FF5B57;--coral-ink:#D90500;
+    --teal:#2EC4C6;--teal-ink:#1D7C7E;
     --card:#FFFFFF;
     --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
@@ -36,7 +36,7 @@
   .eyebrow{
     display:inline-flex;align-items:center;gap:8px;
     font-family:'Do Hyeon',sans-serif;
-    color:var(--teal);
+    color:var(--teal-ink);
     background:#E4FAF9;
     padding:6px 14px;border-radius:999px;
     font-size:14px;letter-spacing:0.02em;
@@ -49,7 +49,7 @@
     line-height:1.25;
     margin:0 0 10px;
   }
-  h1 span{color:var(--coral);}
+  h1 span{color:var(--coral-ink);}
   .sub{
     color:var(--ink-soft);
     font-size:16px;
@@ -98,7 +98,7 @@
     padding:14px 22px;cursor:pointer;white-space:nowrap;
     transition:transform .15s ease, background .2s ease;
   }
-  .roll-btn:hover{background:var(--violet);}
+  .roll-btn:hover{background:var(--violet-ink);}
   .roll-btn:active{transform:scale(0.97);}
   .roll-btn:disabled{opacity:0.5;cursor:default;}
   .roll-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
@@ -125,12 +125,12 @@
     background:var(--violet-soft);border-radius:16px;padding:16px 18px;
     font-size:14.5px;line-height:1.65;color:var(--ink);
   }
-  .fact b{color:var(--violet);}
+  .fact b{color:var(--violet-ink);}
 
-  .tick-label{font-family:'Do Hyeon',sans-serif;font-size:13px;fill:var(--ink-soft);text-anchor:middle;}
+  .tick-label{font-family:'Do Hyeon',sans-serif;font-size:14px;fill:var(--ink-soft);text-anchor:middle;}
   .tick-label.rem{fill:var(--coral);}
 
-  footer{max-width:960px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+  footer{max-width:960px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 
   @media (prefers-reduced-motion: reduce){
     #rollGroup{transition:none !important;}
@@ -141,7 +141,7 @@
 <div class="wrap">
   <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
     <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
-    <a href="article-pi-circumference.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+    <a href="article-pi-circumference.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
   </div>
   <span class="eyebrow">⚪ 원주율 실험실</span>
   <h1>원을 한 바퀴 굴리면,<br>지름의 <span>몇 배</span>를 갈까?</h1>

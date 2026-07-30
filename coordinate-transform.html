@@ -11,10 +11,10 @@
 <style>
 :root{
   --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
-  --violet:#6C4CF7; --violet-soft:#EEE8FF;
-  --coral:#FF5B57; --coral-soft:#FFEAE8;
-  --green:#4CAF8E; --green-soft:#E3F5EE;
-  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
   --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
 }
 *{box-sizing:border-box;}
@@ -25,9 +25,9 @@ body{
   min-height:100vh; padding: 32px 20px 80px;
 }
 .wrap{max-width:1040px;margin:0 auto;}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue-ink);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
 h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
-h1 span{color:var(--coral);}
+h1 span{color:var(--coral-ink);}
 .sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
   display:grid;grid-template-columns: 1.2fr 0.8fr;gap:32px;align-items:start;}
@@ -37,7 +37,7 @@ svg{width:100%;max-width:460px;height:auto;overflow:visible;}
 .group-title{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);width:100%;max-width:420px;margin-top:6px;}
 .btn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;width:100%;max-width:420px;}
 .op-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:12px;padding:9px;cursor:pointer;transition:all .15s ease;}
-.op-btn:hover{border-color:var(--blue);color:var(--blue);}
+.op-btn:hover{border-color:var(--blue-ink);color:var(--blue-ink);}
 .op-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
 .control-row{width:100%;max-width:420px;display:flex;flex-direction:column;gap:6px;}
 .control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);}
@@ -46,27 +46,27 @@ input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:99
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
 input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
 .reset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--ink);color:#fff;border:none;border-radius:12px;padding:10px;cursor:pointer;width:100%;max-width:420px;}
-.reset-btn:hover{background:var(--coral);}
+.reset-btn:hover{background:var(--coral-ink);}
 .panel{display:flex;flex-direction:column;gap:18px;}
 .coord-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:16px 18px;font-size:14px;}
 .coord-box .row{display:flex;justify-content:space-between;margin-bottom:4px;font-family:'Do Hyeon',sans-serif;}
 .coord-box .row .orig{color:var(--ink-soft);}
-.coord-box .row .now{color:var(--blue);}
+.coord-box .row .now{color:var(--blue-ink);}
 .fact{background:var(--blue-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
-.fact b{color:var(--blue);}
+.fact b{color:var(--blue-ink);}
 .howto{background:var(--blue-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
-.howto b{color:var(--blue);}
+.howto b{color:var(--blue-ink);}
 .howto p{margin:0 0 10px;}
 .howto p:last-child{margin-bottom:0;}
-.vlabel{font-family:'Do Hyeon',sans-serif;font-size:13px;}
-footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+.vlabel{font-family:'Do Hyeon',sans-serif;font-size:14px;}
+footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
     <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
-    <a href="article-coordinate-transform.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+    <a href="article-coordinate-transform.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
   </div>
   <span class="eyebrow">⊹ 좌표평면 위 도형 이동 실험실</span>
   <h1>삼각형을 대칭·평행이동·회전하면<br>좌표는 <span>어떻게</span> 바뀔까?</h1>

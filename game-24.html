@@ -11,10 +11,10 @@
 <style>
 :root{
   --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
-  --violet:#6C4CF7; --violet-soft:#EEE8FF;
-  --coral:#FF5B57; --coral-soft:#FFEAE8;
-  --green:#4CAF8E; --green-soft:#E3F5EE;
-  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
   --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
 }
 *{box-sizing:border-box;}
@@ -25,16 +25,16 @@ body{
   min-height:100vh; padding: 32px 20px 80px;
 }
 .wrap{max-width:1000px;margin:0 auto;}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
 h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
-h1 span{color:var(--violet);}
+h1 span{color:var(--violet-ink);}
 .sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
 .howto{background:var(--coral-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
-.howto b{color:var(--coral);}
+.howto b{color:var(--coral-ink);}
 .scoreboard{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:22px;}
 .score-box{flex:1;min-width:120px;background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:12px 16px;text-align:center;}
-.score-box .label{font-size:12.5px;color:var(--ink-soft);font-family:'Do Hyeon',sans-serif;}
+.score-box .label{font-size:13.5px;color:var(--ink-soft);font-family:'Do Hyeon',sans-serif;}
 .score-box .val{font-family:'Do Hyeon',sans-serif;font-size:24px;color:var(--ink);}
 
 .equation-row{
@@ -42,7 +42,7 @@ h1 span{color:var(--violet);}
   margin-bottom:28px;padding:20px 10px;
 }
 .num-tile{
-  width:64px;height:64px;border-radius:16px;background:var(--violet);color:#fff;
+  width:64px;height:64px;border-radius:16px;background:var(--violet-ink);color:#fff;
   display:flex;align-items:center;justify-content:center;font-family:'Do Hyeon',sans-serif;
   font-size:24px;flex:none;
 }
@@ -55,11 +55,11 @@ h1 span{color:var(--violet);}
   font-family:'Do Hyeon',sans-serif;font-size:26px;color:var(--ink-soft);
   cursor:pointer;transition:all .15s ease;
 }
-.op-slot.filled{border-style:solid;border-color:var(--coral);background:#fff;color:var(--coral);}
-.op-slot.dragover{border-color:var(--violet);background:var(--violet-soft);transform:scale(1.06);}
-.op-slot.selectable:hover{border-color:var(--violet);}
+.op-slot.filled{border-style:solid;border-color:var(--coral-ink);background:#fff;color:var(--coral-ink);}
+.op-slot.dragover{border-color:var(--violet-ink);background:var(--violet-soft);transform:scale(1.06);}
+.op-slot.selectable:hover{border-color:var(--violet-ink);}
 
-.op-source-label{text-align:center;font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);margin-bottom:10px;}
+.op-source-label{text-align:center;font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);margin-bottom:10px;}
 .op-source{display:flex;justify-content:center;gap:14px;margin-bottom:24px;flex-wrap:wrap;}
 .op-chip{
   width:60px;height:60px;border-radius:16px;background:var(--ink);color:#fff;
@@ -68,31 +68,31 @@ h1 span{color:var(--violet);}
   border:3px solid transparent;
 }
 .op-chip:active{cursor:grabbing;}
-.op-chip.picked{border-color:var(--coral);background:var(--coral);}
+.op-chip.picked{border-color:var(--coral-ink);background:var(--coral);}
 .op-chip-ghost{
-  position:fixed;width:60px;height:60px;border-radius:16px;background:var(--coral);color:#fff;
+  position:fixed;width:60px;height:60px;border-radius:16px;background:var(--coral-ink);color:#fff;
   display:flex;align-items:center;justify-content:center;font-family:'Do Hyeon',sans-serif;
   font-size:26px;pointer-events:none;z-index:9999;opacity:0.92;box-shadow:0 8px 20px rgba(0,0,0,0.25);
 }
 
 .action-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
 .action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
-.action-btn:hover{border-color:var(--coral);color:var(--coral);}
+.action-btn:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
 .action-btn.primary{background:var(--ink);color:#fff;border-color:transparent;}
 .action-btn.primary:hover{background:var(--coral);}
 .action-btn:focus-visible{outline:3px solid var(--violet);outline-offset:2px;}
 .fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);margin-top:20px;text-align:center;}
-.fact b{color:var(--violet);}
+.fact b{color:var(--violet-ink);}
 .fact.win{background:var(--green-soft);}
-.fact.win b{color:var(--green);}
-footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+.fact.win b{color:var(--green-ink);}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
     <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
-    <a href="article-game-24.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+    <a href="article-game-24.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
   </div>
   <span class="eyebrow">🎯 24 게임 실험실</span>
   <h1>숫자 사이 빈칸에<br><span>연산 기호</span>를 끌어와보세요!</h1>

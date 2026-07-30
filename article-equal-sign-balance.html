@@ -11,7 +11,7 @@
 <style>
 :root{
   --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
-  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
   --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
 }
 *{box-sizing:border-box;}
@@ -23,32 +23,32 @@ body{
 }
 .wrap{max-width:760px;margin:0 auto;}
 .back-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-soft);text-decoration:none;margin-bottom:18px;}
-.back-link:hover{color:var(--blue);}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.back-link:hover{color:var(--blue-ink);}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue-ink);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
 h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,40px);line-height:1.3;margin:0 0 14px;}
-h1 span{color:var(--blue);}
+h1 span{color:var(--blue-ink);}
 .sub{color:var(--ink-soft);font-size:16.5px;line-height:1.75;margin:0 0 30px;}
 .cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;}
 .cta{font-family:'Do Hyeon',sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:999px;transition:all .15s ease;}
-.cta.primary{background:var(--blue);color:#fff;}
+.cta.primary{background:var(--blue-ink);color:#fff;}
 .cta.primary:hover{filter:brightness(1.06);}
 .cta.secondary{background:var(--card);color:var(--ink-soft);border:2px solid var(--paper-line);}
-.cta.secondary:hover{border-color:var(--blue);color:var(--blue);}
+.cta.secondary:hover{border-color:var(--blue-ink);color:var(--blue-ink);}
 article{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:clamp(24px,5vw,44px);}
 h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:22px;color:var(--ink);margin:34px 0 14px;}
 h2:first-child{margin-top:0;}
-h2 .num{color:var(--blue);margin-right:8px;}
+h2 .num{color:var(--blue-ink);margin-right:8px;}
 p{font-size:15.5px;line-height:1.85;color:var(--ink);margin:0 0 16px;}
 p:last-child{margin-bottom:0;}
 .example{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px 20px;margin:18px 0;text-align:center;}
 .example .eq{font-family:'Do Hyeon',sans-serif;font-size:18px;margin-bottom:8px;}
 .example p{font-size:14.5px;color:var(--ink-soft);margin:8px 0 0;}
 .callout{background:var(--blue-soft);border-radius:16px;padding:18px 20px;margin:18px 0;font-size:14.5px;line-height:1.75;color:var(--ink);}
-.callout b{color:var(--blue);}
+.callout b{color:var(--blue-ink);}
 .tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
 .tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
-.tip-list b{color:var(--blue);}
-footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+.tip-list b{color:var(--blue-ink);}
+footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 .footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
 .footer-nav a:hover{color:var(--ink);text-decoration:underline;}
 </style>
@@ -64,6 +64,8 @@ footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;t
     <a class="cta primary" href="equal-sign-balance.html">🎮 등호와 규칙 체험하기</a>
     <a class="cta secondary" href="index.html">📚 다른 주제도 보기</a>
   </div>
+
+  <div class="callout" style="background:var(--blue-soft);margin-bottom:20px;">🧑‍🤝‍🧑 <b>부모님과 함께 읽어보세요.</b> 아직 혼자 읽기 어려운 낱말이 있을 수 있어요. 소리 내어 같이 읽으면 더 쉽게 이해할 수 있어요.</div>
 
   <article>
     <h2><span class="num">1</span>등호는 "여기 답이 있어요"가 아니에요</h2>

@@ -11,10 +11,10 @@
 <style>
 :root{
   --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
-  --violet:#6C4CF7; --violet-soft:#EEE8FF;
-  --coral:#FF5B57; --coral-soft:#FFEAE8;
-  --green:#4CAF8E; --green-soft:#E3F5EE;
-  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
   --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
 }
 *{box-sizing:border-box;}
@@ -25,9 +25,9 @@ body{
   min-height:100vh; padding: 32px 20px 80px;
 }
 .wrap{max-width:1000px;margin:0 auto;}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
 h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
-h1 span{color:var(--violet);}
+h1 span{color:var(--violet-ink);}
 .sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
   display:grid;grid-template-columns: 1.2fr 0.8fr;gap:32px;align-items:start;}
@@ -50,23 +50,23 @@ input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--vi
 .equation .result{font-family:'Do Hyeon',sans-serif;font-size:clamp(40px,6.5vw,54px);color:var(--coral);margin-top:6px;line-height:1;}
 .equation .result span{font-size:0.4em;color:var(--ink-soft);}
 .chip-row{display:flex;flex-wrap:wrap;gap:6px;}
-.chip{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--violet-soft);color:var(--violet);border-radius:8px;padding:5px 10px;}
+.chip{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--violet-soft);color:var(--violet-ink);border-radius:8px;padding:5px 10px;}
 .fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
-.fact b{color:var(--coral);}
+.fact b{color:var(--coral-ink);}
 .badge-win{display:none;background:#FFF3E0;color:#B45309;font-family:'Do Hyeon',sans-serif;font-size:14px;border-radius:10px;padding:10px 12px;text-align:center;}
 .badge-win.show{display:block;}
 .howto{background:var(--coral-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
-.howto b{color:var(--coral);}
+.howto b{color:var(--coral-ink);}
 .howto p{margin:0 0 10px;}
 .howto p:last-child{margin-bottom:0;}
-footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
     <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
-    <a href="article-divisors.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+    <a href="article-divisors.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
   </div>
   <span class="eyebrow">▦ 약수 찾기 실험실</span>
   <h1>숫자 하나를<br><span>직사각형</span>으로 몇 번 채울 수 있을까?</h1>

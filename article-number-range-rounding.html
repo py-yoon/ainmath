@@ -11,10 +11,10 @@
 <style>
 :root{
   --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
-  --coral:#FF5B57; --coral-soft:#FFEAE8;
-  --green:#4CAF8E; --green-soft:#E3F5EE;
-  --violet:#6C4CF7; --violet-soft:#EEE8FF;
-  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
   --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
 }
 *{box-sizing:border-box;}
@@ -26,21 +26,21 @@ body{
 }
 .wrap{max-width:760px;margin:0 auto;}
 .back-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-soft);text-decoration:none;margin-bottom:18px;}
-.back-link:hover{color:var(--coral);}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.back-link:hover{color:var(--coral-ink);}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
 h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,40px);line-height:1.3;margin:0 0 14px;}
-h1 span{color:var(--coral);}
+h1 span{color:var(--coral-ink);}
 .sub{color:var(--ink-soft);font-size:16.5px;line-height:1.75;margin:0 0 30px;}
 .cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;}
 .cta{font-family:'Do Hyeon',sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:999px;transition:all .15s ease;}
-.cta.primary{background:var(--coral);color:#fff;}
+.cta.primary{background:var(--coral-ink);color:#fff;}
 .cta.primary:hover{filter:brightness(1.06);}
 .cta.secondary{background:var(--card);color:var(--ink-soft);border:2px solid var(--paper-line);}
-.cta.secondary:hover{border-color:var(--coral);color:var(--coral);}
+.cta.secondary:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
 article{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:clamp(24px,5vw,44px);}
 h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:22px;color:var(--ink);margin:34px 0 14px;}
 h2:first-child{margin-top:0;}
-h2 .num{color:var(--coral);margin-right:8px;}
+h2 .num{color:var(--coral-ink);margin-right:8px;}
 p{font-size:15.5px;line-height:1.85;color:var(--ink);margin:0 0 16px;}
 p:last-child{margin-bottom:0;}
 .example{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px 20px;margin:18px 0;text-align:center;}
@@ -48,13 +48,13 @@ p:last-child{margin-bottom:0;}
 .example p{font-size:14.5px;color:var(--ink-soft);margin:8px 0 0;}
 .grid4{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0;}
 .grid4 .box{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.6;}
-.grid4 .box b{display:block;font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--coral);margin-bottom:4px;}
+.grid4 .box b{display:block;font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--coral-ink);margin-bottom:4px;}
 .callout{background:var(--coral-soft);border-radius:16px;padding:18px 20px;margin:18px 0;font-size:14.5px;line-height:1.75;color:var(--ink);}
-.callout b{color:var(--coral);}
+.callout b{color:var(--coral-ink);}
 .tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
 .tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
-.tip-list b{color:var(--coral);}
-footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+.tip-list b{color:var(--coral-ink);}
+footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 .footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
 .footer-nav a:hover{color:var(--ink);text-decoration:underline;}
 </style>

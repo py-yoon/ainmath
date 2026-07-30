@@ -11,10 +11,10 @@
 <style>
 :root{
   --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
-  --violet:#6C4CF7; --violet-soft:#EEE8FF;
-  --coral:#FF5B57; --coral-soft:#FFEAE8;
-  --green:#4CAF8E; --green-soft:#E3F5EE;
-  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
   --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
 }
 *{box-sizing:border-box;}
@@ -25,15 +25,15 @@ body{
   min-height:100vh; padding: 32px 20px 80px;
 }
 .wrap{max-width:1040px;margin:0 auto;}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
 h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
-h1 span{color:var(--coral);}
+h1 span{color:var(--coral-ink);}
 .sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
   display:grid;grid-template-columns: 1.2fr 0.8fr;gap:32px;align-items:start;}
 @media (max-width:860px){ .stage{grid-template-columns:1fr;} }
 .howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
-.howto b{color:var(--violet);}
+.howto b{color:var(--violet-ink);}
 .howto p{margin:0 0 10px;}
 .howto p:last-child{margin-bottom:0;}
 .canvas-area{display:flex;flex-direction:column;align-items:center;gap:16px;}
@@ -47,13 +47,13 @@ input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;bac
 input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
 .presets{display:flex;gap:8px;flex-wrap:wrap;width:100%;max-width:420px;margin-top:4px;}
 .preset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:12px;padding:8px 12px;cursor:pointer;transition:all .15s ease;}
-.preset-btn:hover{border-color:var(--violet);color:var(--violet);}
-.preset-btn.active{background:var(--violet);border-color:var(--violet);color:#fff;}
+.preset-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.preset-btn.active{background:var(--violet-ink);border-color:var(--violet-ink);color:#fff;}
 .preset-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
 .side-picker{display:flex;gap:8px;flex-wrap:wrap;width:100%;max-width:420px;margin:14px 0 4px;}
 .side-btn{flex:1;min-width:110px;font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:12px;padding:9px 10px;cursor:pointer;transition:all .15s ease;}
-.side-btn:hover{border-color:var(--coral);color:var(--coral);}
-.side-btn.active{background:var(--coral);border-color:var(--coral);color:#fff;}
+.side-btn:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
+.side-btn.active{background:var(--coral-ink);border-color:var(--coral-ink);color:#fff;}
 .side-btn:focus-visible{outline:3px solid var(--violet);outline-offset:2px;}
 .side-label{font-family:'Do Hyeon',sans-serif;font-size:14px;}
 .angle-label{font-family:'Do Hyeon',sans-serif;font-size:15px;fill:var(--coral);}
@@ -64,19 +64,19 @@ input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--co
 .ratio-row .name{color:var(--ink-soft);}
 .ratio-row .expr{font-size:14px;color:var(--ink-soft);}
 .ratio-row .val{font-size:22px;}
-.ratio-row.sin .val{color:var(--violet);}
-.ratio-row.cos .val{color:var(--blue);}
-.ratio-row.tan .val{color:var(--coral);}
+.ratio-row.sin .val{color:var(--violet-ink);}
+.ratio-row.cos .val{color:var(--blue-ink);}
+.ratio-row.tan .val{color:var(--coral-ink);}
 .fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
-.fact b{color:var(--violet);}
-footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+.fact b{color:var(--violet-ink);}
+footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
     <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
-    <a href="article-trig-ratios.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+    <a href="article-trig-ratios.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
   </div>
   <span class="eyebrow">📐 삼각비 실험실</span>
   <h1>각도를 바꾸면<br>사인·코사인·탄젠트 값은 <span>어떻게</span> 변할까?</h1>
@@ -250,9 +250,9 @@ function render(){
   tanExpr.textContent = `대변 ÷ 인접변 = ${fmt(opposite)} ÷ ${fmt(adjacent)}`;
 
   const special = SPECIAL[angle];
-  sinVal.innerHTML = special ? `${fmt(sinV)} <span style="font-size:13px;color:var(--ink-soft)">(=${special.sin})</span>` : fmt(sinV);
-  cosVal.innerHTML = special ? `${fmt(cosV)} <span style="font-size:13px;color:var(--ink-soft)">(=${special.cos})</span>` : fmt(cosV);
-  tanVal.innerHTML = special ? `${fmt(tanV)} <span style="font-size:13px;color:var(--ink-soft)">(=${special.tan})</span>` : fmt(tanV);
+  sinVal.innerHTML = special ? `${fmt(sinV)} <span style="font-size:14px;color:var(--ink-soft)">(=${special.sin})</span>` : fmt(sinV);
+  cosVal.innerHTML = special ? `${fmt(cosV)} <span style="font-size:14px;color:var(--ink-soft)">(=${special.cos})</span>` : fmt(cosV);
+  tanVal.innerHTML = special ? `${fmt(tanV)} <span style="font-size:14px;color:var(--ink-soft)">(=${special.tan})</span>` : fmt(tanV);
 
   const sideName = SIDES.find(s=>s.key===fixedSide).name;
   let extra = special ? ` ${angle}°는 값이 깔끔한 분수·근호로 딱 떨어지는 <b>특수각</b>이에요.` : '';

@@ -11,11 +11,11 @@
 <style>
 :root{
   --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
-  --coral:#FF5B57; --coral-soft:#FFEAE8;
-  --green:#4CAF8E; --green-soft:#E3F5EE;
-  --violet:#6C4CF7; --violet-soft:#EEE8FF;
-  --blue:#4C8BF5; --blue-soft:#E7F0FF;
-  --teal:#2EC4C6; --teal-soft:#E4FAF9;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --teal:#2EC4C6; --teal-soft:#E4FAF9;--teal-ink:#1D7C7E;
   --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
 }
 *{box-sizing:border-box;}
@@ -26,14 +26,14 @@ body{
   min-height:100vh; padding: 32px 20px 80px;
 }
 .wrap{max-width:1000px;margin:0 auto;}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
 h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.5vw,42px);line-height:1.3;margin:0 0 10px;}
-h1 span{color:var(--coral);}
+h1 span{color:var(--coral-ink);}
 .sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
 
 .mode-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
 .mode-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 16px;cursor:pointer;box-shadow:var(--shadow);transition:all .15s ease;}
-.mode-btn:hover{border-color:var(--coral);color:var(--coral);}
+.mode-btn:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
 .mode-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
 .mode-btn:focus-visible{outline:3px solid var(--violet);outline-offset:2px;}
 
@@ -51,46 +51,46 @@ input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;bac
 input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--violet);outline-offset:2px;}
 
 .action-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
-.action-btn{font-family:'Do Hyeon',sans-serif;font-size:13px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:12px;padding:7px 12px;cursor:pointer;transition:all .15s ease;}
-.action-btn:hover{border-color:var(--coral);color:var(--coral);}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:12px;padding:7px 12px;cursor:pointer;transition:all .15s ease;}
+.action-btn:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
 .action-btn:focus-visible{outline:3px solid var(--violet);outline-offset:2px;}
 
 .blocks{display:flex;flex-direction:column;gap:14px;}
 .block-row{display:flex;align-items:center;gap:12px;}
-.row-chip{flex:none;width:74px;font-family:'Do Hyeon',sans-serif;font-size:13px;color:#fff;text-align:center;border-radius:10px;padding:6px 4px;line-height:1.3;}
+.row-chip{flex:none;width:74px;font-family:'Do Hyeon',sans-serif;font-size:14px;color:#fff;text-align:center;border-radius:10px;padding:6px 4px;line-height:1.3;}
 .row-track{flex:1;display:flex;flex-wrap:wrap;gap:6px;align-items:flex-end;min-height:100px;}
 .blk{border-radius:5px;flex:none;box-shadow:0 1px 2px rgba(0,0,0,0.12) inset;}
 .blk-일{width:15px;height:15px;background:var(--green);}
-.blk-십{width:15px;height:120px;background-color:var(--blue);background-image:repeating-linear-gradient(to bottom, rgba(255,255,255,0.55) 0 1px, transparent 1px 12px);}
-.blk-백{width:96px;height:96px;background-color:var(--violet);background-image:
+.blk-십{width:15px;height:120px;background-color:var(--blue-ink);background-image:repeating-linear-gradient(to bottom, rgba(255,255,255,0.55) 0 1px, transparent 1px 12px);}
+.blk-백{width:96px;height:96px;background-color:var(--violet-ink);background-image:
   repeating-linear-gradient(to right, rgba(255,255,255,0.55) 0 1px, transparent 1px 9.6px),
   repeating-linear-gradient(to bottom, rgba(255,255,255,0.55) 0 1px, transparent 1px 9.6px);}
-.blk-천{width:78px;height:96px;background-color:var(--coral);background-image:
+.blk-천{width:78px;height:96px;background-color:var(--coral-ink);background-image:
   repeating-linear-gradient(135deg, rgba(255,255,255,0.35) 0 6px, rgba(255,255,255,0) 6px 12px);}
-.blk-만{width:100px;height:96px;background-color:var(--teal);border:2px dashed rgba(255,255,255,0.6);background-image:
+.blk-만{width:100px;height:96px;background-color:var(--teal-ink);border:2px dashed rgba(255,255,255,0.6);background-image:
   repeating-linear-gradient(135deg, rgba(255,255,255,0.4) 0 5px, rgba(255,255,255,0) 5px 10px),
   repeating-linear-gradient(45deg, rgba(255,255,255,0.22) 0 5px, rgba(255,255,255,0) 5px 10px);}
-.zero-note{font-size:13px;color:var(--ink-soft);opacity:0.7;}
+.zero-note{font-size:14px;color:var(--ink-soft);opacity:0.7;}
 
 .panel{display:flex;flex-direction:column;gap:16px;}
 .readout{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px;text-align:center;}
 .readout .num{font-family:'Do Hyeon',sans-serif;font-size:clamp(30px,5.5vw,40px);color:var(--ink);letter-spacing:1px;}
-.readout .hangul{margin-top:8px;font-family:'Do Hyeon',sans-serif;font-size:18px;color:var(--coral);}
+.readout .hangul{margin-top:8px;font-family:'Do Hyeon',sans-serif;font-size:18px;color:var(--coral-ink);}
 table.pv{width:100%;border-collapse:collapse;margin-top:4px;}
-table.pv th, table.pv td{text-align:center;padding:6px 2px;font-size:13px;}
+table.pv th, table.pv td{text-align:center;padding:6px 2px;font-size:14px;}
 table.pv th{font-family:'Do Hyeon',sans-serif;color:var(--ink-soft);font-weight:400;}
 table.pv td{font-family:'Do Hyeon',sans-serif;font-size:18px;color:var(--ink);background:var(--card);border-radius:8px;}
 .expand{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--ink);text-align:center;line-height:1.6;}
 .fact{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
-.fact b{color:var(--coral);}
-footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+.fact b{color:var(--coral-ink);}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
     <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
-    <a href="article-place-value-blocks.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+    <a href="article-place-value-blocks.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
   </div>
   <span class="eyebrow">🔟 자릿값과 큰 수 읽기</span>
   <h1>같은 숫자 <span>2</span>인데,<br>자리에 따라 값이 달라져요</h1>

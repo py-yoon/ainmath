@@ -11,10 +11,10 @@
 <style>
 :root{
   --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
-  --violet:#6C4CF7; --violet-soft:#EEE8FF;
-  --coral:#FF5B57; --coral-soft:#FFEAE8;
-  --green:#4CAF8E; --green-soft:#E3F5EE;
-  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
   --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
 }
 *{box-sizing:border-box;}
@@ -25,15 +25,15 @@ body{
   min-height:100vh; padding: 32px 20px 80px;
 }
 .wrap{max-width:1040px;margin:0 auto;}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
 h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
-h1 span{color:var(--violet);}
+h1 span{color:var(--violet-ink);}
 .sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
   display:grid;grid-template-columns: 1.2fr 0.8fr;gap:32px;align-items:start;}
 @media (max-width:860px){ .stage{grid-template-columns:1fr;} }
 .howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
-.howto b{color:var(--violet);}
+.howto b{color:var(--violet-ink);}
 svg{width:100%;max-width:480px;height:auto;overflow:visible;display:block;margin:0 auto 16px;}
 .control-row{width:100%;max-width:440px;margin:0 auto 18px;display:flex;flex-direction:column;gap:8px;}
 .control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
@@ -43,22 +43,22 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;heigh
 input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
 .pair-tabs{display:flex;gap:10px;max-width:440px;margin:0 auto;}
 .pair-btn{flex:1;font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:11px;cursor:pointer;transition:all .15s ease;}
-.pair-btn.active{background:var(--violet);border-color:var(--violet);color:#fff;}
+.pair-btn.active{background:var(--violet-ink);border-color:var(--violet-ink);color:#fff;}
 .pair-btn:focus-visible{outline:3px solid var(--violet);outline-offset:2px;}
 .angle-label{font-family:'Do Hyeon',sans-serif;font-size:14px;}
 .panel{display:flex;flex-direction:column;gap:16px;}
 .equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px;text-align:center;}
 .equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(24px,4vw,30px);color:var(--violet);}
 .fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
-.fact b{color:var(--violet);}
-footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+.fact b{color:var(--violet-ink);}
+footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
     <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
-    <a href="article-parallel-angles.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+    <a href="article-parallel-angles.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
   </div>
   <span class="eyebrow">📐 평행선과 각의 관계 실험실</span>
   <h1>평행선을 가로지르면<br>어떤 각들이 <span>항상 똑같을까?</span></h1>

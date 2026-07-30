@@ -15,10 +15,10 @@
     --ink:#22283A;
     --ink-soft:#5B6178;
     --violet:#6C4CF7;
-    --violet-soft:#EEE8FF;
-    --coral:#FF5B57;
-    --green:#4CAF8E;
-    --blue:#4C8BF5;
+    --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+    --coral:#FF5B57;--coral-ink:#D90500;
+    --green:#4CAF8E;--green-ink:#357A63;
+    --blue:#4C8BF5;--blue-ink:#0D62F1;
     --card:#FFFFFF;
     --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
@@ -37,7 +37,7 @@
   .eyebrow{
     display:inline-flex;align-items:center;gap:8px;
     font-family:'Do Hyeon',sans-serif;
-    color:var(--blue);
+    color:var(--blue-ink);
     background:#E7F0FF;
     padding:6px 14px;border-radius:999px;
     font-size:14px;letter-spacing:0.02em;
@@ -50,7 +50,7 @@
     line-height:1.25;
     margin:0 0 10px;
   }
-  h1 span{color:var(--coral);}
+  h1 span{color:var(--coral-ink);}
   .sub{
     color:var(--ink-soft);
     font-size:16px;
@@ -74,7 +74,7 @@
   .canvas-area{display:flex;flex-direction:column;align-items:center;gap:20px;}
   svg{width:100%;max-width:460px;height:auto;overflow:visible;}
 
-  .legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-size:13px;color:var(--ink-soft);}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-size:14px;color:var(--ink-soft);}
   .legend span{display:inline-flex;align-items:center;gap:6px;}
   .swatch{width:12px;height:12px;border-radius:3px;display:inline-block;}
 
@@ -107,7 +107,7 @@
     border-radius:12px;padding:8px 12px;cursor:pointer;
     transition:all .15s ease;
   }
-  .preset-btn:hover{border-color:var(--violet);color:var(--violet);}
+  .preset-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
   .preset-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
 
   .panel{display:flex;flex-direction:column;gap:18px;}
@@ -121,15 +121,15 @@
     color:var(--ink);
     display:flex;justify-content:center;align-items:baseline;gap:8px;flex-wrap:wrap;
   }
-  .eq-row .green{color:var(--green);}
-  .eq-row .blue{color:var(--blue);}
-  .eq-row .coral{color:var(--coral);}
+  .eq-row .green{color:var(--green-ink);}
+  .eq-row .blue{color:var(--blue-ink);}
+  .eq-row .coral{color:var(--coral-ink);}
   .eq-sub{margin-top:10px;font-size:14px;color:var(--ink-soft);}
   .c-line{
     margin-top:14px;font-family:'Do Hyeon',sans-serif;
     font-size:clamp(18px,2.8vw,22px);color:var(--ink-soft);
   }
-  .c-line b{color:var(--coral);}
+  .c-line b{color:var(--coral-ink);}
 
   .badge-win{
     display:none;
@@ -144,16 +144,16 @@
     background:var(--violet-soft);border-radius:16px;padding:16px 18px;
     font-size:14.5px;line-height:1.65;color:var(--ink);
   }
-  .fact b{color:var(--violet);}
+  .fact b{color:var(--violet-ink);}
 
-  footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+  footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
     <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
-    <a href="article-pythagorean-theorem.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+    <a href="article-pythagorean-theorem.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
   </div>
   <span class="eyebrow">📐 피타고라스 실험실</span>
   <h1>직각삼각형의 두 변,<br>정사각형 넓이로 <span>비교</span>해보기</h1>

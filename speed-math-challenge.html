@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>스피드 암산 챌린지</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --amber:#E8A93A; --amber-soft:#FBF0DC;--amber-ink:#946511;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:800px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:32px clamp(16px,5vw,48px) 36px;text-align:center;}
+
+.level-picker{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:24px;}
+.level-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:10px 16px;cursor:pointer;transition:all .15s ease;}
+.level-btn:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
+.level-btn.active{background:var(--coral-ink);border-color:var(--coral-ink);color:#fff;}
+.level-btn:disabled{opacity:.5;cursor:not-allowed;}
+
+.start-btn{font-family:'Do Hyeon',sans-serif;font-size:22px;background:var(--coral-ink);color:#fff;border:none;border-radius:18px;padding:20px 40px;cursor:pointer;transition:transform .15s ease;}
+.start-btn:hover{transform:scale(1.03);}
+.start-btn:active{transform:scale(0.97);}
+
+.hud{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:10px;}
+.hud-badge{font-family:'Do Hyeon',sans-serif;background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:10px 18px;text-align:center;min-width:90px;}
+.hud-badge .label{font-size:14px;color:var(--ink-soft);}
+.hud-badge .num{font-size:26px;color:var(--ink);}
+.hud-badge.timer .num{color:var(--coral-ink);}
+.hud-badge.combo .num{color:var(--amber-ink);}
+.hud-badge.score .num{color:var(--green-ink);}
+
+.problem-box{background:var(--paper);border-radius:20px;padding:40px 20px;margin-bottom:22px;transition:background .15s ease;}
+.problem-box.correct{background:var(--green-soft);}
+.problem-box.wrong{background:var(--coral-soft);}
+.problem-text{font-family:'Do Hyeon',sans-serif;font-size:clamp(38px,8vw,56px);color:var(--ink);}
+
+.answer-row{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;}
+#answerInput{
+  font-family:'Do Hyeon',sans-serif;font-size:28px;text-align:center;width:160px;
+  border:3px solid var(--paper-line);border-radius:14px;padding:12px;color:var(--ink);
+}
+#answerInput:focus{outline:none;border-color:var(--coral-ink);}
+.submit-btn{font-family:'Do Hyeon',sans-serif;font-size:18px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:14px 22px;cursor:pointer;transition:background .2s ease;}
+.submit-btn:hover{background:var(--coral-ink);}
+
+.result-title{font-family:'Do Hyeon',sans-serif;font-size:28px;color:var(--coral-ink);margin-bottom:18px;}
+.result-grid{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:22px;}
+.result-card{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:16px 22px;min-width:110px;}
+.result-card .label{font-size:14px;color:var(--ink-soft);}
+.result-card .num{font-family:'Do Hyeon',sans-serif;font-size:26px;color:var(--ink);}
+.best-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);margin-bottom:20px;}
+.best-badge b{color:var(--amber-ink);}
+
+footer{max-width:800px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">⚡ 스피드 암산 챌린지</span>
+  <h1>60초 안에<br>얼마나 많이 <span>맞힐 수</span> 있을까?</h1>
+  <p class="sub">난이도를 고르고 시작 버튼을 누르면 60초 타이머가 시작돼요. 문제를 빠르게 계산해서 정답을 입력하고 엔터를 눌러보세요. 연속으로 맞히면 콤보 점수가 올라가요!</p>
+
+  <div class="stage">
+    <div id="idleView">
+      <div class="level-picker" id="levelPicker"></div>
+      <button class="start-btn" id="startBtn">▶ 시작하기</button>
+    </div>
+
+    <div id="playView" style="display:none;">
+      <div class="hud">
+        <div class="hud-badge timer"><div class="label">남은 시간</div><div class="num" id="timeNum">60</div></div>
+        <div class="hud-badge combo"><div class="label">콤보</div><div class="num" id="comboNum">0</div></div>
+        <div class="hud-badge score"><div class="label">점수</div><div class="num" id="scoreNum">0</div></div>
+      </div>
+      <div class="problem-box" id="problemBox">
+        <div class="problem-text" id="problemText">3 + 4 = ?</div>
+      </div>
+      <div class="answer-row">
+        <input id="answerInput" type="number" inputmode="numeric" autocomplete="off" placeholder="정답">
+        <button class="submit-btn" id="submitBtn">확인</button>
+      </div>
+    </div>
+
+    <div id="resultView" style="display:none;">
+      <div class="result-title">⏰ 시간 종료!</div>
+      <div class="result-grid">
+        <div class="result-card"><div class="label">맞힌 문제</div><div class="num" id="finalCorrect">0</div></div>
+        <div class="result-card"><div class="label">틀린 문제</div><div class="num" id="finalWrong">0</div></div>
+        <div class="result-card"><div class="label">최고 콤보</div><div class="num" id="finalCombo">0</div></div>
+        <div class="result-card"><div class="label">최종 점수</div><div class="num" id="finalScore">0</div></div>
+      </div>
+      <div class="best-badge">이 세션 최고 점수: <b id="bestScoreNum">0</b>점</div>
+      <button class="start-btn" id="retryBtn">🔁 다시 도전하기</button>
+    </div>
+  </div>
+
+  <footer>맞힌 문제마다 10점, 콤보(연속 정답) 5개마다 보너스 점수가 붙어요. 틀리면 콤보가 처음부터 다시 시작돼요 — 정확하게, 그리고 빠르게 푸는 게 고득점의 비결이에요.</footer>
+</div>
+
+<script>
+const levelPicker = document.getElementById('levelPicker');
+const startBtn = document.getElementById('startBtn');
+const idleView = document.getElementById('idleView');
+const playView = document.getElementById('playView');
+const resultView = document.getElementById('resultView');
+const timeNum = document.getElementById('timeNum');
+const comboNum = document.getElementById('comboNum');
+const scoreNum = document.getElementById('scoreNum');
+const problemBox = document.getElementById('problemBox');
+const problemText = document.getElementById('problemText');
+const answerInput = document.getElementById('answerInput');
+const submitBtn = document.getElementById('submitBtn');
+const finalCorrect = document.getElementById('finalCorrect');
+const finalWrong = document.getElementById('finalWrong');
+const finalCombo = document.getElementById('finalCombo');
+const finalScore = document.getElementById('finalScore');
+const bestScoreNum = document.getElementById('bestScoreNum');
+const retryBtn = document.getElementById('retryBtn');
+
+const LEVELS = [
+  {key:'easy', name:'초등 저학년'},
+  {key:'normal', name:'초등 고학년'},
+  {key:'hard', name:'중학생'},
+];
+let level = 'easy';
+let bestScore = 0;
+
+function buildLevelPicker(){
+  levelPicker.innerHTML = LEVELS.map(l=>`<button class="level-btn${l.key===level?' active':''}" data-k="${l.key}">${l.name}</button>`).join('');
+  levelPicker.querySelectorAll('.level-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      level = btn.dataset.k;
+      buildLevelPicker();
+    });
+  });
+}
+buildLevelPicker();
+
+function randInt(min,max){ return min+Math.floor(Math.random()*(max-min+1)); }
+
+function generateProblem(){
+  if(level==='easy'){
+    const op = Math.random()<0.5 ? '+' : '-';
+    let a,b,answer;
+    if(op==='+'){ a=randInt(1,9); b=randInt(1,9); answer=a+b; }
+    else { a=randInt(1,18); b=randInt(1,a); answer=a-b; }
+    return {text:`${a} ${op} ${b} = ?`, answer};
+  }
+  if(level==='normal'){
+    const r = Math.random();
+    if(r<0.4){
+      const a=randInt(10,99), b=randInt(10,99);
+      const op = Math.random()<0.5 ? '+' : '-';
+      let x=a,y=b;
+      if(op==='-' && x<y){ [x,y]=[y,x]; }
+      return {text:`${x} ${op} ${y} = ?`, answer: op==='+'?x+y:x-y};
+    } else {
+      const a=randInt(2,9), b=randInt(2,9);
+      return {text:`${a} × ${b} = ?`, answer:a*b};
+    }
+  }
+  // hard
+  const r = Math.random();
+  if(r<0.4){
+    const a=randInt(100,999), b=randInt(100,999);
+    const op = Math.random()<0.5 ? '+' : '-';
+    let x=a,y=b;
+    if(op==='-' && x<y){ [x,y]=[y,x]; }
+    return {text:`${x} ${op} ${y} = ?`, answer: op==='+'?x+y:x-y};
+  } else {
+    const a=randInt(11,20), b=randInt(2,9);
+    return {text:`${a} × ${b} = ?`, answer:a*b};
+  }
+}
+
+let timeLeft = 60;
+let timerId = null;
+let correctCount = 0, wrongCount = 0, combo = 0, maxCombo = 0, score = 0;
+let currentProblem = null;
+
+function startGame(){
+  idleView.style.display = 'none';
+  resultView.style.display = 'none';
+  playView.style.display = 'block';
+  levelPicker.querySelectorAll('.level-btn').forEach(b=>b.disabled=true);
+
+  timeLeft = 60;
+  correctCount = 0; wrongCount = 0; combo = 0; maxCombo = 0; score = 0;
+  timeNum.textContent = timeLeft;
+  comboNum.textContent = combo;
+  scoreNum.textContent = score;
+
+  nextProblem();
+  answerInput.focus();
+
+  timerId = setInterval(()=>{
+    timeLeft--;
+    timeNum.textContent = timeLeft;
+    if(timeLeft<=0){
+      clearInterval(timerId);
+      endGame();
+    }
+  }, 1000);
+}
+
+function nextProblem(){
+  currentProblem = generateProblem();
+  problemText.textContent = currentProblem.text;
+  problemBox.className = 'problem-box';
+  answerInput.value = '';
+}
+
+function submitAnswer(){
+  if(!currentProblem) return;
+  const val = answerInput.value.trim();
+  if(val===''){ return; }
+  const userAnswer = parseInt(val);
+  if(userAnswer===currentProblem.answer){
+    correctCount++;
+    combo++;
+    maxCombo = Math.max(maxCombo, combo);
+    let gained = 10;
+    if(combo>0 && combo%5===0) gained += 20; // 콤보 5개마다 보너스
+    score += gained;
+    problemBox.className = 'problem-box correct';
+  } else {
+    wrongCount++;
+    combo = 0;
+    problemBox.className = 'problem-box wrong';
+  }
+  comboNum.textContent = combo;
+  scoreNum.textContent = score;
+  nextProblem();
+  answerInput.focus();
+}
+
+submitBtn.addEventListener('click', submitAnswer);
+answerInput.addEventListener('keydown', (e)=>{
+  if(e.key==='Enter') submitAnswer();
+});
+
+function endGame(){
+  playView.style.display = 'none';
+  resultView.style.display = 'block';
+  finalCorrect.textContent = correctCount;
+  finalWrong.textContent = wrongCount;
+  finalCombo.textContent = maxCombo;
+  finalScore.textContent = score;
+  if(score>bestScore) bestScore = score;
+  bestScoreNum.textContent = bestScore;
+  levelPicker.querySelectorAll('.level-btn').forEach(b=>b.disabled=false);
+}
+
+startBtn.addEventListener('click', startGame);
+retryBtn.addEventListener('click', ()=>{
+  idleView.style.display = 'block';
+  resultView.style.display = 'none';
+});
+</script>
+</body>
+</html>

@@ -11,10 +11,10 @@
 <style>
 :root{
   --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
-  --violet:#6C4CF7; --violet-soft:#EEE8FF;
-  --coral:#FF5B57; --coral-soft:#FFEAE8;
-  --green:#4CAF8E; --green-soft:#E3F5EE;
-  --blue:#4C8BF5; --blue-soft:#E7F0FF;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
   --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
 }
 *{box-sizing:border-box;}
@@ -25,12 +25,12 @@ body{
   min-height:100vh; padding: 32px 20px 80px;
 }
 .wrap{max-width:1000px;margin:0 auto;}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue-ink);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
 h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
-h1 span{color:var(--coral);}
+h1 span{color:var(--coral-ink);}
 .sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
 .howto{background:var(--blue-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
-.howto b{color:var(--blue);}
+.howto b{color:var(--blue-ink);}
 .howto p{margin:0 0 10px;}
 .howto p:last-child{margin-bottom:0;}
 
@@ -40,12 +40,12 @@ h1 span{color:var(--coral);}
 
 .level-picker{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
 .level-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:10px 16px;cursor:pointer;transition:all .15s ease;}
-.level-btn:hover{border-color:var(--blue);color:var(--blue);}
-.level-btn.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+.level-btn:hover{border-color:var(--blue-ink);color:var(--blue-ink);}
+.level-btn.active{background:var(--blue-ink);border-color:var(--blue-ink);color:#fff;}
 .level-btn:focus-visible{outline:4px solid var(--coral);outline-offset:2px;}
 
 .target-badge{font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--ink);background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:12px 16px;margin-bottom:20px;text-align:center;}
-.target-badge b{color:var(--blue);font-size:1.3em;}
+.target-badge b{color:var(--blue-ink);font-size:1.3em;}
 
 .jugs-row{display:flex;gap:26px;justify-content:center;align-items:flex-end;min-height:180px;margin-bottom:18px;flex-wrap:wrap;}
 .jug-col{display:flex;flex-direction:column;align-items:center;gap:10px;}
@@ -53,27 +53,27 @@ h1 span{color:var(--coral);}
 .jug-fill{width:100%;background:var(--blue);opacity:.55;transition:height .3s ease;}
 .jug-cap-line{position:absolute;top:0;left:0;right:0;border-top:2px dashed var(--paper-line);}
 .jug-amt{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);}
-.jug-name{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--blue);}
+.jug-name{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--blue-ink);}
 
 .jug-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:4px;}
-.mini-btn{font-family:'Do Hyeon',sans-serif;font-size:12.5px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:10px;padding:6px 9px;cursor:pointer;transition:all .15s ease;}
-.mini-btn:hover{border-color:var(--blue);color:var(--blue);}
+.mini-btn{font-family:'Do Hyeon',sans-serif;font-size:13.5px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:10px;padding:6px 9px;cursor:pointer;transition:all .15s ease;}
+.mini-btn:hover{border-color:var(--blue-ink);color:var(--blue-ink);}
 .mini-btn:disabled{opacity:.4;cursor:not-allowed;}
 .mini-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
 
 .pour-section{margin-bottom:20px;}
-.pour-title{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);text-align:center;margin-bottom:8px;}
+.pour-title{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);text-align:center;margin-bottom:8px;}
 .pour-grid{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
-.pour-btn{font-family:'Do Hyeon',sans-serif;font-size:13.5px;background:var(--card);border:2px solid var(--blue);color:var(--blue);border-radius:12px;padding:9px 13px;cursor:pointer;transition:all .15s ease;}
-.pour-btn:hover{background:var(--blue);color:#fff;}
-.pour-btn:disabled{opacity:.35;cursor:not-allowed;background:var(--card);color:var(--blue);}
+.pour-btn{font-family:'Do Hyeon',sans-serif;font-size:14.5px;background:var(--card);border:2px solid var(--blue);color:var(--blue-ink);border-radius:12px;padding:9px 13px;cursor:pointer;transition:all .15s ease;}
+.pour-btn:hover{background:var(--blue-ink);color:#fff;}
+.pour-btn:disabled{opacity:.35;cursor:not-allowed;background:var(--card);color:var(--blue-ink);}
 
 .btn-row{display:flex;gap:10px;flex-wrap:wrap;}
 .action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:12px 18px;cursor:pointer;flex:1;min-width:100px;transition:transform .15s ease, background .2s ease;}
-.action-btn:hover{background:var(--blue);}
+.action-btn:hover{background:var(--blue-ink);}
 .action-btn:active{transform:scale(0.97);}
 .action-btn.secondary{background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);}
-.action-btn.secondary:hover{border-color:var(--blue);color:var(--blue);background:var(--card);}
+.action-btn.secondary:hover{border-color:var(--blue-ink);color:var(--blue-ink);background:var(--card);}
 .action-btn:focus-visible{outline:4px solid var(--coral);outline-offset:2px;}
 
 .panel{display:flex;flex-direction:column;gap:18px;}
@@ -82,20 +82,20 @@ h1 span{color:var(--coral);}
 .equation .result{font-family:'Do Hyeon',sans-serif;font-size:clamp(34px,5.6vw,44px);margin-top:6px;line-height:1;color:var(--blue);}
 .equation .result span{font-size:0.4em;color:var(--ink-soft);}
 .progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:10px 16px;text-align:center;}
-.progress-badge b{color:var(--blue);}
+.progress-badge b{color:var(--blue-ink);}
 .feedback{border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);background:var(--blue-soft);min-height:52px;}
 .feedback.ok{background:var(--green-soft);}
 .feedback.bad{background:var(--coral-soft);}
-.feedback b{color:var(--blue);}
+.feedback b{color:var(--blue-ink);}
 
-footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
     <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
-    <a href="article-water-jug-puzzle.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+    <a href="article-water-jug-puzzle.html" style="color:#fff;background:var(--violet);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
   </div>
   <span class="eyebrow">🪣 양동이 물 맞추기 실험실</span>
   <h1>정해진 양동이만으로<br><span>정확한 양</span>을 만들 수 있을까?</h1>

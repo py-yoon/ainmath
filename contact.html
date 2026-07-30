@@ -11,7 +11,7 @@
 <style>
   :root{
     --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
-    --violet:#6C4CF7; --violet-soft:#EEE8FF; --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+    --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7; --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
@@ -24,7 +24,7 @@
   .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
   .back-link:hover{color:var(--ink);}
   .eyebrow{
-    display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet);
+    display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);
     background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;
   }
   h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,36px);margin:0 0 10px;}
@@ -33,14 +33,14 @@
   .row{display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid var(--paper-line);}
   .row:last-child{border-bottom:none;}
   .row-icon{
-    width:42px;height:42px;border-radius:12px;background:var(--violet-soft);color:var(--violet);
+    width:42px;height:42px;border-radius:12px;background:var(--violet-soft);color:var(--violet-ink);
     display:flex;align-items:center;justify-content:center;font-size:19px;flex:none;
   }
   .row-title{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);margin-bottom:2px;}
   .row-value{font-size:16px;color:var(--ink);}
-  .row-value a{color:var(--violet);text-decoration:none;font-weight:600;}
-  .note{margin-top:22px;font-size:13.5px;color:var(--ink-soft);line-height:1.7;background:var(--paper);border:1px solid var(--paper-line);border-radius:12px;padding:14px 16px;}
-  footer{max-width:640px;margin:24px auto 0;color:var(--ink-soft);font-size:12.5px;text-align:center;}
+  .row-value a{color:var(--violet-ink);text-decoration:none;font-weight:600;}
+  .note{margin-top:22px;font-size:14.5px;color:var(--ink-soft);line-height:1.7;background:var(--paper);border:1px solid var(--paper-line);border-radius:12px;padding:14px 16px;}
+  footer{max-width:640px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
   footer a{color:var(--ink-soft);margin:0 8px;}
 </style>
 </head>

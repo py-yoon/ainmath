@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>숫자 탐정 놀이</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --amber:#E8A93A; --amber-soft:#FBF0DC;--amber-ink:#946511;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:800px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:#fff;background:var(--ink);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--amber-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.level-picker{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.level-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--card);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:10px 16px;cursor:pointer;transition:all .15s ease;}
+.level-btn:hover{border-color:var(--amber-ink);color:#8a5f10;}
+.level-btn.active{background:var(--amber-ink);border-color:var(--amber-ink);color:#fff;}
+
+.case-card{background:var(--ink);color:#fff;border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:20px;position:relative;overflow:hidden;}
+.case-title{display:flex;align-items:center;gap:10px;font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--amber-ink);margin-bottom:6px;}
+.case-sub{font-size:14.5px;color:#c8cad6;margin-bottom:20px;}
+.clue-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;}
+.clue-item{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);border-radius:14px;padding:14px 18px;font-size:15px;line-height:1.6;display:flex;gap:12px;align-items:baseline;}
+.clue-num{font-family:'Do Hyeon',sans-serif;color:var(--amber-ink);flex:none;}
+
+.suspects-card{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.suspects-title{font-family:'Do Hyeon',sans-serif;font-size:18px;margin:0 0 16px;}
+.suspects-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:18px;}
+.suspect-btn{font-family:'Do Hyeon',sans-serif;font-size:24px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink);border-radius:16px;padding:16px 24px;cursor:pointer;min-width:90px;transition:all .15s ease;}
+.suspect-btn:hover{border-color:var(--amber-ink);transform:translateY(-2px);}
+.suspect-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.suspect-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.suspect-btn:disabled{cursor:not-allowed;}
+
+.feedback{text-align:center;font-size:15px;line-height:1.7;color:var(--ink);min-height:24px;margin-bottom:16px;}
+.feedback b{color:var(--amber-ink);}
+
+.progress-row{display:flex;justify-content:center;gap:10px;margin-bottom:18px;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:8px 16px;}
+.progress-badge b{color:#8a5f10;}
+
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:16px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:13px 22px;cursor:pointer;display:block;margin:0 auto;transition:background .2s ease;}
+.action-btn:hover{background:var(--amber-ink);}
+
+footer{max-width:800px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">🔍 숫자 탐정 놀이</span>
+  <h1>단서를 모아<br>비밀 숫자를 <span>찾아내세요</span></h1>
+  <p class="sub">사건 파일에 적힌 단서를 하나씩 확인하면서, 조건에 딱 맞는 숫자를 용의자 중에서 찾아보세요. 모든 단서를 만족하는 숫자는 단 하나뿐이에요.</p>
+
+  <div class="level-picker" id="levelPicker"></div>
+
+  <div class="case-card">
+    <div class="case-title">📁 사건 파일 <span id="caseNum" style="font-size:14px;color:#c8cad6;"></span></div>
+    <div class="case-sub">아래 단서를 모두 만족하는 숫자를 찾아내세요.</div>
+    <ul class="clue-list" id="clueList"></ul>
+  </div>
+
+  <div class="suspects-card">
+    <p class="suspects-title">🕵️ 용의자 중에서 범인(비밀 숫자)을 고르세요</p>
+    <div class="suspects-row" id="suspectsRow"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="progress-row">
+      <div class="progress-badge">해결한 사건 <b id="solvedNum">0</b>개</div>
+    </div>
+    <button class="action-btn" id="nextBtn">➡ 다음 사건</button>
+  </div>
+
+  <footer>단서를 하나씩 지워나가며 후보를 좁히는 방법을 "소거법"이라고 해요. 탐정이 용의자를 하나씩 지워나가듯, 수학에서도 조건에 안 맞는 답을 지워가며 정답을 찾을 수 있어요.</footer>
+</div>
+
+<script>
+const levelPicker = document.getElementById('levelPicker');
+const caseNum = document.getElementById('caseNum');
+const clueList = document.getElementById('clueList');
+const suspectsRow = document.getElementById('suspectsRow');
+const feedbackEl = document.getElementById('feedback');
+const solvedNumEl = document.getElementById('solvedNum');
+const nextBtn = document.getElementById('nextBtn');
+
+const LEVELS = [
+  {key:'low', name:'초등 저학년', min:1, max:30, hard:false},
+  {key:'high', name:'초등 고학년', min:1, max:100, hard:false},
+  {key:'mid', name:'중학생', min:1, max:200, hard:true},
+];
+let levelKey = 'low';
+let solvedCount = 0;
+let caseCount = 0;
+let answered = false;
+let currentCase = null;
+
+function randInt(min,max){ return min+Math.floor(Math.random()*(max-min+1)); }
+function shuffle(arr){ return arr.sort(()=>Math.random()-0.5); }
+function digitSum(x){ return String(x).split('').reduce((a,d)=>a+parseInt(d),0); }
+function isPrime(x){
+  if(x<2) return false;
+  for(let i=2;i*i<=x;i++){ if(x%i===0) return false; }
+  return true;
+}
+function isPerfectSquare(x){ const r=Math.round(Math.sqrt(x)); return r*r===x; }
+
+function buildParityClue(n){
+  const isEven = n%2===0;
+  return { text: isEven? '이 수는 짝수예요.' : '이 수는 홀수예요.', test:x=>(x%2===0)===isEven };
+}
+function buildCompareClue(n,min,max){
+  let t = randInt(min,max);
+  let tries=0;
+  while(t===n && tries<10){ t = randInt(min,max); tries++; }
+  if(t===n) t = n===max ? n-1 : n+1;
+  const greater = n>t;
+  return { text: greater? `이 수는 ${t}보다 커요.` : `이 수는 ${t}보다 작아요.`, test:x=> greater? x>t : x<t };
+}
+function buildMultipleClue(n){
+  const divisors = [2,3,4,5,6,7,8,9,10].filter(d=> d<n && n%d===0);
+  if(divisors.length===0) return null;
+  const d = divisors[randInt(0,divisors.length-1)];
+  return { text:`이 수는 ${d}의 배수예요.`, test:x=>x%d===0 };
+}
+function buildDigitSumClue(n){
+  if(n<10) return null;
+  const s = digitSum(n);
+  return { text:`이 수의 각 자리 숫자를 더하면 ${s}이에요.`, test:x=>digitSum(x)===s };
+}
+function buildRemainderClue(n){
+  const opts = [2,3,4,5,6,7,8,9].filter(d=> n%d!==0);
+  if(opts.length===0) return null;
+  const d = opts[randInt(0,opts.length-1)];
+  const r = n%d;
+  return { text:`이 수를 ${d}로 나누면 나머지가 ${r}이에요.`, test:x=>x%d===r };
+}
+function buildPrimeClue(n){
+  const p = isPrime(n);
+  return { text: p? '이 수는 소수예요.' : '이 수는 소수가 아니에요.', test:x=>isPrime(x)===p };
+}
+function buildSquareClue(n){
+  const sq = isPerfectSquare(n);
+  return { text: sq? '이 수는 어떤 정수를 제곱한 수예요.' : '이 수는 어떤 정수의 제곱은 아니에요.', test:x=>isPerfectSquare(x)===sq };
+}
+
+function buildCase(){
+  const lvl = LEVELS.find(l=>l.key===levelKey);
+  const n = randInt(lvl.min, lvl.max);
+
+  let pool = [
+    buildParityClue(n),
+    buildCompareClue(n, lvl.min, lvl.max),
+    buildMultipleClue(n),
+    buildDigitSumClue(n),
+    buildRemainderClue(n),
+  ];
+  if(lvl.hard){
+    pool.push(buildPrimeClue(n));
+    pool.push(buildSquareClue(n));
+  }
+  pool = shuffle(pool.filter(Boolean));
+
+  let matching = [];
+  for(let x=lvl.min;x<=lvl.max;x++) matching.push(x);
+  const selected = [];
+  for(const clue of pool){
+    const filtered = matching.filter(clue.test);
+    if(selected.length<3 || filtered.length<matching.length){
+      selected.push(clue);
+      matching = filtered;
+    }
+    if(matching.length<=1 || selected.length>=5) break;
+  }
+
+  const wrongPool = shuffle([...Array(lvl.max-lvl.min+1).keys()].map(i=>i+lvl.min).filter(x=>!matching.includes(x)));
+  let distractors = wrongPool.slice(0,3);
+  while(distractors.length<3){
+    const cand = randInt(lvl.min, lvl.max);
+    if(cand!==n && !distractors.includes(cand)) distractors.push(cand);
+  }
+
+  const options = shuffle([n, ...distractors]);
+  return { target:n, clues:selected, options };
+}
+
+function newCase(){
+  answered = false;
+  caseCount++;
+  currentCase = buildCase();
+  caseNum.textContent = `#${caseCount}`;
+  clueList.innerHTML = currentCase.clues.map((c,i)=>`<li class="clue-item"><span class="clue-num">단서 ${i+1}</span><span>${c.text}</span></li>`).join('');
+  suspectsRow.innerHTML = currentCase.options.map(o=>`<button class="suspect-btn" data-n="${o}">${o}</button>`).join('');
+  feedbackEl.textContent = '';
+  suspectsRow.querySelectorAll('.suspect-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered = true;
+      suspectsRow.querySelectorAll('.suspect-btn').forEach(b=>b.disabled=true);
+      const val = parseInt(btn.dataset.n);
+      if(val===currentCase.target){
+        solvedCount++;
+        solvedNumEl.textContent = solvedCount;
+        btn.classList.add('correct');
+        feedbackEl.innerHTML = `🎉 사건 해결! 범인은 <b>${currentCase.target}</b>이었어요. 모든 단서와 정확히 맞아떨어져요.`;
+      } else {
+        btn.classList.add('wrong');
+        suspectsRow.querySelector(`[data-n="${currentCase.target}"]`)?.classList.add('correct');
+        feedbackEl.innerHTML = `아쉬워요, 범인이 아니었어요. 진짜 범인은 <b>${currentCase.target}</b>이었어요. 단서를 다시 하나씩 확인해보세요.`;
+      }
+    });
+  });
+}
+
+function buildLevelPicker(){
+  levelPicker.innerHTML = LEVELS.map(l=>`<button class="level-btn${l.key===levelKey?' active':''}" data-k="${l.key}">${l.name}</button>`).join('');
+  levelPicker.querySelectorAll('.level-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(btn.dataset.k===levelKey) return;
+      levelKey = btn.dataset.k;
+      buildLevelPicker();
+      newCase();
+    });
+  });
+}
+
+nextBtn.addEventListener('click', newCase);
+
+buildLevelPicker();
+newCase();
+</script>
+</body>
+</html>
