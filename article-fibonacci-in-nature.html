@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>왜 하필 137.5도일까 — 자연 속 황금각 이야기 | 아인매스</title>
+<meta name="description" content="해바라기 씨앗과 솔방울이 딱 137.5도씩 돌아가며 자라는 이유를 알아봐요. 그 각도만이 씨앗을 겹치지 않고 가장 빽빽하게 채울 수 있어요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#357A63;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#357A63;background:#E3F5EE">🌀 재미있는 패턴</span>
+  <h1>왜 하필 137.5도일까 — 자연 속 황금각 이야기</h1>
+  <p class="meta">초등 고학년 ~ 중학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>해바라기 한가운데를 자세히 들여다본 적 있나요? 씨앗들이 시계 방향과 반시계 방향으로 각각 촘촘한 나선을 그리며 박혀 있어요. 신기하게도 이 나선의 개수를 세어보면 거의 항상 34개와 55개, 혹은 55개와 89개처럼 특정한 숫자 쌍이 나와요. 이 숫자들은 우연이 아니라 피보나치 수열(1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89...)에 나오는 이웃한 두 수예요. 해바라기는 수학을 배운 적이 없는데, 대체 왜 이런 패턴을 만들어낼까요?</p>
+      <p>비밀은 씨앗 하나하나가 자라나는 <b>각도</b>에 있어요. 식물의 성장점에서는 새로운 씨앗(또는 잎, 꽃잎)이 이전 씨앗에서 일정한 각도만큼 돌아간 자리에 하나씩 생겨나요. 만약 이 각도가 90°처럼 "딱 떨어지는" 각도라면 어떻게 될까요? 씨앗들이 정확히 4방향으로만 뻗어 나가면서 곧게 뻗은 줄무늬를 만들고, 그 사이사이에 빈 공간이 크게 남게 돼요. 공간을 낭비하는 배열인 거예요.</p>
+      <p>식물이 실제로 사용하는 각도는 <b>약 137.5°</b>예요. 이 각도는 360°를 황금비의 제곱(φ²)으로 나눈 값인데, 정수비로는 절대 딱 떨어지지 않는 "가장 무리수다운 무리수"에 가까워요. 그래서 아무리 여러 바퀴를 돌아도 이전에 생긴 씨앗과 겹치는 방향으로 다시 돌아오지 않아요. 씨앗이 새로 생길 때마다 이전까지 비어있던 공간 중에서 가장 넓은 틈을 찾아 들어가는 셈이 되어서, 결과적으로 씨앗들이 겹치지 않고 가장 빽빽하게 채워지는 배열이 만들어져요.</p>
+      <p>이 배열이 왜 피보나치 수열과 연결될까요? 137.5°만큼 계속 회전하다 보면, 나선이 눈에 띄게 정렬되어 보이는 지점들이 있는데, 그 나선의 개수가 정확히 피보나치 수로 나타나요. 이건 황금비 자체가 피보나치 수열의 이웃한 두 수의 비율(예: 55/34, 89/55...)이 점점 가까워지는 값이기 때문이에요. 황금각과 피보나치 수열은 결국 같은 뿌리에서 나온 두 가지 얼굴인 셈이에요.</p>
+      <p>이런 배열은 해바라기뿐 아니라 솔방울의 비늘, 파인애플의 껍질 무늬, 로메스코 브로콜리의 나선 모양에서도 똑같이 나타나요. 진화의 과정에서 이런 배열 방식을 우연히 갖게 된 식물들이, 같은 공간에 더 많은 씨앗이나 잎을 담을 수 있어서 살아남기에 유리했을 거라고 추측해요. 수학적으로 가장 효율적인 답을, 식물은 오랜 세월에 걸친 자연선택을 통해 스스로 찾아낸 셈이에요.</p>
+      <p>저희 체험 페이지에서는 회전 각도를 직접 슬라이더로 조절하면서, 137.5°에서 아주 조금만 벗어나도 씨앗 배열에 줄무늬 같은 빈틈이 생기는 걸 눈으로 확인할 수 있어요. 각도를 이리저리 움직여보면서, 왜 정확히 그 각도여야만 하는지 직접 느껴보세요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="fibonacci-in-nature.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

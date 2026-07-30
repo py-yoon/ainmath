@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>자연 속 피보나치 찾기</title>
+<meta name="description" content="씨앗이 자라는 각도를 슬라이더로 바꿔보면서, 겹치지 않고 가장 촘촘하게 채워지는 각도가 정확히 하나뿐이라는 걸 확인해요. 그 각도가 바로 황금각이에요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --amber:#E8A93A; --amber-soft:#FBF0DC;--amber-ink:#946511;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--green-ink);background:var(--green-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.2fr 0.8fr;gap:32px;align-items:start;margin-bottom:24px;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+svg{width:100%;max-width:420px;height:auto;display:block;margin:0 auto;background:var(--paper);border-radius:16px;}
+.slider-row{display:flex;align-items:center;gap:12px;margin-top:14px;}
+.slider-row label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);width:90px;flex:none;}
+.slider-row input[type=range]{flex:1;-webkit-appearance:none;height:8px;border-radius:999px;background:var(--green-soft);outline:none;}
+.slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--green);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,175,142,0.5);cursor:pointer;}
+.slider-row input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--green);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,175,142,0.5);cursor:pointer;}
+.slider-row input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--green-ink);min-width:52px;text-align:right;}
+.panel{display:flex;flex-direction:column;gap:16px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px;text-align:center;}
+.equation .formula{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.equation .result{font-family:'Do Hyeon',sans-serif;font-size:clamp(20px,3.6vw,26px);margin-top:6px;color:var(--green);}
+.fact{background:var(--amber-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+.fact b{color:var(--amber-ink);}
+
+.nature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px;}
+.nature-card{background:var(--card);border-radius:20px;box-shadow:var(--shadow);padding:22px;text-align:center;}
+.nature-card .icon{font-size:44px;margin-bottom:10px;}
+.nature-card h3{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:17px;margin:0 0 8px;}
+.nature-card p{font-size:14.5px;color:var(--ink-soft);line-height:1.6;margin:0;}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-fibonacci-in-nature.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🌻 자연 속 피보나치 찾기</span>
+  <h1>왜 하필 <span>137.5°</span>일까?<br>씨앗이 자라는 각도의 비밀</h1>
+  <p class="sub">각도를 슬라이더로 바꿔보면서, 씨앗이 촘촘하게 겹치지 않고 배열되는 각도가 정확히 하나뿐이라는 걸 확인해보세요. 그 각도가 바로 "황금각"이에요.</p>
+
+  <div class="stage">
+    <div>
+      <svg id="seedSvg" viewBox="0 0 300 300"></svg>
+    </div>
+    <div class="panel">
+      <div class="slider-row"><label>회전 각도</label><input type="range" id="angleSlider" min="1200" max="1500" value="1375" step="1"><span class="val" id="angleVal">137.5°</span></div>
+      <div class="slider-row"><label>씨앗 개수</label><input type="range" id="countSlider" min="20" max="500" value="200" step="1"><span class="val" id="countVal">200</span></div>
+      <div class="equation">
+        <div class="formula">황금각 = 360° ÷ φ²</div>
+        <div class="result">약 137.5°</div>
+      </div>
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+  <div class="nature-grid">
+    <div class="nature-card">
+      <div class="icon">🌻</div>
+      <h3>해바라기 씨앗</h3>
+      <p>씨앗마다 137.5°씩 돌아가며 자라서, 시계 방향과 반시계 방향으로 각각 나선 팔이 생겨요. 그 개수를 세어보면 대부분 34개와 55개처럼 이웃한 피보나치 수가 나와요.</p>
+    </div>
+    <div class="nature-card">
+      <div class="icon">🌲</div>
+      <h3>솔방울</h3>
+      <p>비늘 조각들도 같은 원리로 배열돼서, 나선 방향으로 세면 8개·13개처럼 피보나치 수를 이루는 나선을 볼 수 있어요.</p>
+    </div>
+    <div class="nature-card">
+      <div class="icon">🐚</div>
+      <h3>앵무조개 껍데기</h3>
+      <p>껍데기는 한 칸씩 자랄 때마다 일정한 비율(황금비, 약 1.618배)로 커지면서 감겨서, 매끄러운 나선 모양을 만들어요.</p>
+    </div>
+  </div>
+
+  <footer>φ(파이)는 황금비라고 불리는 수로, 약 1.618이에요. 황금각(137.5°)은 360°를 φ²으로 나눈 값인데, 이 각도만이 씨앗들을 겹치지 않고 가장 빽빽하게 채울 수 있어요.</footer>
+</div>
+
+<script>
+const seedSvg = document.getElementById('seedSvg');
+const angleSlider = document.getElementById('angleSlider');
+const countSlider = document.getElementById('countSlider');
+const angleVal = document.getElementById('angleVal');
+const countVal = document.getElementById('countVal');
+const factBox = document.getElementById('fact');
+
+const GOLDEN_ANGLE = 137.5;
+
+function render(){
+  const angle = parseInt(angleSlider.value)/10;
+  const n = parseInt(countSlider.value);
+  angleVal.textContent = angle.toFixed(1)+'°';
+  countVal.textContent = n;
+
+  const cx=150, cy=150;
+  const c = 6.2;
+  let html = '';
+  for(let i=0;i<n;i++){
+    const r = c*Math.sqrt(i);
+    const theta = i*angle*Math.PI/180;
+    const x = cx + r*Math.cos(theta);
+    const y = cy + r*Math.sin(theta);
+    const hue = 90 + (i%40);
+    html += `<circle cx="${x}" cy="${y}" r="3.2" fill="hsl(${100 - (i%30)}, 55%, 42%)"></circle>`;
+  }
+  seedSvg.innerHTML = html;
+
+  const diff = Math.abs(angle - GOLDEN_ANGLE);
+  if(diff < 0.15){
+    factBox.innerHTML = `지금이 정확히 <b>황금각(137.5°)</b>이에요! 씨앗들이 겹치지 않고 빈틈없이 촘촘하게 배열되는 걸 볼 수 있어요.`;
+  } else if(diff < 2){
+    factBox.innerHTML = `황금각에 꽤 가까워요. 그런데도 자세히 보면 씨앗들 사이에 살짝 빈 줄무늬가 보이기 시작해요.`;
+  } else {
+    factBox.innerHTML = `황금각(137.5°)에서 <b>${diff.toFixed(1)}°</b> 벗어났어요. 씨앗들이 직선 모양의 줄무늬를 이루며 배열돼서, 훨씬 엉성하고 빈 공간이 많이 생겨요.`;
+  }
+}
+
+angleSlider.addEventListener('input', render);
+countSlider.addEventListener('input', render);
+render();
+</script>
+</body>
+</html>

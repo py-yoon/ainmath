@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>스피로그래프, 숫자 비율이 그리는 무늬 | 아인매스</title>
+<meta name="description" content="큰 원과 작은 원의 반지름 비율이, 스피로그래프 무늬의 꽃잎 개수와 복잡함을 어떻게 결정하는지 알아봐요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#6847F7;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#6847F7;background:#EEE8FF">🌀 재미있는 패턴</span>
+  <h1>스피로그래프, 숫자 비율이 그리는 무늬</h1>
+  <p class="meta">초등 고학년 ~ 중학생 · 읽는 데 약 3분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>스피로그래프는 큰 원 모양의 틀 안에서, 톱니가 달린 작은 원을 굴리면서 그 원에 꽂은 펜이 그리는 무늬를 즐기는 장난감이에요. 작은 원이 큰 원 안쪽을 굴러가면서 꽃잎처럼 겹쳐진 아름다운 무늬를 만들어내는데, 이 무늬의 생김새는 전부 <b>두 원의 반지름 비율</b>로 결정돼요.</p>
+      <p>큰 원의 반지름을 R, 작은 원의 반지름을 r이라고 할게요. 이 둘을 가장 간단한 정수비로 나타냈을 때(예를 들어 R:r = 24:7이라면), 바로 그 작은 쪽 숫자(7)가 <b>완성된 무늬의 꽃잎(고리) 개수</b>가 돼요. 그리고 작은 원이 큰 원 테두리를 몇 바퀴 돌아야 펜이 처음 시작한 자리로 정확히 돌아오는지도, 이 간단한 비율의 작은 쪽 숫자와 같아요.</p>
+      <p>왜 이런 일이 벌어질까요? 작은 원이 큰 원 안쪽을 미끄러지지 않고 굴러가려면, 작은 원의 둘레가 큰 원의 둘레를 따라 정확히 맞물려야 해요. R과 r을 최대공약수로 나눈 두 수(예를 들어 24와 7)는 서로 약분할 수 없는 "가장 간단한 관계"를 나타내요. 이 두 수가 서로소(1 외에는 공약수가 없는 관계)이기 때문에, 작은 원은 큰 원을 여러 바퀴 돌고 나서야 비로소 처음 위치와 완전히 같은 자리, 같은 각도로 돌아오게 되는 거예요.</p>
+      <p>만약 R과 r의 최대공약수가 크다면 어떻게 될까요? 예를 들어 R=60, r=40이라면 최대공약수가 20이라서, 가장 간단한 비율은 3:2가 돼요. 이럴 땐 작은 원이 큰 원을 딱 2바퀴만 돌아도 무늬가 완성되고, 꽃잎도 2개뿐인 단순한 모양이 나와요. 반대로 최대공약수가 1에 가까운 두 수(예: 47과 19처럼 공약수가 거의 없는 수)를 고르면, 작은 원이 훨씬 여러 바퀴를 돌아야 하고, 그만큼 촘촘하고 화려한 무늬가 만들어져요.</p>
+      <p>펜을 꽂는 위치(작은 원의 중심에서 얼마나 떨어진 곳에 펜을 꽂는지, 이 거리를 d라고 해요)를 바꾸는 것도 무늬에 영향을 줘요. d가 작은 원의 반지름과 같으면 펜이 작은 원의 가장자리에 있는 셈이라 뾰족한 모양이 나오고, d가 그보다 작으면 부드럽게 둥근 꽃잎 모양이 나와요. 꽃잎의 <b>개수</b>는 R과 r의 비율이 정하고, 꽃잎의 <b>생김새</b>는 펜의 위치가 정하는 거예요.</p>
+      <p>저희 체험 페이지에서는 R, r, d를 각각 슬라이더로 조절하면서 최대공약수와 비율이 실시간으로 계산되는 걸 확인하고, 그 숫자가 실제로 그려지는 무늬의 꽃잎 개수와 정확히 일치하는지 눈으로 확인할 수 있어요. 색깔도 바꿔가며 나만의 무늬를 만들어보세요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="spirograph.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

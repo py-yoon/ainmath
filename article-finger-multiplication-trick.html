@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>손가락으로 9단 곱셈이 되는 이유 | 아인매스</title>
+<meta name="description" content="손가락만 접으면 9단 곱셈 답이 바로 나오는 트릭이 왜 통하는지, 9 = 10 - 1이라는 사실에서 그 비밀을 찾아봐요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 20px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#946511;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#946511;background:#FBF0DC">🌀 재미있는 패턴</span>
+  <h1>손가락으로 9단 곱셈이 되는 이유</h1>
+  <p class="meta">초등 저학년 ~ 고학년 · 읽는 데 약 3분</p>
+  <p style="background:#FBF0DC;color:var(--ink);border-radius:14px;padding:12px 16px;font-size:14.5px;line-height:1.6;margin:0 0 20px;">🧑‍🤝‍🧑 <b>부모님과 함께 읽어보세요.</b> 아직 혼자 읽기 어려운 낱말이 있을 수 있어요. 소리 내어 같이 읽으면 더 쉽게 이해할 수 있어요.</p>
+  <div class="card">
+    <div class="article-body">
+      <p>두 손을 펴고 왼쪽부터 1번, 2번... 10번까지 번호를 붙여보세요. 9×4를 계산하고 싶으면, 4번째 손가락을 접어보세요. 그러면 접은 손가락의 왼쪽에는 3개, 오른쪽에는 6개가 남아요. 이걸 이어 붙이면 36 — 정말로 9×4와 똑같아요! 어떤 숫자로 해봐도 이 트릭은 항상 딱 들어맞아요. 마법처럼 보이지만, 사실은 아주 단순한 수학 원리가 숨어 있어요.</p>
+      <p>비밀은 <b>9 = 10 - 1</b>이라는 사실에 있어요. 9×N을 계산하는 건, 사실 10×N을 계산한 다음 N을 한 번 빼는 것과 완전히 똑같아요(9×N = 10×N - N). 예를 들어 9×4는 10×4(=40)에서 4를 뺀 36과 같아요. 손가락 트릭은 바로 이 "10배 하고 하나 빼기" 과정을 손으로 직접 보여주는 방법이에요.</p>
+      <p>왜 접은 손가락 왼쪽이 십의 자리가 될까요? N번째 손가락을 접으면, 왼쪽에는 (N-1)개의 손가락이 남아요. 이 숫자가 바로 답의 십의 자리 숫자가 돼요. 그리고 오른쪽에는 (10-N)개가 남는데, 이게 일의 자리 숫자가 되고요. 두 숫자를 더해볼까요? (N-1) + (10-N) = 9예요. 항상 9가 나오죠. 십의 자리와 일의 자리를 합치면 늘 9가 되는 이유도, 사실 9단 곱셈표의 답들(9, 18, 27, 36...)의 각 자리 숫자를 더하면 항상 9가 되는 성질과 정확히 같은 이야기예요.</p>
+      <p>이 트릭이 재미있는 이유는, "외운 공식"이 아니라 "직접 확인할 수 있는 원리"라는 점이에요. 구구단 9단을 아직 다 못 외웠어도, 손가락만 있으면 9×1부터 9×10까지 전부 바로 계산할 수 있어요. 그리고 왜 그렇게 되는지 원리까지 이해하고 나면, 나중에 곱셈구구를 외울 때도 훨씬 친숙하게 느껴질 거예요.</p>
+      <p>이런 "손가락 계산법"은 사실 세계 여러 나라에서 오래전부터 전해 내려오는 암산 기술 중 하나예요. 계산기가 없던 시절, 사람들은 이렇게 몸을 이용해서 계산을 더 쉽게 만드는 다양한 방법들을 만들어냈어요. 9단뿐 아니라 두 자리 수 곱셈을 손가락으로 하는 방법도 있는데, 그것도 결국은 오늘 배운 것처럼 "왜 그렇게 되는지" 수학적으로 설명할 수 있어요.</p>
+      <p>저희 체험 페이지에서는 슬라이더로 몇 번째 손가락을 접을지 직접 골라보면서, 왼쪽·오른쪽에 남는 손가락 개수와 실제 곱셈 답이 정확히 일치하는지 눈으로 확인할 수 있어요. 여러 숫자로 시도해보면서 트릭이 정말 항상 통하는지 확인해보세요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="finger-multiplication-trick.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
