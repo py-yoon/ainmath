@@ -38,7 +38,14 @@ h1 span{color:var(--coral-ink);}
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
   display:grid;grid-template-columns: 1.2fr 0.8fr;gap:32px;align-items:start;}
 @media (max-width:820px){ .stage{grid-template-columns:1fr;} }
-svg{width:100%;max-width:420px;height:auto;display:block;margin:0 auto;background:var(--paper);border-radius:16px;}
+svg{width:100%;max-width:420px;height:auto;display:block;margin:0 auto;background:var(--paper);border-radius:16px;cursor:zoom-in;touch-action:none;}
+.zoom-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.zoom-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:12px;padding:8px 14px;cursor:pointer;transition:all .15s ease;}
+.zoom-btn:hover{border-color:var(--blue-ink);color:var(--blue-ink);}
+.zoom-btn:disabled{opacity:0.4;cursor:default;}
+.zoom-btn:disabled:hover{border-color:var(--paper-line);color:var(--ink-soft);}
+.zoom-pct{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);min-width:52px;text-align:center;}
+.zoom-hint{text-align:center;font-size:13px;color:var(--ink-soft);margin-top:8px;}
 .slider-row{display:flex;align-items:center;gap:12px;margin-top:16px;}
 .slider-row input[type=range]{flex:1;-webkit-appearance:none;height:8px;border-radius:999px;background:var(--blue-soft);outline:none;}
 .slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
@@ -70,6 +77,13 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <div class="stage">
     <div>
       <svg id="fractalSvg" viewBox="0 0 400 400"></svg>
+      <div class="zoom-row">
+        <button class="zoom-btn" id="zoomOutBtn">🔍− 축소</button>
+        <span class="zoom-pct" id="zoomPct">100%</span>
+        <button class="zoom-btn" id="zoomInBtn">🔍+ 확대</button>
+        <button class="zoom-btn" id="zoomResetBtn">⟲ 처음으로</button>
+      </div>
+      <p class="zoom-hint">그림에서 자세히 보고 싶은 자리를 클릭하면 그 위치가 확대돼요</p>
     </div>
     <div class="panel">
       <div class="slider-row">
@@ -114,6 +128,56 @@ const TABS = [
 ];
 let tab = 'koch';
 
+/* ==================== 확대/축소 ==================== */
+const FULL_VIEW = {x:0, y:0, w:400, h:400};
+const ZOOM_FACTOR = 0.65;
+const ZOOM_MIN_W = 400 * Math.pow(ZOOM_FACTOR, 9); // 확대 한계 (약 30배)
+let view = {...FULL_VIEW};
+
+const zoomInBtn = document.getElementById('zoomInBtn');
+const zoomOutBtn = document.getElementById('zoomOutBtn');
+const zoomResetBtn = document.getElementById('zoomResetBtn');
+const zoomPct = document.getElementById('zoomPct');
+
+function applyView(){
+  fractalSvg.setAttribute('viewBox', `${view.x} ${view.y} ${view.w} ${view.h}`);
+  const pct = Math.round(FULL_VIEW.w/view.w*100);
+  zoomPct.textContent = pct + '%';
+  zoomInBtn.disabled = view.w <= ZOOM_MIN_W + 0.01;
+  zoomOutBtn.disabled = view.w >= FULL_VIEW.w - 0.01;
+}
+
+// (cx, cy)를 중심으로 factor만큼 확대(<1)/축소(>1)해요. 화면 밖으로 벗어나지 않게 범위를 제한해요.
+function zoomAt(cx, cy, factor){
+  let w = Math.min(FULL_VIEW.w, Math.max(ZOOM_MIN_W, view.w*factor));
+  let h = w;
+  let x = cx - (cx-view.x)/view.w*w;
+  let y = cy - (cy-view.y)/view.h*h;
+  x = Math.min(FULL_VIEW.x+FULL_VIEW.w-w, Math.max(FULL_VIEW.x, x));
+  y = Math.min(FULL_VIEW.y+FULL_VIEW.h-h, Math.max(FULL_VIEW.y, y));
+  view = {x, y, w, h};
+  applyView();
+}
+
+function viewCenter(){
+  return { x: view.x+view.w/2, y: view.y+view.h/2 };
+}
+
+function svgPointFromEvent(e){
+  const rect = fractalSvg.getBoundingClientRect();
+  const px = (e.clientX-rect.left)/rect.width;
+  const py = (e.clientY-rect.top)/rect.height;
+  return { x: view.x+px*view.w, y: view.y+py*view.h };
+}
+
+zoomInBtn.addEventListener('click', ()=>{ const c=viewCenter(); zoomAt(c.x,c.y,ZOOM_FACTOR); });
+zoomOutBtn.addEventListener('click', ()=>{ const c=viewCenter(); zoomAt(c.x,c.y,1/ZOOM_FACTOR); });
+zoomResetBtn.addEventListener('click', ()=>{ view = {...FULL_VIEW}; applyView(); });
+fractalSvg.addEventListener('click', (e)=>{
+  const p = svgPointFromEvent(e);
+  zoomAt(p.x, p.y, ZOOM_FACTOR);
+});
+
 function buildTabs(){
   tabPicker.innerHTML = TABS.map(t=>`<button class="tab-btn${t.key===tab?' active':''}" data-k="${t.key}">${t.name}</button>`).join('');
   tabPicker.querySelectorAll('.tab-btn').forEach(btn=>{
@@ -122,6 +186,7 @@ function buildTabs(){
       const t = TABS.find(x=>x.key===tab);
       depthSlider.max = t.max;
       if(parseInt(depthSlider.value) > t.max) depthSlider.value = t.max;
+      view = {...FULL_VIEW};
       buildTabs();
       render();
     });
@@ -204,6 +269,7 @@ function render(){
 
 depthSlider.addEventListener('input', render);
 buildTabs();
+applyView();
 render();
 </script>
 </body>
