@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>정다면체는 왜 딱 5개뿐일까 | 아인매스</title>
+<meta name="description" content="모든 면이 합동인 정다각형으로 이루어진 입체도형, 정다면체는 무한히 많을 것 같지만 사실 정확히 5가지뿐이에요. 각도만 따져봐도 그 이유를 알 수 있어요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#1D7C7E;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#1D7C7E;background:#E4FAF9">🌀 재미있는 패턴</span>
+  <h1>정다면체는 왜 딱 5개뿐일까</h1>
+  <p class="meta">초등 고학년 ~ 중학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>정삼각형, 정사각형, 정오각형... 평면 위의 정다각형은 변의 개수를 늘려가면 끝없이 만들 수 있어요. 그럼 입체도형 중에서 "모든 면이 합동인 정다각형이고, 모든 꼭짓점에 똑같은 개수의 면이 모이는" 도형(이걸 <b>정다면체</b>라고 해요)도 무한히 많이 만들 수 있을까요? 신기하게도 답은 "아니요"예요. 정다면체는 우주에 정확히 <b>5가지</b>뿐이에요 — 정사면체, 정육면체, 정팔면체, 정십이면체, 정이십면체가 전부예요.</p>
+      <p>왜 5개뿐인지 알아보려면, 입체도형의 꼭짓점이 어떻게 만들어지는지부터 생각해봐야 해요. 평평한 종이 위에 정다각형 여러 개를 한 점에 모아놓고, 그 점을 살짝 들어 올려서 뾰족하게 접는다고 상상해보세요. 이때 <b>한 점에 모인 각의 합이 360°보다 작아야만</b> 종이가 남아서 뾰족하게 접혀요. 정확히 360°면 평평하게 다 펴져버리고, 360°를 넘으면 종이가 겹쳐서 아예 접을 수가 없어요. 그러니까 정다면체의 꼭짓점 하나하나는 전부 "각의 합이 360°보다 작은" 상태여야 하는 거예요.</p>
+      <p>이제 정다각형의 내각을 하나씩 따져볼게요. 정삼각형의 내각은 60°예요. 세 개를 모으면 180°, 네 개는 240°, 다섯 개는 300°로 아직 360°가 안 돼서 접을 수 있어요. 그런데 여섯 개를 모으면 정확히 360°가 되어 버려서 평평해지고, 더 이상 입체가 될 수 없어요. 그래서 정삼각형으로는 3개·4개·5개를 모은 세 가지 경우만 가능해요(각각 정사면체·정팔면체·정이십면체가 돼요). 정사각형의 내각은 90°라서 3개(270°)까지만 가능하고 4개(360°)는 평면이 돼요(정육면체). 정오각형의 내각은 108°라서 3개(324°)까지만 가능해요(정십이면체). 정육각형부터는 내각이 120°라서, 최소 개수인 3개만 모아도 이미 360°가 되어버려서 애초에 입체를 만들 수조차 없어요. 이렇게 하나하나 따져보면, 가능한 조합이 정확히 5가지뿐이라는 게 밝혀져요.</p>
+      <p>이 5가지 정다면체는 아주 오래전부터 알려져 있었어요. 고대 그리스의 수학자 유클리드는 그의 책 『원론』의 마지막 권을 정다면체가 정확히 5개뿐이라는 걸 증명하는 데 통째로 사용했어요. 철학자 플라톤은 이 다섯 도형이 불·흙·공기·물·우주(에테르)라는 다섯 가지 원소를 상징한다고 생각해서, 오늘날에도 정다면체를 "플라톤의 다면체"라고 부르기도 해요.</p>
+      <p>정다면체는 다른 신기한 성질도 갖고 있어요. 어떤 정다면체든 꼭짓점 수(V)에서 모서리 수(E)를 빼고 면의 수(F)를 더하면 항상 2가 나와요(V − E + F = 2). 이걸 <b>오일러의 공식</b>이라고 부르는데, 사실 이 공식은 정다면체뿐 아니라 찌그러지지 않은 모든 볼록다면체에서 성립하는 훨씬 더 일반적인 성질이에요. 정육면체를 예로 들면 꼭짓점 8개, 모서리 12개, 면 6개니까 8 − 12 + 6 = 2가 정확히 맞아떨어져요.</p>
+      <p>정다면체는 우리 주변에서도 쉽게 만날 수 있어요. 보드게임에 쓰는 주사위는 정육면체가 가장 흔하지만, 정사면체·정팔면체·정십이면체·정이십면체 모양 주사위도 실제로 팔아요. 정이십면체는 축구공 무늬(정확히는 정이십면체를 깎아 만든 준정다면체예요)와도 닮았고, 화학에서는 일부 바이러스의 겉껍질이나 분자 구조가 정이십면체 모양을 하고 있기도 해요. 수학적으로 딱 5개뿐이라는 사실이, 자연과 사람이 만든 물건 곳곳에서 반복해서 나타나는 셈이에요.</p>
+      <p>저희 체험 페이지에서는 정다각형의 변의 수(n)와 한 꼭짓점에 모이는 면의 수(p)를 슬라이더로 직접 바꿔가며, 각의 합이 360°를 넘는 순간 도형이 왜 만들어지지 않는지 확인할 수 있어요. 그리고 다섯 정다면체를 3D로 직접 돌려보면서 꼭짓점·모서리·면의 개수도 확인해보세요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="platonic-solids-lab.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
