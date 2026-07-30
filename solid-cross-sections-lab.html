@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>입체도형 단면 탐구 실험실</title>
+<meta name="description" content="원뿔·원기둥·육면체·삼각기둥·사각뿔을 3D로 돌려보고 잘라보면서, 자르는 각도와 위치에 따라 단면 모양이 어떻게 달라지는지 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --gold:#E8A200; --gold-soft:#FCEFD1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1080px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--violet-ink);}
+h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(19px,2.6vw,23px);margin:0 0 6px;}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:72ch;margin:0 0 24px;}
+.card{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:26px clamp(16px,4vw,38px) 30px;margin-bottom:24px;}
+
+.solid-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.solid-tab{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:11px 18px;cursor:pointer;transition:all .15s ease;}
+.solid-tab:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.solid-tab.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+.stage{display:grid;grid-template-columns:1.15fr 0.85fr;gap:28px;align-items:start;}
+@media (max-width:880px){ .stage{grid-template-columns:1fr;} }
+
+#threeWrap{width:100%;height:340px;border-radius:18px;background:linear-gradient(180deg,var(--paper) 0%, #F1EAD8 100%);overflow:hidden;position:relative;cursor:grab;touch-action:none;}
+#threeWrap:active{cursor:grabbing;}
+.drag-hint{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-family:'Do Hyeon',sans-serif;font-size:12px;color:var(--ink-soft);background:rgba(255,255,255,0.75);padding:4px 12px;border-radius:999px;pointer-events:none;}
+
+.preset-row{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 18px;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:13.5px;background:var(--violet-soft);border:2px solid transparent;color:var(--violet-ink);border-radius:999px;padding:8px 15px;cursor:pointer;transition:all .15s ease;}
+.preset-btn:hover{background:var(--violet);color:#fff;}
+
+.slider-row{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+.slider-row .label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);}
+.slider-row .label b{font-size:18px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--violet-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.45);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.45);cursor:pointer;}
+
+.panel{display:flex;flex-direction:column;gap:14px;}
+.section-hint{background:var(--blue-soft);border-radius:16px;padding:14px 16px;font-size:13.5px;line-height:1.7;color:var(--ink);}
+.section-hint b{color:var(--blue-ink);}
+.cross-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:16px;text-align:center;}
+.cross-box svg{width:100%;max-width:230px;height:auto;display:block;margin:0 auto;}
+.cross-label{font-family:'Do Hyeon',sans-serif;font-size:19px;color:var(--violet-ink);margin-top:8px;}
+.empty-msg{font-size:13.5px;color:var(--ink-soft);padding:30px 10px;}
+.fact{background:var(--violet-soft);border-radius:16px;padding:14px 16px;font-size:13.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--violet-ink);}
+
+footer{max-width:1080px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;line-height:1.8;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-solid-cross-sections-lab.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🔺 입체도형 단면 탐구 실험실</span>
+  <h1>입체도형을 잘라보면<br><span>단면의 모양</span>이 달라져요</h1>
+  <p class="sub">원뿔을 어떻게 자르느냐에 따라 원, 타원, 포물선, 쌍곡선이 나오는 것처럼, 원기둥이나 육면체도 자르는 각도와 위치에 따라 완전히 다른 모양의 단면이 나와요. 아래에서 도형을 고르고, 각도와 위치를 직접 움직여서 단면이 어떻게 변하는지 확인해보세요.</p>
+
+  <div class="card">
+    <div class="solid-tabs" id="solidTabs"></div>
+
+    <div class="stage">
+      <div>
+        <div id="threeWrap"><div class="drag-hint">드래그해서 회전 · 회색 판이 자르는 면이에요</div></div>
+
+        <div class="preset-row" id="presetRow"></div>
+
+        <div class="slider-row">
+          <div class="label"><span id="thetaLabel">기울기 (θ)</span><b id="thetaVal">0°</b></div>
+          <input type="range" id="thetaSlider" min="0" max="90" step="1" value="0">
+        </div>
+        <div class="slider-row" id="phiRow" style="display:none;">
+          <div class="label"><span>자르는 방향 (φ)</span><b id="phiVal">0°</b></div>
+          <input type="range" id="phiSlider" min="0" max="360" step="1" value="0">
+        </div>
+        <div class="slider-row">
+          <div class="label"><span id="offsetLabel">자르는 위치</span><b id="offsetVal">0.0</b></div>
+          <input type="range" id="offsetSlider" min="-100" max="100" step="1" value="0">
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="section-hint" id="solidHint"></div>
+        <div class="cross-box">
+          <svg id="crossSvg" viewBox="0 0 240 240"></svg>
+          <div class="cross-label" id="crossLabel">원</div>
+        </div>
+        <div class="fact" id="factBox"></div>
+      </div>
+    </div>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="unit-cube-count.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">쌓기나무 세어보기</span>
+    </a>
+    <a href="pythagorean-theorem.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">피타고라스 정리</span>
+    </a>
+  </nav>
+<footer>정다면체 실험실에서 확인했던 "각도의 합"과 마찬가지로, 단면의 모양도 결국 자르는 평면과 도형의 관계로 정확히 설명돼요. 원뿔을 자르는 각도가 모선(비스듬한 옆면)과 평행해지는 순간 포물선이, 그보다 더 가파르게 자르면 위아래 두 조각(쌍곡선)이 나타나요.</footer>
+</div>
+
+<script>
+/* ==================== 도형(면) 데이터 생성 ==================== */
+function buildCubeFaces(hs){
+  const p=(x,y,z)=>new THREE.Vector3(x,y,z);
+  const A=p(-hs,-hs,-hs),B=p(hs,-hs,-hs),C=p(hs,hs,-hs),D=p(-hs,hs,-hs);
+  const E=p(-hs,-hs,hs),F=p(hs,-hs,hs),G=p(hs,hs,hs),H=p(-hs,hs,hs);
+  return [ [A,B,C,D],[F,E,H,G],[E,A,D,H],[B,F,G,C],[E,F,B,A],[D,C,G,H] ];
+}
+function buildCylinderFaces(R,H,N){
+  const bottom=[],top=[];
+  for(let i=0;i<N;i++){
+    const a=i/N*Math.PI*2;
+    bottom.push(new THREE.Vector3(R*Math.cos(a),-H/2,R*Math.sin(a)));
+    top.push(new THREE.Vector3(R*Math.cos(a),H/2,R*Math.sin(a)));
+  }
+  const faces=[];
+  for(let i=0;i<N;i++){ const j=(i+1)%N; faces.push([bottom[i],bottom[j],top[j],top[i]]); }
+  faces.push(bottom.slice());
+  faces.push(top.slice().reverse());
+  return faces;
+}
+function buildDoubleConeFaces(R,H,N){
+  const apex=new THREE.Vector3(0,0,0);
+  const upper=[],lower=[];
+  for(let i=0;i<N;i++){
+    const a=i/N*Math.PI*2;
+    upper.push(new THREE.Vector3(R*Math.cos(a),H,R*Math.sin(a)));
+    lower.push(new THREE.Vector3(R*Math.cos(a),-H,R*Math.sin(a)));
+  }
+  const faces=[];
+  for(let i=0;i<N;i++){
+    const j=(i+1)%N;
+    faces.push([apex,upper[i],upper[j]]);
+    faces.push([apex,lower[j],lower[i]]);
+  }
+  faces.push(upper.slice());
+  faces.push(lower.slice().reverse());
+  return faces;
+}
+function buildTriangularPrismFaces(r,H){
+  const angs=[90,210,330].map(d=>d*Math.PI/180);
+  const bottom=angs.map(a=>new THREE.Vector3(r*Math.cos(a), -H/2, r*Math.sin(a)));
+  const top=angs.map(a=>new THREE.Vector3(r*Math.cos(a), H/2, r*Math.sin(a)));
+  const faces=[];
+  for(let i=0;i<3;i++){ const j=(i+1)%3; faces.push([bottom[i],bottom[j],top[j],top[i]]); }
+  faces.push(bottom.slice());
+  faces.push(top.slice().reverse());
+  return faces;
+}
+function buildSquarePyramidFaces(hw,H){
+  const apex=new THREE.Vector3(0,H/2,0);
+  const base=[
+    new THREE.Vector3(-hw,-H/2,-hw), new THREE.Vector3(hw,-H/2,-hw),
+    new THREE.Vector3(hw,-H/2,hw), new THREE.Vector3(-hw,-H/2,hw),
+  ];
+  const faces=[];
+  for(let i=0;i<4;i++){ const j=(i+1)%4; faces.push([apex,base[i],base[j]]); }
+  faces.push(base.slice().reverse());
+  return faces;
+}
+function buildRenderGeometry(faces){
+  const positions=[];
+  faces.forEach(face=>{
+    for(let i=1;i<face.length-1;i++){
+      const a=face[0], b=face[i], c=face[i+1];
+      positions.push(a.x,a.y,a.z, b.x,b.y,b.z, c.x,c.y,c.z);
+    }
+  });
+  const geo=new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(positions,3));
+  geo.computeVertexNormals();
+  return geo;
+}
+
+/* ==================== 평면-도형 교차선(단면) 계산 ==================== */
+function computeCrossSection(faces, p0, n){
+  const EPS=1e-6;
+  const segments=[];
+  faces.forEach(face=>{
+    const m=face.length;
+    const dist=face.map(v=>(v.x-p0.x)*n.x+(v.y-p0.y)*n.y+(v.z-p0.z)*n.z);
+    const pts=[];
+    for(let i=0;i<m;i++){
+      const d1=dist[i], d2=dist[(i+1)%m];
+      if((d1>EPS&&d2<-EPS)||(d1<-EPS&&d2>EPS)){
+        const t=d1/(d1-d2);
+        const v1=face[i], v2=face[(i+1)%m];
+        pts.push(new THREE.Vector3(v1.x+(v2.x-v1.x)*t, v1.y+(v2.y-v1.y)*t, v1.z+(v2.z-v1.z)*t));
+      }
+    }
+    if(pts.length>=2) segments.push([pts[0],pts[1]]);
+  });
+  const keyOf=v=>`${v.x.toFixed(3)}_${v.y.toFixed(3)}_${v.z.toFixed(3)}`;
+  const nodeMap=new Map();
+  segments.forEach(([a,b])=>{
+    const ka=keyOf(a), kb=keyOf(b);
+    if(!nodeMap.has(ka)) nodeMap.set(ka,{point:a, neighbors:[]});
+    if(!nodeMap.has(kb)) nodeMap.set(kb,{point:b, neighbors:[]});
+    nodeMap.get(ka).neighbors.push(kb);
+    nodeMap.get(kb).neighbors.push(ka);
+  });
+  const visited=new Set();
+  const loops=[];
+  for(const [key] of nodeMap){
+    if(visited.has(key)) continue;
+    const loopKeys=[]; let curKey=key, prevKey=null; let safety=0;
+    while(safety++<4000){
+      loopKeys.push(curKey); visited.add(curKey);
+      const nb=nodeMap.get(curKey).neighbors;
+      let nextKey = (nb[0]===prevKey) ? nb[1] : nb[0];
+      if(nextKey===undefined || nextKey===key) break;
+      if(visited.has(nextKey)) break;
+      prevKey=curKey; curKey=nextKey;
+    }
+    if(loopKeys.length>=3) loops.push(loopKeys.map(k=>nodeMap.get(k).point));
+  }
+  return loops;
+}
+
+/* ==================== 도형 설정 ==================== */
+const SOLIDS = {
+  cone: {
+    label:'원뿔 (이중원뿔)', color:0xE8A200, cssColor:'var(--gold)',
+    build: ()=>buildDoubleConeFaces(1.1,1.6,56),
+    thetaMax:85, hasPhi:false, offsetMin:-100, offsetMax:100, offsetScale:1.6, maxExtent:3.6, defaultTheta:0, defaultOffset:38,
+    hint:'원뿔을 위아래로 맞붙인 <b>이중원뿔</b>이에요. 각도를 0°에서부터 천천히 올려보면 원 → 타원 → 포물선 → 쌍곡선 순서로 단면이 바뀌는 걸 볼 수 있어요.',
+    presets:[ {label:'원', theta:0, offset:38}, {label:'타원', theta:35, offset:60}, {label:'포물선', theta:55, offset:45}, {label:'쌍곡선', theta:75, offset:19} ],
+  },
+  cylinder: {
+    label:'원기둥', color:0x4C8BF5, cssColor:'var(--blue)',
+    build: ()=>buildCylinderFaces(1.1,2.2,56),
+    thetaMax:90, hasPhi:false, offsetMin:-100, offsetMax:100, offsetScale:1.3, maxExtent:2.6, defaultTheta:0, defaultOffset:0,
+    hint:'밑면과 평행하게 자르면 <b>원</b>, 비스듬히 자르면 <b>타원</b>, 옆면과 나란한 방향으로 똑바로 자르면 <b>직사각형</b>이 나와요. 자르는 위치는 이제 자르는 방향을 따라 정확히 이동해요.',
+    presets:[ {label:'원', theta:0, offset:0}, {label:'타원', theta:35, offset:0}, {label:'직사각형', theta:90, offset:0} ],
+  },
+  cube: {
+    label:'육면체', color:0xFF5B57, cssColor:'var(--coral)',
+    build: ()=>buildCubeFaces(1.1),
+    thetaMax:90, hasPhi:true, offsetMin:-100, offsetMax:100, offsetScale:2.0, maxExtent:3.2, defaultTheta:0, defaultPhi:0, defaultOffset:20,
+    hint:'각도(θ)와 방향(φ)을 함께 조절해보세요. 정육면체의 <b>한가운데 대각선에 수직</b>으로 자르면 정육각형이 나오는 신기한 경우도 있어요. 오각형이 나오는 자리도 숨어있으니 직접 찾아보세요!',
+    presets:[ {label:'정사각형', theta:0, phi:0, offset:20}, {label:'직사각형', theta:40, phi:0, offset:0}, {label:'삼각형', theta:55, phi:45, offset:65}, {label:'육각형', theta:55, phi:45, offset:0} ],
+  },
+  prism: {
+    label:'삼각기둥', color:0x4CAF8E, cssColor:'var(--green)',
+    build: ()=>buildTriangularPrismFaces(1.3,2.2),
+    thetaMax:90, hasPhi:true, offsetMin:-100, offsetMax:100, offsetScale:1.4, maxExtent:2.6, defaultTheta:0, defaultPhi:0, defaultOffset:0,
+    hint:'밑면과 평행하게 자르면 밑면과 똑같은 <b>삼각형</b>이 나와요. 옆면과 나란하게 세로로 자르면 <b>직사각형</b>이, 비스듬히 자르면 <b>사다리꼴</b>이 나오는 자리도 있으니 각도와 방향을 함께 움직여보세요.',
+    presets:[ {label:'삼각형', theta:0, phi:0, offset:0}, {label:'직사각형', theta:90, phi:90, offset:0} ],
+  },
+  pyramid: {
+    label:'사각뿔', color:0x9C6ADE, cssColor:'#9C6ADE',
+    build: ()=>buildSquarePyramidFaces(1.2,2.0),
+    thetaMax:88, hasPhi:true, offsetMin:-100, offsetMax:100, offsetScale:1.0, maxExtent:3.0, defaultTheta:0, defaultPhi:0, defaultOffset:-35,
+    hint:'밑면과 평행하게 자르면 언제나 <b>정사각형</b>이에요(높이에 따라 크기만 달라져요). 각도를 기울이면 <b>삼각형</b>이나 <b>오각형</b>이 나오는 자리도 있으니 직접 탐험해보세요.',
+    presets:[ {label:'큰 정사각형(밑면 근처)', theta:0, phi:0, offset:-35}, {label:'작은 정사각형(꼭짓점 근처)', theta:0, phi:0, offset:35} ],
+  },
+};
+const SOLID_ORDER=['cone','cylinder','cube','prism','pyramid'];
+
+/* ==================== 상태 ==================== */
+let currentKey='cone';
+let theta=0, phi=0, offsetPct=38; // offsetPct: -100..100 (도형별 offsetScale을 곱해 실제 위치로 변환)
+let currentFaces=[], currentExtent=1;
+
+/* ==================== Three.js 초기화 ==================== */
+const threeWrap=document.getElementById('threeWrap');
+let scene,camera,renderer,solidMesh,crossMeshes=[],planeMesh,rig;
+let isDragging=false, prevX=0, prevY=0, rotX=-0.35, rotY=0.6, autoRotate=true;
+
+function initThree(){
+  const width=threeWrap.clientWidth, height=threeWrap.clientHeight;
+  scene=new THREE.Scene();
+  rig=new THREE.Group();
+  scene.add(rig);
+  camera=new THREE.PerspectiveCamera(45,width/height,0.1,100);
+  camera.position.set(0,0,6.4);
+  renderer=new THREE.WebGLRenderer({antialias:true, alpha:true});
+  renderer.setSize(width,height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+  threeWrap.appendChild(renderer.domElement);
+
+  scene.add(new THREE.AmbientLight(0xffffff,0.75));
+  const d1=new THREE.DirectionalLight(0xffffff,0.7); d1.position.set(3,4,5); scene.add(d1);
+  const d2=new THREE.DirectionalLight(0xffffff,0.3); d2.position.set(-4,-2,-3); scene.add(d2);
+
+  const dom=renderer.domElement;
+  dom.style.touchAction='none';
+  dom.addEventListener('pointerdown',(e)=>{isDragging=true;autoRotate=false;prevX=e.clientX;prevY=e.clientY;dom.setPointerCapture(e.pointerId);});
+  dom.addEventListener('pointerup',()=>isDragging=false);
+  dom.addEventListener('pointercancel',()=>isDragging=false);
+  dom.addEventListener('pointermove',(e)=>{
+    if(!isDragging) return;
+    const dx=e.clientX-prevX, dy=e.clientY-prevY;
+    rotY+=dx*0.012; rotX+=dy*0.012;
+    rotX=Math.max(Math.min(rotX,1.4),-1.4);
+    prevX=e.clientX; prevY=e.clientY;
+  });
+  window.addEventListener('resize', onResize);
+
+  switchSolid('cone');
+  animate();
+}
+function onResize(){
+  const width=threeWrap.clientWidth, height=threeWrap.clientHeight;
+  if(!width||!height) return;
+  camera.aspect=width/height; camera.updateProjectionMatrix();
+  renderer.setSize(width,height);
+}
+function animate(){
+  requestAnimationFrame(animate);
+  if(autoRotate) rotY+=0.004;
+  rig.rotation.x=rotX; rig.rotation.y=rotY;
+  renderer.render(scene,camera);
+}
+
+function clearGroup(){
+  if(solidMesh){ rig.remove(solidMesh); }
+  if(planeMesh){ rig.remove(planeMesh); }
+  crossMeshes.forEach(m=>rig.remove(m));
+  crossMeshes=[];
+}
+
+function switchSolid(key){
+  currentKey=key;
+  const cfg=SOLIDS[key];
+  theta=cfg.defaultTheta; phi=cfg.hasPhi?cfg.defaultPhi:0; offsetPct=cfg.defaultOffset;
+
+  document.querySelectorAll('.solid-tab').forEach(b=>b.classList.toggle('active', b.dataset.k===key));
+  document.getElementById('solidHint').innerHTML=cfg.hint;
+
+  thetaSlider.max=cfg.thetaMax; thetaSlider.value=theta;
+  phiRow.style.display=cfg.hasPhi?'flex':'none';
+  phiSlider.value=phi;
+  offsetSlider.min=cfg.offsetMin; offsetSlider.max=cfg.offsetMax; offsetSlider.value=offsetPct;
+
+  presetRow.innerHTML=cfg.presets.map((p,i)=>`<button class="preset-btn" data-i="${i}">${p.label}</button>`).join('');
+
+  clearGroup();
+  currentFaces=cfg.build();
+  const geo=buildRenderGeometry(currentFaces);
+  const mat=new THREE.MeshPhongMaterial({color:cfg.color, transparent:true, opacity:0.45, shininess:40, side:THREE.DoubleSide});
+  solidMesh=new THREE.Mesh(geo,mat);
+  const edges=new THREE.EdgesGeometry(geo, 5);
+  solidMesh.add(new THREE.LineSegments(edges, new THREE.LineBasicMaterial({color:0x22283A})));
+  rig.add(solidMesh);
+
+  const pgeo=new THREE.PlaneGeometry(4.4,4.4);
+  const pmat=new THREE.MeshBasicMaterial({color:0x22283A, transparent:true, opacity:0.10, side:THREE.DoubleSide});
+  planeMesh=new THREE.Mesh(pgeo,pmat);
+  rig.add(planeMesh);
+
+  updateAll();
+}
+
+/* ==================== 슬라이더 값 -> 실제 평면 파라미터 ==================== */
+function currentPlane(){
+  const cfg=SOLIDS[currentKey];
+  const thetaRad=theta*Math.PI/180, phiRad=phi*Math.PI/180;
+  const n=new THREE.Vector3(Math.sin(thetaRad)*Math.cos(phiRad), Math.cos(thetaRad), Math.sin(thetaRad)*Math.sin(phiRad)).normalize();
+  // 자르는 위치는 "중심에서 자르는 방향(법선)을 따라 얼마나 떨어져 있는지"로 정의해요.
+  // (예전에는 항상 y축으로만 옮겨서, 기울기가 클수록 실제 위치가 슬라이더와 어긋났어요.)
+  let d = offsetPct/100 * cfg.offsetScale;
+  if(Math.abs(d)<0.02) d = d>=0?0.02:-0.02;
+  const p0 = n.clone().multiplyScalar(d);
+  return {n,p0};
+}
+
+/* ==================== 단면 계산 + 3D/2D 렌더 ==================== */
+const crossSvg=document.getElementById('crossSvg');
+const crossLabel=document.getElementById('crossLabel');
+const factBox=document.getElementById('factBox');
+
+function simplifyPolygon(pts, epsilonDeg){
+  const n=pts.length;
+  if(n<=3) return pts;
+  const keep=[];
+  for(let i=0;i<n;i++){
+    const prev=pts[(i-1+n)%n], cur=pts[i], next=pts[(i+1)%n];
+    const v1x=cur.x-prev.x, v1y=cur.y-prev.y;
+    const v2x=next.x-cur.x, v2y=next.y-cur.y;
+    const cross=v1x*v2y-v1y*v2x;
+    const len1=Math.hypot(v1x,v1y)||1, len2=Math.hypot(v2x,v2y)||1;
+    const sinA=Math.min(1, Math.abs(cross)/(len1*len2));
+    const angleDeg=Math.asin(sinA)*180/Math.PI;
+    if(angleDeg>epsilonDeg) keep.push(cur);
+  }
+  return keep.length>=3?keep:pts;
+}
+
+function labelForLoops(solidKey, loops2D){
+  if(loops2D.length>=2) return '쌍곡선 (두 갈래로 갈라져요)';
+  const pts=loops2D[0];
+  const simplified=simplifyPolygon(pts,4);
+  if(simplified.length<=8){
+    const names={3:'삼각형',4:'사각형',5:'오각형',6:'육각형',7:'칠각형',8:'팔각형'};
+    let label=names[simplified.length]||`${simplified.length}각형`;
+    if(simplified.length===4){
+      const lens=[], mids=[];
+      for(let i=0;i<4;i++){
+        const a=simplified[i], b=simplified[(i+1)%4];
+        lens.push(Math.hypot(a.x-b.x,a.y-b.y));
+        mids.push({x:(a.x+b.x)/2, y:(a.y+b.y)/2});
+      }
+      const avg=lens.reduce((s,x)=>s+x,0)/4;
+      const allEqual=lens.every(l=>Math.abs(l-avg)<avg*0.06);
+      const oppEqual = Math.abs(lens[0]-lens[2])<avg*0.06 && Math.abs(lens[1]-lens[3])<avg*0.06;
+      // 인접한 두 변이 직각을 이루는지 확인
+      const v1x=simplified[1].x-simplified[0].x, v1y=simplified[1].y-simplified[0].y;
+      const v2x=simplified[3].x-simplified[0].x, v2y=simplified[3].y-simplified[0].y;
+      const dot=Math.abs(v1x*v2x+v1y*v2y)/((Math.hypot(v1x,v1y)||1)*(Math.hypot(v2x,v2y)||1));
+      const isRightAngle = dot<0.08;
+      if(allEqual) label='정사각형';
+      else if(oppEqual && isRightAngle) label='직사각형';
+      else if(oppEqual) label='평행사변형';
+      else label='사다리꼴 또는 사각형';
+    }
+    return label;
+  }
+  const xs=pts.map(p=>p.x), ys=pts.map(p=>p.y);
+  const w=Math.max(...xs)-Math.min(...xs), h=Math.max(...ys)-Math.min(...ys);
+  const ratio=Math.max(w,h)/Math.max(0.0001,Math.min(w,h));
+  if(solidKey==='cone'){
+    let maxEdge=0, totalLen=0;
+    for(let i=0;i<pts.length;i++){ const a=pts[i], b=pts[(i+1)%pts.length]; const l=Math.hypot(a.x-b.x,a.y-b.y); maxEdge=Math.max(maxEdge,l); totalLen+=l; }
+    if(maxEdge>totalLen*0.26) return '포물선에 가까운 모양 (밑면에서 잘려서 닫혀 보여요)';
+  }
+  if(ratio<1.08) return '원';
+  return '타원';
+}
+
+function project2D(loop, n, p0){
+  const worldUp=Math.abs(n.y)<0.9? new THREE.Vector3(0,1,0) : new THREE.Vector3(1,0,0);
+  const u=new THREE.Vector3().crossVectors(worldUp,n).normalize();
+  const v=new THREE.Vector3().crossVectors(n,u).normalize();
+  return loop.map(pt=>{
+    const rel=new THREE.Vector3().subVectors(pt,p0);
+    return {x: rel.dot(u), y: rel.dot(v)};
+  });
+}
+
+function updateAll(){
+  thetaVal.textContent=theta.toFixed(0)+'°';
+  phiVal.textContent=phi.toFixed(0)+'°';
+  offsetVal.textContent=(offsetPct/100*SOLIDS[currentKey].offsetScale).toFixed(2);
+
+  const {n,p0}=currentPlane();
+  planeMesh.position.copy(p0);
+  const q=new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,0,1), n);
+  planeMesh.quaternion.copy(q);
+
+  crossMeshes.forEach(m=>rig.remove(m));
+  crossMeshes=[];
+
+  const loops=computeCrossSection(currentFaces,p0,n);
+
+  if(loops.length===0){
+    factBox.innerHTML='이 위치/각도에서는 평면이 도형을 지나가지 않아요. 슬라이더를 움직여보세요.';
+    crossSvg.innerHTML=`<text x="120" y="125" text-anchor="middle" font-family="Gowun Dodum" font-size="13" fill="var(--ink-soft)">단면 없음</text>`;
+    crossLabel.textContent='—';
+    return;
+  }
+
+  const accentColors=[0x6C4CF7, 0xFF5B57];
+  loops.forEach((loop,idx)=>{
+    const positions=[];
+    for(let i=1;i<loop.length-1;i++){
+      const a=loop[0], b=loop[i], c=loop[i+1];
+      positions.push(a.x,a.y,a.z, b.x,b.y,b.z, c.x,c.y,c.z);
+    }
+    const geo=new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(positions,3));
+    geo.computeVertexNormals();
+    const mat=new THREE.MeshBasicMaterial({color:accentColors[idx%accentColors.length], side:THREE.DoubleSide, transparent:true, opacity:0.85});
+    const mesh=new THREE.Mesh(geo,mat);
+    rig.add(mesh);
+    crossMeshes.push(mesh);
+
+    const linePositions=[];
+    loop.forEach(pt=>linePositions.push(pt.x,pt.y,pt.z));
+    linePositions.push(loop[0].x,loop[0].y,loop[0].z);
+    const lineGeo=new THREE.BufferGeometry();
+    lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePositions,3));
+    const line=new THREE.Line(lineGeo, new THREE.LineBasicMaterial({color:0x22283A, linewidth:2}));
+    rig.add(line);
+    crossMeshes.push(line);
+  });
+
+  const projected=loops.map(loop=>project2D(loop,n,p0));
+  const allPts=projected.flat();
+  const xs=allPts.map(p=>p.x), ys=allPts.map(p=>p.y);
+  const minX=Math.min(...xs), maxX=Math.max(...xs), minY=Math.min(...ys), maxY=Math.max(...ys);
+  const w=Math.max(maxX-minX,0.01), h=Math.max(maxY-minY,0.01);
+  // 도형별 "가장 큰 단면 크기" 기준으로 고정 배율을 사용해서, 자르는 위치에 따라 단면이 실제로 커지고 작아지는 게 보이도록 해요.
+  // (넘칠 때만 안전하게 추가로 축소해요.)
+  const fixedScale = 190/SOLIDS[currentKey].maxExtent;
+  const scale = Math.min(fixedScale, 190/Math.max(w,h));
+  const cx=(minX+maxX)/2, cy=(minY+maxY)/2;
+  const toSvg=(p)=>({ x: 120+(p.x-cx)*scale, y: 120-(p.y-cy)*scale });
+
+  const colors=['var(--violet)','var(--coral)'];
+  const refR = (SOLIDS[currentKey].maxExtent/2)*fixedScale;
+  let svgHtml=`<circle cx="120" cy="120" r="${refR.toFixed(1)}" fill="none" stroke="var(--paper-line)" stroke-width="1.5" stroke-dasharray="4 5"></circle>`;
+  projected.forEach((pts,idx)=>{
+    const svgPts=pts.map(toSvg);
+    const pointsStr=svgPts.map(p=>`${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+    svgHtml+=`<polygon points="${pointsStr}" fill="${colors[idx%colors.length]}" fill-opacity="0.35" stroke="${colors[idx%colors.length]}" stroke-width="2.5"></polygon>`;
+  });
+  crossSvg.innerHTML=svgHtml;
+
+  const label=labelForLoops(currentKey, projected);
+  crossLabel.textContent=label;
+
+  const cfg=SOLIDS[currentKey];
+  factBox.innerHTML=`지금 각도(θ=${theta.toFixed(0)}°)${cfg.hasPhi?`, 방향(φ=${phi.toFixed(0)}°)`:''}로 자르면 <b>${label}</b> 모양의 단면이 나와요.`;
+}
+
+/* ==================== UI 연결 ==================== */
+const solidTabs=document.getElementById('solidTabs');
+solidTabs.innerHTML=SOLID_ORDER.map(k=>`<button class="solid-tab" data-k="${k}">${SOLIDS[k].label}</button>`).join('');
+solidTabs.addEventListener('click',(e)=>{
+  const btn=e.target.closest('.solid-tab'); if(!btn) return;
+  switchSolid(btn.dataset.k);
+});
+
+const thetaSlider=document.getElementById('thetaSlider');
+const phiSlider=document.getElementById('phiSlider');
+const offsetSlider=document.getElementById('offsetSlider');
+const thetaVal=document.getElementById('thetaVal');
+const phiVal=document.getElementById('phiVal');
+const offsetVal=document.getElementById('offsetVal');
+const phiRow=document.getElementById('phiRow');
+const presetRow=document.getElementById('presetRow');
+
+thetaSlider.addEventListener('input',()=>{ theta=parseFloat(thetaSlider.value); updateAll(); });
+phiSlider.addEventListener('input',()=>{ phi=parseFloat(phiSlider.value); updateAll(); });
+offsetSlider.addEventListener('input',()=>{ offsetPct=parseFloat(offsetSlider.value); updateAll(); });
+
+presetRow.addEventListener('click',(e)=>{
+  const btn=e.target.closest('.preset-btn'); if(!btn) return;
+  const cfg=SOLIDS[currentKey];
+  const preset=cfg.presets[parseInt(btn.dataset.i)];
+  theta=preset.theta; phi=preset.phi||0; offsetPct=preset.offset;
+  thetaSlider.value=theta; phiSlider.value=phi; offsetSlider.value=offsetPct;
+  updateAll();
+});
+
+if(window.THREE){ initThree(); } else {
+  threeWrap.innerHTML='<div style="padding:20px;font-size:13px;color:var(--ink-soft);">3D 뷰어를 불러오지 못했어요. 네트워크 연결을 확인해주세요.</div>';
+}
+</script>
+</body>
+</html>
