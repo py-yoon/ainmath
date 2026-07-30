@@ -40,10 +40,10 @@ svg{width:100%;max-width:560px;height:auto;overflow:visible;touch-action:none;ma
 .piece{cursor:grab;}
 .piece:active{cursor:grabbing;}
 .piece.selected{filter:drop-shadow(0 0 0 3px var(--ink));}
+.rotate-guide{pointer-events:none;}
 .rotate-handle{cursor:grab;}
 .rotate-handle:active{cursor:grabbing;}
-.rotate-handle circle{fill:#fff;stroke:var(--ink);stroke-width:2;}
-.rotate-handle line{stroke:var(--ink);stroke-width:2;}
+.rotate-handle:hover circle{filter:brightness(1.08);}
 .snap-flash{animation:snapPulse .3s ease;}
 @keyframes snapPulse{ 0%{ filter:drop-shadow(0 0 6px var(--green)); } 100%{ filter:none; } }
 .action-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
@@ -70,7 +70,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <div class="stage">
     <div class="howto">
       <p>칠교판(탱그램)은 정사각형 하나를 큰 삼각형 2개, 중간 삼각형 1개, 작은 삼각형 2개, 정사각형 1개, 평행사변형 1개 — 이렇게 <b>일곱 조각</b>으로 나눈 퍼즐이에요. 이 조각들을 돌리고 뒤집어 다시 조합하면 정사각형뿐 아니라 다양한 모양을 만들 수 있어요.</p>
-      <p>조각을 선택하면 조각 바깥쪽에 <b>회전 손잡이(⚬)</b>가 나타나요. 손잡이를 끌어서 돌리면 조각이 자유롭게 회전하고, 손을 떼는 순간 <b>자석처럼 45° 단위로 딱 붙어요</b>. 옮길 때도 손을 떼면 격자에 맞춰 위치가 살짝 정돈돼서, 조각끼리 더 깔끔하게 맞물려요.</p>
+      <p>조각을 선택하면 조각 바깥쪽에 색깔 있는 <b>회전 손잡이(↻)</b>가 나타나요. 점선 원 위에 찍힌 점들이 바로 <b>딱 붙는 위치(45° 간격)</b>예요. 손잡이를 끌면 지금 각도가 숫자로 보이고, 가장 가까운 점이 크게 표시돼요. 손을 떼는 순간 그 점으로 <b>자석처럼 딱 붙어요</b>. 옮길 때도 손을 떼면 격자에 맞춰 위치가 살짝 정돈돼서, 조각끼리 더 깔끔하게 맞물려요.</p>
     </div>
 
     <div class="target-tabs" id="targetTabs"></div>
@@ -179,12 +179,15 @@ function render(){
   let html = '';
 
   // 목표 윤곽선 (점선 가이드)
+  // 일곱 조각의 실제 총 넓이는 8U² — 목표 도형도 넓이가 정확히 8U²가 되도록 한 변을 2√2·U로 맞춰요.
+  // (한 변을 4U로 그리면 넓이가 16U²가 되어, 조각을 다 채워도 항상 절반이 비게 돼요.)
+  const OUTLINE = 2*Math.SQRT2*U;
   if(target==='square'){
-    const s = 4*U;
+    const s = OUTLINE;
     const cx=280, cy=210;
     html += `<rect x="${cx-s/2}" y="${cy-s/2}" width="${s}" height="${s}" fill="none" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="8 6" opacity="0.5"></rect>`;
   } else if(target==='triangle'){
-    const s = 4*U;
+    const s = OUTLINE;
     const cx=280, cy=210;
     html += `<polygon points="${cx-s},${cy+s/2} ${cx+s},${cy+s/2} ${cx},${cy-s/2}" fill="none" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="8 6" opacity="0.5"></polygon>`;
   }
@@ -199,10 +202,28 @@ function render(){
   // 선택된 조각에만 회전 손잡이 표시 (뒤집기 값과 무관하게 항상 같은 방향으로 잡히도록 flip 미적용)
   if(selectedIdx!==null){
     const p = state[selectedIdx];
+    const pieceColor = COLORS[selectedIdx % COLORS.length];
+    const normRot = ((p.rot % 360) + 360) % 360;
+    const nearestSnap = Math.round(normRot/ANGLE_SNAP)*ANGLE_SNAP % 360;
+
+    // 회전 궤도(점선 원)와 45°마다의 스냅 지점 — 어디서 손을 떼면 딱 맞는지 미리 보여줘요
+    html += `<g class="rotate-guide" transform="translate(${p.x},${p.y})">`;
+    html += `<circle cx="0" cy="0" r="${HANDLE_DIST}" fill="none" stroke="var(--ink-soft)" stroke-width="1.5" stroke-dasharray="3 5" opacity="0.35"></circle>`;
+    for(let a=0; a<360; a+=ANGLE_SNAP){
+      const rad = a*Math.PI/180;
+      const isNear = a===nearestSnap;
+      const tx = Math.cos(rad)*HANDLE_DIST, ty = Math.sin(rad)*HANDLE_DIST;
+      html += `<circle cx="${tx}" cy="${ty}" r="${isNear?5:2.5}" style="fill:${isNear?pieceColor:'var(--ink-soft)'};opacity:${isNear?1:0.4};"></circle>`;
+    }
+    html += `</g>`;
+
+    // 손잡이 — 조각 색으로 맞추고, 지금 각도(°)를 숫자로 함께 보여줘요
     const handleTransform = `translate(${p.x},${p.y}) rotate(${p.rot})`;
     html += `<g class="rotate-handle" data-i="${selectedIdx}" transform="${handleTransform}">
-      <line x1="0" y1="0" x2="${HANDLE_DIST}" y2="0"></line>
-      <circle cx="${HANDLE_DIST}" cy="0" r="11"></circle>
+      <line x1="0" y1="0" x2="${HANDLE_DIST}" y2="0" style="stroke:${pieceColor};stroke-width:2.5;opacity:0.85;"></line>
+      <text x="${HANDLE_DIST}" y="-24" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink)" transform="rotate(${-p.rot} ${HANDLE_DIST} -24)" style="pointer-events:none;">${Math.round(normRot)}°</text>
+      <circle cx="${HANDLE_DIST}" cy="0" r="15" style="fill:${pieceColor};stroke:#fff;stroke-width:3;"></circle>
+      <text x="${HANDLE_DIST}" y="5" text-anchor="middle" font-size="15" fill="#fff" transform="rotate(${-p.rot} ${HANDLE_DIST} 0)" style="pointer-events:none;">↻</text>
     </g>`;
   }
 
