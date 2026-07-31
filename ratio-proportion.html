@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>비와 비율 실험실</title>
-<meta name="description" content="지도 축척과 설탕물 농도로, 두 양의 비율이 어떻게 유지되는지 확인해요.">
+<meta name="description" content="지도 축척, 설탕물 농도, 사진 확대까지 — 두 양의 비율이 어떻게 유지되는지 세 가지 상황으로 확인해요.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
@@ -68,6 +68,17 @@ input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--vi
 .equation .result span{font-size:0.4em;color:var(--ink-soft);}
 .fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
 .fact b{color:var(--coral-ink);}
+.ratio-table-label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);margin-bottom:6px;}
+.ratio-table{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:14px 16px;}
+.ratio-table table{width:100%;border-collapse:collapse;font-family:'Do Hyeon',sans-serif;}
+.ratio-table th,.ratio-table td{padding:7px 4px;text-align:center;font-size:14px;color:var(--ink);border-bottom:1px solid var(--paper-line);}
+.ratio-table th{font-size:12.5px;color:var(--ink-soft);font-weight:400;}
+.ratio-table tr:last-child td{border-bottom:none;}
+.ratio-table td:first-child,.ratio-table th:first-child{text-align:left;color:var(--ink-soft);font-size:13px;}
+.photo-row{display:flex;gap:18px;justify-content:center;align-items:flex-end;margin:14px 0 4px;flex-wrap:wrap;}
+.photo-box{display:flex;flex-direction:column;align-items:center;gap:8px;}
+.photo-box svg{background:var(--card);border:2px solid var(--paper-line);border-radius:10px;width:150px;height:150px;}
+.photo-box span{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);}
 footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
@@ -78,8 +89,8 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
     <a href="article-ratio-proportion.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
   </div>
   <span class="eyebrow">⚖️ 비와 비율 실험실</span>
-  <h1>지도도, 설탕물도<br>결국은 <span>같은 비율</span> 이야기예요</h1>
-  <p class="sub">지도 축척과 설탕물 농도, 둘 다 "두 양의 비율이 일정하게 유지된다"는 같은 원리예요. 탭을 눌러 두 가지 상황에서 비율이 어떻게 쓰이는지 확인해보세요.</p>
+  <h1>지도도, 설탕물도, 사진도<br>결국은 <span>같은 비율</span> 이야기예요</h1>
+  <p class="sub">지도 축척, 설탕물 농도, 사진 확대 — 셋 다 "두 양의 비율이 일정하게 유지된다"는 같은 원리예요. 탭을 눌러 세 가지 상황에서 비율이 어떻게 쓰이는지 확인해보세요.</p>
 
   <div class="stage">
     <div>
@@ -90,6 +101,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
       <div class="tabs">
         <button class="tab-btn active" data-mode="map">🗺️ 지도 축척</button>
         <button class="tab-btn" data-mode="syrup">🧂 설탕물 농도</button>
+        <button class="tab-btn" data-mode="photo">🖼️ 사진 비율</button>
       </div>
 
       <div class="panel-mode active" id="mapPanel">
@@ -116,6 +128,23 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
         <div class="jar" id="jar"><div class="jar-water" id="jarWater"></div></div>
         <button class="action-btn" id="doubleBtn">🔁 설탕·물 둘 다 2배로 늘리기</button>
       </div>
+
+      <div class="panel-mode" id="photoPanel">
+        <div class="control-row">
+          <div class="control-label"><span>확대 배율</span><b id="photoScaleLabel">150</b><span>%</span></div>
+          <input id="sliderPhotoScale" type="range" min="100" max="250" value="150" step="10">
+        </div>
+        <div class="photo-row">
+          <div class="photo-box">
+            <svg id="photoCorrect" viewBox="0 0 150 150"></svg>
+            <span>✅ 비율을 지켜 확대</span>
+          </div>
+          <div class="photo-box">
+            <svg id="photoWrong" viewBox="0 0 150 150"></svg>
+            <span>❌ 가로만 늘리면</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="panel">
@@ -124,6 +153,10 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
         <div class="result" id="resultNum">1km<span></span></div>
       </div>
       <div class="fact" id="fact"></div>
+      <div>
+        <div class="ratio-table-label">🔁 같은 비율을 유지하며 늘려보면</div>
+        <div class="ratio-table"><table id="ratioTable"></table></div>
+      </div>
     </div>
   </div>
 
@@ -145,11 +178,26 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
 const tabs = document.querySelectorAll('.tab-btn');
 const mapPanel = document.getElementById('mapPanel');
 const syrupPanel = document.getElementById('syrupPanel');
+const photoPanel = document.getElementById('photoPanel');
 const formula = document.getElementById('formula');
 const resultNum = document.getElementById('resultNum');
 const factBox = document.getElementById('fact');
+const ratioTable = document.getElementById('ratioTable');
 
 let mode = 'map';
+
+function gcd(a,b){ return b===0?a:gcd(b,a%b); }
+
+function renderRatioTable(a, b, labelA, labelB){
+  const ra = Math.round(a), rb = Math.round(b);
+  const g = gcd(ra, rb) || 1;
+  const sa = ra/g, sb = rb/g;
+  const mults = [1,2,3];
+  let html = '<tr><th></th>' + mults.map(m=>`<th>×${m}</th>`).join('') + '</tr>';
+  html += `<tr><td>${labelA}</td>` + mults.map(m=>`<td>${(sa*m).toLocaleString()}</td>`).join('') + '</tr>';
+  html += `<tr><td>${labelB}</td>` + mults.map(m=>`<td>${(sb*m).toLocaleString()}</td>`).join('') + '</tr>';
+  ratioTable.innerHTML = html;
+}
 
 // --- 지도 축척 ---
 const sliderMapDist = document.getElementById('sliderMapDist');
@@ -183,6 +231,7 @@ function renderMap(){
   resultNum.innerHTML = realKm>=1 ? `${(Math.round(realKm*100)/100)}<span>km</span>` : `${Math.round(realM)}<span>m</span>`;
 
   factBox.innerHTML = `지도 위에서 ${mapDist}cm는 실제로 <b>${realKm>=1? (Math.round(realKm*100)/100)+'km' : Math.round(realM)+'m'}</b>예요. 축척 1:${currentScale.toLocaleString()}는 "지도 위 1cm가 실제 ${(currentScale/100000).toFixed(2)}km(${(currentScale/100)}m)를 나타낸다"는 뜻이거든요. 축척 분모가 클수록 더 넓은 지역을 한 장에 담을 수 있지만, 자세한 부분은 더 뭉개져 보여요.`;
+  renderRatioTable(1, currentScale, '지도(cm)', '실제(cm)');
 }
 
 // --- 설탕물 농도 ---
@@ -193,8 +242,6 @@ const waterLabel = document.getElementById('waterLabel');
 const jarWater = document.getElementById('jarWater');
 const jar = document.getElementById('jar');
 const doubleBtn = document.getElementById('doubleBtn');
-
-function gcd(a,b){ return b===0?a:gcd(b,a%b); }
 
 function renderSyrup(){
   const sugar = parseInt(sliderSugar.value);
@@ -221,6 +268,7 @@ function renderSyrup(){
   resultNum.innerHTML = `${conc.toFixed(1)}<span>%</span>`;
 
   factBox.innerHTML = `설탕 ${sugar}g과 물 ${water}g을 섞으면 농도(설탕물 전체에서 설탕이 차지하는 비율)는 <b>${conc.toFixed(1)}%</b>예요. 이 비를 가장 간단히 나타내면 <b>${sugar/g} : ${water/g}</b>이에요. "2배로 늘리기" 버튼을 눌러서 양을 늘려도 농도가 똑같이 유지되는지 확인해보세요.`;
+  renderRatioTable(sugar, water, '설탕(g)', '물(g)');
 }
 
 doubleBtn.addEventListener('click', ()=>{
@@ -231,17 +279,49 @@ doubleBtn.addEventListener('click', ()=>{
   renderSyrup();
 });
 
+// --- 사진 비율 ---
+const sliderPhotoScale = document.getElementById('sliderPhotoScale');
+const photoScaleLabel = document.getElementById('photoScaleLabel');
+const photoCorrect = document.getElementById('photoCorrect');
+const photoWrong = document.getElementById('photoWrong');
+const PHOTO_W = 36, PHOTO_H = 54, PHOTO_R = 13;
+
+function drawPhotoBox(svg, w, h, rx, ry){
+  const cx = 75, cy = 75;
+  const x0 = cx - w/2, y0 = cy - h/2;
+  svg.innerHTML = `<rect x="${x0.toFixed(1)}" y="${y0.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" rx="8" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2"></rect>` +
+    `<ellipse cx="${cx}" cy="${cy}" rx="${rx.toFixed(1)}" ry="${ry.toFixed(1)}" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="2"></ellipse>`;
+}
+
+function renderPhoto(){
+  const scale = parseInt(sliderPhotoScale.value);
+  photoScaleLabel.textContent = scale;
+  const s = scale/100;
+
+  drawPhotoBox(photoCorrect, PHOTO_W*s, PHOTO_H*s, PHOTO_R*s, PHOTO_R*s);
+  drawPhotoBox(photoWrong, PHOTO_W*s, PHOTO_H, PHOTO_R*s, PHOTO_R);
+
+  formula.innerHTML = `가로 : 세로 = ${PHOTO_W} : ${PHOTO_H}`;
+  resultNum.innerHTML = `${scale}<span>%</span>`;
+  factBox.innerHTML = `원래 사진의 가로세로 비율은 <b>${PHOTO_W} : ${PHOTO_H}</b>예요. 왼쪽처럼 가로와 세로를 <b>똑같은 비율로</b> 늘리면 동그라미가 그대로 동그랗게 보이지만, 오른쪽처럼 가로만 늘리면 동그라미가 <b>길쭉한 타원</b>으로 찌그러져요. 사진이나 화면을 확대할 때 비율을 지켜야 하는 이유가 바로 이거예요.`;
+  renderRatioTable(PHOTO_W, PHOTO_H, '가로', '세로');
+}
+
 tabs.forEach(t=>t.addEventListener('click', ()=>{
   mode = t.dataset.mode;
   tabs.forEach(x=>x.classList.toggle('active', x===t));
   mapPanel.classList.toggle('active', mode==='map');
   syrupPanel.classList.toggle('active', mode==='syrup');
-  if(mode==='map') renderMap(); else renderSyrup();
+  photoPanel.classList.toggle('active', mode==='photo');
+  if(mode==='map') renderMap();
+  else if(mode==='syrup') renderSyrup();
+  else renderPhoto();
 }));
 
 sliderMapDist.addEventListener('input', renderMap);
 sliderSugar.addEventListener('input', renderSyrup);
 sliderWater.addEventListener('input', renderSyrup);
+sliderPhotoScale.addEventListener('input', renderPhoto);
 
 buildScalePresets();
 renderMap();
