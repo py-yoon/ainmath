@@ -11,6 +11,7 @@
 <style>
   :root{
     --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
     --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
   *{box-sizing:border-box;}
@@ -29,6 +30,9 @@
   .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
   .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
   .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:320px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
   .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
   .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#6847F7;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
   .cta-btn:hover{transform:translateY(-2px);}
@@ -47,6 +51,19 @@
   <div class="card">
     <div class="article-body">
       <p>정사각형 하나를 잘랐을 뿐인데 일곱 조각으로 수백 가지 모양을 만들 수 있다니, 신기하지 않나요? 칠교판(七巧板), 영어로는 탱그램(tangram)이라고 부르는 이 퍼즐은 수백 년 전 중국에서 시작되어 지금까지도 전 세계 어린이들의 사랑을 받고 있어요. 큰 삼각형 2개, 중간 삼각형 1개, 작은 삼각형 2개, 정사각형 1개, 평행사변형 1개 — 이 일곱 조각만으로 사람, 동물, 배, 건물 같은 다양한 모양을 표현할 수 있어요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 491 100">
+          <polygon points="10,10 90,10 10,90" fill="#FF5B57" fill-opacity="0.85" stroke="#fff" stroke-width="2"></polygon>
+          <polygon points="102,10 182,10 102,90" fill="#4C8BF5" fill-opacity="0.85" stroke="#fff" stroke-width="2"></polygon>
+          <polygon points="194,33.4 250.6,33.4 194,90" fill="#4CAF8E" fill-opacity="0.85" stroke="#fff" stroke-width="2"></polygon>
+          <polygon points="262.6,50 302.6,50 262.6,90" fill="#6C4CF7" fill-opacity="0.85" stroke="#fff" stroke-width="2"></polygon>
+          <polygon points="314.6,50 354.6,50 314.6,90" fill="#2EC4C6" fill-opacity="0.85" stroke="#fff" stroke-width="2"></polygon>
+          <polygon points="366.6,50 406.6,50 406.6,90 366.6,90" fill="#F5A623" fill-opacity="0.85" stroke="#fff" stroke-width="2"></polygon>
+          <polygon points="418.6,90 458.6,90 478.6,50 438.6,50" fill="#EC6BAD" fill-opacity="0.85" stroke="#fff" stroke-width="2"></polygon>
+        </svg>
+        <div class="illo-caption">큰 삼각형 2개 · 중간 삼각형 1개 · 작은 삼각형 2개 · 정사각형 1개 · 평행사변형 1개 = 일곱 조각</div>
+      </div>
+
       <p>칠교판의 조각들은 아무렇게나 잘린 게 아니에요. 모든 조각이 정확한 비율로 만들어져 있어서, 어떻게 배치하든 서로 딱 맞물릴 수 있어요. 예를 들어 작은 삼각형 2개를 합치면 정사각형 1개와 똑같은 넓이가 되고, 중간 삼각형 하나도 작은 삼각형 2개와 넓이가 같아요. 이렇게 조각들 사이에 숨어있는 넓이 관계를 발견하는 것도 칠교판의 숨은 재미예요.</p>
       <p>칠교판을 가지고 놀다 보면 자연스럽게 도형 감각이 늘어요. 조각을 90도, 45도로 돌리다 보면 회전이라는 개념을 몸으로 익히게 되고, 평행사변형을 뒤집어 봐야 할 때는 대칭이라는 개념도 자연스럽게 체험하게 돼요. 어떤 두 조각의 변끼리 딱 맞는지 찾는 과정에서는 각도에 대한 직관도 길러져요 — 예를 들어 정사각형의 90도 각과 삼각형의 45도 각이 만나면 어떤 모양이 되는지 같은 감각이에요.</p>
       <p>칠교판으로 만들 수 있는 모양은 알려진 것만 수천 가지가 넘어요. 정사각형이나 큰 삼각형처럼 일곱 조각을 빈틈없이 다시 조합하는 "고전 모양"부터, 걷는 사람, 날아가는 새, 돛단배처럼 자유롭게 창작하는 "그림 모양"까지 즐기는 방법이 무궁무진해요. 같은 조각으로 완전히 다른 그림이 나온다는 사실이 이 퍼즐을 몇 번이고 다시 하게 만드는 매력이에요.</p>
