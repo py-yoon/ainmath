@@ -11,6 +11,7 @@
 <style>
   :root{
     --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
     --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
   *{box-sizing:border-box;}
@@ -29,6 +30,9 @@
   .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
   .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
   .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
   .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
   .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#1D7C7E;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
   .cta-btn:hover{transform:translateY(-2px);}
@@ -47,6 +51,22 @@
     <div class="article-body">
       <p>욕실 타일, 벌집, 거북이 등딱지의 공통점은 뭘까요? 전부 하나의 도형이 겹치거나 틈이 생기지 않고 평면을 빈틈없이 채우고 있다는 거예요. 이런 규칙적인 배열을 '테셀레이션(쪽매맞춤)'이라고 불러요. 그런데 신기하게도, 정다각형 중에서 딱 세 가지(정삼각형, 정사각형, 정육각형)만 그 도형 하나만으로 평면을 완벽하게 채울 수 있어요. 정오각형이나 정칠각형으로는 아무리 애써도 빈틈이 남아요.</p>
       <p>이유는 '각도'에 숨어 있어요. 어떤 도형 여러 개가 한 점에 모여 평면을 채우려면, 그 점 주위에 모인 각도의 합이 정확히 360°가 되어야 해요. 정삼각형의 한 내각은 60°인데, 60°×6=360°이니 정삼각형 6개가 한 점에 모이면 딱 맞아떨어져요. 정사각형은 내각이 90°라서 90°×4=360°, 4개가 모이면 완벽하게 채워지고요. 정육각형은 내각이 120°라서 120°×3=360°, 3개가 모이면 딱 맞아요. 이 세 가지 경우만 정수 개로 360°를 정확히 나눠떨어지게 만들 수 있어서, 정다각형 중 이 셋만 '단독으로' 평면을 채울 수 있는 거예요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 205 105">
+          <polygon points="35,60 35.0,32.0 59.2,46.0" fill="var(--teal-soft)" stroke="var(--teal-ink)" stroke-width="1.5"></polygon><polygon points="35,60 59.2,46.0 59.2,74.0" fill="var(--teal-soft)" stroke="var(--teal-ink)" stroke-width="1.5"></polygon><polygon points="35,60 59.2,74.0 35.0,88.0" fill="var(--teal-soft)" stroke="var(--teal-ink)" stroke-width="1.5"></polygon><polygon points="35,60 35.0,88.0 10.8,74.0" fill="var(--teal-soft)" stroke="var(--teal-ink)" stroke-width="1.5"></polygon><polygon points="35,60 10.8,74.0 10.8,46.0" fill="var(--teal-soft)" stroke="var(--teal-ink)" stroke-width="1.5"></polygon><polygon points="35,60 10.8,46.0 35.0,32.0" fill="var(--teal-soft)" stroke="var(--teal-ink)" stroke-width="1.5"></polygon>
+          <rect x="86" y="32" width="28" height="28" fill="var(--teal-soft)" stroke="var(--teal-ink)" stroke-width="1.5"></rect>
+          <rect x="58" y="32" width="28" height="28" fill="var(--teal-soft)" stroke="var(--teal-ink)" stroke-width="1.5"></rect>
+          <rect x="86" y="60" width="28" height="28" fill="var(--teal-soft)" stroke="var(--teal-ink)" stroke-width="1.5"></rect>
+          <rect x="58" y="60" width="28" height="28" fill="var(--teal-soft)" stroke="var(--teal-ink)" stroke-width="1.5"></rect>
+          <polygon points="167.0,60.0 180.9,68.0 180.9,84.0 167.0,92.0 153.1,84.0 153.1,68.0" fill="var(--teal-soft)" stroke="var(--teal-ink)" stroke-width="1.5"></polygon><polygon points="167.0,60.0 153.1,68.0 139.3,60.0 139.3,44.0 153.1,36.0 167.0,44.0" fill="var(--teal-soft)" stroke="var(--teal-ink)" stroke-width="1.5"></polygon><polygon points="167.0,60.0 167.0,44.0 180.9,36.0 194.7,44.0 194.7,60.0 180.9,68.0" fill="var(--teal-soft)" stroke="var(--teal-ink)" stroke-width="1.5"></polygon>
+          <g font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)" text-anchor="middle">
+            <text x="35" y="102">60°×6=360°</text>
+            <text x="100" y="102">90°×4=360°</text>
+            <text x="167" y="102">120°×3=360°</text>
+          </g>
+        </svg>
+        <div class="illo-caption">정삼각형·정사각형·정육각형만 한 점 둘레(360°)를 정수 개로 딱 맞게 채울 수 있어요</div>
+      </div>
       <p>정오각형은 왜 안 될까요? 정오각형의 내각은 108°예요. 360÷108을 계산하면 약 3.33이 나오는데, 정수가 아니에요. 3개를 모으면 324°가 되어 36°의 틈이 남고, 4개를 모으면 432°가 되어 오히려 72°만큼 겹쳐버려요. 그래서 정오각형 하나만으로는 절대 평면을 빈틈없이 채울 수 없어요. 실제로 축구공을 자세히 보면 정오각형과 정육각형이 섞여 있는데, 정오각형 혼자서는 평면(또는 구면)을 채울 수 없어서 정육각형과 함께 써야만 축구공 모양이 완성되는 거예요.</p>
       <p>벌들이 벌집을 정육각형 모양으로 짓는 것도 우연이 아니에요. 정삼각형, 정사각형, 정육각형 중에서 같은 재료(같은 둘레)로 가장 넓은 면적을 만들 수 있는 게 정육각형이라는 사실이 수학적으로 증명되어 있어요. 벌들은 최소한의 밀랍으로 최대한 많은 꿀을 저장하려고 자연스럽게 가장 효율적인 모양인 정육각형을 선택하도록 진화한 셈이에요. 화가 에셔(M.C. Escher)는 이 테셀레이션 원리를 이용해서 새와 물고기, 도마뱀 같은 복잡한 모양들이 빈틈없이 맞물리는 신비로운 작품들을 만든 것으로 유명해요.</p>
       <p>아이들과 공부할 때는 정다각형 모양 종이 조각을 여러 개 잘라서 직접 평면 위에 늘어놓아 보게 하는 게 가장 확실한 방법이에요. 정삼각형, 정사각형, 정육각형 조각은 빈틈없이 잘 맞춰지는데, 정오각형이나 정칠각형 조각은 아무리 이리저리 돌려봐도 자꾸 틈이 남거나 겹친다는 걸 손으로 직접 확인하면, "왜 이 세 가지만 되는지" 공식보다 훨씬 확실하게 이해하게 돼요. 정다각형 하나로는 안 되지만 두 가지 이상의 도형을 섞으면 채울 수 있는 경우(정사각형+정팔각형 등)를 함께 찾아보는 것도 좋은 심화 활동이에요.</p>
