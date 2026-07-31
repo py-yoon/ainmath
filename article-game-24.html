@@ -11,6 +11,8 @@
 <style>
   :root{
     --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
     --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
   *{box-sizing:border-box;}
@@ -29,6 +31,9 @@
   .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
   .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
   .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:280px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
   .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
   .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#D90500;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
   .cta-btn:hover{transform:translateY(-2px);}
@@ -46,6 +51,22 @@
   <div class="card">
     <div class="article-body">
       <p>24 게임은 1988년 로버트 서치(Robert Sun)가 만든 이후 지금까지도 전 세계 교실에서 사랑받는 암산 퍼즐이에요. 규칙은 아주 단순해요 — 숫자 네 개가 주어지면, 덧셈·뺄셈·곱셈·나눗셈과 괄호를 자유롭게 써서 결과를 정확히 24로 만드는 거예요. 단순해 보이지만 막상 풀어보면 머리를 꽤 써야 해서, 미국 초등학교에서는 대회까지 열릴 정도로 인기가 많아요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 280 100">
+          <g font-family="'Do Hyeon',sans-serif" font-size="24" text-anchor="middle">
+            <rect x="10" y="10" width="42" height="58" rx="8" fill="#fff" stroke="var(--violet-ink)" stroke-width="2.5"></rect>
+            <text x="31" y="46" fill="var(--violet-ink)">1</text>
+            <rect x="66" y="10" width="42" height="58" rx="8" fill="#fff" stroke="var(--violet-ink)" stroke-width="2.5"></rect>
+            <text x="87" y="46" fill="var(--violet-ink)">2</text>
+            <rect x="122" y="10" width="42" height="58" rx="8" fill="#fff" stroke="var(--violet-ink)" stroke-width="2.5"></rect>
+            <text x="143" y="46" fill="var(--violet-ink)">3</text>
+            <rect x="178" y="10" width="42" height="58" rx="8" fill="#fff" stroke="var(--violet-ink)" stroke-width="2.5"></rect>
+            <text x="199" y="46" fill="var(--violet-ink)">4</text>
+          </g>
+          <text x="140" y="90" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--coral-ink)">(1 + 2 + 3) × 4 = 24</text>
+        </svg>
+        <div class="illo-caption">숫자 네 장 1, 2, 3, 4로도 사칙연산과 괄호를 조합하면 24를 만들 수 있어요</div>
+      </div>
       <p>왜 하필 24일까요? 24는 1, 2, 3, 4, 6, 8, 12, 24처럼 약수가 많은 수예요(정확히 8개). 약수가 많다는 건 그만큼 곱셈과 나눗셈으로 도달할 수 있는 경로가 많다는 뜻이라, 다른 숫자보다 퍼즐을 풀 확률이 높고 답도 다양하게 나와요. 그래서 "적당히 어렵고 적당히 풀리는" 절묘한 난이도의 숫자로 24가 선택된 거예요.</p>
       <p>이 게임을 잘하려면 몇 가지 감각이 필요해요. 먼저 곱셈으로 24를 만드는 조합(3×8, 4×6, 2×12, 1×24)을 순간적으로 떠올리는 감각이 큰 도움이 돼요. 또 하나는 "일단 두 숫자를 먼저 계산해서 다루기 쉬운 수로 만드는" 전략이에요. 예를 들어 8, 3, 3, 1이 주어지면, 3과 1을 먼저 빼서 2를 만들고, 8×3=24를 만든 다음 2로 나누면… 어라, 이건 안 맞네요. 이런 시행착오 자체가 사칙연산 감각을 기르는 좋은 훈련이 돼요.</p>
       <p>같은 네 숫자로도 답이 여러 개인 경우가 많다는 것도 이 게임의 매력이에요. 예를 들어 4, 4, 4, 4는 다양한 방법으로 24를 만들 수 있어요. 문제 하나를 풀고 나서 "다른 방법은 없을까?"를 고민해보는 것만으로도 사고력 훈련이 두 배가 돼요. 반대로 1, 1, 1, 1처럼 어떤 조합으로도 24를 만들 수 없는 경우도 있는데, 이런 경우를 마주치면 "왜 안 될까?"를 생각해보는 것도 의미 있는 경험이에요.</p>
