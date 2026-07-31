@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>교과과정 지도 | 아인매스</title>
-<meta name="description" content="2022 개정 교육과정 기준으로 초등학교 1학년부터 중학교 3학년까지 학년별 수학 단원을 정리하고, 아인매스의 체험·설명 콘텐츠와 연결했어요.">
+<meta name="description" content="2022 개정 교육과정 기준으로 초등학교 1학년부터 고등학교 3학년까지 학년별 수학 단원을 정리하고, 아인매스의 체험·설명 콘텐츠와 연결했어요.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
@@ -125,7 +125,7 @@ footer a:hover{color:var(--ink);text-decoration:underline;}
   <a class="back-link" href="index.html">← 전체 목록으로</a>
   <span class="eyebrow">🗂️ 교과과정 지도</span>
   <h1>우리 학년 교과서에서<br><span>지금 배우는 단원</span>을 찾아보세요</h1>
-  <p class="sub">2022 개정 교육과정을 기준으로 초등학교 1학년부터 중학교 3학년까지 수학 단원을 학년별로 정리했어요. 아래 학년 버튼을 눌러 보고 싶은 학년만 볼 수 있어요. 보라색 테두리가 있는 단원은 아인매스에서 체험 페이지와 설명 글로 바로 확인할 수 있어요.</p>
+  <p class="sub">2022 개정 교육과정을 기준으로 초등학교 1학년부터 고등학교 3학년까지 수학 단원을 학년별로 정리했어요. 아래 학년 버튼을 눌러 보고 싶은 학년만 볼 수 있어요. 보라색 테두리가 있는 단원은 아인매스에서 체험 페이지와 설명 글로 바로 확인할 수 있어요. 고등학교 과정은 아직 체험 페이지를 계속 채워나가는 중이에요.</p>
   <div class="note">📌 <b>안내</b>: 실제 교과서는 출판사마다 단원 순서나 세부 명칭이 조금씩 다를 수 있어요. 이 페이지는 교육부가 고시한 2022 개정 교육과정의 성취기준을 기준으로 정리한 참고용 지도예요.</div>
 
   <div class="jumpnav" id="jumpnav"></div>
@@ -293,6 +293,58 @@ const GRADES = [
       ],
       data: [
         { name:'산포도 / 상자그림과 산점도', exp:[{label:'상자그림·산점도', href:'boxplot-scatter.html'}], art:[{label:'설명 글', href:'article-boxplot-scatter.html'}] },
+      ],
+    }
+  },
+  {
+    id:'h1', title:'고등학교 1학년 (공통수학1·2)', badge:'고 1', school:'고등학교', color:'coral',
+    domains: {
+      number: [
+        { name:'다항식 (전개·인수분해·나머지정리)', exp:[], art:[], note:'중학교보다 복잡한 다항식 계산이에요. 체험 페이지는 아직 준비 중이에요' },
+        { name:'집합과 명제', exp:[], art:[], note:'아직 준비 중이에요' },
+      ],
+      change: [
+        { name:'이차방정식과 이차부등식', exp:[{label:'곱셈공식·인수분해', href:'factoring-quadratic.html'}], art:[{label:'설명 글', href:'article-factoring-quadratic.html'}], note:'이차부등식 부분은 아직 준비 중이에요' },
+        { name:'함수와 그래프', exp:[{label:'일차함수 그래프', href:'linear-function-graph.html'},{label:'이차함수 그래프', href:'quadratic-function-graph.html'}], art:[{label:'설명 글', href:'article-linear-function.html'},{label:'설명 글', href:'article-quadratic-function.html'}] },
+      ],
+      shape: [
+        { name:'도형의 방정식 (좌표평면·도형의 이동)', exp:[{label:'좌표평면 위 도형 이동', href:'coordinate-transform.html'}], art:[{label:'설명 글', href:'article-coordinate-transform.html'}], note:'직선의 방정식·원의 방정식 부분은 아직 준비 중이에요' },
+      ],
+      data: [
+        { name:'경우의 수', exp:[], art:[], note:'아직 준비 중이에요' },
+      ],
+    }
+  },
+  {
+    id:'h2', title:'고등학교 2학년 (대수·미적분Ⅰ·확률과 통계)', badge:'고 2', school:'고등학교', color:'green',
+    domains: {
+      number: [
+        { name:'지수함수와 로그함수', exp:[], art:[], note:'아직 준비 중이에요' },
+        { name:'수열', exp:[{label:'피보나치 수열과 나선', href:'fibonacci-spiral.html'},{label:'파스칼의 삼각형', href:'pascal-triangle.html'}], art:[{label:'설명 글', href:'article-fibonacci-spiral.html'},{label:'설명 글', href:'article-pascals-triangle.html'}], note:'등차·등비수열 공식보다는, 수열 속 규칙을 눈으로 탐구하는 체험이에요' },
+      ],
+      change: [
+        { name:'삼각함수', exp:[{label:'단위원과 삼각비', href:'unit-circle.html'}], art:[{label:'설명 글', href:'article-unit-circle.html'}] },
+        { name:'함수의 극한과 연속', exp:[], art:[], note:'아직 준비 중이에요' },
+        { name:'미분', exp:[], art:[], note:'아직 준비 중이에요' },
+        { name:'적분', exp:[], art:[], note:'아직 준비 중이에요' },
+      ],
+      data: [
+        { name:'경우의 수와 확률', exp:[{label:'동전·주사위 시뮬레이터', href:'coin-dice-simulator.html'},{label:'순열과 조합', href:'permutations-combinations.html'}], art:[{label:'설명 글', href:'article-coin-dice-probability.html'},{label:'설명 글', href:'article-permutations-combinations.html'}] },
+        { name:'통계', exp:[{label:'평균·중앙값·최빈값', href:'mean-median-mode.html'}], art:[{label:'설명 글', href:'article-mean-median-mode.html'}], note:'정규분포·추정 부분은 아직 준비 중이에요' },
+      ],
+    }
+  },
+  {
+    id:'h3', title:'고등학교 3학년 (미적분Ⅱ·기하)', badge:'고 3', school:'고등학교', color:'blue',
+    domains: {
+      change: [
+        { name:'여러 가지 함수의 미분', exp:[], art:[], note:'아직 준비 중이에요' },
+        { name:'여러 가지 적분법', exp:[], art:[], note:'아직 준비 중이에요' },
+      ],
+      shape: [
+        { name:'이차곡선 (타원·포물선·쌍곡선)', exp:[{label:'입체도형 단면 탐구', href:'solid-cross-sections-lab.html'}], art:[{label:'설명 글', href:'article-solid-cross-sections-lab.html'}], note:'원뿔을 잘라 이차곡선이 나오는 원리를 먼저 체험해요. 각 곡선의 방정식 자체는 아직 준비 중이에요' },
+        { name:'공간도형과 공간좌표', exp:[], art:[], note:'아직 준비 중이에요' },
+        { name:'벡터', exp:[], art:[], note:'아직 준비 중이에요' },
       ],
     }
   },
