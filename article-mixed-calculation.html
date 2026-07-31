@@ -48,6 +48,9 @@ p:last-child{margin-bottom:0;}
 .tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
 .tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
 .tip-list b{color:var(--coral-ink);}
+.illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:18px 0;text-align:center;}
+.illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+.illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
 footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 .footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
 .footer-nav a:hover{color:var(--ink);text-decoration:underline;}
@@ -91,6 +94,22 @@ footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;t
     <div class="callout">
       <b>① 괄호 안 → ② 곱셈·나눗셈(왼쪽부터) → ③ 덧셈·뺄셈(왼쪽부터)</b><br>
       이 세 단계만 순서대로 지키면, 아무리 복잡한 식이라도 항상 하나의 정확한 답을 구할 수 있어요.
+    </div>
+    <div class="illo">
+      <svg viewBox="0 0 300 100">
+        <circle cx="45" cy="40" r="30" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="2.5"></circle>
+        <text x="45" y="48" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="20" fill="var(--coral-ink)">①</text>
+        <text x="45" y="86" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink)">( 괄호 )</text>
+        <text x="105" y="46" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="20" fill="var(--ink-soft)">→</text>
+        <circle cx="150" cy="40" r="30" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="2.5"></circle>
+        <text x="150" y="48" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="20" fill="var(--coral-ink)">②</text>
+        <text x="150" y="86" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink)">× , ÷</text>
+        <text x="210" y="46" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="20" fill="var(--ink-soft)">→</text>
+        <circle cx="255" cy="40" r="30" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="2.5"></circle>
+        <text x="255" y="48" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="20" fill="var(--coral-ink)">③</text>
+        <text x="255" y="86" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink)">+ , −</text>
+      </svg>
+      <div class="illo-caption">이 세 단계 순서만 지키면 아무리 복잡한 식도 헷갈리지 않아요</div>
     </div>
 
     <h2><span class="num">5</span>이렇게 놀아보세요</h2>
