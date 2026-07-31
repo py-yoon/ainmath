@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>타원 실험실</title>
+<meta name="description" content="두 초점으로 그리는 타원의 정의, 이심률, 넓이 공식(πab), 행성 궤도와 속삭이는 회랑까지 — 슬라이더로 값을 바꿔가며 타원의 성질을 직접 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+    --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 80px;
+  }
+  .wrap{max-width:1040px;margin:0 auto;}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+  h1 span{color:var(--violet-ink);}
+  .sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:66ch;margin:0 0 24px;}
+
+  .section-block{margin-top:52px;}
+  .section-tag{display:inline-block;font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--coral-ink);background:var(--coral-soft);padding:4px 12px;border-radius:999px;margin-bottom:10px;}
+  h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(22px,3.4vw,30px);margin:0 0 8px;line-height:1.3;}
+  .section-sub{color:var(--ink-soft);font-size:15px;line-height:1.7;max-width:66ch;margin:0 0 22px;}
+
+  .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+    display:grid;grid-template-columns: 1.15fr 0.85fr;gap:32px;align-items:start;}
+  @media (max-width:800px){ .stage{grid-template-columns:1fr;} }
+  .canvas-area{display:flex;flex-direction:column;align-items:center;gap:16px;}
+  svg{width:100%;max-width:460px;height:auto;overflow:visible;}
+
+  .legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-size:13px;color:var(--ink-soft);}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .swatch{width:12px;height:12px;border-radius:3px;display:inline-block;}
+
+  .control-row{width:100%;max-width:420px;display:flex;flex-direction:column;gap:8px;}
+  .control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+  .control-label b{font-size:22px;color:var(--ink);}
+  input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--coral-soft);outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+  input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--violet-ink);outline-offset:2px;}
+
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap;width:100%;max-width:420px;}
+  .action-btn{font-family:'Do Hyeon',sans-serif;font-size:14.5px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:12px;padding:10px 16px;cursor:pointer;flex:1;min-width:120px;transition:all .15s ease;}
+  .action-btn:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
+  .action-btn:focus-visible{outline:3px solid var(--violet-ink);outline-offset:2px;}
+
+  .equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px 20px;text-align:center;}
+  .equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(15px,2.4vw,18px);color:var(--ink-soft);}
+  .equation .formula b{color:var(--ink);}
+  .equation .result{font-family:'Do Hyeon',sans-serif;font-size:clamp(32px,5.5vw,46px);color:var(--coral-ink);margin-top:6px;line-height:1;}
+  .equation .result span{font-size:0.42em;color:var(--ink-soft);}
+  .equation .subline{margin-top:10px;font-size:13.5px;color:var(--ink-soft);}
+
+  .fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+  .fact b{color:var(--coral-ink);}
+
+  footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-ellipse.html" style="color:#fff;background:var(--coral-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🥚 타원 실험실</span>
+  <h1>원이 늘어나면<br><span>타원</span>이 돼요</h1>
+  <p class="sub">타원은 원의 사촌이에요. 두 초점, 이심률, 넓이 공식, 실생활 속 예시까지 — 슬라이더로 값을 바꿔가며 타원의 성질을 확인해보세요.</p>
+
+  <!-- ===== STEP 1: 두 초점으로 그리는 타원 ===== -->
+  <div class="section-block" style="margin-top:0;">
+    <span class="section-tag">STEP 1</span>
+    <h2>두 초점으로 그리는 타원의 정의</h2>
+    <p class="section-sub">핀 두 개(초점 F₁, F₂)에 실을 걸고 연필로 팽팽하게 당기며 그리면 타원이 그려져요. 점 P를 타원 위 어디로 옮겨도, F₁까지 거리와 F₂까지 거리의 <b>합은 항상 똑같아요</b> — 이게 바로 실의 길이(2a)예요.</p>
+    <div class="stage">
+      <div class="canvas-area">
+        <svg id="svg1" viewBox="0 0 480 320"></svg>
+        <div class="control-row">
+          <div class="control-label"><span>초점 사이 반거리 (c)</span><b id="cLabel1">5</b><span>cm</span></div>
+          <input id="slider1c" type="range" min="1" max="7" value="5" step="0.5" aria-label="초점 거리 조절">
+        </div>
+        <div class="control-row">
+          <div class="control-label"><span>점 P의 위치</span><b id="pLabel1">40</b><span>°</span></div>
+          <input id="slider1p" type="range" min="0" max="359" value="40" step="2" aria-label="P 위치 조절">
+        </div>
+      </div>
+      <div class="panel">
+        <div class="equation">
+          <div class="formula">PF₁ + PF₂ = 실의 길이(2a)</div>
+          <div class="result" id="result1">16.0<span>cm</span></div>
+          <div class="subline" id="sub1"></div>
+        </div>
+        <div class="fact" id="fact1"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== STEP 2: 이심률 ===== -->
+  <div class="section-block">
+    <span class="section-tag">STEP 2</span>
+    <h2>이심률: 얼마나 찌그러졌나</h2>
+    <p class="section-sub">이심률 e = c/a는 타원이 원에서 얼마나 벗어났는지를 나타내요. e가 0에 가까우면 원에 가깝고, 1에 가까우면 아주 납작해져요.</p>
+    <div class="stage">
+      <div class="canvas-area">
+        <svg id="svg2" viewBox="0 0 480 320"></svg>
+        <div class="control-row">
+          <div class="control-label"><span>이심률 (e)</span><b id="eLabel2">0.3</b></div>
+          <input id="slider2" type="range" min="0" max="0.95" value="0.3" step="0.05" aria-label="이심률 조절">
+        </div>
+      </div>
+      <div class="panel">
+        <div class="equation">
+          <div class="formula">e = c ÷ a</div>
+          <div class="result" id="result2">0.30</div>
+          <div class="subline" id="sub2"></div>
+        </div>
+        <div class="fact" id="fact2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== STEP 3: 타원의 넓이 ===== -->
+  <div class="section-block">
+    <span class="section-tag">STEP 3</span>
+    <h2>타원의 넓이 = πab</h2>
+    <p class="section-sub">장축(a)과 단축(b)을 따로 조절해보세요. 만약 a와 b가 같아지면 타원은 원이 되고, 넓이 공식도 정확히 πr²과 같아져요.</p>
+    <div class="stage">
+      <div class="canvas-area">
+        <svg id="svg3" viewBox="0 0 480 320"></svg>
+        <div class="control-row">
+          <div class="control-label"><span>반장축 (a)</span><b id="aLabel3">8</b><span>cm</span></div>
+          <input id="slider3a" type="range" min="3" max="9" value="8" step="0.5" aria-label="반장축 조절">
+        </div>
+        <div class="control-row">
+          <div class="control-label"><span>반단축 (b)</span><b id="bLabel3">5</b><span>cm</span></div>
+          <input id="slider3b" type="range" min="3" max="9" value="5" step="0.5" aria-label="반단축 조절">
+        </div>
+        <div class="btn-row">
+          <button class="action-btn" id="circleBtn">⚪ a=b로 맞추기(원 되기)</button>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="equation">
+          <div class="formula">넓이 = π × a × b</div>
+          <div class="result" id="result3">125.7<span>cm²</span></div>
+          <div class="subline" id="sub3"></div>
+        </div>
+        <div class="fact" id="fact3"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== STEP 4: 실생활 속 타원 ===== -->
+  <div class="section-block">
+    <span class="section-tag">STEP 4</span>
+    <h2>실생활 속 타원</h2>
+    <p class="section-sub">행성의 궤도와 "속삭이는 회랑"은 둘 다 타원의 초점 성질을 이용해요. 아래에서 직접 확인해보세요.</p>
+    <div class="stage">
+      <div class="canvas-area">
+        <svg id="svg4a" viewBox="0 0 460 300"></svg>
+        <div class="control-row">
+          <div class="control-label"><span>궤도 위 위치</span><b id="orbitLabel">30</b><span>°</span></div>
+          <input id="slider4a" type="range" min="0" max="359" value="30" step="2" aria-label="궤도 위치 조절">
+        </div>
+        <div class="fact" id="fact4a"></div>
+      </div>
+      <div class="panel">
+        <svg id="svg4b" viewBox="0 0 400 260"></svg>
+        <div class="control-row">
+          <div class="control-label"><span>속삭이는 지점 Q</span><b id="qLabel">60</b><span>°</span></div>
+          <input id="slider4b" type="range" min="0" max="359" value="60" step="2" aria-label="Q 위치 조절">
+        </div>
+        <div class="fact" id="fact4b"></div>
+      </div>
+    </div>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="circle-properties.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">원의 성질 실험실</span>
+    </a>
+    <a href="shape-finder.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">평면도형 모양 찾기</span>
+    </a>
+  </nav>
+<footer>타원은 원을 한 방향으로 늘린 도형이 아니라, "두 점까지 거리의 합이 일정한 점들의 자취"로 정의돼요. 원은 이 두 초점이 완전히 겹친(c=0, 이심률 e=0) 특별한 타원이랍니다.</footer>
+</div>
+
+<script>
+  function fmt(v){ return (Math.round(v*100)/100).toString(); }
+  function dist(a,b){ return Math.hypot(a[0]-b[0], a[1]-b[1]); }
+
+  // ============================================================
+  // STEP 1: 두 초점으로 그리는 타원
+  // ============================================================
+  (function(){
+    const svg = document.getElementById('svg1');
+    const sliderC = document.getElementById('slider1c');
+    const sliderP = document.getElementById('slider1p');
+    const cLabel = document.getElementById('cLabel1');
+    const pLabel = document.getElementById('pLabel1');
+    const result1 = document.getElementById('result1');
+    const sub1 = document.getElementById('sub1');
+    const fact1 = document.getElementById('fact1');
+
+    const PX=22, CX=240, CY=160, A_CM=8;
+
+    function render(){
+      const c = parseFloat(sliderC.value);
+      const pdeg = parseFloat(sliderP.value);
+      cLabel.textContent = fmt(c);
+      pLabel.textContent = pdeg;
+
+      const a = A_CM, b = Math.sqrt(a*a-c*c);
+      const t = pdeg*Math.PI/180;
+      const Plocal = [a*Math.cos(t), b*Math.sin(t)];
+      const F1local=[-c,0], F2local=[c,0];
+
+      const toSvg = (p)=>[CX+p[0]*PX, CY-p[1]*PX];
+      const P=toSvg(Plocal), F1=toSvg(F1local), F2=toSvg(F2local);
+
+      const d1 = dist(Plocal,F1local), d2 = dist(Plocal,F2local);
+      result1.innerHTML = `${fmt(d1+d2)}<span>cm</span>`;
+      sub1.textContent = `PF₁(${fmt(d1)}) + PF₂(${fmt(d2)}) = ${fmt(d1+d2)}cm = 2a(${fmt(2*a)}cm)`;
+
+      let pts=[];
+      for(let i=0;i<=64;i++){
+        const a2 = i/64*2*Math.PI;
+        pts.push(toSvg([a*Math.cos(a2), b*Math.sin(a2)]));
+      }
+      let html = `<polyline points="${pts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="var(--ink-soft)" stroke-width="2.5"></polyline>`;
+      html += `<line x1="${F1[0]}" y1="${F1[1]}" x2="${P[0]}" y2="${P[1]}" stroke="var(--coral)" stroke-width="2.5"></line>`;
+      html += `<line x1="${F2[0]}" y1="${F2[1]}" x2="${P[0]}" y2="${P[1]}" stroke="var(--violet)" stroke-width="2.5"></line>`;
+      [['F\u2081',F1,'var(--coral)'],['F\u2082',F2,'var(--violet)'],['P',P,'var(--ink)']].forEach(([name,pt,color])=>{
+        html += `<circle cx="${pt[0]}" cy="${pt[1]}" r="5" fill="${color}"></circle>`;
+        html += `<text x="${pt[0]}" y="${pt[1]-12}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="${color}">${name}</text>`;
+      });
+      svg.innerHTML = html;
+
+      fact1.innerHTML = `P를 타원 위 어디로 옮겨도 F₁까지 거리(${fmt(d1)}cm)와 F₂까지 거리(${fmt(d2)}cm)를 더하면 항상 <b>${fmt(d1+d2)}cm</b>로 똑같아요. 이건 실의 길이(2a=${fmt(2*a)}cm)와 정확히 같아요 — 이게 타원의 진짜 정의예요.`;
+    }
+    sliderC.addEventListener('input', render);
+    sliderP.addEventListener('input', render);
+    render();
+  })();
+
+  // ============================================================
+  // STEP 2: 이심률
+  // ============================================================
+  (function(){
+    const svg = document.getElementById('svg2');
+    const slider = document.getElementById('slider2');
+    const eLabel = document.getElementById('eLabel2');
+    const result2 = document.getElementById('result2');
+    const sub2 = document.getElementById('sub2');
+    const fact2 = document.getElementById('fact2');
+
+    const PX=22, CX=240, CY=160, A_CM=8;
+
+    function render(){
+      const e = parseFloat(slider.value);
+      eLabel.textContent = fmt(e);
+      const a=A_CM, c=e*a, b=Math.sqrt(a*a-c*c);
+      result2.textContent = fmt(e);
+      sub2.textContent = `a=${a}cm, c=${fmt(c)}cm, b=${fmt(b)}cm`;
+
+      const toSvg = (p)=>[CX+p[0]*PX, CY-p[1]*PX];
+      let pts=[];
+      for(let i=0;i<=64;i++){
+        const t=i/64*2*Math.PI;
+        pts.push(toSvg([a*Math.cos(t), b*Math.sin(t)]));
+      }
+      const F1=toSvg([-c,0]), F2=toSvg([c,0]);
+      let html = `<polyline points="${pts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="var(--coral)" stroke-width="3"></polyline>`;
+      html += `<circle cx="${F1[0]}" cy="${F1[1]}" r="4.5" fill="var(--ink)"></circle>`;
+      html += `<circle cx="${F2[0]}" cy="${F2[1]}" r="4.5" fill="var(--ink)"></circle>`;
+      svg.innerHTML = html;
+
+      let desc;
+      if(e<0.15) desc='거의 원에 가까워요.';
+      else if(e<0.5) desc='살짝 찌그러진 타원이에요.';
+      else if(e<0.8) desc='꽤 납작한 타원이에요.';
+      else desc='아주 많이 눌린, 길쭉한 타원이에요.';
+      fact2.innerHTML = `이심률 e = c÷a = ${fmt(c)}÷${a} = <b>${fmt(e)}</b>예요. ${desc} e가 0이면 두 초점이 완전히 겹쳐서 원이 되고, e가 1에 가까워질수록 타원은 점점 눌린 모양이 돼요.`;
+    }
+    slider.addEventListener('input', render);
+    render();
+  })();
+
+  // ============================================================
+  // STEP 3: 타원의 넓이
+  // ============================================================
+  (function(){
+    const svg = document.getElementById('svg3');
+    const sliderA = document.getElementById('slider3a');
+    const sliderB = document.getElementById('slider3b');
+    const aLabel = document.getElementById('aLabel3');
+    const bLabel = document.getElementById('bLabel3');
+    const result3 = document.getElementById('result3');
+    const sub3 = document.getElementById('sub3');
+    const fact3 = document.getElementById('fact3');
+    const circleBtn = document.getElementById('circleBtn');
+
+    const PX=22, CX=240, CY=160;
+
+    function render(){
+      const a = parseFloat(sliderA.value), b = parseFloat(sliderB.value);
+      aLabel.textContent = fmt(a);
+      bLabel.textContent = fmt(b);
+      const area = Math.PI*a*b;
+      result3.innerHTML = `${fmt(area)}<span>cm²</span>`;
+
+      const toSvg = (p)=>[CX+p[0]*PX, CY-p[1]*PX];
+      let pts=[];
+      for(let i=0;i<=64;i++){
+        const t=i/64*2*Math.PI;
+        pts.push(toSvg([a*Math.cos(t), b*Math.sin(t)]));
+      }
+      const isCircle = Math.abs(a-b)<0.05;
+      let html = `<polyline points="${pts.map(p=>p.join(',')).join(' ')}" fill="${isCircle?'var(--green)':'var(--coral)'}" fill-opacity="0.18" stroke="${isCircle?'var(--green)':'var(--coral)'}" stroke-width="3"></polyline>`;
+      html += `<line x1="${CX}" y1="${CY}" x2="${CX+a*PX}" y2="${CY}" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="4 4"></line>`;
+      html += `<line x1="${CX}" y1="${CY}" x2="${CX}" y2="${CY-b*PX}" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="4 4"></line>`;
+      html += `<text x="${CX+a*PX/2}" y="${CY+20}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)">a=${fmt(a)}cm</text>`;
+      html += `<text x="${CX-16}" y="${CY-b*PX/2}" text-anchor="end" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)">b=${fmt(b)}cm</text>`;
+      svg.innerHTML = html;
+
+      if(isCircle){
+        sub3.textContent = `a=b=${fmt(a)}cm 이므로 원! πr² = π×${fmt(a)}² = ${fmt(Math.PI*a*a)}cm²`;
+        fact3.innerHTML = `지금 a와 b가 같아져서 타원이 <b>완전한 원</b>이 됐어요! 넓이 공식 πab에 a=b=r을 넣으면 πr²이 되니까, 원의 넓이 공식은 사실 타원 넓이 공식의 특별한 경우예요.`;
+      } else {
+        sub3.textContent = `π × ${fmt(a)} × ${fmt(b)} = ${fmt(area)}cm²`;
+        fact3.innerHTML = `타원의 넓이는 <b>π × a × b</b>로 구해요. 반장축(${fmt(a)}cm)과 반단축(${fmt(b)}cm)을 곱하고 π를 곱하면 끝이에요. a와 b를 같게 만들어보면(버튼을 눌러보세요) 이 공식이 원의 넓이 공식 πr²과 정확히 같아지는 걸 볼 수 있어요.`;
+      }
+    }
+    sliderA.addEventListener('input', render);
+    sliderB.addEventListener('input', render);
+    circleBtn.addEventListener('click', ()=>{
+      const avg = (parseFloat(sliderA.value)+parseFloat(sliderB.value))/2;
+      sliderA.value = avg; sliderB.value = avg;
+      render();
+    });
+    render();
+  })();
+
+  // ============================================================
+  // STEP 4: 실생활 속 타원
+  // ============================================================
+  (function(){
+    // 4a: 케플러 궤도
+    const svg4a = document.getElementById('svg4a');
+    const slider4a = document.getElementById('slider4a');
+    const orbitLabel = document.getElementById('orbitLabel');
+    const fact4a = document.getElementById('fact4a');
+
+    const PX_A=18, CX_A=230, CY_A=150, A4=10, C4=6, B4=Math.sqrt(A4*A4-C4*C4);
+
+    function renderOrbit(){
+      const deg = parseFloat(slider4a.value);
+      orbitLabel.textContent = deg;
+      const t = deg*Math.PI/180;
+      const toSvg=(p)=>[CX_A+p[0]*PX_A, CY_A-p[1]*PX_A];
+      const sun = toSvg([-C4,0]);
+      const planet = toSvg([A4*Math.cos(t), B4*Math.sin(t)]);
+      const distToSun = dist([A4*Math.cos(t),B4*Math.sin(t)], [-C4,0]);
+
+      let pts=[];
+      for(let i=0;i<=64;i++){
+        const a2=i/64*2*Math.PI;
+        pts.push(toSvg([A4*Math.cos(a2), B4*Math.sin(a2)]));
+      }
+      let html = `<polyline points="${pts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="var(--ink-soft)" stroke-width="2"></polyline>`;
+      html += `<circle cx="${sun[0]}" cy="${sun[1]}" r="10" fill="#FFB627"></circle>`;
+      html += `<text x="${sun[0]}" y="${sun[1]+26}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="#B45309">태양</text>`;
+      html += `<circle cx="${planet[0]}" cy="${planet[1]}" r="6" fill="var(--violet)"></circle>`;
+      html += `<line x1="${sun[0]}" y1="${sun[1]}" x2="${planet[0]}" y2="${planet[1]}" stroke="var(--violet)" stroke-width="1.5" stroke-dasharray="3 4"></line>`;
+      svg4a.innerHTML = html;
+
+      const near = distToSun < A4*0.6;
+      fact4a.innerHTML = `태양은 타원 궤도의 <b>중심이 아니라 한 초점</b>에 있어요(케플러 제1법칙). 지금 행성과 태양 사이 거리는 <b>${fmt(distToSun)}</b>(단위 거리)로, ${near?'태양에 가까워서 더 빠르게 움직여요':'태양에서 멀어서 더 느리게 움직여요'} — 이것도 케플러의 법칙 중 하나예요.`;
+    }
+    slider4a.addEventListener('input', renderOrbit);
+    renderOrbit();
+
+    // 4b: 속삭이는 회랑
+    const svg4b = document.getElementById('svg4b');
+    const slider4b = document.getElementById('slider4b');
+    const qLabel = document.getElementById('qLabel');
+    const fact4b = document.getElementById('fact4b');
+
+    const PX_B=16, CX_B=200, CY_B=130, A5=10, C5=6.5, B5=Math.sqrt(A5*A5-C5*C5);
+
+    function angleBetween(u,v){
+      const m1=Math.hypot(u[0],u[1]), m2=Math.hypot(v[0],v[1]);
+      let c=(u[0]*v[0]+u[1]*v[1])/(m1*m2);
+      c=Math.max(-1,Math.min(1,c));
+      return Math.acos(c)*180/Math.PI;
+    }
+    function norm(x){ return Math.min(x,180-x); }
+
+    function renderGallery(){
+      const deg = parseFloat(slider4b.value);
+      qLabel.textContent = deg;
+      const t = deg*Math.PI/180;
+      const Qlocal=[A5*Math.cos(t), B5*Math.sin(t)];
+      const tangent=[-A5*Math.sin(t), B5*Math.cos(t)];
+      const F1local=[-C5,0], F2local=[C5,0];
+
+      const toF1=[F1local[0]-Qlocal[0], F1local[1]-Qlocal[1]];
+      const toF2=[F2local[0]-Qlocal[0], F2local[1]-Qlocal[1]];
+      const ang1 = norm(angleBetween(toF1,tangent));
+      const ang2 = norm(angleBetween(toF2,tangent));
+
+      const toSvg=(p)=>[CX_B+p[0]*PX_B, CY_B-p[1]*PX_B];
+      const Q=toSvg(Qlocal), F1=toSvg(F1local), F2=toSvg(F2local);
+
+      let pts=[];
+      for(let i=0;i<=64;i++){
+        const a2=i/64*2*Math.PI;
+        pts.push(toSvg([A5*Math.cos(a2), B5*Math.sin(a2)]));
+      }
+      let html = `<polyline points="${pts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="var(--ink-soft)" stroke-width="2"></polyline>`;
+      html += `<line x1="${F1[0]}" y1="${F1[1]}" x2="${Q[0]}" y2="${Q[1]}" stroke="var(--coral)" stroke-width="2.5"></line>`;
+      html += `<line x1="${F2[0]}" y1="${F2[1]}" x2="${Q[0]}" y2="${Q[1]}" stroke="var(--violet)" stroke-width="2.5"></line>`;
+      html += `<circle cx="${F1[0]}" cy="${F1[1]}" r="5" fill="var(--coral)"></circle>`;
+      html += `<circle cx="${F2[0]}" cy="${F2[1]}" r="5" fill="var(--violet)"></circle>`;
+      html += `<circle cx="${Q[0]}" cy="${Q[1]}" r="5" fill="var(--ink)"></circle>`;
+      html += `<text x="${F1[0]}" y="${F1[1]+18}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--coral)">F₁(말하는 사람)</text>`;
+      html += `<text x="${F2[0]}" y="${F2[1]+18}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--violet)">F₂(듣는 사람)</text>`;
+      svg4b.innerHTML = html;
+
+      fact4b.innerHTML = `벽 위의 점 Q(각도 ${deg}°)에서 소리가 반사될 때, F₁에서 온 소리와 벽 사이의 각(${fmt(ang1)}°)과 F₂로 나가는 소리와 벽 사이의 각(${fmt(ang2)}°)이 <b>항상 똑같아요</b>. 그래서 한쪽 초점에서 속삭이면 반사된 소리가 반드시 반대쪽 초점으로 모여요 — 실제 "속삭이는 회랑" 건축물의 원리예요.`;
+    }
+    slider4b.addEventListener('input', renderGallery);
+    renderGallery();
+  })();
+</script>
+</body>
+</html>

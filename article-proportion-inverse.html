@@ -11,6 +11,8 @@
 <style>
   :root{
     --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
     --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
   *{box-sizing:border-box;}
@@ -43,6 +45,9 @@
     font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;
   }
   .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:280px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
   .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
   .cta-btn{
     display:inline-flex;align-items:center;gap:8px;
@@ -69,6 +74,20 @@
     <div class="article-body">
       <p>물건을 살 때 "1개에 1000원이면 3개는 3000원"이라고 계산하는 건 사실 비례 관계를 이용한 거예요. 반대로 "같은 거리를 갈 때 속도를 2배로 높이면 걸리는 시간은 절반"이라는 건 반비례 관계입니다. 두 개념 모두 우리가 일상에서 무의식적으로 쓰고 있지만, 수학적으로 정확히 구분해서 이해하면 훨씬 다양한 문제에 적용할 수 있어요.</p>
       <p>비례는 한 값이 커지면 다른 값도 같은 비율로 커지는 관계예요. y=kx라는 식으로 표현하는데, x가 2배가 되면 y도 2배, x가 3배가 되면 y도 3배가 됩니다. 그래프로 그리면 원점을 지나는 직선이 나와요. 반면 반비례는 한 값이 커지면 다른 값은 같은 비율로 작아지는 관계로, y=k/x라는 식으로 표현하고 그래프는 부드러운 곡선 모양이 됩니다.</p>
+      <div class="illo">
+        <svg viewBox="0 0 260 130">
+          <line x1="15" y1="10" x2="15" y2="110" stroke="var(--ink-soft)" stroke-width="1.5"></line>
+          <line x1="15" y1="110" x2="110" y2="110" stroke="var(--ink-soft)" stroke-width="1.5"></line>
+          <line x1="15" y1="105" x2="100" y2="15" stroke="var(--blue-ink)" stroke-width="2.5"></line>
+          <text x="62" y="126" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--blue-ink)">정비례 y=kx</text>
+
+          <line x1="150" y1="10" x2="150" y2="110" stroke="var(--ink-soft)" stroke-width="1.5"></line>
+          <line x1="150" y1="110" x2="245" y2="110" stroke="var(--ink-soft)" stroke-width="1.5"></line>
+          <path d="M 158 20 Q 165 60 195 65 Q 225 70 240 100" fill="none" stroke="var(--coral-ink)" stroke-width="2.5"></path>
+          <text x="197" y="126" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--coral-ink)">반비례 y=k/x</text>
+        </svg>
+        <div class="illo-caption">정비례는 원점을 지나는 직선, 반비례는 점점 완만해지는 곡선이에요</div>
+      </div>
       <p>이 둘을 구분하는 가장 쉬운 방법은 "두 수를 곱했을 때 일정한지, 나눴을 때 일정한지"를 확인하는 거예요. 비례 관계는 y를 x로 나눈 값이 항상 일정하고, 반비례 관계는 두 값을 곱한 값이 항상 일정합니다. 표로 주어진 데이터를 보고 어느 쪽인지 헷갈릴 때는 이 계산을 해보면 바로 답이 나와요.</p>
       <p>실생활 예시로는, 자동차 연비가 일정할 때 주유량과 이동 거리는 비례 관계이고, 정해진 양의 일을 할 때 일하는 사람 수와 걸리는 시간은 반비례 관계예요. 사람이 많아질수록 한 사람당 할 일이 줄어들어 전체 시간이 짧아지니까요. 이런 예시를 들어 설명하면 추상적인 공식이 훨씬 몸에 와닿습니다.</p>
       <p>표로 주어진 데이터가 비례인지 반비례인지 헷갈릴 때는, 몇 가지 대표적인 상황을 미리 익혀두면 판단이 훨씬 빨라져요. 예를 들어 '한 사람이 하루에 일하는 양이 똑같을 때, 일하는 사람 수와 전체 작업을 끝내는 데 걸리는 날짜'는 반비례 관계의 단골 소재입니다. 사람이 2배로 늘면 걸리는 날짜는 절반으로 줄어드니까요. 반면 '기름 1리터로 15km를 가는 자동차가 기름을 넣은 양에 따라 갈 수 있는 거리'는 비례 관계의 대표적인 예시예요. 이렇게 자주 나오는 상황 몇 가지를 미리 정리해두면, 새로운 문제를 만났을 때도 비슷한 패턴을 떠올리며 훨씬 수월하게 접근할 수 있습니다. 아이와 함께 일상 속에서 비례와 반비례 상황을 찾아보는 게임을 해보는 것도 개념을 오래 기억하게 하는 좋은 방법이에요.</p>
