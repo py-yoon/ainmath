@@ -11,6 +11,8 @@
 <style>
   :root{
     --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
     --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
   *{box-sizing:border-box;}
@@ -43,6 +45,9 @@
     font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;
   }
   .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:280px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
   .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
   .cta-btn{
     display:inline-flex;align-items:center;gap:8px;
@@ -68,6 +73,30 @@
   <div class="card">
     <div class="article-body">
       <p>어릴 때 아버지가 자전거 바퀴 지름을 줄자로 재보라고 하신 적이 있어요. 그리고 바퀴를 한 바퀴 굴려서 바닥에 표시한 다음 그 거리를 재보라고 하셨죠. 지름의 몇 배쯤 될 것 같냐고 물으셔서 저는 "세 배쯤이요"라고 답했는데, 실제로 재보니 3배보다 살짝 더 길더라고요. 그 살짝 더 긴 부분, 그게 바로 원주율의 정체였습니다.</p>
+      <div class="illo">
+        <svg viewBox="0 0 220 130">
+          <circle cx="35" cy="35" r="25" fill="none" stroke="var(--violet-ink)" stroke-width="2.5"></circle>
+          <line x1="10" y1="35" x2="60" y2="35" stroke="var(--coral-ink)" stroke-width="2" stroke-dasharray="4 3"></line>
+          <text x="35" y="70" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--coral-ink)">지름</text>
+          <g stroke="var(--ink-soft)" stroke-width="2">
+            <line x1="10" y1="95" x2="167" y2="95"></line>
+          </g>
+          <g stroke="var(--violet-ink)" stroke-width="2">
+            <line x1="10" y1="88" x2="10" y2="102"></line>
+            <line x1="60" y1="88" x2="60" y2="102"></line>
+            <line x1="110" y1="88" x2="110" y2="102"></line>
+            <line x1="160" y1="88" x2="160" y2="102"></line>
+          </g>
+          <line x1="160" y1="90" x2="167" y2="90" stroke="var(--coral-ink)" stroke-width="4"></line>
+          <g font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)" text-anchor="middle">
+            <text x="35" y="115">지름</text>
+            <text x="85" y="115">지름</text>
+            <text x="135" y="115">지름</text>
+            <text x="172" y="115" fill="var(--coral-ink)">0.14</text>
+          </g>
+        </svg>
+        <div class="illo-caption">원을 한 바퀴 굴리면 지름의 3배보다 딱 0.14만큼 더 굴러가요 — 그래서 원주율은 3.14</div>
+      </div>
       <p>원주율은 원의 둘레(원주)를 지름으로 나눈 값이에요. 신기하게도 이 값은 원이 아무리 크든 작든 항상 똑같이 3.14159...로 나옵니다. 100원짜리 동전이든 마당에 그린 커다란 원이든, 둘레를 지름으로 나누면 늘 같은 숫자가 나온다는 게 처음 들으면 좀 신기하죠. 그래서 옛날 수학자들도 이 값을 정확히 구하려고 몇백 년 동안 매달렸고, 지금은 컴퓨터로 소수점 아래 수조 자리까지 계산해낸 상태예요.</p>
       <p>수업 시간에 원주율을 배울 때 가장 좋은 방법은 역시 직접 굴려보는 거예요. 실이나 줄자로 원 모양 물건의 둘레를 감아서 재고, 지름과 비교해보는 활동을 하면 공식을 외우지 않아도 자연스럽게 '아, 항상 3배 조금 넘는구나'라는 감각이 생겨요. 이 감각이 나중에 원의 넓이나 부피 공식을 배울 때도 큰 도움이 됩니다.</p>
       <p>원주율은 사실 수학 시간에만 쓰이는 게 아니에요. 롤러코스터의 원형 트랙을 설계하거나, 피자 한 판의 크기를 계산하거나, 심지어 우주선이 지구 궤도를 돌 때 이동 거리를 계산하는 데도 원주율이 쓰입니다. 우리가 흔히 3.14로 줄여서 쓰지만, 정밀한 계산이 필요한 분야에서는 훨씬 더 긴 자릿수를 사용하기도 해요.</p>

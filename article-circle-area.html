@@ -11,6 +11,8 @@
 <style>
   :root{
     --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
     --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
   *{box-sizing:border-box;}
@@ -43,6 +45,9 @@
     font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;
   }
   .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:320px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
   .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
   .cta-btn{
     display:inline-flex;align-items:center;gap:8px;
@@ -69,6 +74,34 @@
     <div class="article-body">
       <p>피자를 시켜 먹을 때 한 번쯤 "이 피자 한 판 넓이가 대체 얼마나 될까?" 생각해본 적 있으신가요? 원의 넓이 공식 πr²은 사실 이런 궁금증에서 출발한 아주 실용적인 공식이에요.</p>
       <p>원의 넓이를 처음 배울 때 많은 학생들이 공식만 외우고 넘어가는데, 사실 이 공식이 어디서 나왔는지 알면 훨씬 재미있어요. 원을 피자처럼 아주 얇은 부채꼴 조각으로 잘게 잘라서, 그 조각들을 위아래로 번갈아 뒤집어 이어 붙이면 점점 직사각형에 가까운 모양이 됩니다. 이 직사각형의 가로 길이는 원래 원의 둘레의 절반(즉 πr), 세로 길이는 반지름(r)이 되죠. 그래서 넓이는 가로×세로, 즉 πr×r=πr²가 되는 거예요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 300 120">
+          <path d="M 50 60 L 50.0 15.0 A 45 45 0 0 1 81.8 28.2 Z" fill="var(--violet-soft)" stroke="var(--ink-soft)" stroke-width="1"></path>
+          <path d="M 50 60 L 81.8 28.2 A 45 45 0 0 1 95.0 60.0 Z" fill="var(--coral-soft)" stroke="var(--ink-soft)" stroke-width="1"></path>
+          <path d="M 50 60 L 95.0 60.0 A 45 45 0 0 1 81.8 91.8 Z" fill="var(--violet-soft)" stroke="var(--ink-soft)" stroke-width="1"></path>
+          <path d="M 50 60 L 81.8 91.8 A 45 45 0 0 1 50.0 105.0 Z" fill="var(--coral-soft)" stroke="var(--ink-soft)" stroke-width="1"></path>
+          <path d="M 50 60 L 50.0 105.0 A 45 45 0 0 1 18.2 91.8 Z" fill="var(--violet-soft)" stroke="var(--ink-soft)" stroke-width="1"></path>
+          <path d="M 50 60 L 18.2 91.8 A 45 45 0 0 1 5.0 60.0 Z" fill="var(--coral-soft)" stroke="var(--ink-soft)" stroke-width="1"></path>
+          <path d="M 50 60 L 5.0 60.0 A 45 45 0 0 1 18.2 28.2 Z" fill="var(--violet-soft)" stroke="var(--ink-soft)" stroke-width="1"></path>
+          <path d="M 50 60 L 18.2 28.2 A 45 45 0 0 1 50.0 15.0 Z" fill="var(--coral-soft)" stroke="var(--ink-soft)" stroke-width="1"></path>
+          <text x="115" y="65" font-family="'Do Hyeon',sans-serif" font-size="22" fill="var(--ink-soft)">→</text>
+          <g>
+            <rect x="140" y="25" width="15" height="70" fill="var(--violet-soft)" stroke="var(--ink-soft)" stroke-width="1"></rect>
+            <rect x="155" y="25" width="15" height="70" fill="var(--coral-soft)" stroke="var(--ink-soft)" stroke-width="1"></rect>
+            <rect x="170" y="25" width="15" height="70" fill="var(--violet-soft)" stroke="var(--ink-soft)" stroke-width="1"></rect>
+            <rect x="185" y="25" width="15" height="70" fill="var(--coral-soft)" stroke="var(--ink-soft)" stroke-width="1"></rect>
+            <rect x="200" y="25" width="15" height="70" fill="var(--violet-soft)" stroke="var(--ink-soft)" stroke-width="1"></rect>
+            <rect x="215" y="25" width="15" height="70" fill="var(--coral-soft)" stroke="var(--ink-soft)" stroke-width="1"></rect>
+            <rect x="230" y="25" width="15" height="70" fill="var(--violet-soft)" stroke="var(--ink-soft)" stroke-width="1"></rect>
+            <rect x="245" y="25" width="15" height="70" fill="var(--coral-soft)" stroke="var(--ink-soft)" stroke-width="1"></rect>
+          </g>
+          <line x1="140" y1="15" x2="260" y2="15" stroke="var(--violet-ink)" stroke-width="1.5"></line>
+          <text x="200" y="12" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--violet-ink)">πr (둘레의 절반)</text>
+          <line x1="130" y1="25" x2="130" y2="95" stroke="var(--coral-ink)" stroke-width="1.5"></line>
+          <text x="126" y="63" text-anchor="end" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--coral-ink)">r</text>
+        </svg>
+        <div class="illo-caption">원을 잘게 잘라 이어 붙이면 가로 πr, 세로 r인 직사각형에 가까워져요 — 넓이 = πr × r = πr²</div>
+      </div>
       <p>이 설명을 처음 들으면 살짝 어렵게 느껴질 수 있지만, 실제로 색종이 원을 잘라서 조각을 이어 붙여보면 눈으로 확인할 수 있어서 훨씬 이해가 쉬워집니다. 조각을 많이 자를수록 더 반듯한 직사각형에 가까워진다는 것도 함께 느낄 수 있고요.</p>
       <p>원의 넓이는 생활 곳곳에 숨어 있어요. 원형 케이크를 나눌 때, 우물이나 원형 수영장의 면적을 계산할 때, 심지어 CCTV 카메라 한 대가 감시할 수 있는 범위를 원으로 어림잡을 때도 이 공식이 쓰입니다. 피자 두 판 중에 어느 게 더 이득인지 지름만 보고 비교하려면, 반지름을 제곱한다는 사실을 꼭 기억해야 해요. 지름이 2배가 되면 넓이는 2배가 아니라 4배가 되거든요. 이 부분에서 많은 학생들이 실수를 하니 특히 강조해서 알려주시면 좋습니다.</p>
       <p>원의 넓이 공식과 앞서 배운 원의 둘레 공식(2πr)을 나란히 놓고 보면 재미있는 연결고리가 보여요. 둘레는 반지름에 비례해서 커지지만, 넓이는 반지름의 제곱에 비례해서 커지죠. 그래서 반지름이 2배가 되면 둘레는 2배로 늘어나는데, 넓이는 4배로 훌쩍 뛰어버립니다. 이 차이를 실감 나게 보여주는 예로 라지 사이즈 피자와 미디엄 사이즈 피자를 비교해볼 수 있어요. 지름이 1.5배 차이 나는 두 피자라도 실제 먹을 수 있는 양은 1.5배가 아니라 2.25배 가까이 차이가 나거든요. 그래서 조금 더 비싸더라도 큰 사이즈 피자를 시키는 게 오히려 이득인 경우가 많다는 걸, 아이와 함께 직접 계산해보면 꽤 실용적인 수학 공부가 될 거예요.</p>
