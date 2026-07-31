@@ -11,6 +11,8 @@
 <style>
   :root{
     --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
     --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
   *{box-sizing:border-box;}
@@ -29,6 +31,9 @@
   .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
   .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
   .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:220px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
   .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
   .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#1D7C7E;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
   .cta-btn:hover{transform:translateY(-2px);}
@@ -47,6 +52,25 @@
   <div class="card">
     <div class="article-body">
       <p>중국 전설에 따르면, 큰 홍수가 났을 때 낙수라는 강에서 신비로운 거북이 한 마리가 나타났대요. 그 등껍질에는 점으로 된 숫자 배열이 새겨져 있었는데, 가로줄도 세로줄도 대각선도 모두 합이 똑같았다고 해요. "낙서(洛書)"라고 불리는 이 전설의 배열이 바로 우리가 아는 <b>마방진</b>의 시초로 여겨져요. 3천 년도 더 된 이야기지만, 마방진은 지금까지도 수학자와 퍼즐 애호가들을 매료시키는 주제예요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 200 190">
+          <rect x="10" y="70" width="180" height="60" fill="var(--coral-soft)"></rect>
+          <line x1="40" y1="35" x2="160" y2="155" stroke="var(--teal-ink)" stroke-width="3" stroke-dasharray="6 4"></line>
+          <g stroke="var(--ink-soft)" stroke-width="1.5" fill="none">
+            <rect x="10" y="10" width="180" height="180"></rect>
+            <line x1="70" y1="10" x2="70" y2="190"></line>
+            <line x1="130" y1="10" x2="130" y2="190"></line>
+            <line x1="10" y1="70" x2="190" y2="70"></line>
+            <line x1="10" y1="130" x2="190" y2="130"></line>
+          </g>
+          <g font-family="'Do Hyeon',sans-serif" font-size="26" fill="var(--ink)" text-anchor="middle">
+            <text x="40" y="50">4</text><text x="100" y="50">9</text><text x="160" y="50">2</text>
+            <text x="40" y="110">3</text><text x="100" y="110">5</text><text x="160" y="110">7</text>
+            <text x="40" y="170">8</text><text x="100" y="170">1</text><text x="160" y="170">6</text>
+          </g>
+        </svg>
+        <div class="illo-caption">가로줄(3+5+7), 세로줄, 대각선(4+5+6) — 어느 방향으로 더해도 합이 항상 15예요</div>
+      </div>
       <p>마방진의 규칙은 명확해요. 1부터 9까지(3×3인 경우) 숫자를 한 번씩만 써서 정사각형을 채우는데, 가로줄 3개, 세로줄 3개, 대각선 2개, 총 8개 줄의 합이 모두 똑같아야 해요. 3×3 마방진에서 이 합은 항상 <b>15</b>가 될 수밖에 없어요. 1부터 9까지 다 더하면 45이고, 이 45를 가로 3줄로 똑같이 나눠야 하니 45÷3=15가 되는 거예요. 참고로 가운데 칸에는 항상 5가 들어가야 해요 — 가운데를 지나는 줄(가로, 세로, 대각선 2개, 총 4개 줄)이 모두 가운데 숫자를 공유하기 때문에, 평균값인 5가 아니면 합을 맞추기가 불가능해지거든요.</p>
       <p>3×3 마방진은 사실 딱 하나의 배열만 존재해요. 다만 그 하나를 돌리거나(회전) 뒤집으면(대칭) 겉보기엔 다른 8가지 모양이 나오는데, 본질적으로는 모두 같은 마방진이에요. 4×4, 5×5로 커지면 가능한 마방진의 개수가 폭발적으로 늘어나는데, 4×4는 무려 880가지, 5×5는 2억 7천 개가 넘는 서로 다른 마방진이 존재한다고 알려져 있어요.</p>
       <p>마방진은 단순한 퍼즐을 넘어 수학사에서 진지하게 연구된 주제예요. 독일 화가 알브레히트 뒤러는 1514년 작품 "멜랑콜리아 I"에 4×4 마방진을 그려 넣었는데, 심지어 맨 아래 줄 가운데 두 칸에 작품을 만든 연도(1514)가 나타나도록 정교하게 설계했어요. 인도의 천재 수학자 라마누잔은 자신의 생일이 들어가는 마방진을 즉석에서 만들어 보였다는 일화로도 유명해요. 이렇게 마방진은 수학적 아름다움과 예술적 영감이 만나는 지점에 있는 특별한 주제예요.</p>
