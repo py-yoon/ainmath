@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>자와 컴퍼스 작도 실험실</title>
-<meta name="description" content="눈금 없는 자와 컴퍼스만으로 수직이등분선, 각의 이등분선, 정삼각형, 정육각형을 작도하는 과정을 단계별로 보고, 직접 작도 문제에 도전해봐요.">
+<meta name="description" content="눈금 없는 자와 컴퍼스만으로 수직이등분선, 각의 이등분선, 정삼각형, 정오각형, 정육각형, 정팔각형을 작도하는 과정을 단계별로 보고, 직접 작도 문제에 도전해봐요.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
@@ -130,7 +130,9 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
     </div>
   </div>
 
-  <div class="fact">두 도구만으로 할 수 있는 일은 딱 두 가지뿐이에요 — <b>이미 표시된 두 점을 지나는 직선 긋기</b>, 그리고 <b>이미 표시된 한 점을 중심으로, 다른 두 점 사이의 거리를 반지름 삼아 원 그리기</b>. 신기하게도 이 두 가지만 반복해도 수직이등분선, 각의 이등분선, 정삼각형, 정육각형처럼 정확한 도형을 만들 수 있어요.</div>
+  <div class="fact">두 도구만으로 할 수 있는 일은 딱 두 가지뿐이에요 — <b>이미 표시된 두 점을 지나는 직선 긋기</b>, 그리고 <b>이미 표시된 한 점을 중심으로, 다른 두 점 사이의 거리를 반지름 삼아 원 그리기</b>. 신기하게도 이 두 가지만 반복해도 수직이등분선, 각의 이등분선, 정삼각형, 정오각형, 정육각형, 정팔각형처럼 정확한 도형을 만들 수 있어요.</div>
+
+  <div class="fact" style="background:var(--coral-soft);">🤔 <b style="color:var(--coral-ink);">그럼 정칠각형(7각형)은 왜 예시에 없을까요?</b> 정삼각형·정오각형·정육각형·정팔각형과 달리, 정칠각형은 눈금 없는 자와 컴퍼스만으로는 <b style="color:var(--coral-ink);">절대로 작도할 수 없다는 것이 수학적으로 증명</b>되어 있어요! 어떤 정다각형을 작도할 수 있는지는 변의 개수가 2의 거듭제곱과 "페르마 소수"(3, 5, 17, 257, 65537처럼 특별한 소수)들의 곱으로 나타나는지에 달려 있는데, 7은 이 조건을 만족하지 못하거든요. "이렇게 하면 안 된다"는 사실도 수학으로 증명할 수 있다는 게 신기하지 않나요?</div>
 
       <!-- prev-next-nav -->
   <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
@@ -260,7 +262,31 @@ const EXAMPLES = {
       { desc:'A-C, B-C를 곧은자로 이으면, 세 변의 길이가 모두 같은 정삼각형 ABC가 완성돼요!', els:[finseg(A,C), finseg(B,C), finseg(A,B)] },
     ];
   })() },
-  hexagon: { key:'hexagon', title:'④ 정육각형', steps: (()=>{
+  pentagon: { key:'pentagon', title:'④ 정오각형', steps: (()=>{
+    const O={x:240,y:200}, r=90;
+    const P0={x:O.x,y:O.y-r}, B={x:O.x+r,y:O.y};
+    const M={x:(O.x+B.x)/2, y:(O.y+B.y)/2};
+    const rOB = dist(O,B);
+    const bisIp = circleCircleIntersect(O,rOB,B,rOB);
+    const MP0 = dist(M,P0);
+    const N = {x:M.x-MP0, y:O.y};
+    const s = MP0 - dist(M,N) + dist(P0,N); // = dist(P0,N), side length
+    const side = dist(P0,N);
+    const [c1,c2] = circleCircleIntersect(P0, side, O, r);
+    const P1 = c1.x > O.x ? c1 : c2, P4 = c1.x > O.x ? c2 : c1;
+    const P2 = circleCircleIntersect(P1, side, O, r).find(p=>dist(p,P0)>5);
+    const P3 = circleCircleIntersect(P4, side, O, r).find(p=>dist(p,P0)>5);
+    return [
+      { desc:'원과, 서로 수직인 두 반지름 OP0(수직), OB(수평)가 주어졌어요. (수직인 반지름을 작도하는 법은 ⑥ 정팔각형 예시에서 확인해보세요!)', els:[circ(O,r), pt(O,'O'), pt(P0,'P0'), pt(B,'B'), seg(O,P0), seg(O,B)] },
+      { desc:'O, B를 각각 중심으로 반지름 OB인 원 두 개를 그려요. 두 교점을 이으면 OB의 수직이등분선이고, OB와 만나는 점이 중점 M이에요.', els:[circ(O,rOB), circ(B,rOB), pt(M,'M')] },
+      { desc:'M에서 P0까지 선분을 그어요.', els:[seg(M,P0)] },
+      { desc:'M을 중심으로, 반지름을 MP0으로 하는 원을 그려요. 이 원이 직선 OB(왼쪽으로 연장한 부분)와 만나는 점이 N이에요.', els:[circ(M,MP0), pt(N,'N')] },
+      { desc:'P0을 중심으로, 반지름을 P0N으로 하는 원을 그려요. 이 반지름이 바로 정오각형의 한 변의 길이예요! 이 원이 처음 원과 만나는 두 점이 P1, P4예요.', els:[circ(P0,side), pt(P1,'P1'), pt(P4,'P4')] },
+      { desc:'같은 반지름으로 P1, P4를 중심으로 각각 원을 그리면, 처음 원과 만나는 새 점 P2, P3을 찾을 수 있어요.', els:[circ(P1,side), circ(P4,side), pt(P2,'P2'), pt(P3,'P3')] },
+      { desc:'P0-P1-P2-P3-P4를 순서대로 이으면 정오각형이 완성돼요!', els:[finseg(P0,P1),finseg(P1,P2),finseg(P2,P3),finseg(P3,P4),finseg(P4,P0)] },
+    ];
+  })() },
+  hexagon: { key:'hexagon', title:'⑤ 정육각형', steps: (()=>{
     const O={x:240,y:200}, r=85;
     const hex=[];
     for(let k=0;k<6;k++){ const rad=(90+k*60)*Math.PI/180; hex.push({x:O.x+r*Math.cos(rad), y:O.y-r*Math.sin(rad)}); }
@@ -273,8 +299,42 @@ const EXAMPLES = {
     s.push({ desc:'P1부터 P6까지 순서대로 곧은자로 이으면 정육각형이 완성돼요! 정삼각형 6개를 이어붙인 것과 같은 모양이에요.', els: hex.map((p,i)=>finseg(p,hex[(i+1)%6])) });
     return s;
   })() },
+  octagon: { key:'octagon', title:'⑥ 정팔각형', steps: (()=>{
+    const O={x:240,y:200}, r=85;
+    const S0={x:O.x,y:O.y-r};
+    const S2={x:O.x,y:O.y+r}; // antipodal via line through O
+    const rS=dist(S0,S2);
+    const diamBisPts = circleCircleIntersect(S0,rS,S2,rS);
+    const diamIp = lineCircleIntersect(diamBisPts[0], diamBisPts[1], O, r);
+    const [d1,d2] = diamIp;
+    const S1 = d1.x>O.x ? d1 : d2, S3 = d1.x>O.x ? d2 : d1;
+    // arc midpoints via perpendicular bisector of each side chord, extended through the circle
+    function arcMidpoints(A,B){
+      const rc = dist(A,B);
+      const bisPts = circleCircleIntersect(A,rc,B,rc);
+      // the bisector line passes through O; find where it crosses the circle (both sides)
+      const [e1,e2] = lineCircleIntersect(bisPts[0], bisPts[1], O, r);
+      return {bisPts, e1, e2};
+    }
+    const m01 = arcMidpoints(S0,S1);
+    const E01 = dist(m01.e1, {x:(S0.x+S1.x)/2,y:(S0.y+S1.y)/2}) < dist(m01.e2,{x:(S0.x+S1.x)/2,y:(S0.y+S1.y)/2}) ? m01.e1 : m01.e2;
+    const E23 = E01===m01.e1 ? m01.e2 : m01.e1;
+    const m12 = arcMidpoints(S1,S2);
+    const E12 = dist(m12.e1, {x:(S1.x+S2.x)/2,y:(S1.y+S2.y)/2}) < dist(m12.e2,{x:(S1.x+S2.x)/2,y:(S1.y+S2.y)/2}) ? m12.e1 : m12.e2;
+    const E30 = E12===m12.e1 ? m12.e2 : m12.e1;
+    const oct = [S0,E01,S1,E12,S2,E23,S3,E30];
+    return [
+      { desc:'원과 중심 O, 원 위의 한 점 S0이 주어졌어요.', els:[circ(O,r), pt(O,'O'), pt(S0,'S0')] },
+      { desc:'S0에서 O를 지나는 직선을 그으면, 반대편에서 원과 만나는 점이 S2예요 (지름).', els:[fline(S0,S2), pt(S2,'S2')] },
+      { desc:'S0, S2를 각각 중심으로 반지름 S0S2인 원 두 개를 그려요. 두 교점을 이은 직선은 S0S2와 수직이면서 원과 S1, S3에서 만나요 — 이렇게 서로 수직인 지름 2개를 만들면 정사각형의 네 꼭짓점이 완성돼요.', els:[circ(S0,rS), circ(S2,rS), fline(diamIp[0],diamIp[1]), pt(S1,'S1'), pt(S3,'S3')] },
+      { desc:'S0, S1을 각각 중심으로 반지름 S0S1인 원 두 개를 그려요. 두 교점을 이은 직선은 원과 두 점에서 만나는데, 그중 호 S0S1의 한가운데인 점이 E1이에요.', els:[circ(S0,dist(S0,S1)), circ(S1,dist(S0,S1)), fline(m01.bisPts[0],m01.bisPts[1]), pt(E01,'E1')] },
+      { desc:'같은 방법을 S1S2 변에도 적용하면 호의 한가운데 점 E2를 찾을 수 있어요.', els:[circ(S1,dist(S1,S2)), circ(S2,dist(S1,S2)), fline(m12.bisPts[0],m12.bisPts[1]), pt(E12,'E2')] },
+      { desc:'같은 원리로 반대쪽 호의 중점 E3, E4도 이미 함께 찾아졌어요 (수직이등분선은 원의 중심을 지나므로, 양쪽 호의 중점을 한 번에 찾아줘요).', els:[pt(E23,'E3'), pt(E30,'E4')] },
+      { desc:'S0-E1-S1-E2-S2-E3-S3-E4를 순서대로 이으면 정팔각형이 완성돼요!', els: oct.map((p,i)=>finseg(p,oct[(i+1)%8])) },
+    ];
+  })() },
 };
-const EXAMPLE_ORDER = ['bisector','angleBisector','equilateral','hexagon'];
+const EXAMPLE_ORDER = ['bisector','angleBisector','equilateral','pentagon','hexagon','octagon'];
 let currentExampleKey = 'bisector';
 let currentExampleStep = 0;
 
