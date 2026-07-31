@@ -48,6 +48,9 @@ p:last-child{margin-bottom:0;}
 .tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
 .tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
 .tip-list b{color:var(--violet-ink);}
+.illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:18px 0;text-align:center;}
+.illo svg{width:100%;max-width:340px;height:auto;display:block;margin:0 auto;}
+.illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
 footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 .footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
 .footer-nav a:hover{color:var(--ink);text-decoration:underline;}
@@ -75,6 +78,32 @@ footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;t
       <div class="box"><b>⚽ 공 모양</b>평평한 면이 하나도 없어요</div>
     </div>
     <p>이 세 가족은 나중에 학교에서 직육면체, 원기둥, 구라는 이름으로 다시 배우게 될 모양들이에요.</p>
+    <div class="illo">
+      <svg viewBox="0 0 340 140">
+        <g fill="none" stroke="var(--violet-ink)" stroke-width="2">
+          <polygon points="20,60 70,60 70,110 20,110"></polygon>
+          <polygon points="35,45 85,45 85,95 35,95"></polygon>
+          <line x1="20" y1="60" x2="35" y2="45"></line>
+          <line x1="70" y1="60" x2="85" y2="45"></line>
+          <line x1="70" y1="110" x2="85" y2="95"></line>
+          <line x1="20" y1="110" x2="35" y2="95"></line>
+        </g>
+        <g fill="none" stroke="var(--violet-ink)" stroke-width="2">
+          <ellipse cx="170" cy="45" rx="30" ry="12"></ellipse>
+          <path d="M 140 45 L 140 105 A 30 12 0 0 0 200 105 L 200 45"></path>
+        </g>
+        <g fill="none" stroke="var(--violet-ink)" stroke-width="2">
+          <circle cx="290" cy="75" r="38"></circle>
+          <ellipse cx="290" cy="75" rx="38" ry="13" stroke-dasharray="3 3"></ellipse>
+        </g>
+        <g font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink-soft)" text-anchor="middle">
+          <text x="55" y="132">상자 모양</text>
+          <text x="170" y="132">기둥 모양</text>
+          <text x="290" y="132">공 모양</text>
+        </g>
+      </svg>
+      <div class="illo-caption">평평한 면이 있는지, 둥근 면과 함께 있는지, 아예 없는지로 구분해요</div>
+    </div>
 
     <h2><span class="num">2</span>평평한 면이 있는지 확인해보세요</h2>
     <p>물건을 손으로 만졌을 때 판판한 부분이 있다면 상자 모양 가족이에요. 책, 벽돌, 주사위처럼요. 평평한 면이 있어서 다른 물건 위에 안정적으로 쌓을 수 있어요.</p>
