@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>삼각형의 오심(五心) 실험실</title>
+<meta name="description" content="삼각형의 세 꼭짓점을 자유롭게 끌어보면서 무게중심, 외심, 내심, 수심, 방심이 어떻게 만들어지고 어떻게 움직이는지 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --amber:#E8A93A; --amber-soft:#FBF0DC;--amber-ink:#946511;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--violet-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:72ch;margin:0 0 22px;}
+
+.howto{background:var(--violet-soft);border-radius:16px;padding:16px 20px;font-size:14px;line-height:1.75;color:var(--ink);margin:0 0 24px;}
+.howto b{color:var(--violet-ink);}
+
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:14.5px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:10px 16px;cursor:pointer;transition:all .15s ease;}
+.tab-btn:hover{border-color:var(--tab-color,var(--violet-ink));color:var(--tab-color,var(--violet-ink));}
+.tab-btn.active{background:var(--tab-color,var(--violet-ink));border-color:var(--tab-color,var(--violet-ink));color:#fff;}
+
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:26px clamp(16px,4vw,38px) 30px;
+  display:grid;grid-template-columns:1.15fr 0.85fr;gap:28px;align-items:start;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+svg.tri-svg{width:100%;max-width:460px;height:auto;display:block;margin:0 auto;background:var(--paper);border-radius:16px;touch-action:none;}
+.drag-hint{text-align:center;font-size:13px;color:var(--ink-soft);margin-top:8px;}
+
+.panel{display:flex;flex-direction:column;gap:16px;}
+.center-label{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--tab-color,var(--violet-ink));}
+.center-def{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.75;color:var(--ink);}
+.center-def b{color:var(--tab-color,var(--violet-ink));}
+.coord-row{display:flex;gap:10px;flex-wrap:wrap;}
+.coord-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:12px;padding:8px 12px;font-family:'Do Hyeon',sans-serif;font-size:13.5px;color:var(--ink-soft);}
+.coord-box b{color:var(--ink);}
+.fact{background:var(--tab-soft,var(--violet-soft));border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--tab-color,var(--violet-ink));}
+
+.euler-note{background:var(--amber-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);margin-top:20px;}
+.euler-note b{color:var(--amber-ink);}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-triangle-five-centers.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">📍 삼각형의 오심(五心) 실험실</span>
+  <h1>삼각형 안에는<br><span>특별한 점</span>이 다섯 개나 있어요</h1>
+  <p class="sub">삼각형의 세 변이나 세 각을 기준으로 선을 그으면, 신기하게도 그 선들이 항상 한 점에서 만나요. 이런 점을 삼각형의 "중심"이라고 불러요. 꼭짓점 A, B, C를 자유롭게 끌어서 삼각형 모양을 바꿔가며, 다섯 가지 중심이 각각 어떻게 만들어지는지 확인해보세요.</p>
+
+  <div class="howto"><b>사용법</b> — 아래 탭에서 중심을 하나 고르면 그 중심을 만드는 선들이 나타나요. 꼭짓점 A, B, C를 손가락이나 마우스로 끌어보면, 삼각형 모양이 바뀔 때마다 중심의 위치도 실시간으로 따라 움직여요.</div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="stage">
+    <div>
+      <svg class="tri-svg" id="svg" viewBox="0 0 460 400"></svg>
+      <div class="drag-hint">👆 A, B, C 점을 끌어서 삼각형 모양을 바꿔보세요</div>
+    </div>
+    <div class="panel">
+      <div class="center-label" id="centerLabel">무게중심 (Centroid)</div>
+      <div class="center-def" id="centerDef"></div>
+      <div class="coord-row" id="coordRow"></div>
+      <div class="fact" id="factBox"></div>
+    </div>
+  </div>
+
+  <div class="euler-note" id="eulerNote"></div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="inscribed-angle.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">원주각의 성질</span>
+    </a>
+    <a href="shape-finder.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">평면도형 모양 찾기</span>
+    </a>
+  </nav>
+<footer>정삼각형에서는 무게중심·외심·내심·수심이 전부 한 점에서 겹쳐요. 삼각형이 정삼각형에서 멀어질수록 이 점들은 서로 떨어지기 시작하는데, 그중 무게중심·외심·수심 세 점만큼은 끝까지 한 직선(오일러 선) 위에서 벗어나지 않아요.</footer>
+</div>
+
+<script>
+const svg = document.getElementById('svg');
+const tabsEl = document.getElementById('tabs');
+const centerLabel = document.getElementById('centerLabel');
+const centerDef = document.getElementById('centerDef');
+const coordRow = document.getElementById('coordRow');
+const factBox = document.getElementById('factBox');
+const eulerNote = document.getElementById('eulerNote');
+
+let A = {x:110, y:300}, B={x:390, y:320}, C={x:230, y:80};
+
+const TABS = [
+  {key:'centroid', label:'무게중심', color:'var(--green-ink)', soft:'var(--green-soft)'},
+  {key:'circumcenter', label:'외심', color:'var(--blue-ink)', soft:'var(--blue-soft)'},
+  {key:'incenter', label:'내심', color:'var(--coral-ink)', soft:'var(--coral-soft)'},
+  {key:'orthocenter', label:'수심', color:'var(--violet-ink)', soft:'var(--violet-soft)'},
+  {key:'excenter', label:'방심', color:'var(--amber-ink)', soft:'var(--amber-soft)'},
+];
+let currentKey = 'centroid';
+
+function buildTabs(){
+  tabsEl.innerHTML = TABS.map(t=>`<button class="tab-btn${t.key===currentKey?' active':''}" data-k="${t.key}" style="--tab-color:${t.color}">${t.label}</button>`).join('');
+  tabsEl.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      currentKey = btn.dataset.k;
+      buildTabs();
+      render();
+    });
+  });
+}
+
+/* ==================== 기하 유틸 ==================== */
+function sub(p,q){ return {x:p.x-q.x, y:p.y-q.y}; }
+function add(p,q){ return {x:p.x+q.x, y:p.y+q.y}; }
+function scl(p,s){ return {x:p.x*s, y:p.y*s}; }
+function dist(p,q){ return Math.hypot(p.x-q.x, p.y-q.y); }
+function perp(p){ return {x:-p.y, y:p.x}; }
+function norm(p){ const l=Math.hypot(p.x,p.y)||1; return {x:p.x/l, y:p.y/l}; }
+function lineIntersect(p1,d1,p2,d2){
+  const denom = d1.x*d2.y - d1.y*d2.x;
+  if(Math.abs(denom)<1e-9) return add(p1,scl(d1,500));
+  const t = ((p2.x-p1.x)*d2.y - (p2.y-p1.y)*d2.x)/denom;
+  return add(p1, scl(d1,t));
+}
+function distToLine(p,p1,p2){
+  const d=sub(p2,p1); const len=Math.hypot(d.x,d.y)||1;
+  return Math.abs((p.x-p1.x)*d.y-(p.y-p1.y)*d.x)/len;
+}
+function extendedAttrs(a,b,ext){
+  const d=sub(b,a); const len=Math.hypot(d.x,d.y)||1; const u={x:d.x/len,y:d.y/len};
+  return { x1:a.x-u.x*ext, y1:a.y-u.y*ext, x2:b.x+u.x*ext, y2:b.y+u.y*ext };
+}
+function fmt(n){ return (Math.round(n*10)/10).toString(); }
+
+/* ==================== 삼각형 지표 ==================== */
+function computeAll(){
+  const a=dist(B,C), b=dist(C,A), c=dist(A,B);
+  const area = Math.abs((B.x-A.x)*(C.y-A.y)-(C.x-A.x)*(B.y-A.y))/2;
+  const s = (a+b+c)/2;
+  const G = scl(add(add(A,B),C), 1/3);
+  const midAB=scl(add(A,B),0.5), midBC=scl(add(B,C),0.5), midCA=scl(add(C,A),0.5);
+  const O = lineIntersect(midAB, perp(sub(B,A)), midBC, perp(sub(C,B)));
+  const H = lineIntersect(A, perp(sub(C,B)), B, perp(sub(A,C)));
+  const I = scl(add(add(scl(A,a),scl(B,b)),scl(C,c)), 1/(a+b+c));
+  const IA = scl(add(add(scl(A,-a),scl(B,b)),scl(C,c)), 1/(-a+b+c));
+  const R = (a*b*c)/(4*area);
+  const r = area/s;
+  const rA = area/(s-a);
+  return {a,b,c,area,s,G,O,H,I,IA,R,r,rA,midAB,midBC,midCA};
+}
+
+/* ==================== 렌더링 ==================== */
+function ptSVG(p, color, label){
+  return `<circle cx="${p.x}" cy="${p.y}" r="6" fill="${color}" stroke="#fff" stroke-width="2"></circle>` +
+         (label? `<text x="${p.x+10}" y="${p.y-10}" font-family="'Do Hyeon',sans-serif" font-size="15" fill="${color}">${label}</text>` : '');
+}
+function vertexSVG(p, label){
+  return `<circle class="vpt" data-v="${label}" cx="${p.x}" cy="${p.y}" r="20" fill="transparent" style="cursor:grab;"></circle>` +
+         `<circle cx="${p.x}" cy="${p.y}" r="7" fill="var(--ink)" stroke="#fff" stroke-width="2" style="pointer-events:none;"></circle>` +
+         `<text x="${p.x+(label==='B'?12:-16)}" y="${p.y+(label==='C'?-12:22)}" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--ink)" style="pointer-events:none;">${label}</text>`;
+}
+function triOutlineSVG(){
+  return `<polygon points="${A.x},${A.y} ${B.x},${B.y} ${C.x},${C.y}" fill="var(--paper-line)" fill-opacity="0.5" stroke="var(--ink-soft)" stroke-width="2"></polygon>`;
+}
+
+function render(){
+  const m = computeAll();
+  const tab = TABS.find(t=>t.key===currentKey);
+  let html = triOutlineSVG();
+
+  if(currentKey==='centroid'){
+    html += `<line x1="${A.x}" y1="${A.y}" x2="${m.midBC.x}" y2="${m.midBC.y}" stroke="var(--green-ink)" stroke-width="2" stroke-dasharray="6 4"></line>`;
+    html += `<line x1="${B.x}" y1="${B.y}" x2="${m.midCA.x}" y2="${m.midCA.y}" stroke="var(--green-ink)" stroke-width="2" stroke-dasharray="6 4"></line>`;
+    html += `<line x1="${C.x}" y1="${C.y}" x2="${m.midAB.x}" y2="${m.midAB.y}" stroke="var(--green-ink)" stroke-width="2" stroke-dasharray="6 4"></line>`;
+    html += ptSVG(m.G, 'var(--green-ink)', 'G');
+    centerLabel.textContent = '무게중심 (Centroid)';
+    centerDef.innerHTML = '세 <b>중선</b>(꼭짓점과 대변의 중점을 잇는 선)이 만나는 점이에요. 삼각형 모양의 종이를 실제로 오려서 손가락 위에 올리면, 정확히 이 점에서 균형을 잡아요.';
+    factBox.innerHTML = `무게중심은 각 중선을 꼭짓점 쪽에서부터 <b>2 : 1</b> 비율로 나눠요. 삼각형이 어떤 모양이든 이 비율은 항상 똑같아요.`;
+  }
+  else if(currentKey==='circumcenter'){
+    const eAB = extendedAttrs(m.midAB, add(m.midAB,perp(sub(B,A))), 400);
+    const eBC = extendedAttrs(m.midBC, add(m.midBC,perp(sub(C,B))), 400);
+    const eCA = extendedAttrs(m.midCA, add(m.midCA,perp(sub(A,C))), 400);
+    [eAB,eBC,eCA].forEach(e=>{ html += `<line x1="${e.x1}" y1="${e.y1}" x2="${e.x2}" y2="${e.y2}" stroke="var(--blue-ink)" stroke-width="2" stroke-dasharray="6 4" opacity="0.7"></line>`; });
+    html += `<circle cx="${m.O.x}" cy="${m.O.y}" r="${m.R}" fill="none" stroke="var(--blue)" stroke-width="2"></circle>`;
+    html += ptSVG(m.O, 'var(--blue-ink)', 'O');
+    centerLabel.textContent = '외심 (Circumcenter)';
+    centerDef.innerHTML = '세 변의 <b>수직이등분선</b>이 만나는 점이에요. 세 꼭짓점 A, B, C로부터 항상 같은 거리에 있어서, 이 점을 중심으로 세 꼭짓점을 모두 지나는 원(외접원)을 그릴 수 있어요.';
+    factBox.innerHTML = `외심에서 세 꼭짓점까지의 거리(외접원의 반지름)는 모두 <b>${fmt(m.R)}</b>로 같아요. 둔각삼각형에서는 외심이 삼각형 <b>바깥으로</b> 나가기도 해요 — 꼭짓점을 움직여서 확인해보세요!`;
+  }
+  else if(currentKey==='incenter'){
+    const bisA = norm(add(norm(sub(B,A)), norm(sub(C,A))));
+    const bisB = norm(add(norm(sub(A,B)), norm(sub(C,B))));
+    const bisC = norm(add(norm(sub(A,C)), norm(sub(B,C))));
+    html += `<line x1="${A.x}" y1="${A.y}" x2="${A.x+bisA.x*400}" y2="${A.y+bisA.y*400}" stroke="var(--coral-ink)" stroke-width="2" stroke-dasharray="6 4" opacity="0.7"></line>`;
+    html += `<line x1="${B.x}" y1="${B.y}" x2="${B.x+bisB.x*400}" y2="${B.y+bisB.y*400}" stroke="var(--coral-ink)" stroke-width="2" stroke-dasharray="6 4" opacity="0.7"></line>`;
+    html += `<line x1="${C.x}" y1="${C.y}" x2="${C.x+bisC.x*400}" y2="${C.y+bisC.y*400}" stroke="var(--coral-ink)" stroke-width="2" stroke-dasharray="6 4" opacity="0.7"></line>`;
+    html += `<circle cx="${m.I.x}" cy="${m.I.y}" r="${m.r}" fill="none" stroke="var(--coral)" stroke-width="2"></circle>`;
+    html += ptSVG(m.I, 'var(--coral-ink)', 'I');
+    centerLabel.textContent = '내심 (Incenter)';
+    centerDef.innerHTML = '세 각의 <b>이등분선</b>이 만나는 점이에요. 세 변으로부터 항상 같은 거리에 있어서, 이 점을 중심으로 세 변에 모두 딱 닿는 원(내접원)을 그릴 수 있어요.';
+    factBox.innerHTML = `내심에서 세 변까지의 거리(내접원의 반지름)는 모두 <b>${fmt(m.r)}</b>로 같아요. 내심은 삼각형이 어떤 모양이든 항상 삼각형 <b>안쪽</b>에 있어요.`;
+  }
+  else if(currentKey==='orthocenter'){
+    const eA = extendedAttrs(A, add(A,perp(sub(C,B))), 400);
+    const eB = extendedAttrs(B, add(B,perp(sub(A,C))), 400);
+    const eC = extendedAttrs(C, add(C,perp(sub(B,A))), 400);
+    [eA,eB,eC].forEach(e=>{ html += `<line x1="${e.x1}" y1="${e.y1}" x2="${e.x2}" y2="${e.y2}" stroke="var(--violet-ink)" stroke-width="2" stroke-dasharray="6 4" opacity="0.7"></line>`; });
+    html += ptSVG(m.H, 'var(--violet-ink)', 'H');
+    centerLabel.textContent = '수심 (Orthocenter)';
+    centerDef.innerHTML = '각 꼭짓점에서 대변(또는 그 연장선)에 내린 <b>수선</b> 세 개가 만나는 점이에요.';
+    factBox.innerHTML = `예각삼각형에서는 수심이 삼각형 <b>안</b>에, 둔각삼각형에서는 <b>바깥</b>에, 직각삼각형에서는 직각을 낀 꼭짓점 <b>바로 위</b>에 있어요. 꼭짓점을 움직이며 세 경우를 모두 확인해보세요.`;
+  }
+  else if(currentKey==='excenter'){
+    const bisA = norm(add(norm(sub(B,A)), norm(sub(C,A))));
+    const extBisB = perp(norm(add(norm(sub(A,B)), norm(sub(C,B)))));
+    const extBisC = perp(norm(add(norm(sub(A,C)), norm(sub(B,C)))));
+    const eA = extendedAttrs(A, add(A,bisA), 400);
+    const eB = extendedAttrs(B, add(B,extBisB), 400);
+    const eC = extendedAttrs(C, add(C,extBisC), 400);
+    [eA,eB,eC].forEach(e=>{ html += `<line x1="${e.x1}" y1="${e.y1}" x2="${e.x2}" y2="${e.y2}" stroke="var(--amber-ink)" stroke-width="2" stroke-dasharray="6 4" opacity="0.7"></line>`; });
+    html += `<circle cx="${m.IA.x}" cy="${m.IA.y}" r="${m.rA}" fill="none" stroke="var(--amber)" stroke-width="2"></circle>`;
+    html += ptSVG(m.IA, 'var(--amber-ink)', 'Iₐ');
+    centerLabel.textContent = '방심 (Excenter)';
+    centerDef.innerHTML = 'A의 <b>내각이등분선</b>과, B·C의 <b>외각이등분선</b>이 만나는 점이에요. 변 BC와, 다른 두 변의 연장선에 모두 닿는 원(방접원)의 중심이에요.';
+    factBox.innerHTML = `방심은 삼각형마다 <b>3개</b> 있어요(각 변마다 하나씩). 여기서는 변 BC 쪽의 방심 하나만 보여드려요. 방심에서 변 BC까지의 거리는 <b>${fmt(m.rA)}</b>예요.`;
+  }
+
+  html += vertexSVG(A,'A') + vertexSVG(B,'B') + vertexSVG(C,'C');
+  svg.innerHTML = html;
+
+  document.documentElement.style.setProperty('--tab-color', tab.color);
+  document.documentElement.style.setProperty('--tab-soft', tab.soft);
+
+  coordRow.innerHTML = `
+    <div class="coord-box">a=BC <b>${fmt(m.a)}</b></div>
+    <div class="coord-box">b=CA <b>${fmt(m.b)}</b></div>
+    <div class="coord-box">c=AB <b>${fmt(m.c)}</b></div>
+    <div class="coord-box">넓이 <b>${fmt(m.area)}</b></div>
+  `;
+
+  const collinear = distToLine(m.H, m.G, m.O) < 0.6 || dist(m.O,m.H) < 1;
+  eulerNote.innerHTML = `💡 <b>오일러 선(Euler line)</b> — 방금 확인한 무게중심(G), 외심(O), 수심(H)은 삼각형이 어떤 모양이든 항상 <b>한 직선 위</b>에 나란히 있어요! 게다가 무게중심은 항상 외심과 수심을 잇는 선분을 <b>1 : 2</b> 비율로 나눠요(GH = 2×GO). 정삼각형에서는 이 세 점이 모두 한 점으로 겹쳐버려요.`;
+
+  svg.querySelectorAll('.vpt').forEach(el=>{
+    el.addEventListener('pointerdown', onVertexDown);
+  });
+}
+
+function onVertexDown(e){
+  e.preventDefault();
+  const label = e.currentTarget.dataset.v;
+  const rect = svg.getBoundingClientRect();
+  const viewBox = svg.viewBox.baseVal;
+
+  function toSvgXY(clientX, clientY){
+    const scaleX = viewBox.width/rect.width, scaleY = viewBox.height/rect.height;
+    return { x: (clientX-rect.left)*scaleX, y: (clientY-rect.top)*scaleY };
+  }
+  function onMove(ev){
+    const p = toSvgXY(ev.clientX, ev.clientY);
+    p.x = Math.max(15, Math.min(445, p.x));
+    p.y = Math.max(15, Math.min(385, p.y));
+    if(label==='A') A=p; else if(label==='B') B=p; else C=p;
+    render();
+  }
+  function onUp(){
+    document.removeEventListener('pointermove', onMove);
+    document.removeEventListener('pointerup', onUp);
+  }
+  document.addEventListener('pointermove', onMove);
+  document.addEventListener('pointerup', onUp);
+}
+
+buildTabs();
+render();
+</script>
+</body>
+</html>
