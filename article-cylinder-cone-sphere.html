@@ -48,6 +48,9 @@ p:last-child{margin-bottom:0;}
 .tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
 .tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
 .tip-list b{color:var(--violet-ink);}
+.illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:18px 0;text-align:center;}
+.illo svg{width:100%;max-width:260px;height:auto;display:block;margin:0 auto;}
+.illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
 footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 .footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
 .footer-nav a:hover{color:var(--ink);text-decoration:underline;}
@@ -82,6 +85,19 @@ footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;t
 
     <h2><span class="num">4</span>전개도를 펼쳐보면 차이가 더 잘 보여요</h2>
     <p>원기둥을 펼치면 옆면이 직사각형이 되고, 원뿔을 펼치면 옆면이 부채꼴이 돼요. 하지만 구는 아무리 조각내도 평평하게 펼칠 수 있는 전개도가 존재하지 않아요.</p>
+    <div class="illo">
+      <svg viewBox="0 0 240 135">
+        <rect x="20" y="30" width="50" height="55" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2"></rect>
+        <ellipse cx="45" cy="30" rx="25" ry="13" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2"></ellipse>
+        <ellipse cx="45" cy="85" rx="25" ry="13" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2"></ellipse>
+        <text x="45" y="122" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--violet-ink)">원기둥 전개도</text>
+
+        <path d="M 150 20 L 86.0 8.7 A 65 65 0 0 1 214.0 8.7 Z" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2"></path>
+        <circle cx="150" cy="105" r="18" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2"></circle>
+        <text x="150" y="132" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--violet-ink)">원뿔 전개도</text>
+      </svg>
+      <div class="illo-caption">원기둥의 옆면은 직사각형, 원뿔의 옆면은 부채꼴로 펼쳐져요</div>
+    </div>
     <div class="callout">
       <b>지도가 완벽하지 않은 이유도 이것 때문이에요.</b><br>
       지구(구 모양)를 평평한 지도로 펼치면 어쩔 수 없이 모양이나 크기가 조금씩 왜곡돼요. 구는 원래 완전히 평평하게 펼칠 수 없는 도형이기 때문이에요.
