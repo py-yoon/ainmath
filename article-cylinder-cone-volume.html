@@ -11,6 +11,8 @@
 <style>
   :root{
     --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
     --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
   *{box-sizing:border-box;}
@@ -29,6 +31,9 @@
   .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
   .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
   .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:280px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
   .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
   .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#6847F7;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
   .cta-btn:hover{transform:translateY(-2px);}
@@ -46,6 +51,26 @@
   <div class="card">
     <div class="article-body">
       <p>아이스크림콘 하나에 아이스크림을 가득 채우고, 그것과 똑같은 반지름과 높이를 가진 원기둥 모양 컵에 부으면 몇 번을 부어야 가득 찰까요? 답은 언제나 정확히 3번이에요. 원뿔의 부피는 밑면과 높이가 같은 원기둥 부피의 정확히 1/3이거든요. 이 관계는 원뿔과 원기둥의 크기가 아무리 달라져도, 밑면 반지름과 높이만 같다면 절대 변하지 않는 놀라운 성질이에요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 260 130">
+          <g fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2">
+            <line x1="20" y1="25" x2="20" y2="95"></line>
+            <line x1="80" y1="25" x2="80" y2="95"></line>
+            <path d="M 20 95 A 30 10 0 0 0 80 95" fill="none"></path>
+            <ellipse cx="50" cy="25" rx="30" ry="10"></ellipse>
+          </g>
+          <text x="130" y="65" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="20" fill="var(--coral-ink)">= 3 ×</text>
+          <g fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="2">
+            <line x1="190" y1="20" x2="160" y2="95"></line>
+            <line x1="190" y1="20" x2="220" y2="95"></line>
+            <path d="M 160 95 A 30 10 0 0 0 220 95" fill="none"></path>
+            <ellipse cx="190" cy="95" rx="30" ry="10" fill="none"></ellipse>
+          </g>
+          <text x="50" y="118" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--violet-ink)">원기둥 πr²h</text>
+          <text x="190" y="118" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--coral-ink)">원뿔 ⅓πr²h</text>
+        </svg>
+        <div class="illo-caption">반지름과 높이가 같으면, 원기둥 부피는 원뿔 부피의 항상 정확히 3배예요</div>
+      </div>
       <p>공식으로 보면 원기둥의 부피는 '밑넓이 × 높이', 즉 V = πr²h예요. 원의 넓이(πr²)에 높이를 곱하면 되는 건데, 이건 원기둥을 아주 얇은 원판들이 겹겹이 쌓인 모양으로 생각하면 자연스럽게 이해돼요. 원뿔의 부피는 여기에 1/3을 곱한 V = (1/3)πr²h예요. 밑면과 높이가 같은 각뿔(사각뿔, 삼각뿔 등)도 마찬가지로 각기둥 부피의 정확히 1/3이라는 사실이 알려져 있는데, 이건 뿔 모양 도형 전체에 적용되는 일반적인 성질이에요.</p>
       <p>왜 하필 1/3일까요? 엄격한 증명은 적분을 배워야 완전히 이해할 수 있지만, 직관적으로 느껴볼 수 있는 방법이 있어요. 밑면과 높이가 같은 삼각기둥 하나를 정확히 3개의 삼각뿔로 쪼갤 수 있다는 사실이 알려져 있는데, 이 3개의 삼각뿔이 모두 부피가 같다는 걸 보이면 자연스럽게 "뿔의 부피 = 기둥의 부피 ÷ 3"이라는 관계가 나와요. 원뿔과 원기둥도 이 삼각뿔-삼각기둥 관계의 곡선 버전이라고 생각하면 왜 1/3이 되는지 감이 잡힐 거예요.</p>
       <p>이 1/3 법칙은 실생활에서도 쓸모가 많아요. 건설 현장에서 흙이나 모래를 쌓아두면 자연스럽게 원뿔 모양이 되는데, 그 부피를 계산할 때 밑면 반지름과 높이만 재면 바로 계산할 수 있어요. 깔때기, 종이컵, 고깔모자도 모두 원뿔 모양이라 이 공식이 적용돼요. 반대로 사일로(곡물 저장고)나 물탱크처럼 원기둥 모양 시설물의 용량을 계산할 때도 같은 원리가 쓰이고요. 피라미드(각뿔)의 부피를 계산할 때도 똑같이 밑넓이×높이÷3 공식을 쓴다는 걸 알면, 이집트 피라미드의 어마어마한 부피도 어렵지 않게 어림해볼 수 있어요.</p>
