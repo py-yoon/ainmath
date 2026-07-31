@@ -48,6 +48,9 @@ p:last-child{margin-bottom:0;}
 .tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
 .tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
 .tip-list b{color:var(--violet-ink);}
+.illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:18px 0;text-align:center;}
+.illo svg{width:100%;max-width:220px;height:auto;display:block;margin:0 auto;}
+.illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
 footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 .footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
 .footer-nav a:hover{color:var(--ink);text-decoration:underline;}
@@ -84,6 +87,24 @@ footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;t
     <div class="callout">
       <b>숨은 부분을 찾는 방법이 있어요.</b><br>
       상자를 앞에서 볼 때 안 보이는 면과 모서리, 꼭짓점은 반대편에 똑같이 존재해요. 앞에서 보이는 개수에, 가려진 부분의 개수를 더하면 정확한 총 개수가 나와요.
+    </div>
+    <div class="illo">
+      <svg viewBox="0 0 160 120">
+        <g stroke="var(--violet-ink)" stroke-width="2.5" fill="none">
+          <polygon points="30,100 110,100 110,40 30,40"></polygon>
+          <line x1="30" y1="40" x2="65" y2="15"></line>
+          <line x1="110" y1="40" x2="145" y2="15"></line>
+          <line x1="65" y1="15" x2="145" y2="15"></line>
+          <line x1="110" y1="100" x2="145" y2="75"></line>
+          <line x1="145" y1="75" x2="145" y2="15"></line>
+        </g>
+        <g stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="4 3" fill="none">
+          <line x1="30" y1="100" x2="65" y2="75"></line>
+          <line x1="65" y1="75" x2="65" y2="15"></line>
+          <line x1="65" y1="75" x2="145" y2="75"></line>
+        </g>
+      </svg>
+      <div class="illo-caption">실선은 눈에 보이는 모서리, 점선은 뒤에 가려진 모서리예요 — 둘을 더하면 12개</div>
     </div>
 
     <h2><span class="num">5</span>이렇게 놀아보세요</h2>
