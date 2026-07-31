@@ -11,6 +11,8 @@
 <style>
   :root{
     --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
     --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
   *{box-sizing:border-box;}
@@ -29,6 +31,9 @@
   .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
   .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
   .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:240px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
   .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
   .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#6847F7;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
   .cta-btn:hover{transform:translateY(-2px);}
@@ -47,6 +52,20 @@
     <div class="article-body">
       <p>고대 그리스 수학자들은 도형을 그릴 때 아주 엄격한 규칙을 정해놓고 놀았어요. 눈금 있는 자도 안 되고, 각도기도 안 되고, 오직 <b>눈금 없는 자</b>(직선만 그을 수 있는 자)와 <b>컴퍼스</b>(원을 그리고, 두 점 사이의 거리를 다른 곳으로 옮기는 도구)만 쓸 수 있었어요. 이 두 가지 도구만으로 할 수 있는 일은 정확히 두 가지뿐이에요 — 이미 표시된 두 점을 지나는 직선을 긋는 것, 그리고 이미 표시된 한 점을 중심으로 다른 두 점 사이의 거리를 반지름 삼아 원을 그리는 것.</p>
       <p>이렇게 제한된 도구만으로도 놀라울 만큼 다양하고 정확한 도형을 만들 수 있어요. 대표적인 예가 <b>선분의 수직이등분선</b>이에요. 선분 AB의 양 끝점을 각각 중심으로, 반지름을 AB로 하는 원을 두 개 그리면, 이 두 원은 선분 위쪽과 아래쪽에서 각각 한 점씩 만나요. 이 두 교점을 이으면, 신기하게도 그 직선은 AB의 정중앙을 정확히 지나면서 AB와 정확히 직각(90°)을 이뤄요. 자로 길이를 재거나 각도기로 각도를 재지 않고도, 순전히 "같은 반지름의 원 두 개가 만나는 자리"라는 성질만으로 완벽한 수직이등분선을 만든 거예요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 140 145">
+          <circle cx="35" cy="72" r="70" fill="none" stroke="var(--violet-ink)" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.7"></circle>
+          <circle cx="105" cy="72" r="70" fill="none" stroke="var(--violet-ink)" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.7"></circle>
+          <line x1="35" y1="72" x2="105" y2="72" stroke="var(--ink)" stroke-width="2.5"></line>
+          <line x1="70" y1="11.4" x2="70" y2="132.6" stroke="var(--coral-ink)" stroke-width="2.5"></line>
+          <circle cx="35" cy="72" r="3.5" fill="var(--ink)"></circle>
+          <circle cx="105" cy="72" r="3.5" fill="var(--ink)"></circle>
+          <text x="35" y="90" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink)">A</text>
+          <text x="105" y="90" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink)">B</text>
+          <rect x="70" y="65" width="7" height="7" fill="none" stroke="var(--coral-ink)" stroke-width="1.5"></rect>
+        </svg>
+        <div class="illo-caption">A, B를 중심으로 반지름 AB인 원 두 개를 그리면, 두 교점을 잇는 선이 AB의 수직이등분선이에요</div>
+      </div>
       <p><b>각의 이등분선</b>도 비슷한 원리예요. 각을 이루는 두 변 위에 꼭짓점으로부터 같은 거리인 두 점을 표시하고, 그 두 점을 각각 중심으로 같은 반지름의 원을 그리면 새로운 교점이 하나 생겨요. 꼭짓점과 그 교점을 이으면, 원래 각을 정확히 반으로 나누는 선이 완성돼요. 이번에도 각도를 전혀 재지 않고, 오직 "같은 거리, 같은 반지름"이라는 대칭성만으로 정확한 이등분을 만들어낸 거예요.</p>
       <p><b>정삼각형</b> 작도는 더 간단해요. 선분 AB를 한 변으로 삼고 싶다면, A와 B를 각각 중심으로 반지름이 AB인 원을 그리기만 하면 돼요. 두 원이 만나는 점 C는 정의상 A로부터도 AB만큼, B로부터도 AB만큼 떨어져 있으니, 삼각형 ABC는 세 변의 길이가 전부 AB로 같은 정삼각형이 될 수밖에 없어요.</p>
       <p>이 정삼각형의 원리를 반복하면 <b>정육각형</b>도 만들 수 있어요. 원 하나를 그리고, 그 원 위의 한 점에서 시작해서 반지름을 바꾸지 않은 채로 계속 옆으로 옮겨가며 원을 그리면, 원둘레를 따라 정확히 6개의 점이 만들어져요. 이건 우연이 아니라, 정육각형의 한 변의 길이가 항상 그 외접원의 반지름과 정확히 같기 때문이에요 — 정삼각형 6개를 붙여놓으면 정육각형이 된다는 사실과 정확히 같은 이야기예요.</p>
