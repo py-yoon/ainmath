@@ -142,6 +142,8 @@
   .recommended-head{display:flex;align-items:baseline;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
   .recommended-title{font-family:'Do Hyeon',sans-serif;font-size:19px;color:#B45309;}
   .recommended-sub{font-size:13.5px;color:var(--ink-soft);}
+  #recommended{grid-template-columns:repeat(3,1fr);}
+  @media (max-width:680px){ #recommended{grid-template-columns:1fr;} }
 
   /* category sections */
   .category{
@@ -243,7 +245,7 @@
   <div class="recommended-section" id="recommendedSection">
     <div class="recommended-head">
       <span class="recommended-title">🌟 오늘의 추천</span>
-      <span class="recommended-sub">매일 바뀌는 체험 4가지예요</span>
+      <span class="recommended-sub">매일 바뀌는 체험 3가지예요</span>
     </div>
     <div class="grid" id="recommended"></div>
   </div>
@@ -419,7 +421,7 @@
   // 오늘의 추천 4개 — 카테고리 5개 중 4개를 골라 각각 하나씩, 날짜가 바뀔 때마다 다시 뽑혀요.
   function getDailyRecommended(){
     const rand = mulberry32(todaySeed());
-    const pickedCats = shuffleSeeded(CATEGORIES, rand).slice(0, 4);
+    const pickedCats = shuffleSeeded(CATEGORIES, rand).slice(0, 3);
     return pickedCats.map(cat => {
       const liveItems = cat.items.filter(i => i.status === 'live');
       const item = liveItems[Math.floor(rand()*liveItems.length)];
