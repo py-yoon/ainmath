@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>원·삼각형·사각형 분류 실험실</title>
-<meta name="description" content="원의 반지름·지름 구조를 확인하고, 다양한 삼각형·사각형을 보고 이름을 맞혀보는 퀴즈예요.">
+<meta name="description" content="평면도형을 곡선 도형(원)과 다각형(삼각형·사각형)으로 나눠보고, 원의 반지름·지름 구조를 확인한 다음 여러 도형의 이름을 맞혀보는 퀴즈예요.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
@@ -69,11 +69,12 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
 <body>
 <div class="wrap">
   <span class="eyebrow">⭕ 원·삼각형·사각형 분류 실험실</span>
-  <h1>원의 구조를 확인하고<br>여러 가지 <span>삼각형·사각형</span>을 구분해보아요</h1>
-  <p class="sub">반지름을 움직여서 원의 구조를 확인한 다음, 다양한 삼각형과 사각형을 보고 이름을 맞혀보는 퀴즈에 도전해보세요. 변 위의 짧은 표시(◟◞)는 길이가 같은 변을 뜻해요.</p>
+  <h1>평면도형은<br><span>곡선 도형</span>과 다각형으로 나뉘어요</h1>
+  <p class="sub">평면도형은 크게 둘로 나눌 수 있어요 — 곧은 변으로 둘러싸인 <b>다각형</b>(삼각형·사각형 등)과, 변도 꼭짓점도 없이 둥글게 이어진 <b>원</b>. 먼저 원의 구조를 살펴보고, 그다음 원과 다각형을 뒤섞어놓고 이름을 맞혀보는 퀴즈에 도전해보세요.</p>
 
   <div class="stage">
     <div>
+      <div style="font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--blue-ink);margin-bottom:10px;">① 원 — 변도 꼭짓점도 없는 도형</div>
       <svg id="circleSvg" viewBox="0 0 300 300"></svg>
       <div class="slider-row">
         <span style="font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);">반지름</span>
@@ -92,7 +93,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
 
   <div class="quiz-stage">
     <div class="quiz-head">
-      <h2>🧩 도형 이름 맞히기</h2>
+      <h2>🧩 ② 도형 이름 맞히기 — 원일까요, 다각형일까요?</h2>
       <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
     </div>
     <div class="quiz-body">
@@ -122,7 +123,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
       <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">다각형 이름 맞추기</span>
     </a>
   </nav>
-<footer>삼각형은 변의 길이나 각의 크기에 따라, 사각형은 변이 평행한 개수나 길이에 따라 이름이 달라져요. 모양이 조금 비뚤어져도 규칙만 지키면 이름은 똑같답니다.</footer>
+<footer>원은 변이 없다는 것만으로 다각형과 완전히 구분돼요. 다각형 중에서도 삼각형은 변의 길이나 각의 크기에 따라, 사각형은 변이 평행한 개수나 길이에 따라 이름이 달라져요. 모양이 조금 비뚤어져도 규칙만 지키면 이름은 똑같답니다.</footer>
 </div>
 
 <script>
@@ -145,7 +146,7 @@ function renderCircle(){
     <text x="${cx+r/2}" y="${cy-10}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink)">반지름 ${r}</text>
     <text x="${cx}" y="${cy+r+20}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral)">지름 ${r*2}</text>
   `;
-  circleFact.innerHTML = `지금 반지름은 <b>${r}</b>이고, 지름은 항상 반지름의 <b>2배</b>인 <b>${r*2}</b>예요. 원 위의 어느 점에서 재도 반지름은 똑같아요.`;
+  circleFact.innerHTML = `원은 삼각형·사각형과 달리 곧은 변이 하나도 없어요. 대신 중심에서 둘레까지의 거리(반지름)가 어느 방향으로 재도 항상 <b>${r}</b>로 똑같다는 게 원의 정의예요. 지름은 그 반지름의 <b>2배</b>인 <b>${r*2}</b>예요.`;
 }
 radiusSlider.addEventListener('input', renderCircle);
 renderCircle();
@@ -166,6 +167,11 @@ const QUAD_SHAPES = {
   rhombus:       { label:'마름모', pts:[[0,-58],[48,0],[0,58],[-48,0]], ticks:[1,1,1,1], rightAngles:[] },
   trapezoid:     { label:'사다리꼴', pts:[[-30,-40],[30,-40],[58,38],[-58,38]], ticks:[0,1,0,1], rightAngles:[] },
 };
+// 원은 변이 없는 도형이라 다각형과 렌더링 방식이 달라서, type:'circle'로 표시해 별도 처리해요.
+const CIRCLE_SHAPES = {
+  circle: { label:'원', type:'circle' },
+};
+const ALL_SHAPES = {...CIRCLE_SHAPES, ...TRIANGLE_SHAPES, ...QUAD_SHAPES};
 
 function transformPoints(pts, rotDeg, scale, cx, cy){
   const rad = rotDeg*Math.PI/180;
@@ -228,26 +234,43 @@ const scoreNumEl = document.getElementById('scoreNum');
 const triesNumEl = document.getElementById('triesNum');
 
 let score=0, tries=0, answered=false;
-let correctKey='', family='';
+let correctKey='';
+
+// 배열을 무작위로 섞어요 (Fisher-Yates)
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
 
 function newQuizQuestion(){
   answered = false;
   quizFeedback.textContent = '';
-  family = Math.random()<0.5 ? 'triangle' : 'quad';
-  const bank = family==='triangle' ? TRIANGLE_SHAPES : QUAD_SHAPES;
-  const keys = Object.keys(bank);
-  correctKey = keys[Math.floor(Math.random()*keys.length)];
-  const shape = bank[correctKey];
+  const allKeys = Object.keys(ALL_SHAPES);
+  correctKey = allKeys[Math.floor(Math.random()*allKeys.length)];
+  const shape = ALL_SHAPES[correctKey];
 
-  const rot = Math.floor(Math.random()*360);
-  const scale = 0.85 + Math.random()*0.3;
-  const pix = transformPoints(shape.pts, rot, scale, 100, 100);
-  const color = family==='triangle' ? 'var(--coral)' : 'var(--violet)';
-  const ticksSvg = tickMarksSVG(pix, shape.ticks, 'var(--ink)');
-  const rightAngleSvg = rightAngleMarksSVG(pix, shape.rightAngles || [], 'var(--ink)', 12);
-  quizSvg.innerHTML = `<polygon points="${pix.map(p=>p.join(',')).join(' ')}" fill="${color}" fill-opacity="0.35" stroke="${color}" stroke-width="3"></polygon>${ticksSvg}${rightAngleSvg}`;
+  if(shape.type==='circle'){
+    const r = 60 + Math.random()*20;
+    quizSvg.innerHTML = `<circle cx="100" cy="100" r="${r.toFixed(1)}" fill="var(--blue)" fill-opacity="0.35" stroke="var(--blue)" stroke-width="3"></circle>`;
+  } else {
+    const rot = Math.floor(Math.random()*360);
+    const scale = 0.85 + Math.random()*0.3;
+    const pix = transformPoints(shape.pts, rot, scale, 100, 100);
+    const color = TRIANGLE_SHAPES[correctKey] ? 'var(--coral)' : 'var(--violet)';
+    const ticksSvg = tickMarksSVG(pix, shape.ticks, 'var(--ink)');
+    const rightAngleSvg = rightAngleMarksSVG(pix, shape.rightAngles || [], 'var(--ink)', 12);
+    quizSvg.innerHTML = `<polygon points="${pix.map(p=>p.join(',')).join(' ')}" fill="${color}" fill-opacity="0.35" stroke="${color}" stroke-width="3"></polygon>${ticksSvg}${rightAngleSvg}`;
+  }
 
-  const options = keys.map(k=>({key:k, label:bank[k].label})).sort(()=>Math.random()-0.5);
+  // 정답 + 무작위 오답 3개를 섞어서 보기 4개를 만들어요 (원과 다각형이 함께 섞여서 나올 수 있어요)
+  const distractorPool = allKeys.filter(k=>k!==correctKey);
+  const distractors = shuffle(distractorPool).slice(0,3);
+  const options = shuffle([correctKey, ...distractors]).map(k=>({key:k, label:ALL_SHAPES[k].label}));
+
   quizOpts.innerHTML = options.map(o=>`<button class="opt-btn" data-k="${o.key}">${o.label}</button>`).join('');
   quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
     btn.addEventListener('click', ()=>{
@@ -262,7 +285,7 @@ function newQuizQuestion(){
       } else {
         btn.classList.add('wrong');
         quizOpts.querySelector(`[data-k="${correctKey}"]`)?.classList.add('correct');
-        quizFeedback.innerHTML = `아쉬워요! 정답은 "${bank[correctKey].label}"이었어요. (정답 ${score} / 시도 ${tries})`;
+        quizFeedback.innerHTML = `아쉬워요! 정답은 "${ALL_SHAPES[correctKey].label}"이었어요. (정답 ${score} / 시도 ${tries})`;
       }
       scoreNumEl.textContent = score;
       triesNumEl.textContent = tries;
