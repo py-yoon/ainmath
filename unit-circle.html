@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>단위원과 삼각비 실험실</title>
+<meta name="description" content="반지름이 1인 단위원 위의 점을 각도 θ로 돌려보며 (cos θ, sin θ) 좌표와 sin·cos·tan 값, 사분면별 부호, 사인·코사인 파동이 만들어지는 과정을 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+    --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+    --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+    --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 80px;
+  }
+  .wrap{max-width:1040px;margin:0 auto;}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue-ink);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+  h1 span{color:var(--coral-ink);}
+  .sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:66ch;margin:0 0 24px;}
+
+  .section-block{margin-top:52px;}
+  .section-tag{display:inline-block;font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--blue-ink);background:var(--blue-soft);padding:4px 12px;border-radius:999px;margin-bottom:10px;}
+  h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(22px,3.4vw,30px);margin:0 0 8px;line-height:1.3;}
+  .section-sub{color:var(--ink-soft);font-size:15px;line-height:1.7;max-width:66ch;margin:0 0 22px;}
+
+  .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+    display:grid;grid-template-columns: 1.15fr 0.85fr;gap:32px;align-items:start;}
+  @media (max-width:800px){ .stage{grid-template-columns:1fr;} }
+  .canvas-area{display:flex;flex-direction:column;align-items:center;gap:16px;}
+  svg{width:100%;max-width:440px;height:auto;overflow:visible;}
+  #svg2{max-width:780px;}
+
+  .legend{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;font-size:12.5px;color:var(--ink-soft);}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .swatch{width:12px;height:12px;border-radius:3px;display:inline-block;}
+
+  .control-row{width:100%;max-width:420px;display:flex;flex-direction:column;gap:8px;}
+  .control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+  .control-label b{font-size:22px;color:var(--ink);}
+  input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--blue-soft);outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
+  input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap;width:100%;max-width:420px;}
+  .action-btn{font-family:'Do Hyeon',sans-serif;font-size:14.5px;background:var(--ink);color:#fff;border:none;border-radius:12px;padding:11px 16px;cursor:pointer;flex:1;min-width:120px;transition:all .15s ease;}
+  .action-btn:hover{background:var(--blue);}
+  .action-btn.secondary{background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);}
+  .action-btn.secondary:hover{border-color:var(--blue-ink);color:var(--blue-ink);background:var(--card);}
+  .action-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+
+  .panel{display:flex;flex-direction:column;gap:16px;}
+
+  .ratio-table{width:100%;border-collapse:collapse;}
+  .ratio-table td{padding:9px 6px;text-align:center;font-family:'Do Hyeon',sans-serif;}
+  .ratio-table .rt-name{font-size:15px;color:var(--ink-soft);text-align:left;}
+  .ratio-table .rt-val{font-size:22px;}
+  .ratio-table .rt-val.blue{color:var(--blue-ink);}
+  .ratio-table .rt-val.coral{color:var(--coral-ink);}
+  .ratio-table .rt-val.violet{color:var(--violet-ink);}
+  .ratio-table tr:not(:last-child) td{border-bottom:1px solid var(--paper-line);}
+
+  .coord-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:12px 16px;text-align:center;font-family:'Do Hyeon',sans-serif;font-size:17px;color:var(--ink);}
+  .coord-box b{color:var(--blue-ink);}
+
+  .quad-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .quad-cell{background:var(--paper);border:2px solid var(--paper-line);border-radius:12px;padding:10px;text-align:center;font-size:12.5px;color:var(--ink-soft);}
+  .quad-cell.active{background:var(--blue-soft);border-color:var(--blue);color:var(--ink);font-weight:bold;}
+  .quad-cell .qn{font-family:'Do Hyeon',sans-serif;font-size:13px;margin-bottom:3px;}
+
+  .fact{background:var(--blue-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+  .fact b{color:var(--blue-ink);}
+
+  footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-unit-circle.html" style="color:#fff;background:var(--blue-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🎡 단위원과 삼각비 실험실</span>
+  <h1>반지름이 1인 원을 돌리면<br><span>sin·cos·tan</span>이 한눈에 보여요</h1>
+  <p class="sub">각도 θ를 0°부터 360°까지 돌려보세요. 원 위의 점 좌표가 그대로 (cos θ, sin θ)가 되고, 사분면이 바뀔 때마다 부호가 어떻게 달라지는지도 확인할 수 있어요.</p>
+
+  <!-- ===== STEP 1: 단위원 위의 점 ===== -->
+  <div class="section-block" style="margin-top:0;">
+    <h2>단위원 위의 점 (cos θ, sin θ)</h2>
+    <p class="section-sub">점 P의 x좌표가 cos θ, y좌표가 sin θ예요. tan θ는 x=1인 접선 위에 원의 반직선을 연장했을 때 만나는 점의 y좌표로 볼 수 있어요. 슬라이더를 움직이면 아래 파동도 함께 그려져요.</p>
+
+    <div class="stage">
+      <div class="canvas-area">
+        <svg id="svg1" viewBox="0 0 440 440"></svg>
+        <div class="legend">
+          <span><i class="swatch" style="background:var(--blue)"></i>cos θ (x좌표)</span>
+          <span><i class="swatch" style="background:var(--coral)"></i>sin θ (y좌표)</span>
+          <span><i class="swatch" style="background:var(--violet)"></i>tan θ (접선 위 점)</span>
+        </div>
+
+        <div class="control-row">
+          <div class="control-label"><span>각도 θ</span><b id="thetaLabel">40</b><span>°</span></div>
+          <input id="thetaSlider" type="range" min="0" max="360" value="40" step="1" aria-label="각도 조절">
+        </div>
+        <div class="btn-row">
+          <button class="action-btn" id="playBtn">▶ 자동 회전</button>
+          <button class="action-btn secondary" id="resetBtn">↺ 0°로</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="coord-box">P = (<b id="coordX">0.77</b>, <b id="coordY">0.64</b>)</div>
+
+        <table class="ratio-table">
+          <tr><td class="rt-name">sin θ</td><td class="rt-val coral" id="sinVal">0.643</td></tr>
+          <tr><td class="rt-name">cos θ</td><td class="rt-val blue" id="cosVal">0.766</td></tr>
+          <tr><td class="rt-name">tan θ</td><td class="rt-val violet" id="tanVal">0.839</td></tr>
+        </table>
+
+        <div class="quad-grid" id="quadGrid"></div>
+
+        <div class="fact" id="fact1"></div>
+      </div>
+
+      <div style="grid-column:1/-1;display:flex;flex-direction:column;align-items:center;gap:14px;border-top:2px solid var(--paper-line);padding-top:24px;">
+        <h2 style="margin:0;font-size:19px;">돌아가는 점이 파동을 만들어요</h2>
+        <p class="section-sub" style="margin:0 0 4px;text-align:center;" id="waveDesc">원 위의 점 높이(y좌표=sin θ)가 그대로 오른쪽으로 옮겨지면서, 점이 지나온 자리만큼 파동이 그려져요. "자동 회전"을 눌러 함께 확인해보세요.</p>
+        <div class="btn-row" style="max-width:280px;">
+          <button class="action-btn" id="waveSinBtn">sin θ 파동</button>
+          <button class="action-btn secondary" id="waveCosBtn">cos θ 파동</button>
+        </div>
+        <svg id="svg2" viewBox="0 0 860 300"></svg>
+        <div class="legend" id="waveLegend">
+          <span><i class="swatch" style="background:var(--ink)"></i>회전하는 점</span>
+          <span><i class="swatch" style="background:var(--coral)"></i>sin θ (생성되는 파동)</span>
+          <span><i class="swatch" style="background:var(--blue)"></i>cos θ (참고)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="factoring-quadratic.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">다항식의 곱셈·인수분해와 이차방정식</span>
+    </a>
+    <a href="equal-sign-balance.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">등호와 규칙</span>
+    </a>
+  </nav>
+<footer>단위원(반지름 1인 원)을 쓰면 sin θ와 cos θ가 삼각형의 "비율"이 아니라 원 위의 점 좌표 자체가 돼요. 그래서 각도가 90°를 넘어가도, 심지어 음수여도 sin·cos·tan을 자연스럽게 정의할 수 있어요 — 직각삼각형만으로는 할 수 없었던 확장이죠.</footer>
+</div>
+
+<script>
+  function fmt(v){ return (Math.round(v*1000)/1000).toString(); }
+  function fmt2(v){ return (Math.round(v*100)/100).toString(); }
+
+  function refAngle(deg){
+    let d = ((deg%360)+360)%360;
+    if(d<=90) return d;
+    if(d<=180) return 180-d;
+    if(d<=270) return d-180;
+    return 360-d;
+  }
+  function quadrantOf(deg){
+    let d = ((deg%360)+360)%360;
+    if(d===0||d===90||d===180||d===270) return 0;
+    if(d<90) return 1;
+    if(d<180) return 2;
+    if(d<270) return 3;
+    return 4;
+  }
+
+  const thetaSlider = document.getElementById('thetaSlider');
+  const thetaLabel = document.getElementById('thetaLabel');
+  const playBtn = document.getElementById('playBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const coordX = document.getElementById('coordX');
+  const coordY = document.getElementById('coordY');
+  const sinVal = document.getElementById('sinVal');
+  const cosVal = document.getElementById('cosVal');
+  const tanVal = document.getElementById('tanVal');
+  const fact1 = document.getElementById('fact1');
+  const quadGrid = document.getElementById('quadGrid');
+  const svg1 = document.getElementById('svg1');
+  const svg2 = document.getElementById('svg2');
+  const waveSinBtn = document.getElementById('waveSinBtn');
+  const waveCosBtn = document.getElementById('waveCosBtn');
+  const waveDesc = document.getElementById('waveDesc');
+  const waveLegend = document.getElementById('waveLegend');
+
+  let waveMode = 'sin';
+
+  const O=[220,220], R=150;
+  let playing = false, rafId = null;
+
+  const QUAD_INFO = [
+    {n:1, sign:'모두 +', range:'0°~90°'},
+    {n:2, sign:'sin만 +', range:'90°~180°'},
+    {n:3, sign:'tan만 +', range:'180°~270°'},
+    {n:4, sign:'cos만 +', range:'270°~360°'},
+  ];
+
+  function buildQuadGrid(activeQ){
+    quadGrid.innerHTML = QUAD_INFO.map(q=>`
+      <div class="quad-cell ${q.n===activeQ?'active':''}">
+        <div class="qn">${q.n}사분면</div>
+        <div>${q.sign}</div>
+        <div>${q.range}</div>
+      </div>
+    `).join('');
+  }
+
+  function renderMain(){
+    const theta = parseFloat(thetaSlider.value);
+    thetaLabel.textContent = theta;
+    const rad = theta*Math.PI/180;
+    const s = Math.sin(rad), c = Math.cos(rad);
+    const cosUndefined = Math.abs(c) < 1e-6;
+    const t = cosUndefined ? null : s/c;
+
+    coordX.textContent = fmt(c);
+    coordY.textContent = fmt(s);
+    sinVal.textContent = fmt(s);
+    cosVal.textContent = fmt(c);
+    tanVal.textContent = cosUndefined ? '정의되지 않음' : fmt(t);
+
+    const q = quadrantOf(theta);
+    buildQuadGrid(q);
+
+    const P = [O[0]+R*c, O[1]-R*s];
+
+    let html = '';
+    // 축
+    html += `<line x1="20" y1="${O[1]}" x2="420" y2="${O[1]}" stroke="var(--ink-soft)" stroke-width="1.5"></line>`;
+    html += `<line x1="${O[0]}" y1="20" x2="${O[0]}" y2="420" stroke="var(--ink-soft)" stroke-width="1.5"></line>`;
+    html += `<circle cx="${O[0]}" cy="${O[1]}" r="${R}" fill="none" stroke="var(--paper-line)" stroke-width="2.5"></circle>`;
+
+    // 탄젠트: x=1(=O.x+R) 수직 접선, 반직선 연장 교점
+    const tanLineX = O[0]+R;
+    html += `<line x1="${tanLineX}" y1="30" x2="${tanLineX}" y2="410" stroke="var(--violet)" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.5"></line>`;
+    if(!cosUndefined){
+      const tanPxRaw = -R*t; // 화면 y는 아래로 증가하므로 부호 반전
+      const clamp = 220;
+      const tanPxClamped = Math.max(-clamp, Math.min(clamp, tanPxRaw));
+      const Ttan = [tanLineX, O[1]+tanPxClamped];
+      html += `<line x1="${O[0]}" y1="${O[1]}" x2="${Ttan[0]}" y2="${Ttan[1]}" stroke="var(--violet)" stroke-width="2" stroke-dasharray="3 5" opacity="0.7"></line>`;
+      html += `<circle cx="${Ttan[0]}" cy="${Ttan[1]}" r="5" fill="var(--violet)"></circle>`;
+    }
+
+    // cos, sin 투영선
+    html += `<line x1="${P[0]}" y1="${P[1]}" x2="${P[0]}" y2="${O[1]}" stroke="var(--coral)" stroke-width="2.5"></line>`;
+    html += `<line x1="${P[0]}" y1="${P[1]}" x2="${O[0]}" y2="${P[1]}" stroke="var(--blue)" stroke-width="2.5"></line>`;
+
+    // 반지름 & 각도 호
+    html += `<line x1="${O[0]}" y1="${O[1]}" x2="${P[0]}" y2="${P[1]}" stroke="var(--ink)" stroke-width="2.5"></line>`;
+    const arcR = 26;
+    const segs = 20;
+    let arcPts = [];
+    for(let i=0;i<=segs;i++){
+      const a = rad*(i/segs);
+      arcPts.push([O[0]+arcR*Math.cos(a), O[1]-arcR*Math.sin(a)]);
+    }
+    html += `<polyline points="${arcPts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="var(--ink-soft)" stroke-width="1.5"></polyline>`;
+
+    // 점 & 라벨
+    html += `<circle cx="${P[0]}" cy="${P[1]}" r="6" fill="var(--ink)"></circle>`;
+    html += `<text x="${P[0]+ (c>=0?12:-12)}" y="${P[1]-10}" text-anchor="${c>=0?'start':'end'}" font-family="Do Hyeon" font-size="14" fill="var(--ink)">P</text>`;
+    html += `<text x="${O[0]}" y="${O[1]+16}" text-anchor="middle" font-family="Do Hyeon" font-size="12" fill="var(--ink-soft)">O</text>`;
+
+    svg1.innerHTML = html;
+
+    const descs = { 0:'축 위', 1:'1사분면(모든 값이 +)', 2:'2사분면(sin만 +)', 3:'3사분면(tan만 +)', 4:'4사분면(cos만 +)' };
+    fact1.innerHTML = `θ=${theta}°일 때 점 P는 <b>${descs[q]}</b>에 있어요. 좌표는 (${fmt2(c)}, ${fmt2(s)})이고, 참조각(가장 가까운 x축까지의 각)은 <b>${fmt2(refAngle(theta))}°</b>예요. sin·cos 값의 절댓값은 참조각의 값과 같고, 부호만 사분면에 따라 달라져요.`;
+
+    renderGraph(theta);
+  }
+
+  function renderGraph(theta){
+    const CY=150, CX=140, CR=108;
+    const PADL = CX+CR+50, W=860, plotW = W-PADL-20;
+    const xOf = d => PADL + (d/360)*plotW;
+    const yOf = v => CY - v*CR;
+    const rad = theta*Math.PI/180;
+
+    const activeFn = waveMode==='sin' ? Math.sin : Math.cos;
+    const refFn = waveMode==='sin' ? Math.cos : Math.sin;
+    const activeColor = waveMode==='sin' ? 'var(--coral)' : 'var(--blue)';
+    const refColor = waveMode==='sin' ? 'var(--blue)' : 'var(--coral)';
+    // sinθ = 원 위 점의 y좌표, cosθ = sin(θ+90°)이므로, 연결점은 활성 파동에 맞춰 각도를 90°만큼 보정
+    const helperOffset = waveMode==='sin' ? 0 : 90;
+    const helperRad = (theta+helperOffset)*Math.PI/180;
+
+    let html = '';
+    // 생성용 단위원
+    html += `<circle cx="${CX}" cy="${CY}" r="${CR}" fill="none" stroke="var(--paper-line)" stroke-width="2.5"></circle>`;
+    html += `<line x1="${CX-CR-14}" y1="${CY}" x2="${CX+CR+14}" y2="${CY}" stroke="var(--ink-soft)" stroke-width="1.5"></line>`;
+    html += `<line x1="${CX}" y1="${CY-CR-14}" x2="${CX}" y2="${CY+CR+14}" stroke="var(--ink-soft)" stroke-width="1.5"></line>`;
+
+    // 그래프 축
+    html += `<line x1="${PADL}" y1="${CY-CR-10}" x2="${PADL}" y2="${CY+CR+10}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+    html += `<line x1="${PADL}" y1="${yOf(0)}" x2="${PADL+plotW}" y2="${yOf(0)}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+    [0,90,180,270,360].forEach(d=>{
+      const x=xOf(d);
+      html += `<line x1="${x}" y1="${CY+CR+10}" x2="${x}" y2="${CY+CR+16}" stroke="var(--ink-soft)" stroke-width="1.5"></line>`;
+      html += `<text x="${x}" y="${CY+CR+32}" text-anchor="middle" font-family="Do Hyeon" font-size="12" fill="var(--ink-soft)">${d}°</text>`;
+    });
+
+    // 참고용 곡선(선택하지 않은 쪽)은 항상 전체를 옅게 표시
+    let refPts=[];
+    for(let d=0; d<=360; d+=2){
+      const r=d*Math.PI/180;
+      refPts.push(`${xOf(d)},${yOf(refFn(r))}`);
+    }
+    html += `<polyline points="${refPts.join(' ')}" fill="none" stroke="${refColor}" stroke-width="2" opacity="0.35"></polyline>`;
+
+    // 활성 파동: 0부터 현재 theta까지만 그려서 "생성되는 중"인 느낌을 줌
+    let activePts=[];
+    const steps = Math.max(2, Math.round(theta/2));
+    for(let i=0;i<=steps;i++){
+      const d = theta*(i/steps);
+      const r = d*Math.PI/180;
+      activePts.push(`${xOf(d)},${yOf(activeFn(r))}`);
+    }
+    html += `<polyline points="${activePts.join(' ')}" fill="none" stroke="${activeColor}" stroke-width="3.5"></polyline>`;
+
+    // 회전하는 점(연결용) + 연결선 + 파동 끝점
+    const circlePt = [CX+CR*Math.cos(helperRad), CY-CR*Math.sin(helperRad)];
+    const wavePt = [xOf(theta), yOf(activeFn(rad))];
+
+    html += `<line x1="${CX}" y1="${CY}" x2="${circlePt[0]}" y2="${circlePt[1]}" stroke="var(--ink)" stroke-width="2"></line>`;
+    html += `<line x1="${circlePt[0]}" y1="${circlePt[1]}" x2="${wavePt[0]}" y2="${wavePt[1]}" stroke="var(--ink-soft)" stroke-width="1.5" stroke-dasharray="5 4"></line>`;
+    html += `<circle cx="${circlePt[0]}" cy="${circlePt[1]}" r="6" fill="var(--ink)"></circle>`;
+    html += `<circle cx="${wavePt[0]}" cy="${wavePt[1]}" r="6" fill="${activeColor}" stroke="#fff" stroke-width="2"></circle>`;
+
+    svg2.innerHTML = html;
+  }
+
+  function updateWaveUI(){
+    const isSin = waveMode==='sin';
+    waveSinBtn.className = isSin ? 'action-btn' : 'action-btn secondary';
+    waveCosBtn.className = isSin ? 'action-btn secondary' : 'action-btn';
+    waveDesc.textContent = isSin
+      ? '원 위의 점 높이(y좌표=sin θ)가 그대로 오른쪽으로 옮겨지면서, 점이 지나온 자리만큼 파동이 그려져요. "자동 회전"을 눌러 함께 확인해보세요.'
+      : '원 위의 점의 x좌표(=cos θ)가 그대로 오른쪽으로 옮겨지면서, 점이 지나온 자리만큼 파동이 그려져요. cos는 sin보다 90° 앞서 있다는 것도 확인할 수 있어요.';
+    waveLegend.innerHTML = isSin
+      ? `<span><i class="swatch" style="background:var(--ink)"></i>회전하는 점</span>
+         <span><i class="swatch" style="background:var(--coral)"></i>sin θ (생성되는 파동)</span>
+         <span><i class="swatch" style="background:var(--blue)"></i>cos θ (참고)</span>`
+      : `<span><i class="swatch" style="background:var(--ink)"></i>회전하는 점</span>
+         <span><i class="swatch" style="background:var(--blue)"></i>cos θ (생성되는 파동)</span>
+         <span><i class="swatch" style="background:var(--coral)"></i>sin θ (참고)</span>`;
+  }
+
+  waveSinBtn.addEventListener('click', ()=>{ waveMode='sin'; updateWaveUI(); renderMain(); });
+  waveCosBtn.addEventListener('click', ()=>{ waveMode='cos'; updateWaveUI(); renderMain(); });
+
+  function step(){
+    let v = parseFloat(thetaSlider.value) + 1.5;
+    if(v>360) v -= 360;
+    thetaSlider.value = v;
+    renderMain();
+    if(playing) rafId = requestAnimationFrame(step);
+  }
+
+  thetaSlider.addEventListener('input', renderMain);
+  resetBtn.addEventListener('click', ()=>{ thetaSlider.value=0; renderMain(); });
+  playBtn.addEventListener('click', ()=>{
+    playing = !playing;
+    playBtn.textContent = playing ? '⏸ 정지' : '▶ 자동 회전';
+    if(playing) rafId = requestAnimationFrame(step);
+    else cancelAnimationFrame(rafId);
+  });
+
+  renderMain();
+</script>
+</body>
+</html>

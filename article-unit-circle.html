@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>단위원으로 90°가 넘는 각도의 sin·cos를 정의하는 법 | 아인매스</title>
+<meta name="description" content="직각삼각형만으로는 90°를 넘는 각도의 sin·cos·tan을 정의할 수 없어요. 반지름이 1인 단위원을 쓰면 어떻게 360° 전체로 확장되는지 알아봐요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#0D62F1;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#0D62F1;background:#E7F0FF">📈 함수와 그래프</span>
+  <h1>단위원으로 90°가 넘는 각도의 sin·cos를 정의하는 법</h1>
+  <p class="meta">중학생 ~ 고등학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>직각삼각형으로 sin·cos·tan을 배울 때는 늘 전제가 하나 있어요. 각 θ가 <b>0°와 90° 사이</b>여야 한다는 거예요. 삼각형의 한 각이니까 당연한 제약처럼 보이지만, 문제는 회전하는 물체나 주기적으로 반복되는 현상(관람차, 진자, 교류 전류)을 다루려면 120°, 200°, 심지어 720° 같은 각도의 sin·cos도 필요하다는 거예요. 삼각형 안에는 그런 각이 존재할 수 없으니, 삼각형만으로는 근본적으로 막다른 길에 부딪혀요.</p>
+      <p>이 문제를 해결하는 아이디어가 <b>단위원</b>이에요. 반지름이 정확히 1인 원을 좌표평면의 원점에 그리고, 그 원 위의 한 점 P를 x축의 양의 방향에서부터 각도 θ만큼 돌려서 놓아요. 이때 <b>정의를 완전히 뒤집어요</b> — "직각삼각형의 변의 비율"이 아니라, "점 P의 좌표 자체"를 sin·cos라고 다시 정의하는 거예요. 즉 P의 x좌표가 cos θ, y좌표가 sin θ예요.</p>
+      <p>이 정의가 왜 자연스러운지는 θ가 0°와 90° 사이일 때 확인하면 알 수 있어요. 원점 O, 점 P, 그리고 P에서 x축에 내린 수선의 발을 세 꼭짓점으로 하는 직각삼각형을 만들면, 빗변의 길이가 항상 1(반지름)이기 때문에 "높이÷빗변", "밑변÷빗변"이 그대로 y좌표, x좌표가 돼요. 그러니까 단위원 정의는 기존의 삼각비 정의를 <b>포함하면서 확장</b>한 거예요 — 기존에 배운 내용을 버리는 게 아니라, 적용 범위를 360° 전체로, 나아가 음수 각도나 720° 같은 값으로까지 넓히는 거죠.</p>
+      <p>각도가 90°를 넘어가면 좌표의 부호가 바뀌면서 재미있는 규칙이 생겨요. 원을 네 조각(사분면)으로 나누면, 1사분면(0°~90°)에서는 x, y 둘 다 양수라서 sin·cos·tan 모두 +예요. 2사분면(90°~180°)에서는 x가 음수가 되어 cos만 -가 되고, sin은 여전히 +예요. 이런 식으로 사분면마다 어떤 값이 +이고 어떤 값이 -인지 정해진 패턴이 있어서, "얼마인지" 몰라도 "부호가 무엇인지"는 사분면만 보고 바로 알 수 있어요.</p>
+      <p>단위원의 진짜 힘은 여기서 멈추지 않아요. 점 P가 원을 따라 일정한 속도로 계속 돌아간다고 상상해보세요. 그 점의 y좌표(sin θ)를 시간이 지남에 따라 옆으로 쭉 펼쳐서 그래프로 그리면, 위아래로 매끄럽게 출렁이는 <b>파동(사인 곡선)</b>이 나타나요. 이 곡선은 스피커의 소리 파동, 교류 전기의 전압, 심지어 계절이 반복되는 패턴까지 — "일정한 간격으로 똑같이 반복되는" 모든 현상을 설명하는 데 쓰이는 아주 기본적인 도구예요.</p>
+      <p>저희 체험 페이지에서는 슬라이더로 각도 θ를 0°부터 360°까지 직접 돌려보면서 점 P의 좌표, sin·cos·tan 값, 지금 몇 사분면에 있는지를 실시간으로 확인할 수 있어요. "자동 회전" 버튼을 누르면 점이 계속 돌아가면서 사인·코사인 파동이 오른쪽으로 그려지는 과정도 볼 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="unit-circle.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
