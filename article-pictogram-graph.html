@@ -11,6 +11,7 @@
 <style>
   :root{
     --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
     --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
   *{box-sizing:border-box;}
@@ -29,6 +30,9 @@
   .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
   .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
   .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:280px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
   .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
   .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#357A63;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
   .cta-btn:hover{transform:translateY(-2px);}
@@ -47,6 +51,17 @@
   <div class="card">
     <div class="article-body">
       <p>반 친구들이 좋아하는 과일을 말로만 들으면 어떤 과일이 제일 인기있는지 알기 어려워요. "누구는 사과, 누구는 바나나..." 하나씩 들으면 헷갈리거든요. 그런데 좋아하는 과일별로 그림을 하나씩 늘어놓고 세어보면 어떨까요? 어떤 과일이 가장 많이 나왔는지 눈으로 바로 보여요. 이렇게 자료를 그림이나 기호로 나타낸 것을 '그림그래프'라고 불러요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 280 110">
+          <text x="10" y="24" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink)">사과</text>
+          <text x="60" y="26" font-size="20">🍎🍎🍎🍎</text>
+          <text x="10" y="60" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink)">바나나</text>
+          <text x="60" y="62" font-size="20">🍌🍌</text>
+          <text x="10" y="96" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink)">포도</text>
+          <text x="60" y="98" font-size="20">🍇🍇🍇</text>
+        </svg>
+        <div class="illo-caption">그림을 세어보면 사과 4개, 포도 3개, 바나나 2개 — 어떤 과일이 가장 인기있는지 바로 보여요</div>
+      </div>
       <p>그림그래프의 핵심은 '분류'와 '세기'예요. 먼저 자료를 종류별로 나눠요(사과냐 바나나냐). 그다음 각 종류가 몇 개씩 있는지 세어요. 그 개수만큼 그림을 늘어놓으면 완성이에요. 이 과정이 바로 통계의 첫걸음이에요.</p>
       <p>그림그래프는 막대그래프의 친구 같은 존재예요. 막대그래프는 숫자만큼 막대의 높이를 그려요. 그림그래프는 숫자만큼 그림(사과 그림, 별 그림 등)을 늘어놓고요. 그림 하나하나를 셀 수 있어서 아이들이 이해하기 더 쉬워요. 나중에는 그림 하나가 "1명"이 아니라 "5명"이나 "10명"을 나타내는 식으로 배워요. 그러면서 자연스럽게 막대그래프의 세계로 넘어가게 돼요.</p>
       <p>그림그래프는 실생활에서도 자주 쓰여요. 학교에서 "우리 반이 좋아하는 계절 조사하기" 같은 활동을 할 때 항상 그림그래프나 표를 만들어요. 어릴 때 배우는 "세어서 그림으로 나타내기"는 나중에 훨씬 복잡한 자료를 정리할 때도 똑같이 쓰이는 기본기예요.</p>
