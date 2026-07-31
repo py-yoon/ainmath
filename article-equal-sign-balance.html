@@ -48,6 +48,9 @@ p:last-child{margin-bottom:0;}
 .tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
 .tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
 .tip-list b{color:var(--blue-ink);}
+.illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:18px 0;text-align:center;}
+.illo svg{width:100%;max-width:280px;height:auto;display:block;margin:0 auto;}
+.illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
 footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 .footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
 .footer-nav a:hover{color:var(--ink);text-decoration:underline;}
@@ -77,6 +80,21 @@ footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;t
 
     <h2><span class="num">2</span>저울로 생각하면 이해가 쉬워요</h2>
     <p>양팔저울의 양쪽에 같은 무게를 올리면 저울이 평형을 이뤄요. 등호도 마찬가지로, 양쪽 식의 값이 같으면 "평형" 상태가 되고, 다르면 한쪽으로 기울어요.</p>
+    <div class="illo">
+      <svg viewBox="0 0 280 130">
+        <polygon points="140,100 125,125 155,125" fill="var(--blue-soft)" stroke="var(--blue-ink)" stroke-width="2"></polygon>
+        <rect x="136" y="60" width="8" height="42" fill="var(--blue-soft)" stroke="var(--blue-ink)" stroke-width="2"></rect>
+        <line x1="30" y1="60" x2="250" y2="60" stroke="var(--blue-ink)" stroke-width="3"></line>
+        <line x1="30" y1="60" x2="30" y2="90" stroke="var(--blue-ink)" stroke-width="1.5"></line>
+        <line x1="250" y1="60" x2="250" y2="90" stroke="var(--blue-ink)" stroke-width="1.5"></line>
+        <path d="M 5 90 Q 30 115 55 90 Z" fill="var(--blue-soft)" stroke="var(--blue-ink)" stroke-width="2"></path>
+        <path d="M 225 90 Q 250 115 275 90 Z" fill="var(--blue-soft)" stroke="var(--blue-ink)" stroke-width="2"></path>
+        <text x="30" y="45" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="18" fill="var(--ink)">3+4</text>
+        <text x="250" y="45" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="18" fill="var(--ink)">5+2</text>
+        <text x="140" y="30" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--blue-ink)">=</text>
+      </svg>
+      <div class="illo-caption">양쪽 다 7이라서 저울이 평형을 이뤄요 — 등호는 이 균형 상태를 나타내요</div>
+    </div>
 
     <h2><span class="num">3</span>□와 △는 모르는 수를 나타내는 기호예요</h2>
     <p>아직 문자(x, y)를 배우기 전이라도, □나 △ 같은 기호를 사용해서 규칙을 나타낼 수 있어요. "△ = □ + 3"은 □가 어떤 수든, 거기에 3을 더하면 △가 된다는 규칙이에요.</p>
