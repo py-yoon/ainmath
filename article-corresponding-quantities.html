@@ -48,6 +48,9 @@ p:last-child{margin-bottom:0;}
 .tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
 .tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
 .tip-list b{color:var(--blue-ink);}
+.illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:18px 0;text-align:center;}
+.illo svg{width:100%;max-width:280px;height:auto;display:block;margin:0 auto;}
+.illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
 footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 .footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
 .footer-nav a:hover{color:var(--ink);text-decoration:underline;}
@@ -71,6 +74,36 @@ footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;t
     <div class="example">
       <div class="eq">세발자전거 1대 → 바퀴 3개, 2대 → 바퀴 6개, 3대 → 바퀴 9개</div>
       <p>자전거가 1대씩 늘어날 때마다 바퀴는 항상 3개씩 늘어나요.</p>
+    </div>
+    <div class="illo">
+      <svg viewBox="0 0 260 110">
+        <g font-family="'Do Hyeon',sans-serif" font-size="14" text-anchor="middle">
+          <rect x="10" y="10" width="40" height="30" fill="var(--blue-soft)" stroke="var(--blue-ink)" stroke-width="1.5"></rect>
+          <text x="30" y="30" fill="var(--blue-ink)">x</text>
+          <rect x="50" y="10" width="30" height="30" fill="none" stroke="var(--paper-line)" stroke-width="1.5"></rect>
+          <text x="65" y="30" fill="var(--ink)">1</text>
+          <rect x="80" y="10" width="30" height="30" fill="none" stroke="var(--paper-line)" stroke-width="1.5"></rect>
+          <text x="95" y="30" fill="var(--ink)">2</text>
+          <rect x="110" y="10" width="30" height="30" fill="none" stroke="var(--paper-line)" stroke-width="1.5"></rect>
+          <text x="125" y="30" fill="var(--ink)">3</text>
+          <rect x="10" y="40" width="40" height="30" fill="var(--blue-soft)" stroke="var(--blue-ink)" stroke-width="1.5"></rect>
+          <text x="30" y="60" fill="var(--blue-ink)">y</text>
+          <rect x="50" y="40" width="30" height="30" fill="none" stroke="var(--paper-line)" stroke-width="1.5"></rect>
+          <text x="65" y="60" fill="var(--ink)">3</text>
+          <rect x="80" y="40" width="30" height="30" fill="none" stroke="var(--paper-line)" stroke-width="1.5"></rect>
+          <text x="95" y="60" fill="var(--ink)">6</text>
+          <rect x="110" y="40" width="30" height="30" fill="none" stroke="var(--paper-line)" stroke-width="1.5"></rect>
+          <text x="125" y="60" fill="var(--ink)">9</text>
+        </g>
+        <text x="160" y="60" font-family="'Do Hyeon',sans-serif" font-size="18" fill="var(--ink-soft)">→</text>
+        <line x1="185" y1="90" x2="185" y2="15" stroke="var(--ink-soft)" stroke-width="1.5"></line>
+        <line x1="185" y1="90" x2="250" y2="90" stroke="var(--ink-soft)" stroke-width="1.5"></line>
+        <polyline points="192,78 207,63 222,48" fill="none" stroke="var(--blue-ink)" stroke-width="2"></polyline>
+        <circle cx="192" cy="78" r="4" fill="var(--blue-ink)"></circle>
+        <circle cx="207" cy="63" r="4" fill="var(--blue-ink)"></circle>
+        <circle cx="222" cy="48" r="4" fill="var(--blue-ink)"></circle>
+      </svg>
+      <div class="illo-caption">표의 x, y 짝을 점으로 찍으면 일정한 규칙(곧은 흐름)이 눈으로 보여요</div>
     </div>
 
     <h2><span class="num">2</span>표로 정리하면 규칙이 보여요</h2>
