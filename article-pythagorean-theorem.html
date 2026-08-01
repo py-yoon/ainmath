@@ -11,6 +11,9 @@
 <style>
   :root{
     --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
     --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
   *{box-sizing:border-box;}
@@ -43,6 +46,9 @@
     font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;
   }
   .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:220px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
   .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
   .cta-btn{
     display:inline-flex;align-items:center;gap:8px;
@@ -69,6 +75,18 @@
     <div class="article-body">
       <p>중학교 수학을 통틀어 가장 유명한 공식 하나를 꼽으라면 아마 a²+b²=c²일 거예요. 저도 처음 이 공식을 배웠을 때는 그냥 시험에 나오니까 외웠는데, 나중에 이 식이 실제로 무엇을 의미하는지 그림으로 보고 나서야 진짜로 이해가 됐던 기억이 나요.</p>
       <p>핵심 아이디어는 이래요. 직각삼각형에서 직각을 낀 두 변을 각각 a, b라고 하고, 가장 긴 변(빗변)을 c라고 하면, 세 변을 각각 한 변으로 하는 정사각형을 그렸을 때 작은 두 정사각형의 넓이를 합치면 큰 정사각형의 넓이와 정확히 같아진다는 거예요. 3-4-5 삼각형으로 예를 들면 3×3=9, 4×4=16이고 둘을 더하면 25인데, 이는 5×5인 25와 딱 맞아떨어집니다.</p>
+      <div class="illo">
+        <svg viewBox="0 0 190 200">
+          <polygon points="60,120 60,75 15,75 15,120" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2"></polygon>
+          <polygon points="60,120 120,120 120,180 60,180" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="2"></polygon>
+          <polygon points="60,75 120,120 165,60 105,15" fill="var(--green-soft)" stroke="var(--green-ink)" stroke-width="2"></polygon>
+          <polygon points="60,120 120,120 60,75" fill="var(--paper)" stroke="var(--ink)" stroke-width="2.5"></polygon>
+          <text x="37" y="102" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--violet-ink)">a²</text>
+          <text x="90" y="155" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--coral-ink)">b²</text>
+          <text x="112" y="72" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--green-ink)">c²</text>
+        </svg>
+        <div class="illo-caption">직각삼각형 세 변 위에 정사각형을 그리면, 작은 두 넓이(a²+b²)를 합친 값이 큰 정사각형(c²)과 정확히 같아요</div>
+      </div>
       <p>이 정리가 특별한 이유는 증명 방법이 수십 가지가 넘는다는 점이에요. 그림을 잘라 붙여서 넓이가 같음을 보여주는 방법도 있고, 정사각형 안에 삼각형 네 개를 배치해서 보여주는 방법도 있어요. 저희 사이트에서는 같은 삼각형 네 개를 이리저리 옮기기만 해도 c²로 보이던 넓이가 a²와 b²로 다시 나뉘는 걸 애니메이션으로 보여주는데, 직접 눈으로 보면 "아 진짜 똑같은 넓이구나" 하는 확신이 훨씬 빨리 생겨요.</p>
       <p>피타고라스 정리는 교실 밖에서도 쓸모가 많습니다. 목수가 벽이 직각으로 잘 세워졌는지 확인할 때 3-4-5 비율의 줄자를 쓰는 것도 이 정리 덕분이고, 지도에서 두 지점 사이의 직선 거리를 계산할 때도, 텔레비전이나 모니터의 화면 크기를 표시할 때도 이 공식이 숨어 있어요.</p>
       <p>흥미로운 점은 이 정리의 '역'도 성립한다는 거예요. 즉 어떤 삼각형의 세 변의 길이가 a²+b²=c²를 만족하면, 굳이 각도기를 대보지 않아도 그 삼각형은 반드시 직각삼각형이라는 뜻입니다. 이 원리는 실제로 아주 오래전부터 쓰였는데, 고대 이집트에서는 밧줄에 일정한 간격으로 매듭을 지어 3:4:5 비율의 삼각형을 만들고, 이를 이용해 피라미드나 논밭의 직각 모서리를 정확하게 잡았다고 전해집니다. 측량 기술이 지금처럼 발달하지 않았던 시절에, 단순한 밧줄 하나로 완벽한 직각을 만들어냈다는 게 정말 지혜로운 발상이죠. 지금도 목수나 정원사들이 벽이나 담장의 각을 확인할 때 비슷한 원리를 사용한다는 걸 알면, 수천 년 전의 수학이 지금까지도 살아있다는 게 새삼 신기하게 느껴집니다.</p>
