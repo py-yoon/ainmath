@@ -53,6 +53,10 @@
   input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);cursor:pointer;}
   input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
 
+  .num-input{width:84px;font-family:'Do Hyeon',sans-serif;font-size:17px;color:var(--ink);border:2px solid var(--paper-line);border-radius:8px;padding:5px 8px;text-align:right;background:#fff;}
+  .num-input:focus-visible{outline:3px solid var(--coral);outline-offset:1px;border-color:var(--green);}
+  .num-unit{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+
   .seq-row{display:flex;flex-wrap:wrap;gap:6px;max-width:420px;}
   .seq-chip{font-family:'Do Hyeon',sans-serif;font-size:13px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:8px;padding:5px 9px;}
   .seq-chip.last{background:var(--violet);border-color:var(--violet);color:#fff;}
@@ -160,10 +164,52 @@
       </div>
     </div>
 
-    <div class="fact" id="savingsFact" style="margin-top:16px;max-width:none;">
-      <b>💰 실생활 예시 — 연 5% 복리 저축</b>
-      <div id="savingsRow" class="seq-row" style="margin-top:10px;max-width:none;"></div>
-      <div id="savingsSub" style="margin-top:8px;"></div>
+  </div>
+
+  <!-- ===== STEP 3: 실생활 예시 — 복리 저축 ===== -->
+  <div class="section-block">
+    <span class="section-tag">STEP 3</span>
+    <h2>실생활 예시: 복리 저축</h2>
+    <p class="section-sub">저금 금액과 금리를 직접 입력해서, 20년 뒤에 얼마가 되는지 등비수열로 확인해보세요. 이미 붙은 이자에도 다시 이자가 붙는 "복리"라서, 시간이 지날수록 그래프가 점점 가팔라져요.</p>
+
+    <div class="stage">
+      <div class="canvas-area">
+        <svg id="svg3" viewBox="0 0 460 300"></svg>
+        <div class="legend">
+          <span><i class="swatch" style="background:var(--green)"></i>연도별 저축 금액</span>
+        </div>
+
+        <div class="control-row">
+          <div class="control-label">
+            <span>저금 금액</span>
+            <span style="display:flex;align-items:center;gap:6px;">
+              <input id="principalNum3" class="num-input" type="number" min="1" max="1000000" step="1" value="100" aria-label="저금 금액 직접 입력">
+              <b class="num-unit">만원</b>
+            </span>
+          </div>
+          <input id="principalSlider3" type="range" min="1" max="2000" value="100" step="1" aria-label="저금 금액 조절">
+        </div>
+        <div class="control-row">
+          <div class="control-label">
+            <span>연 금리</span>
+            <span style="display:flex;align-items:center;gap:6px;">
+              <input id="rateNum3" class="num-input" type="number" min="0" max="100" step="0.1" value="5" aria-label="연 금리 직접 입력">
+              <b class="num-unit">%</b>
+            </span>
+          </div>
+          <input id="rateSlider3" type="range" min="0" max="20" value="5" step="0.1" aria-label="금리 조절">
+        </div>
+        <div class="seq-row" id="seqRow3"></div>
+      </div>
+
+      <div class="panel">
+        <div class="equation">
+          <div class="formula">20년 뒤 금액 = 원금 × (1+금리)²⁰</div>
+          <div class="result" id="sumResult3">265.3만원</div>
+          <div class="subline" id="sub3"></div>
+        </div>
+        <div class="fact" id="fact3"></div>
+      </div>
     </div>
   </div>
 
@@ -320,25 +366,94 @@
   })();
 
   // ============================================================
-  // 실생활 예시: 연 5% 복리 저축 (등비수열의 실제 활용)
+  // STEP 3: 실생활 예시 — 복리 저축 (등비수열의 실제 활용)
   // ============================================================
   (function(){
-    const savingsRow = document.getElementById('savingsRow');
-    const savingsSub = document.getElementById('savingsSub');
-    const PRINCIPAL = 100; // 만원
-    const RATE = 0.05;
-    const YEARS = 10;
+    const svg = document.getElementById('svg3');
+    const principalSlider = document.getElementById('principalSlider3');
+    const principalNum = document.getElementById('principalNum3');
+    const rateSlider = document.getElementById('rateSlider3');
+    const rateNum = document.getElementById('rateNum3');
+    const seqRow = document.getElementById('seqRow3');
+    const sumResult = document.getElementById('sumResult3');
+    const sub3 = document.getElementById('sub3');
+    const fact3 = document.getElementById('fact3');
+    const YEARS = 20;
 
-    const amounts = [];
-    for(let year=0; year<=YEARS; year++) amounts.push(PRINCIPAL*Math.pow(1+RATE, year));
+    function fmt1(v){ return (Math.round(v*10)/10).toFixed(1); }
 
-    savingsRow.innerHTML = amounts.map((amt,year)=>
-      `<span class="seq-chip${year===YEARS?' last':''}">${year}년차: ${fmt(amt)}만원</span>`
-    ).join('');
+    function syncFromSlider(){
+      principalNum.value = principalSlider.value;
+      rateNum.value = rateSlider.value;
+      render();
+    }
+    function syncFromNum(){
+      let p = parseFloat(principalNum.value); if(!isFinite(p) || p<=0) p = 1;
+      let r = parseFloat(rateNum.value); if(!isFinite(r) || r<0) r = 0;
+      const pMin = parseFloat(principalSlider.min), pMax = parseFloat(principalSlider.max);
+      const rMin = parseFloat(rateSlider.min), rMax = parseFloat(rateSlider.max);
+      if(p>=pMin && p<=pMax) principalSlider.value = p;
+      if(r>=rMin && r<=rMax) rateSlider.value = r;
+      render();
+    }
 
-    const finalAmt = amounts[YEARS];
-    const multiple = finalAmt/PRINCIPAL;
-    savingsSub.innerHTML = `원금 <b>${PRINCIPAL}만원</b>을 매년 <b>5%</b>씩 이자가 붙는 예금에 넣으면, 1년 뒤엔 ${fmt(amounts[1])}만원, 2년 뒤엔 ${fmt(amounts[2])}만원… 이렇게 <b>공비 1.05인 등비수열</b>을 그리며 불어나요. 단순히 매년 5만원씩 더하는 게 아니라, "이미 붙은 이자에도 다시 이자가 붙는" 거라서(복리), ${YEARS}년 뒤에는 원금의 약 <b>${fmt(multiple)}배</b>인 <b>${fmt(finalAmt)}만원</b>이 돼요.`;
+    function render(){
+      const principal = parseFloat(principalNum.value) || 0;
+      const ratePct = parseFloat(rateNum.value) || 0;
+      const rate = ratePct/100;
+
+      const amounts = [];
+      for(let year=0; year<=YEARS; year++) amounts.push(principal*Math.pow(1+rate, year));
+      const finalAmt = amounts[YEARS];
+      const multiple = principal>0 ? finalAmt/principal : 0;
+
+      seqRow.innerHTML = amounts.map((amt,year)=>
+        `<span class="seq-chip${year===YEARS?' last':''}">${year}년차: ${fmt1(amt)}만원</span>`
+      ).join('');
+
+      sumResult.textContent = `${fmt1(finalAmt)}만원`;
+      sub3.innerHTML = `${fmt1(principal)} × (1+${fmt1(ratePct)}%)²⁰ = ${fmt1(finalAmt)}만원`;
+
+      // 그래프: 0~20년 저축 금액을 선 그래프로 표시
+      const PAD_L=46, PAD_R=16, PAD_T=20, PAD_B=34, W=460, H=300;
+      const chartW = W-PAD_L-PAD_R, chartH = H-PAD_T-PAD_B;
+      const maxAmt = Math.max(...amounts, principal*1.05, 1);
+      const xAt = year => PAD_L + (year/YEARS)*chartW;
+      const yAt = amt => PAD_T + chartH - (amt/maxAmt)*chartH;
+
+      let html = '';
+      const yTicks = 4;
+      for(let i=0;i<=yTicks;i++){
+        const val = maxAmt*i/yTicks;
+        const y = yAt(val);
+        html += `<line x1="${PAD_L}" y1="${y}" x2="${W-PAD_R}" y2="${y}" stroke="var(--paper-line)" stroke-width="1"></line>`;
+        html += `<text x="${PAD_L-8}" y="${y+4}" text-anchor="end" font-family="Gowun Dodum" font-size="10" fill="var(--ink-soft)">${fmt1(val)}</text>`;
+      }
+      html += `<line x1="${PAD_L}" y1="${PAD_T+chartH}" x2="${W-PAD_R}" y2="${PAD_T+chartH}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+      for(let year=0; year<=YEARS; year+=5){
+        const x = xAt(year);
+        html += `<text x="${x}" y="${PAD_T+chartH+18}" text-anchor="middle" font-family="Do Hyeon" font-size="11" fill="var(--ink-soft)">${year}년</text>`;
+      }
+
+      const linePts = amounts.map((amt,year)=>[xAt(year), yAt(amt)]);
+      const areaPts = [[xAt(0), PAD_T+chartH], ...linePts, [xAt(YEARS), PAD_T+chartH]];
+      html += `<polygon points="${areaPts.map(p=>p.join(',')).join(' ')}" fill="var(--green)" fill-opacity="0.18"></polygon>`;
+      html += `<polyline points="${linePts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="var(--green)" stroke-width="2.5"></polyline>`;
+      linePts.forEach((p,year)=>{
+        html += `<circle cx="${p[0]}" cy="${p[1]}" r="${year===YEARS?5:3}" fill="var(--green)"></circle>`;
+      });
+      html += `<text x="${linePts[YEARS][0]}" y="${linePts[YEARS][1]-12}" text-anchor="end" font-family="Do Hyeon" font-size="13" fill="var(--ink)">${fmt1(finalAmt)}만원</text>`;
+
+      svg.innerHTML = html;
+
+      fact3.innerHTML = `원금 <b>${fmt1(principal)}만원</b>을 매년 <b>${fmt1(ratePct)}%</b>씩 이자가 붙는 예금에 넣으면, 1년 뒤엔 ${fmt1(amounts[1])}만원, 5년 뒤엔 ${fmt1(amounts[5])}만원… 이렇게 <b>공비 (1+${fmt1(ratePct)}%)인 등비수열</b>을 그리며 불어나요. 단순히 매년 이자를 더하는 게 아니라 "이미 붙은 이자에도 다시 이자가 붙는" 거라서(복리), ${YEARS}년 뒤에는 원금의 약 <b>${fmt1(multiple)}배</b>인 <b>${fmt1(finalAmt)}만원</b>이 돼요.`;
+    }
+
+    principalSlider.addEventListener('input', syncFromSlider);
+    rateSlider.addEventListener('input', syncFromSlider);
+    principalNum.addEventListener('input', syncFromNum);
+    rateNum.addEventListener('input', syncFromNum);
+    render();
   })();
 </script>
 </body>
