@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>적분, 잘게 쪼갠 직사각형이 정확한 넓이가 되는 순간 | 아인매스</title>
+<meta name="description" content="울퉁불퉁한 곡선 아래의 넓이는 공식 하나로 뚝딱 구할 수 없어요. 대신 곡선을 아주 얇은 직사각형 여러 개로 잘라서 넓이를 더하면, 조각을...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:260px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#0D62F1;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#0D62F1;background:#E7F0FF">📈 함수와 그래프</span>
+  <h1>적분, 잘게 쪼갠 직사각형이 정확한 넓이가 되는 순간</h1>
+  <p class="meta">고등학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>직사각형이나 삼각형의 넓이는 공식으로 바로 구할 수 있어요. 그런데 y=x²처럼 곡선으로 휘어진 도형의 넓이는 어떻게 구할까요? 직접적인 공식이 없으니, 대신 <b>직사각형 여러 개로 잘라서 근사</b>하는 아이디어를 써요. 이 방법을 <b>구분구적법</b>이라고 불러요 — 구간을 나누어(구분) 넓이를 구한다(구적)는 뜻이에요.</p>
+      <p>f(x)=x²와 x축 사이, 0≤x≤2 구간의 넓이를 구한다고 해봐요. 이 구간을 n개의 작은 구간으로 쪼개고, 각 구간마다 높이가 f(x)인 얇은 직사각형을 세워요. 직사각형 n개의 넓이를 모두 더하면 실제 넓이의 근삿값이 나와요. 문제는 직사각형은 각이 져 있고 곡선은 매끈해서, 딱 맞아떨어지지 않고 살짝 어긋난다는 거예요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 200 140">
+          <path d="M 20 120 Q 100 120 180 20" fill="none" stroke="var(--blue-ink)" stroke-width="2.5"></path>
+          <rect x="20" y="118" width="26" height="2" fill="var(--green)" fill-opacity="0.5" stroke="var(--green-ink)"></rect>
+          <rect x="46" y="112" width="26" height="8" fill="var(--green)" fill-opacity="0.5" stroke="var(--green-ink)"></rect>
+          <rect x="72" y="98" width="26" height="22" fill="var(--green)" fill-opacity="0.5" stroke="var(--green-ink)"></rect>
+          <rect x="98" y="75" width="26" height="45" fill="var(--green)" fill-opacity="0.5" stroke="var(--green-ink)"></rect>
+          <rect x="124" y="45" width="26" height="75" fill="var(--green)" fill-opacity="0.5" stroke="var(--green-ink)"></rect>
+          <rect x="150" y="20" width="26" height="100" fill="var(--green)" fill-opacity="0.5" stroke="var(--green-ink)"></rect>
+        </svg>
+        <div class="illo-caption">직사각형 6개로 곡선 아래 넓이를 근사한 모습이에요</div>
+      </div>
+      <p>여기서 핵심 아이디어가 등장해요. 직사각형 개수 n을 늘릴수록 각 직사각형은 더 얇아지고, 곡선에서 삐져나오는 부분도 점점 줄어들어요. n을 <b>무한히</b> 늘리는 극한을 취하면, 어긋나는 부분이 정확히 0이 되면서 직사각형 합이 실제 넓이와 완전히 같아져요. 이 극한값을 <b>정적분</b>이라고 부르고 ∫₀²x²dx라고 써요(∫는 옛날식 S자로, "합"을 뜻하는 Sum에서 왔어요). 극한 개념이 다시 한번 핵심 역할을 하고 있죠?</p>
+      <p>정적분에는 신기한 성질이 하나 있어요. f(x)=x처럼 그래프가 x축 아래로도 내려가는 함수를 적분하면, <b>x축 위쪽 넓이는 더하고 아래쪽 넓이는 빼는</b> "부호가 있는 넓이(순 넓이)"가 나와요. 예를 들어 -1부터 2까지 f(x)=x를 적분하면, 0부터 2까지의 삼각형 넓이(+2)에서 -1부터 0까지의 삼각형 넓이(−0.5)를 뺀 1.5가 나와요. 일반적인 도형 넓이는 항상 양수지만, 정적분값은 이렇게 음수가 되거나 서로 상쇄될 수도 있어요.</p>
+      <p>정적분은 실생활에서 "누적된 변화량"을 계산할 때 아주 유용해요. 속도 그래프를 적분하면 이동 거리가 나오고(속도가 음수인 구간, 즉 되돌아가는 구간은 거리를 깎아먹어요), 소득 흐름을 적분하면 총소득이 나와요. 수도꼭지에서 물이 나오는 속도를 안다면, 그 속도를 일정 시간 동안 적분해서 총 받은 물의 양을 계산할 수도 있어요 — 순간의 변화율을 모아서 누적된 전체 양을 알아내는 것, 그게 바로 적분이 하는 일이에요.</p>
+      <p>아이들과 공부할 때는 직접 모눈종이에 곡선을 그리고, 작은 사각형 칸을 세어 넓이를 어림해보게 하는 게 좋아요. 칸을 더 잘게(작은 눈금으로) 세면 셀수록 답이 더 정확해진다는 걸 직접 경험하면, "왜 극한을 취하는지"가 자연스럽게 이해돼요. 저희 체험 페이지에서는 직사각형 개수 n을 슬라이더로 늘려가며 넓이가 정확한 값에 다가가는 과정과, x축 아래 넓이가 실제로 빠지는 모습을 직접 확인할 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="integral.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
