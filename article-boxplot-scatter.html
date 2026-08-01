@@ -11,6 +11,8 @@
 <style>
   :root{
     --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
     --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
   *{box-sizing:border-box;}
@@ -29,6 +31,9 @@
   .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
   .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
   .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
   .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
   .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#357A63;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
   .cta-btn:hover{transform:translateY(-2px);}
@@ -47,6 +52,22 @@
     <div class="article-body">
       <p>두 반의 수학 시험 평균이 똑같이 70점이라고 해봐요. 그럼 두 반의 성적 분포도 비슷할까요? 꼭 그렇지는 않아요. 한 반은 모두가 65~75점 사이에 몰려 있는데, 다른 반은 절반이 30점대, 절반이 100점 근처일 수도 있어요. 평균은 똑같지만 "얼마나 흩어져 있는가"는 완전히 다른 거예요. 이 흩어진 정도를 나타내는 게 바로 <b>산포도</b>예요.</p>
       <p>산포도를 한눈에 보여주는 대표적인 방법이 <b>상자그림</b>이에요. 자료를 크기 순서대로 쭉 줄 세운 다음, 다섯 개의 기준점을 찾아요: 가장 작은 값(최솟값), 가장 큰 값(최댓값), 정확히 가운데 있는 값(중앙값), 그리고 아래쪽 절반의 중앙값(제1사분위수, Q1)과 위쪽 절반의 중앙값(제3사분위수, Q3)이에요. 이 다섯 숫자로 상자를 그리면, 상자의 폭(Q3−Q1, 사분위범위)이 넓을수록 자료의 가운데 절반이 넓게 퍼져 있다는 뜻이 돼요. 상자그림 하나만 봐도 자료가 고르게 모여 있는지, 넓게 흩어져 있는지 바로 짐작할 수 있어요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 280 110">
+          <line x1="20" y1="55" x2="80" y2="55" stroke="var(--ink-soft)" stroke-width="2"></line>
+          <line x1="200" y1="55" x2="260" y2="55" stroke="var(--ink-soft)" stroke-width="2"></line>
+          <line x1="20" y1="42" x2="20" y2="68" stroke="var(--ink)" stroke-width="2"></line>
+          <line x1="260" y1="42" x2="260" y2="68" stroke="var(--ink)" stroke-width="2"></line>
+          <rect x="80" y="30" width="120" height="50" rx="4" fill="var(--green-soft)" stroke="var(--green-ink)" stroke-width="2.5"></rect>
+          <line x1="140" y1="30" x2="140" y2="80" stroke="var(--coral-ink)" stroke-width="2.5"></line>
+          <text x="20" y="96" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">최솟값</text>
+          <text x="80" y="96" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--green-ink)">Q1</text>
+          <text x="140" y="96" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--coral-ink)">중앙값</text>
+          <text x="200" y="96" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--green-ink)">Q3</text>
+          <text x="260" y="96" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">최댓값</text>
+        </svg>
+        <div class="illo-caption">다섯 숫자(최솟값·Q1·중앙값·Q3·최댓값)로 자료가 퍼진 정도를 한눈에 보여줘요</div>
+      </div>
       <p>상자그림이 하나의 자료 뭉치가 얼마나 흩어져 있는지를 보여준다면, <b>산점도</b>는 서로 다른 두 자료(변량) 사이에 어떤 관계가 있는지를 보여줘요. 예를 들어 '공부 시간'과 '시험 점수'처럼 짝을 이루는 두 값을 각각 x축, y축에 놓고 점으로 찍는 거예요. 이때 점들이 대체로 오른쪽 위로 올라가는 모양이면, 한 값이 커질 때 다른 값도 커지는 경향이 있다는 뜻으로 <b>양의 상관관계</b>가 있다고 말해요. 반대로 오른쪽 아래로 내려가는 모양이면 한쪽이 커질 때 다른 쪽은 작아지는 <b>음의 상관관계</b>고요. 점들이 이렇다 할 방향 없이 흩어져 있으면 <b>상관관계가 없다</b>고 해요.</p>
       <p>여기서 중요한 건, 상관관계가 있다고 해서 반드시 하나가 다른 하나의 '원인'이라는 뜻은 아니라는 거예요. 예를 들어 아이스크림 판매량과 물놀이 사고 건수는 둘 다 여름에 함께 늘어나서 양의 상관관계를 보이지만, 아이스크림이 사고를 일으키는 건 아니죠. 둘 다 '더운 날씨'라는 공통 원인 때문에 함께 변하는 거예요. 산점도로 관계를 확인하는 것과, 그 관계의 진짜 원인을 밝히는 것은 다른 문제라는 걸 기억해두면 좋아요.</p>
       <p>상자그림과 산점도는 통계에서 아주 실용적인 도구예요. 숫자를 잔뜩 나열해서는 한눈에 파악하기 어려운 정보를, 그림 하나로 압축해서 보여주기 때문이에요. 뉴스나 보고서에서 "격차가 크다", "관계가 있어 보인다" 같은 이야기가 나올 때, 그 뒤에는 대개 이런 그래프들이 숨어 있어요.</p>
