@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>집합과 명제, 벤다이어그램과 대우 증명법 | 아인매스</title>
+<meta name="description" content="두 조건을 동시에 만족하는 것과, 둘 중 하나만 만족하는 것은 완전히 다른 이야기예요. 벤다이어그램으로 집합을 나누고, 명제의 역·이·대우가...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
+    --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:260px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#D90500;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#D90500;background:#FFEAE8">🔢 수와 연산</span>
+  <h1>집합과 명제, 벤다이어그램과 대우 증명법</h1>
+  <p class="meta">고등학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>집합은 "범위가 분명한 것들의 모임"이에요. "2의 배수", "짝수", "우리 반 학생" 처럼 어떤 대상이 그 조건에 속하는지 아닌지가 명확하게 판별되면 집합이 될 수 있어요. 두 집합 A, B가 있을 때 이 둘을 조합하는 방법에는 몇 가지가 있는데, 벤다이어그램(두 원이 겹치는 그림)으로 그려보면 훨씬 직관적으로 이해돼요.</p>
+      <p><b>합집합</b> A∪B는 A 또는 B에 속하는 모든 것을 모은 거예요(겹치는 부분도 한 번만 세요). <b>교집합</b> A∩B는 A와 B에 동시에 속하는, 즉 겹치는 부분만이에요. <b>차집합</b> A−B는 A에는 있지만 B에는 없는 것, <b>여집합</b> Aᶜ는 전체집합에서 A가 아닌 나머지 전부예요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 220 130">
+          <circle cx="90" cy="65" r="55" fill="var(--teal-soft)" fill-opacity="0.6" stroke="var(--teal-ink)" stroke-width="2"></circle>
+          <circle cx="140" cy="65" r="55" fill="var(--coral-soft)" fill-opacity="0.6" stroke="var(--coral-ink)" stroke-width="2"></circle>
+          <text x="60" y="35" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--teal-ink)">A</text>
+          <text x="165" y="35" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--coral-ink)">B</text>
+          <text x="115" y="70" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink)">A∩B</text>
+        </svg>
+        <div class="illo-caption">두 원이 겹치는 가운데 부분이 교집합, 두 원을 합친 전체가 합집합이에요</div>
+      </div>
+      <p>집합을 셀 때 특히 중요한 공식이 있어요. |A∪B| = |A| + |B| − |A∩B|. A의 원소 개수와 B의 원소 개수를 그냥 더하면, 겹치는 부분(교집합)이 두 번 세어져요. 그래서 한 번 빼줘야 정확한 합집합의 크기가 나와요. 이 원리는 나중에 경우의 수를 셀 때 "합의 법칙"의 기초가 되는 아주 중요한 아이디어예요.</p>
+      <p>명제는 참인지 거짓인지가 명확하게 판별되는 문장이에요. "3은 소수이다"는 참인 명제고, "이 문장은 재미있다"는 사람마다 판단이 달라서 명제가 아니에요. "p이면 q이다" 꼴의 명제(원명제)가 있으면, 여기서 파생되는 세 가지 명제가 있어요. p와 q의 순서를 바꾼 <b>역</b>(q이면 p), 둘 다 부정한 <b>이</b>(~p이면 ~q), 순서도 바꾸고 부정도 한 <b>대우</b>(~q이면 ~p)예요.</p>
+      <p>여기서 아주 중요한 사실이 하나 있어요. <b>원명제와 대우는 항상 같은 참·거짓을 가져요.</b> "짝수이면 정수이다"가 참이라면, 그 대우인 "정수가 아니면 짝수가 아니다"도 반드시 참이에요. 반면 역과 이는 원명제와 다른 진리값을 가질 수 있어요(다만 역과 이끼리는 서로 대우 관계라서, 역과 이는 항상 같은 진리값을 가져요). 이 성질 덕분에, 원명제를 직접 증명하기 어려울 때는 대신 대우가 참임을 증명해도 충분해요. 이걸 <b>대우 증명법</b>이라고 불러요.</p>
+      <p>아이들과 공부할 때는 "역은 항상 참일까?"라는 질문으로 시작하는 게 좋아요. "비가 오면 땅이 젖는다"는 참이지만, 그 역인 "땅이 젖으면 비가 온 것이다"는 참이 아닐 수 있어요(누가 물을 뿌렸을 수도 있으니까요). 이렇게 일상 속 예시로 원명제와 역이 다르다는 걸 먼저 느끼게 한 다음, 수학적 예시로 넘어가면 훨씬 자연스럽게 받아들여요. 저희 체험 페이지에서는 숫자 조건을 직접 골라 벤다이어그램에서 집합 연산을 확인하고, 여러 명제 예시에서 원명제·역·이·대우의 참·거짓을 한눈에 비교해볼 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="sets-propositions.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

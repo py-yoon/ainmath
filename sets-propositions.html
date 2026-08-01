@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>집합과 명제 실험실</title>
+<meta name="description" content="벤다이어그램에서 두 집합의 합집합·교집합·차집합·여집합을 확인하고, 명제의 역·이·대우가 서로 어떤 관계인지 직접 비교해봐요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--teal-ink);background:var(--teal-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--teal-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:66ch;margin:0 0 22px;}
+.tab-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:10px 18px;cursor:pointer;transition:all .15s ease;box-shadow:var(--shadow);}
+.tab-btn:hover{border-color:var(--teal-ink);color:var(--teal-ink);}
+.tab-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+.panel-wrap{display:none;}
+.panel-wrap.active{display:block;}
+.howto{background:var(--teal-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 22px;}
+.howto b{color:var(--teal-ink);}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.15fr 0.85fr;gap:32px;align-items:start;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+.canvas-area{display:flex;flex-direction:column;align-items:center;gap:16px;}
+svg{width:100%;max-width:420px;height:auto;overflow:visible;}
+.rule-row{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;}
+.rule-btn{font-family:'Do Hyeon',sans-serif;font-size:13px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:10px;padding:6px 11px;cursor:pointer;transition:all .15s ease;}
+.rule-btn:hover{border-color:var(--teal-ink);color:var(--teal-ink);}
+.rule-btn.active{color:#fff;}
+.op-row{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:4px;}
+.op-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:10px;padding:8px 13px;cursor:pointer;transition:all .15s ease;}
+.op-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.op-btn.active{background:var(--violet-ink);border-color:var(--violet-ink);color:#fff;}
+.panel{display:flex;flex-direction:column;gap:16px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:18px 20px;text-align:center;}
+.equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(17px,2.8vw,21px);color:var(--violet-ink);}
+.fact{background:var(--teal-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--teal-ink);}
+.label-row{display:flex;gap:14px;justify-content:center;font-size:13px;color:var(--ink-soft);flex-wrap:wrap;}
+.label-row span{display:inline-flex;align-items:center;gap:5px;}
+.swatch{width:11px;height:11px;border-radius:3px;display:inline-block;}
+
+.prop-picker{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;}
+.prop-btn{font-family:'Do Hyeon',sans-serif;font-size:13.5px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:10px;padding:8px 12px;cursor:pointer;transition:all .15s ease;}
+.prop-btn:hover{border-color:var(--teal-ink);color:var(--teal-ink);}
+.prop-btn.active{background:var(--teal-ink);border-color:var(--teal-ink);color:#fff;}
+.prop-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media (max-width:600px){ .prop-grid{grid-template-columns:1fr;} }
+.prop-card{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:14px 16px;}
+.prop-card .ptitle{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);margin-bottom:6px;}
+.prop-card .ptext{font-size:14.5px;line-height:1.6;color:var(--ink);margin-bottom:8px;min-height:44px;}
+.badge{display:inline-flex;align-items:center;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:4px 10px;border-radius:999px;}
+.badge.true{background:var(--green-soft);color:var(--green-ink);}
+.badge.false{background:var(--coral-soft);color:var(--coral-ink);}
+.prop-reason{font-size:12.5px;color:var(--ink-soft);margin-top:6px;line-height:1.5;}
+.arrow-link{grid-column:1/-1;text-align:center;font-size:13px;color:var(--ink-soft);margin:-4px 0;}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-sets-propositions.html" style="color:#fff;background:var(--teal-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">∩ 집합과 명제 실험실</span>
+  <h1>겹치는 부분을 눈으로 보는<br><span>집합</span>, 참·거짓을 뒤집는 <span>명제</span></h1>
+  <p class="sub">두 조건을 만족하는 숫자들을 벤다이어그램으로 나눠보고, 합집합·교집합 같은 집합 연산이 어떤 영역을 가리키는지 확인해요. 그리고 하나의 명제에서 나오는 역·이·대우가 서로 어떤 관계인지도 살펴봐요.</p>
+
+  <div class="tab-row" id="tabRow">
+    <button class="tab-btn active" data-t="sets">🔵 집합의 연산</button>
+    <button class="tab-btn" data-t="props">🔀 명제의 역·이·대우</button>
+  </div>
+
+  <div class="panel-wrap active" id="panel-sets">
+    <div class="howto"><b>집합의 연산</b> — 전체집합 U = {1, 2, …, 12}에서, A와 B의 조건을 각각 골라보세요. 벤다이어그램에 숫자들이 자동으로 배치되고, 아래에서 고른 연산에 맞는 숫자들이 보라색으로 강조돼요.</div>
+    <div class="stage">
+      <div class="canvas-area">
+        <svg id="vennSvg" viewBox="0 0 400 260"></svg>
+        <div class="label-row">
+          <span><i class="swatch" style="background:var(--violet-ink)"></i>선택된 연산의 결과</span>
+          <span><i class="swatch" style="background:var(--paper-line)"></i>그 외</span>
+        </div>
+        <div>
+          <div class="label-row" style="margin-bottom:4px;"><b>A의 조건</b></div>
+          <div class="rule-row" id="ruleRowA"></div>
+        </div>
+        <div>
+          <div class="label-row" style="margin-bottom:4px;"><b>B의 조건</b></div>
+          <div class="rule-row" id="ruleRowB"></div>
+        </div>
+        <div class="op-row" id="opRow"></div>
+      </div>
+      <div class="panel">
+        <div class="equation">
+          <div class="formula" id="setFormula"></div>
+        </div>
+        <div class="fact" id="setFact"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-wrap" id="panel-props">
+    <div class="howto"><b>역·이·대우</b> — "p이면 q이다"라는 명제(원명제)가 있을 때, 순서를 바꾸면 역(q이면 p), 부정하면 이(~p이면 ~q), 둘 다 하면 대우(~q이면 ~p)가 돼요. 아래에서 예시를 골라 네 명제의 참·거짓을 비교해보세요.</div>
+    <div class="prop-picker" id="propPicker"></div>
+    <div class="prop-grid" id="propGrid"></div>
+    <div class="fact" id="propFact" style="margin-top:16px;"></div>
+  </div>
+
+      <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="polynomial.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">다항식의 곱셈공식과 나머지정리</span>
+    </a>
+    <a href="fraction-compare.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">분수 크기 비교</span>
+    </a>
+  </nav>
+<footer>대우는 원명제의 p와 q를 모두 부정하고 순서까지 바꾼 것이라, 원명제와 항상 같은 참·거짓을 가져요. 그래서 원명제를 증명하기 어려울 때, 대신 대우가 참임을 증명해도 충분해요(대우 증명법).</footer>
+</div>
+
+<script>
+/* ---------- 탭 전환 ---------- */
+document.getElementById('tabRow').addEventListener('click', (e)=>{
+  const btn = e.target.closest('.tab-btn');
+  if(!btn) return;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.panel-wrap').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+btn.dataset.t).classList.add('active');
+});
+
+/* ================= 집합의 연산 탭 ================= */
+const U = Array.from({length:12}, (_,i)=>i+1);
+const RULES = {
+  even: {label:'2의 배수', test:n=>n%2===0},
+  mult3: {label:'3의 배수', test:n=>n%3===0},
+  mult4: {label:'4의 배수', test:n=>n%4===0},
+  prime: {label:'소수', test:n=>[2,3,5,7,11].includes(n)},
+  odd: {label:'홀수', test:n=>n%2===1},
+};
+const OPS = {
+  union: {label:'A ∪ B (합집합)'},
+  inter: {label:'A ∩ B (교집합)'},
+  diffAB: {label:'A − B (차집합)'},
+  diffBA: {label:'B − A (차집합)'},
+  compA: {label:'Aᶜ (여집합)'},
+};
+let ruleAKey = 'even', ruleBKey = 'mult3', opKey = 'union';
+
+const ruleRowA = document.getElementById('ruleRowA');
+const ruleRowB = document.getElementById('ruleRowB');
+const opRow = document.getElementById('opRow');
+const vennSvg = document.getElementById('vennSvg');
+const setFormula = document.getElementById('setFormula');
+const setFact = document.getElementById('setFact');
+
+function buildRuleRow(el, selectedKey, colorVar, onPick){
+  el.innerHTML = Object.entries(RULES).map(([k,r])=>
+    `<button class="rule-btn${k===selectedKey?' active':''}" data-k="${k}" style="${k===selectedKey?`background:${colorVar};border-color:${colorVar};`:''}">${r.label}</button>`
+  ).join('');
+  el.querySelectorAll('.rule-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ onPick(btn.dataset.k); });
+  });
+}
+function buildOpRow(){
+  opRow.innerHTML = Object.entries(OPS).map(([k,o])=>
+    `<button class="op-btn${k===opKey?' active':''}" data-k="${k}">${o.label}</button>`
+  ).join('');
+  opRow.querySelectorAll('.op-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ opKey = btn.dataset.k; renderSets(); });
+  });
+}
+
+function layoutPoints(cx, cy, count, cols){
+  cols = cols || 3;
+  const rows = Math.ceil(count/cols);
+  const spacingX = 30, spacingY = 26;
+  const pts = [];
+  for(let i=0;i<count;i++){
+    const row = Math.floor(i/cols);
+    const inRow = Math.min(cols, count-row*cols);
+    const col = i%cols;
+    const rowWidth = (inRow-1)*spacingX;
+    const x = cx - rowWidth/2 + col*spacingX;
+    const y = cy - (rows-1)*spacingY/2 + row*spacingY;
+    pts.push({x,y});
+  }
+  return pts;
+}
+
+function renderSets(){
+  const testA = RULES[ruleAKey].test, testB = RULES[ruleBKey].test;
+  const onlyA=[], onlyB=[], both=[], neither=[];
+  U.forEach(n=>{
+    const inA = testA(n), inB = testB(n);
+    if(inA && inB) both.push(n);
+    else if(inA) onlyA.push(n);
+    else if(inB) onlyB.push(n);
+    else neither.push(n);
+  });
+
+  let resultSet;
+  if(opKey==='union') resultSet = new Set([...onlyA,...onlyB,...both]);
+  else if(opKey==='inter') resultSet = new Set(both);
+  else if(opKey==='diffAB') resultSet = new Set(onlyA);
+  else if(opKey==='diffBA') resultSet = new Set(onlyB);
+  else resultSet = new Set([...onlyB,...neither]); // Aᶜ
+
+  function dotsFor(nums, cx, cy, cols){
+    return layoutPoints(cx, cy, nums.length, cols).map((p,i)=>{
+      const n = nums[i];
+      const hi = resultSet.has(n);
+      const fill = hi ? 'var(--violet-ink)' : 'var(--card)';
+      const stroke = hi ? 'var(--violet-ink)' : 'var(--paper-line)';
+      const textColor = hi ? '#fff' : 'var(--ink-soft)';
+      return `<circle cx="${p.x}" cy="${p.y}" r="12" fill="${fill}" stroke="${stroke}" stroke-width="2"></circle>` +
+             `<text x="${p.x}" y="${p.y+4}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="${textColor}">${n}</text>`;
+    }).join('');
+  }
+
+  let html = '';
+  html += `<rect x="10" y="10" width="380" height="240" rx="14" fill="none" stroke="var(--ink-soft)" stroke-width="2"></rect>`;
+  html += `<text x="24" y="34" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--ink-soft)">U</text>`;
+  html += `<circle cx="160" cy="135" r="88" fill="var(--teal-soft)" fill-opacity="0.5" stroke="var(--teal-ink)" stroke-width="2"></circle>`;
+  html += `<circle cx="240" cy="135" r="88" fill="var(--coral-soft)" fill-opacity="0.5" stroke="var(--coral-ink)" stroke-width="2"></circle>`;
+  html += `<text x="95" y="55" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--teal-ink)">A</text>`;
+  html += `<text x="305" y="55" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--coral-ink)">B</text>`;
+
+  html += dotsFor(onlyA, 122, 135, 2);
+  html += dotsFor(onlyB, 278, 135, 2);
+  html += dotsFor(both, 200, 135, 2);
+  html += dotsFor(neither.slice(0,6), 55, 210, 3);
+  html += dotsFor(neither.slice(6), 345, 210, 3);
+
+  vennSvg.innerHTML = html;
+
+  const sortedResult = Array.from(resultSet).sort((a,b)=>a-b);
+  setFormula.textContent = `${OPS[opKey].label} = {${sortedResult.join(', ')}}`;
+
+  const nA = onlyA.length+both.length, nB = onlyB.length+both.length, nBoth=both.length, nUnion=onlyA.length+onlyB.length+both.length;
+  setFact.innerHTML = `A = {${RULES[ruleAKey].label}} → <b>{${[...onlyA,...both].sort((a,b)=>a-b).join(', ')}}</b>, B = {${RULES[ruleBKey].label}} → <b>{${[...onlyB,...both].sort((a,b)=>a-b).join(', ')}}</b>. |A|=${nA}, |B|=${nB}, |A∩B|=${nBoth}인데, |A∪B|=${nUnion}로 |A|+|B|−|A∩B| (${nA}+${nB}−${nBoth}=${nA+nB-nBoth})와 정확히 같아요. 겹치는 부분(교집합)을 한 번 빼줘야 중복으로 세지 않는다는 뜻이에요.`;
+}
+
+function pickRuleA(k){ ruleAKey=k; buildRuleRow(ruleRowA, ruleAKey, 'var(--teal-ink)', pickRuleA); renderSets(); }
+function pickRuleB(k){ ruleBKey=k; buildRuleRow(ruleRowB, ruleBKey, 'var(--coral-ink)', pickRuleB); renderSets(); }
+buildRuleRow(ruleRowA, ruleAKey, 'var(--teal-ink)', pickRuleA);
+buildRuleRow(ruleRowB, ruleBKey, 'var(--coral-ink)', pickRuleB);
+buildOpRow();
+renderSets();
+
+/* ================= 명제의 역·이·대우 탭 ================= */
+const PROPS = [
+  {
+    key:'square',
+    p:'x = 2', q:'x² = 4', notP:'x ≠ 2', notQ:'x² ≠ 4',
+    orig:{v:true, reason:'x=2이면 x²=2²=4이니까 항상 성립해요.'},
+    conv:{v:false, reason:'x²=4이면 x=2 또는 x=−2인데, x=−2인 경우도 있어서 항상 성립하진 않아요.'},
+    inv:{v:false, reason:'x≠2라도 x=−2면 x²=4가 될 수 있어서 항상 성립하진 않아요.'},
+    contra:{v:true, reason:'x²≠4이면 x는 2도 −2도 아니므로 x≠2가 항상 성립해요.'},
+  },
+  {
+    key:'rect',
+    p:'사각형이 정사각형이다', q:'사각형이 직사각형이다', notP:'사각형이 정사각형이 아니다', notQ:'사각형이 직사각형이 아니다',
+    orig:{v:true, reason:'정사각형은 네 각이 모두 90°라서 직사각형의 정의를 만족해요.'},
+    conv:{v:false, reason:'가로세로 길이가 다른 직사각형도 있어서 항상 정사각형인 건 아니에요.'},
+    inv:{v:false, reason:'정사각형이 아닌 직사각형(가로세로가 다른 것)이 존재해서 항상 성립하진 않아요.'},
+    contra:{v:true, reason:'직사각형이 아니면 네 각이 모두 90°가 아니므로 정사각형일 수 없어요.'},
+  },
+  {
+    key:'mult4',
+    p:'n은 4의 배수이다', q:'n은 2의 배수이다', notP:'n은 4의 배수가 아니다', notQ:'n은 2의 배수가 아니다',
+    orig:{v:true, reason:'4의 배수는 2×2의 배수이므로 항상 2의 배수이기도 해요.'},
+    conv:{v:false, reason:'n=6처럼 2의 배수이지만 4의 배수가 아닌 경우가 있어요.'},
+    inv:{v:false, reason:'n=6은 4의 배수가 아니지만 2의 배수라서, 항상 성립하진 않아요.'},
+    contra:{v:true, reason:'2의 배수가 아니면 당연히 2×2의 배수(4의 배수)도 아니에요.'},
+  },
+  {
+    key:'tri',
+    p:'삼각형이 정삼각형이다', q:'삼각형이 이등변삼각형이다', notP:'삼각형이 정삼각형이 아니다', notQ:'삼각형이 이등변삼각형이 아니다',
+    orig:{v:true, reason:'정삼각형은 세 변이 모두 같으니 어느 두 변을 봐도 같아서 이등변삼각형이에요.'},
+    conv:{v:false, reason:'두 변만 같고 세 변이 다 같진 않은 이등변삼각형도 있어요.'},
+    inv:{v:false, reason:'정삼각형이 아닌 이등변삼각형(두 변만 같은 것)이 존재해요.'},
+    contra:{v:true, reason:'이등변삼각형이 아니면(변의 길이가 모두 다르면) 정삼각형일 수 없어요.'},
+  },
+];
+let propKey = 'square';
+
+const propPicker = document.getElementById('propPicker');
+const propGrid = document.getElementById('propGrid');
+const propFact = document.getElementById('propFact');
+
+function buildPropPicker(){
+  propPicker.innerHTML = PROPS.map(pr=>
+    `<button class="prop-btn${pr.key===propKey?' active':''}" data-k="${pr.key}">${pr.p} → ${pr.q}</button>`
+  ).join('');
+  propPicker.querySelectorAll('.prop-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ propKey=btn.dataset.k; buildPropPicker(); renderProps(); });
+  });
+}
+
+function badgeHtml(v){
+  return v ? `<span class="badge true">참</span>` : `<span class="badge false">거짓</span>`;
+}
+
+function renderProps(){
+  const pr = PROPS.find(x=>x.key===propKey);
+  const cards = [
+    {title:'원명제 (p → q)', text:`${pr.p} 이면 ${pr.q}`, data:pr.orig},
+    {title:'역 (q → p)', text:`${pr.q} 이면 ${pr.p}`, data:pr.conv},
+    {title:'이 (~p → ~q)', text:`${pr.notP} 이면 ${pr.notQ}`, data:pr.inv},
+    {title:'대우 (~q → ~p)', text:`${pr.notQ} 이면 ${pr.notP}`, data:pr.contra},
+  ];
+  propGrid.innerHTML = cards.map(c=>`
+    <div class="prop-card">
+      <div class="ptitle">${c.title}</div>
+      <div class="ptext">${c.text} ${badgeHtml(c.data.v)}</div>
+      <div class="prop-reason">${c.data.reason}</div>
+    </div>
+  `).join('');
+
+  const sameAsOrig = pr.orig.v===pr.contra.v;
+  propFact.innerHTML = `<b>원명제</b>는 <b>${pr.orig.v?'참':'거짓'}</b>이고 <b>대우</b>도 <b>${pr.contra.v?'참':'거짓'}</b>이에요 — 항상 서로 같은 진리값을 가져요. 반면 <b>역</b>(${pr.conv.v?'참':'거짓'})과 <b>이</b>(${pr.inv.v?'참':'거짓'})도 서로 같은 진리값을 갖지만, 원명제·대우와는 다를 수 있어요. 이건 역과 이가 서로의 대우 관계이기 때문이에요.`;
+}
+
+buildPropPicker();
+renderProps();
+</script>
+</body>
+</html>
+
