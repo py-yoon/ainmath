@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>공간좌표, 축 하나를 더하면 세상이 입체가 돼요 | 아인매스</title>
+<meta name="description" content="평면 위의 점은 두 숫자(x,y)만으로 위치가 정해져요. 그런데 우리가 사는 세상은 3차원이라서, 위치를 정확히 나타내려면 세 번째 숫자 z가...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:260px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#6847F7;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#6847F7;background:#EEE8FF">📐 도형·기하</span>
+  <h1>공간좌표, 축 하나를 더하면 세상이 입체가 돼요</h1>
+  <p class="meta">고등학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>평면 위의 점은 (x, y) 두 숫자만 있으면 정확한 위치를 나타낼 수 있어요. 그런데 우리가 사는 세상은 평평하지 않고 입체예요. 방 안에서 드론의 위치를 말하려면 "왼쪽으로 얼마나, 앞으로 얼마나"뿐 아니라 "바닥에서 얼마나 높이"까지 알아야 해요. 그래서 공간에서는 세 번째 숫자 z를 더해 (x, y, z)로 위치를 나타내요.</p>
+      <p>공간좌표를 상상하는 가장 쉬운 방법은 방의 한쪽 구석을 원점으로 생각하는 거예요. 바닥의 두 모서리를 x축과 y축으로, 그 구석에서 천장으로 올라가는 모서리를 z축으로 삼으면, 방 안의 어떤 점이든 세 숫자로 정확히 짚어낼 수 있어요. 점 P(2, 3, 2)는 "오른쪽으로 2, 안쪽으로 3, 위로 2"만큼 이동한 위치예요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 200 170">
+          <line x1="30" y1="150" x2="170" y2="150" stroke="var(--ink-soft)" stroke-width="1.5"></line>
+          <line x1="30" y1="150" x2="70" y2="20" stroke="var(--ink-soft)" stroke-width="1.5"></line>
+          <line x1="30" y1="150" x2="100" y2="180" stroke="var(--ink-soft)" stroke-width="1.5"></line>
+          <rect x="80" y="90" width="50" height="40" fill="none" stroke="var(--violet-ink)" stroke-width="1.5" stroke-dasharray="4 3" transform="skewX(-20)"></rect>
+          <circle cx="115" cy="70" r="5" fill="var(--coral-ink)"></circle>
+          <text x="125" y="68" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--coral-ink)">P(x,y,z)</text>
+          <text x="175" y="153" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">x</text>
+          <text x="65" y="15" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">y</text>
+          <text x="95" y="190" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">z</text>
+        </svg>
+        <div class="illo-caption">공간좌표는 방의 한쪽 구석을 원점으로 삼는 것과 같아요</div>
+      </div>
+      <p>원점에서 점 P(x, y, z)까지의 거리는 어떻게 구할까요? 여기서 피타고라스 정리가 두 번 등장해요. 먼저 바닥(xy평면)에서 원점부터 (x, y, 0)까지의 대각선 길이를 구하면 √(x²+y²)이에요. 이제 이 대각선과 높이 z가 이루는 직각삼각형을 생각하면, 최종 거리는 다시 피타고라스 정리로 √((√(x²+y²))²+z²) = √(x²+y²+z²)이 나와요. 평면의 거리 공식에 z² 항 하나만 자연스럽게 추가된 셈이에요.</p>
+      <p>두 점 A(x₁,y₁,z₁)와 B(x₂,y₂,z₂) 사이의 거리도 같은 원리예요. 각 축 방향의 차이(x₂−x₁, y₂−y₁, z₂−z₁)를 구해서 제곱하고 더한 뒤 제곱근을 씌우면 돼요. 이 공식은 나중에 벡터를 배울 때 벡터의 크기(길이)를 구하는 공식과 정확히 같은 모양으로 다시 등장해요 — 공간좌표와 벡터는 사실 같은 아이디어를 다른 방식으로 표현한 것뿐이에요.</p>
+      <p>아이들과 공부할 때는 정육면체나 직육면체 모양의 상자를 직접 만들어보고, 한쪽 꼭짓점을 원점으로 정해 나머지 꼭짓점들의 좌표를 하나씩 적어보게 하는 게 좋아요. 실제 물건으로 손에 잡아보면 "세 번째 좌표가 왜 필요한지"가 훨씬 자연스럽게 이해돼요. 저희 체험 페이지에서는 x, y, z 슬라이더로 점을 자유롭게 옮기며 원점까지의 거리를 확인하고, 두 점 사이의 거리 공식도 직접 검증해볼 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="space-coordinates.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
