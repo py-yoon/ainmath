@@ -83,8 +83,12 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
       <div class="legend">
         <span><i class="swatch" style="background:var(--violet)"></i>삼각형 ABC</span>
         <span><i class="swatch dashed"></i>높이 (수직 거리)</span>
+        <span><i class="swatch" style="background:var(--blue)"></i>180° 돌려 붙인 복사본</span>
       </div>
       <div class="preset-row" id="presetRow"></div>
+      <div class="preset-row" style="margin-top:-6px;">
+        <button class="preset-btn active" id="toggleParaBtn" style="flex:none;min-width:220px;">🔲 평행사변형으로 절반 보여주기</button>
+      </div>
       <div class="control-row">
         <div class="control-label"><span>꼭짓점 C의 위치</span><b id="cxLabel">3.0</b></div>
         <input id="sliderCx" type="range" min="-5" max="11" value="3" step="0.1">
@@ -98,6 +102,9 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
         <div class="divider"></div>
         <div class="formula">방법 2: 좌표로 직접 계산 (신발끈 공식)</div>
         <div class="result" id="result2"></div>
+        <div class="divider"></div>
+        <div class="formula">방법 3: 평행사변형 넓이 ÷ 2</div>
+        <div class="result" id="result3"></div>
       </div>
       <div class="fact" id="fact"></div>
     </div>
@@ -124,8 +131,11 @@ const cxLabel = document.getElementById('cxLabel');
 const classBadge = document.getElementById('classBadge');
 const result1 = document.getElementById('result1');
 const result2 = document.getElementById('result2');
+const result3 = document.getElementById('result3');
 const factBox = document.getElementById('fact');
 const presetRow = document.getElementById('presetRow');
+const toggleParaBtn = document.getElementById('toggleParaBtn');
+let showPara = true;
 
 const A = {x:0, y:0}, B = {x:6, y:0};
 const H = 4; // 고정 높이
@@ -195,6 +205,18 @@ function render(){
     html += `<polyline points="${footX.x-size},${footX.y} ${footX.x-size},${footX.y-size} ${footX.x},${footX.y-size}" fill="none" stroke="var(--ink-soft)" stroke-width="1.5"></polyline>`;
   }
 
+  // 평행사변형: 삼각형 ABC를 변 BC의 중점을 기준으로 180도 돌려 붙인 복사본(A'CB)
+  // A' = B + C - A 이면 사각형 A-B-A'-C는 밑변 AB, 높이 H인 평행사변형이 돼요.
+  const Ap = {x: B.x+C.x-A.x, y: B.y+C.y-A.y};
+  const sAp = toSvg(Ap.x, Ap.y);
+  if(showPara){
+    html += `<polygon points="${sAp.x},${sAp.y} ${sC.x},${sC.y} ${sB.x},${sB.y}" fill="var(--blue)" fill-opacity="0.22" stroke="var(--blue-ink)" stroke-width="2" stroke-dasharray="5 4"></polygon>`;
+    html += `<line x1="${sB.x}" y1="${sB.y}" x2="${sAp.x}" y2="${sAp.y}" stroke="var(--blue-ink)" stroke-width="2" stroke-dasharray="5 4"></line>`;
+    html += `<line x1="${sC.x}" y1="${sC.y}" x2="${sAp.x}" y2="${sAp.y}" stroke="var(--blue-ink)" stroke-width="2" stroke-dasharray="5 4"></line>`;
+    html += `<circle cx="${sAp.x}" cy="${sAp.y}" r="4" fill="var(--blue-ink)"></circle>`;
+    html += `<text x="${sAp.x}" y="${sAp.y + (Ap.y>=H?-10:20)}" text-anchor="middle" font-family="Do Hyeon" font-size="13" fill="var(--blue-ink)">A'</text>`;
+  }
+
   // 삼각형
   html += `<polygon points="${sA.x},${sA.y} ${sB.x},${sB.y} ${sC.x},${sC.y}" fill="var(--violet)" fill-opacity="0.28" stroke="var(--violet-ink)" stroke-width="2.5"></polygon>`;
 
@@ -213,16 +235,27 @@ function render(){
 
   const area1 = BASE*H/2;
   const area2 = Math.abs(A.x*(B.y-C.y) + B.x*(C.y-A.y) + C.x*(A.y-B.y))/2;
+  const paraArea = BASE*H;
 
   result1.innerHTML = `${BASE} × ${H} ÷ 2 = <b>${fmt(area1)}</b>`;
   result2.innerHTML = `= <b>${fmt(area2)}</b>`;
+  result3.innerHTML = `${paraArea} ÷ 2 = <b>${fmt(paraArea/2)}</b>`;
 
   const footNote = outsideBase
     ? `지금은 C가 밑변 AB의 <b>바깥쪽</b> 위에 있어서, 높이의 발(빨간 점)이 밑변 선분 밖으로 벗어났어요. 그래도 C에서 밑변을 연장한 직선까지의 수직 거리는 여전히 ${H}로 똑같아요 — 이게 둔각삼각형에서 헷갈리기 쉬운 부분이에요.`
     : `지금은 높이의 발이 밑변 AB 선분 안에 있어요.`;
 
-  factBox.innerHTML = `${clsLabel}이 됐지만, 두 방법으로 계산한 넓이가 똑같이 <b>${fmt(area1)}</b>인 걸 확인할 수 있어요. ${footNote}`;
+  const paraNote = showPara
+    ? ` 삼각형 ABC를 변 BC의 중점을 기준으로 180° 돌려서 반대쪽에 붙이면(파란 점선), 밑변 ${BASE}, 높이 ${H}인 <b>평행사변형</b>이 만들어져요. 이 평행사변형의 넓이는 그냥 밑변×높이=${paraArea}이고, 원래 삼각형은 정확히 그 <b>절반</b>이에요 — 그래서 삼각형 넓이 공식에 ÷2가 붙는 거예요.`
+    : '';
+
+  factBox.innerHTML = `${clsLabel}이 됐지만, 두 방법으로 계산한 넓이가 똑같이 <b>${fmt(area1)}</b>인 걸 확인할 수 있어요. ${footNote}${paraNote}`;
 }
+toggleParaBtn.addEventListener('click', ()=>{
+  showPara = !showPara;
+  toggleParaBtn.classList.toggle('active', showPara);
+  render();
+});
 sliderCx.addEventListener('input', render);
 buildPresets();
 render();
