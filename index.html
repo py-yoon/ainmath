@@ -202,6 +202,14 @@
   .status.live{background:var(--green-soft);color:var(--green-ink);}
   .status.soon{background:var(--paper);color:var(--ink-soft);border:1px solid var(--paper-line);}
 
+  .card-badges{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end;}
+  .badge-new,.badge-best{
+    font-size:12px;font-family:'Do Hyeon',sans-serif;letter-spacing:0.02em;
+    padding:3px 8px;border-radius:999px;white-space:nowrap;color:#fff;
+  }
+  .badge-new{background:var(--coral-ink);}
+  .badge-best{background:#B45309;}
+
   .card-title{font-family:'Do Hyeon',sans-serif;font-size:18px;line-height:1.4;}
   .card-desc{font-size:14.5px;color:var(--ink-soft);line-height:1.6;flex:1;}
 
@@ -241,6 +249,14 @@
   <p class="sub">슬라이더를 움직이고 값을 바꿔보면서 개념이 왜 그런지 눈으로 확인하는 사이트예요. 학년 필터로 우리 수준에 맞는 주제를 찾아보세요.</p>
 
   <a href="curriculum-map.html" class="curriculum-banner">🗂️ 우리 학년 교과과정에서 찾아보기 →</a>
+
+  <div class="recommended-section" id="recentSection" style="display:none;background:#F0F4FF;border-color:#DCE5FB;">
+    <div class="recommended-head">
+      <span class="recommended-title" style="color:var(--blue-ink);">🕘 최근 본 항목</span>
+      <span class="recommended-sub">최근에 열어본 체험이에요 (이 기기에만 저장돼요)</span>
+    </div>
+    <div class="grid" id="recentGrid"></div>
+  </div>
 
   <div class="recommended-section" id="recommendedSection">
     <div class="recommended-head">
@@ -283,7 +299,7 @@
       items: [
         { title:'다각형 내각의 합', desc:'변의 개수를 바꾸면 삼각형으로 쪼개지는 모습을 보며 (n−2)×180° 공식을 확인해요.', grades:['high','mid'], status:'live', href:'polygon-angle-sum.html', article:'article-polygon-angle-sum.html', icon:'△' },
         { title:'원주율(π) 체험', desc:'원을 굴려서 지름의 몇 배만큼 굴러가는지 직접 확인해요.', grades:['high','mid'], status:'live', href:'pi-circumference.html', article:'article-pi-circumference.html', icon:'◯' },
-        { title:'피타고라스 정리', desc:'직각삼각형 세 변 위에 정사각형을 그려 a²+b²=c²를 눈으로 확인해요.', grades:['mid'], status:'live', href:'pythagorean-theorem.html', article:'article-pythagorean-theorem.html', icon:'◺' },
+        { title:'피타고라스 정리', desc:'직각삼각형 세 변 위에 정사각형을 그려 a²+b²=c²를 눈으로 확인해요.', grades:['mid'], status:'live', isBest:true, href:'pythagorean-theorem.html', article:'article-pythagorean-theorem.html', icon:'◺' },
         { title:'원의 넓이', desc:'원을 피자 조각처럼 잘라 직사각형으로 이어붙이며 넓이 공식을 확인해요.', grades:['high'], status:'live', href:'circle-area.html', article:'article-circle-area.html', icon:'🍕' },
         { title:'닮음과 합동', desc:'배율을 조절하면 도형이 커지고 작아지며 넓이·둘레 비율이 바뀌는 걸 확인해요.', grades:['mid'], status:'live', href:'similarity-congruence.html', article:'article-similarity-congruence.html', icon:'⧉' },
         { title:'합동조건 (SSS·SAS·ASA·RHS·RHA)', desc:'조건에 맞는 숫자를 입력해 삼각형을 만들고, 겹쳐보며 합동을 확인해요.', grades:['mid'], status:'live', href:'congruence-conditions.html', article:'article-congruence-conditions.html', icon:'≅' },
@@ -310,17 +326,17 @@
         { title:'삼각형과 사각형의 성질', desc:'이등변삼각형과 여러 사각형을 슬라이더로 조절하며 변·각·대각선의 성질이 절대 변하지 않는다는 걸 확인해요.', grades:['mid'], status:'live', href:'triangle-quadrilateral-properties.html', article:'article-triangle-quadrilateral-properties.html', icon:'◇' },
         { title:'원주각의 성질', desc:'원 위의 점을 움직여도 원주각의 크기가 왜 항상 똑같은지, 중심각의 절반이 되는 이유를 슬라이더로 확인해요.', grades:['mid'], status:'live', href:'inscribed-angle.html', article:'article-inscribed-angle.html', icon:'⚪' },
         { title:'입체도형 단면 탐구 실험실', desc:'원뿔·원기둥·육면체·삼각기둥·사각뿔·구 등 아홉 가지 입체를 3D로 돌려보고 잘라보면서, 자르는 각도와 위치에 따라 단면이 원·타원·포물선·삼각형 등으로 어떻게 달라지는지 확인해요.', grades:['high','mid'], status:'live', href:'solid-cross-sections-lab.html', article:'article-solid-cross-sections-lab.html', icon:'🔪' },
-        { title:'자와 컴퍼스 작도 실험실', desc:'눈금 없는 자와 컴퍼스만으로 수직이등분선, 각의 이등분선, 정삼각형, 정오각형, 정육각형, 정팔각형을 작도하는 과정을 단계별로 보고, 직접 작도 문제에 도전해봐요.', grades:['high','mid'], status:'live', href:'compass-straightedge-construction.html', article:'article-compass-straightedge-construction.html', icon:'✏️' },
-        { title:'삼각형의 오심(五心) 실험실', desc:'삼각형의 세 꼭짓점을 자유롭게 끌어보면서 무게중심, 외심, 내심, 수심, 방심이 어떻게 만들어지고 어떻게 움직이는지 확인해요.', grades:['mid'], status:'live', href:'triangle-five-centers.html', article:'article-triangle-five-centers.html', icon:'📍' },
-        { title:'원의 성질 실험실', desc:'원과 직선의 위치관계, 부채꼴의 호와 넓이, 원 밖의 점에서 그은 접선, 내접다각형까지 — 슬라이더로 값을 바꿔가며 원의 성질을 직접 확인해요.', grades:['mid'], status:'live', href:'circle-properties.html', article:'article-circle-properties.html', icon:'⭕' },
-        { title:'타원 실험실', desc:'두 초점으로 그리는 타원의 정의, 이심률, 넓이 공식(πab), 행성 궤도와 속삭이는 회랑까지 — 슬라이더로 값을 바꿔가며 타원의 성질을 확인해요.', grades:['mid'], status:'live', href:'ellipse.html', article:'article-ellipse.html', icon:'🥚' },
+        { title:'자와 컴퍼스 작도 실험실', desc:'눈금 없는 자와 컴퍼스만으로 수직이등분선, 각의 이등분선, 정삼각형, 정오각형, 정육각형, 정팔각형을 작도하는 과정을 단계별로 보고, 직접 작도 문제에 도전해봐요.', grades:['high','mid'], status:'live', isBest:true, href:'compass-straightedge-construction.html', article:'article-compass-straightedge-construction.html', icon:'✏️' },
+        { title:'삼각형의 오심(五心) 실험실', desc:'삼각형의 세 꼭짓점을 자유롭게 끌어보면서 무게중심, 외심, 내심, 수심, 방심이 어떻게 만들어지고 어떻게 움직이는지 확인해요.', grades:['mid'], status:'live', isBest:true, href:'triangle-five-centers.html', article:'article-triangle-five-centers.html', icon:'📍' },
+        { title:'원의 성질 실험실', desc:'원과 직선의 위치관계, 부채꼴의 호와 넓이, 원 밖의 점에서 그은 접선, 내접다각형까지 — 슬라이더로 값을 바꿔가며 원의 성질을 직접 확인해요.', grades:['mid'], status:'live', isNew:true, href:'circle-properties.html', article:'article-circle-properties.html', icon:'⭕' },
+        { title:'타원 실험실', desc:'두 초점으로 그리는 타원의 정의, 이심률, 넓이 공식(πab), 행성 궤도와 속삭이는 회랑까지 — 슬라이더로 값을 바꿔가며 타원의 성질을 확인해요.', grades:['mid'], status:'live', isNew:true, href:'ellipse.html', article:'article-ellipse.html', icon:'🥚' },
       ]
     },
     {
       key: 'number', title: '수와 연산', color: 'var(--coral)', textColor: 'var(--coral-ink)', bg: 'var(--coral-soft)',
       items: [
         { title:'소수 탐험', desc:'에라토스테네스의 체 애니메이션으로 소수를 걸러내는 과정을 확인해요.', grades:['high','mid'], status:'live', href:'prime-sieve.html', article:'article-prime-sieve.html', icon:'🔢' },
-        { title:'최대공약수 · 최소공배수', desc:'두 수를 입력하면 배수 목록에서 겹치는 부분을 시각적으로 찾아요.', grades:['high'], status:'live', href:'gcd-lcm.html', article:'article-gcd-lcm.html', icon:'🔗' },
+        { title:'최대공약수 · 최소공배수', desc:'두 수를 입력하면 배수 목록에서 겹치는 부분을 시각적으로 찾아요.', grades:['high'], status:'live', isBest:true, href:'gcd-lcm.html', article:'article-gcd-lcm.html', icon:'🔗' },
         { title:'분수 크기 비교', desc:'분자와 분모를 바꾸면 원 그래프와 막대그래프로 크기를 비교해요.', grades:['low','high'], status:'live', href:'fraction-compare.html', article:'article-fraction-compare.html', icon:'🍰' },
         { title:'약수 찾기', desc:'숫자를 입력하면 직사각형 배열로 약수를 모두 찾아 보여줘요.', grades:['high'], status:'live', href:'divisor-finder.html', article:'article-divisors.html', icon:'▦' },
         { title:'수의 범위와 올림·버림·반올림', desc:'기준 수와 이상·이하·초과·미만을 골라 범위를 확인하고, 올림·버림·반올림한 값을 한눈에 비교해요.', grades:['high'], status:'live', href:'number-range-rounding.html', article:'article-number-range-rounding.html', icon:'🔼' },
@@ -339,8 +355,8 @@
         { title:'스피드 암산 챌린지', desc:'60초 안에 문제를 최대한 많이 풀어 점수를 쌓는 타임어택 게임이에요. 연속으로 맞히면 콤보 보너스도 받을 수 있어요.', grades:['low','high','mid'], status:'live', href:'speed-math-challenge.html', article:'article-speed-math-challenge.html', icon:'⚡' },
         { title:'유리수와 순환소수', desc:'분수를 소수로 바꾸면 딱 떨어질지 계속 반복될지 먼저 예상해보고, 나눗셈 과정으로 직접 확인해요.', grades:['mid'], status:'live', href:'repeating-decimal.html', article:'article-repeating-decimal.html', icon:'🔁' },
         { title:'제곱근과 실수', desc:'슬라이더로 숫자를 바꾸며 제곱근이 수직선 어디에 있는지, 유리수인지 무리수인지 확인해요.', grades:['mid'], status:'live', href:'square-root.html', article:'article-square-root.html', icon:'√' },
-        { title:'다항식의 곱셈공식과 나머지정리', desc:'(a+b)ⁿ의 전개 계수가 파스칼의 삼각형과 같다는 걸 확인하고, 조립제법으로 나머지정리를 직접 검증해요.', grades:['mid'], status:'live', href:'polynomial.html', article:'article-polynomial.html', icon:'🧮' },
-        { title:'집합과 명제 실험실', desc:'벤다이어그램에서 집합 연산을 확인하고, 명제의 역·이·대우가 서로 어떤 관계인지 비교해요.', grades:['mid'], status:'live', href:'sets-propositions.html', article:'article-sets-propositions.html', icon:'∩' },
+        { title:'다항식의 곱셈공식과 나머지정리', desc:'(a+b)ⁿ의 전개 계수가 파스칼의 삼각형과 같다는 걸 확인하고, 조립제법으로 나머지정리를 직접 검증해요.', grades:['mid'], status:'live', isNew:true, href:'polynomial.html', article:'article-polynomial.html', icon:'🧮' },
+        { title:'집합과 명제 실험실', desc:'벤다이어그램에서 집합 연산을 확인하고, 명제의 역·이·대우가 서로 어떤 관계인지 비교해요.', grades:['mid'], status:'live', isNew:true, href:'sets-propositions.html', article:'article-sets-propositions.html', icon:'∩' },
       ]
     },
     {
@@ -348,8 +364,8 @@
       items: [
         { title:'동전 · 주사위 시뮬레이터', desc:'시행 횟수를 늘리면 실제 확률에 가까워지는 과정을 그래프로 확인해요.', grades:['high','mid'], status:'live', href:'coin-dice-simulator.html', article:'article-coin-dice-probability.html', icon:'🎲' },
         { title:'평균 · 중앙값 · 최빈값', desc:'숫자를 직접 입력하면 세 값이 어떻게 달라지는지 확인해요.', grades:['high','mid'], status:'live', href:'mean-median-mode.html', article:'article-mean-median-mode.html', icon:'📊' },
-        { title:'순열과 조합', desc:'n명 중 r명을 뽑을 때, 순서를 따지는지에 따라 경우의 수가 어떻게 달라지는지 확인해요.', grades:['high','mid'], status:'live', href:'permutations-combinations.html', article:'article-permutations-combinations.html', icon:'🔀' },
-        { title:'경우의 수 실험실', desc:'메뉴를 고르는 수형도로 곱의 법칙을, 최단 경로의 수로 합의 법칙과 파스칼의 삼각형의 연결을 확인해요.', grades:['mid'], status:'live', href:'counting-principle.html', article:'article-counting-principle.html', icon:'🌳' },
+        { title:'순열과 조합', desc:'n명 중 r명을 뽑을 때, 순서를 따지는지에 따라 경우의 수가 어떻게 달라지는지 확인해요.', grades:['high','mid'], status:'live', isBest:true, href:'permutations-combinations.html', article:'article-permutations-combinations.html', icon:'🔀' },
+        { title:'경우의 수 실험실', desc:'메뉴를 고르는 수형도로 곱의 법칙을, 최단 경로의 수로 합의 법칙과 파스칼의 삼각형의 연결을 확인해요.', grades:['mid'], status:'live', isNew:true, href:'counting-principle.html', article:'article-counting-principle.html', icon:'🌳' },
         { title:'그림그래프로 나타내기', desc:'과일 버튼을 눌러 자료를 세고, 그림그래프로 쌓이는 걸 확인해요.', grades:['low'], status:'live', href:'pictogram-graph.html', article:'article-pictogram-graph.html', icon:'🍎' },
         { title:'막대그래프·꺾은선그래프', desc:'슬라이더로 값을 바꾸며 막대그래프와 꺾은선그래프가 어떻게 그려지는지 확인해요.', grades:['low','high'], status:'live', href:'bar-line-graph.html', article:'article-bar-line-graph.html', icon:'📈' },
         { title:'분류하기', desc:'색깔별로, 모양별로, 크기별로! 같은 물건도 기준을 바꾸면 다르게 나뉘는 걸 확인해요.', grades:['low'], status:'live', href:'classify-objects.html', article:'article-classify-objects.html', icon:'🟢' },
@@ -371,20 +387,20 @@
         { title:'식의 계산 (지수법칙·동류항)', desc:'슬라이더로 지수법칙을 확인하고, 흩어진 항들을 동류항끼리 묶어 다항식을 정리해봐요.', grades:['mid'], status:'live', href:'monomial-calculation.html', article:'article-monomial-calculation.html', icon:'🧮' },
         { title:'일차부등식과 연립방정식', desc:'음수를 곱하거나 나누면 부등호 방향이 왜 바뀌는지 확인하고, 두 직선의 교점으로 연립방정식의 해를 찾아봐요.', grades:['mid'], status:'live', href:'inequality-and-system.html', article:'article-inequality-and-system.html', icon:'📏' },
         { title:'다항식의 곱셈·인수분해와 이차방정식', desc:'정사각형 넓이로 곱셈공식을 확인하고, 인수분해로 이차방정식의 두 근을 찾아봐요.', grades:['mid'], status:'live', href:'factoring-quadratic.html', article:'article-factoring-quadratic.html', icon:'🧩' },
-        { title:'단위원과 삼각비 실험실', desc:'반지름이 1인 단위원 위의 점을 각도 θ로 돌려보며 (cos θ, sin θ) 좌표와 sin·cos·tan 값, 사분면별 부호, 사인·코사인 파동이 만들어지는 과정을 확인해요.', grades:['mid'], status:'live', href:'unit-circle.html', article:'article-unit-circle.html', icon:'🎡' },
-        { title:'삼각함수의 그래프 실험실', desc:'진폭·주기·위상이동·평행이동을 슬라이더로 조절하며 sin·cos·tan 그래프가 어떻게 변하는지 확인해요.', grades:['mid'], status:'live', href:'trig-function-graphs.html', article:'article-trig-function-graphs.html', icon:'〰️' },
+        { title:'단위원과 삼각비 실험실', desc:'반지름이 1인 단위원 위의 점을 각도 θ로 돌려보며 (cos θ, sin θ) 좌표와 sin·cos·tan 값, 사분면별 부호, 사인·코사인 파동이 만들어지는 과정을 확인해요.', grades:['mid'], status:'live', isBest:true, href:'unit-circle.html', article:'article-unit-circle.html', icon:'🎡' },
+        { title:'삼각함수의 그래프 실험실', desc:'진폭·주기·위상이동·평행이동을 슬라이더로 조절하며 sin·cos·tan 그래프가 어떻게 변하는지 확인해요.', grades:['mid'], status:'live', isNew:true, href:'trig-function-graphs.html', article:'article-trig-function-graphs.html', icon:'〰️' },
       ]
     },
     {
       key: 'pattern', title: '쉬는 시간 · 수학 탐구', color: 'var(--teal)', textColor: 'var(--teal-ink)', bg: 'var(--teal-soft)',
       items: [
-        { title:'파스칼의 삼각형', desc:'줄 수를 입력하면 삼각형이 그려지고 짝수·홀수 패턴이 색칠돼요.', grades:['mid'], status:'live', href:'pascal-triangle.html', article:'article-pascals-triangle.html', icon:'▲' },
-        { title:'피보나치 수열과 나선', desc:'항의 개수를 입력하면 나선과 사각형이 자라나는 모습을 확인해요.', grades:['high','mid'], status:'live', href:'fibonacci-spiral.html', article:'article-fibonacci-spiral.html', icon:'🌀' },
-        { title:'등차수열과 등비수열 실험실', desc:'첫째항과 공차(또는 공비)를 슬라이더로 바꿔가며, 등차수열·등비수열의 합 공식이 왜 그런 모양인지 눈으로 확인해요.', grades:['mid'], status:'live', href:'sequences.html', article:'article-sequences.html', icon:'🔢' },
+        { title:'파스칼의 삼각형', desc:'줄 수를 입력하면 삼각형이 그려지고 짝수·홀수 패턴이 색칠돼요.', grades:['mid'], status:'live', isBest:true, href:'pascal-triangle.html', article:'article-pascals-triangle.html', icon:'▲' },
+        { title:'피보나치 수열과 나선', desc:'항의 개수를 입력하면 나선과 사각형이 자라나는 모습을 확인해요.', grades:['high','mid'], status:'live', isBest:true, href:'fibonacci-spiral.html', article:'article-fibonacci-spiral.html', icon:'🌀' },
+        { title:'등차수열과 등비수열 실험실', desc:'첫째항과 공차(또는 공비)를 슬라이더로 바꿔가며, 등차수열·등비수열의 합 공식이 왜 그런 모양인지 눈으로 확인해요.', grades:['mid'], status:'live', isNew:true, href:'sequences.html', article:'article-sequences.html', icon:'🔢' },
         { title:'테셀레이션(쪽매맞춤)', desc:'정다각형을 골라 한 꼭짓점에 모아보며, 어떤 도형이 평면을 빈틈없이 채우는지 확인해요.', grades:['high','mid'], status:'live', href:'tessellation.html', article:'article-tessellation.html', icon:'🔷' },
         { title:'규칙 찾기 (패턴 완성하기)', desc:'모양이 반복되는 규칙을 보고, "?" 자리에 올 모양을 맞혀봐요.', grades:['low'], status:'live', href:'pattern-finder.html', article:'article-pattern-finder.html', icon:'🔁' },
         { title:'마방진 채우기', desc:'1부터 9까지의 숫자로 가로·세로·대각선의 합이 모두 같아지도록 빈칸을 채우는 마방진 퍼즐을 풀어봐요.', grades:['low','high'], status:'live', href:'magic-square.html', article:'article-magic-square.html', icon:'🔲' },
-        { title:'하노이의 탑', desc:'원반을 한 번에 하나씩 옮겨 다른 기둥으로 전부 옮기는 고전 퍼즐이에요. 원반이 하나씩 늘어날 때마다 최소 이동 횟수가 거의 두 배로 늘어나는 걸 확인해요.', grades:['high','mid'], status:'live', href:'hanoi-tower.html', article:'article-hanoi-tower.html', icon:'🗼' },
+        { title:'하노이의 탑', desc:'원반을 한 번에 하나씩 옮겨 다른 기둥으로 전부 옮기는 고전 퍼즐이에요. 원반이 하나씩 늘어날 때마다 최소 이동 횟수가 거의 두 배로 늘어나는 걸 확인해요.', grades:['high','mid'], status:'live', isBest:true, href:'hanoi-tower.html', article:'article-hanoi-tower.html', icon:'🗼' },
         { title:'미니 스도쿠', desc:'4×4·6×6 스도쿠를 풀며 가로·세로·상자에 숫자가 겹치지 않게 채워봐요.', grades:['low','high'], status:'live', href:'mini-sudoku.html', article:'article-mini-sudoku.html', icon:'🧩' },
         { title:'숫자야구', desc:'스트라이크·볼 힌트를 모아 컴퓨터가 정한 비밀 번호를 추리해봐요.', grades:['high','mid'], status:'live', href:'number-baseball.html', article:'article-number-baseball.html', icon:'⚾' },
         { title:'숫자 탐정 놀이', desc:'단서를 하나씩 확인하며 조건에 꼭 맞는 숫자를 용의자 중에서 찾아내는 추리 게임이에요. 소거법으로 좁혀나가는 논리적 사고를 길러요.', grades:['low','high','mid'], status:'live', href:'number-detective.html', article:'article-number-detective.html', icon:'🔍' },
@@ -393,7 +409,7 @@
         { title:'손가락 계산 마법 트릭', desc:'손가락만 접으면 9단 곱셈 답이 바로 나와요. 몇 번째 손가락을 접을지 골라보고 정말 맞는지 확인해요.', grades:['low','high'], status:'live', href:'finger-multiplication-trick.html', article:'article-finger-multiplication-trick.html', icon:'🖐️' },
         { title:'프랙탈 확대경 실험실', desc:'코흐 눈송이와 시에르핀스키 삼각형의 단계를 늘려가며, 같은 규칙이 반복될 때 얼마나 복잡한 모양이 만들어지는지 확인해요.', grades:['high','mid'], status:'live', href:'fractal-explorer.html', article:'article-fractal-explorer.html', icon:'❄️' },
         { title:'수학자 미니 이야기 카드', desc:'가우스, 아르키메데스, 라마누잔 같은 수학자들의 일화를 카드로 만나보고, 그 속에 숨어있는 수학 개념도 함께 확인해요.', grades:['low','high','mid'], status:'live', href:'mathematician-stories.html', article:'article-mathematician-stories.html', icon:'📚' },
-        { title:'스피로그래프 실험실', desc:'큰 원 안에서 작은 원이 돌며 그리는 무늬예요. 반지름 비율이 꽃잎 개수를 어떻게 결정하는지 확인해요.', grades:['high','mid'], status:'live', href:'spirograph.html', article:'article-spirograph.html', icon:'🎡' },
+        { title:'스피로그래프 실험실', desc:'큰 원 안에서 작은 원이 돌며 그리는 무늬예요. 반지름 비율이 꽃잎 개수를 어떻게 결정하는지 확인해요.', grades:['high','mid'], status:'live', isBest:true, href:'spirograph.html', article:'article-spirograph.html', icon:'🎡' },
       ]
     },
   ];
@@ -402,6 +418,34 @@
   const gradeRank = { low:0, high:1, mid:2 };
 
   const container = document.getElementById('categories');
+
+  const itemsByHref = {};
+  CATEGORIES.forEach(cat => cat.items.forEach(item => { itemsByHref[item.href] = {item, cat}; }));
+
+  const RECENT_KEY = 'ainmath_recent_v1';
+  const RECENT_MAX = 6;
+  function recordRecent(href){
+    if(!href || !itemsByHref[href]) return;
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(RECENT_KEY)) || []; }catch(e){ list = []; }
+    list = list.filter(h => h !== href);
+    list.unshift(href);
+    list = list.slice(0, RECENT_MAX);
+    try{ localStorage.setItem(RECENT_KEY, JSON.stringify(list)); }catch(e){}
+  }
+  function getRecentEntries(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(RECENT_KEY)) || []; }catch(e){ list = []; }
+    return list.map(href => itemsByHref[href]).filter(Boolean);
+  }
+  function renderRecent(){
+    const entries = getRecentEntries();
+    const section = document.getElementById('recentSection');
+    if(!entries.length){ section.style.display = 'none'; return; }
+    section.style.display = '';
+    document.getElementById('recentGrid').innerHTML =
+      entries.map(({item, cat}) => cardHtml(item, cat.color, cat.textColor)).join('');
+  }
 
   // 오늘 날짜로 시드를 고정한 의사난수 — 같은 날에는 누가 접속해도 같은 추천이 보이고, 날짜가 바뀌면 다시 섞여요.
   function mulberry32(seed){
@@ -462,11 +506,15 @@
     }
     const searchText = (item.title + ' ' + item.desc).toLowerCase();
     const linkAttrs = hasAnyLink ? `data-href="${primaryHref}" tabindex="0" role="link"` : '';
+    const badges = [];
+    if(item.isNew) badges.push(`<span class="badge-new">NEW</span>`);
+    if(item.isBest) badges.push(`<span class="badge-best">BEST</span>`);
+    if(!isLive) badges.push(`<span class="status soon">준비 중</span>`);
     return `
       <div class="card ${hasAnyLink ? 'live' : 'disabled'}" style="--card-accent:${accentColor};--card-accent-ink:${textColor}" data-grade="${gradeAttr}" data-search="${searchText.replace(/"/g,'&quot;')}" ${linkAttrs}>
         <div class="card-top">
           <div class="card-icon" style="background:${accentColor}22;color:${textColor}">${item.icon}</div>
-          ${!isLive ? `<span class="status soon">준비 중</span>` : ''}
+          ${badges.length ? `<div class="card-badges">${badges.join('')}</div>` : ''}
         </div>
         <div class="card-title">${item.title}</div>
         <div class="card-desc">${item.desc}</div>
@@ -497,19 +545,24 @@
       picks.map(({item, cat}) => cardHtml(item, cat.color, cat.textColor)).join('');
   }
 
-  container.addEventListener('click', (e)=>{
-    if(e.target.closest('.card-action')) return;
-    const card = e.target.closest('.card[data-href]');
-    if(card) window.location.href = card.dataset.href;
-  });
-  container.addEventListener('keydown', (e)=>{
-    if(e.key !== 'Enter' && e.key !== ' ') return;
-    if(e.target.closest('.card-action')) return;
-    const card = e.target.closest('.card[data-href]');
-    if(!card) return;
-    e.preventDefault();
-    window.location.href = card.dataset.href;
-  });
+  function attachCardNav(el){
+    el.addEventListener('click', (e)=>{
+      const actionLink = e.target.closest('.card-action');
+      if(actionLink){ recordRecent(actionLink.getAttribute('href')); return; }
+      const card = e.target.closest('.card[data-href]');
+      if(card){ recordRecent(card.dataset.href); window.location.href = card.dataset.href; }
+    });
+    el.addEventListener('keydown', (e)=>{
+      if(e.key !== 'Enter' && e.key !== ' ') return;
+      if(e.target.closest('.card-action')) return;
+      const card = e.target.closest('.card[data-href]');
+      if(!card) return;
+      e.preventDefault();
+      recordRecent(card.dataset.href);
+      window.location.href = card.dataset.href;
+    });
+  }
+  attachCardNav(container);
 
   function renderJumpNav(){
     document.getElementById('jumpNav').innerHTML = CATEGORIES.map(cat => `
@@ -524,6 +577,7 @@
 
   const resultCountEl = document.getElementById('resultCount');
   const recommendedSectionEl = document.getElementById('recommendedSection');
+  const recentSectionEl = document.getElementById('recentSection');
   const totalCardCount = CATEGORIES.reduce((sum, cat) => sum + cat.items.length, 0);
 
   function applyFilter(){
@@ -546,6 +600,7 @@
     const isFiltering = currentGrade !== 'all' || !!currentSearch;
     resultCountEl.textContent = isFiltering ? `${visibleCount}개 결과` : `총 ${totalCardCount}개 체험`;
     if(recommendedSectionEl) recommendedSectionEl.style.display = isFiltering ? 'none' : '';
+    if(recentSectionEl) recentSectionEl.style.display = isFiltering ? 'none' : (getRecentEntries().length ? '' : 'none');
   }
 
   document.getElementById('filterBar').addEventListener('click', (e)=>{
@@ -580,23 +635,13 @@
   });
 
   const recommendedGrid = document.getElementById('recommended');
-  recommendedGrid.addEventListener('click', (e)=>{
-    if(e.target.closest('.card-action')) return;
-    const card = e.target.closest('.card[data-href]');
-    if(card) window.location.href = card.dataset.href;
-  });
-  recommendedGrid.addEventListener('keydown', (e)=>{
-    if(e.key !== 'Enter' && e.key !== ' ') return;
-    if(e.target.closest('.card-action')) return;
-    const card = e.target.closest('.card[data-href]');
-    if(!card) return;
-    e.preventDefault();
-    window.location.href = card.dataset.href;
-  });
+  attachCardNav(recommendedGrid);
+  attachCardNav(document.getElementById('recentGrid'));
 
   renderCategories();
   renderJumpNav();
   renderRecommended();
+  renderRecent();
   applyFilter();
 </script>
 </body>
