@@ -11,6 +11,8 @@
 <style>
   :root{
     --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
     --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
   *{box-sizing:border-box;}
@@ -29,6 +31,9 @@
   .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
   .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
   .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:240px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
   .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
   .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#6847F7;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
   .cta-btn:hover{transform:translateY(-2px);}
@@ -47,6 +52,22 @@
     <div class="article-body">
       <p>원 위에 두 점 A, B를 찍고 호 AB를 정해보세요. 이제 그 호의 반대쪽(나머지 큰 호) 위에 점 P를 하나 더 찍고, 각 APB를 재보세요. 그 다음 P를 원 위 다른 자리로 옮겨서 다시 각을 재보면 어떨까요? 신기하게도 P를 어디로 옮기든 각 APB의 크기는 항상 똑같아요. 이 각을 호 AB에 대한 <b>원주각</b>이라고 부르고, 이 성질을 <b>원주각의 성질</b>이라고 해요.</p>
       <p>원주각이 왜 항상 같은지 이해하려면 <b>중심각</b>과의 관계를 알아야 해요. 중심각은 원의 중심 O에서 A와 B를 바라본 각(∠AOB)이에요. 원주각의 성질에 따르면, 같은 호에 대한 원주각은 항상 중심각의 <b>정확히 절반</b>이에요. 중심각은 P의 위치와 상관없이 항상 고정된 하나의 값이니까, 그 절반인 원주각도 P가 어디에 있든 항상 똑같은 값을 가질 수밖에 없는 거예요. 결국 "원주각이 일정하다"는 사실은 "원주각 = 중심각 ÷ 2"라는 더 근본적인 관계에서 자연스럽게 따라 나오는 결과예요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 200 170">
+          <circle cx="100" cy="80" r="65" fill="none" stroke="var(--ink)" stroke-width="2"></circle>
+          <line x1="100" y1="80" x2="38.9" y2="57.8" stroke="var(--coral-ink)" stroke-width="2"></line>
+          <line x1="100" y1="80" x2="161.1" y2="57.8" stroke="var(--coral-ink)" stroke-width="2"></line>
+          <line x1="100" y1="145" x2="38.9" y2="57.8" stroke="var(--violet-ink)" stroke-width="2"></line>
+          <line x1="100" y1="145" x2="161.1" y2="57.8" stroke="var(--violet-ink)" stroke-width="2"></line>
+          <circle cx="100" cy="80" r="2.5" fill="var(--ink)"></circle>
+          <text x="100" y="70" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--coral-ink)">중심각</text>
+          <text x="100" y="130" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--violet-ink)">원주각</text>
+          <text x="30" y="52" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink)">A</text>
+          <text x="165" y="52" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink)">B</text>
+          <text x="95" y="160" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink)">P</text>
+        </svg>
+        <div class="illo-caption">점 P가 원 위 어디에 있어도 원주각은 중심각의 절반이에요</div>
+      </div>
       <p>이 성질에는 특별히 유명한 특수한 경우가 있어요. 만약 A와 B가 원의 중심을 사이에 두고 정반대에 있다면(즉, 선분 AB가 지름이라면), 중심각은 180°가 돼요. 그럼 원주각은 180°의 절반인 <b>90°</b>가 되죠. 다시 말해, 지름을 바라보는 원주각은 항상 직각이에요. 이 사실은 고대 그리스 수학자 탈레스의 이름을 따서 "탈레스의 정리"라고도 불려요. 반원 안에 어떤 삼각형을 그려도, 지름을 마주보는 꼭짓점의 각은 항상 정확히 90°가 되는 거예요.</p>
       <p>원주각의 성질은 원과 관련된 여러 도형 문제에서 각도를 구하는 핵심 도구로 쓰여요. 복잡해 보이는 원 안의 도형도, "이 두 각이 같은 호를 보고 있는 원주각이구나"를 알아채는 순간 문제가 훨씬 쉬워지는 경우가 많아요. 반대로 어떤 각이 90°라는 걸 알고 있다면, 그 각이 지름을 바라보고 있다는 것도 거꾸로 추론할 수 있고요.</p>
       <p>이 성질을 증명할 때는 삼각형의 외각 성질(한 외각은 이웃하지 않은 두 내각의 합과 같다는 성질)을 이용해요. 중심 O와 점 P를 연결하는 보조선을 그으면, 이등변삼각형 두 개가 생기는데, 그 삼각형들의 각도 관계를 차근차근 따라가면 원주각이 정확히 중심각의 절반이라는 게 증명돼요. 지금 단계에서는 증명 과정을 완벽히 외우기보다, "왜 항상 절반이 되는지" 그림으로 느끼는 게 더 중요해요.</p>
