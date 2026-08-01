@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>정육면체 전개도 실험실</title>
+<meta name="description" content="정사각형 6개를 어떻게 배치해야 접었을 때 정육면체가 될까요? 3D 뷰어로 직접 접어보고, 실제로 가능한 11가지 전개도를 모두 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+  --gold:#E8A200; --gold-soft:#FCEFD1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1080px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--violet-ink);}
+h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(19px,2.6vw,23px);margin:0 0 6px;}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:72ch;margin:0 0 24px;}
+.card{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:26px clamp(16px,4vw,38px) 30px;margin-bottom:24px;}
+.card-sub{color:var(--ink-soft);font-size:14.5px;line-height:1.75;max-width:74ch;margin:0 0 18px;}
+
+.stage{display:grid;grid-template-columns:1.15fr 0.85fr;gap:28px;align-items:start;}
+@media (max-width:880px){ .stage{grid-template-columns:1fr;} }
+#threeWrap{width:100%;height:320px;border-radius:18px;background:linear-gradient(180deg,var(--paper) 0%, #F1EAD8 100%);overflow:hidden;position:relative;cursor:grab;touch-action:none;}
+#threeWrap:active{cursor:grabbing;}
+.drag-hint{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-family:'Do Hyeon',sans-serif;font-size:12px;color:var(--ink-soft);background:rgba(255,255,255,0.75);padding:4px 12px;border-radius:999px;pointer-events:none;}
+
+.fold-controls{display:flex;align-items:center;gap:12px;margin-top:16px;}
+.fold-controls input[type=range]{flex:1;-webkit-appearance:none;height:8px;border-radius:999px;background:var(--violet-soft);outline:none;}
+.fold-controls input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.45);cursor:pointer;}
+.fold-controls input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.45);cursor:pointer;}
+.fold-label{font-family:'Do Hyeon',sans-serif;font-size:13.5px;color:var(--ink-soft);white-space:nowrap;}
+.play-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--ink);color:#fff;border:none;border-radius:12px;padding:10px 16px;cursor:pointer;white-space:nowrap;}
+.play-btn:hover{background:var(--violet);}
+
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;margin-top:8px;}
+.net-btn{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:10px;cursor:pointer;text-align:center;transition:all .15s ease;}
+.net-btn:hover{border-color:var(--violet);}
+.net-btn.active{border-color:var(--violet);background:var(--violet-soft);}
+.net-btn.invalid{opacity:0.9;}
+.net-btn svg{display:block;margin:0 auto 6px;}
+.net-btn .cap{font-family:'Do Hyeon',sans-serif;font-size:12.5px;color:var(--ink-soft);}
+.net-btn.valid .cap{color:var(--green-ink);}
+.net-btn.invalid .cap{color:var(--coral-ink);}
+
+.explain-box{margin-top:12px;background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:12px 16px;font-size:13.5px;color:var(--ink-soft);line-height:1.7;min-height:20px;}
+.explain-box b{color:var(--ink);}
+
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--violet-ink);}
+.quiz-body{display:flex;gap:26px;flex-wrap:wrap;align-items:center;}
+#quizPreview{flex:none;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;flex:1;min-width:220px;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 20px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;}
+.action-btn:hover{background:var(--violet);}
+
+footer{max-width:1080px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;line-height:1.8;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1080px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-cube-net-lab.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">📐 정육면체 전개도 실험실</span>
+  <h1>전개도를 접으면<br><span>정육면체</span>가 돼요</h1>
+  <p class="sub">전개도는 입체도형의 겉면을 모서리를 따라 뜯어서 평평하게 펼친 그림이에요. 6개의 정사각형을 어떻게 배치하느냐에 따라 접었을 때 정육면체가 되기도 하고, 되지 않기도 해요. 직접 접어보면서 확인해보세요.</p>
+
+  <div class="card">
+    <h2>① 전개도 접기 체험</h2>
+    <p class="card-sub">슬라이더를 움직이면 전개도가 실제로 접히는 과정을 볼 수 있어요. 각 면은 이웃한 면과 맞닿은 모서리를 축으로 90°까지 회전해요.</p>
+    <div class="stage">
+      <div>
+        <div id="threeWrap"><div class="drag-hint">드래그해서 회전</div></div>
+        <div class="fold-controls">
+          <span class="fold-label">펼침</span>
+          <input type="range" id="foldSlider" min="0" max="100" value="0">
+          <span class="fold-label">접힘</span>
+          <button class="play-btn" id="playBtn">▶ 자동으로 접기</button>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="explain-box" id="foldExplain">지금 보고 있는 전개도는 <b>십자(+) 모양</b>이에요. 슬라이더를 오른쪽으로 움직여서 정육면체로 접어보세요.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>② 여러 가지 전개도 비교하기</h2>
+    <p class="card-sub">정사각형 6개를 붙이는 방법은 아주 많지만, 그중에서 실제로 정육면체가 되는 배치는 <b>정확히 11가지</b>뿐이에요(컴퓨터로 2만 가지 넘는 배치를 실제로 접어봐서 확인했어요). 아래에서 11가지 전부를 직접 클릭해서 접어보고, 안 되는 예시들과도 비교해보세요.</p>
+    <div class="explain-box" style="margin-bottom:14px;">💡 안 되는 배치처럼 보였던 "계단" 모양들은 실제로는 <b>일부만</b> 정육면체가 돼요. 아래 목록의 net1~net11이 실제로 검증된 것들이에요.</div>
+    <div class="gallery" id="netGallery"></div>
+    <div class="explain-box" id="galleryExplain">위에서 도형을 골라보세요.</div>
+  </div>
+
+  <div class="card">
+    <h2>③ 퀴즈: 정육면체가 될까요?</h2>
+    <div class="quiz-head">
+      <p class="card-sub" style="margin:0;">전개도 그림을 보고 정육면체가 되는지 안 되는지 맞혀보세요.</p>
+      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+    </div>
+    <div class="quiz-body">
+      <div id="quizPreview"></div>
+      <div class="quiz-opts" id="quizOpts">
+        <button class="opt-btn" id="quizYes">⭕ 정육면체가 돼요</button>
+        <button class="opt-btn" id="quizNo">❌ 안 돼요</button>
+      </div>
+    </div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextQuizBtn">➡ 다음 문제</button>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="cuboid-surface-volume.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">직육면체의 겉넓이와 부피</span>
+    </a>
+    <a href="symmetry-shapes.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">합동과 대칭</span>
+    </a>
+  </nav>
+  <footer>정육면체 전개도는 6개의 정사각형이 나무처럼 모서리로 연결된 모양(트리) 중에서, 접었을 때 겹치거나 빈틈이 생기지 않는 것만 가능해요. 이런 배치는 정확히 11가지가 있다고 알려져 있어요.</footer>
+</div>
+
+<script>
+/* ==================== 3D 접기 엔진 ==================== */
+function createPanel(size, color){
+  const positions = new Float32Array([
+    0,0,0,  size,0,0, size,0,size,
+    0,0,0,  size,0,size, 0,0,size,
+  ]);
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(positions,3));
+  geo.computeVertexNormals();
+  const mat = new THREE.MeshPhongMaterial({color, side:THREE.DoubleSide, shininess:30});
+  const mesh = new THREE.Mesh(geo, mat);
+  const edgesGeo = new THREE.EdgesGeometry(geo);
+  mesh.add(new THREE.LineSegments(edgesGeo, new THREE.LineBasicMaterial({color:0x22283A})));
+  return mesh;
+}
+// edge: 이 자식 사각형이 부모의 어느 변에 붙는지 ('far'|'east'|'west'|'near')
+// 펼친 상태(접힘=0)에서는 회전을 전혀 쓰지 않고 평행이동만 사용해서, 격자 좌표와 항상 정확히 일치하도록 해요.
+// 접힐 때는 오직 축-각(axis-angle) 회전 하나만 사용해서 다른 회전과 뒤섞이지 않도록 해요.
+function attachFace(parentPanel, size, color, edge){
+  const configs = {
+    east: {pivotPos:[size,0,0], panelOffset:[0,0,0],    axis:[0,0,1], sign: 1},
+    west: {pivotPos:[0,0,0],    panelOffset:[-size,0,0], axis:[0,0,1], sign:-1},
+    far:  {pivotPos:[0,0,0],    panelOffset:[0,0,-size], axis:[1,0,0], sign: 1},
+    near: {pivotPos:[0,0,size], panelOffset:[0,0,0],    axis:[1,0,0], sign:-1},
+  };
+  const c = configs[edge];
+  const pivot = new THREE.Group();
+  pivot.position.set(c.pivotPos[0], c.pivotPos[1], c.pivotPos[2]);
+  pivot.userData.axis = new THREE.Vector3(c.axis[0], c.axis[1], c.axis[2]);
+  pivot.userData.sign = c.sign;
+  const panel = createPanel(size, color);
+  panel.position.set(c.panelOffset[0], c.panelOffset[1], c.panelOffset[2]);
+  pivot.add(panel);
+  parentPanel.add(pivot);
+  return {pivot, panel};
+}
+function buildCubeTree(spec, size, colors){
+  const rootPanel = createPanel(size, colors[0]);
+  const nodes = [{panel:rootPanel, depth:0}];
+  const pivots = [];
+  spec.forEach((step,i)=>{
+    const parentNode = nodes[step.parent];
+    const {pivot,panel} = attachFace(parentNode.panel, size, colors[(i+1)%colors.length], step.edge);
+    const depth = parentNode.depth+1;
+    nodes.push({panel,pivot,depth});
+    pivots.push({pivot,depth});
+  });
+  return {root:rootPanel, pivots};
+}
+
+/* ==================== 전개도 데이터 (유효한 것 / 유효하지 않은 것) ==================== */
+const NET_COLORS = ['#6C4CF7','#4C8BF5','#4CAF8E','#E8A200','#FF5B57','#9C6ADE'];
+
+const NETS = {
+  net1: {
+    label:'십자 모양', valid:true,
+    grid:[[0,0],[1,0],[-1,0],[0,-1],[0,1],[2,0]],
+    spec:[ {parent:0,edge:'east'}, {parent:0,edge:'west'}, {parent:0,edge:'far'}, {parent:0,edge:'near'}, {parent:1,edge:'east'} ],
+    reason:'가운데가 바닥, 위·아래·좌·우 4칸이 옆면이 되고, 오른쪽으로 한 칸 더 나간 꼬리가 옆면 위에서 한 번 더 접혀 뚜껑이 돼요.',
+  },
+  net2: {
+    label:'지그재그 십자 A', valid:true,
+    grid:[[0,0],[1,0],[-1,0],[0,-1],[2,0],[1,1]],
+    spec:[ {parent:0,edge:'east'}, {parent:0,edge:'west'}, {parent:0,edge:'far'}, {parent:1,edge:'east'}, {parent:1,edge:'near'} ],
+    reason:'가로로 3칸(서·중앙·동) + 위로 1칸 + 오른쪽으로 2칸 이어진 모양이에요. 실제로 접으면 정육면체가 돼요.',
+  },
+  net3: {
+    label:'지그재그 십자 B', valid:true,
+    grid:[[0,0],[1,0],[-1,0],[0,-1],[2,0],[-1,1]],
+    spec:[ {parent:0,edge:'east'}, {parent:0,edge:'west'}, {parent:0,edge:'far'}, {parent:1,edge:'east'}, {parent:2,edge:'near'} ],
+    reason:'net2와 비슷하지만 아래로 튀어나온 칸의 위치가 달라요. 이것도 정육면체가 돼요.',
+  },
+  net4: {
+    label:'십자 변형', valid:true,
+    grid:[[0,0],[1,0],[-1,0],[0,-1],[2,0],[2,1]],
+    spec:[ {parent:0,edge:'east'}, {parent:0,edge:'west'}, {parent:0,edge:'far'}, {parent:1,edge:'east'}, {parent:4,edge:'near'} ],
+    reason:'꼬리가 오른쪽으로 두 칸 이어진 뒤 아래로 한 번 꺾인 모양이에요.',
+  },
+  net5: {
+    label:'T자 변형 A', valid:true,
+    grid:[[0,0],[1,0],[-1,0],[0,-1],[1,1],[0,-2]],
+    spec:[ {parent:0,edge:'east'}, {parent:0,edge:'west'}, {parent:0,edge:'far'}, {parent:1,edge:'near'}, {parent:3,edge:'far'} ],
+    reason:'위쪽 팔이 두 칸으로 길어지고, 오른쪽 아래로 한 칸 튀어나온 모양이에요.',
+  },
+  net6: {
+    label:'계단 십자', valid:true,
+    grid:[[0,0],[1,0],[-1,0],[0,-1],[1,1],[2,1]],
+    spec:[ {parent:0,edge:'east'}, {parent:0,edge:'west'}, {parent:0,edge:'far'}, {parent:1,edge:'near'}, {parent:4,edge:'east'} ],
+    reason:'아래로 꺾인 뒤 다시 오른쪽으로 이어진, 계단처럼 보이는 모양이에요.',
+  },
+  net7: {
+    label:'T자 모양', valid:true,
+    grid:[[0,0],[1,0],[-1,0],[0,-1],[0,-2],[0,-3]],
+    spec:[ {parent:0,edge:'east'}, {parent:0,edge:'west'}, {parent:0,edge:'far'}, {parent:3,edge:'far'}, {parent:4,edge:'far'} ],
+    reason:'가로 3칸 + 위로 곧게 3칸 이어진 T자 모양이에요. 위로 길게 뻗어도 정육면체가 돼요.',
+  },
+  net8: {
+    label:'지그재그 줄', valid:true,
+    grid:[[0,0],[1,0],[-1,0],[2,0],[-1,-1],[2,1]],
+    spec:[ {parent:0,edge:'east'}, {parent:0,edge:'west'}, {parent:1,edge:'east'}, {parent:2,edge:'far'}, {parent:3,edge:'near'} ],
+    reason:'가로 4칸 줄의 양 끝에서, 한쪽은 위로 한쪽은 아래로 각각 하나씩 튀어나온 모양이에요.',
+  },
+  net9: {
+    label:'계단형 A', valid:true,
+    grid:[[0,0],[1,0],[-1,0],[1,-1],[-1,1],[2,-1]],
+    spec:[ {parent:0,edge:'east'}, {parent:0,edge:'west'}, {parent:1,edge:'far'}, {parent:2,edge:'near'}, {parent:3,edge:'east'} ],
+    reason:'계단처럼 지그재그로 이어진 모양이에요. 이렇게 비대칭이어도 정육면체가 될 수 있어요.',
+  },
+  net10: {
+    label:'이중 계단', valid:true,
+    grid:[[0,0],[1,0],[-1,0],[1,-1],[2,-1],[3,-1]],
+    spec:[ {parent:0,edge:'east'}, {parent:0,edge:'west'}, {parent:1,edge:'far'}, {parent:3,edge:'east'}, {parent:4,edge:'east'} ],
+    reason:'아래 3칸 줄과 위 3칸 줄이 한 칸씩 어긋나게 겹쳐진 모양이에요.',
+  },
+  net11: {
+    label:'완전 계단형', valid:true,
+    grid:[[0,0],[1,0],[0,-1],[1,1],[-1,-1],[2,1]],
+    spec:[ {parent:0,edge:'east'}, {parent:0,edge:'far'}, {parent:1,edge:'near'}, {parent:2,edge:'west'}, {parent:3,edge:'east'} ],
+    reason:'두 칸씩 짝을 지어 계단처럼 대각선으로 이어진 모양이에요. 11가지 중 가장 비대칭적인 모양이에요.',
+  },
+  line: {
+    label:'일자로 6개', valid:false,
+    grid:[[0,0],[1,0],[2,0],[3,0],[4,0],[5,0]],
+    reason:'정사각형 6개가 일렬로 곧게 붙어 있으면, 접었을 때 어떤 면은 겹치고 어떤 자리는 비어버려서 정육면체가 되지 않아요.',
+  },
+  disconnected: {
+    label:'떨어진 조각', valid:false,
+    grid:[[0,0],[1,0],[2,0],[0,-1],[0,1],[3,-2]],
+    reason:'맨 오른쪽 위 조각이 나머지와 변으로 붙어있지 않아요. 전개도는 모든 면이 서로 변으로 이어져 있어야 접을 수 있어요.',
+  },
+  fivePlusOne: {
+    label:'다섯 칸 줄 + 하나', valid:false,
+    grid:[[0,1],[1,1],[2,1],[2,0],[3,1],[4,1]],
+    reason:'얼핏 보면 될 것 같지만, 한쪽 줄이 5칸이나 이어져 있어서 접으면 겹치는 면이 생겨요.',
+  },
+};
+
+function netGridSVG(cells, cellPx, colored){
+  const cols=cells.map(c=>c[0]), rows=cells.map(c=>c[1]);
+  const minC=Math.min(...cols), maxC=Math.max(...cols), minR=Math.min(...rows), maxR=Math.max(...rows);
+  const w=(maxC-minC+1)*cellPx, h=(maxR-minR+1)*cellPx;
+  let svg=`<svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}">`;
+  cells.forEach(([c,r],i)=>{
+    const x=(c-minC)*cellPx, y=(r-minR)*cellPx;
+    const fill = colored ? NET_COLORS[i%NET_COLORS.length] : 'var(--paper)';
+    svg+=`<rect x="${x}" y="${y}" width="${cellPx}" height="${cellPx}" fill="${fill}" fill-opacity="0.8" stroke="var(--ink)" stroke-width="2"></rect>`;
+  });
+  svg+='</svg>';
+  return svg;
+}
+
+/* ==================== Three.js 초기화 ==================== */
+const threeWrap=document.getElementById('threeWrap');
+let scene,camera,renderer,rig,currentPivots=[],currentRootPanel=null;
+let isDragging=false, prevX=0, prevY=0, rotX=-0.35, rotY=0.6, autoRotate=true;
+const CELL_SIZE=1.15;
+
+function initThree(){
+  const width=threeWrap.clientWidth, height=threeWrap.clientHeight;
+  scene=new THREE.Scene();
+  rig=new THREE.Group();
+  scene.add(rig);
+  camera=new THREE.PerspectiveCamera(45,width/height,0.1,100);
+  camera.position.set(0,3.2,6.6);
+  camera.lookAt(0,0,0);
+  renderer=new THREE.WebGLRenderer({antialias:true, alpha:true});
+  renderer.setSize(width,height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+  threeWrap.appendChild(renderer.domElement);
+
+  scene.add(new THREE.AmbientLight(0xffffff,0.75));
+  const d1=new THREE.DirectionalLight(0xffffff,0.7); d1.position.set(3,5,4); scene.add(d1);
+  const d2=new THREE.DirectionalLight(0xffffff,0.3); d2.position.set(-3,-2,-3); scene.add(d2);
+
+  const gridHelper=new THREE.GridHelper(8,16,0xD8CDB0,0xE9E1CF);
+  gridHelper.position.y=-0.001;
+  scene.add(gridHelper);
+
+  const dom=renderer.domElement;
+  dom.style.touchAction='none';
+  dom.addEventListener('pointerdown',(e)=>{isDragging=true;autoRotate=false;prevX=e.clientX;prevY=e.clientY;dom.setPointerCapture(e.pointerId);});
+  dom.addEventListener('pointerup',()=>isDragging=false);
+  dom.addEventListener('pointercancel',()=>isDragging=false);
+  dom.addEventListener('pointermove',(e)=>{
+    if(!isDragging) return;
+    const dx=e.clientX-prevX, dy=e.clientY-prevY;
+    rotY+=dx*0.012; rotX+=dy*0.012;
+    rotX=Math.max(Math.min(rotX,1.0),-0.6);
+    prevX=e.clientX; prevY=e.clientY;
+  });
+  window.addEventListener('resize', onResize);
+
+  loadNet('net1');
+  animate();
+}
+function onResize(){
+  const width=threeWrap.clientWidth, height=threeWrap.clientHeight;
+  if(!width||!height) return;
+  camera.aspect=width/height; camera.updateProjectionMatrix();
+  renderer.setSize(width,height);
+}
+function animate(){
+  requestAnimationFrame(animate);
+  if(autoRotate) rotY+=0.004;
+  rig.rotation.x=rotX; rig.rotation.y=rotY;
+  renderer.render(scene,camera);
+}
+
+function loadNet(key){
+  const net=NETS[key];
+  if(!net.valid) return; // 불가능한 전개도는 3D로 접지 않아요
+  if(currentRootPanel){ rig.remove(currentRootPanel); }
+  const {root,pivots}=buildCubeTree(net.spec, CELL_SIZE, NET_COLORS);
+  const cols=net.grid.map(c=>c[0]), rows=net.grid.map(c=>c[1]);
+  const minC=Math.min(...cols), maxC=Math.max(...cols), minR=Math.min(...rows), maxR=Math.max(...rows);
+  root.position.set(-((minC+maxC+1)/2)*CELL_SIZE, 0, -((minR+maxR+1)/2)*CELL_SIZE);
+  rig.add(root);
+  currentRootPanel=root;
+  currentPivots=pivots;
+  applyFold(parseFloat(foldSlider.value));
+  document.querySelectorAll('.net-btn').forEach(b=>b.classList.toggle('active', b.dataset.k===key));
+  foldExplain.innerHTML = `지금 보고 있는 전개도는 <b>${net.label}</b>이에요. ${net.reason}`;
+}
+function applyFold(pct){
+  const t = pct/100;
+  const maxDepth = currentPivots.reduce((m,p)=>Math.max(m,p.depth),1);
+  currentPivots.forEach(({pivot,depth})=>{
+    // depth가 낮은(부모에 가까운) 면부터 먼저 다 접히고, 그 다음 깊이의 면이 이어서 접혀요.
+    const stageStart = (depth-1)/maxDepth, stageEnd = depth/maxDepth;
+    const local = Math.min(1, Math.max(0, (t-stageStart)/(stageEnd-stageStart)));
+    const angle = pivot.userData.sign * local * Math.PI/2;
+    pivot.quaternion.setFromAxisAngle(pivot.userData.axis, angle);
+  });
+}
+
+/* ==================== UI 연결: 접기 슬라이더 & 재생 ==================== */
+const foldSlider=document.getElementById('foldSlider');
+const foldExplain=document.getElementById('foldExplain');
+const playBtn=document.getElementById('playBtn');
+foldSlider.addEventListener('input',()=>applyFold(parseFloat(foldSlider.value)));
+
+let playing=false;
+playBtn.addEventListener('click',()=>{
+  if(playing) return;
+  playing=true;
+  const startVal=parseFloat(foldSlider.value);
+  const target = startVal<50 ? 100 : 0;
+  const startTime=performance.now();
+  const duration=1400;
+  function step(now){
+    const p=Math.min(1,(now-startTime)/duration);
+    const eased=p<0.5 ? 2*p*p : 1-Math.pow(-2*p+2,2)/2;
+    const val = startVal + (target-startVal)*eased;
+    foldSlider.value=val;
+    applyFold(val);
+    if(p<1) requestAnimationFrame(step);
+    else playing=false;
+  }
+  requestAnimationFrame(step);
+});
+
+/* ==================== 갤러리 ==================== */
+const netGallery=document.getElementById('netGallery');
+const galleryExplain=document.getElementById('galleryExplain');
+const GALLERY_ORDER=['net1','net2','net3','net4','net5','net6','net7','net8','net9','net10','net11','line','disconnected','fivePlusOne'];
+netGallery.innerHTML = GALLERY_ORDER.map(k=>{
+  const net=NETS[k];
+  const cls = net.valid?'valid':'invalid';
+  return `<div class="net-btn ${cls}" data-k="${k}">
+    ${netGridSVG(net.grid, 20, net.valid)}
+    <div class="cap">${net.valid?'⭕':'❌'} ${net.label}</div>
+  </div>`;
+}).join('');
+netGallery.addEventListener('click',(e)=>{
+  const btn=e.target.closest('.net-btn'); if(!btn) return;
+  const key=btn.dataset.k;
+  const net=NETS[key];
+  document.querySelectorAll('.net-btn').forEach(b=>b.classList.toggle('active', b===btn));
+  if(net.valid){
+    foldSlider.value=0;
+    loadNet(key);
+    galleryExplain.innerHTML=`<b>${net.label}</b> — ⭕ 정육면체가 돼요. ${net.reason} 위 ①번 뷰어에서 접히는 모습을 확인해보세요.`;
+    threeWrap.scrollIntoView({behavior:'smooth', block:'center'});
+  } else {
+    galleryExplain.innerHTML=`<b>${net.label}</b> — ❌ 정육면체가 되지 않아요. ${net.reason}`;
+  }
+});
+
+/* ==================== 퀴즈 ==================== */
+const quizPreview=document.getElementById('quizPreview');
+const quizYes=document.getElementById('quizYes');
+const quizNo=document.getElementById('quizNo');
+const quizFeedback=document.getElementById('quizFeedback');
+const nextQuizBtn=document.getElementById('nextQuizBtn');
+const scoreNumEl=document.getElementById('scoreNum');
+const triesNumEl=document.getElementById('triesNum');
+
+const QUIZ_KEYS=Object.keys(NETS);
+let score=0, tries=0, answered=false, quizKey=null;
+
+function newQuizQuestion(){
+  answered=false;
+  quizFeedback.textContent='';
+  let k;
+  do{ k=QUIZ_KEYS[Math.floor(Math.random()*QUIZ_KEYS.length)]; } while(k===quizKey && QUIZ_KEYS.length>1);
+  quizKey=k;
+  const net=NETS[k];
+  quizPreview.innerHTML=netGridSVG(net.grid, 26, true);
+  quizYes.disabled=false; quizNo.disabled=false;
+  quizYes.classList.remove('correct','wrong');
+  quizNo.classList.remove('correct','wrong');
+}
+function answerQuiz(userSaysValid){
+  if(answered) return;
+  answered=true;
+  tries++;
+  const net=NETS[quizKey];
+  quizYes.disabled=true; quizNo.disabled=true;
+  const correct = (userSaysValid===net.valid);
+  const chosenBtn = userSaysValid?quizYes:quizNo;
+  if(correct){
+    score++;
+    chosenBtn.classList.add('correct');
+    quizFeedback.innerHTML=`🎉 맞았어요! <b>${net.label}</b> — ${net.reason} (정답 ${score} / 시도 ${tries})`;
+  } else {
+    chosenBtn.classList.add('wrong');
+    (net.valid?quizYes:quizNo).classList.add('correct');
+    quizFeedback.innerHTML=`아쉬워요! <b>${net.label}</b>은(는) ${net.valid?'정육면체가 돼요':'정육면체가 되지 않아요'}. ${net.reason} (정답 ${score} / 시도 ${tries})`;
+  }
+  scoreNumEl.textContent=score;
+  triesNumEl.textContent=tries;
+}
+quizYes.addEventListener('click',()=>answerQuiz(true));
+quizNo.addEventListener('click',()=>answerQuiz(false));
+nextQuizBtn.addEventListener('click', newQuizQuestion);
+
+newQuizQuestion();
+
+if(window.THREE){ initThree(); } else {
+  threeWrap.innerHTML='<div style="padding:20px;font-size:13px;color:var(--ink-soft);">3D 뷰어를 불러오지 못했어요. 네트워크 연결을 확인해주세요.</div>';
+}
+</script>
+</body>
+</html>

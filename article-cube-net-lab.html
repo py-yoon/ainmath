@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>정육면체 전개도, 접어봐야 진짜로 보이는 것들 | 아인매스</title>
+<meta name="description" content="정사각형 6개를 이어 붙이는 방법은 수백 가지가 넘지만, 실제로 접었을 때 정육면체가 되는 배치는 딱 11가지뿐이에요. 눈으로만 봐서는...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:260px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#6847F7;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#6847F7;background:#EEE8FF">📐 도형·기하</span>
+  <h1>정육면체 전개도, 접어봐야 진짜로 보이는 것들</h1>
+  <p class="meta">초등 고학년 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>상자를 뜯어서 평평하게 펼치면 어떤 모양이 될까요? 이렇게 입체도형의 겉면을 모서리를 따라 펼쳐놓은 그림을 <b>전개도</b>라고 해요. 정육면체는 똑같은 정사각형 6개로 둘러싸여 있으니, 전개도도 정사각형 6개로 이루어져요. 그런데 여기서 재미있는 질문이 생겨요 — 정사각형 6개를 아무렇게나 붙여도 다 정육면체가 될까요?</p>
+      <p>정답은 "아니오"예요. 정사각형 6개를 변끼리 이어 붙이는 방법은 수백 가지가 넘지만, 그중에서 실제로 접었을 때 겹치지도 않고 빈틈도 없이 딱 맞는 정육면체가 되는 배치는 정확히 <b>11가지</b>뿐이에요. 가장 유명한 건 십자(+) 모양이지만, 계단처럼 삐뚤빼뚤한 모양들도 의외로 11가지 안에 들어가요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 200 130">
+          <rect x="70" y="10" width="30" height="30" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2"></rect>
+          <rect x="40" y="40" width="30" height="30" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="2"></rect>
+          <rect x="70" y="40" width="30" height="30" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="2"></rect>
+          <rect x="100" y="40" width="30" height="30" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="2"></rect>
+          <rect x="130" y="40" width="30" height="30" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="2"></rect>
+          <rect x="70" y="70" width="30" height="30" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2"></rect>
+          <text x="100" y="115" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">가장 유명한 십자(+) 모양 전개도</text>
+        </svg>
+        <div class="illo-caption">가운데 4칸이 옆면, 위아래 2칸이 바닥과 뚜껑이 돼요</div>
+      </div>
+      <p>왜 아무렇게나 붙이면 안 될까요? 접어보면 이유가 보여요. 정사각형 6개가 일렬로 곧게 붙어 있으면, 접었을 때 어떤 면은 두 번 겹치고 어떤 자리는 아예 비어버려요. 정육면체는 정확히 6개의 서로 다른 면이 필요한데, 잘못된 전개도는 이 조건을 만족시키지 못하는 거예요. 머릿속으로 접는 상상을 하는 게 어렵다면, 실제로 종이를 오려서 접어보는 게 가장 확실한 방법이에요.</p>
+      <p>전개도는 정육면체뿐 아니라 모든 입체도형에서 중요한 개념이에요. 택배 상자를 디자인할 때, 종이가 최대한 적게 들면서도 튼튼하게 접히는 전개도를 찾는 게 실제 산업 디자인의 문제이기도 해요. 건축에서 곡면 지붕을 만들 때도, 평평한 자재를 어떻게 잘라 붙여야 원하는 곡면이 나오는지 계산하는 데 전개도와 비슷한 원리가 쓰여요.</p>
+      <p>아이들과 공부할 때는 실제로 정사각형 6개를 색종이로 오려서 다양한 모양으로 배치해보고, 정말 정육면체가 되는지 직접 접어 확인하는 게 최고예요. 몇 번 시도하다 보면 "이런 모양은 될 것 같고, 저런 모양은 안 될 것 같다"는 감이 생기는데, 그 감각이 바로 공간지각력이에요. 저희 체험 페이지에서는 3D 뷰어로 전개도가 실제로 접히는 과정을 슬라이더로 직접 조작해볼 수 있고, 11가지 정답 배치와 안 되는 예시들을 모두 비교하고, 퀴즈로 실력도 확인할 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="cube-net-lab.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
