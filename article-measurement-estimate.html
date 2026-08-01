@@ -43,6 +43,9 @@ p:last-child{margin-bottom:0;}
 .example{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px 20px;margin:18px 0;text-align:center;}
 .example .eq{font-family:'Do Hyeon',sans-serif;font-size:18px;margin-bottom:8px;}
 .example p{font-size:14.5px;color:var(--ink-soft);margin:8px 0 0;}
+.illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+.illo svg{width:100%;max-width:220px;height:auto;display:block;margin:0 auto;}
+.illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
 .grid4{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0;}
 .grid4 .box{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.6;}
 .grid4 .box b{display:block;font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--violet-ink);margin-bottom:4px;}
@@ -87,6 +90,18 @@ footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;t
 
     <h2><span class="num">3</span>어림은 "기준이 되는 물건"에서 시작해요</h2>
     <p>우유 한 팩이 200mL라는 걸 알고 있으면, 2L 페트병을 보고 "우유 팩 10개만큼 되겠구나"라고 바로 짐작할 수 있어요. 이렇게 익숙한 물건 하나를 기준으로 삼으면, 처음 보는 물건의 양도 훨씬 쉽게 어림할 수 있어요.</p>
+    <div class="illo">
+      <svg viewBox="0 0 200 140">
+        <rect x="25" y="90" width="26" height="38" rx="2" fill="var(--violet-soft)" stroke="var(--ink)" stroke-width="2"></rect>
+        <text x="38" y="115" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--violet-ink)">200mL</text>
+        <rect x="115" y="18" width="55" height="110" rx="4" fill="var(--violet-soft)" stroke="var(--ink)" stroke-width="2"></rect>
+        <text x="142" y="76" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--violet-ink)">2L</text>
+        <text x="80" y="60" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink)">× 10</text>
+        <text x="38" y="138" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">우유팩</text>
+        <text x="142" y="138" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">페트병</text>
+      </svg>
+      <div class="illo-caption">우유팩 부피가 10번 들어가면 2L 페트병 하나가 돼요</div>
+    </div>
     <div class="callout">
       <b>나만의 기준을 만들어보세요.</b><br>
       내 새끼손가락은 몇 cm일까요? 내가 매일 마시는 물병은 몇 mL일까요? 이런 기준을 몇 개만 알아두면 어디서든 어림이 쉬워져요.
