@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>경우의 수, 곱할지 더할지부터 정하는 이유 | 아인매스</title>
+<meta name="description" content="경우의 수를 셀 때 가장 먼저 판단해야 할 건 곱셈공식이 아니라, 지금 상황이 곱의 법칙인지 합의 법칙인지예요. 두 법칙을 헷갈리면 답이 완전히...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:260px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#357A63;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#357A63;background:#E3F5EE">📊 확률과 통계</span>
+  <h1>경우의 수, 곱할지 더할지부터 정하는 이유</h1>
+  <p class="meta">고등학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>경우의 수 문제를 풀 때 가장 먼저 해야 할 일은 공식을 떠올리는 게 아니라, 지금 상황이 <b>곱의 법칙</b>인지 <b>합의 법칙</b>인지를 판단하는 거예요. 이 판단을 헷갈리면 아무리 계산을 정확히 해도 답이 완전히 틀려버려요. 두 법칙은 겉보기엔 비슷해 보여도 완전히 다른 상황에서 쓰여요.</p>
+      <p><b>곱의 법칙</b>은 두 가지 일이 <b>잇달아(순차적으로)</b> 일어날 때 써요. 음료를 고르고 <b>그다음에</b> 디저트를 고른다면, 음료를 고르는 방법이 m가지, 디저트를 고르는 방법이 n가지일 때 전체 조합은 m×n가지예요. 왜 곱셈일까요? 음료 하나를 고를 때마다 디저트를 고르는 n가지 선택이 통째로 새로 생기기 때문이에요. m번 곱해지는 셈이죠.</p>
+      <p><b>합의 법칙</b>은 두 가지 경우가 <b>동시에 일어날 수 없을 때(배타적일 때)</b> 써요. "주사위를 던져 3이 나오거나, 동전을 던져 앞면이 나오거나" 하는 식으로 <b>둘 중 하나만</b> 선택하는 상황이에요. 경우 A가 m가지, 경우 B가 n가지이고 둘이 절대 겹치지 않는다면, 전체는 m+n가지예요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 200 130">
+          <circle cx="60" cy="65" r="45" fill="var(--green-soft)" stroke="var(--green-ink)" stroke-width="2"></circle>
+          <circle cx="140" cy="65" r="45" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="2"></circle>
+          <text x="60" y="70" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--green-ink)">경우 A</text>
+          <text x="140" y="70" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--coral-ink)">경우 B</text>
+          <text x="100" y="115" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">겹치지 않으면 A+B</text>
+        </svg>
+        <div class="illo-caption">두 원이 겹치지 않을 때만 합의 법칙(m+n)을 그대로 쓸 수 있어요</div>
+      </div>
+      <p>두 법칙을 헷갈리지 않는 가장 좋은 방법은 상황을 "그리고(그다음)"로 연결할지 "또는"으로 연결할지 생각해보는 거예요. "음료를 고르<b>고</b>, 디저트를 고른다" → 곱의 법칙. "버스를 타<b>거나</b>, 지하철을 탄다" → 합의 법칙. 다만 합의 법칙은 두 경우가 겹치지 않을 때만 그대로 더할 수 있어요. 만약 겹치는 부분이 있다면 집합에서 배운 |A∪B|=|A|+|B|−|A∩B| 공식처럼, 겹치는 만큼 한 번 빼줘야 해요.</p>
+      <p>이 두 법칙이 함께 작동하는 재미있는 예가 <b>격자 위의 최단 경로</b> 세기예요. 오른쪽과 아래로만 움직여 도착점까지 가는 방법의 수를 셀 때, 한 지점에 도착하는 마지막 한 걸음은 "왼쪽에서 오거나" 또는 "위에서 오거나" 둘 중 하나예요(합의 법칙). 그래서 각 지점의 경로 수는 왼쪽 지점과 위쪽 지점의 경로 수를 더한 값이 되고, 이렇게 격자를 채워나가면 신기하게도 파스칼의 삼각형과 똑같은 숫자들이 나와요. 결국 경로의 수를 세는 문제와 (a+b)ⁿ의 전개 계수를 세는 문제가 똑같은 셈법을 공유하고 있는 거예요.</p>
+      <p>아이들과 공부할 때는 실제 상황을 예로 들어 "이건 그리고일까, 또는일까?"를 먼저 물어보는 게 좋아요. "티셔츠 3벌과 바지 2벌을 짝지어 입는 방법"은 그리고(곱의 법칙, 3×2=6가지), "짜장면 또는 짬뽕 중 하나를 고르는 방법"은 또는(합의 법칙)이에요. 저희 체험 페이지에서는 메뉴를 고르는 수형도로 곱의 법칙이 나뭇가지처럼 뻗어나가는 모습을, 격자 위 최단 경로로 합의 법칙이 파스칼의 삼각형을 만들어내는 모습을 직접 확인할 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="counting-principle.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
