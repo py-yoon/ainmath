@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>프랙탈 확대경 실험실</title>
-<meta name="description" content="코흐 눈송이와 시에르핀스키 삼각형의 단계를 하나씩 늘려가며, 같은 규칙이 반복될 때 얼마나 복잡한 모양이 만들어지는지 확인해요.">
+<meta name="description" content="코흐 눈송이, 시에르핀스키 삼각형·카펫, 칸토어 집합, 피타고라스 나무, 드래곤 커브, 원의 프랙탈까지 — 단계를 하나씩 늘려가며 같은 규칙이 반복될 때 얼마나 복잡한 모양이 만들어지는지 확인해요.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
@@ -125,6 +125,11 @@ const factBox = document.getElementById('fact');
 const TABS = [
   {key:'koch', name:'❄️ 코흐 눈송이', max:5},
   {key:'sierpinski', name:'🔺 시에르핀스키 삼각형', max:6},
+  {key:'carpet', name:'🟪 시에르핀스키 카펫', max:4},
+  {key:'cantor', name:'➖ 칸토어 집합', max:9},
+  {key:'pytree', name:'🌳 피타고라스 나무', max:10},
+  {key:'dragon', name:'🐉 드래곤 커브', max:13},
+  {key:'circles', name:'🔵 원의 시에르핀스키', max:6},
 ];
 let tab = 'koch';
 
@@ -267,11 +272,161 @@ function renderSierpinski(depth){
   factBox.innerHTML = `작은 삼각형이 <b>${count.toLocaleString()}개</b> 남았어요. 매번 가운데를 파낼 때마다 남은 넓이가 원래의 <b>${(areaRatio*100).toFixed(1)}%</b>로 줄어들어요. 단계를 계속 늘리면 넓이는 0에 가까워지지만, 완전히 사라지지는 않아요.`;
 }
 
+/* ==================== 시에르핀스키 카펫 ==================== */
+function carpetSquares(x,y,size,depth,out){
+  if(depth===0){ out.push([x,y,size]); return; }
+  const s = size/3;
+  for(let i=0;i<3;i++){
+    for(let j=0;j<3;j++){
+      if(i===1 && j===1) continue; // 가운데 칸은 파내요
+      carpetSquares(x+i*s, y+j*s, s, depth-1, out);
+    }
+  }
+}
+function renderCarpet(depth){
+  const size = 320, x0=40, y0=40;
+  const squares = [];
+  carpetSquares(x0,y0,size,depth,squares);
+  const d = squares.map(([x,y,s])=>`M${x.toFixed(2)},${y.toFixed(2)} h${s.toFixed(2)} v${s.toFixed(2)} h${(-s).toFixed(2)} Z`).join(' ');
+  fractalSvg.innerHTML = `<path d="${d}" fill="var(--blue)" fill-opacity="0.85"></path>`;
+
+  const count = Math.pow(8,depth);
+  const areaRatio = Math.pow(8/9,depth);
+  statLabel.textContent = '남은 정사각형 개수';
+  statValue.textContent = count.toLocaleString();
+  factBox.innerHTML = `정사각형을 9칸으로 나눠 가운데 칸을 파내는 걸 반복해서, 작은 정사각형이 <b>${count.toLocaleString()}개</b> 남았어요. 매번 남은 넓이가 원래의 <b>${(areaRatio*100).toFixed(1)}%</b>로 줄어드는데, 시에르핀스키 삼각형과 원리는 똑같고 몇 칸을 파내느냐(1/9 vs 1/4)만 달라요.`;
+}
+
+/* ==================== 칸토어 집합 ==================== */
+function cantorSegments(x1,x2,depth,out){
+  if(depth===0){ out.push([x1,x2]); return; }
+  const third=(x2-x1)/3;
+  cantorSegments(x1,x1+third,depth-1,out);
+  cantorSegments(x2-third,x2,depth-1,out);
+}
+function renderCantor(depth){
+  const x1=40, x2=360;
+  const rows = depth+1;
+  const rowSpacing = rows>1 ? 320/(rows-1) : 0;
+  const topY = 40;
+  const barH = Math.min(rowSpacing*0.55, 16);
+  let d = '';
+  for(let row=0; row<rows; row++){
+    const segs = [];
+    cantorSegments(x1,x2,row,segs);
+    const y = rows>1 ? topY + row*rowSpacing : 200;
+    segs.forEach(([a,b])=>{
+      d += `M${a.toFixed(2)},${(y-barH/2).toFixed(2)} h${(b-a).toFixed(2)} v${barH.toFixed(2)} h${(-(b-a)).toFixed(2)} Z `;
+    });
+  }
+  fractalSvg.innerHTML = `<path d="${d}" fill="var(--blue)"></path>`;
+
+  const count = Math.pow(2,depth);
+  const lenRatio = Math.pow(2/3,depth);
+  statLabel.textContent = '남은 선분 개수';
+  statValue.textContent = count.toLocaleString();
+  factBox.innerHTML = `맨 위 줄(단계 0)부터 한 줄씩, 가운데 1/3을 지우는 걸 반복한 결과예요. 맨 아래 줄에는 선분이 <b>${count.toLocaleString()}개</b> 남았고, 전체 길이는 원래의 <b>${(lenRatio*100).toFixed(2)}%</b>예요. 계속 지워도 점은 무한히 남아있는데, 이게 바로 "칸토어 집합"이에요.`;
+}
+
+/* ==================== 피타고라스 나무 ==================== */
+function pytreeSquares(A,B,depth,out){
+  const dx=B[0]-A[0], dy=B[1]-A[1];
+  const len=Math.hypot(dx,dy);
+  const ux=dx/len, uy=dy/len;
+  const px=uy, py=-ux; // 바깥(위) 방향 수직 벡터
+  const D=[A[0]+px*len, A[1]+py*len];
+  const C=[B[0]+px*len, B[1]+py*len];
+  out.push([A,B,C,D]);
+  if(depth===0) return;
+  const mid=[(D[0]+C[0])/2, (D[1]+C[1])/2];
+  const ddx=C[0]-D[0], ddy=C[1]-D[1];
+  const dux=ddx/len, duy=ddy/len;
+  const apx=duy, apy=-dux;
+  const apex=[mid[0]+apx*(len/2), mid[1]+apy*(len/2)];
+  pytreeSquares(D, apex, depth-1, out);
+  pytreeSquares(apex, C, depth-1, out);
+}
+function renderPytree(depth){
+  const baseHalf=25, cy=380;
+  const A=[200-baseHalf,cy], B=[200+baseHalf,cy];
+  const squares=[];
+  pytreeSquares(A,B,depth,squares);
+  const d = squares.map(sq=>`M${sq.map(p=>p.map(v=>v.toFixed(2)).join(',')).join(' L')} Z`).join(' ');
+  fractalSvg.innerHTML = `<path d="${d}" fill="var(--green)" fill-opacity="0.5" stroke="var(--green-ink)" stroke-width="${strokeW(0.8)}"></path>`;
+
+  const total = Math.pow(2,depth+1)-1;
+  statLabel.textContent = '정사각형 개수';
+  statValue.textContent = total.toLocaleString();
+  factBox.innerHTML = `정사각형 하나마다 그 위에 직각삼각형(45°-45°-90°)을 세우고, 그 두 변 위에 한 변의 길이가 1/√2배인 정사각형 2개를 다시 얹는 걸 반복했어요. 지금까지 만들어진 정사각형은 모두 <b>${total.toLocaleString()}개</b>예요. 각 가지마다 큰 정사각형 하나와 작은 정사각형 둘이 만나는 모양이, 피타고라스 정리(a²+b²=c²)에서 본 바로 그 관계예요.`;
+}
+
+/* ==================== 드래곤 커브 ==================== */
+function dragonTurns(n){
+  if(n===0) return [];
+  const prev = dragonTurns(n-1);
+  const rev = prev.slice().reverse().map(t=> t==='L'?'R':'L');
+  return prev.concat(['L'], rev);
+}
+function renderDragon(depth){
+  const turns = dragonTurns(depth);
+  let angle=0, x=0, y=0;
+  const pts=[[0,0]];
+  for(let i=0;i<turns.length;i++){
+    x += Math.cos(angle); y += Math.sin(angle);
+    pts.push([x,y]);
+    angle += turns[i]==='L' ? Math.PI/2 : -Math.PI/2;
+  }
+  x += Math.cos(angle); y += Math.sin(angle);
+  pts.push([x,y]);
+
+  const xs = pts.map(p=>p[0]), ys = pts.map(p=>p[1]);
+  const minX=Math.min(...xs), maxX=Math.max(...xs), minY=Math.min(...ys), maxY=Math.max(...ys);
+  const w = Math.max(maxX-minX, 0.001), h = Math.max(maxY-minY, 0.001);
+  const pad = 30;
+  const scale = Math.min((400-2*pad)/w, (400-2*pad)/h);
+  const cx0 = (minX+maxX)/2, cy0 = (minY+maxY)/2;
+  const mapped = pts.map(p=>[200+(p[0]-cx0)*scale, 200+(p[1]-cy0)*scale]);
+
+  fractalSvg.innerHTML = `<polyline points="${mapped.map(p=>p.map(v=>v.toFixed(2)).join(',')).join(' ')}" fill="none" stroke="var(--violet)" stroke-width="${strokeW(1.6)}" stroke-linejoin="round" stroke-linecap="round"></polyline>`;
+
+  const segCount = mapped.length-1;
+  statLabel.textContent = '선분 개수';
+  statValue.textContent = segCount.toLocaleString();
+  factBox.innerHTML = `종이테이프를 계속 반으로 접었다가 90°씩 펼치면 생기는 곡선이에요. 지금 선분이 <b>${segCount.toLocaleString()}개</b> 있는데, 한 단계 늘어날 때마다 선분 개수가 정확히 2배가 돼요. 신기하게도 곡선이 스스로 겹치지 않으면서 점점 평면을 빼곡히 채워나가요.`;
+}
+
+/* ==================== 원의 시에르핀스키 ==================== */
+function circlesFrac(cx,cy,r,depth,out){
+  if(depth===0){ out.push([cx,cy,r]); return; }
+  const newR=r/2;
+  [-90,30,150].forEach(deg=>{
+    const a = deg*Math.PI/180;
+    circlesFrac(cx+Math.cos(a)*newR, cy+Math.sin(a)*newR, newR, depth-1, out);
+  });
+}
+function renderCircles(depth){
+  const circles=[];
+  circlesFrac(200,215,150,depth,circles);
+  const html = circles.map(([x,y,r])=>`<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="${r.toFixed(2)}" fill="var(--coral)" fill-opacity="0.55" stroke="var(--coral-ink)" stroke-width="${strokeW(1)}"></circle>`).join('');
+  fractalSvg.innerHTML = html;
+
+  const count = Math.pow(3,depth);
+  const areaRatio = Math.pow(3/4,depth);
+  statLabel.textContent = '원의 개수';
+  statValue.textContent = count.toLocaleString();
+  factBox.innerHTML = `원 하나가 절반 크기인 원 3개로 바뀌는 걸 반복해서, 원이 <b>${count.toLocaleString()}개</b>가 됐어요. 전체가 차지하는 넓이는 원래의 <b>${(areaRatio*100).toFixed(1)}%</b>로 줄어드는데, 이 비율(3/4)이 시에르핀스키 삼각형과 정확히 똑같아요 — 도형이 삼각형이든 원이든, "3개로 나누고 각각 절반 크기로 줄이는" 규칙이면 똑같은 비율로 줄어들거든요.`;
+}
+
 function render(){
   const depth = parseInt(depthSlider.value);
   depthVal.textContent = depth;
   if(tab==='koch') renderKoch(depth);
-  else renderSierpinski(depth);
+  else if(tab==='sierpinski') renderSierpinski(depth);
+  else if(tab==='carpet') renderCarpet(depth);
+  else if(tab==='cantor') renderCantor(depth);
+  else if(tab==='pytree') renderPytree(depth);
+  else if(tab==='dragon') renderDragon(depth);
+  else if(tab==='circles') renderCircles(depth);
 }
 
 depthSlider.addEventListener('input', render);
