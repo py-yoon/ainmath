@@ -78,7 +78,7 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   </div>
 
   <div class="panel-wrap active" id="panel-add">
-    <div class="howto"><b>벡터의 덧셈</b> — u+v는 u의 화살표 끝에 v를 이어 붙였을 때, 시작점에서 v의 끝점까지 가는 화살표예요("삼각형법칙"). 슬라이더로 u와 v를 바꿔가며 합 벡터가 어떻게 달라지는지 확인해보세요.</div>
+    <div class="howto"><b>벡터의 덧셈</b> — u+v는 u의 화살표 끝에 v를 이어 붙였을 때, 시작점에서 v의 끝점까지 가는 화살표예요("삼각형법칙"). 화살표 끝의 <b>동그란 점(●)을 마우스로 직접 드래그</b>해서 옮겨보세요 — u나 v를 옮기면 u+v가 따라 움직이고, u+v를 옮기면 v가 따라 움직여요. 슬라이더로 조절해도 똑같이 동작해요.</div>
     <div class="stage">
       <div class="canvas-area">
         <svg id="addSvg" viewBox="0 0 380 380"></svg>
@@ -88,6 +88,7 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
           <span><i class="swatch" style="background:var(--coral-ink)"></i>u+v</span>
           <span><i class="swatch dashed"></i>이어붙인 v</span>
         </div>
+        <div class="coords-row" id="addCoords" style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-family:'Do Hyeon',sans-serif;font-size:13.5px;"></div>
         <div class="control-row">
           <div class="control-label"><span>u = (uₓ, uᵧ)</span><b id="uLabel">(3, 1)</b></div>
           <input id="sliderUx" type="range" min="-5" max="5" value="3" step="1">
@@ -195,6 +196,7 @@ const uLabel = document.getElementById('uLabel');
 const vLabel = document.getElementById('vLabel');
 const addResult = document.getElementById('addResult');
 const addFact = document.getElementById('addFact');
+const addCoords = document.getElementById('addCoords');
 
 function renderAdd(){
   const ux = parseFloat(sliderUx.value), uy = parseFloat(sliderUy.value);
@@ -212,12 +214,77 @@ function renderAdd(){
   html += arrow(O, V, 'var(--green-ink)', 3.5);
   html += arrow(U, Sum, 'var(--green-ink)', 2, true); // 이어붙인 v
   html += arrow(O, Sum, 'var(--coral-ink)', 3.5);
+  // 드래그로 옮길 수 있는 손잡이(끝점)
+  html += `<circle cx="${U.x.toFixed(1)}" cy="${U.y.toFixed(1)}" r="9" fill="#fff" stroke="var(--blue-ink)" stroke-width="3" style="cursor:grab;"></circle>`;
+  html += `<circle cx="${V.x.toFixed(1)}" cy="${V.y.toFixed(1)}" r="9" fill="#fff" stroke="var(--green-ink)" stroke-width="3" style="cursor:grab;"></circle>`;
+  html += `<circle cx="${Sum.x.toFixed(1)}" cy="${Sum.y.toFixed(1)}" r="9" fill="#fff" stroke="var(--coral-ink)" stroke-width="3" style="cursor:grab;"></circle>`;
   addSvg.innerHTML = html;
 
   addResult.innerHTML = `u+v = (${ux+vx}, ${uy+vy})`;
   addFact.innerHTML = `u=(${ux},${uy})의 화살표 끝에 v=(${vx},${vy})를 이어 붙이면(점선), 원점에서 그 끝점까지의 화살표(빨간색)가 바로 u+v예요. 좌표로 보면 그냥 각 성분끼리 더하면 되는 거예요: (${ux}+${vx}, ${uy}+${vy}) = (${ux+vx}, ${uy+vy}).`;
+
+  addCoords.innerHTML = `
+    <span style="color:var(--ink-soft);">O = (0, 0)</span>
+    <span style="color:var(--blue-ink);">U = (${ux}, ${uy})</span>
+    <span style="color:var(--green-ink);">V = (${vx}, ${vy})</span>
+    <span style="color:var(--coral-ink);">U+V = (${ux+vx}, ${uy+vy})</span>
+  `;
 }
 [sliderUx,sliderUy,sliderVx,sliderVy].forEach(el=>el.addEventListener('input', renderAdd));
+
+/* 화살표 끝점 마우스 드래그: U/V를 옮기면 그대로, U+V를 옮기면 v가 따라와요(u는 고정) */
+(function(){
+  const RANGE_MIN = -5, RANGE_MAX = 5;
+  const HIT_R = 20; // svg 좌표계 기준 히트 반경
+  let dragging = null; // 'U' | 'V' | 'Sum' | null
+
+  function svgPoint(clientX, clientY){
+    const pt = addSvg.createSVGPoint();
+    pt.x = clientX; pt.y = clientY;
+    const ctm = addSvg.getScreenCTM();
+    if(!ctm) return {x:0,y:0};
+    const loc = pt.matrixTransform(ctm.inverse());
+    return {x: loc.x, y: loc.y};
+  }
+  function clampSnap(v){
+    return Math.max(RANGE_MIN, Math.min(RANGE_MAX, Math.round(v)));
+  }
+
+  addSvg.style.touchAction = 'none';
+  addSvg.addEventListener('pointerdown', (e)=>{
+    const p = svgPoint(e.clientX, e.clientY);
+    const ux = parseFloat(sliderUx.value), uy = parseFloat(sliderUy.value);
+    const vx = parseFloat(sliderVx.value), vy = parseFloat(sliderVy.value);
+    const U = toXY(ux,uy), V = toXY(vx,vy), Sum = toXY(ux+vx, uy+vy);
+    const dU = Math.hypot(p.x-U.x, p.y-U.y);
+    const dV = Math.hypot(p.x-V.x, p.y-V.y);
+    const dS = Math.hypot(p.x-Sum.x, p.y-Sum.y);
+    const minD = Math.min(dU,dV,dS);
+    if(minD > HIT_R) return;
+    dragging = minD===dU ? 'U' : (minD===dV ? 'V' : 'Sum');
+    addSvg.setPointerCapture(e.pointerId);
+  });
+  addSvg.addEventListener('pointermove', (e)=>{
+    if(!dragging) return;
+    const p = svgPoint(e.clientX, e.clientY);
+    const mx = clampSnap((p.x-CX)/SCALE);
+    const my = clampSnap((CY-p.y)/SCALE);
+    if(dragging==='U'){
+      sliderUx.value = mx; sliderUy.value = my;
+    } else if(dragging==='V'){
+      sliderVx.value = mx; sliderVy.value = my;
+    } else if(dragging==='Sum'){
+      const ux = parseFloat(sliderUx.value), uy = parseFloat(sliderUy.value);
+      sliderVx.value = clampSnap(mx-ux);
+      sliderVy.value = clampSnap(my-uy);
+    }
+    renderAdd();
+  });
+  const endDrag = ()=>{ dragging = null; };
+  addSvg.addEventListener('pointerup', endDrag);
+  addSvg.addEventListener('pointercancel', endDrag);
+})();
+
 renderAdd();
 
 /* ================= STEP2: 내적과 각도 ================= */
