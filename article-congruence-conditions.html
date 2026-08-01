@@ -11,6 +11,8 @@
 <style>
   :root{
     --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
     --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
   *{box-sizing:border-box;}
@@ -43,6 +45,9 @@
     font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;
   }
   .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
   .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
   .cta-btn{
     display:inline-flex;align-items:center;gap:8px;
@@ -69,6 +74,28 @@
     <div class="article-body">
       <p>삼각형 두 개가 완전히 겹쳐진다는 걸 확인하려면 변 세 개, 각 세 개를 전부 재서 비교해야 할까요? 사실 그럴 필요 없어요. 몇 가지 정보만 서로 같으면 나머지는 자동으로 똑같아진다는 게 밝혀져 있는데, 이걸 '합동조건'이라고 불러요. 학교에서는 보통 SSS, SAS, ASA 세 가지를 배우고, 직각삼각형에서만 쓸 수 있는 RHS, RHA도 함께 배우게 됩니다.</p>
       <p>SSS는 세 변의 길이가 모두 같은 경우예요. 변 세 개의 길이만 정해지면 그 삼각형의 모양과 크기는 딱 하나로 정해져요. 나무젓가락 세 개로 삼각형을 만들어보면 아무리 손으로 이리저리 움직여봐도 결국 같은 모양밖에 안 나오는 걸 느낄 수 있어요. SAS는 두 변의 길이와 그 사이에 낀 각이 같은 경우, ASA는 한 변의 길이와 그 양 끝 각이 같은 경우예요. 셋 다 "이 정보만 있으면 삼각형이 유일하게 결정된다"는 걸 보장해줘요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 260 90">
+          <polygon points="15,40 55,40 35,5" fill="none" stroke="var(--ink)" stroke-width="2"></polygon>
+          <line x1="35" y1="44" x2="35" y2="36" stroke="var(--coral-ink)" stroke-width="2"></line>
+          <line x1="28.5" y1="24.5" x2="21.5" y2="20.5" stroke="var(--coral-ink)" stroke-width="2"></line>
+          <line x1="48.5" y1="20.5" x2="41.5" y2="24.5" stroke="var(--coral-ink)" stroke-width="2"></line>
+          <text x="35" y="78" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--violet-ink)">SSS</text>
+
+          <polygon points="110,40 150,40 130,5" fill="none" stroke="var(--ink)" stroke-width="2"></polygon>
+          <line x1="130" y1="44" x2="130" y2="36" stroke="var(--coral-ink)" stroke-width="2"></line>
+          <line x1="123.5" y1="24.5" x2="116.5" y2="20.5" stroke="var(--coral-ink)" stroke-width="2"></line>
+          <path d="M 124 40 A 14 14 0 0 0 116.95 27.84" fill="none" stroke="var(--violet-ink)" stroke-width="2"></path>
+          <text x="130" y="78" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--violet-ink)">SAS</text>
+
+          <polygon points="205,40 245,40 225,5" fill="none" stroke="var(--ink)" stroke-width="2"></polygon>
+          <line x1="225" y1="44" x2="225" y2="36" stroke="var(--coral-ink)" stroke-width="2"></line>
+          <path d="M 219 40 A 14 14 0 0 0 211.95 27.84" fill="none" stroke="var(--violet-ink)" stroke-width="2"></path>
+          <path d="M 231 40 A 14 14 0 0 1 238.05 27.84" fill="none" stroke="var(--violet-ink)" stroke-width="2"></path>
+          <text x="225" y="78" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--violet-ink)">ASA</text>
+        </svg>
+        <div class="illo-caption">표시된 변(눈금)과 각(호)만 같아도, 나머지 부분까지 자동으로 똑같아져서 삼각형 모양이 하나로 정해져요</div>
+      </div>
       <p>그런데 왜 하필 이 조합들만 될까요? 반례를 생각해보면 이해가 쉬워요. 두 변의 길이와, 그 사이에 낀 각이 아니라 다른 각이 같은 경우(SSA)는 합동을 보장하지 못해요. 같은 조건을 만족하는 삼각형이 두 가지 모양으로 나올 수 있거든요. 이걸 '애매한 경우(ambiguous case)'라고 부르는데, 실제로 자와 각도기로 삼각형을 그려보면 조건은 같은데 모양이 다른 삼각형 두 개가 나오는 걸 직접 확인할 수 있어요. 세 각이 모두 같은 경우(AAA)도 마찬가지예요. 이 경우엔 모양은 같지만 크기가 다른 삼각형이 얼마든지 나올 수 있어요. 크기가 다른 두 삼각형은 '닮음'일 수는 있어도 '합동'은 아니거든요.</p>
       <p>합동조건은 교과서 속에만 있는 이야기가 아니에요. 건축에서 지붕이나 다리의 뼈대에 삼각형 구조(트러스)를 쓰는 이유가 바로 이 성질 때문이에요. 삼각형은 세 변의 길이가 정해지면 모양이 절대 찌그러지지 않는 유일한 다각형이에요. 사각형 틀은 힘을 주면 마름모처럼 찌그러지지만, 삼각형은 아무리 힘을 줘도 변의 길이가 그대로인 한 모양이 바뀌지 않아요. 그래서 크레인, 송전탑, 자전거 프레임처럼 견고함이 중요한 구조물에는 삼각형이 빠지지 않고 등장해요. GPS나 측량에서 쓰는 '삼각측량'도 비슷한 원리예요. 두 지점에서 관측한 각도만 알면 나머지 한 지점의 위치가 하나로 정해진다는 점을 이용해서 거리를 계산하거든요.</p>
       <p>아이들과 공부할 때는 조건 하나씩을 직접 만들어보게 하는 게 가장 효과적이에요. 각도기와 자를 주고 "변 5cm, 7cm와 그 사이 각 60도로 삼각형을 그려보자"처럼 SAS 조건으로 삼각형을 그리게 한 다음, 친구가 그린 것과 겹쳐서 정말 합동인지 확인해보는 활동을 추천해요. 반대로 SSA 조건(두 변과 끼이지 않은 각)으로 그려보게 하면, 같은 숫자를 줬는데도 서로 다른 모양의 삼각형이 나오는 경우를 직접 목격하게 되는데, 이 경험이 "왜 SSA는 합동조건이 될 수 없는지"를 어떤 설명보다 확실하게 이해시켜줘요.</p>
