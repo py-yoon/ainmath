@@ -59,7 +59,7 @@ input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--vi
 .factor-box .ftitle{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);margin-bottom:10px;}
 .factor-row{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;margin-bottom:6px;}
 .factor-row .fval{color:var(--ink);}
-.factor-row.result{border-top:2px dashed var(--paper-line);margin-top:8px;padding-top:10px;}
+.factor-row.result{flex-direction:column;align-items:flex-start;gap:4px;border-top:2px dashed var(--paper-line);margin-top:8px;padding-top:10px;}
 .factor-row.result .fval{color:var(--violet-ink);font-size:18px;}
 .fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
 .fact b{color:var(--coral-ink);}
@@ -74,17 +74,17 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   </div>
   <span class="eyebrow">🔗 최대공약수 · 최소공배수 실험실</span>
   <h1>두 수의 약수와 배수,<br><span>겹치는 부분</span>을 찾아보자</h1>
-  <p class="sub">두 수를 슬라이더로 바꿔보세요(1~50). 약수 목록에서 겹치는 가장 큰 수가 <b>최대공약수(GCD)</b>, 배수 목록에서 겹치는 가장 작은 수가 <b>최소공배수(LCM)</b>예요. 아래에서는 "약수·배수를 나열해서 찾는 방법"과 "소인수분해로 찾는 방법" 두 가지를 함께 볼 수 있어요.</p>
+  <p class="sub">두 수를 슬라이더로 바꿔보세요(1~50). 두 수의 약수 중에서 똑같이 들어있는 것 중 가장 큰 수를 <b>최대공약수(GCD)</b>라고 해요. 두 수의 배수 중에서 똑같이 들어있는 것 중 가장 작은 수를 <b>최소공배수(LCM)</b>라고 해요. 아래에서 두 가지 방법으로 직접 찾아볼 수 있어요.</p>
 
   <div class="stage">
     <div>
       <div class="howto">
         <b>원리 설명</b>
         <ol>
-          <li>두 수 A, B의 약수를 각각 모두 나열해요. 두 목록에 공통으로 들어있는 수들 중 <b>가장 큰 수</b>가 최대공약수(GCD)예요.</li>
-          <li>두 수 A, B의 배수를 각각 작은 순서로 나열해요. 두 목록에 공통으로 들어있는 수들 중 <b>가장 작은 수</b>가 최소공배수(LCM)예요.</li>
-          <li>더 빠른 방법도 있어요: 두 수를 소인수분해한 다음, 공통으로 들어있는 소인수를 <b>가장 작은 지수</b>로 곱하면 GCD, 두 수에 있는 모든 소인수를 <b>가장 큰 지수</b>로 곱하면 LCM이 나와요.</li>
-          <li>신기하게도 GCD × LCM은 항상 A × B와 같아요. 두 방법 중 무엇을 쓰든 결과는 같으니, 슬라이더를 바꿔가며 두 방법을 비교해보세요.</li>
+          <li>두 수 A, B의 약수(나누어떨어지게 하는 수)를 각각 모두 적어요. 두 목록에 똑같이 들어있는 수 중 <b>가장 큰 수</b>가 최대공약수(GCD)예요.</li>
+          <li>두 수 A, B의 배수(1배, 2배, 3배…한 수)를 작은 순서로 적어요. 두 목록에 똑같이 들어있는 수 중 <b>가장 작은 수</b>가 최소공배수(LCM)예요.</li>
+          <li>더 빠른 방법도 있어요. 소인수분해는 어떤 수를 소수들의 곱으로 나타내는 거예요(예: 12=2×2×3). 이때 같은 소수를 몇 번 곱했는지 어깨에 작게 쓴 숫자를 <b>지수</b>라고 해요(2×2 = 2², "2의 지수는 2"). 두 수에 공통으로 있는 소수를 <b>더 작은 지수</b>로 곱하면 최대공약수, 두 수에 있는 모든 소수를 <b>더 큰 지수</b>로 곱하면 최소공배수가 나와요.</li>
+          <li>신기하게도 최대공약수 × 최소공배수는 항상 A × B와 같아요. 두 방법 중 무엇을 쓰든 결과는 같으니, 슬라이더를 바꿔가며 두 방법을 비교해보세요.</li>
         </ol>
       </div>
       <div class="control-row">
@@ -114,10 +114,11 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
       </div>
       <div class="factor-box">
         <div class="ftitle">방법 2 — 소인수분해로 구하기</div>
+        <div style="font-size:12.5px;color:var(--ink-soft);font-family:'Gowun Dodum','Noto Sans KR',sans-serif;line-height:1.6;margin:-4px 0 12px;">💡 지수란? 어깨에 작게 쓴 숫자는 같은 수를 몇 번 곱했는지 나타내요. 2² = 2×2 = 4예요.</div>
         <div class="factor-row"><span>A = </span><span class="fval" id="aFactor">2² × 3</span></div>
         <div class="factor-row"><span>B = </span><span class="fval" id="bFactor">2 × 3²</span></div>
-        <div class="factor-row result"><span>공통 소인수(최소 지수) → GCD</span><span class="fval" id="gcdFactor">2 × 3 = 6</span></div>
-        <div class="factor-row result"><span>모든 소인수(최대 지수) → LCM</span><span class="fval" id="lcmFactor">2² × 3² = 36</span></div>
+        <div class="factor-row result"><span>공통 소인수(더 작은 지수) → 최대공약수</span><span class="fval" id="gcdFactor">2 × 3 = 6</span></div>
+        <div class="factor-row result"><span>모든 소인수(더 큰 지수) → 최소공배수</span><span class="fval" id="lcmFactor">2² × 3² = 36</span></div>
       </div>
       <div class="fact" id="fact"></div>
     </div>
@@ -134,7 +135,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
       <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">약수 찾기</span>
     </a>
   </nav>
-<footer>재미있는 사실: 최대공약수 × 최소공배수는 항상 두 수를 곱한 값(A × B)과 같아요. 또한 두 수가 서로소(공약수가 1뿐)라면 GCD=1이고, 이때 LCM은 두 수를 그냥 곱한 값(A×B)과 같아져요.</footer>
+<footer>재미있는 사실: 최대공약수 × 최소공배수는 항상 두 수를 곱한 값(A × B)과 같아요. 또한 두 수가 서로소(공약수가 1뿐)라면 최대공약수는 1이 되고, 이때 최소공배수는 두 수를 그냥 곱한 값(A×B)과 같아져요.</footer>
 </div>
 
 <script>
@@ -194,6 +195,12 @@ function buildMultChips(step, limit, highlightVal){
     html += `<span class="chip dim">…</span>`;
     html += `<span class="chip common">${highlightVal}</span>`;
   }
+  // 최소공배수에서 목록이 끊긴 게 아니라, 배수는 그 뒤로도 계속 이어진다는 걸 보여줘요
+  const afterCount = 3;
+  for(let i=1;i<=afterCount;i++){
+    html += `<span class="chip">${limit+step*i}</span>`;
+  }
+  html += `<span class="chip dim">…</span>`;
   return html;
 }
 
@@ -238,12 +245,12 @@ function render(){
   const isCoprime = g===1;
   let extra = '';
   if(a===1 || b===1){
-    extra = ` ${a===1?'A':'B'}가 1이면 약수가 1뿐이라 GCD는 항상 1, LCM은 항상 두 수를 곱한 값과 같아요.`;
+    extra = ` ${a===1?'A':'B'}가 1이면 약수가 1뿐이라 최대공약수는 항상 1이 되고, 최소공배수는 항상 두 수를 곱한 값과 같아요.`;
   } else if(isCoprime){
-    extra = ` ${a}와 ${b}는 공통 소인수가 없는 <b>서로소</b>예요. 그래서 GCD=1이고, LCM은 그냥 ${a}×${b}=${l}이 돼요.`;
+    extra = ` ${a}와 ${b}는 공통 소인수가 없는 <b>서로소</b>예요. 그래서 최대공약수는 1이 되고, 최소공배수는 그냥 ${a}×${b}=${l}이 돼요.`;
   }
 
-  factBox.innerHTML = `${a}와 ${b}의 약수 중 가장 큰 공통 약수는 <b>${g}</b>이고, 배수 중 가장 작은 공통 배수는 <b>${l}</b>이에요. 소인수분해로 봐도 똑같이 나와요: 공통 소인수만 최소 지수로 곱하면 ${g}, 전체 소인수를 최대 지수로 곱하면 ${l}. 검산해보면 ${g} × ${l} = ${g*l}, 그리고 ${a} × ${b} = ${a*b} — 정확히 같죠?${extra}`;
+  factBox.innerHTML = `${a}와 ${b}의 약수 중 가장 큰 공통 약수는 <b>${g}</b>이고, 배수 중 가장 작은 공통 배수는 <b>${l}</b>이에요. 소인수분해로 봐도 똑같은 답이 나와요: 공통 소인수만 더 작은 지수로 곱하면 ${g}, 전체 소인수를 더 큰 지수로 곱하면 ${l}. 검산해보면 ${g} × ${l} = ${g*l}, 그리고 ${a} × ${b} = ${a*b} — 정확히 같죠?${extra}`;
 }
 
 sliderA.addEventListener('input', render);
