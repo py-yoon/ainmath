@@ -11,6 +11,8 @@
 <style>
   :root{
     --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
     --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
   *{box-sizing:border-box;}
@@ -29,6 +31,9 @@
   .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
   .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
   .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:240px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
   .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
   .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#0D62F1;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
   .cta-btn:hover{transform:translateY(-2px);}
@@ -50,6 +55,17 @@
       <p>그래서 일차부등식 ax + b &gt; c를 풀 때는, 양쪽에서 b를 빼는 것까지는 방정식과 똑같아요(ax &gt; c−b). 문제는 마지막에 양쪽을 a로 나눌 때예요. a가 양수면 방향을 그대로 유지하면 되지만, a가 음수라면 방향을 반드시 뒤집어야 해요. 이 한 단계를 놓치면 답의 범위가 완전히 반대로 나와버려요. 그래서 부등식 문제를 풀 때는 "지금 나누는 수가 음수인가?"를 항상 마지막에 한 번 더 확인하는 습관이 중요해요.</p>
       <p>이제 연립방정식으로 넘어가볼게요. 연립방정식은 미지수가 2개(보통 x, y)인 식 2개를 동시에 만족시키는 값을 찾는 문제예요. 예를 들어 x + y = 5와 x − y = 1을 동시에 만족하는 x, y를 찾아야 해요. 이럴 때 쓰는 방법이 '가감법(소거법)'인데, 두 식을 더하거나 빼서 미지수 하나를 아예 없애버리는 방법이에요. 위 예시에서 두 식을 더하면 y가 사라져요: (x+y)+(x−y) = 5+1 → 2x = 6 → x = 3. x를 구했으니 아무 식에나 대입하면 y = 2가 나와요.</p>
       <p>이걸 그래프로 보면 훨씬 직관적이에요. x + y = 5와 x − y = 1은 각각 좌표평면 위에서 하나의 직선이 돼요. 두 직선은 보통 한 점에서 만나는데, 그 교점이 바로 두 식을 동시에 만족하는 (x, y) 값이에요. 그래서 "연립방정식을 푼다"는 것은 결국 "두 직선이 어디서 만나는지 찾는다"는 것과 똑같은 의미예요. 그래프로 확인하면 계산이 맞았는지 눈으로도 검산할 수 있어요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 200 140">
+          <line x1="20" y1="25" x2="180" y2="115" stroke="var(--violet-ink)" stroke-width="2.5"></line>
+          <line x1="20" y1="115" x2="180" y2="25" stroke="var(--coral-ink)" stroke-width="2.5"></line>
+          <circle cx="100" cy="70" r="6" fill="var(--paper)" stroke="var(--ink)" stroke-width="2.5"></circle>
+          <text x="100" y="55" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink)">교점(3,2)</text>
+          <text x="30" y="20" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--violet-ink)">x−y=1</text>
+          <text x="140" y="20" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--coral-ink)">x+y=5</text>
+        </svg>
+        <div class="illo-caption">두 직선이 만나는 단 하나의 점이 연립방정식의 해예요</div>
+      </div>
       <p>부등식과 연립방정식은 서로 다른 개념 같지만, 둘 다 등식(또는 부등식)의 성질을 이용해서 "양쪽에 같은 조작을 한다"는 같은 원리 위에 서 있어요. 방정식 저울 실험실에서 익혔던 감각을 그대로 가져오면, 두 개념 모두 훨씬 자연스럽게 이해할 수 있어요.</p>
       <p>저희 체험 페이지에서는 부등식을 단계별로 풀면서 음수로 나눌 때 방향이 실제로 바뀌는 걸 확인할 수 있고, 연립방정식은 두 직선을 그래프로 그려 교점을 직접 맞혀볼 수 있어요.</p>
     </div>
