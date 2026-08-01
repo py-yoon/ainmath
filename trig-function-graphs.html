@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>삼각함수의 그래프 실험실</title>
+<meta name="description" content="진폭(a)·주기 배율(b)·위상이동(h)·평행이동(d)을 슬라이더로 조절하며 sin·cos·tan 그래프가 어떻게 변하는지 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF;
+    --coral:#FF5B57; --coral-soft:#FFEAE8;
+    --green:#4CAF8E; --green-soft:#E3F5EE;
+    --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 80px;
+  }
+  .wrap{max-width:1040px;margin:0 auto;}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+  h1 span{color:var(--coral);}
+  .sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:66ch;margin:0 0 24px;}
+
+  .tabs{display:flex;gap:10px;margin-bottom:20px;}
+  .tab-btn{font-family:'Do Hyeon',sans-serif;font-size:16px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:9px 22px;cursor:pointer;box-shadow:var(--shadow);transition:all .15s ease;}
+  .tab-btn:hover{border-color:var(--blue);color:var(--blue);}
+  .tab-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+  .tab-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+
+  .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+    display:grid;grid-template-columns: 1.3fr 0.7fr;gap:32px;align-items:start;}
+  @media (max-width:850px){ .stage{grid-template-columns:1fr;} }
+  .canvas-area{display:flex;flex-direction:column;align-items:center;gap:16px;}
+  svg{width:100%;max-width:620px;height:auto;overflow:visible;}
+
+  .legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-size:13px;color:var(--ink-soft);}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .swatch{width:12px;height:12px;border-radius:3px;display:inline-block;}
+  .swatch.dashed{background:transparent;border:2px dashed var(--ink-soft);}
+
+  .control-row{width:100%;display:flex;flex-direction:column;gap:6px;}
+  .control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+  .control-label b{font-size:20px;color:var(--ink);}
+  input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--blue-soft);outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
+  input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
+  input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+
+  .controls-box{display:flex;flex-direction:column;gap:16px;background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:18px;}
+
+  .mirror-row{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink-soft);}
+  .mirror-row input{width:18px;height:18px;accent-color:var(--violet);cursor:pointer;}
+
+  .btn-row{display:flex;gap:10px;}
+  .action-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:12px;padding:9px 14px;cursor:pointer;flex:1;transition:all .15s ease;}
+  .action-btn:hover{border-color:var(--blue);color:var(--blue);}
+  .action-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+
+  .equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px 20px;text-align:center;}
+  .equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(17px,2.6vw,21px);color:var(--ink);}
+  .equation .subline{margin-top:12px;font-size:13.5px;color:var(--ink-soft);line-height:1.7;}
+  .equation .subline b{color:var(--blue);}
+
+  .fact{background:var(--blue-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+  .fact b{color:var(--blue);}
+
+  footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-trig-function-graphs.html" style="color:#fff;background:var(--blue-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">📈 삼각함수의 그래프 실험실</span>
+  <h1>sin·cos·tan을<br><span>함수 그래프</span>로 보면</h1>
+  <p class="sub">단위원에서 만든 파동을 이번엔 진짜 함수로 다뤄봐요. 진폭(a), 주기를 바꾸는 b, 위상이동(h), 평행이동(d)을 각각 조절하면서 그래프가 어떻게 변하는지 확인해보세요.</p>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="stage">
+    <div class="canvas-area">
+      <svg id="svg" viewBox="0 0 640 380"></svg>
+      <div class="legend">
+        <span><i class="swatch dashed"></i>기준 함수</span>
+        <span><i class="swatch" style="background:var(--coral)"></i>변형된 그래프</span>
+      </div>
+    </div>
+
+    <div class="panel" style="display:flex;flex-direction:column;gap:18px;">
+      <div class="controls-box">
+        <div class="control-row">
+          <div class="control-label"><span>진폭 (a)</span><b id="aLabel">1</b></div>
+          <input id="aSlider" type="range" min="-3" max="3" value="1" step="0.5" aria-label="진폭 조절">
+        </div>
+        <div class="control-row">
+          <div class="control-label"><span>주기 배율 (b)</span><b id="bLabel">1</b></div>
+          <input id="bSlider" type="range" min="0.5" max="3" value="1" step="0.5" aria-label="b 조절">
+        </div>
+        <div class="control-row">
+          <div class="control-label"><span>위상이동 (h)</span><b id="hLabel">0</b><span>°</span></div>
+          <input id="hSlider" type="range" min="-180" max="180" value="0" step="15" aria-label="위상이동 조절">
+        </div>
+        <div class="control-row">
+          <div class="control-label"><span>평행이동 (d)</span><b id="dLabel">0</b></div>
+          <input id="dSlider" type="range" min="-2" max="2" value="0" step="0.5" aria-label="평행이동 조절">
+        </div>
+        <div class="btn-row">
+          <button class="action-btn" id="resetBtn">↺ 기본값으로</button>
+        </div>
+      </div>
+
+      <div class="equation">
+        <div class="formula" id="formulaText">y = 1·sin(1(x−0°)) + 0</div>
+        <div class="subline" id="subline"></div>
+      </div>
+
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="unit-circle.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">단위원과 삼각비 실험실</span>
+    </a>
+    <a href="equal-sign-balance.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">등호와 규칙</span>
+    </a>
+  </nav>
+  <footer>a는 그래프의 높낮이 폭(진폭)을, b는 파동이 얼마나 빨리 반복되는지(주기)를, h는 그래프를 좌우로 밀어주는 위상이동을, d는 그래프 전체를 위아래로 밀어주는 평행이동을 담당해요. tan 그래프는 주기가 sin·cos의 절반(180°)이고, 90°+180°n 위치마다 값이 정의되지 않아 그래프가 끊어져요.</footer>
+</div>
+
+<script>
+  const svg = document.getElementById('svg');
+  const tabsBox = document.getElementById('tabs');
+  const aSlider = document.getElementById('aSlider');
+  const bSlider = document.getElementById('bSlider');
+  const hSlider = document.getElementById('hSlider');
+  const dSlider = document.getElementById('dSlider');
+  const aLabel = document.getElementById('aLabel');
+  const bLabel = document.getElementById('bLabel');
+  const hLabel = document.getElementById('hLabel');
+  const dLabel = document.getElementById('dLabel');
+  const formulaText = document.getElementById('formulaText');
+  const subline = document.getElementById('subline');
+  const fact = document.getElementById('fact');
+  const resetBtn = document.getElementById('resetBtn');
+
+  function fmt(v){ return (Math.round(v*100)/100).toString(); }
+
+  const FUNCS = {
+    sin: { key:'sin', label:'sin', fn:Math.sin, periodBase:360, color:'var(--coral)' },
+    cos: { key:'cos', label:'cos', fn:Math.cos, periodBase:360, color:'var(--blue)' },
+    tan: { key:'tan', label:'tan', fn:Math.tan, periodBase:180, color:'var(--violet)' },
+  };
+  let currentKey = 'sin';
+
+  function buildTabs(){
+    tabsBox.innerHTML = Object.values(FUNCS).map(f=>
+      `<button class="tab-btn" data-key="${f.key}">${f.label}</button>`
+    ).join('');
+    tabsBox.querySelectorAll('.tab-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        currentKey = btn.dataset.key;
+        tabsBox.querySelectorAll('.tab-btn').forEach(b=> b.classList.toggle('active', b===btn));
+        render();
+      });
+    });
+    tabsBox.querySelector('[data-key="sin"]').classList.add('active');
+  }
+
+  const PADL=50, PADB=40, PADT=20, W=640, H=380;
+  const plotW=W-PADL-20, plotH=H-PADB-PADT;
+  const X_MIN=-180, X_MAX=540; // 720도 폭 창
+  const Y_MIN=-5, Y_MAX=5;
+  const xOf = x => PADL + (x-X_MIN)/(X_MAX-X_MIN)*plotW;
+  const yOf = y => PADT + plotH - (y-Y_MIN)/(Y_MAX-Y_MIN)*plotH;
+
+  function render(){
+    const a = parseFloat(aSlider.value);
+    const b = parseFloat(bSlider.value);
+    const h = parseFloat(hSlider.value);
+    const d = parseFloat(dSlider.value);
+    aLabel.textContent = fmt(a);
+    bLabel.textContent = fmt(b);
+    hLabel.textContent = h;
+    dLabel.textContent = fmt(d);
+
+    const f = FUNCS[currentKey];
+    const period = f.periodBase/b;
+
+    formulaText.textContent = `y = ${fmt(a)}·${f.label}(${fmt(b)}(x−${h}°))${d>=0?' + ':' − '}${fmt(Math.abs(d))}`;
+    if(f.key==='tan'){
+      subline.innerHTML = `주기 = 180° ÷ b = <b>${fmt(period)}°</b> (진폭 개념은 없어요 — 값이 무한히 커지니까요)`;
+    } else {
+      subline.innerHTML = `진폭 = <b>${fmt(Math.abs(a))}</b>, 주기 = 360° ÷ b = <b>${fmt(period)}°</b>, 그래프는 오른쪽으로 <b>${h}°</b>, 위로 <b>${fmt(d)}</b>만큼 이동했어요.`;
+    }
+
+    let html = '';
+    // 축과 격자
+    html += `<line x1="${PADL}" y1="${PADT}" x2="${PADL}" y2="${PADT+plotH}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+    html += `<line x1="${PADL}" y1="${yOf(0)}" x2="${PADL+plotW}" y2="${yOf(0)}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+    for(let xt=-180; xt<=540; xt+=90){
+      const x = xOf(xt);
+      html += `<line x1="${x}" y1="${PADT}" x2="${x}" y2="${PADT+plotH}" stroke="var(--paper-line)" stroke-width="1"></line>`;
+      html += `<text x="${x}" y="${PADT+plotH+20}" text-anchor="middle" font-family="Do Hyeon" font-size="11" fill="var(--ink-soft)">${xt}°</text>`;
+    }
+    for(let yt=Y_MIN; yt<=Y_MAX; yt++){
+      if(yt===0) continue;
+      html += `<line x1="${PADL}" y1="${yOf(yt)}" x2="${PADL+plotW}" y2="${yOf(yt)}" stroke="var(--paper-line)" stroke-width="1"></line>`;
+      html += `<text x="${PADL-10}" y="${yOf(yt)+4}" text-anchor="end" font-family="Do Hyeon" font-size="11" fill="var(--ink-soft)">${yt}</text>`;
+    }
+
+    // 기준 함수 (a=1,b=1,h=0,d=0) 점선
+    html += buildPath(x=>f.fn(x*Math.PI/180), 'var(--ink-soft)', 2, true, f.key==='tan');
+
+    // 변형된 그래프
+    html += buildPath(x=>a*f.fn(b*(x-h)*Math.PI/180)+d, f.color, 3.5, false, f.key==='tan');
+
+    svg.innerHTML = html;
+
+    fact.innerHTML = f.key==='tan'
+      ? `tan 그래프는 sin·cos와 달리 진폭이 없고, cos(각)=0이 되는 지점(±90°, ±270°...)마다 값이 무한히 커지면서 그래프가 끊어져요. b가 커질수록 이 끊어지는 간격도 좁아져요.`
+      : `점선은 기준 함수 y=${f.label}(x)이고, 코랄/파랑 실선은 a,b,h,d를 적용한 그래프예요. a의 부호가 (−)이면 그래프가 위아래로 뒤집히고, b가 커질수록 파동이 더 빨리 반복돼요.`;
+  }
+
+  function buildPath(fn, color, width, dashed, isTan){
+    const step = 1; // 1도 간격 샘플링
+    let segs = [];
+    let cur = [];
+    for(let x=X_MIN; x<=X_MAX; x+=step){
+      let y;
+      try{ y = fn(x); } catch(e){ y = NaN; }
+      const prevY = cur.length ? cur[cur.length-1][1] : null;
+      const outOfRange = !isFinite(y) || y>Y_MAX+3 || y<Y_MIN-3;
+      const bigJump = isTan && prevY!==null && Math.abs(y-prevY) > 6;
+      if(outOfRange || bigJump){
+        if(cur.length>1) segs.push(cur);
+        cur = [];
+        continue;
+      }
+      cur.push([x,y]);
+    }
+    if(cur.length>1) segs.push(cur);
+
+    return segs.map(seg=>{
+      const pts = seg.map(([x,y])=> `${xOf(x)},${yOf(Math.max(Y_MIN-1,Math.min(Y_MAX+1,y)))}`).join(' ');
+      return `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="${width}" ${dashed?'stroke-dasharray="6 5"':''} opacity="${dashed?0.6:1}"></polyline>`;
+    }).join('');
+  }
+
+  [aSlider,bSlider,hSlider,dSlider].forEach(el=> el.addEventListener('input', render));
+  resetBtn.addEventListener('click', ()=>{
+    aSlider.value=1; bSlider.value=1; hSlider.value=0; dSlider.value=0;
+    render();
+  });
+
+  buildTabs();
+  render();
+</script>
+</body>
+</html>

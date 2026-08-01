@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>등차수열과 등비수열, 가우스의 덧셈 트릭으로 쉽게 이해하기 | 아인매스</title>
+<meta name="description" content="어린 가우스는 1부터 100까지의 합을 순식간에 구했다는 전설이 있어요. 그 비밀은 수를 거꾸로 뒤집어 짝짓는 트릭인데, 이 트릭 하나가 등차수열의...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:260px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#2EC4C6;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#1D7C7E;background:#E4FAF9">🌀 재미있는 패턴</span>
+  <h1>등차수열과 등비수열, 가우스의 덧셈 트릭으로 쉽게 이해하기</h1>
+  <p class="meta">중학생 ~ 고등학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>일정한 규칙으로 나열된 수들의 목록을 수열이라고 해요. 그중 가장 기본이 되는 두 가지가 있는데, 바로 매번 같은 수를 <b>더해서</b> 만드는 등차수열과 매번 같은 수를 <b>곱해서</b> 만드는 등비수열이에요. "더하는 규칙"과 "곱하는 규칙", 이 둘의 차이만 이해하면 수열의 절반은 정복한 셈이에요.</p>
+      <p>등차수열 이야기에는 유명한 전설이 하나 따라다녀요. 어린 가우스가 초등학교 수업 시간에 선생님이 "1부터 100까지 더하라"는 벌을 내리자, 몇 초 만에 5050이라는 답을 냈다는 이야기예요. 비결은 수를 거꾸로 뒤집어 짝짓는 트릭이었어요. 1과 100을 더하면 101, 2와 99를 더해도 101, 3과 98을 더해도 101… 이런 식으로 짝을 지으면 항상 101이 나오고, 이런 짝이 50개니까 101×50=5050이 순식간에 나오는 거예요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 220 130">
+          <line x1="14" y1="100" x2="206" y2="100" stroke="var(--ink-soft)" stroke-width="2"></line>
+          <rect x="23" y="88" width="30" height="12" fill="var(--violet-ink)" rx="2"></rect>
+          <rect x="23" y="28" width="30" height="60" fill="var(--coral-ink)" fill-opacity="0.75" rx="2"></rect>
+          <rect x="59" y="76" width="30" height="24" fill="var(--violet-ink)" rx="2"></rect>
+          <rect x="59" y="28" width="30" height="48" fill="var(--coral-ink)" fill-opacity="0.75" rx="2"></rect>
+          <rect x="95" y="64" width="30" height="36" fill="var(--violet-ink)" rx="2"></rect>
+          <rect x="95" y="28" width="30" height="36" fill="var(--coral-ink)" fill-opacity="0.75" rx="2"></rect>
+          <rect x="131" y="52" width="30" height="48" fill="var(--violet-ink)" rx="2"></rect>
+          <rect x="131" y="28" width="30" height="24" fill="var(--coral-ink)" fill-opacity="0.75" rx="2"></rect>
+          <rect x="167" y="40" width="30" height="60" fill="var(--violet-ink)" rx="2"></rect>
+          <rect x="167" y="28" width="30" height="12" fill="var(--coral-ink)" fill-opacity="0.75" rx="2"></rect>
+          <line x1="20" y1="28" x2="200" y2="28" stroke="var(--ink-soft)" stroke-width="1.5" stroke-dasharray="3 3"></line>
+          <text x="38" y="112" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">1</text>
+          <text x="74" y="112" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">2</text>
+          <text x="110" y="112" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">3</text>
+          <text x="146" y="112" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">4</text>
+          <text x="182" y="112" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">5</text>
+          <text x="110" y="18" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink)">모든 열의 합 = 6</text>
+        </svg>
+        <div class="illo-caption">1~5(보라)를 거꾸로 뒤집어 얹으면(코랄) 모든 열의 높이가 6으로 똑같아 직사각형이 돼요</div>
+      </div>
+      <p>이 트릭을 일반적인 등차수열에 그대로 적용한 게 바로 합 공식이에요. 첫째항이 a₁, 마지막 항이 aₙ, 항의 개수가 n개인 등차수열의 합은 Sₙ = n(a₁+aₙ)÷2예요. 수열을 거꾸로 뒤집어 원래 수열 위에 포개면, 모든 자리에서 두 수의 합이 항상 a₁+aₙ으로 똑같아지고, 그렇게 만들어진 직사각형의 넓이가 n×(a₁+aₙ)이니 원래 수열의 합은 그 절반이 되는 거예요. 가우스가 즉석에서 떠올린 아이디어가 그대로 수학 공식이 된 셈이죠.</p>
+      <p>등비수열은 완전히 다른 방식으로 자라요. 매번 같은 수를 더하는 대신 같은 수(공비)를 곱하면서 나아가거든요. 세균 한 마리가 1분마다 2마리로 분열한다고 생각해보세요. 1, 2, 4, 8, 16… 처음에는 느려 보이지만 20번만 분열해도 100만 마리가 훌쩍 넘어요. 공비가 1보다 크면 이렇게 폭발적으로 커지고, 반대로 공비가 0과 1 사이(예: 방사성 물질이 시간이 지나며 절반씩 줄어드는 반감기)라면 값이 점점 0에 가까워져요.</p>
+      <p>등비수열의 합에도 비슷한 아이디어의 공식이 있어요. Sₙ = a₁(rⁿ−1)÷(r−1)인데, 이걸 쓰면 "체스판의 각 칸에 쌀알을 1, 2, 4, 8개씩 두 배로 늘려 64칸을 채우면 총 몇 톨이 될까?" 같은 질문에도 일일이 더하지 않고 바로 답할 수 있어요(참고로 그 답은 지구 전체 쌀 생산량을 훌쩍 넘는 어마어마한 숫자예요). 등차수열의 합이 "더하기가 반복되는 세계"를 다룬다면, 등비수열의 합은 "곱하기가 반복되는 세계"를 다루는 셈이에요.</p>
+      <p>아이들과 공부할 때는 두 수열을 나란히 놓고 비교하는 게 가장 효과적이에요. 예를 들어 "매일 1000원씩 저금하기(등차)"와 "가진 돈을 매일 두 배로 불리기(등비, 물론 상상 속에서만!)"를 나란히 표로 그려보면, 처음엔 등비수열이 느려 보여도 며칠 뒤엔 압도적으로 커진다는 걸 눈으로 확인할 수 있어요. 저희 체험 페이지에서는 첫째항과 공차(또는 공비), 항의 개수를 슬라이더로 직접 바꿔가며, 가우스의 짝짓기 트릭이 만드는 직사각형과 등비수열이 자라나는 막대그래프를 함께 확인할 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="sequences.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

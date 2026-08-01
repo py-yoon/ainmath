@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>등차수열과 등비수열 실험실</title>
+<meta name="description" content="첫째항과 공차(또는 공비)를 슬라이더로 바꿔가며, 등차수열·등비수열의 합 공식이 왜 그런 모양인지 눈으로 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --coral:#FF5B57; --coral-soft:#FFEAE8;
+    --green:#4CAF8E; --green-soft:#E3F5EE;
+    --blue:#4C8BF5; --blue-soft:#E7F0FF;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 80px;
+  }
+  .wrap{max-width:1040px;margin:0 auto;}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+  h1 span{color:var(--coral);}
+  .sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:66ch;margin:0 0 24px;}
+
+  .section-block{margin-top:52px;}
+  .section-tag{display:inline-block;font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--violet);background:var(--violet-soft);padding:4px 12px;border-radius:999px;margin-bottom:10px;}
+  h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(22px,3.4vw,30px);margin:0 0 8px;line-height:1.3;}
+  .section-sub{color:var(--ink-soft);font-size:15px;line-height:1.7;max-width:66ch;margin:0 0 22px;}
+
+  .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+    display:grid;grid-template-columns: 1.2fr 0.8fr;gap:32px;align-items:start;}
+  @media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+  .canvas-area{display:flex;flex-direction:column;align-items:center;gap:16px;}
+  svg{width:100%;max-width:460px;height:auto;overflow:visible;}
+
+  .legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-size:12.5px;color:var(--ink-soft);}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .swatch{width:12px;height:12px;border-radius:3px;display:inline-block;}
+
+  .control-row{width:100%;max-width:420px;display:flex;flex-direction:column;gap:8px;}
+  .control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+  .control-label b{font-size:22px;color:var(--ink);}
+  input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--violet-soft);outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);cursor:pointer;}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);cursor:pointer;}
+  input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+
+  .seq-row{display:flex;flex-wrap:wrap;gap:6px;max-width:420px;}
+  .seq-chip{font-family:'Do Hyeon',sans-serif;font-size:13px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:8px;padding:5px 9px;}
+  .seq-chip.last{background:var(--violet);border-color:var(--violet);color:#fff;}
+
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap;width:100%;max-width:420px;}
+  .action-btn{font-family:'Do Hyeon',sans-serif;font-size:14.5px;background:var(--ink);color:#fff;border:none;border-radius:12px;padding:11px 16px;cursor:pointer;flex:1;min-width:150px;transition:all .15s ease;}
+  .action-btn:hover{background:var(--violet);}
+  .action-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+
+  .equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px 20px;text-align:center;}
+  .equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(15px,2.4vw,18px);color:var(--ink-soft);}
+  .equation .formula b{color:var(--ink);}
+  .equation .result{font-family:'Do Hyeon',sans-serif;font-size:clamp(32px,5.5vw,46px);color:var(--violet);margin-top:6px;line-height:1;}
+  .equation .subline{margin-top:10px;font-size:13.5px;color:var(--ink-soft);}
+
+  .fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+  .fact b{color:var(--violet);}
+
+  .panel{display:flex;flex-direction:column;gap:16px;}
+
+  footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-sequences.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🔢 등차수열과 등비수열 실험실</span>
+  <h1>일정하게 더하거나<br>일정하게 <span>곱하면</span> 생기는 수열</h1>
+  <p class="sub">첫째항과 공차(또는 공비)를 슬라이더로 바꿔보고, 합 공식이 왜 그렇게 생겼는지 직접 눈으로 확인해보세요.</p>
+
+  <!-- ===== STEP 1: 등차수열 ===== -->
+  <div class="section-block" style="margin-top:0;">
+    <span class="section-tag">STEP 1</span>
+    <h2>등차수열: 가우스의 짝짓기 트릭</h2>
+    <p class="section-sub">전설에 따르면 가우스는 1부터 100까지 순식간에 더했어요. 막대들을 거꾸로 뒤집어 하나 더 쌓으면, 모든 짝의 합이 (첫째항+마지막항)으로 똑같아져서 순식간에 계산할 수 있거든요.</p>
+
+    <div class="stage">
+      <div class="canvas-area">
+        <svg id="svg1" viewBox="0 0 460 340"></svg>
+        <div class="legend">
+          <span><i class="swatch" style="background:var(--violet)"></i>원래 수열</span>
+          <span><i class="swatch" style="background:var(--coral)"></i>뒤집어 얹은 복사본</span>
+        </div>
+
+        <div class="control-row">
+          <div class="control-label"><span>첫째항 (a₁)</span><b id="a1Label">2</b></div>
+          <input id="a1Slider" type="range" min="-5" max="10" value="2" step="1" aria-label="첫째항 조절">
+        </div>
+        <div class="control-row">
+          <div class="control-label"><span>공차 (d)</span><b id="dLabel1">3</b></div>
+          <input id="dSlider1" type="range" min="-4" max="4" value="3" step="1" aria-label="공차 조절">
+        </div>
+        <div class="control-row">
+          <div class="control-label"><span>항의 개수 (n)</span><b id="nLabel1">6</b></div>
+          <input id="nSlider1" type="range" min="2" max="10" value="6" step="1" aria-label="항의 개수 조절">
+        </div>
+        <div class="seq-row" id="seqRow1"></div>
+      </div>
+
+      <div class="panel">
+        <div class="equation">
+          <div class="formula">Sₙ = n(a₁+aₙ) ÷ 2</div>
+          <div class="result" id="sumResult1">57</div>
+          <div class="subline" id="sub1"></div>
+        </div>
+        <div class="fact" id="fact1"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== STEP 2: 등비수열 ===== -->
+  <div class="section-block">
+    <span class="section-tag">STEP 2</span>
+    <h2>등비수열: 계속 곱해서 폭발적으로 자라는 수열</h2>
+    <p class="section-sub">공비(r)를 조절해서 막대가 얼마나 빠르게(또는 느리게) 자라는지 확인해보세요. 공비가 1보다 크면 폭발적으로 커지고, 1보다 작으면(0~1 사이) 점점 0에 가까워져요.</p>
+
+    <div class="stage">
+      <div class="canvas-area">
+        <svg id="svg2" viewBox="0 0 460 340"></svg>
+        <div class="control-row">
+          <div class="control-label"><span>첫째항 (a₁)</span><b id="a1Label2">2</b></div>
+          <input id="a1Slider2" type="range" min="1" max="8" value="2" step="1" aria-label="첫째항 조절">
+        </div>
+        <div class="control-row">
+          <div class="control-label"><span>공비 (r)</span><b id="rLabel2">2</b></div>
+          <input id="rSlider2" type="range" min="-2" max="3" value="2" step="0.5" aria-label="공비 조절">
+        </div>
+        <div class="control-row">
+          <div class="control-label"><span>항의 개수 (n)</span><b id="nLabel2">6</b></div>
+          <input id="nSlider2" type="range" min="2" max="10" value="6" step="1" aria-label="항의 개수 조절">
+        </div>
+        <div class="seq-row" id="seqRow2"></div>
+      </div>
+
+      <div class="panel">
+        <div class="equation">
+          <div class="formula">Sₙ = a₁(rⁿ−1) ÷ (r−1)</div>
+          <div class="result" id="sumResult2">126</div>
+          <div class="subline" id="sub2"></div>
+        </div>
+        <div class="fact" id="fact2"></div>
+      </div>
+    </div>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="fibonacci-spiral.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">피보나치 수열과 나선</span>
+    </a>
+    <a href="tessellation.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">테셀레이션(쪽매맞춤)</span>
+    </a>
+  </nav>
+  <footer>등차수열은 "더하는 규칙", 등비수열은 "곱하는 규칙"이에요. 공차가 0이면 모든 항이 같고, 공비가 1이면 등비수열도 마찬가지예요 — 두 수열 모두 "변하지 않는 특별한 경우"를 포함하고 있어요.</footer>
+</div>
+
+<script>
+  function fmt(v){ return (Math.round(v*1000)/1000).toString(); }
+
+  // ============================================================
+  // STEP 1: 등차수열
+  // ============================================================
+  (function(){
+    const svg = document.getElementById('svg1');
+    const a1Slider = document.getElementById('a1Slider');
+    const dSlider = document.getElementById('dSlider1');
+    const nSlider = document.getElementById('nSlider1');
+    const a1Label = document.getElementById('a1Label');
+    const dLabel = document.getElementById('dLabel1');
+    const nLabel = document.getElementById('nLabel1');
+    const seqRow = document.getElementById('seqRow1');
+    const sumResult = document.getElementById('sumResult1');
+    const sub1 = document.getElementById('sub1');
+    const fact1 = document.getElementById('fact1');
+
+    function render(){
+      const a1 = parseFloat(a1Slider.value);
+      const d = parseFloat(dSlider.value);
+      const n = parseInt(nSlider.value);
+      a1Label.textContent = a1;
+      dLabel.textContent = d;
+      nLabel.textContent = n;
+
+      const terms = [];
+      for(let i=0;i<n;i++) terms.push(a1+i*d);
+      const an = terms[n-1];
+      const sum = n*(a1+an)/2;
+
+      seqRow.innerHTML = terms.map((t,i)=>`<span class="seq-chip${i===terms.length-1?' last':''}">${fmt(t)}</span>`).join('');
+      sumResult.textContent = fmt(sum);
+      sub1.innerHTML = `${n} × (${fmt(a1)}+${fmt(an)}) ÷ 2 = ${fmt(sum)}`;
+
+      // 막대그래프: 원래 수열 + 뒤집어 얹은 복사본
+      const maxAbs = Math.max(...terms.map(Math.abs), Math.abs(an), 1);
+      const PAD=30, W=460, H=340;
+      const chartW = W-PAD*2, chartH = 220;
+      const barW = chartW/n - 6;
+      const baseY = H-60;
+      const scale = (chartH/2-10)/maxAbs;
+
+      let html = '';
+      html += `<line x1="${PAD}" y1="${baseY}" x2="${W-PAD}" y2="${baseY}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+
+      terms.forEach((t,i)=>{
+        const x = PAD + i*(chartW/n) + 3;
+        const h = Math.abs(t)*scale;
+        const y = t>=0 ? baseY-h : baseY;
+        html += `<rect x="${x}" y="${y}" width="${barW}" height="${Math.max(h,1)}" fill="var(--violet)" fill-opacity="0.7" rx="3"></rect>`;
+        html += `<text x="${x+barW/2}" y="${t>=0? y-6 : y+h+16}" text-anchor="middle" font-family="Do Hyeon" font-size="12" fill="var(--ink)">${fmt(t)}</text>`;
+
+        // 뒤집어 얹은 복사본 (역순): 높이 = an+a1-t, 위쪽에 쌓기
+        const flipped = an + a1 - t;
+        const hf = Math.abs(flipped)*scale;
+        const topOfOriginal = t>=0 ? baseY-h : baseY+Math.abs(t)*scale;
+        const yf = flipped>=0 ? topOfOriginal-hf : topOfOriginal;
+        html += `<rect x="${x}" y="${yf}" width="${barW}" height="${Math.max(hf,1)}" fill="var(--coral)" fill-opacity="0.35" stroke="var(--coral)" stroke-width="1.5" rx="3"></rect>`;
+      });
+
+      html += `<text x="${W/2}" y="${H-16}" text-anchor="middle" font-family="Do Hyeon" font-size="13" fill="var(--ink-soft)">모든 짝의 합이 ${fmt(a1+an)}으로 똑같아요 → 전체는 직사각형!</text>`;
+
+      svg.innerHTML = html;
+
+      fact1.innerHTML = `${n}번째 항까지: <b>${terms.map(t=>fmt(t)).join(', ')}</b>. 이 수열을 거꾸로 뒤집어 위에 하나 더 쌓으면(연한 코랄 막대), 모든 자리에서 높이의 합이 항상 <b>a₁+aₙ=${fmt(a1+an)}</b>로 똑같아져요. 그래서 전체 직사각형 넓이는 n×(a₁+aₙ)이고, 원래 수열의 합은 그 절반인 <b>${fmt(sum)}</b>이에요.`;
+    }
+    [a1Slider,dSlider,nSlider].forEach(el=> el.addEventListener('input', render));
+    render();
+  })();
+
+  // ============================================================
+  // STEP 2: 등비수열
+  // ============================================================
+  (function(){
+    const svg = document.getElementById('svg2');
+    const a1Slider = document.getElementById('a1Slider2');
+    const rSlider = document.getElementById('rSlider2');
+    const nSlider = document.getElementById('nSlider2');
+    const a1Label = document.getElementById('a1Label2');
+    const rLabel = document.getElementById('rLabel2');
+    const nLabel = document.getElementById('nLabel2');
+    const seqRow = document.getElementById('seqRow2');
+    const sumResult = document.getElementById('sumResult2');
+    const sub2 = document.getElementById('sub2');
+    const fact2 = document.getElementById('fact2');
+
+    function render(){
+      const a1 = parseFloat(a1Slider.value);
+      const r = parseFloat(rSlider.value);
+      const n = parseInt(nSlider.value);
+      a1Label.textContent = a1;
+      rLabel.textContent = fmt(r);
+      nLabel.textContent = n;
+
+      const terms = [];
+      for(let i=0;i<n;i++) terms.push(a1*Math.pow(r,i));
+      const sum = Math.abs(r-1) < 1e-9 ? a1*n : a1*(Math.pow(r,n)-1)/(r-1);
+
+      seqRow.innerHTML = terms.map((t,i)=>`<span class="seq-chip${i===terms.length-1?' last':''}">${fmt(t)}</span>`).join('');
+      sumResult.textContent = fmt(sum);
+      sub2.innerHTML = Math.abs(r-1)<1e-9
+        ? `공비가 1이면 모든 항이 같아서 Sₙ = a₁×n = ${fmt(sum)}`
+        : `${fmt(a1)} × (${fmt(r)}^${n}−1) ÷ (${fmt(r)}−1) = ${fmt(sum)}`;
+
+      const maxAbs = Math.max(...terms.map(Math.abs), 1);
+      const PAD=30, W=460, H=340;
+      const chartW = W-PAD*2, chartH=260;
+      const barW = chartW/n - 6;
+      const baseY = H-40;
+      const scale = chartH/maxAbs;
+
+      let html = '';
+      html += `<line x1="${PAD}" y1="${baseY}" x2="${W-PAD}" y2="${baseY}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+      terms.forEach((t,i)=>{
+        const x = PAD + i*(chartW/n) + 3;
+        const h = Math.min(Math.abs(t)*scale, chartH);
+        const y = t>=0 ? baseY-h : baseY;
+        const color = i%2===0 ? 'var(--violet)' : 'var(--blue)';
+        html += `<rect x="${x}" y="${y}" width="${barW}" height="${Math.max(h,1)}" fill="${color}" fill-opacity="0.7" rx="3"></rect>`;
+        const labelY = t>=0 ? y-6 : y+h+16;
+        html += `<text x="${x+barW/2}" y="${labelY}" text-anchor="middle" font-family="Do Hyeon" font-size="11" fill="var(--ink)">${fmt(t)}</text>`;
+      });
+      svg.innerHTML = html;
+
+      let trendDesc;
+      if(Math.abs(r)>1) trendDesc = '항이 갈수록 값이 폭발적으로 커져요(절댓값 기준).';
+      else if(Math.abs(r)===1) trendDesc = '모든 항의 절댓값이 똑같이 유지돼요.';
+      else trendDesc = '항이 갈수록 값이 0에 점점 가까워져요.';
+      const signDesc = r<0 ? ' 공비가 음수라서 부호가 +,−로 번갈아 바뀌어요.' : '';
+
+      fact2.innerHTML = `${n}번째 항까지: <b>${terms.map(t=>fmt(t)).join(', ')}</b>. 공비 r=${fmt(r)}이므로 ${trendDesc}${signDesc} 합 공식 Sₙ=a₁(rⁿ−1)÷(r−1)로 계산한 값과, 실제로 항을 다 더한 값이 똑같이 <b>${fmt(sum)}</b>인 걸 확인할 수 있어요.`;
+    }
+    [a1Slider,rSlider,nSlider].forEach(el=> el.addEventListener('input', render));
+    render();
+  })();
+</script>
+</body>
+</html>

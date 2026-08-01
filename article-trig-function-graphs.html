@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>삼각함수의 그래프, 단위원이 그려내는 파도 | 아인매스</title>
+<meta name="description" content="단위원 위의 점을 빙글빙글 돌리면 y좌표가 오르내리는데, 그 흔적을 옆으로 쭉 펼치면 매끈한 파도 모양의 그래프가 나와요. 이게 바로 사인 함수...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:280px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#0D62F1;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#0D62F1;background:#E7F0FF">📈 함수와 그래프</span>
+  <h1>삼각함수의 그래프, 단위원이 그려내는 파도</h1>
+  <p class="meta">중학생 ~ 고등학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>단위원(반지름이 1인 원) 위의 점을 각도 θ만큼 빙글빙글 돌리면, 그 점의 y좌표(sin θ)는 올라갔다 내려갔다를 반복해요. 이 점이 지나온 높이를 시간 순서대로 옆으로 쭉 펼쳐서 그려보면, 매끈하게 오르내리는 파도 모양의 곡선이 나타나요. 이게 바로 사인함수 y=sin x의 그래프예요. 원을 돌리는 운동과 파도치는 그래프가 사실은 같은 것을 다른 방식으로 보여주는 셈이죠.</p>
+      <p>코사인함수 y=cos x도 똑같은 원리로 만들어지는데, 시작점이 다를 뿐이에요. sin은 0°에서 0에서 출발하지만, cos는 0°에서 이미 1(가장 높은 자리)에서 출발해요. 그래서 cos 그래프는 sin 그래프를 왼쪽으로 90°만큼 밀어놓은 모양과 정확히 같아요. 두 그래프 모두 360°(한 바퀴)마다 똑같은 모양이 반복되는데, 이렇게 일정한 간격으로 같은 모양이 되풀이되는 성질을 "주기성"이라고 불러요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 240 130">
+          <line x1="20" y1="60" x2="220" y2="60" stroke="var(--ink-soft)" stroke-width="1.5" stroke-dasharray="3 3"></line>
+          <polyline points="20.0,60.0 23.3,55.9 26.7,51.9 30.0,47.9 33.3,44.1 36.7,40.5 40.0,37.1 43.3,33.9 46.7,31.0 50.0,28.4 53.3,26.2 56.7,24.4 60.0,22.9 63.3,21.9 66.7,21.2 70.0,21.0 73.3,21.2 76.7,21.9 80.0,22.9 83.3,24.4 86.7,26.2 90.0,28.4 93.3,31.0 96.7,33.9 100.0,37.1 103.3,40.5 106.7,44.1 110.0,47.9 113.3,51.9 116.7,55.9 120.0,60.0 123.3,64.1 126.7,68.1 130.0,72.1 133.3,75.9 136.7,79.5 140.0,82.9 143.3,86.1 146.7,89.0 150.0,91.6 153.3,93.8 156.7,95.6 160.0,97.1 163.3,98.1 166.7,98.8 170.0,99.0 173.3,98.8 176.7,98.1 180.0,97.1 183.3,95.6 186.7,93.8 190.0,91.6 193.3,89.0 196.7,86.1 200.0,82.9 203.3,79.5 206.7,75.9 210.0,72.1 213.3,68.1 216.7,64.1 220.0,60.0" fill="none" stroke="var(--blue-ink)" stroke-width="2.5"></polyline>
+          <line x1="14" y1="60" x2="14" y2="21" stroke="var(--coral-ink)" stroke-width="1.5"></line>
+          <text x="10" y="40" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--coral-ink)">진폭</text>
+          <line x1="20" y1="114" x2="220" y2="114" stroke="var(--ink-soft)" stroke-width="1.5"></line>
+          <line x1="20" y1="110" x2="20" y2="118" stroke="var(--ink-soft)" stroke-width="1.5"></line>
+          <line x1="220" y1="110" x2="220" y2="118" stroke="var(--ink-soft)" stroke-width="1.5"></line>
+          <text x="120" y="126" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">주기 360°</text>
+        </svg>
+        <div class="illo-caption">사인함수 그래프: 높낮이 폭이 진폭, 한 번 반복되는 데 걸리는 가로 길이가 주기예요</div>
+      </div>
+      <p>이 파도 그래프의 생김새를 자유자재로 바꾸는 네 가지 조절 장치가 있어요. 진폭(a)은 파도가 얼마나 높이 출렁이는지를, 주기(b가 클수록 짧아짐)는 한 번 출렁이는 데 가로로 얼마나 걸리는지를 정해요. 위상이동(h)은 파도를 좌우로 밀어주고, 평행이동(d)은 파도 전체를 위아래로 밀어줘요. 스피커에서 나오는 소리의 높낮이(주파수)와 크기(음량)도 결국 이 진폭과 주기를 조절하는 것과 똑같은 원리예요.</p>
+      <p>탄젠트함수 y=tan x는 sin·cos와는 사뭇 다르게 생겼어요. tan θ = sin θ ÷ cos θ로 정의되는데, cos θ가 0이 되는 지점(90°, 270°…)에서는 분모가 0이 되어버려서 그래프가 하늘 끝까지 치솟았다가 바닥까지 뚝 떨어지며 끊어져요. 이렇게 그래프가 정의되지 않아 끊어지는 세로선을 "점근선"이라고 부르는데, tan 그래프는 이 점근선을 사이에 두고 180°마다(주기가 sin·cos의 절반) 같은 모양이 반복돼요.</p>
+      <p>삼각함수의 그래프는 우리 주변의 반복되는 현상을 설명하는 데 아주 유용하게 쓰여요. 바닷물이 하루 두 번 들어왔다 나가는 밀물·썰물, 스피커에서 나오는 소리의 파형, 관람차가 회전하며 바뀌는 탑승칸의 높이, 가정에 흐르는 교류(AC) 전류의 세기까지 모두 사인·코사인 곡선으로 정확히 표현할 수 있어요. "일정한 규칙으로 오르내림을 반복하는 모든 것"은 사실상 삼각함수 그래프로 설명된다고 봐도 무방해요.</p>
+      <p>아이들과 공부할 때는 관람차나 그네처럼 실제로 오르내리는 움직임을 먼저 떠올리게 한 뒤, 그 높이를 시간에 따라 그려보면 무슨 모양이 나올지 예상해보게 하는 게 좋아요. 저희 체험 페이지에서는 sin·cos·tan 중 하나를 고르고 진폭·주기·위상이동·평행이동을 슬라이더로 직접 바꿔가며, 기준이 되는 파도(점선)와 변형된 파도(실선)가 어떻게 달라지는지 눈으로 바로 확인할 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="trig-function-graphs.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
