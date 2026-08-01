@@ -12,6 +12,7 @@
 :root{
   --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
   --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
   --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
 }
 *{box-sizing:border-box;}
@@ -43,6 +44,9 @@ p:last-child{margin-bottom:0;}
 .example{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px 20px;margin:18px 0;text-align:center;}
 .example .eq{font-family:'Do Hyeon',sans-serif;font-size:18px;margin-bottom:8px;}
 .example p{font-size:14.5px;color:var(--ink-soft);margin:8px 0 0;}
+.illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+.illo svg{width:100%;max-width:180px;height:auto;display:block;margin:0 auto;}
+.illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
 .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0;}
 .grid4 .box{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:10px 8px;font-size:14.5px;line-height:1.5;text-align:center;}
 .grid4 .box b{display:block;font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--violet-ink);margin-bottom:4px;}
@@ -71,6 +75,17 @@ footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;t
   <article>
     <h2><span class="num">1</span>변이 n개면, n각형이에요</h2>
     <p>다각형은 곧은 선분들로 둘러싸인 도형이에요. 이름은 변의 개수를 그대로 따라가요. 변이 5개면 오각형, 6개면 육각형이 되는 식이죠. 그리고 변의 개수와 꼭짓점의 개수는 항상 같아요.</p>
+    <div class="illo">
+      <svg viewBox="0 0 160 150">
+        <polygon points="80,20 137.06,61.46 115.28,128.54 44.72,128.54 22.94,61.46" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2.5"></polygon>
+        <circle cx="80" cy="20" r="4" fill="var(--coral-ink)"></circle>
+        <circle cx="137.06" cy="61.46" r="4" fill="var(--coral-ink)"></circle>
+        <circle cx="115.28" cy="128.54" r="4" fill="var(--coral-ink)"></circle>
+        <circle cx="44.72" cy="128.54" r="4" fill="var(--coral-ink)"></circle>
+        <circle cx="22.94" cy="61.46" r="4" fill="var(--coral-ink)"></circle>
+      </svg>
+      <div class="illo-caption">변이 5개면 꼭짓점도 5개, 그래서 오각형이에요</div>
+    </div>
     <div class="grid4">
       <div class="box"><b>3</b>삼각형</div>
       <div class="box"><b>4</b>사각형</div>
