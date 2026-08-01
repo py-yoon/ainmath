@@ -12,6 +12,7 @@
 :root{
   --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
   --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
   --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
 }
 *{box-sizing:border-box;}
@@ -48,6 +49,9 @@ p:last-child{margin-bottom:0;}
 .tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
 .tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
 .tip-list b{color:var(--coral-ink);}
+.illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:18px 0;text-align:center;}
+.illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+.illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
 footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 .footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
 .footer-nav a:hover{color:var(--ink);text-decoration:underline;}
@@ -85,6 +89,14 @@ footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;t
     <div class="example">
       <div class="eq">사탕 20개를 2:3으로 나누기</div>
       <p>2+3=5묶음으로 나누면 한 묶음은 20÷5=4개. 그래서 2묶음은 8개, 3묶음은 12개가 돼요.</p>
+    </div>
+    <div class="illo">
+      <svg viewBox="0 0 280 90">
+        <rect x="10" y="15" width="48" height="48" rx="8" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="2"></rect><circle cx="26" cy="31" r="5" fill="var(--coral-ink)"></circle><circle cx="42" cy="31" r="5" fill="var(--coral-ink)"></circle><circle cx="26" cy="47" r="5" fill="var(--coral-ink)"></circle><circle cx="42" cy="47" r="5" fill="var(--coral-ink)"></circle><rect x="64" y="15" width="48" height="48" rx="8" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="2"></rect><circle cx="80" cy="31" r="5" fill="var(--coral-ink)"></circle><circle cx="96" cy="31" r="5" fill="var(--coral-ink)"></circle><circle cx="80" cy="47" r="5" fill="var(--coral-ink)"></circle><circle cx="96" cy="47" r="5" fill="var(--coral-ink)"></circle><rect x="118" y="15" width="48" height="48" rx="8" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2"></rect><circle cx="134" cy="31" r="5" fill="var(--violet-ink)"></circle><circle cx="150" cy="31" r="5" fill="var(--violet-ink)"></circle><circle cx="134" cy="47" r="5" fill="var(--violet-ink)"></circle><circle cx="150" cy="47" r="5" fill="var(--violet-ink)"></circle><rect x="172" y="15" width="48" height="48" rx="8" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2"></rect><circle cx="188" cy="31" r="5" fill="var(--violet-ink)"></circle><circle cx="204" cy="31" r="5" fill="var(--violet-ink)"></circle><circle cx="188" cy="47" r="5" fill="var(--violet-ink)"></circle><circle cx="204" cy="47" r="5" fill="var(--violet-ink)"></circle><rect x="226" y="15" width="48" height="48" rx="8" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2"></rect><circle cx="242" cy="31" r="5" fill="var(--violet-ink)"></circle><circle cx="258" cy="31" r="5" fill="var(--violet-ink)"></circle><circle cx="242" cy="47" r="5" fill="var(--violet-ink)"></circle><circle cx="258" cy="47" r="5" fill="var(--violet-ink)"></circle>
+        <text x="34" y="78" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--coral-ink)">2묶음=8개</text>
+        <text x="197" y="78" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--violet-ink)">3묶음=12개</text>
+      </svg>
+      <div class="illo-caption">사탕 20개를 5묶음(2:3)으로 나누면, 한 묶음은 4개씩 — 8개와 12개가 돼요</div>
     </div>
 
     <h2><span class="num">4</span>두 개념 모두 "비율은 그대로"가 핵심이에요</h2>
