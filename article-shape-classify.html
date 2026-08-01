@@ -43,6 +43,9 @@ p:last-child{margin-bottom:0;}
 .example{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px 20px;margin:18px 0;text-align:center;}
 .example .eq{font-family:'Do Hyeon',sans-serif;font-size:18px;margin-bottom:8px;}
 .example p{font-size:14.5px;color:var(--ink-soft);margin:8px 0 0;}
+.illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+.illo svg{width:100%;max-width:220px;height:auto;display:block;margin:0 auto;}
+.illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
 .grid4{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0;}
 .grid4 .box{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.6;}
 .grid4 .box b{display:block;font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--violet-ink);margin-bottom:4px;}
@@ -95,6 +98,17 @@ footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;t
     <div class="callout">
       <b>모양이 비뚤어져도 이름은 그대로예요.</b><br>
       정사각형을 살짝 기울여 그려도, 규칙(네 변의 길이와 각이 같다는 것)만 지켜지면 여전히 정사각형이에요.
+    </div>
+    <div class="illo">
+      <svg viewBox="0 0 200 140">
+        <rect x="10" y="10" width="180" height="120" rx="14" fill="none" stroke="var(--ink)" stroke-width="1.5"></rect>
+        <text x="18" y="26" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">사다리꼴</text>
+        <rect x="30" y="35" width="140" height="90" rx="12" fill="none" stroke="var(--violet-ink)" stroke-width="1.5"></rect>
+        <text x="38" y="50" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--violet-ink)">평행사변형</text>
+        <rect x="55" y="55" width="60" height="60" rx="8" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2"></rect>
+        <text x="85" y="90" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--violet-ink)">정사각형</text>
+      </svg>
+      <div class="illo-caption">정사각형은 직사각형이면서 평행사변형이자 사다리꼴이기도 해요</div>
     </div>
 
     <h2><span class="num">4</span>이렇게 놀아보세요</h2>
