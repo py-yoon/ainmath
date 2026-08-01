@@ -159,6 +159,12 @@
         <div class="fact" id="fact2"></div>
       </div>
     </div>
+
+    <div class="fact" id="savingsFact" style="margin-top:16px;max-width:none;">
+      <b>💰 실생활 예시 — 연 5% 복리 저축</b>
+      <div id="savingsRow" class="seq-row" style="margin-top:10px;max-width:none;"></div>
+      <div id="savingsSub" style="margin-top:8px;"></div>
+    </div>
   </div>
 
     <!-- prev-next-nav -->
@@ -311,6 +317,28 @@
     }
     [a1Slider,rSlider,nSlider].forEach(el=> el.addEventListener('input', render));
     render();
+  })();
+
+  // ============================================================
+  // 실생활 예시: 연 5% 복리 저축 (등비수열의 실제 활용)
+  // ============================================================
+  (function(){
+    const savingsRow = document.getElementById('savingsRow');
+    const savingsSub = document.getElementById('savingsSub');
+    const PRINCIPAL = 100; // 만원
+    const RATE = 0.05;
+    const YEARS = 10;
+
+    const amounts = [];
+    for(let year=0; year<=YEARS; year++) amounts.push(PRINCIPAL*Math.pow(1+RATE, year));
+
+    savingsRow.innerHTML = amounts.map((amt,year)=>
+      `<span class="seq-chip${year===YEARS?' last':''}">${year}년차: ${fmt(amt)}만원</span>`
+    ).join('');
+
+    const finalAmt = amounts[YEARS];
+    const multiple = finalAmt/PRINCIPAL;
+    savingsSub.innerHTML = `원금 <b>${PRINCIPAL}만원</b>을 매년 <b>5%</b>씩 이자가 붙는 예금에 넣으면, 1년 뒤엔 ${fmt(amounts[1])}만원, 2년 뒤엔 ${fmt(amounts[2])}만원… 이렇게 <b>공비 1.05인 등비수열</b>을 그리며 불어나요. 단순히 매년 5만원씩 더하는 게 아니라, "이미 붙은 이자에도 다시 이자가 붙는" 거라서(복리), ${YEARS}년 뒤에는 원금의 약 <b>${fmt(multiple)}배</b>인 <b>${fmt(finalAmt)}만원</b>이 돼요.`;
   })();
 </script>
 </body>
