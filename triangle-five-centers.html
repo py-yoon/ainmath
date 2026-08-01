@@ -39,6 +39,12 @@ h1 span{color:var(--violet-ink);}
 .tab-btn:hover{border-color:var(--tab-color,var(--violet-ink));color:var(--tab-color,var(--violet-ink));}
 .tab-btn.active{background:var(--tab-color,var(--violet-ink));border-color:var(--tab-color,var(--violet-ink));color:#fff;}
 
+.excenter-sub{display:none;gap:8px;flex-wrap:wrap;margin:-10px 0 20px;}
+.excenter-sub.show{display:flex;}
+.sub-btn{font-family:'Do Hyeon',sans-serif;font-size:13px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:10px;padding:6px 12px;cursor:pointer;transition:all .15s ease;}
+.sub-btn:hover{border-color:var(--amber-ink);color:var(--amber-ink);}
+.sub-btn.active{background:var(--amber-ink);border-color:var(--amber-ink);color:#fff;}
+
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:26px clamp(16px,4vw,38px) 30px;
   display:grid;grid-template-columns:1.15fr 0.85fr;gap:28px;align-items:start;}
 @media (max-width:820px){ .stage{grid-template-columns:1fr;} }
@@ -74,6 +80,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <div class="howto"><b>사용법</b> — 아래 탭에서 중심을 하나 고르면 그 중심을 만드는 선들이 나타나요. 꼭짓점 A, B, C를 손가락이나 마우스로 끌어보면, 삼각형 모양이 바뀔 때마다 중심의 위치도 실시간으로 따라 움직여요.</div>
 
   <div class="tabs" id="tabs"></div>
+  <div class="excenter-sub" id="excenterSub"></div>
 
   <div class="stage">
     <div>
@@ -123,6 +130,8 @@ const TABS = [
   {key:'excenter', label:'방심', color:'var(--amber-ink)', soft:'var(--amber-soft)'},
 ];
 let currentKey = 'centroid';
+let excenterWhich = 'A';
+const EXCENTER_LABELS = {A:'A쪽 방심 (BC에 접함)', B:'B쪽 방심 (CA에 접함)', C:'C쪽 방심 (AB에 접함)'};
 
 function buildTabs(){
   tabsEl.innerHTML = TABS.map(t=>`<button class="tab-btn${t.key===currentKey?' active':''}" data-k="${t.key}" style="--tab-color:${t.color}">${t.label}</button>`).join('');
@@ -130,6 +139,21 @@ function buildTabs(){
     btn.addEventListener('click', ()=>{
       currentKey = btn.dataset.k;
       buildTabs();
+      buildExcenterSub();
+      render();
+    });
+  });
+}
+
+function buildExcenterSub(){
+  const el = document.getElementById('excenterSub');
+  if(currentKey!=='excenter'){ el.classList.remove('show'); el.innerHTML=''; return; }
+  el.classList.add('show');
+  el.innerHTML = ['A','B','C'].map(k=>`<button class="sub-btn${k===excenterWhich?' active':''}" data-ek="${k}">${EXCENTER_LABELS[k]}</button>`).join('');
+  el.querySelectorAll('.sub-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      excenterWhich = btn.dataset.ek;
+      buildExcenterSub();
       render();
     });
   });
@@ -169,10 +193,14 @@ function computeAll(){
   const H = lineIntersect(A, perp(sub(C,B)), B, perp(sub(A,C)));
   const I = scl(add(add(scl(A,a),scl(B,b)),scl(C,c)), 1/(a+b+c));
   const IA = scl(add(add(scl(A,-a),scl(B,b)),scl(C,c)), 1/(-a+b+c));
+  const IB = scl(add(add(scl(A,a),scl(B,-b)),scl(C,c)), 1/(a-b+c));
+  const IC = scl(add(add(scl(A,a),scl(B,b)),scl(C,-c)), 1/(a+b-c));
   const R = (a*b*c)/(4*area);
   const r = area/s;
   const rA = area/(s-a);
-  return {a,b,c,area,s,G,O,H,I,IA,R,r,rA,midAB,midBC,midCA};
+  const rB = area/(s-b);
+  const rC = area/(s-c);
+  return {a,b,c,area,s,G,O,H,I,IA,IB,IC,R,r,rA,rB,rC,midAB,midBC,midCA};
 }
 
 /* ==================== 렌더링 ==================== */
@@ -226,7 +254,11 @@ function computeViewBox(m){
   if(currentKey==='circumcenter'){ includeCircle(m.O, m.R); }
   else if(currentKey==='incenter'){ includeCircle(m.I, m.r); }
   else if(currentKey==='orthocenter'){ include(m.H); }
-  else if(currentKey==='excenter'){ includeCircle(m.IA, m.rA); }
+  else if(currentKey==='excenter'){
+    const IX = excenterWhich==='A'? m.IA : excenterWhich==='B'? m.IB : m.IC;
+    const rX = excenterWhich==='A'? m.rA : excenterWhich==='B'? m.rB : m.rC;
+    includeCircle(IX, rX);
+  }
   const pad = 26;
   minX-=pad; minY-=pad; maxX+=pad; maxY+=pad;
   return {x:minX, y:minY, w:maxX-minX, h:maxY-minY};
@@ -296,27 +328,39 @@ function render(){
     factBox.innerHTML = `예각삼각형에서는 수심이 삼각형 <b>안</b>에, 둔각삼각형에서는 <b>바깥</b>에, 직각삼각형에서는 직각을 낀 꼭짓점 <b>바로 위</b>에 있어요. 꼭짓점을 움직이며 세 경우를 모두 확인해보세요.`;
   }
   else if(currentKey==='excenter'){
-    const dAB=norm(sub(B,A)), dAC=norm(sub(C,A));
-    const dBA=norm(sub(A,B)), dBC=norm(sub(C,B));
-    const dCA=norm(sub(A,C)), dCB=norm(sub(B,C));
-    const bisA = norm(add(dAB, dAC));
-    const extBisB = perp(norm(add(dBA, dBC)));
-    const extBisC = perp(norm(add(dCA, dCB)));
-    const eA = extendedAttrs(A, add(A,bisA), 400);
-    const eB = extendedAttrs(B, add(B,extBisB), 400);
-    const eC = extendedAttrs(C, add(C,extBisC), 400);
-    [eA,eB,eC].forEach(e=>{ html += `<line x1="${e.x1}" y1="${e.y1}" x2="${e.x2}" y2="${e.y2}" stroke="var(--amber-ink)" stroke-width="2" stroke-dasharray="6 4" opacity="0.7"></line>`; });
-    html += bisectorMarksSVG(A, dAB, dAC, bisA, 22, 'var(--amber-ink)');
-    const revBA = scl(dBA,-1), revCA = scl(dCA,-1);
-    const extBisAtB = norm(add(dBC, revBA));
-    const extBisAtC = norm(add(dCB, revCA));
-    html += bisectorMarksSVG(B, dBC, revBA, extBisAtB, 20, 'var(--amber-ink)');
-    html += bisectorMarksSVG(C, dCB, revCA, extBisAtC, 20, 'var(--amber-ink)');
-    html += `<circle cx="${m.IA.x}" cy="${m.IA.y}" r="${m.rA}" fill="none" stroke="var(--amber)" stroke-width="2"></circle>`;
-    html += ptSVG(m.IA, 'var(--amber-ink)', 'Iₐ');
-    centerLabel.textContent = '방심 (Excenter)';
-    centerDef.innerHTML = 'A의 <b>내각이등분선</b>과, B·C의 <b>외각이등분선</b>이 만나는 점이에요. 변 BC와, 다른 두 변의 연장선에 모두 닿는 원(방접원)의 중심이에요.';
-    factBox.innerHTML = `방심은 삼각형마다 <b>3개</b> 있어요(각 변마다 하나씩). 여기서는 변 BC 쪽의 방심 하나만 보여드려요. 방심에서 변 BC까지의 거리는 <b>${fmt(m.rA)}</b>예요.`;
+    const V = {A,B,C};
+    const which = excenterWhich;
+    const [o1,o2] = ['A','B','C'].filter(k=>k!==which);
+    const P = V[which], P1 = V[o1], P2 = V[o2];
+
+    const dP1 = norm(sub(P1,P)), dP2 = norm(sub(P2,P));
+    const bisP = norm(add(dP1, dP2));
+
+    const d1toP = norm(sub(P,P1)), d1toO2 = norm(sub(P2,P1));
+    const extBis1 = perp(norm(add(d1toP, d1toO2)));
+    const d2toP = norm(sub(P,P2)), d2toO1 = norm(sub(P1,P2));
+    const extBis2 = perp(norm(add(d2toP, d2toO1)));
+
+    const eP = extendedAttrs(P, add(P,bisP), 400);
+    const e1 = extendedAttrs(P1, add(P1,extBis1), 400);
+    const e2 = extendedAttrs(P2, add(P2,extBis2), 400);
+    [eP,e1,e2].forEach(e=>{ html += `<line x1="${e.x1}" y1="${e.y1}" x2="${e.x2}" y2="${e.y2}" stroke="var(--amber-ink)" stroke-width="2" stroke-dasharray="6 4" opacity="0.7"></line>`; });
+    html += bisectorMarksSVG(P, dP1, dP2, bisP, 22, 'var(--amber-ink)');
+    const revD1toP = scl(d1toP,-1), revD2toP = scl(d2toP,-1);
+    const extBisAt1 = norm(add(d1toO2, revD1toP));
+    const extBisAt2 = norm(add(d2toO1, revD2toP));
+    html += bisectorMarksSVG(P1, d1toO2, revD1toP, extBisAt1, 20, 'var(--amber-ink)');
+    html += bisectorMarksSVG(P2, d2toO1, revD2toP, extBisAt2, 20, 'var(--amber-ink)');
+
+    const IX = which==='A'? m.IA : which==='B'? m.IB : m.IC;
+    const rX = which==='A'? m.rA : which==='B'? m.rB : m.rC;
+    html += `<circle cx="${IX.x}" cy="${IX.y}" r="${rX}" fill="none" stroke="var(--amber)" stroke-width="2"></circle>`;
+    html += ptSVG(IX, 'var(--amber-ink)', `I<tspan baseline-shift="sub" font-size="11">${which}</tspan>`);
+
+    const oppSide = which==='A'?'BC':which==='B'?'CA':'AB';
+    centerLabel.textContent = `방심 (Excenter) — ${which}쪽`;
+    centerDef.innerHTML = `${which}의 <b>내각이등분선</b>과, ${o1}·${o2}의 <b>외각이등분선</b>이 만나는 점이에요. 변 ${oppSide}와, 다른 두 변의 연장선에 모두 닿는 원(방접원)의 중심이에요.`;
+    factBox.innerHTML = `방심은 삼각형마다 <b>3개</b> 있어요(각 변마다 하나씩). 위 버튼으로 세 방심을 하나씩 바꿔볼 수 있어요. 지금은 변 ${oppSide} 쪽 방심이고, 이 방심에서 변 ${oppSide}까지의 거리는 <b>${fmt(rX)}</b>예요.`;
   }
 
   html += vertexSVG(A,'A') + vertexSVG(B,'B') + vertexSVG(C,'C');
@@ -368,6 +412,7 @@ function onVertexDown(e){
 }
 
 buildTabs();
+buildExcenterSub();
 render();
 </script>
 </body>
