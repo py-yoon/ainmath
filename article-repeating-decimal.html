@@ -11,6 +11,7 @@
 <style>
   :root{
     --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
     --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
   *{box-sizing:border-box;}
@@ -29,6 +30,9 @@
   .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
   .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
   .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:200px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
   .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
   .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#D90500;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
   .cta-btn:hover{transform:translateY(-2px);}
@@ -47,6 +51,20 @@
     <div class="article-body">
       <p>1/2을 소수로 바꾸면 0.5로 딱 떨어져요. 그런데 1/3을 소수로 바꾸면 0.333333...으로 3이 끝없이 반복돼요. 같은 나눗셈인데 왜 하나는 끝나고 하나는 끝나지 않을까요? 사실 이건 순전히 운이 아니라, 분모만 보고도 미리 알 수 있는 규칙이 있어요.</p>
       <p>먼저 용어부터 정리해볼게요. 0.5처럼 소수점 뒤에 숫자가 정해진 개수만 있고 끝나는 소수를 <b>유한소수</b>라고 해요. 0.333...처럼 소수점 아래 어떤 숫자(또는 숫자 묶음)가 끝없이 되풀이되는 소수를 <b>순환소수</b>라고 하고요. 반복되는 부분을 '순환마디'라고 부르는데, 1/3은 '3'이 순환마디고, 1/7은 '142857'이라는 여섯 자리 숫자 묶음 전체가 순환마디예요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 160 130">
+          <defs>
+            <marker id="loopArrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+              <path d="M0,0 L8,4 L0,8 z" fill="var(--coral-ink)"></path>
+            </marker>
+          </defs>
+          <path d="M 118 60 A 48 48 0 1 1 116 48" fill="none" stroke="var(--coral-ink)" stroke-width="2" marker-end="url(#loopArrow)"></path>
+          <rect x="35" y="55" width="80" height="34" rx="10" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="2"></rect>
+          <text x="75" y="76" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral-ink)">나머지 1</text>
+          <text x="75" y="25" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">×10÷3 → 몫 3</text>
+        </svg>
+        <div class="illo-caption">나머지가 다시 1로 돌아오니 몫 3이 끝없이 반복돼요 (1/3 = 0.333...)</div>
+      </div>
       <p>분수를 소수로 바꾸는 과정은 결국 나눗셈이에요. 그런데 나눗셈을 계속하다 보면 나머지가 나올 수 있는 경우의 수는 분모보다 작은 자연수(0부터 분모-1까지)로 정해져 있어요. 그러니까 나눗셈을 분모만큼 반복하면, 나머지가 언젠가 이전에 나왔던 나머지와 똑같이 나오게 돼요. 나머지가 같아지는 순간, 그다음에 나오는 몫도 똑같이 반복될 수밖에 없어요. 이게 바로 순환소수가 생기는 이유예요.</p>
       <p>그럼 언제 나머지가 0이 되어서(=나눗셈이 끝나서) 유한소수가 될까요? 분수를 기약분수(더 이상 약분되지 않는 분수)로 만들고 분모를 소인수분해했을 때, 소인수가 <b>2와 5</b>뿐이라면 유한소수가 돼요. 이유는 우리가 쓰는 숫자 체계(10진법)의 10이 2×5이기 때문이에요. 분모가 2나 5의 거듭제곱으로만 이루어져 있으면, 분모와 분자에 적당한 수를 곱해서 분모를 10, 100, 1000... 같은 10의 거듭제곱으로 만들 수 있고, 그러면 나눗셈이 정확히 떨어져요. 반대로 분모에 3, 7, 11처럼 2와 5가 아닌 소인수가 하나라도 있으면, 아무리 곱해도 분모를 10의 거듭제곱으로 만들 수 없어서 순환소수가 돼요.</p>
       <p>예를 들어 5/6을 볼게요. 6을 소인수분해하면 2×3이에요. 2뿐 아니라 3도 있으니까 순환소수가 될 거라고 미리 예상할 수 있어요. 실제로 계산해보면 5/6 = 0.8333...으로, '3'이 반복되는 순환소수가 맞아요. 반대로 7/8은 어떨까요? 8 = 2×2×2로 소인수가 2뿐이니 유한소수일 거예요. 실제로 계산하면 7/8 = 0.875로 정확히 딱 떨어져요.</p>
