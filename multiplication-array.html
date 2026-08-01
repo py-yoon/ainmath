@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>곱셈구구 놀이</title>
 <meta name="description" content="묶음 수와 한 묶음의 개수를 슬라이더로 바꿔보며, 곱셈이 왜 그런 답이 나오는지 배열 그림으로 확인해요.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -60,6 +61,9 @@ input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--vi
 .equation .addline b{color:var(--ink);}
 .fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
 .fact b{color:var(--coral-ink);}
+.read-btn{align-self:flex-start;font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--violet-soft);color:var(--violet-ink);border:2px solid transparent;border-radius:999px;padding:7px 14px;cursor:pointer;transition:all .15s ease;}
+.read-btn:hover{filter:brightness(0.96);}
+.read-btn:focus-visible{outline:3px solid var(--violet);outline-offset:2px;}
 .table-wrap{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:14px;}
 .table-title{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);margin:0 0 10px;text-align:center;}
 table.gugu{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed;}
@@ -101,6 +105,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
         <div class="addline" id="addLine"></div>
       </div>
       <div class="fact" id="fact"></div>
+      <button class="read-btn" id="readBtn" type="button">🔊 읽어주기</button>
       <div class="table-wrap">
         <p class="table-title">구구단 표에서 찾아보기</p>
         <table class="gugu" id="guguTable"></table>
@@ -123,6 +128,17 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
 </div>
 
 <script>
+// 문제 읽어주기 — 외부 파일 없이 브라우저 내장 음성 기능만 사용해요
+function speakText(text){
+  try{
+    if(!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'ko-KR'; u.rate = 0.9;
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+
 const svg = document.getElementById('svg');
 const sliderA = document.getElementById('sliderA');
 const sliderB = document.getElementById('sliderB');
@@ -136,6 +152,8 @@ const factBox = document.getElementById('fact');
 const presetRow = document.getElementById('presetRow');
 const swapBtn = document.getElementById('swapBtn');
 const guguTable = document.getElementById('guguTable');
+const readBtn = document.getElementById('readBtn');
+readBtn.addEventListener('click', ()=> speakText(factBox.textContent));
 
 const PRESETS = [
   {a:2, b:3, label:'2묶음×3개'},

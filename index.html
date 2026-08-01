@@ -5,8 +5,9 @@
      crossorigin="anonymous"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>아인매스</title>
-<meta name="description" content="슬라이더와 버튼으로 값을 직접 바꿔보면서 수학 개념을 눈으로 확인하는 교육용 웹사이트. 도형·기하, 수와 연산, 확률과 통계, 함수와 그래프, 재미있는 패턴까지 초등 고학년부터 중학생까지 체험하며 배워요.">
+<meta name="description" content="슬라이더와 버튼으로 값을 직접 바꿔보면서 수학 개념을 눈으로 확인하는 교육용 웹사이트. 도형·기하, 수와 연산, 확률과 통계, 함수와 그래프, 재미있는 패턴까지 초등 저학년부터 고등학생까지 체험하며 배워요.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
@@ -26,6 +27,8 @@
     --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
     --teal:#2EC4C6;
     --teal-soft:#E4FAF9;--teal-ink:#1D7C7E;
+    --amber:#D97706;
+    --amber-soft:#FEF0D9;--amber-ink:#A55A05;
     --card:#FFFFFF;
     --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
@@ -221,6 +224,7 @@
   .grade-tag.low{background:#FFF3E0;color:#B45309;border-color:#FBE3BE;}
   .grade-tag.high{background:var(--green-soft);color:var(--green-ink);border-color:#CDEDE1;}
   .grade-tag.mid{background:var(--violet-soft);color:var(--violet-ink);border-color:#DCD1FE;}
+  .grade-tag.hs{background:var(--amber-soft);color:var(--amber-ink);border-color:#FBD9A8;}
 
   .card-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px;}
   .card-action{
@@ -278,6 +282,7 @@
       <button class="filter-btn" data-grade="low">초등 저학년 (1~3학년)</button>
       <button class="filter-btn" data-grade="high">초등 고학년 (4~6학년)</button>
       <button class="filter-btn" data-grade="mid">중학생</button>
+      <button class="filter-btn" data-grade="hs">고등학생</button>
     </div>
     <div class="jumpnav" id="jumpNav"></div>
   </div>
@@ -327,13 +332,13 @@
         { title:'쌓기나무 세어보기', desc:'쌓여 있는 쌓기나무 그림을 보고 모두 몇 개인지 세어보며 공간 감각을 키워요.', grades:['high'], status:'live', href:'unit-cube-count.html', article:'article-unit-cube-count.html', icon:'🎲' },
         { title:'삼각형과 사각형의 성질', desc:'이등변삼각형과 여러 사각형을 슬라이더로 조절하며 변·각·대각선의 성질이 절대 변하지 않는다는 걸 확인해요.', grades:['mid'], status:'live', href:'triangle-quadrilateral-properties.html', article:'article-triangle-quadrilateral-properties.html', icon:'◇' },
         { title:'원주각의 성질', desc:'원 위의 점을 움직여도 원주각의 크기가 왜 항상 똑같은지, 중심각의 절반이 되는 이유를 슬라이더로 확인해요.', grades:['mid'], status:'live', href:'inscribed-angle.html', article:'article-inscribed-angle.html', icon:'⚪' },
-        { title:'입체도형 단면 탐구 실험실', desc:'원뿔·원기둥·육면체·삼각기둥·사각뿔·구 등 아홉 가지 입체를 3D로 돌려보고 잘라보면서, 자르는 각도와 위치에 따라 단면이 원·타원·포물선·삼각형 등으로 어떻게 달라지는지 확인해요.', grades:['high','mid'], status:'live', href:'solid-cross-sections-lab.html', article:'article-solid-cross-sections-lab.html', icon:'🔪' },
+        { title:'입체도형 단면 탐구 실험실', desc:'원뿔·원기둥·육면체·삼각기둥·사각뿔·구 등 아홉 가지 입체를 3D로 돌려보고 잘라보면서, 자르는 각도와 위치에 따라 단면이 원·타원·포물선·삼각형 등으로 어떻게 달라지는지 확인해요.', grades:['high','mid','hs'], status:'live', href:'solid-cross-sections-lab.html', article:'article-solid-cross-sections-lab.html', icon:'🔪' },
         { title:'자와 컴퍼스 작도 실험실', desc:'눈금 없는 자와 컴퍼스만으로 수직이등분선, 각의 이등분선, 정삼각형, 정오각형, 정육각형, 정팔각형을 작도하는 과정을 단계별로 보고, 직접 작도 문제에 도전해봐요.', grades:['high','mid'], status:'live', isBest:true, href:'compass-straightedge-construction.html', article:'article-compass-straightedge-construction.html', icon:'✏️' },
         { title:'삼각형의 오심(五心) 실험실', desc:'삼각형의 세 꼭짓점을 자유롭게 끌어보면서 무게중심, 외심, 내심, 수심, 방심이 어떻게 만들어지고 어떻게 움직이는지 확인해요.', grades:['mid'], status:'live', isBest:true, href:'triangle-five-centers.html', article:'article-triangle-five-centers.html', icon:'📍' },
         { title:'원의 성질 실험실', desc:'원과 직선의 위치관계, 부채꼴의 호와 넓이, 원 밖의 점에서 그은 접선, 내접다각형까지 — 슬라이더로 값을 바꿔가며 원의 성질을 직접 확인해요.', grades:['mid'], status:'live', isNew:true, href:'circle-properties.html', article:'article-circle-properties.html', icon:'⭕' },
         { title:'타원 실험실', desc:'두 초점으로 그리는 타원의 정의, 이심률, 넓이 공식(πab), 행성 궤도와 속삭이는 회랑까지 — 슬라이더로 값을 바꿔가며 타원의 성질을 확인해요.', grades:['mid'], status:'live', isNew:true, href:'ellipse.html', article:'article-ellipse.html', icon:'🥚' },
-        { title:'공간도형과 공간좌표 실험실', desc:'x, y, z 세 방향 슬라이더로 점의 위치를 옮겨보며 원점까지의 거리와 두 점 사이의 거리 공식을 확인해요.', grades:['mid'], status:'live', isNew:true, href:'space-coordinates.html', article:'article-space-coordinates.html', icon:'📦' },
-        { title:'벡터 실험실', desc:'두 벡터를 화살표로 그려보며 덧셈을 확인하고, 내적이 0이 되는 순간 두 벡터가 정확히 수직이 된다는 것도 확인해요.', grades:['mid'], status:'live', isNew:true, href:'vectors.html', article:'article-vectors.html', icon:'➡️' },
+        { title:'공간도형과 공간좌표 실험실', desc:'x, y, z 세 방향 슬라이더로 점의 위치를 옮겨보며 원점까지의 거리와 두 점 사이의 거리 공식을 확인해요.', grades:['mid','hs'], status:'live', isNew:true, href:'space-coordinates.html', article:'article-space-coordinates.html', icon:'📦' },
+        { title:'벡터 실험실', desc:'두 벡터를 화살표로 그려보며 덧셈을 확인하고, 내적이 0이 되는 순간 두 벡터가 정확히 수직이 된다는 것도 확인해요.', grades:['mid','hs'], status:'live', isNew:true, href:'vectors.html', article:'article-vectors.html', icon:'➡️' },
       ]
     },
     {
@@ -360,17 +365,17 @@
         { title:'스피드 암산 챌린지', desc:'60초 안에 문제를 최대한 많이 풀어 점수를 쌓는 타임어택 게임이에요. 연속으로 맞히면 콤보 보너스도 받을 수 있어요.', grades:['low','high','mid'], status:'live', href:'speed-math-challenge.html', article:'article-speed-math-challenge.html', icon:'⚡' },
         { title:'유리수와 순환소수', desc:'분수를 소수로 바꾸면 딱 떨어질지 계속 반복될지 먼저 예상해보고, 나눗셈 과정으로 직접 확인해요.', grades:['mid'], status:'live', href:'repeating-decimal.html', article:'article-repeating-decimal.html', icon:'🔁' },
         { title:'제곱근과 실수', desc:'슬라이더로 숫자를 바꾸며 제곱근이 수직선 어디에 있는지, 유리수인지 무리수인지 확인해요.', grades:['mid'], status:'live', href:'square-root.html', article:'article-square-root.html', icon:'√' },
-        { title:'다항식의 곱셈공식과 나머지정리', desc:'(a+b)ⁿ의 전개 계수가 파스칼의 삼각형과 같다는 걸 확인하고, 조립제법으로 나머지정리를 직접 검증해요.', grades:['mid'], status:'live', isNew:true, href:'polynomial.html', article:'article-polynomial.html', icon:'🧮' },
-        { title:'집합과 명제 실험실', desc:'벤다이어그램에서 집합 연산을 확인하고, 명제의 역·이·대우가 서로 어떤 관계인지 비교해요.', grades:['mid'], status:'live', isNew:true, href:'sets-propositions.html', article:'article-sets-propositions.html', icon:'∩' },
+        { title:'다항식의 곱셈공식과 나머지정리', desc:'(a+b)ⁿ의 전개 계수가 파스칼의 삼각형과 같다는 걸 확인하고, 조립제법으로 나머지정리를 직접 검증해요.', grades:['mid','hs'], status:'live', isNew:true, href:'polynomial.html', article:'article-polynomial.html', icon:'🧮' },
+        { title:'집합과 명제 실험실', desc:'벤다이어그램에서 집합 연산을 확인하고, 명제의 역·이·대우가 서로 어떤 관계인지 비교해요.', grades:['mid','hs'], status:'live', isNew:true, href:'sets-propositions.html', article:'article-sets-propositions.html', icon:'∩' },
       ]
     },
     {
       key: 'stats', title: '확률과 통계', color: 'var(--green)', textColor: 'var(--green-ink)', bg: 'var(--green-soft)',
       items: [
-        { title:'동전 · 주사위 시뮬레이터', desc:'시행 횟수를 늘리면 실제 확률에 가까워지는 과정을 그래프로 확인해요.', grades:['high','mid'], status:'live', href:'coin-dice-simulator.html', article:'article-coin-dice-probability.html', icon:'🎲' },
-        { title:'평균 · 중앙값 · 최빈값', desc:'숫자를 직접 입력하면 세 값이 어떻게 달라지는지 확인해요.', grades:['high','mid'], status:'live', href:'mean-median-mode.html', article:'article-mean-median-mode.html', icon:'📊' },
-        { title:'순열과 조합', desc:'n명 중 r명을 뽑을 때, 순서를 따지는지에 따라 경우의 수가 어떻게 달라지는지 확인해요.', grades:['high','mid'], status:'live', isBest:true, href:'permutations-combinations.html', article:'article-permutations-combinations.html', icon:'🔀' },
-        { title:'경우의 수 실험실', desc:'메뉴를 고르는 수형도로 곱의 법칙을, 최단 경로의 수로 합의 법칙과 파스칼의 삼각형의 연결을 확인해요.', grades:['mid'], status:'live', isNew:true, href:'counting-principle.html', article:'article-counting-principle.html', icon:'🌳' },
+        { title:'동전 · 주사위 시뮬레이터', desc:'시행 횟수를 늘리면 실제 확률에 가까워지는 과정을 그래프로 확인해요.', grades:['high','mid','hs'], status:'live', href:'coin-dice-simulator.html', article:'article-coin-dice-probability.html', icon:'🎲' },
+        { title:'평균 · 중앙값 · 최빈값', desc:'숫자를 직접 입력하면 세 값이 어떻게 달라지는지 확인해요.', grades:['high','mid','hs'], status:'live', href:'mean-median-mode.html', article:'article-mean-median-mode.html', icon:'📊' },
+        { title:'순열과 조합', desc:'n명 중 r명을 뽑을 때, 순서를 따지는지에 따라 경우의 수가 어떻게 달라지는지 확인해요.', grades:['high','mid','hs'], status:'live', isBest:true, href:'permutations-combinations.html', article:'article-permutations-combinations.html', icon:'🔀' },
+        { title:'경우의 수 실험실', desc:'메뉴를 고르는 수형도로 곱의 법칙을, 최단 경로의 수로 합의 법칙과 파스칼의 삼각형의 연결을 확인해요.', grades:['mid','hs'], status:'live', isNew:true, href:'counting-principle.html', article:'article-counting-principle.html', icon:'🌳' },
         { title:'그림그래프로 나타내기', desc:'과일 버튼을 눌러 자료를 세고, 그림그래프로 쌓이는 걸 확인해요.', grades:['low'], status:'live', href:'pictogram-graph.html', article:'article-pictogram-graph.html', icon:'🍎' },
         { title:'막대그래프·꺾은선그래프', desc:'슬라이더로 값을 바꾸며 막대그래프와 꺾은선그래프가 어떻게 그려지는지 확인해요.', grades:['low','high'], status:'live', href:'bar-line-graph.html', article:'article-bar-line-graph.html', icon:'📈' },
         { title:'분류하기', desc:'색깔별로, 모양별로, 크기별로! 같은 물건도 기준을 바꾸면 다르게 나뉘는 걸 확인해요.', grades:['low'], status:'live', href:'classify-objects.html', article:'article-classify-objects.html', icon:'🟢' },
@@ -382,32 +387,32 @@
     {
       key: 'function', title: '함수와 그래프', color: 'var(--blue)', textColor: 'var(--blue-ink)', bg: 'var(--blue-soft)',
       items: [
-        { title:'일차함수 그래프', desc:'기울기와 y절편을 슬라이더로 조절하면 직선이 실시간으로 움직여요.', grades:['mid'], status:'live', href:'linear-function-graph.html', article:'article-linear-function.html', icon:'📈' },
+        { title:'일차함수 그래프', desc:'기울기와 y절편을 슬라이더로 조절하면 직선이 실시간으로 움직여요.', grades:['mid','hs'], status:'live', href:'linear-function-graph.html', article:'article-linear-function.html', icon:'📈' },
         { title:'비례와 반비례', desc:'상수 k를 바꾸면 그래프 모양이 어떻게 달라지는지 관찰해요.', grades:['high','mid'], status:'live', href:'proportion-inverse.html', article:'article-proportion-inverse.html', icon:'⇄' },
-        { title:'좌표평면 위 도형 이동', desc:'점을 클릭하거나 좌표를 입력해 대칭·평행이동·회전을 확인해요.', grades:['mid'], status:'live', href:'coordinate-transform.html', article:'article-coordinate-transform.html', icon:'⊹' },
-        { title:'이차함수 그래프', desc:'a, b, c를 슬라이더로 조절하면 포물선과 꼭짓점이 실시간으로 움직여요.', grades:['mid'], status:'live', href:'quadratic-function-graph.html', article:'article-quadratic-function.html', icon:'⋃' },
+        { title:'좌표평면 위 도형 이동', desc:'점을 클릭하거나 좌표를 입력해 대칭·평행이동·회전을 확인해요.', grades:['mid','hs'], status:'live', href:'coordinate-transform.html', article:'article-coordinate-transform.html', icon:'⊹' },
+        { title:'이차함수 그래프', desc:'a, b, c를 슬라이더로 조절하면 포물선과 꼭짓점이 실시간으로 움직여요.', grades:['mid','hs'], status:'live', href:'quadratic-function-graph.html', article:'article-quadratic-function.html', icon:'⋃' },
         { title:'방정식 저울 실험실', desc:'저울 양쪽에 같은 조작을 하며 일차방정식을 단계별로 풀어봐요.', grades:['mid'], status:'live', href:'equation-balance.html', article:'article-equation-balance.html', icon:'⚖️' },
         { title:'대응 관계', desc:'두 양이 짝을 지어 함께 변하는 대응 관계를 표와 그래프로 확인해요.', grades:['high'], status:'live', href:'corresponding-quantities.html', article:'article-corresponding-quantities.html', icon:'🔗' },
         { title:'등호와 규칙', desc:'저울로 등호(=)가 양쪽이 같다는 뜻임을 확인하고, □와 △로 규칙을 나타내는 법을 알아봐요.', grades:['low','high'], status:'live', href:'equal-sign-balance.html', article:'article-equal-sign-balance.html', icon:'🟰' },
         { title:'식의 계산 (지수법칙·동류항)', desc:'슬라이더로 지수법칙을 확인하고, 흩어진 항들을 동류항끼리 묶어 다항식을 정리해봐요.', grades:['mid'], status:'live', href:'monomial-calculation.html', article:'article-monomial-calculation.html', icon:'🧮' },
         { title:'일차부등식과 연립방정식', desc:'음수를 곱하거나 나누면 부등호 방향이 왜 바뀌는지 확인하고, 두 직선의 교점으로 연립방정식의 해를 찾아봐요.', grades:['mid'], status:'live', href:'inequality-and-system.html', article:'article-inequality-and-system.html', icon:'📏' },
-        { title:'다항식의 곱셈·인수분해와 이차방정식', desc:'정사각형 넓이로 곱셈공식을 확인하고, 인수분해로 이차방정식의 두 근을 찾아봐요.', grades:['mid'], status:'live', href:'factoring-quadratic.html', article:'article-factoring-quadratic.html', icon:'🧩' },
-        { title:'단위원과 삼각비 실험실', desc:'반지름이 1인 단위원 위의 점을 각도 θ로 돌려보며 (cos θ, sin θ) 좌표와 sin·cos·tan 값, 사분면별 부호, 사인·코사인 파동이 만들어지는 과정을 확인해요.', grades:['mid'], status:'live', isBest:true, href:'unit-circle.html', article:'article-unit-circle.html', icon:'🎡' },
-        { title:'삼각함수의 그래프 실험실', desc:'진폭·주기·위상이동·평행이동을 슬라이더로 조절하며 sin·cos·tan 그래프가 어떻게 변하는지 확인해요.', grades:['mid'], status:'live', isNew:true, href:'trig-function-graphs.html', article:'article-trig-function-graphs.html', icon:'〰️' },
-        { title:'지수함수와 로그함수 실험실', desc:'밑 a를 슬라이더로 바꿔가며 지수함수 y=aˣ와 로그함수 y=logₐx가 y=x에 대해 서로 반사된 모양이라는 걸 확인해요.', grades:['mid'], status:'live', isNew:true, href:'exp-log-function.html', article:'article-exp-log-function.html', icon:'📈' },
-        { title:'함수의 극한과 연속 실험실', desc:'x를 슬라이더로 움직여 f(x)가 어디로 다가가는지 확인하고, 구멍·도약·발산 세 가지 불연속 유형을 비교해요.', grades:['mid'], status:'live', isNew:true, href:'limits-continuity.html', article:'article-limits-continuity.html', icon:'🎯' },
-        { title:'미분 실험실', desc:'두 점 사이의 간격 h를 슬라이더로 좁혀가며, 할선(평균변화율)이 접선(순간변화율)이 되는 과정을 확인해요.', grades:['mid'], status:'live', isNew:true, href:'derivative.html', article:'article-derivative.html', icon:'📐' },
-        { title:'적분 실험실', desc:'직사각형 개수를 슬라이더로 늘려가며 구분구적법이 정적분에 다가가는 과정을 확인하고, x축 아래 넓이가 음수로 빠진다는 것도 확인해요.', grades:['mid'], status:'live', isNew:true, href:'integral.html', article:'article-integral.html', icon:'🟩' },
-        { title:'여러 가지 함수의 미분 실험실', desc:'sin, cos, eˣ, ln x 중 골라 접선과 도함수 그래프를 비교하고, 극한의 정의로 도함수 공식을 직접 검증해요.', grades:['mid'], status:'live', isNew:true, href:'derivative-rules.html', article:'article-derivative-rules.html', icon:'📐' },
-        { title:'여러 가지 적분법 실험실', desc:'누적 넓이 함수의 접선 기울기가 원래 함수와 같아진다는 미적분의 기본정리를 확인하고, 부정적분 가족을 비교해요.', grades:['mid'], status:'live', isNew:true, href:'integration-techniques.html', article:'article-integration-techniques.html', icon:'🔗' },
+        { title:'다항식의 곱셈·인수분해와 이차방정식', desc:'정사각형 넓이로 곱셈공식을 확인하고, 인수분해로 이차방정식의 두 근을 찾아봐요.', grades:['mid','hs'], status:'live', href:'factoring-quadratic.html', article:'article-factoring-quadratic.html', icon:'🧩' },
+        { title:'단위원과 삼각비 실험실', desc:'반지름이 1인 단위원 위의 점을 각도 θ로 돌려보며 (cos θ, sin θ) 좌표와 sin·cos·tan 값, 사분면별 부호, 사인·코사인 파동이 만들어지는 과정을 확인해요.', grades:['mid','hs'], status:'live', isBest:true, href:'unit-circle.html', article:'article-unit-circle.html', icon:'🎡' },
+        { title:'삼각함수의 그래프 실험실', desc:'진폭·주기·위상이동·평행이동을 슬라이더로 조절하며 sin·cos·tan 그래프가 어떻게 변하는지 확인해요.', grades:['mid','hs'], status:'live', isNew:true, href:'trig-function-graphs.html', article:'article-trig-function-graphs.html', icon:'〰️' },
+        { title:'지수함수와 로그함수 실험실', desc:'밑 a를 슬라이더로 바꿔가며 지수함수 y=aˣ와 로그함수 y=logₐx가 y=x에 대해 서로 반사된 모양이라는 걸 확인해요.', grades:['mid','hs'], status:'live', isNew:true, href:'exp-log-function.html', article:'article-exp-log-function.html', icon:'📈' },
+        { title:'함수의 극한과 연속 실험실', desc:'x를 슬라이더로 움직여 f(x)가 어디로 다가가는지 확인하고, 구멍·도약·발산 세 가지 불연속 유형을 비교해요.', grades:['mid','hs'], status:'live', isNew:true, href:'limits-continuity.html', article:'article-limits-continuity.html', icon:'🎯' },
+        { title:'미분 실험실', desc:'두 점 사이의 간격 h를 슬라이더로 좁혀가며, 할선(평균변화율)이 접선(순간변화율)이 되는 과정을 확인해요.', grades:['mid','hs'], status:'live', isNew:true, href:'derivative.html', article:'article-derivative.html', icon:'📐' },
+        { title:'적분 실험실', desc:'직사각형 개수를 슬라이더로 늘려가며 구분구적법이 정적분에 다가가는 과정을 확인하고, x축 아래 넓이가 음수로 빠진다는 것도 확인해요.', grades:['mid','hs'], status:'live', isNew:true, href:'integral.html', article:'article-integral.html', icon:'🟩' },
+        { title:'여러 가지 함수의 미분 실험실', desc:'sin, cos, eˣ, ln x 중 골라 접선과 도함수 그래프를 비교하고, 극한의 정의로 도함수 공식을 직접 검증해요.', grades:['mid','hs'], status:'live', isNew:true, href:'derivative-rules.html', article:'article-derivative-rules.html', icon:'📐' },
+        { title:'여러 가지 적분법 실험실', desc:'누적 넓이 함수의 접선 기울기가 원래 함수와 같아진다는 미적분의 기본정리를 확인하고, 부정적분 가족을 비교해요.', grades:['mid','hs'], status:'live', isNew:true, href:'integration-techniques.html', article:'article-integration-techniques.html', icon:'🔗' },
       ]
     },
     {
       key: 'pattern', title: '쉬는 시간 · 수학 탐구', color: 'var(--teal)', textColor: 'var(--teal-ink)', bg: 'var(--teal-soft)',
       items: [
-        { title:'파스칼의 삼각형', desc:'줄 수를 입력하면 삼각형이 그려지고 짝수·홀수 패턴이 색칠돼요.', grades:['mid'], status:'live', isBest:true, href:'pascal-triangle.html', article:'article-pascals-triangle.html', icon:'▲' },
-        { title:'피보나치 수열과 나선', desc:'항의 개수를 입력하면 나선과 사각형이 자라나는 모습을 확인해요.', grades:['high','mid'], status:'live', isBest:true, href:'fibonacci-spiral.html', article:'article-fibonacci-spiral.html', icon:'🌀' },
-        { title:'등차수열과 등비수열 실험실', desc:'첫째항과 공차(또는 공비)를 슬라이더로 바꿔가며, 등차수열·등비수열의 합 공식이 왜 그런 모양인지 눈으로 확인해요.', grades:['mid'], status:'live', isNew:true, href:'sequences.html', article:'article-sequences.html', icon:'🔢' },
+        { title:'파스칼의 삼각형', desc:'줄 수를 입력하면 삼각형이 그려지고 짝수·홀수 패턴이 색칠돼요.', grades:['mid','hs'], status:'live', isBest:true, href:'pascal-triangle.html', article:'article-pascals-triangle.html', icon:'▲' },
+        { title:'피보나치 수열과 나선', desc:'항의 개수를 입력하면 나선과 사각형이 자라나는 모습을 확인해요.', grades:['high','mid','hs'], status:'live', isBest:true, href:'fibonacci-spiral.html', article:'article-fibonacci-spiral.html', icon:'🌀' },
+        { title:'등차수열과 등비수열 실험실', desc:'첫째항과 공차(또는 공비)를 슬라이더로 바꿔가며, 등차수열·등비수열의 합 공식이 왜 그런 모양인지 눈으로 확인해요.', grades:['mid','hs'], status:'live', isNew:true, href:'sequences.html', article:'article-sequences.html', icon:'🔢' },
         { title:'테셀레이션(쪽매맞춤)', desc:'정다각형을 골라 한 꼭짓점에 모아보며, 어떤 도형이 평면을 빈틈없이 채우는지 확인해요.', grades:['high','mid'], status:'live', href:'tessellation.html', article:'article-tessellation.html', icon:'🔷' },
         { title:'규칙 찾기 (패턴 완성하기)', desc:'모양이 반복되는 규칙을 보고, "?" 자리에 올 모양을 맞혀봐요.', grades:['low'], status:'live', href:'pattern-finder.html', article:'article-pattern-finder.html', icon:'🔁' },
         { title:'마방진 채우기', desc:'1부터 9까지의 숫자로 가로·세로·대각선의 합이 모두 같아지도록 빈칸을 채우는 마방진 퍼즐을 풀어봐요.', grades:['low','high'], status:'live', href:'magic-square.html', article:'article-magic-square.html', icon:'🔲' },
@@ -425,8 +430,8 @@
     },
   ];
 
-  const gradeNames = { low:'초등 저학년', high:'초등 고학년', mid:'중학생' };
-  const gradeRank = { low:0, high:1, mid:2 };
+  const gradeNames = { low:'초등 저학년', high:'초등 고학년', mid:'중학생', hs:'고등학생' };
+  const gradeRank = { low:0, high:1, mid:2, hs:3 };
 
   const container = document.getElementById('categories');
 

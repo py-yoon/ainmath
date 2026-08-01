@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>비교하기 실험실</title>
 <meta name="description" content="길이, 무게, 넓이, 들이를 직접 비교해보며 어느 쪽이 더 긴지, 무거운지, 넓은지, 많은지 확인해요.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -64,6 +65,9 @@ input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;bac
 .quiz-feedback{margin-top:14px;font-size:15px;color:var(--ink);min-height:24px;text-align:center;}
 .action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
 .action-btn:hover{background:var(--violet-ink);}
+.read-btn{display:block;margin:0 auto 14px;font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--blue-soft);color:var(--blue-ink);border:2px solid transparent;border-radius:999px;padding:7px 14px;cursor:pointer;transition:all .15s ease;}
+.read-btn:hover{filter:brightness(0.96);}
+.read-btn:focus-visible{outline:3px solid var(--violet);outline-offset:2px;}
 
 footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
@@ -102,6 +106,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
       <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
     </div>
     <div class="quiz-q" id="quizQ"></div>
+    <button class="read-btn" id="readBtn" type="button">🔊 문제 읽어주기</button>
     <svg id="quizSvg" viewBox="0 0 300 200"></svg>
     <div class="quiz-opts" id="quizOpts" style="margin-top:16px;"></div>
     <div class="quiz-feedback" id="quizFeedback"></div>
@@ -123,6 +128,30 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
 </div>
 
 <script>
+// 소리 피드백과 문제 읽어주기 — 외부 파일 없이 브라우저 내장 기능만 사용해요
+function beep(freq, dur, type){
+  try{
+    const ctx = beep.ctx || (beep.ctx = new (window.AudioContext||window.webkitAudioContext)());
+    const osc = ctx.createOscillator(); const gain = ctx.createGain();
+    osc.type = type||'sine'; osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+dur);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(); osc.stop(ctx.currentTime+dur);
+  }catch(e){}
+}
+function playCorrect(){ beep(660,0.12); setTimeout(()=>beep(880,0.18),120); }
+function playWrong(){ beep(220,0.25,'sawtooth'); }
+function speakText(text){
+  try{
+    if(!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'ko-KR'; u.rate = 0.9;
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+
 const TABS = [
   { key:'length', label:'📏 길이', q:'어느 리본이 더 길까요?' },
   { key:'weight', label:'⚖️ 무게', q:'어느 가방이 더 무거울까요?' },
@@ -229,6 +258,8 @@ const quizFeedback = document.getElementById('quizFeedback');
 const nextQuizBtn = document.getElementById('nextQuizBtn');
 const scoreNumEl = document.getElementById('scoreNum');
 const triesNumEl = document.getElementById('triesNum');
+const readBtn = document.getElementById('readBtn');
+readBtn.addEventListener('click', ()=> speakText(quizQ.textContent));
 let score = 0, tries = 0, answered = false, qValA=0, qValB=0;
 
 function randInt(min,max){ return min + Math.floor(Math.random()*(max-min+1)); }
@@ -253,10 +284,12 @@ function newQuizQuestion(){
         score++;
         btn.classList.add('correct');
         quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+        playCorrect();
       } else {
         btn.classList.add('wrong');
         quizOpts.querySelector(`[data-o="${answer}"]`)?.classList.add('correct');
         quizFeedback.innerHTML = `아쉬워요! 정답은 "${answer}"였어요. (정답 ${score} / 시도 ${tries})`;
+        playWrong();
       }
       scoreNumEl.textContent = score;
       triesNumEl.textContent = tries;

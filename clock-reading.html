@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>시계 보기 실험실</title>
 <meta name="description" content="짧은바늘과 긴바늘을 보고 몇 시 몇 분인지 맞히는 퀴즈를 풀어봐요.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,6 +46,9 @@ svg{width:100%;max-width:300px;height:auto;overflow:visible;}
 .quiz-btn.correct{background:var(--green-ink);border-color:var(--green-ink);color:#fff;}
 .quiz-btn.wrong{background:var(--coral-ink);border-color:var(--coral-ink);color:#fff;}
 .quiz-btn:focus-visible{outline:4px solid var(--violet);outline-offset:2px;}
+.read-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--blue-soft);color:var(--blue-ink);border:2px solid transparent;border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;}
+.read-btn:hover{filter:brightness(0.96);}
+.read-btn:focus-visible{outline:4px solid var(--violet);outline-offset:2px;}
 .action-btn{font-family:'Do Hyeon',sans-serif;font-size:20px;background:var(--ink);color:#fff;border:none;border-radius:16px;padding:14px 20px;cursor:pointer;width:100%;max-width:420px;transition:transform .15s ease, background .2s ease;}
 .action-btn:hover{background:var(--coral-ink);}
 .action-btn:active{transform:scale(0.97);}
@@ -69,6 +73,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
     <div class="canvas-area">
       <div class="level-picker" id="levelPicker"></div>
       <svg id="svg" viewBox="0 0 300 300"></svg>
+      <button class="read-btn" id="readBtn" type="button">🔊 문제 읽어주기</button>
       <div class="quiz-opts" id="quizOpts"></div>
       <button class="action-btn" id="nextBtn">➡ 다음 문제</button>
     </div>
@@ -93,11 +98,37 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
 </div>
 
 <script>
+// 소리 피드백과 문제 읽어주기 — 외부 파일 없이 브라우저 내장 기능만 사용해요
+function beep(freq, dur, type){
+  try{
+    const ctx = beep.ctx || (beep.ctx = new (window.AudioContext||window.webkitAudioContext)());
+    const osc = ctx.createOscillator(); const gain = ctx.createGain();
+    osc.type = type||'sine'; osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+dur);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(); osc.stop(ctx.currentTime+dur);
+  }catch(e){}
+}
+function playCorrect(){ beep(660,0.12); setTimeout(()=>beep(880,0.18),120); }
+function playWrong(){ beep(220,0.25,'sawtooth'); }
+function speakText(text){
+  try{
+    if(!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'ko-KR'; u.rate = 0.9;
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+
 const svg = document.getElementById('svg');
 const levelPicker = document.getElementById('levelPicker');
+const readBtn = document.getElementById('readBtn');
 const quizOpts = document.getElementById('quizOpts');
 const nextBtn = document.getElementById('nextBtn');
 const feedback = document.getElementById('feedback');
+readBtn.addEventListener('click', ()=> speakText('시계를 보고, 지금 몇 시 몇 분인지 골라보세요.'));
 
 const LEVELS = [
   {key:'hour', name:'정각만 (예: 3시)'},
@@ -185,11 +216,13 @@ function newProblem(){
       if(bh===correct.h && bm===correct.m){
         btn.classList.add('correct');
         feedback.innerHTML = `🎉 정답이에요! 지금은 <b>${timeLabel(correct.h,correct.m)}</b>예요.`;
+        playCorrect();
       } else {
         btn.classList.add('wrong');
         const cbtn = Array.from(quizOpts.querySelectorAll('.quiz-btn')).find(b=>parseInt(b.dataset.h)===correct.h && parseInt(b.dataset.m)===correct.m);
         cbtn?.classList.add('correct');
         feedback.innerHTML = `아쉬워요! 정답은 <b>${timeLabel(correct.h,correct.m)}</b>였어요. 짧은바늘과 긴바늘을 다시 살펴보세요.`;
+        playWrong();
       }
     });
   });

@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>그림그래프로 나타내기 실험실</title>
 <meta name="description" content="과일 버튼을 눌러 자료를 세고, 그림그래프로 쌓이는 걸 확인해요.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,6 +51,9 @@ h1 span{color:var(--coral-ink);}
 .action-btn:focus-visible{outline:4px solid var(--coral);outline-offset:2px;}
 .summary{background:var(--green-soft);border-radius:16px;padding:18px 20px;font-family:'Do Hyeon',sans-serif;font-size:18px;color:var(--ink);text-align:center;margin-top:20px;}
 .summary b{color:var(--green-ink);}
+.read-btn{display:block;margin:10px auto 0;font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--blue-soft);color:var(--blue-ink);border:2px solid transparent;border-radius:999px;padding:7px 14px;cursor:pointer;transition:all .15s ease;}
+.read-btn:hover{filter:brightness(0.96);}
+.read-btn:focus-visible{outline:3px solid var(--violet);outline-offset:2px;}
 footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
@@ -71,6 +75,7 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
       <button class="action-btn secondary" id="resetBtn">↺ 처음부터</button>
     </div>
     <div class="summary" id="summary">과일 버튼을 눌러서 그래프를 만들어보세요!</div>
+    <button class="read-btn" id="readBtn" type="button">🔊 읽어주기</button>
   </div>
 
     <!-- prev-next-nav -->
@@ -88,11 +93,24 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
 </div>
 
 <script>
+// 문제 읽어주기 — 외부 파일 없이 브라우저 내장 음성 기능만 사용해요
+function speakText(text){
+  try{
+    if(!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'ko-KR'; u.rate = 0.9;
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+
 const voteRow = document.getElementById('voteRow');
 const graph = document.getElementById('graph');
 const autoBtn = document.getElementById('autoBtn');
 const resetBtn = document.getElementById('resetBtn');
 const summary = document.getElementById('summary');
+const readBtn = document.getElementById('readBtn');
+readBtn.addEventListener('click', ()=> speakText(summary.textContent));
 
 const FRUITS = [
   {key:'apple', name:'사과', icon:'🍎'},

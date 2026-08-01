@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>10 만들기 실험실</title>
 <meta name="description" content="열 칸 표의 빨간 점을 보고, 10을 만드는 짝꿍 수를 맞혀봐요.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -46,6 +47,9 @@ h1 span{color:var(--violet-ink);}
 .quiz-btn.correct{background:var(--green-ink);border-color:var(--green-ink);color:#fff;}
 .quiz-btn.wrong{background:var(--coral-ink);border-color:var(--coral-ink);color:#fff;}
 .quiz-btn:focus-visible{outline:4px solid var(--violet);outline-offset:2px;}
+.read-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--blue-soft);color:var(--blue-ink);border:2px solid transparent;border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;}
+.read-btn:hover{filter:brightness(0.96);}
+.read-btn:focus-visible{outline:4px solid var(--violet);outline-offset:2px;}
 .action-btn{font-family:'Do Hyeon',sans-serif;font-size:20px;background:var(--ink);color:#fff;border:none;border-radius:16px;padding:14px 20px;cursor:pointer;width:100%;max-width:420px;transition:transform .15s ease, background .2s ease;}
 .action-btn:hover{background:var(--coral-ink);}
 .action-btn:active{transform:scale(0.97);}
@@ -73,6 +77,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
     <div class="canvas-area">
       <div class="tenframe" id="tenframe"></div>
       <div class="big-question" id="bigQuestion">빨간 점은 <b>4</b>개예요. 10을 만들려면 몇 개가 더 필요할까요?</div>
+      <button class="read-btn" id="readBtn" type="button">🔊 문제 읽어주기</button>
       <div class="quiz-opts" id="quizOpts"></div>
       <button class="action-btn" id="nextBtn">➡ 다음 문제</button>
     </div>
@@ -100,13 +105,39 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
 </div>
 
 <script>
+// 소리 피드백과 문제 읽어주기 — 외부 파일 없이 브라우저 내장 기능만 사용해요
+function beep(freq, dur, type){
+  try{
+    const ctx = beep.ctx || (beep.ctx = new (window.AudioContext||window.webkitAudioContext)());
+    const osc = ctx.createOscillator(); const gain = ctx.createGain();
+    osc.type = type||'sine'; osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+dur);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(); osc.stop(ctx.currentTime+dur);
+  }catch(e){}
+}
+function playCorrect(){ beep(660,0.12); setTimeout(()=>beep(880,0.18),120); }
+function playWrong(){ beep(220,0.25,'sawtooth'); }
+function speakText(text){
+  try{
+    if(!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'ko-KR'; u.rate = 0.9;
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+
 const tenframe = document.getElementById('tenframe');
 const bigQuestion = document.getElementById('bigQuestion');
+const readBtn = document.getElementById('readBtn');
 const quizOpts = document.getElementById('quizOpts');
 const nextBtn = document.getElementById('nextBtn');
 const filledNum = document.getElementById('filledNum');
 const guessNum = document.getElementById('guessNum');
 const feedback = document.getElementById('feedback');
+readBtn.addEventListener('click', ()=> speakText(bigQuestion.textContent));
 
 let filled = 4;
 let answered = false;
@@ -140,6 +171,7 @@ function newProblem(){
   guessNum.style.color = '';
   bigQuestion.innerHTML = `빨간 점은 <b>${filled}</b>개예요. 10을 만들려면 몇 개가 더 필요할까요?`;
   feedback.textContent = '정답을 골라보세요!';
+  speakText(bigQuestion.textContent);
 
   const correct = 10 - filled;
   const pool = new Set([correct]);
@@ -165,11 +197,13 @@ function newProblem(){
         btn.classList.add('correct');
         guessNum.style.color = 'var(--green)';
         feedback.innerHTML = `🎉 정답이에요! ${filled} + ${correct} = 10이 딱 맞아요!`;
+        playCorrect();
       } else {
         btn.classList.add('wrong');
         quizOpts.querySelector(`[data-v="${correct}"]`)?.classList.add('correct');
         guessNum.style.color = 'var(--coral)';
         feedback.innerHTML = `아쉬워요! ${filled} + <b>${correct}</b> = 10이 정답이었어요. 열 칸 표를 다시 보세요!`;
+        playWrong();
       }
     });
   });
