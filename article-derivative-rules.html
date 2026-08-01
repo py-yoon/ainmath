@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>여러 가지 함수의 미분, eˣ가 스스로의 도함수인 이유 | 아인매스</title>
+<meta name="description" content="sin x를 미분하면 cos x, eˣ를 미분해도 여전히 eˣ예요. 함수마다 도함수 공식이 다르게 생긴 이유와, 그 공식들이 모두 같은 극한의 정의에서...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:280px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#0D62F1;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#0D62F1;background:#E7F0FF">📈 함수와 그래프</span>
+  <h1>여러 가지 함수의 미분, eˣ가 스스로의 도함수인 이유</h1>
+  <p class="meta">고등학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>f(x)=x²의 도함수가 2x라는 걸 배웠다면, 자연스레 궁금해져요 — 다른 함수들은 미분하면 어떻게 될까요? 놀랍게도 함수마다 전혀 다른 모양의 도함수가 나와요. sin x를 미분하면 cos x가 되고, cos x를 미분하면 −sin x가 돼요. eˣ(자연상수 e의 x제곱)를 미분하면 <b>eˣ 그대로</b>가 나오고, ln x(자연로그)를 미분하면 1/x이 나와요.</p>
+      <p>이 공식들이 다 제각각인데도, 사실은 모두 <b>똑같은 원리</b>에서 나와요. 어떤 함수든 도함수의 정의는 f&#39;(a) = lim(h→0) [f(a+h)−f(a)]÷h로 똑같아요. 함수의 생김새에 따라 이 극한을 실제로 계산했을 때 나오는 결과가 다를 뿐이에요. 그래서 공식을 외우는 것도 중요하지만, "이 공식이 결국 할선의 기울기가 극한을 통해 하나의 값으로 수렴한 결과"라는 사실을 이해하면 훨씬 단단하게 기억할 수 있어요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 200 130">
+          <line x1="15" y1="65" x2="185" y2="65" stroke="var(--paper-line)" stroke-width="1.5"></line>
+          <path d="M 15 65 C 40 20, 70 20, 95 65 C 120 110, 150 110, 185 65" fill="none" stroke="var(--blue-ink)" stroke-width="2.5"></path>
+          <path d="M 15 100 C 50 100, 65 20, 100 20 C 135 20, 150 100, 185 100" fill="none" stroke="var(--coral-ink)" stroke-width="2.5" stroke-dasharray="5 4"></path>
+          <text x="35" y="18" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--blue-ink)">f(x)=sin x</text>
+          <text x="120" y="122" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--coral-ink)">f&#39;(x)=cos x</text>
+        </svg>
+        <div class="illo-caption">sin 곡선이 평평해지는 지점에서 cos 곡선이 0을 지나요 — 접선 기울기 0!</div>
+      </div>
+      <p>특히 eˣ는 아주 특별한 함수예요. 미분해도 함수 모양이 전혀 바뀌지 않는, "미분에 대해 변하지 않는" 유일한 함수 계열이거든요(정확히는 eˣ에 상수를 곱한 형태까지 포함해요). 이 성질 때문에 eˣ는 인구 증가, 방사성 붕괴, 복리 이자처럼 "변화율이 현재 값에 비례하는" 현상을 수식으로 표현할 때 자연스럽게 등장해요 — 변화하는 양 자체가 자신의 변화율과 같다는 뜻이니까요.</p>
+      <p>sin x의 도함수가 cos x인 것도 그래프로 보면 이해가 쉬워요. sin 곡선이 가장 높은 곳(최댓값)에 있을 때는 순간적으로 평평해서 접선 기울기가 0이에요. 그런데 그 지점의 x값을 cos 함수에 넣어보면 정확히 cos(π/2)=0이 나와요! sin 곡선이 가파르게 증가하는 구간에서는 cos값이 크고 양수이고, 감소하는 구간에서는 cos값이 음수예요. 두 그래프를 나란히 놓고 보면 "기울기의 흐름"이 그대로 다른 그래프로 옮겨간 걸 확인할 수 있어요.</p>
+      <p>아이들과 공부할 때는 공식을 통째로 암기시키기보다, 그래프 위에서 접선이 평평해지는 곳(기울기 0)과 가장 가파른 곳(기울기 최대)을 먼저 눈으로 찾게 하고, 그 지점들이 도함수 그래프의 어디에 해당하는지 짝지어보게 하는 게 좋아요. 저희 체험 페이지에서는 sin, cos, eˣ, ln x 중 원하는 함수를 골라 접선과 도함수 그래프를 나란히 비교하고, 아주 작은 h로 직접 극한을 계산해서 공식이 정확히 맞아떨어지는지 검증해볼 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="derivative-rules.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
