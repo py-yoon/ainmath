@@ -202,6 +202,28 @@
     </div>
   </div>
 
+  <div class="stage" style="margin-top:24px;">
+    <div class="canvas-area">
+      <svg id="svgRearrange" viewBox="0 0 420 420"></svg>
+      <div class="legend">
+        <span><i class="swatch" style="background:var(--green)"></i>정사각형 A (a²)</span>
+        <span><i class="swatch" style="background:var(--blue)"></i>정사각형 B (b²)</span>
+        <span><i class="swatch" style="background:var(--coral)"></i>정사각형 C (c²)</span>
+        <span><i class="swatch" style="background:var(--ink-soft)"></i>직각삼각형 4개(항상 같은 모양)</span>
+      </div>
+      <div class="presets">
+        <button class="preset-btn" id="arrBtn1">배치 1: 가운데 C</button>
+        <button class="preset-btn" id="arrBtn2">배치 2: 양쪽 A + B</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="equation" style="text-align:left;">
+        <div style="font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--ink);text-align:center;margin-bottom:8px;">한 변이 (a+b)인 <b>같은 크기</b>의 정사각형이에요</div>
+        <div class="fact" id="rearrangeFact" style="margin-top:8px;"></div>
+      </div>
+    </div>
+  </div>
+
             <!-- prev-next-nav -->
   <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
     <a href="compass-straightedge-construction.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
@@ -309,8 +331,19 @@
     const medSquareLocal = [[0,0],[medSide,0],[medSide,medSide],[0,medSide]].map(p=>localToSvg(p[0],p[1]));
     const lShapeLocal = [[medSide,0],[c,0],[c,c],[0,c],[0,medSide],[medSide,medSide]].map(p=>localToSvg(p[0],p[1]));
 
+    // 정사각형 C 내부에도 A/B와 같은 1칸 단위 눈금선을 그려줘요.
+    // C는 기울어져 있어서 축 정렬 패턴을 그대로 쓸 수 없으니, C 자신의 국소좌표계 기준으로 직접 선을 그어요.
+    let cGridLines = '';
+    for(let i=1; i<c; i++){
+      const h1 = localToSvg(i, 0), h2 = localToSvg(i, c);
+      cGridLines += `<line x1="${h1[0]}" y1="${h1[1]}" x2="${h2[0]}" y2="${h2[1]}" stroke="rgba(34,40,58,0.18)" stroke-width="1"></line>`;
+      const v1 = localToSvg(0, i), v2 = localToSvg(c, i);
+      cGridLines += `<line x1="${v1[0]}" y1="${v1[1]}" x2="${v2[0]}" y2="${v2[1]}" stroke="rgba(34,40,58,0.18)" stroke-width="1"></line>`;
+    }
+
     html += `<polygon points="${pts(lShapeLocal)}" fill="${smallColor}" fill-opacity="0.4"></polygon>`;
     html += `<polygon points="${pts(medSquareLocal)}" fill="${medColor}" fill-opacity="0.4"></polygon>`;
+    html += cGridLines;
     html += `<polygon points="${pts(medSquareLocal)}" fill="none" stroke="${medColorInk}" stroke-width="1.5" stroke-dasharray="4 3"></polygon>`;
     html += `<polygon points="${pts(sqC)}" fill="none" stroke="var(--coral)" stroke-width="2.5"></polygon>`;
 
@@ -329,10 +362,23 @@
     html += `<text x="${midAB[0]+14}" y="${midAB[1]-4}" text-anchor="middle" font-family="Do Hyeon" font-size="16" fill="var(--ink)">c</text>`;
 
     // area labels centered in each square
-    const centroid = arr => [arr.reduce((s,p)=>s+p[0],0)/arr.length, arr.reduce((s,p)=>s+p[1],0)/arr.length];
-    const cenA = centroid(sqA), cenB = centroid(sqB);
-    const cenMed = centroid(medSquareLocal);
-    const cenSmall = centroid(lShapeLocal);
+    // L자 모양(오목 다각형)은 꼭짓점 단순 평균이 도형 밖/구석으로 치우칠 수 있어서,
+    // 실제 넓이 중심(신발끈 공식 기반)을 계산해 색칠된 영역 위에 정확히 놓아요.
+    const polyCentroid = arr => {
+      let a2 = 0, cx = 0, cy = 0;
+      for(let i=0;i<arr.length;i++){
+        const [x0,y0] = arr[i], [x1,y1] = arr[(i+1)%arr.length];
+        const cross = x0*y1 - x1*y0;
+        a2 += cross;
+        cx += (x0+x1)*cross;
+        cy += (y0+y1)*cross;
+      }
+      const A = a2/2;
+      return [cx/(6*A), cy/(6*A)];
+    };
+    const cenA = polyCentroid(sqA), cenB = polyCentroid(sqB);
+    const cenMed = polyCentroid(medSquareLocal);
+    const cenSmall = polyCentroid(lShapeLocal);
     html += `<text x="${cenA[0]}" y="${cenA[1]+6}" text-anchor="middle" font-family="Do Hyeon" font-size="${Math.min(scale*0.9,22)}" fill="var(--green)">${aSq}</text>`;
     html += `<text x="${cenB[0]}" y="${cenB[1]+6}" text-anchor="middle" font-family="Do Hyeon" font-size="${Math.min(scale*0.9,22)}" fill="var(--blue)">${bSq}</text>`;
     html += `<text x="${cenMed[0]}" y="${cenMed[1]+5}" text-anchor="middle" font-family="Do Hyeon" font-size="${Math.min(medSide*scale*0.5,20)}" fill="${medColorInk}">${medSq}</text>`;
@@ -341,20 +387,85 @@
     svg.innerHTML = html;
   }
 
+  const svgRearrange = document.getElementById('svgRearrange');
+  const rearrangeFact = document.getElementById('rearrangeFact');
+  const arrBtn1 = document.getElementById('arrBtn1');
+  const arrBtn2 = document.getElementById('arrBtn2');
+  let arrangeMode = 1;
+
+  function renderRearrange(a, b){
+    const s = a+b;
+    const RPAD = 30, RVB = 420;
+    const rscale = (RVB - 2*RPAD) / s;
+    const ox = RPAD, oy = RVB - RPAD;
+    const rt = (x,y) => [ox + x*rscale, oy - y*rscale];
+    const rpts = arr => arr.map(p=>rt(p[0],p[1]).join(',')).join(' ');
+
+    let html = `<polygon points="${rpts([[0,0],[s,0],[s,s],[0,s]])}" fill="none" stroke="var(--ink)" stroke-width="2.5"></polygon>`;
+
+    if(arrangeMode===1){
+      const T = [
+        [[0,0],[a,0],[0,b]],
+        [[a,0],[s,0],[s,a]],
+        [[s,a],[s,s],[b,s]],
+        [[b,s],[0,s],[0,b]],
+      ];
+      T.forEach(tri=>{ html += `<polygon points="${rpts(tri)}" fill="var(--paper)" stroke="var(--ink-soft)" stroke-width="1.5"></polygon>`; });
+      const inner = [[a,0],[s,a],[b,s],[0,b]];
+      html += `<polygon points="${rpts(inner)}" fill="var(--coral)" fill-opacity="0.35" stroke="var(--coral-ink)" stroke-width="2"></polygon>`;
+      const cx = inner.reduce((sum,p)=>sum+rt(p[0],p[1])[0],0)/4;
+      const cy = inner.reduce((sum,p)=>sum+rt(p[0],p[1])[1],0)/4;
+      html += `<text x="${cx}" y="${cy+6}" text-anchor="middle" font-family="Do Hyeon" font-size="20" fill="var(--coral-ink)">c²</text>`;
+    } else {
+      const sqAr = [[0,0],[a,0],[a,a],[0,a]];
+      const sqBr = [[a,a],[s,a],[s,s],[a,s]];
+      html += `<polygon points="${rpts(sqAr)}" fill="var(--green)" fill-opacity="0.35" stroke="var(--green-ink)" stroke-width="2"></polygon>`;
+      html += `<polygon points="${rpts(sqBr)}" fill="var(--blue)" fill-opacity="0.35" stroke="var(--blue-ink)" stroke-width="2"></polygon>`;
+      const T = [
+        [[a,0],[s,0],[s,a]],
+        [[a,0],[s,a],[a,a]],
+        [[0,a],[a,a],[a,s]],
+        [[0,a],[a,s],[0,s]],
+      ];
+      T.forEach(tri=>{ html += `<polygon points="${rpts(tri)}" fill="var(--paper)" stroke="var(--ink-soft)" stroke-width="1.5"></polygon>`; });
+      const p00=rt(0,0), paa=rt(a,a), pss=rt(s,s);
+      html += `<text x="${(p00[0]+paa[0])/2}" y="${(p00[1]+paa[1])/2+6}" text-anchor="middle" font-family="Do Hyeon" font-size="18" fill="var(--green-ink)">a²</text>`;
+      html += `<text x="${(paa[0]+pss[0])/2}" y="${(paa[1]+pss[1])/2+6}" text-anchor="middle" font-family="Do Hyeon" font-size="18" fill="var(--blue-ink)">b²</text>`;
+    }
+
+    const p0 = rt(0,0), ps0 = rt(s,0);
+    html += `<text x="${(p0[0]+ps0[0])/2}" y="${p0[1]+22}" text-anchor="middle" font-family="Do Hyeon" font-size="13" fill="var(--ink-soft)">a+b = ${s}</text>`;
+
+    svgRearrange.innerHTML = html;
+    arrBtn1.classList.toggle('active', arrangeMode===1);
+    arrBtn2.classList.toggle('active', arrangeMode===2);
+
+    const leftover = s*s - 4*(a*b/2);
+    if(arrangeMode===1){
+      rearrangeFact.innerHTML = `4개의 합동인 직각삼각형(회색 테두리) 사이에 기울어진 정사각형 C가 남아요. 남은 넓이 = (a+b)² − 4×(삼각형 하나의 넓이) = ${s}² − 4×${a*b/2} = <b>${leftover}</b>. 이게 바로 c²예요.`;
+    } else {
+      rearrangeFact.innerHTML = `<b>똑같은</b> 4개의 직각삼각형을 다르게 배치하면, 이번엔 기울어진 정사각형 대신 정사각형 A(초록)와 정사각형 B(파랑)가 나란히 남아요. 남은 넓이 = (a+b)² − 4×(삼각형 하나의 넓이) = ${s}² − 4×${a*b/2} = <b>${leftover}</b>. 같은 큰 정사각형에서 같은 삼각형 4개를 뺐으니, 남은 넓이는 배치와 상관없이 항상 똑같아요 — 그래서 <b>c² = a² + b²</b>이 증명돼요.`;
+    }
+  }
+
   function update(){
-    render(parseInt(sliderA.value), parseInt(sliderB.value));
+    const a = parseInt(sliderA.value), b = parseInt(sliderB.value);
+    render(a, b);
+    renderRearrange(a, b);
   }
 
   sliderA.addEventListener('input', update);
   sliderB.addEventListener('input', update);
 
-  document.querySelectorAll('.preset-btn').forEach(btn=>{
+  document.querySelectorAll('.preset-btn[data-a]').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       sliderA.value = btn.dataset.a;
       sliderB.value = btn.dataset.b;
       update();
     });
   });
+  arrBtn1.addEventListener('click', ()=>{ arrangeMode=1; update(); });
+  arrBtn2.addEventListener('click', ()=>{ arrangeMode=2; update(); });
 
   update();
 </script>
