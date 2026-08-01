@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>벡터, 크기와 방향을 동시에 담는 화살표 | 아인매스</title>
+<meta name="description" content="숫자 하나만으로는 부족할 때가 있어요. 바람의 세기를 말할 때 '초속 10m'만으로는 부족하고, 어느 방향으로 부는지도 알아야 하죠. 이렇게...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:260px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#6847F7;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#6847F7;background:#EEE8FF">📐 도형·기하</span>
+  <h1>벡터, 크기와 방향을 동시에 담는 화살표</h1>
+  <p class="meta">고등학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>"온도는 25도예요"라는 말에는 방향이 없어요. 숫자 하나로 충분하죠. 그런데 "바람이 분다"고 말하려면 세기(초속 몇 미터)뿐 아니라 방향(어느 쪽에서 부는지)까지 알아야 완전한 정보가 돼요. 이렇게 <b>크기와 방향을 동시에 갖는 양</b>을 벡터라고 부르고, 화살표로 나타내요. 화살표의 길이가 크기를, 화살표가 가리키는 쪽이 방향을 나타내요.</p>
+      <p>벡터를 좌표로 나타낼 때는 u=(uₓ, uᵧ)처럼 써요. 이건 "x축 방향으로 uₓ만큼, y축 방향으로 uᵧ만큼 이동한다"는 뜻이에요. 두 벡터를 더하는 방법이 재미있는데, u의 화살표 끝에 v의 화살표를 이어 붙이고, 맨 처음 출발점에서 마지막 도착점까지 새 화살표를 그으면 그게 바로 u+v예요("삼각형법칙"). 좌표로 계산할 때는 그냥 각 성분끼리 더하기만 하면 돼요: (uₓ+vₓ, uᵧ+vᵧ).</p>
+      <div class="illo">
+        <svg viewBox="0 0 200 150">
+          <line x1="20" y1="130" x2="180" y2="130" stroke="var(--paper-line)" stroke-width="1"></line>
+          <line x1="20" y1="130" x2="20" y2="10" stroke="var(--paper-line)" stroke-width="1"></line>
+          <line x1="20" y1="130" x2="100" y2="80" stroke="var(--blue-ink,#0D62F1)" stroke-width="3"></line>
+          <polygon points="100,80 90,82 94,72" fill="var(--blue-ink,#0D62F1)"></polygon>
+          <line x1="100" y1="80" x2="140" y2="30" stroke="var(--green-ink,#357A63)" stroke-width="2" stroke-dasharray="4 3"></line>
+          <line x1="20" y1="130" x2="140" y2="30" stroke="var(--coral-ink)" stroke-width="3"></line>
+          <polygon points="140,30 130,34 133,23" fill="var(--coral-ink)"></polygon>
+          <text x="55" y="112" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--blue-ink,#0D62F1)">u</text>
+          <text x="145" y="28" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--coral-ink)">u+v</text>
+        </svg>
+        <div class="illo-caption">u의 끝에 v를 이어 붙이면, 처음부터 끝까지가 u+v예요</div>
+      </div>
+      <p>벡터끼리 곱하는 방법 중 <b>내적</b>(u·v = uₓvₓ+uᵧvᵧ)은 특별한 의미가 있어요. 내적은 "두 벡터가 같은 방향으로 얼마나 나란한지"를 숫자 하나로 알려줘요. 내적이 크고 양수면 두 벡터가 비슷한 방향을 향하고, 내적이 음수면 반대 방향에 가깝다는 뜻이에요. 그리고 가장 중요한 성질 — <b>내적이 정확히 0이면, 두 벡터는 반드시 수직</b>이에요. 이건 내적의 또 다른 공식 u·v=|u||v|cos θ에서 바로 확인할 수 있어요. θ=90°일 때 cos 90°=0이라서 내적도 무조건 0이 되거든요.</p>
+      <p>내적이 0이면 수직이라는 성질은 실전에서 아주 유용해요. 두 직선이 수직인지 확인하고 싶을 때, 각도기 없이도 두 방향벡터의 내적만 계산해서 0인지 확인하면 끝이에요. 건축이나 로봇공학에서 벽이 정확히 직각으로 서 있는지, 로봇 팔이 정확한 각도로 움직였는지 확인할 때도 이 원리가 쓰여요.</p>
+      <p>벡터의 크기 |u| = √(uₓ²+uᵧ²)라는 공식이 낯익지 않나요? 바로 공간좌표에서 배운 거리 공식과 똑같은 모양이에요. 사실 벡터는 "원점에서 어떤 점까지 가는 화살표"로 볼 수 있어서, 벡터의 크기가 곧 그 점까지의 거리와 같아요. 좌표, 거리, 벡터는 서로 다른 이름을 가진 것 같지만, 사실은 하나로 연결된 같은 아이디어예요.</p>
+      <p>아이들과 공부할 때는 지도에서 "동쪽으로 3km, 북쪽으로 4km" 같은 실제 이동 경로를 화살표로 그려보게 하는 게 좋아요. 두 번 이동한 경로를 이어 붙이면 실제로 어디에 도착하는지 계산해보면, 벡터 덧셈이 왜 그렇게 정의되는지 자연스럽게 이해돼요. 저희 체험 페이지에서는 두 벡터를 슬라이더로 조절하며 덧셈이 어떻게 이루어지는지 확인하고, 각도를 바꿔가며 내적이 0이 되는 순간(수직)을 직접 찾아볼 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="vectors.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
