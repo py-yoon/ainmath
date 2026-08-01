@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>여러 가지 적분법 실험실 (미적분의 기본정리)</title>
+<meta name="description" content="누적 넓이 함수를 슬라이더로 움직이며, 넓이 함수의 순간변화율이 원래 함수와 같아진다는 미적분의 기본정리를 확인하고, 부정적분 가족을 비교해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1040px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue-ink);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:66ch;margin:0 0 28px;}
+.tab-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:10px 18px;cursor:pointer;transition:all .15s ease;box-shadow:var(--shadow);}
+.tab-btn:hover{border-color:var(--blue-ink);color:var(--blue-ink);}
+.tab-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+.panel-wrap{display:none;}
+.panel-wrap.active{display:block;}
+.howto{background:var(--blue-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 22px;}
+.howto b{color:var(--blue-ink);}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.2fr 0.8fr;gap:32px;align-items:start;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+.canvas-area{display:flex;flex-direction:column;align-items:center;gap:16px;}
+svg{width:100%;max-width:420px;height:auto;overflow:visible;}
+.control-row{width:100%;max-width:380px;display:flex;flex-direction:column;gap:8px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:20px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--blue-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+.panel{display:flex;flex-direction:column;gap:16px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:18px 20px;text-align:center;}
+.equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(14px,2.2vw,16px);color:var(--ink-soft);}
+.equation .result{font-family:'Do Hyeon',sans-serif;font-size:clamp(22px,3.8vw,28px);color:var(--coral-ink);margin-top:6px;line-height:1;}
+.fact{background:var(--blue-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--blue-ink);}
+.legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-size:12.5px;color:var(--ink-soft);}
+.legend span{display:inline-flex;align-items:center;gap:6px;}
+.swatch{width:12px;height:12px;border-radius:3px;display:inline-block;}
+footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-integration-techniques.html" style="color:#fff;background:var(--blue-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🔗 여러 가지 적분법 실험실</span>
+  <h1>넓이를 쌓아가는 함수의<br>변화율은 <span>원래 함수</span> 그대로예요</h1>
+  <p class="sub">x까지 누적된 넓이를 함수로 만들면, 그 넓이 함수의 순간변화율이 원래 함수 f(x)와 똑같아져요. 미분과 적분이 서로 반대 과정이라는 걸 눈으로 확인해봐요.</p>
+
+  <div class="tab-row" id="tabRow">
+    <button class="tab-btn active" data-t="ftc">🧩 미적분의 기본정리</button>
+    <button class="tab-btn" data-t="family">👨‍👩‍👧 부정적분 가족</button>
+  </div>
+
+  <div class="panel-wrap active" id="panel-ftc">
+    <div class="howto"><b>넓이 함수</b> A(x) = ∫₀ˣ f(t)dt는 "0부터 x까지 누적된 넓이"예요. x를 슬라이더로 움직이며 위 그래프(f)에서 넓이가 쌓이는 걸 보고, 아래 그래프(A)에서 그 값이 어떻게 그려지는지 확인해보세요. A(x)의 접선 기울기는 항상 f(x)와 같아요 — 이게 미적분의 기본정리예요.</div>
+    <div class="stage">
+      <div class="canvas-area">
+        <svg id="ftcSvg1" viewBox="0 0 420 180"></svg>
+        <svg id="ftcSvg2" viewBox="0 0 420 160"></svg>
+        <div class="control-row">
+          <div class="control-label"><span>x</span><b id="xLabel">1.0</b></div>
+          <input id="sliderX" type="range" min="0" max="3" value="1" step="0.02">
+        </div>
+      </div>
+      <div class="panel">
+        <div class="equation">
+          <div class="formula">f(t) = t,&nbsp; A(x) = ∫₀ˣ t dt</div>
+          <div class="result" id="ftcResult"></div>
+        </div>
+        <div class="fact" id="ftcFact"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-wrap" id="panel-family">
+    <div class="howto"><b>부정적분</b>은 미분해서 f(x)가 되는 함수들을 통틀어 말해요. f(x)=2x의 부정적분은 F(x)=x²+C인데, 상수 C값이 달라도 미분하면 상수는 사라져서 전부 2x가 나와요. 그래서 부정적분은 하나가 아니라, 위아래로 평행이동한 <b>곡선 가족</b> 전체예요.</div>
+    <div class="stage">
+      <div class="canvas-area">
+        <svg id="familySvg" viewBox="0 0 420 320"></svg>
+        <div class="legend" id="familyLegend"></div>
+        <div class="control-row">
+          <div class="control-label"><span>x (접선을 확인할 위치)</span><b id="xLabel2">1.0</b></div>
+          <input id="sliderX2" type="range" min="-1.8" max="1.8" value="1" step="0.02">
+        </div>
+      </div>
+      <div class="panel">
+        <div class="equation">
+          <div class="formula">f(x) = 2x,&nbsp; F(x) = x² + C</div>
+          <div class="result" id="familyResult"></div>
+        </div>
+        <div class="fact" id="familyFact"></div>
+      </div>
+    </div>
+  </div>
+
+      <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="derivative-rules.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">여러 가지 함수의 미분 실험실</span>
+    </a>
+    <a href="equal-sign-balance.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">등호와 규칙</span>
+    </a>
+  </nav>
+<footer>미적분의 기본정리는 "미분과 적분이 서로 반대 연산"이라는 걸 정확하게 증명해줘요. 그래서 정적분을 계산할 때, 매번 구분구적법으로 극한을 계산하지 않고도 부정적분(원시함수)을 구해서 값을 대입하기만 하면 되는 거예요.</footer>
+</div>
+
+<script>
+document.getElementById('tabRow').addEventListener('click', (e)=>{
+  const btn = e.target.closest('.tab-btn');
+  if(!btn) return;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.panel-wrap').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+btn.dataset.t).classList.add('active');
+});
+
+function fmt(v){ return (Math.round(v*1000)/1000).toString(); }
+
+function makePlot(svgEl, xMin, xMax, yMin, yMax, W, H){
+  const PADL=36, PADB=28, PADT=12, PADR=12;
+  const plotW=W-PADL-PADR, plotH=H-PADT-PADB;
+  const xOf = x => PADL + (x-xMin)/(xMax-xMin)*plotW;
+  const yOf = y => PADT + plotH - (y-yMin)/(yMax-yMin)*plotH;
+  function axesGrid(){
+    let html = '';
+    const y0 = Math.max(yMin, Math.min(yMax, 0));
+    html += `<line x1="${xOf(xMin)}" y1="${yOf(y0)}" x2="${xOf(xMax)}" y2="${yOf(y0)}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+    if(xMin<=0 && xMax>=0){
+      html += `<line x1="${xOf(0)}" y1="${yOf(yMin)}" x2="${xOf(0)}" y2="${yOf(yMax)}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+    }
+    return html;
+  }
+  function curve(fn, xa, xb, color, width, dashed){
+    const step = (xb-xa)/200;
+    const pts = [];
+    for(let x=xa; x<=xb+1e-9; x+=step) pts.push(`${xOf(x)},${yOf(fn(x))}`);
+    return `<polyline points="${pts.join(' ')}" fill="none" stroke="${color}" stroke-width="${width||3}" ${dashed?'stroke-dasharray="6 5"':''}></polyline>`;
+  }
+  function dot(x,y,color,r){ return `<circle cx="${xOf(x)}" cy="${yOf(y)}" r="${r||6}" fill="${color}"></circle>`; }
+  return {xOf, yOf, axesGrid, curve, dot};
+}
+
+/* ================= STEP1: 미적분의 기본정리 ================= */
+const svg1 = document.getElementById('ftcSvg1');
+const svg2 = document.getElementById('ftcSvg2');
+const sliderX = document.getElementById('sliderX');
+const xLabel = document.getElementById('xLabel');
+const ftcResult = document.getElementById('ftcResult');
+const ftcFact = document.getElementById('ftcFact');
+
+function fT(t){ return t; }
+function areaFn(x){ return x*x/2; } // ∫0^x t dt = x²/2
+
+function renderFTC(){
+  const x = parseFloat(sliderX.value);
+  xLabel.textContent = fmt(x);
+
+  const P1 = makePlot(svg1, 0, 3, -0.3, 3.2, 420, 180);
+  const P2 = makePlot(svg2, 0, 3, -0.3, 4.7, 420, 160);
+
+  let html1 = P1.axesGrid();
+  // 누적 넓이 음영
+  const steps = 60;
+  const w = x/steps;
+  let rectHtml = '';
+  for(let i=0;i<steps && x>0;i++){
+    const t0 = i*w;
+    rectHtml += `<rect x="${P1.xOf(t0)}" y="${P1.yOf(fT(t0+w/2))}" width="${P1.xOf(t0+w)-P1.xOf(t0)}" height="${P1.yOf(0)-P1.yOf(fT(t0+w/2))}" fill="var(--blue)" fill-opacity="0.35"></rect>`;
+  }
+  html1 += rectHtml;
+  html1 += P1.curve(fT, 0, 3, 'var(--blue-ink)', 3);
+  html1 += P1.dot(x, fT(x), 'var(--coral-ink)', 5);
+  svg1.innerHTML = html1;
+
+  let html2 = P2.axesGrid();
+  html2 += P2.curve(areaFn, 0, 3, 'var(--violet-ink)', 3);
+  html2 += P2.dot(x, areaFn(x), 'var(--coral-ink)', 5);
+  const slope = fT(x); // A'(x) = f(x)
+  const y0 = areaFn(x) - slope*x;
+  html2 += P2.curve(xx => slope*xx+y0, Math.max(0,x-0.7), x+0.7, 'var(--coral-ink)', 2.5);
+  svg2.innerHTML = html2;
+
+  ftcResult.innerHTML = `A(${fmt(x)}) = <b>${fmt(areaFn(x))}</b>, A'(${fmt(x)}) = <b>${fmt(slope)}</b>`;
+  ftcFact.innerHTML = `0부터 ${fmt(x)}까지 f(t)=t 아래 쌓인 넓이는 <b>${fmt(areaFn(x))}</b>(파란 음영)이에요. 아래 그래프는 x가 변할 때 이 누적 넓이가 어떻게 늘어나는지를 보여주는데, 그 접선의 기울기가 정확히 <b>f(${fmt(x)})=${fmt(fT(x))}</b>와 같아요. "넓이가 쌓이는 속도"가 곧 "그 지점의 함숫값"이라는 뜻이에요.`;
+}
+sliderX.addEventListener('input', renderFTC);
+renderFTC();
+
+/* ================= STEP2: 부정적분 가족 ================= */
+const familySvg = document.getElementById('familySvg');
+const sliderX2 = document.getElementById('sliderX2');
+const xLabel2 = document.getElementById('xLabel2');
+const familyResult = document.getElementById('familyResult');
+const familyFact = document.getElementById('familyFact');
+const familyLegend = document.getElementById('familyLegend');
+
+const C_VALUES = [-2,-1,0,1,2];
+const C_COLORS = ['var(--coral-ink)','var(--violet-ink)','var(--ink)','var(--blue-ink)','var(--green-ink)'];
+
+familyLegend.innerHTML = C_VALUES.map((c,i)=>`<span><i class="swatch" style="background:${C_COLORS[i]}"></i>C=${c}</span>`).join('');
+
+function renderFamily(){
+  const x = parseFloat(sliderX2.value);
+  xLabel2.textContent = fmt(x);
+
+  const P = makePlot(familySvg, -2, 2, -1, 6.5, 420, 320);
+  let html = P.axesGrid();
+
+  C_VALUES.forEach((c,i)=>{
+    html += P.curve(xx => xx*xx + c, -2, 2, C_COLORS[i], 2.5);
+  });
+
+  // 각 곡선 위 x에서의 접선(짧게)과 점
+  const slope = 2*x;
+  C_VALUES.forEach((c,i)=>{
+    const y = x*x + c;
+    const y0 = y - slope*x;
+    html += P.curve(xx => slope*xx + y0, x-0.4, x+0.4, C_COLORS[i], 4);
+    html += P.dot(x, y, C_COLORS[i], 4);
+  });
+
+  familySvg.innerHTML = html;
+
+  familyResult.innerHTML = `모든 곡선에서 x=${fmt(x)}일 때 접선 기울기 = <b>${fmt(slope)}</b>`;
+  familyFact.innerHTML = `다섯 곡선은 전부 F(x)=x²+C 모양이고, C값만 달라요(그래프가 위아래로만 평행이동했어요). x=${fmt(x)}에서 다섯 곡선의 접선을 모두 그려보면(굵은 선), <b>기울기가 전부 ${fmt(slope)}로 똑같아요</b>. 상수 C를 미분하면 0이 되어 사라지기 때문에, "미분해서 f(x)=2x가 되는 함수"는 하나가 아니라 이렇게 무한히 많아요 — 그래서 부정적분에는 항상 +C를 붙여요.`;
+}
+sliderX2.addEventListener('input', renderFamily);
+renderFamily();
+</script>
+</body>
+</html>
