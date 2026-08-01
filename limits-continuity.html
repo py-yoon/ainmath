@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>함수의 극한과 연속 실험실</title>
+<meta name="description" content="x가 어떤 값에 한없이 가까워질 때 함숫값이 어디로 다가가는지 슬라이더로 직접 확인하고, 구멍·도약·발산 세 가지 불연속 유형을 비교해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+  --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1040px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:66ch;margin:0 0 28px;}
+.tab-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:10px 18px;cursor:pointer;transition:all .15s ease;box-shadow:var(--shadow);}
+.tab-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.tab-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+.panel-wrap{display:none;}
+.panel-wrap.active{display:block;}
+.howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 22px;}
+.howto b{color:var(--violet-ink);}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.2fr 0.8fr;gap:32px;align-items:start;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+.canvas-area{display:flex;flex-direction:column;align-items:center;gap:16px;}
+svg{width:100%;max-width:420px;height:auto;overflow:visible;}
+.control-row{width:100%;max-width:360px;display:flex;flex-direction:column;gap:8px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:20px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--violet-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+.sub-tab-row{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;}
+.sub-tab-btn{font-family:'Do Hyeon',sans-serif;font-size:13px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:10px;padding:7px 12px;cursor:pointer;transition:all .15s ease;}
+.sub-tab-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.sub-tab-btn.active{background:var(--violet-ink);border-color:var(--violet-ink);color:#fff;}
+.panel{display:flex;flex-direction:column;gap:16px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:18px 20px;text-align:center;}
+.equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(15px,2.4vw,18px);color:var(--ink);}
+.equation .result{font-family:'Do Hyeon',sans-serif;font-size:clamp(26px,4.4vw,34px);color:var(--violet-ink);margin-top:6px;line-height:1;}
+.fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--violet-ink);}
+footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-limits-continuity.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🎯 함수의 극한과 연속 실험실</span>
+  <h1>함숫값은 <span>정의되지 않아도</span><br>극한값은 존재할 수 있어요</h1>
+  <p class="sub">x를 어떤 값에 한없이 가깝게 움직여보며 f(x)가 어디로 다가가는지 확인하고, 그래프가 끊어지는 세 가지 방식(구멍·도약·발산)을 비교해봐요.</p>
+
+  <div class="tab-row" id="tabRow">
+    <button class="tab-btn active" data-t="limit">🎯 극한값 확인</button>
+    <button class="tab-btn" data-t="cont">✂️ 불연속의 세 가지 유형</button>
+  </div>
+
+  <div class="panel-wrap active" id="panel-limit">
+    <div class="howto"><b>극한</b> — f(x) = (x²−1)/(x−1)은 x=1에서 분모가 0이 되어 정의되지 않아요. 하지만 x=1이 <b>아닌</b> 곳에서는 (x−1)(x+1)/(x−1) = x+1과 완전히 같아서, x를 1에 한없이 가깝게 움직이면 f(x)는 2에 한없이 가까워져요. 이게 바로 "x→1일 때 f(x)의 극한이 2"라는 뜻이에요.</div>
+    <div class="stage">
+      <div class="canvas-area">
+        <svg id="limitSvg" viewBox="0 0 420 340"></svg>
+        <div class="control-row">
+          <div class="control-label"><span>x</span><b id="xLabel">0.50</b></div>
+          <input id="sliderX" type="range" min="-0.5" max="2.5" value="0.5" step="0.01">
+        </div>
+      </div>
+      <div class="panel">
+        <div class="equation">
+          <div class="formula">f(x) = (x²−1) ÷ (x−1)</div>
+          <div class="result" id="limitResult"></div>
+        </div>
+        <div class="fact" id="limitFact"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-wrap" id="panel-cont">
+    <div class="howto"><b>연속</b>이려면 세 가지가 모두 맞아야 해요: ①f(c)가 정의되어 있고, ②극한 lim(x→c)f(x)가 존재하고, ③그 둘이 같아야(f(c)=극한값) 해요. 아래 세 가지 예시는 각각 다른 이유로 이 조건이 깨져요.</div>
+    <div class="sub-tab-row" id="contPicker"></div>
+    <div class="stage" style="margin-top:16px;">
+      <div class="canvas-area">
+        <svg id="contSvg" viewBox="0 0 420 340"></svg>
+      </div>
+      <div class="panel">
+        <div class="equation">
+          <div class="formula" id="contFormula"></div>
+        </div>
+        <div class="fact" id="contFact"></div>
+      </div>
+    </div>
+  </div>
+
+      <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="exp-log-function.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">지수함수와 로그함수 실험실</span>
+    </a>
+    <a href="equal-sign-balance.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">등호와 규칙</span>
+    </a>
+  </nav>
+<footer>미분(도함수)은 사실 극한으로 정의돼요. 평균변화율의 구간을 한없이 좁혀가는 극한을 취하면 순간변화율(미분계수)이 나오는데, 극한 개념 없이는 미분 자체를 정의할 수 없어요.</footer>
+</div>
+
+<script>
+/* ---------- 탭 전환 ---------- */
+document.getElementById('tabRow').addEventListener('click', (e)=>{
+  const btn = e.target.closest('.tab-btn');
+  if(!btn) return;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.panel-wrap').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+btn.dataset.t).classList.add('active');
+});
+
+function fmt(v){ return (Math.round(v*1000)/1000).toString(); }
+
+/* ================= 공통 플로팅 유틸 ================= */
+function makePlot(svgId, xMin, xMax, yMin, yMax){
+  const svg = document.getElementById(svgId);
+  const PADL=38, PADB=32, PADT=16, PADR=16, W=420, H=340;
+  const plotW=W-PADL-PADR, plotH=H-PADT-PADB;
+  const xOf = x => PADL + (x-xMin)/(xMax-xMin)*plotW;
+  const yOf = y => PADT + plotH - (y-yMin)/(yMax-yMin)*plotH;
+  function axesGrid(){
+    let html = '';
+    html += `<line x1="${xOf(xMin)}" y1="${yOf(0)}" x2="${xOf(xMax)}" y2="${yOf(0)}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+    html += `<line x1="${xOf(0)}" y1="${yOf(yMin)}" x2="${xOf(0)}" y2="${yOf(yMax)}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+    for(let t=Math.ceil(xMin); t<=Math.floor(xMax); t++){
+      if(t===0) continue;
+      html += `<line x1="${xOf(t)}" y1="${PADT}" x2="${xOf(t)}" y2="${PADT+plotH}" stroke="var(--paper-line)" stroke-width="1"></line>`;
+      html += `<text x="${xOf(t)}" y="${yOf(0)+15}" text-anchor="middle" font-family="Do Hyeon" font-size="10" fill="var(--ink-soft)">${t}</text>`;
+    }
+    for(let t=Math.ceil(yMin); t<=Math.floor(yMax); t++){
+      if(t===0) continue;
+      html += `<line x1="${PADL}" y1="${yOf(t)}" x2="${PADL+plotW}" y2="${yOf(t)}" stroke="var(--paper-line)" stroke-width="1"></line>`;
+      html += `<text x="${PADL-7}" y="${yOf(t)+4}" text-anchor="end" font-family="Do Hyeon" font-size="10" fill="var(--ink-soft)">${t}</text>`;
+    }
+    return html;
+  }
+  function path(fn, xa, xb, color, step){
+    step = step || 0.03;
+    let segs=[], cur=[];
+    for(let x=xa; x<=xb+1e-9; x+=step){
+      let y;
+      try{ y = fn(x); }catch(e){ y = NaN; }
+      const out = !isFinite(y) || y>yMax+3 || y<yMin-3;
+      if(out){ if(cur.length>1) segs.push(cur); cur=[]; continue; }
+      cur.push([x,y]);
+    }
+    if(cur.length>1) segs.push(cur);
+    return segs.map(seg=>{
+      const pts = seg.map(([x,y])=>`${xOf(x)},${yOf(Math.max(yMin-1,Math.min(yMax+1,y)))}`).join(' ');
+      return `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="3"></polyline>`;
+    }).join('');
+  }
+  function openCircle(x,y,color){
+    return `<circle cx="${xOf(x)}" cy="${yOf(y)}" r="6" fill="var(--paper)" stroke="${color}" stroke-width="2.5"></circle>`;
+  }
+  function filledCircle(x,y,color){
+    return `<circle cx="${xOf(x)}" cy="${yOf(y)}" r="6" fill="${color}"></circle>`;
+  }
+  return {svg, xOf, yOf, axesGrid, path, openCircle, filledCircle};
+}
+
+/* ================= STEP1: 극한값 확인 ================= */
+const P1 = makePlot('limitSvg', -0.8, 2.8, -1, 5);
+const sliderX = document.getElementById('sliderX');
+const xLabel = document.getElementById('xLabel');
+const limitResult = document.getElementById('limitResult');
+const limitFact = document.getElementById('limitFact');
+
+function f1(x){ return (x*x-1)/(x-1); } // = x+1, x!=1에서
+
+function renderLimit(){
+  const x = parseFloat(sliderX.value);
+  xLabel.textContent = fmt(x);
+
+  let html = P1.axesGrid();
+  html += P1.path(xx => xx+1, -0.8, 0.98, 'var(--blue-ink)');
+  html += P1.path(xx => xx+1, 1.02, 2.8, 'var(--blue-ink)');
+  html += P1.openCircle(1, 2, 'var(--coral-ink)');
+
+  const isAtHole = Math.abs(x-1) < 0.008;
+  if(!isAtHole){
+    const y = f1(x);
+    html += P1.filledCircle(x, y, 'var(--violet-ink)');
+    html += `<line x1="${P1.xOf(x)}" y1="${P1.yOf(y)}" x2="${P1.xOf(x)}" y2="${P1.yOf(0)}" stroke="var(--violet)" stroke-width="1.5" stroke-dasharray="4 3"></line>`;
+    html += `<line x1="${P1.xOf(x)}" y1="${P1.yOf(y)}" x2="${P1.xOf(0)}" y2="${P1.yOf(y)}" stroke="var(--violet)" stroke-width="1.5" stroke-dasharray="4 3"></line>`;
+  }
+  P1.svg.innerHTML = html;
+
+  if(isAtHole){
+    limitResult.innerHTML = `f(1) = 정의되지 않음`;
+    limitFact.innerHTML = `x=1에서는 분모가 0이 되어 <b>f(1)이 정의되지 않아요</b>(구멍). 하지만 슬라이더를 1의 양쪽에서 조금씩 움직여보면, f(x)가 항상 2에 아주 가까운 값이 나오는 걸 볼 수 있어요. 그래서 <b>lim(x→1) f(x) = 2</b>예요 — 함숫값은 없어도 극한값은 있는 대표적인 경우예요.`;
+  } else {
+    const y = f1(x);
+    const dist = Math.abs(x-1);
+    limitResult.innerHTML = `f(${fmt(x)}) = <b style="color:var(--violet-ink)">${fmt(y)}</b>`;
+    if(dist < 0.15){
+      limitFact.innerHTML = `x=${fmt(x)}는 1과 아주 가까워요(거리 ${fmt(dist)}). f(x)=${fmt(y)}도 2와 아주 가까워졌죠? 슬라이더를 1에 더 가깝게 움직일수록 f(x)는 2에 더 가까워져요. 이 "한없이 가까워지는" 성질이 바로 극한이에요.`;
+    } else {
+      limitFact.innerHTML = `슬라이더를 x=1 쪽으로 움직여보세요. x가 1에 가까워질수록 f(x)=${fmt(y)}이 2에 가까워지는 걸 확인할 수 있어요. x=1에서는 f(x)가 정의되지 않지만(빨간 구멍), 그 주변에서의 흐름은 명확히 2를 향해요.`;
+    }
+  }
+}
+sliderX.addEventListener('input', renderLimit);
+renderLimit();
+
+/* ================= STEP2: 불연속의 세 가지 유형 ================= */
+const P2 = makePlot('contSvg', -3, 3, -3, 4.5);
+const contFormula = document.getElementById('contFormula');
+const contFact = document.getElementById('contFact');
+const contPicker = document.getElementById('contPicker');
+
+const CONT_TYPES = [
+  { key:'hole', label:'구멍 (제거가능한 불연속)' },
+  { key:'jump', label:'도약 (점프 불연속)' },
+  { key:'inf', label:'발산 (무한 불연속)' },
+];
+let contKey = 'hole';
+
+function buildContPicker(){
+  contPicker.innerHTML = CONT_TYPES.map(t=>
+    `<button class="sub-tab-btn${t.key===contKey?' active':''}" data-k="${t.key}">${t.label}</button>`
+  ).join('');
+  contPicker.querySelectorAll('.sub-tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ contKey = btn.dataset.k; buildContPicker(); renderCont(); });
+  });
+}
+
+function renderCont(){
+  let html = P2.axesGrid();
+
+  if(contKey==='hole'){
+    html += P2.path(x => x+2, -3, 1.98, 'var(--blue-ink)');
+    html += P2.path(x => x+2, 2.02, 2.4, 'var(--blue-ink)');
+    html += P2.openCircle(2, 4, 'var(--coral-ink)');
+    P2.svg.innerHTML = html;
+    contFormula.textContent = 'f(x) = (x²−4) ÷ (x−2), c = 2';
+    contFact.innerHTML = `①f(2)는 분모가 0이라 <b>정의되지 않아요</b>. ②하지만 극한 lim(x→2)f(x) = 4는 <b>존재해요</b>(왼쪽·오른쪽 극한이 둘 다 4). ③f(2)가 없으니 극한값과 같을 수도 없죠. 조건 ①이 깨져서 불연속이에요. 이런 "구멍"은 f(2)=4로 정의를 하나만 추가하면 바로 연속이 되는, 가장 "약한" 불연속이에요.`;
+  } else if(contKey==='jump'){
+    html += P2.path(x => -1, -3, -0.02, 'var(--blue-ink)');
+    html += P2.path(x => 1, 0.02, 3, 'var(--blue-ink)');
+    html += P2.openCircle(0, -1, 'var(--coral-ink)');
+    html += P2.filledCircle(0, 1, 'var(--violet-ink)');
+    P2.svg.innerHTML = html;
+    contFormula.textContent = 'f(x) = −1 (x<0), 1 (x≥0), c = 0';
+    contFact.innerHTML = `왼쪽에서 다가가면 f(x)→<b>−1</b>, 오른쪽에서 다가가면 f(x)→<b>+1</b>이에요. 양쪽에서 다른 값으로 다가가니 <b>극한 자체가 존재하지 않아요</b>(조건 ② 깨짐). 그래프가 뚝 끊어져 계단처럼 도약하는 모습이에요. 계단 요금제나 옷 사이즈표처럼, 값이 구간마다 딱딱 끊어져 바뀌는 상황이 이런 모양이에요.`;
+  } else {
+    html += P2.path(x => 1/x, -3, -0.08, 'var(--blue-ink)');
+    html += P2.path(x => 1/x, 0.08, 3, 'var(--blue-ink)');
+    html += `<line x1="${P2.xOf(0)}" y1="${P2.yOf(-3)}" x2="${P2.xOf(0)}" y2="${P2.yOf(3)}" stroke="var(--coral-ink)" stroke-width="1.5" stroke-dasharray="5 4"></line>`;
+    P2.svg.innerHTML = html;
+    contFormula.textContent = 'f(x) = 1 ÷ x, c = 0';
+    contFact.innerHTML = `x=0에 가까워질수록 f(x)는 한쪽에서는 +∞로, 다른 쪽에서는 −∞로 <b>한없이 커지거나 작아져요</b>. 특정한 값으로 다가가는 게 아니라 무한으로 발산하니, 이때도 극한이 존재하지 않아요(조건 ② 깨짐). 그래프가 y축(빨간 점선)에 무한히 가까워지기만 하고 닿지 않는 <b>점근선</b>이 생겨요.`;
+  }
+}
+buildContPicker();
+renderCont();
+</script>
+</body>
+</html>

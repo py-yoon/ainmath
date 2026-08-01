@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>함수의 극한과 연속, 닿지 않아도 다가갈 수 있어요 | 아인매스</title>
+<meta name="description" content="함수가 어떤 점에서 정의되지 않아도, 그 점 주변에서 함숫값이 특정한 값으로 다가가고 있다면 그 값을 극한이라고 불러요. 극한과 연속의 차이를...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:260px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#0D62F1;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#0D62F1;background:#E7F0FF">📈 함수와 그래프</span>
+  <h1>함수의 극한과 연속, 닿지 않아도 다가갈 수 있어요</h1>
+  <p class="meta">고등학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>f(x) = (x²−1)/(x−1)이라는 함수가 있다고 해봐요. x=1을 대입하면 분모가 0이 되어버려서 f(1)은 아예 정의되지 않아요. 그런데 x=1이 아닌 곳에서는 이 식이 (x−1)(x+1)/(x−1) = x+1과 완전히 똑같아요. 그래서 x를 1에 아주아주 가깝게(0.999, 1.001, 1.0001…) 움직여보면, f(x)는 2에 한없이 가까워져요. 이렇게 "x가 어떤 값에 다가갈 때 함숫값이 다가가는 값"을 <b>극한</b>이라고 불러요.</p>
+      <p>여기서 중요한 포인트는, <b>함숫값과 극한값은 다른 이야기</b>라는 거예요. f(1)은 정의되지 않지만(함숫값 없음), lim(x→1)f(x)=2는 분명히 존재해요(극한값 있음). "그 점에 실제로 도달했을 때의 값"과 "그 점을 향해 다가갈 때 흐름이 향하는 값"은 서로 다른 질문이고, 극한은 후자를 다뤄요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 200 140">
+          <line x1="20" y1="120" x2="180" y2="120" stroke="var(--ink-soft)" stroke-width="1.5"></line>
+          <line x1="20" y1="120" x2="20" y2="20" stroke="var(--ink-soft)" stroke-width="1.5"></line>
+          <path d="M 30 105 L 165 30" fill="none" stroke="var(--blue-ink)" stroke-width="3"></path>
+          <circle cx="100" cy="65" r="6" fill="var(--paper)" stroke="var(--coral-ink)" stroke-width="2.5"></circle>
+          <text x="100" y="50" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--coral-ink)">구멍</text>
+          <text x="140" y="118" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">x=1</text>
+        </svg>
+        <div class="illo-caption">x=1에서 함수는 정의되지 않지만(구멍), 극한값 2는 존재해요</div>
+      </div>
+      <p>이제 <b>연속</b>이라는 개념이 왜 세 가지 조건을 모두 요구하는지 이해할 수 있어요. 함수 f가 x=c에서 연속이려면 ①f(c)가 정의되어 있고, ②극한 lim(x→c)f(x)가 존재하고, ③이 둘이 같아야(f(c) = 극한값) 해요. 위의 예시는 조건 ①이 깨져서(f(1)이 없어서) 불연속이 된 경우예요. 이런 "구멍형" 불연속은 f(1)=2라고 정의를 하나 추가해주면 바로 연속이 되는, 가장 약한 형태의 불연속이에요.</p>
+      <p>불연속에는 이보다 더 "심각한" 유형도 있어요. 계단 요금제처럼 왼쪽 극한과 오른쪽 극한이 서로 다른 값으로 다가가는 <b>도약(점프) 불연속</b>은 애초에 극한 자체가 존재하지 않아요(조건 ②가 깨짐). f(x)=1/x처럼 특정 점 근처에서 함숫값이 무한히 커지거나 작아지는 <b>발산(무한) 불연속</b>도 마찬가지로 극한이 존재하지 않는 경우예요. 이 경우들은 아무리 정의를 추가해도 연속으로 고칠 수 없어요 — 그래프 자체가 근본적으로 끊어져 있기 때문이에요.</p>
+      <p>극한은 단순한 계산 기술이 아니라, 미분과 적분이라는 미적분학 전체를 떠받치는 기초예요. 나중에 배울 미분(순간변화율)은 사실 "평균변화율의 구간을 한없이 좁혀가는 극한"으로 정의되고, 적분(넓이)도 "직사각형을 한없이 잘게 쪼개는 극한"으로 정의돼요. 극한이라는 개념 없이는 미분도 적분도 애초에 정의할 수조차 없어요.</p>
+      <p>아이들과 공부할 때는 계단을 한 칸씩 다가가듯, x값을 표에 1, 1.1, 1.01, 1.001로 적어가며 f(x)가 어떤 값에 가까워지는지 직접 계산해보게 하는 게 좋아요. 숫자로 눈에 보이게 확인하면 "한없이 가까워진다"는 감각이 훨씬 잘 잡혀요. 저희 체험 페이지에서는 x를 슬라이더로 직접 움직이며 f(x)가 2로 다가가는 과정을 확인하고, 구멍·도약·발산 세 가지 불연속을 그래프로 비교해볼 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="limits-continuity.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
