@@ -12,6 +12,7 @@
 :root{
   --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
   --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
   --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
 }
 *{box-sizing:border-box;}
@@ -43,6 +44,9 @@ p:last-child{margin-bottom:0;}
 .example{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px 20px;margin:18px 0;text-align:center;}
 .example .eq{font-family:'Do Hyeon',sans-serif;font-size:18px;margin-bottom:8px;}
 .example p{font-size:14.5px;color:var(--ink-soft);margin:8px 0 0;}
+.illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+.illo svg{width:100%;max-width:220px;height:auto;display:block;margin:0 auto;}
+.illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
 .grid4{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0;}
 .grid4 .box{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.6;}
 .grid4 .box b{display:block;font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--violet-ink);margin-bottom:4px;}
@@ -74,6 +78,17 @@ footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;t
     <div class="example">
       <div class="eq">중심 맞추기 → 0에 한 변 맞추기 → 다른 변 눈금 읽기</div>
       <p>이 세 단계만 기억하면 어떤 각도기를 만나도 헤매지 않아요.</p>
+    </div>
+    <div class="illo">
+      <svg viewBox="0 0 200 110">
+        <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="var(--ink)" stroke-width="2"></path>
+        <line x1="20" y1="100" x2="180" y2="100" stroke="var(--ink)" stroke-width="2"></line>
+        <path d="M 165 100 A 65 65 0 0 0 132.5 43.7" fill="none" stroke="var(--coral-ink)" stroke-width="2"></path>
+        <line x1="100" y1="100" x2="135" y2="39.4" stroke="var(--violet-ink)" stroke-width="2.5"></line>
+        <text x="150" y="60" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--coral-ink)">60°</text>
+        <text x="15" y="98" text-anchor="end" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">0</text>
+      </svg>
+      <div class="illo-caption">0에 맞춘 변부터 다른 변까지 눈금을 읽으면 각도예요</div>
     </div>
 
     <h2><span class="num">2</span>각에도 이름이 있어요</h2>
