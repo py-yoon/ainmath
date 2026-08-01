@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>밑변과 높이가 같으면 넓이도 같은 이유 | 아인매스</title>
+<meta name="description" content="뾰족한 예각삼각형이든, 한쪽으로 기울어진 둔각삼각형이든, 밑변과 높이만 같다면 넓이는 항상 똑같아요. 삼각형의 넓이 공식이 왜 모양과...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:280px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#6847F7;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#6847F7;background:#EEE8FF">📐 도형·기하</span>
+  <h1>밑변과 높이가 같으면 넓이도 같은 이유</h1>
+  <p class="meta">중학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>삼각형의 넓이 공식은 (밑변 × 높이) ÷ 2예요. 이 공식을 보면 재미있는 사실 하나가 눈에 들어와요 — 공식에 들어가는 건 딱 두 숫자, 밑변과 높이뿐이라는 거예요. 세 변의 길이나 각의 크기는 공식 어디에도 안 나와요. 그렇다면 밑변과 높이만 똑같다면, 삼각형의 모양이 완전히 달라져도 넓이는 항상 같아야 하지 않을까요? 정말로 그래요.</p>
+      <p>이걸 그림으로 확인해볼게요. 바닥에 길이 6인 밑변 AB를 고정해두고, 그 위쪽으로 4만큼 떨어진 지점(바닥과 평행한 선)을 따라 꼭짓점 C를 이리저리 옮겨본다고 생각해보세요. C가 밑변 한가운데 위에 있으면 예각삼각형이 되고, 한쪽 끝 바로 위에 있으면 직각삼각형이 되고, 밑변보다 훨씬 옆으로 벗어나면 둔각삼각형이 돼요. 생김새는 완전히 다른데, 밑변(6)과 높이(4)는 한 번도 안 바뀌었으니 넓이는 항상 (6×4)÷2=12로 똑같아요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 200 130">
+          <line x1="10" y1="100" x2="190" y2="100" stroke="var(--paper-line)" stroke-width="1.5"></line>
+          <line x1="10" y1="30" x2="190" y2="30" stroke="var(--paper-line)" stroke-width="1.5" stroke-dasharray="4 3"></line>
+          <polygon points="60,100 130,100 90,30" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2"></polygon>
+          <polygon points="60,100 130,100 170,30" fill="none" stroke="var(--coral-ink)" stroke-width="2" stroke-dasharray="4 3"></polygon>
+          <text x="90" y="20" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--violet-ink)">예각</text>
+          <text x="170" y="20" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--coral-ink)">둔각</text>
+          <text x="95" y="115" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">같은 밑변, 같은 높이</text>
+        </svg>
+        <div class="illo-caption">꼭짓점이 점선(같은 높이) 위 어디에 있어도 넓이는 똑같아요</div>
+      </div>
+      <p>둔각삼각형에서는 조금 헷갈리는 부분이 있어요. 꼭짓점 C가 밑변 AB의 옆으로 많이 벗어나면, C에서 수직으로 내린 선(높이)이 밑변 AB "선분" 위가 아니라 그 <b>연장선</b> 위에 떨어져요. 그래도 상관없어요 — 높이는 "밑변을 담고 있는 직선까지의 수직 거리"를 재는 거지, 반드시 선분 안에 떨어져야 하는 게 아니거든요. 이 점만 기억하면 둔각삼각형의 넓이도 똑같은 공식으로 문제없이 구할 수 있어요.</p>
+      <p>이 원리를 실제로 확인하는 또 다른 방법은 좌표를 이용한 <b>신발끈 공식</b>이에요. 세 꼭짓점의 좌표를 알면 넓이 = |x₁(y₂−y₃) + x₂(y₃−y₁) + x₃(y₁−y₂)| ÷ 2로 직접 계산할 수 있어요. 이 공식은 삼각형이 예각이든 둔각이든 전혀 상관하지 않고 항상 정확한 넓이를 내놓는데, 이 값이 (밑변×높이)÷2로 구한 값과 항상 똑같다는 걸 확인하면 "모양이 달라도 넓이는 같다"는 사실을 다시 한번 검증할 수 있어요.</p>
+      <p>이 성질은 여러 증명에서 핵심 도구로 쓰여요. 예를 들어 평행사변형의 넓이가 왜 "밑변×높이"인지 증명할 때, 평행사변형을 대각선으로 잘라 만든 두 삼각형이 각각 같은 밑변·높이를 가진다는 사실에서 출발해요. 또 두 삼각형의 넓이가 같다는 걸 보여야 할 때, 변의 길이를 일일이 재는 대신 "밑변과 높이가 같다"는 것만 보이면 훨씬 빠르게 결론을 낼 수 있어요.</p>
+      <p>아이들과 공부할 때는 실제로 종이에 평행한 두 선을 긋고, 그 사이에 밑변을 고정한 채 꼭짓점만 이리저리 옮겨가며 여러 모양의 삼각형을 그려보게 하는 게 좋아요. 모양이 확 달라 보이는데 넓이가 똑같다는 사실이 처음엔 의아하게 느껴지지만, 직접 넓이를 계산해서 확인해보면 확실하게 이해돼요. 저희 체험 페이지에서는 꼭짓점을 슬라이더로 옮기며 예각·직각·둔각삼각형을 자유롭게 만들어보고, 두 가지 계산법으로 넓이가 항상 똑같이 나오는지 직접 확인할 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="triangle-base-height.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
