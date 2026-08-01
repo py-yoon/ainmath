@@ -29,6 +29,9 @@
   .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
   .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
   .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:280px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
   .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
   .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#D90500;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
   .cta-btn:hover{transform:translateY(-2px);}
@@ -47,6 +50,21 @@
   <div class="card">
     <div class="article-body">
       <p>222라는 수에는 숫자 2가 세 번 나와요. 그런데 이 세 개의 2는 사실 전혀 다른 크기를 나타내요. 맨 앞의 2는 200을, 가운데 2는 20을, 맨 뒤의 2는 그냥 2를 뜻하거든요. 같은 숫자인데 어느 자리에 있느냐에 따라 값이 완전히 달라진다는 것, 이게 바로 <b>자릿값</b>이에요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 280 130">
+          <rect x="15" y="15" width="70" height="70" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="3"></rect>
+          <text x="50" y="60" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="28" fill="var(--coral-ink)">2</text>
+          <text x="50" y="105" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral-ink)">= 200</text>
+          <rect x="115" y="50" width="35" height="35" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="3"></rect>
+          <text x="132" y="75" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="18" fill="var(--coral-ink)">2</text>
+          <text x="132" y="105" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral-ink)">= 20</text>
+          <rect x="185" y="68" width="17" height="17" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="3"></rect>
+          <text x="193" y="82" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="10" fill="var(--coral-ink)">2</text>
+          <text x="193" y="105" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral-ink)">= 2</text>
+        </svg>
+        <div class="illo-caption">숫자는 똑같이 "2"지만, 자리에 따라 크기(값)가 완전히 달라요</div>
+      </div>
+
       <p>이렇게 자리마다 값이 10배씩 달라지는 방식을 <b>십진법</b>이라고 불러요. 오른쪽에서 왼쪽으로 갈수록 일의 자리, 십의 자리, 백의 자리, 천의 자리… 순서로 10배씩 커져요. 그래서 어떤 자리에 숫자가 없으면(비어있으면) 반드시 0을 써서 그 자리를 채워줘야 해요. 0을 안 쓰면 뒤에 있는 숫자들이 전부 한 자리씩 밀려서 완전히 다른 수가 되어버리거든요. 예를 들어 "빈 자리"를 그냥 생략해서 20을 "2"라고 쓰면, 원래 뜻하려던 수와 전혀 다른 수가 되는 것과 같아요.</p>
       <p>이 자릿값 감각을 눈에 보이게 만들어주는 도구가 "자릿값 블록"이에요. 일의 자리는 작은 정육면체 하나, 십의 자리는 그 10개를 이어붙인 막대, 백의 자리는 그 막대 10개를 붙인 판, 천의 자리는 그 판 10개를 쌓은 큰 정육면체로 나타내요. 블록의 크기가 자리마다 정확히 10배씩 커지는 걸 보면, "자릿값이 10배씩 커진다"는 게 추상적인 규칙이 아니라 실제로 눈에 보이는 크기의 차이라는 걸 실감하게 돼요.</p>
       <p>큰 수를 한글로 읽는 것도 이 자릿값과 깊은 관련이 있어요. 우리말은 만, 억, 조처럼 네 자리씩 끊어서 새로운 단위를 붙이는 방식을 써요. 그래서 큰 수를 읽을 때는 뒤에서부터 네 자리씩 끊어보는 습관을 들이면 훨씬 수월해요. 예를 들어 12345678이라는 수는 뒤에서 네 자리씩 끊으면 1234만 5678이 되고, "천이백삼십사만 오천육백칠십팔"이라고 읽을 수 있어요.</p>

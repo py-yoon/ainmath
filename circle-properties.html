@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>원의 성질 실험실</title>
+<meta name="description" content="원과 직선의 위치관계, 부채꼴의 호와 넓이, 원 밖의 점에서 그은 접선, 내접다각형까지 — 슬라이더로 값을 바꿔가며 원의 성질을 직접 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+    --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 80px;
+  }
+  .wrap{max-width:1040px;margin:0 auto;}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--green-ink);background:var(--green-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+  h1 span{color:var(--coral-ink);}
+  .sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:66ch;margin:0 0 24px;}
+
+  .section-block{margin-top:52px;}
+  .section-tag{display:inline-block;font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--green-ink);background:var(--green-soft);padding:4px 12px;border-radius:999px;margin-bottom:10px;}
+  h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(22px,3.4vw,30px);margin:0 0 8px;line-height:1.3;}
+  .section-sub{color:var(--ink-soft);font-size:15px;line-height:1.7;max-width:66ch;margin:0 0 22px;}
+
+  .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+    display:grid;grid-template-columns: 1.15fr 0.85fr;gap:32px;align-items:start;}
+  @media (max-width:800px){ .stage{grid-template-columns:1fr;} }
+  .canvas-area{display:flex;flex-direction:column;align-items:center;gap:16px;}
+  svg{width:100%;max-width:460px;height:auto;overflow:visible;}
+
+  .legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-size:13px;color:var(--ink-soft);}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .swatch{width:12px;height:12px;border-radius:3px;display:inline-block;}
+  .swatch.dashed{background:transparent;border:2px dashed var(--ink-soft);}
+
+  .control-row{width:100%;max-width:420px;display:flex;flex-direction:column;gap:8px;}
+  .control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+  .control-label b{font-size:22px;color:var(--ink);}
+  input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--green-soft);outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--green);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,175,142,0.5);cursor:pointer;}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--green);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,175,142,0.5);cursor:pointer;}
+  input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral-ink);outline-offset:2px;}
+
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap;width:100%;max-width:420px;}
+  .action-btn{font-family:'Do Hyeon',sans-serif;font-size:14.5px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:12px;padding:10px 16px;cursor:pointer;flex:1;min-width:120px;transition:all .15s ease;}
+  .action-btn:hover{border-color:var(--green-ink);color:var(--green-ink);}
+  .action-btn.active{background:var(--green-ink);border-color:var(--green-ink);color:#fff;}
+  .action-btn:focus-visible{outline:3px solid var(--coral-ink);outline-offset:2px;}
+
+  .equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px 20px;text-align:center;}
+  .equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(15px,2.4vw,18px);color:var(--ink-soft);}
+  .equation .formula b{color:var(--ink);}
+  .equation .result{font-family:'Do Hyeon',sans-serif;font-size:clamp(32px,5.5vw,46px);color:var(--green-ink);margin-top:6px;line-height:1;}
+  .equation .result span{font-size:0.42em;color:var(--ink-soft);}
+  .equation .subline{margin-top:10px;font-size:13.5px;color:var(--ink-soft);}
+
+  .fact{background:var(--green-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+  .fact b{color:var(--green-ink);}
+
+  .bar-wrap{width:100%;max-width:420px;display:flex;flex-direction:column;gap:14px;}
+  .bar-label{font-family:'Do Hyeon',sans-serif;font-size:13.5px;color:var(--ink-soft);margin-bottom:4px;}
+  .bar-track{position:relative;background:var(--paper);border:2px solid var(--paper-line);border-radius:10px;height:26px;overflow:hidden;}
+  .bar-fill{position:absolute;top:0;left:0;height:100%;border-radius:8px;transition:width .2s ease;}
+
+  footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-circle-properties.html" style="color:#fff;background:var(--green-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🔵 원의 성질 실험실</span>
+  <h1>원 하나에 숨어있는<br><span>네 가지</span> 성질</h1>
+  <p class="sub">원과 직선의 관계, 부채꼴, 접선, 내접다각형까지 — 슬라이더로 값을 바꿔가며 원의 성질이 왜 성립하는지 직접 확인해보세요. (원주각의 성질은 별도 페이지에서 다뤄요)</p>
+
+  <!-- ===== STEP 1: 원과 직선의 위치관계 ===== -->
+  <div class="section-block" style="margin-top:0;">
+    <span class="section-tag">STEP 1</span>
+    <h2>원과 직선의 위치관계</h2>
+    <p class="section-sub">직선을 원에 가까이 옮겨보세요. 중심에서 직선까지 거리(d)와 반지름(r)을 비교하면 교점의 개수가 정해져요: d&lt;r이면 2개(할선), d=r이면 1개(접선), d&gt;r이면 0개예요.</p>
+    <div class="stage">
+      <div class="canvas-area">
+        <svg id="svg2" viewBox="0 0 460 360"></svg>
+        <div class="control-row">
+          <div class="control-label"><span>중심에서 직선까지 거리 (d)</span><b id="dLabel">4</b><span>cm</span></div>
+          <input id="slider2" type="range" min="0" max="9" value="4" step="0.1" aria-label="거리 조절">
+        </div>
+        <div class="btn-row">
+          <button class="action-btn" id="tangentBtn">📍 d=r (접선) 보기</button>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="equation">
+          <div class="formula">거리(d) vs 반지름(r=6cm)</div>
+          <div class="result" id="result2">할선</div>
+          <div class="subline" id="sub2">d=4cm &lt; r=6cm → 교점 2개</div>
+        </div>
+        <div class="fact" id="fact2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== STEP 3: 부채꼴의 호의 길이와 넓이 ===== -->
+  <div class="section-block">
+    <span class="section-tag">STEP 2</span>
+    <h2>부채꼴의 호의 길이와 넓이</h2>
+    <p class="section-sub">중심각이 커질수록 호의 길이와 부채꼴의 넓이도 똑같은 비율로 커져요. 막대그래프로 "전체 원 대비 얼마나 차지하는지"를 비교해보세요.</p>
+    <div class="stage">
+      <div class="canvas-area">
+        <svg id="svg3" viewBox="0 0 460 340"></svg>
+        <div class="control-row">
+          <div class="control-label"><span>중심각 θ</span><b id="thetaLabel3">90</b><span>°</span></div>
+          <input id="slider3" type="range" min="10" max="350" value="90" step="5" aria-label="중심각 조절">
+        </div>
+      </div>
+      <div class="panel">
+        <div class="bar-wrap">
+          <div>
+            <div class="bar-label">호의 길이 (전체 원둘레 대비)</div>
+            <div class="bar-track"><div class="bar-fill" id="barArc" style="background:var(--coral);"></div></div>
+          </div>
+          <div>
+            <div class="bar-label">부채꼴 넓이 (전체 원 넓이 대비)</div>
+            <div class="bar-track"><div class="bar-fill" id="barArea" style="background:var(--violet);"></div></div>
+          </div>
+        </div>
+        <div class="equation">
+          <div class="formula">호의 길이 = 2πr × (θ÷360)</div>
+          <div class="result" id="result3">9.42<span>cm</span></div>
+          <div class="subline" id="sub3"></div>
+        </div>
+        <div class="fact" id="fact3"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== STEP 4: 원 밖의 점에서 그은 접선 ===== -->
+  <div class="section-block">
+    <span class="section-tag">STEP 3</span>
+    <h2>원 밖의 점에서 그은 접선</h2>
+    <p class="section-sub">원 밖의 한 점에서 원에 접선을 그으면 항상 2개가 그려지는데, 두 접선의 길이는 신기하게도 <b>항상 똑같아요</b>. 점 P를 움직여도 이 성질은 변하지 않아요.</p>
+    <div class="stage">
+      <div class="canvas-area">
+        <svg id="svg4" viewBox="0 0 460 400"></svg>
+        <div class="control-row">
+          <div class="control-label"><span>중심에서 점 P까지 거리</span><b id="d4Label">10</b><span>cm</span></div>
+          <input id="slider4d" type="range" min="7" max="16" value="10" step="0.5" aria-label="거리 조절">
+        </div>
+        <div class="control-row">
+          <div class="control-label"><span>점 P의 방향</span><b id="a4Label">20</b><span>°</span></div>
+          <input id="slider4a" type="range" min="0" max="359" value="20" step="1" aria-label="방향 조절">
+        </div>
+      </div>
+      <div class="panel">
+        <div class="equation">
+          <div class="formula">접선의 길이 PT₁ 과 PT₂</div>
+          <div class="result" id="result4">8.00<span>cm</span></div>
+          <div class="subline" id="sub4">두 접선의 길이가 정확히 같아요</div>
+        </div>
+        <div class="fact" id="fact4"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== STEP 5: 원에 내접하는 정다각형 ===== -->
+  <div class="section-block">
+    <span class="section-tag">STEP 4</span>
+    <h2>원에 내접하는 정다각형 (아르키메데스의 방법)</h2>
+    <p class="section-sub">아르키메데스는 원 안에 정다각형을 그리고 변의 개수를 계속 늘려가며 원주율을 계산했어요. 변의 개수(n)를 늘릴수록 다각형이 원에 점점 가까워지는 걸 확인해보세요.</p>
+    <div class="stage">
+      <div class="canvas-area">
+        <svg id="svg5" viewBox="0 0 460 400"></svg>
+        <div class="control-row">
+          <div class="control-label"><span>변의 개수 (n)</span><b id="nLabel5">6</b></div>
+          <input id="slider5" type="range" min="3" max="96" value="6" step="1" aria-label="변의 개수 조절">
+        </div>
+        <div class="btn-row">
+          <button class="action-btn" data-n="6">6</button>
+          <button class="action-btn" data-n="12">12</button>
+          <button class="action-btn" data-n="24">24</button>
+          <button class="action-btn" data-n="48">48</button>
+          <button class="action-btn" data-n="96">96</button>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="equation">
+          <div class="formula">다각형 둘레 vs 원의 둘레(2πr)</div>
+          <div class="result" id="result5">600.0<span>cm</span></div>
+          <div class="subline" id="sub5"></div>
+        </div>
+        <div class="fact" id="fact5"></div>
+      </div>
+    </div>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="triangle-five-centers.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">삼각형의 오심(五心) 실험실</span>
+    </a>
+    <a href="ellipse.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">타원 실험실</span>
+    </a>
+  </nav>
+<footer>원주각·접선·부채꼴은 모두 "원 위의 점들이 중심으로부터 같은 거리(반지름)에 있다"는 단 하나의 사실에서 출발해요. 내접다각형은 변의 개수를 무한히 늘리면 결국 원 자체가 된다는 것을 보여주는, 원주율 계산의 역사적인 첫 방법이었어요.</footer>
+</div>
+
+<script>
+  function fmt(v){ return (Math.round(v*100)/100).toString(); }
+  function dist(a,b){ return Math.hypot(a[0]-b[0], a[1]-b[1]); }
+  function angleAt(P,Q,R){
+    const v1=[Q[0]-P[0],Q[1]-P[1]], v2=[R[0]-P[0],R[1]-P[1]];
+    const m1=Math.hypot(v1[0],v1[1]), m2=Math.hypot(v2[0],v2[1]);
+    let c=(v1[0]*v2[0]+v1[1]*v2[1])/(m1*m2);
+    c=Math.max(-1,Math.min(1,c));
+    return Math.acos(c)*180/Math.PI;
+  }
+
+  // ============================================================
+  // STEP 2: 원과 직선의 위치관계
+  // ============================================================
+  (function(){
+    const svg = document.getElementById('svg2');
+    const slider = document.getElementById('slider2');
+    const dLabel = document.getElementById('dLabel');
+    const result2 = document.getElementById('result2');
+    const sub2 = document.getElementById('sub2');
+    const fact2 = document.getElementById('fact2');
+    const tangentBtn = document.getElementById('tangentBtn');
+
+    const PX=20, R_CM=6, O=[230,180], R=R_CM*PX;
+
+    function render(){
+      const d = parseFloat(slider.value);
+      dLabel.textContent = fmt(d);
+      const dpx = d*PX;
+      const lineY = O[1]-dpx;
+
+      let html = '';
+      html += `<circle cx="${O[0]}" cy="${O[1]}" r="${R}" fill="var(--green)" fill-opacity="0.08" stroke="var(--green)" stroke-width="3"></circle>`;
+      html += `<line x1="20" y1="${lineY}" x2="440" y2="${lineY}" stroke="var(--coral)" stroke-width="3"></line>`;
+      html += `<line x1="${O[0]}" y1="${O[1]}" x2="${O[0]}" y2="${lineY}" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="4 4"></line>`;
+      html += `<text x="${O[0]+14}" y="${(O[1]+lineY)/2}" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)">d=${fmt(d)}cm</text>`;
+      html += `<circle cx="${O[0]}" cy="${O[1]}" r="4" fill="var(--ink)"></circle>`;
+
+      let caseLabel, caseDesc;
+      const eps = 0.05;
+      if(d < R_CM-eps){
+        const half = Math.sqrt(R*R-dpx*dpx);
+        const x1=O[0]-half, x2=O[0]+half;
+        html += `<circle cx="${x1}" cy="${lineY}" r="6" fill="var(--violet)"></circle>`;
+        html += `<circle cx="${x2}" cy="${lineY}" r="6" fill="var(--violet)"></circle>`;
+        caseLabel='할선 (교점 2개)';
+        caseDesc = `d=${fmt(d)}cm < r=${R_CM}cm → 교점 2개`;
+      } else if(Math.abs(d-R_CM) <= eps){
+        html += `<circle cx="${O[0]}" cy="${lineY}" r="7" fill="var(--coral)"></circle>`;
+        caseLabel='접선 (교점 1개)';
+        caseDesc = `d=${fmt(d)}cm = r=${R_CM}cm → 교점 1개 (접점)`;
+      } else {
+        caseLabel='교점 없음';
+        caseDesc = `d=${fmt(d)}cm > r=${R_CM}cm → 원과 만나지 않아요`;
+      }
+
+      svg.innerHTML = html;
+      result2.textContent = caseLabel;
+      sub2.textContent = caseDesc;
+      fact2.innerHTML = `직선과 원의 중심 사이의 거리 d와 반지름 r을 비교하면 교점 개수가 정해져요. <b>d&lt;r</b>이면 두 점에서 만나고(할선), <b>d=r</b>이면 단 한 점에서 접하고(접선), <b>d&gt;r</b>이면 아예 만나지 않아요. 이차방정식의 판별식과 똑같은 구조예요 — 판별식 > 0, = 0, < 0 인 경우와 정확히 대응돼요.`;
+    }
+    slider.addEventListener('input', render);
+    tangentBtn.addEventListener('click', ()=>{ slider.value = R_CM; render(); });
+    render();
+  })();
+
+  // ============================================================
+  // STEP 3: 부채꼴의 호의 길이와 넓이
+  // ============================================================
+  (function(){
+    const svg = document.getElementById('svg3');
+    const slider = document.getElementById('slider3');
+    const thetaLabel = document.getElementById('thetaLabel3');
+    const result3 = document.getElementById('result3');
+    const sub3 = document.getElementById('sub3');
+    const fact3 = document.getElementById('fact3');
+    const barArc = document.getElementById('barArc');
+    const barArea = document.getElementById('barArea');
+
+    const R_CM=6, PX=18, O=[150,170], R=R_CM*PX;
+
+    function render(){
+      const theta = parseFloat(slider.value);
+      thetaLabel.textContent = theta;
+      const rad = theta*Math.PI/180;
+      const arcLen = R_CM*rad;
+      const sectorArea = 0.5*R_CM*R_CM*rad;
+      const fullCirc = 2*Math.PI*R_CM;
+      const fullArea = Math.PI*R_CM*R_CM;
+
+      result3.innerHTML = `${fmt(arcLen)}<span>cm</span>`;
+      sub3.textContent = `부채꼴 넓이 = ${fmt(sectorArea)}cm² (원 전체 넓이 ${fmt(fullArea)}cm²의 ${fmt(theta/360*100)}%)`;
+
+      const startAng = -90*Math.PI/180;
+      const endAng = startAng + rad;
+      const segs=32;
+      let pts=[O];
+      for(let s=0;s<=segs;s++){
+        const a = startAng + rad*(s/segs);
+        pts.push([O[0]+R*Math.cos(a), O[1]+R*Math.sin(a)]);
+      }
+      let html = `<circle cx="${O[0]}" cy="${O[1]}" r="${R}" fill="none" stroke="var(--paper-line)" stroke-width="2"></circle>`;
+      html += `<polygon points="${pts.map(p=>p.join(',')).join(' ')}" fill="var(--coral)" fill-opacity="0.5" stroke="var(--coral)" stroke-width="2.5"></polygon>`;
+      svg.innerHTML = html;
+
+      barArc.style.width = (theta/360*100)+'%';
+      barArea.style.width = (theta/360*100)+'%';
+
+      fact3.innerHTML = `반지름 ${R_CM}cm인 원에서 중심각이 <b>${theta}°</b>인 부채꼴의 호의 길이는 전체 둘레(${fmt(fullCirc)}cm)의 ${fmt(theta/360*100)}%인 <b>${fmt(arcLen)}cm</b>이고, 넓이도 똑같은 비율로 전체 넓이(${fmt(fullArea)}cm²)의 ${fmt(theta/360*100)}%인 <b>${fmt(sectorArea)}cm²</b>예요. 중심각이 커지는 만큼 호의 길이와 넓이도 정확히 비례해서 커져요.`;
+    }
+    slider.addEventListener('input', render);
+    render();
+  })();
+
+  // ============================================================
+  // STEP 4: 원 밖의 점에서 그은 접선
+  // ============================================================
+  (function(){
+    const svg = document.getElementById('svg4');
+    const sliderD = document.getElementById('slider4d');
+    const sliderA = document.getElementById('slider4a');
+    const d4Label = document.getElementById('d4Label');
+    const a4Label = document.getElementById('a4Label');
+    const result4 = document.getElementById('result4');
+    const sub4 = document.getElementById('sub4');
+    const fact4 = document.getElementById('fact4');
+
+    const R_CM=6, PX=15, O=[230,220], R=R_CM*PX;
+
+    function render(){
+      const dCm = parseFloat(sliderD.value);
+      const angDeg = parseFloat(sliderA.value);
+      d4Label.textContent = fmt(dCm);
+      a4Label.textContent = angDeg;
+
+      const dpx = dCm*PX;
+      const phi = angDeg*Math.PI/180;
+      const P = [O[0]+dpx*Math.cos(phi), O[1]+dpx*Math.sin(phi)];
+
+      const alpha = Math.acos(R/dpx);
+      const T1 = [O[0]+R*Math.cos(phi+alpha), O[1]+R*Math.sin(phi+alpha)];
+      const T2 = [O[0]+R*Math.cos(phi-alpha), O[1]+R*Math.sin(phi-alpha)];
+      const tanLenPx = Math.sqrt(dpx*dpx-R*R);
+      const tanLenCm = tanLenPx/PX;
+
+      result4.innerHTML = `${fmt(tanLenCm)}<span>cm</span>`;
+      sub4.textContent = `PT₁ = PT₂ = ${fmt(tanLenCm)}cm (두 값이 항상 같아요)`;
+
+      let html = '';
+      html += `<circle cx="${O[0]}" cy="${O[1]}" r="${R}" fill="var(--green)" fill-opacity="0.08" stroke="var(--green)" stroke-width="3"></circle>`;
+      html += `<line x1="${P[0]}" y1="${P[1]}" x2="${T1[0]}" y2="${T1[1]}" stroke="var(--coral)" stroke-width="3"></line>`;
+      html += `<line x1="${P[0]}" y1="${P[1]}" x2="${T2[0]}" y2="${T2[1]}" stroke="var(--coral)" stroke-width="3"></line>`;
+      html += `<line x1="${O[0]}" y1="${O[1]}" x2="${T1[0]}" y2="${T1[1]}" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="4 4"></line>`;
+      html += `<line x1="${O[0]}" y1="${O[1]}" x2="${T2[0]}" y2="${T2[1]}" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="4 4"></line>`;
+      html += `<line x1="${O[0]}" y1="${O[1]}" x2="${P[0]}" y2="${P[1]}" stroke="var(--violet)" stroke-width="1.5" stroke-dasharray="3 4"></line>`;
+      [['O',O,'var(--ink)'],['P',P,'var(--violet)'],['T\u2081',T1,'var(--coral)'],['T\u2082',T2,'var(--coral)']].forEach(([name,pt,color])=>{
+        html += `<circle cx="${pt[0]}" cy="${pt[1]}" r="5" fill="${color}"></circle>`;
+        html += `<text x="${pt[0]}" y="${pt[1]-12}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="${color}">${name}</text>`;
+      });
+      svg.innerHTML = html;
+
+      fact4.innerHTML = `원 밖의 점 P에서 원에 접선을 그으면 접점 T₁, T₂가 생겨요. 반지름 OT는 접선과 항상 수직(90°)이기 때문에, 직각삼각형 OT₁P와 OT₂P는 빗변(OP)과 한 변(반지름)이 같은 <b>RHS 합동</b>이 되고, 그래서 남은 변인 PT₁과 PT₂의 길이가 항상 <b>${fmt(tanLenCm)}cm</b>로 같아지는 거예요.`;
+    }
+    sliderD.addEventListener('input', render);
+    sliderA.addEventListener('input', render);
+    render();
+  })();
+
+  // ============================================================
+  // STEP 5: 원에 내접하는 정다각형
+  // ============================================================
+  (function(){
+    const svg = document.getElementById('svg5');
+    const slider = document.getElementById('slider5');
+    const nLabel = document.getElementById('nLabel5');
+    const result5 = document.getElementById('result5');
+    const sub5 = document.getElementById('sub5');
+    const fact5 = document.getElementById('fact5');
+    const presetBtns = document.querySelectorAll('[data-n]');
+
+    const R_CM=6, PX=25, O=[230,200], R=R_CM*PX;
+
+    function render(){
+      const n = parseInt(slider.value);
+      nLabel.textContent = n;
+
+      const perim = n*2*R_CM*Math.sin(Math.PI/n);
+      const area = 0.5*n*R_CM*R_CM*Math.sin(2*Math.PI/n);
+      const fullCirc = 2*Math.PI*R_CM;
+      const fullArea = Math.PI*R_CM*R_CM;
+      const errPct = (fullCirc-perim)/fullCirc*100;
+
+      result5.innerHTML = `${fmt(perim)}<span>cm</span>`;
+      sub5.textContent = `원의 둘레 ${fmt(fullCirc)}cm 대비 오차 ${fmt(errPct)}%`;
+
+      let pts=[];
+      for(let i=0;i<n;i++){
+        const a = -Math.PI/2 + i*2*Math.PI/n;
+        pts.push([O[0]+R*Math.cos(a), O[1]+R*Math.sin(a)]);
+      }
+      let html = `<circle cx="${O[0]}" cy="${O[1]}" r="${R}" fill="none" stroke="var(--coral)" stroke-width="2" stroke-dasharray="4 4"></circle>`;
+      html += `<polygon points="${pts.map(p=>p.join(',')).join(' ')}" fill="var(--green)" fill-opacity="0.16" stroke="var(--green)" stroke-width="3"></polygon>`;
+      svg.innerHTML = html;
+
+      presetBtns.forEach(b=> b.classList.toggle('active', parseInt(b.dataset.n)===n));
+
+      fact5.innerHTML = `정${n}각형의 둘레는 <b>${fmt(perim)}cm</b>, 넓이는 <b>${fmt(area)}cm²</b>예요. 실제 원의 둘레(${fmt(fullCirc)}cm)와 비교하면 오차가 겨우 <b>${fmt(errPct)}%</b>밖에 안 돼요. 아르키메데스는 이렇게 변의 개수를 6→12→24→48→96개로 두 배씩 늘려가며 원주율의 범위를 점점 좁혀나갔어요.`;
+    }
+    slider.addEventListener('input', render);
+    presetBtns.forEach(b=> b.addEventListener('click', ()=>{ slider.value=b.dataset.n; render(); }));
+    render();
+  })();
+</script>
+</body>
+</html>

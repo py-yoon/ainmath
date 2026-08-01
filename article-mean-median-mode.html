@@ -11,6 +11,8 @@
 <style>
   :root{
     --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
     --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
   *{box-sizing:border-box;}
@@ -43,6 +45,9 @@
     font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;
   }
   .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
   .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
   .cta-btn{
     display:inline-flex;align-items:center;gap:8px;
@@ -72,6 +77,23 @@
       <p>세 가지 대표값 중 어느 게 '정답'이라기보다는, 상황에 따라 어떤 값이 현실을 더 잘 보여주는지가 다르다는 걸 이해하는 게 중요해요. 뉴스에서 "평균 연봉"이나 "평균 집값" 같은 통계를 볼 때, 소수의 매우 높은 값 때문에 평균이 왜곡될 수 있다는 걸 알면 숫자를 훨씬 비판적으로 읽을 수 있게 됩니다.</p>
       <p>이 개념은 시험 점수 분석, 스포츠 선수의 평균 기록, 회사의 연봉 협상 등 데이터를 다루는 거의 모든 곳에서 쓰여요. 특히 요즘처럼 다양한 통계 자료가 뉴스나 광고에 넘쳐나는 시대에는, 어떤 대표값을 사용했는지 스스로 따져보는 습관이 정보를 제대로 이해하는 데 큰 도움이 됩니다.</p>
       <p>평균을 구할 때 이상치, 즉 다른 값들과 유난히 동떨어진 값 하나가 전체 결과를 얼마나 크게 흔드는지 직접 계산해보는 것도 좋은 학습이 됩니다. 예를 들어 다섯 명의 시험 점수가 80, 82, 85, 88, 20점이라고 해봐요. 마지막 20점 하나 때문에 평균은 71점으로 뚝 떨어지는데, 정작 다섯 명 중 네 명은 80점대를 받았으니 71점이라는 평균은 이 반의 실제 실력을 제대로 보여주지 못하는 셈이에요. 이럴 때는 중앙값인 85점이 훨씬 더 현실적인 대표값이 됩니다. 통계 자료를 볼 때마다 '혹시 이상치 때문에 평균이 왜곡된 건 아닐까'라고 한 번쯤 의심해보는 습관을 들이면, 뉴스나 광고에서 접하는 숫자들을 훨씬 더 현명하게 해석할 수 있게 될 거예요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 280 110">
+          <line x1="20" y1="60" x2="280" y2="60" stroke="var(--ink-soft)" stroke-width="1.5"></line>
+          <circle cx="72" cy="60" r="6" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"></circle>
+          <text x="72" y="82" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">20</text>
+          <circle cx="228" cy="60" r="6" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"></circle>
+          <circle cx="233.2" cy="60" r="6" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"></circle>
+          <circle cx="241" cy="60" r="6" fill="var(--green-soft)" stroke="var(--green-ink)" stroke-width="2.5"></circle>
+          <circle cx="248.8" cy="60" r="6" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"></circle>
+          <text x="238" y="82" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">80,82,85,88</text>
+          <line x1="204.6" y1="30" x2="204.6" y2="50" stroke="var(--coral-ink)" stroke-width="2.5"></line>
+          <text x="204.6" y="22" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--coral-ink)">평균 71</text>
+          <line x1="241" y1="70" x2="241" y2="90" stroke="var(--green-ink)" stroke-width="2.5"></line>
+          <text x="241" y="104" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--green-ink)">중앙값 85</text>
+        </svg>
+        <div class="illo-caption">20점 하나가 평균을 71점까지 끌어내리지만, 중앙값 85점은 대부분의 실력을 그대로 보여줘요</div>
+      </div>
       <p>아이들과 공부할 때는 실제 우리 반 친구들의 키나 신발 사이즈처럼 직접 조사할 수 있는 데이터로 세 가지 값을 모두 계산해보게 하는 게 효과적이에요. 저희 체험 페이지에서는 슬라이더로 숫자를 자유롭게 바꾸면 평균, 중앙값, 최빈값이 동시에 계산되고, 극단적인 값을 하나로 키웠을 때 각 값이 얼마나 흔들리는지 눈으로 바로 비교할 수 있어요. 극단값을 하나씩 넣었다 빼면서 평균은 크게 출렁이는데 중앙값은 꿈쩍도 안 하는 모습을 보면, 왜 상황에 따라 다른 대표값을 골라 써야 하는지가 훨씬 명확하게 다가올 거예요. 우리 가족이나 친구들의 실제 데이터로 세 값을 함께 구해보면, 교과서 속 예시보다 훨씬 생생하게 와닿는 통계 공부가 될 수 있어요.</p>
     </div>
     <div class="cta">

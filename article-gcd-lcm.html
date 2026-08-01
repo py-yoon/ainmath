@@ -11,6 +11,9 @@
 <style>
   :root{
     --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
     --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
   *{box-sizing:border-box;}
@@ -43,6 +46,9 @@
     font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;
   }
   .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:260px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
   .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
   .cta-btn{
     display:inline-flex;align-items:center;gap:8px;
@@ -69,6 +75,20 @@
     <div class="article-body">
       <p>분수를 약분하거나 통분해 본 학생이라면 최대공약수와 최소공배수라는 단어를 지겹도록 들어봤을 거예요. 사실 이 두 개념은 이름만 어렵지, 원리를 알고 나면 생각보다 단순합니다.</p>
       <p>최대공약수는 두 수를 동시에 나눌 수 있는 가장 큰 수를 말해요. 예를 들어 12와 18의 약수를 각각 나열해보면 12는 1,2,3,4,6,12, 18은 1,2,3,6,9,18인데, 둘 다에 공통으로 들어있는 가장 큰 수는 6이죠. 반대로 최소공배수는 두 수의 배수 중에서 공통으로 나오는 가장 작은 수를 말해요. 12와 18의 배수를 나열하다 보면 36에서 처음 겹치는 걸 확인할 수 있습니다.</p>
+      <div class="illo">
+        <svg viewBox="0 0 200 150">
+          <circle cx="75" cy="70" r="55" fill="var(--blue-soft)" opacity="0.7" stroke="var(--blue-ink)" stroke-width="2"></circle>
+          <circle cx="125" cy="70" r="55" fill="var(--coral-soft)" opacity="0.7" stroke="var(--coral-ink)" stroke-width="2"></circle>
+          <text x="35" y="30" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--blue-ink)">12</text>
+          <text x="150" y="30" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--coral-ink)">18</text>
+          <text x="48" y="75" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--ink)">2</text>
+          <text x="100" y="75" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--violet-ink)">2, 3</text>
+          <text x="152" y="75" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--ink)">3</text>
+          <text x="100" y="128" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--violet-ink)">겹치는 부분(2×3=6) = 최대공약수</text>
+          <text x="100" y="145" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">전체를 곱하면(2×2×3×3=36) = 최소공배수</text>
+        </svg>
+        <div class="illo-caption">12=2×2×3, 18=2×3×3 — 겹치는 소인수는 최대공약수, 전체를 모으면 최소공배수예요</div>
+      </div>
       <p>이 두 개념을 헷갈려 하는 학생들이 정말 많아요. 저는 이렇게 설명하곤 합니다. 최대공약수는 '작게 나누는' 개념이라 항상 원래 수보다 작거나 같고, 최소공배수는 '크게 합치는' 개념이라 항상 원래 수보다 크거나 같다고요. 이렇게 방향성을 기억하면 답이 이상하게 나왔을 때 스스로 검산할 수 있어요.</p>
       <p>실생활 예시도 이해에 큰 도움이 됩니다. 두 개의 신호등이 있는데 하나는 12초마다, 다른 하나는 18초마다 초록불이 켜진다고 해봐요. 두 신호등이 동시에 초록불이 되는 순간을 알고 싶다면 최소공배수를 구하면 됩니다. 반대로, 가로 12cm, 세로 18cm인 종이를 남는 부분 없이 가장 큰 정사각형 타일로 자르고 싶다면 최대공약수를 구해야 하고요.</p>
       <p>최대공약수와 최소공배수를 좀 더 빠르게 구하는 방법으로 소인수분해를 활용하는 방법도 있어요. 두 수를 각각 소수의 곱으로 쪼갠 다음, 최대공약수는 공통으로 들어있는 소인수 중 작은 지수를 곱하고, 최소공배수는 큰 지수를 곱하면 됩니다. 예를 들어 12=2²×3, 18=2×3²으로 쪼개면, 최대공약수는 2¹×3¹=6, 최소공배수는 2²×3²=36이 나오는데, 앞서 나열해서 구한 값과 정확히 일치하죠. 그리고 재미있는 사실 하나 더, 두 수의 최대공약수와 최소공배수를 곱하면 항상 원래 두 수를 곱한 값과 같아집니다. 12와 18을 예로 들면 6×36=216이고, 12×18도 216으로 정확히 같아요. 이 관계를 알아두면 최대공약수를 구한 뒤 최소공배수는 나눗셈 한 번으로 훨씬 빠르게 구할 수 있어서, 시험 시간을 아끼는 데도 꽤 유용한 팁이 됩니다.</p>

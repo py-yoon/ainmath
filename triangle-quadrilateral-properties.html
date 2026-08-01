@@ -38,6 +38,7 @@ svg{width:100%;max-width:320px;height:auto;overflow:visible;}
 .tab-btn{font-family:'Do Hyeon',sans-serif;font-size:14.5px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:9px 14px;cursor:pointer;transition:all .15s ease;}
 .tab-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
 .tab-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+.controls{width:100%;max-width:300px;display:flex;flex-direction:column;gap:14px;}
 .control-row{width:100%;max-width:300px;display:flex;flex-direction:column;gap:8px;}
 .control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
 .control-label b{font-size:20px;color:var(--ink);}
@@ -83,10 +84,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
     <div class="canvas-area">
       <div class="tab-row" id="tabRow"></div>
       <svg id="svg" viewBox="0 0 300 260"></svg>
-      <div class="control-row">
-        <div class="control-label"><span id="sliderName">조절</span><b id="sliderVal">0</b></div>
-        <input id="slider" type="range">
-      </div>
+      <div class="controls" id="controls"></div>
     </div>
     <div class="panel">
       <div class="part-list" id="partList"></div>
@@ -105,7 +103,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
     <button class="action-btn" id="nextQuizBtn">➡ 다음 문제</button>
   </div>
 
-          <!-- prev-next-nav -->
+            <!-- prev-next-nav -->
   <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
     <a href="time-calculator.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
       <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
@@ -124,9 +122,7 @@ const svg = document.getElementById('svg');
 const tabRow = document.getElementById('tabRow');
 const partList = document.getElementById('partList');
 const factBox = document.getElementById('fact');
-const sliderEl = document.getElementById('slider');
-const sliderName = document.getElementById('sliderName');
-const sliderVal = document.getElementById('sliderVal');
+const controlsEl = document.getElementById('controls');
 
 function tick(x1,y1,x2,y2,count,color){
   const mx=(x1+x2)/2, my=(y1+y2)/2;
@@ -190,10 +186,11 @@ function poly(pts,fill,stroke){
 const SHAPES = {
   isosceles: {
     label:'이등변삼각형', icon:'🔺',
-    slider:{name:'꼭지각', min:40, max:140, def:74, unit:'°'},
+    sliders:[{key:'angle', name:'꼭지각', min:40, max:140, def:74, unit:'°'}],
     properties:['<b>두 변</b>(빗변)의 길이가 서로 같아요','<b>두 밑각</b>의 크기가 서로 같아요','꼭짓점에서 밑변에 수선을 내리면 밑변을 정확히 반으로 나눠요'],
     fact:'이등변삼각형은 <b>두 변의 길이가 같은</b> 삼각형이에요. 변이 같으면 그 변과 마주보는 각(밑각)의 크기도 항상 같아져요.',
-    draw(v){
+    draw(vals){
+      const v = vals.angle;
       const cx=150, apexY=45, L=150;
       const half = v*Math.PI/360;
       const apex=[cx,apexY];
@@ -209,11 +206,11 @@ const SHAPES = {
   },
   parallelogram: {
     label:'평행사변형', icon:'▱',
-    slider:{name:'기울기', min:-70, max:70, def:40, unit:'px'},
+    sliders:[{key:'skew', name:'기울기', min:-70, max:70, def:40, unit:'px'}],
     properties:['<b>두 쌍의 대변</b>이 각각 평행하고 길이가 같아요','<b>두 쌍의 대각</b>의 크기가 각각 같아요','두 대각선이 서로를 <b>이등분</b>해요(정확히 반으로 나눠요)'],
     fact:'평행사변형은 마주보는 변끼리 평행해요. 그래서 마주보는 변의 길이, 마주보는 각의 크기가 각각 같고, 두 대각선은 서로의 <b>한가운데 점</b>에서 만나요.',
-    draw(v){
-      const W=170,H=120,baseY=220,cx=150,skew=v;
+    draw(vals){
+      const W=170,H=120,baseY=220,cx=150,skew=vals.skew;
       const bl=[cx-W/2,baseY], br=[cx+W/2,baseY], tr=[cx+W/2+skew,baseY-H], tl=[cx-W/2+skew,baseY-H];
       let html = poly([bl,br,tr,tl],'var(--violet-soft)','var(--violet)');
       html += tick(bl[0],bl[1],br[0],br[1],1,'var(--violet-ink)');
@@ -232,11 +229,11 @@ const SHAPES = {
   },
   rectangle: {
     label:'직사각형', icon:'▭',
-    slider:{name:'가로 길이', min:100, max:220, def:170, unit:'px'},
+    sliders:[{key:'width', name:'가로 길이', min:100, max:220, def:170, unit:'px'}, {key:'height', name:'세로 길이', min:70, max:170, def:120, unit:'px'}],
     properties:['<b>네 각</b>이 모두 90°예요','두 쌍의 대변의 길이가 서로 같아요','<b>두 대각선의 길이</b>가 서로 같고, 서로를 이등분해요'],
-    fact:'직사각형은 평행사변형의 성질을 모두 가지면서, 추가로 <b>네 각이 모두 90°</b>이고 <b>두 대각선의 길이가 같아요</b>.',
-    draw(v){
-      const W=v,H=120,baseY=220,cx=150;
+    fact:'직사각형은 평행사변형의 성질을 모두 가지면서, 추가로 <b>네 각이 모두 90°</b>이고 <b>두 대각선의 길이가 같아요</b>. 가로와 세로를 각각 다르게 바꿔봐도 이 성질은 그대로예요.',
+    draw(vals){
+      const W=vals.width,H=vals.height,baseY=220,cx=150;
       const bl=[cx-W/2,baseY], br=[cx+W/2,baseY], tr=[cx+W/2,baseY-H], tl=[cx-W/2,baseY-H];
       let html = poly([bl,br,tr,tl],'var(--violet-soft)','var(--violet)');
       html += tick(bl[0],bl[1],br[0],br[1],1,'var(--violet-ink)');
@@ -255,11 +252,11 @@ const SHAPES = {
   },
   rhombus: {
     label:'마름모', icon:'🔶',
-    slider:{name:'세로 대각선', min:50, max:170, def:110, unit:'px'},
+    sliders:[{key:'d1', name:'가로 대각선', min:70, max:190, def:110, unit:'px'}, {key:'d2', name:'세로 대각선', min:50, max:170, def:110, unit:'px'}],
     properties:['<b>네 변</b>의 길이가 모두 같아요','두 쌍의 대각의 크기가 각각 같아요','<b>두 대각선</b>이 서로 수직으로 만나고, 서로를 이등분해요'],
-    fact:'마름모는 <b>네 변의 길이가 모두 같은</b> 사각형이에요. 그래서 두 대각선이 서로 <b>수직</b>으로 만나고, 정확히 서로의 한가운데서 교차해요.',
-    draw(v){
-      const cx=150, cy=140, d1=110, d2=v;
+    fact:'마름모는 <b>네 변의 길이가 모두 같은</b> 사각형이에요. 그래서 두 대각선이 서로 <b>수직</b>으로 만나고, 정확히 서로의 한가운데서 교차해요. 대각선의 길이가 서로 달라도(정사각형이 아니어도) 이 성질은 항상 성립해요.',
+    draw(vals){
+      const cx=150, cy=140, d1=vals.d1, d2=vals.d2;
       const top=[cx,cy-d2/2], bottom=[cx,cy+d2/2], left=[cx-d1/2,cy], right=[cx+d1/2,cy];
       let html = poly([top,right,bottom,left],'var(--violet-soft)','var(--violet)');
       html += tick(top[0],top[1],right[0],right[1],1,'var(--violet-ink)');
@@ -275,11 +272,11 @@ const SHAPES = {
   },
   square: {
     label:'정사각형', icon:'🟪',
-    slider:{name:'크기', min:90, max:180, def:150, unit:'px'},
+    sliders:[{key:'size', name:'크기', min:90, max:180, def:150, unit:'px'}],
     properties:['<b>네 변</b>의 길이가 모두 같아요 (마름모의 성질)','<b>네 각</b>이 모두 90°예요 (직사각형의 성질)','두 대각선이 길이도 같고, 수직으로 만나며, 서로를 이등분해요'],
-    fact:'정사각형은 <b>마름모이면서 동시에 직사각형</b>이에요. 그래서 마름모의 성질(네 변이 같다, 대각선이 수직이다)과 직사각형의 성질(네 각이 90°, 대각선 길이가 같다)을 전부 가지고 있어요.',
-    draw(v){
-      const S=v,baseY=220,cx=150;
+    fact:'정사각형은 <b>마름모이면서 동시에 직사각형</b>이에요. 그래서 마름모의 성질(네 변이 같다, 대각선이 수직이다)과 직사각형의 성질(네 각이 90°, 대각선 길이가 같다)을 전부 가지고 있어요. 가로와 세로가 항상 똑같이 변하는 것도 정사각형만의 특징이에요 — 직사각형처럼 따로 조절할 수 없어요.',
+    draw(vals){
+      const S=vals.size,baseY=220,cx=150;
       const bl=[cx-S/2,baseY], br=[cx+S/2,baseY], tr=[cx+S/2,baseY-S], tl=[cx-S/2,baseY-S];
       let html = poly([bl,br,tr,tl],'var(--violet-soft)','var(--violet)');
       html += tick(bl[0],bl[1],br[0],br[1],1,'var(--violet-ink)');
@@ -298,11 +295,11 @@ const SHAPES = {
   },
   trapezoid: {
     label:'사다리꼴', icon:'⏢',
-    slider:{name:'윗변 길이', min:40, max:190, def:100, unit:'px'},
+    sliders:[{key:'topWidth', name:'윗변 길이', min:40, max:190, def:100, unit:'px'}],
     properties:['<b>한 쌍의 변</b>만 서로 평행해요 (윗변과 아랫변)','다리(양옆 변)의 길이는 같지 않아도 돼요','평행한 두 변의 길이는 서로 달라도 괜찮아요'],
     fact:'사다리꼴은 <b>한 쌍의 대변만 평행</b>하면 되는 사각형이에요. 이 그림은 보기 좋게 좌우 대칭으로 그렸지만, 실제 사다리꼴은 양옆 다리의 길이가 달라도 상관없어요.',
-    draw(v){
-      const bottomW=210, topW=v, baseY=220, topY=100, cx=150;
+    draw(vals){
+      const bottomW=210, topW=vals.topWidth, baseY=220, topY=100, cx=150;
       const bl=[cx-bottomW/2,baseY], br=[cx+bottomW/2,baseY], tr=[cx+topW/2,topY], tl=[cx-topW/2,topY];
       let html = poly([bl,br,tr,tl],'var(--violet-soft)','var(--violet)');
       html += parallelMark(bl[0],bl[1],br[0],br[1],'var(--coral-ink)');
@@ -317,29 +314,45 @@ let shapeKey = 'isosceles';
 function buildTabs(){
   tabRow.innerHTML = Object.keys(SHAPES).map(k=>`<button class="tab-btn" data-k="${k}">${SHAPES[k].icon} ${SHAPES[k].label}</button>`).join('');
   tabRow.querySelectorAll('.tab-btn').forEach(btn=>{
-    btn.addEventListener('click', ()=>{ shapeKey = btn.dataset.k; setupSlider(); render(); });
+    btn.addEventListener('click', ()=>{ shapeKey = btn.dataset.k; setupControls(); render(); });
   });
 }
 
-function setupSlider(){
-  const s = SHAPES[shapeKey].slider;
-  sliderEl.min = s.min; sliderEl.max = s.max; sliderEl.value = s.def; sliderEl.step = 1;
-  sliderName.textContent = s.name;
+function setupControls(){
+  const cfgs = SHAPES[shapeKey].sliders;
+  controlsEl.innerHTML = cfgs.map(cfg=>`
+    <div class="control-row">
+      <div class="control-label"><span>${cfg.name}</span><b id="val_${cfg.key}">${cfg.def}${cfg.unit==='°'?'°':''}</b></div>
+      <input id="slider_${cfg.key}" type="range" min="${cfg.min}" max="${cfg.max}" step="1" value="${cfg.def}">
+    </div>
+  `).join('');
+  cfgs.forEach(cfg=>{
+    document.getElementById(`slider_${cfg.key}`).addEventListener('input', render);
+  });
+}
+
+function readValues(){
+  const cfgs = SHAPES[shapeKey].sliders;
+  const vals = {};
+  cfgs.forEach(cfg=>{
+    const v = parseFloat(document.getElementById(`slider_${cfg.key}`).value);
+    vals[cfg.key] = v;
+    document.getElementById(`val_${cfg.key}`).textContent = v + (cfg.unit==='°' ? '°' : '');
+  });
+  return vals;
 }
 
 function render(){
   tabRow.querySelectorAll('.tab-btn').forEach(btn=>btn.classList.toggle('active', btn.dataset.k===shapeKey));
   const s = SHAPES[shapeKey];
-  const v = parseFloat(sliderEl.value);
-  sliderVal.textContent = v + (s.slider.unit==='°' ? '°' : '');
-  svg.innerHTML = s.draw(v);
+  const vals = readValues();
+  svg.innerHTML = s.draw(vals);
   partList.innerHTML = s.properties.map(p=>`<div class="part-item">${p}</div>`).join('');
   factBox.innerHTML = s.fact;
 }
 
-sliderEl.addEventListener('input', render);
 buildTabs();
-setupSlider();
+setupControls();
 render();
 
 /* ---------- 퀴즈 ---------- */

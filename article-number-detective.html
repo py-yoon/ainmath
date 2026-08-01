@@ -11,6 +11,9 @@
 <style>
   :root{
     --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
     --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
   *{box-sizing:border-box;}
@@ -29,6 +32,9 @@
   .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
   .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
   .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
   .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
   .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#1D7C7E;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
   .cta-btn:hover{transform:translateY(-2px);}
@@ -48,6 +54,24 @@
     <div class="article-body">
       <p>사건 파일에 단서가 몇 개 적혀 있어요. "이 수는 짝수예요", "이 수는 7보다 커요"처럼요. 용의자로 나온 숫자 중에서, 이 단서에 맞지 않는 숫자를 하나씩 지워나가면 결국 범인(비밀 숫자)이 딱 하나 남아요. 이렇게 조건에 안 맞는 것을 지워가며 답을 찾는 방법을 '소거법'이라고 해요.</p>
       <p>예를 들어볼게요. 용의자가 12, 15, 18, 21 이렇게 넷이 있어요. 첫 번째 단서가 "이 수는 짝수예요"라면, 홀수인 15와 21은 바로 지워져요. 12와 18만 남았죠. 두 번째 단서가 "이 수는 3의 배수예요"라면, 두 숫자 모두 3의 배수라서 아직 못 지워요. 세 번째 단서 "이 수는 15보다 커요"가 나오면, 12는 지워지고 18만 남아요. 이렇게 단서를 하나씩 더할 때마다 후보가 점점 줄어들어요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 280 110">
+          <text x="140" y="20" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--teal-ink)">🔍 단서: "이 수는 짝수예요"</text>
+          <g font-family="'Do Hyeon',sans-serif" font-size="20" text-anchor="middle">
+            <rect x="10" y="35" width="56" height="56" rx="10" fill="var(--green-soft)" stroke="var(--green-ink)" stroke-width="2.5"></rect>
+            <text x="38" y="70" fill="var(--green-ink)">12</text>
+            <rect x="78" y="35" width="56" height="56" rx="10" fill="var(--paper)" stroke="var(--coral-ink)" stroke-width="2.5" opacity="0.5"></rect>
+            <text x="106" y="70" fill="var(--coral-ink)" opacity="0.5">15</text>
+            <line x1="82" y1="39" x2="130" y2="87" stroke="var(--coral-ink)" stroke-width="3"></line>
+            <rect x="146" y="35" width="56" height="56" rx="10" fill="var(--green-soft)" stroke="var(--green-ink)" stroke-width="2.5"></rect>
+            <text x="174" y="70" fill="var(--green-ink)">18</text>
+            <rect x="214" y="35" width="56" height="56" rx="10" fill="var(--paper)" stroke="var(--coral-ink)" stroke-width="2.5" opacity="0.5"></rect>
+            <text x="242" y="70" fill="var(--coral-ink)" opacity="0.5">21</text>
+            <line x1="218" y1="39" x2="266" y2="87" stroke="var(--coral-ink)" stroke-width="3"></line>
+          </g>
+        </svg>
+        <div class="illo-caption">홀수인 15와 21은 지워지고, 짝수인 12와 18만 용의자로 남아요</div>
+      </div>
       <p>게임에는 여러 종류의 단서가 나와요. 짝수·홀수를 알려주는 단서, 어떤 수보다 크거나 작다는 단서, 몇의 배수라는 단서, 각 자리 숫자를 더한 값을 알려주는 단서, 나누었을 때 나머지를 알려주는 단서가 기본으로 나오고요. 중학생 난이도에서는 소수인지 아닌지, 어떤 수를 제곱한 수인지까지 단서로 나와서 훨씬 까다로워져요.</p>
       <p>소거법은 이 게임에서만 쓰이는 게 아니에요. 수학 문제를 풀 때도, 답이 될 수 없는 경우를 하나씩 지워나가며 정답에 다가가는 경우가 많아요. 물건을 찾을 때도 "부엌엔 없다, 거실엔 없다"처럼 아닌 곳을 지워가며 있는 곳을 좁혀가죠. 조건을 하나씩 확인하며 후보를 줄여나가는 사고방식은 수학뿐 아니라 여러 문제를 풀 때 두루 쓰이는 유용한 습관이에요.</p>
       <p>아이와 함께할 때는 단서를 하나 확인할 때마다 "이 숫자는 지워도 될까?"를 소리 내어 말해보게 하세요. 머릿속으로만 풀기보다, 지워야 할 숫자에 손가락을 짚거나 표시하면서 풀면 훨씬 헷갈리지 않아요. 처음엔 쉬운 난이도로 감을 익히고, 익숙해지면 어려운 난이도로 올려서 소수나 제곱수 같은 새로운 단서에도 도전해보세요.</p>

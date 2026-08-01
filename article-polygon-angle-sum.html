@@ -11,6 +11,8 @@
 <style>
   :root{
     --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
     --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
   *{box-sizing:border-box;}
@@ -43,6 +45,9 @@
     font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;
   }
   .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:220px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
   .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
   .cta-btn{
     display:inline-flex;align-items:center;gap:8px;
@@ -69,6 +74,20 @@
     <div class="article-body">
       <p>어릴 때 학교 운동장에 그려진 육각형 모양의 정글짐을 보면서, 저 뾰족뾰족한 모서리 각도를 다 더하면 얼마나 될까 괜히 궁금했던 기억이 있어요. 나중에 배운 공식은 딱 하나, (n-2)×180°였는데, 처음엔 그냥 외웠지만 나중에 왜 이런 식이 나오는지 이해하고 나니 훨씬 재미있어졌습니다.</p>
       <p>핵심은 '삼각형 쪼개기'예요. 어떤 다각형이든 한 꼭짓점에서 다른 꼭짓점들로 대각선을 쭉 그어보면, 도형이 여러 개의 삼각형으로 나뉘어요. 예를 들어 오각형은 대각선 두 개를 그으면 삼각형 세 개로 쪼개지죠. 삼각형 하나의 내각의 합은 무조건 180도이니, 삼각형이 세 개면 180×3=540도가 오각형 내각의 합이 되는 거예요. 변이 하나 늘어날 때마다 삼각형도 하나씩 늘어나고, 그래서 (변의 개수-2)×180이라는 식이 나옵니다.</p>
+      <div class="illo">
+        <svg viewBox="0 0 180 190">
+          <polygon points="90,25 156.6,73.4 131.1,151.6 48.9,151.6 23.4,73.4" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2.5"></polygon>
+          <line x1="90" y1="25" x2="131.1" y2="151.6" stroke="var(--coral-ink)" stroke-width="2" stroke-dasharray="5 4"></line>
+          <line x1="90" y1="25" x2="48.9" y2="151.6" stroke="var(--coral-ink)" stroke-width="2" stroke-dasharray="5 4"></line>
+          <g font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--violet-ink)" text-anchor="middle">
+            <text x="125.9" y="87">180°</text>
+            <text x="90" y="113">180°</text>
+            <text x="54.1" y="87">180°</text>
+          </g>
+          <text x="90" y="178" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--coral-ink)">= 540°</text>
+        </svg>
+        <div class="illo-caption">한 꼭짓점에서 대각선을 그으면 오각형이 삼각형 3개로 쪼개져요 — 180°×3 = 540°</div>
+      </div>
       <p>이 원리를 처음 배우는 학생들이 자주 헷갈려 하는 부분은 '왜 꼭 한 꼭짓점에서만 그어야 하나'예요. 사실 아무 점에서나 대각선을 그어도 상관없지만, 한 꼭짓점에서 그으면 삼각형 개수를 세기가 가장 깔끔하고 헷갈리지 않아서 그렇게 배우는 거랍니다. 자를 대고 직접 오각형, 육각형, 칠각형에 대각선을 그어보면 금방 감이 와요.</p>
       <p>실생활에서도 이 개념은 은근히 자주 쓰입니다. 벌집의 육각형 모양이 왜 그렇게 안정적인지, 축구공의 오각형과 육각형 조각들이 왜 저런 비율로 섞여 있는지도 결국 내각의 합과 관련이 있어요. 건축에서 지붕 트러스를 설계할 때도 다각형의 각도 계산이 기본이 되고요.</p>
       <p>이 단원에서 종종 나오는 심화 질문 중 하나가 '정다각형의 한 내각은 몇 도인가'예요. 내각의 합을 구했다면 그 값을 변의 개수로 나누기만 하면 되는데, 예를 들어 정육각형은 내각의 합이 720도이니 한 내각은 720÷6=120도가 됩니다. 반대로 외각(한 변을 연장했을 때 생기는 바깥쪽 각)의 합은 다각형의 모양과 상관없이 항상 360도라는 사실도 함께 알아두면 좋아요. 마치 사람이 다각형 둘레를 한 바퀴 걸으면서 매 꼭짓점마다 방향을 꺾는데, 한 바퀴를 다 돌고 나면 결국 원래 방향으로 정확히 360도를 돌아온 셈이 되는 거죠. 이 외각의 합 개념까지 연결해서 설명해주면, 아이들이 '아, 다각형이 크든 작든 결국 한 바퀴 도는 건 똑같구나'라는 훨씬 큰 그림을 그릴 수 있게 됩니다.</p>

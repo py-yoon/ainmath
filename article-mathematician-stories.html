@@ -11,6 +11,8 @@
 <style>
   :root{
     --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
     --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
   }
   *{box-sizing:border-box;}
@@ -29,6 +31,9 @@
   .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
   .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
   .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
   .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
   .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#6847F7;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
   .cta-btn:hover{transform:translateY(-2px);}
@@ -47,7 +52,25 @@
   <div class="card">
     <div class="article-body">
       <p>수학 공식과 정리를 보면, 마치 원래부터 하늘에서 뚝 떨어진 것처럼 느껴질 때가 있어요. 하지만 그 공식 하나하나에는 그걸 처음 생각해낸 사람의 이야기가 숨어 있어요. 어린 시절의 장난기, 목욕탕에서의 우연한 깨달음, 친구와의 사소한 대화 속에서 수학의 중요한 아이디어들이 태어났어요.</p>
-      <p>독일의 수학자 가우스는 초등학생 때, 선생님이 벌칙으로 낸 "1부터 100까지 다 더하라"는 문제를 순식간에 풀어버렸어요. 하나씩 더하는 대신 1과 100, 2와 99처럼 양 끝을 짝지으면 합이 항상 101이 되고, 그런 짝이 50개 있다는 걸 알아챈 거예요. 이 재치 있는 발상이 오늘날 등차수열의 합 공식의 뿌리가 됐어요. 어려운 문제를 마주했을 때 "다른 방식으로 짝지어 볼 수는 없을까?"라고 생각해보는 습관은, 가우스가 아니어도 누구나 연습할 수 있는 힘이에요.</p>
+      <p>독일의 수학자 가우스는 초등학생 때, 선생님이 벌칙으로 낸 "1부터 100까지 다 더하라"는 문제를 순식간에 풀어버렸어요. 하나씩 더하는 대신 1과 100, 2와 99처럼 양 끝을 짝지으면 합이 항상 101이 되고, 그런 짝이 50개 있다는 걸 알아챈 거예요. 이 재치 있는 발상이 오늘날 등차수열의 합 공식의 뿌리가 됐어요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 300 110">
+          <path d="M 20 75 Q 150 5 280 75" fill="none" stroke="var(--violet-ink)" stroke-width="2"></path>
+          <path d="M 60 75 Q 150 30 240 75" fill="none" stroke="var(--coral-ink)" stroke-width="2"></path>
+          <g font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--ink)" text-anchor="middle">
+            <text x="20" y="90">1</text>
+            <text x="60" y="90">2</text>
+            <text x="100" y="90">3</text>
+            <text x="150" y="90">…</text>
+            <text x="200" y="90">98</text>
+            <text x="240" y="90">99</text>
+            <text x="280" y="90">100</text>
+          </g>
+          <text x="150" y="20" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--violet-ink)">1+100 = 101</text>
+        </svg>
+        <div class="illo-caption">양 끝을 짝지으면 1+100, 2+99, 3+98... 전부 101 — 이런 짝이 50개니까 합은 101×50</div>
+      </div>
+      <p>어려운 문제를 마주했을 때 "다른 방식으로 짝지어 볼 수는 없을까?"라고 생각해보는 습관은, 가우스가 아니어도 누구나 연습할 수 있는 힘이에요.</p>
       <p>고대 그리스의 아르키메데스는 왕관이 순금인지 알아내야 하는 문제로 고민하다가, 목욕탕에서 물이 넘치는 걸 보고 "유레카!"를 외쳤다는 이야기로 유명해요. 물체를 물에 넣으면 그 부피만큼 물이 밀려난다는 사실을 깨달은 거예요. 복잡한 문제의 답이, 전혀 관계없어 보이는 일상적인 순간에 갑자기 떠오르는 경우가 많다는 걸 보여주는 이야기이기도 해요.</p>
       <p>20세기 인도의 수학자 라마누잔의 이야기도 인상 깊어요. 동료 수학자가 "타고 온 택시 번호 1729는 별로 재미없는 숫자"라고 하자, 라마누잔은 즉시 "아니요, 두 세제곱수의 합으로 두 가지 방법으로 나타낼 수 있는 가장 작은 수예요(1³+12³ = 9³+10³)"라고 답했어요. 라마누잔은 정규 교육을 거의 받지 못했지만, 숫자 하나하나와 마치 친구처럼 지낼 만큼 깊이 관찰하는 사람이었어요.</p>
       <p>프로이센의 오일러는 "쾨니히스베르크의 다리를 한 번씩만 건너서 원래 자리로 돌아올 수 있을까?"라는 마을 사람들의 오랜 궁금증을, 다리를 직접 건너보는 대신 땅을 점으로, 다리를 선으로 단순화해서 풀어냈어요. 복잡한 현실 문제를 단순한 그림으로 바꿔서 생각하는 이 방법은, 오늘날 지하철 노선도나 인터넷 연결망을 분석하는 그래프 이론의 시작이 됐어요.</p>

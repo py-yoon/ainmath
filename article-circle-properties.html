@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>원 하나에 숨어있는 네 가지 성질 | 아인매스</title>
+<meta name="description" content="원과 직선의 위치관계, 부채꼴의 호와 넓이, 원 밖의 점에서 그은 접선, 아르키메데스의 내접다각형 방법까지 — 원의 성질들이 왜 성립하는지 알아봐요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:280px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#357A63;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#357A63;background:#E3F5EE">📐 도형·기하</span>
+  <h1>원 하나에 숨어있는 네 가지 성질</h1>
+  <p class="meta">중학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>원은 "한 점(중심)으로부터 같은 거리(반지름)에 있는 점들의 모임"이라는 단 하나의 정의로 만들어진 도형이에요. 그런데 이 단순한 정의 하나에서, 직선과의 관계·부채꼴·접선·내접다각형까지 놀랍도록 다양한 성질들이 자연스럽게 따라 나와요.</p>
+      <p>먼저 <b>원과 직선의 위치관계</b>부터 볼게요. 직선이 원의 중심에서 얼마나 떨어져 있는지(거리 d)를 반지름(r)과 비교하면, 그 직선이 원과 몇 번 만나는지가 정확히 정해져요. d가 r보다 작으면 직선은 원과 두 점에서 만나고(할선), d와 r이 똑같으면 딱 한 점에서만 스치듯 만나고(접선), d가 r보다 크면 아예 만나지 않아요. 이 구조는 이차방정식의 판별식이 양수·0·음수일 때 근의 개수가 2개·1개·0개로 갈리는 것과 정확히 똑같은 원리예요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 260 100">
+          <circle cx="45" cy="50" r="35" fill="none" stroke="var(--green-ink)" stroke-width="2.5"></circle>
+          <line x1="10" y1="30" x2="80" y2="30" stroke="var(--coral-ink)" stroke-width="2.5"></line>
+          <circle cx="45" cy="50" r="35" fill="none" stroke="var(--green-ink)" stroke-width="2.5" transform="translate(90,0)"></circle>
+          <line x1="100" y1="15" x2="170" y2="15" stroke="var(--coral-ink)" stroke-width="2.5"></line>
+          <circle cx="45" cy="50" r="35" fill="none" stroke="var(--green-ink)" stroke-width="2.5" transform="translate(180,0)"></circle>
+          <line x1="190" y1="-5" x2="260" y2="-5" stroke="var(--coral-ink)" stroke-width="2.5" opacity="0.4"></line>
+          <text x="45" y="94" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">d&lt;r (2점)</text>
+          <text x="135" y="94" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">d=r (접선)</text>
+          <text x="225" y="94" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">d&gt;r (0점)</text>
+        </svg>
+        <div class="illo-caption">직선이 중심에서 얼마나 떨어져 있는지에 따라 원과 만나는 점의 개수가 2개, 1개, 0개로 갈려요</div>
+      </div>
+      <p><b>부채꼴</b>은 원의 일부를 파이 조각처럼 잘라낸 모양이에요. 부채꼴의 호의 길이와 넓이는 둘 다 중심각의 크기에 정확히 비례해요. 중심각이 전체 360°의 몇 %인지만 알면, 호의 길이는 원둘레의 그 %만큼, 넓이는 원 전체 넓이의 그 %만큼이라는 걸 바로 계산할 수 있어요. 중심각이 2배가 되면 호의 길이도, 넓이도 정확히 2배가 되는 아주 단순하고 우아한 비례 관계예요.</p>
+      <p><b>원 밖의 한 점에서 그은 접선</b>도 신기한 성질을 가지고 있어요. 원 밖의 점 P에서 원에 접선을 그으면 항상 두 개가 그려지는데, 이 두 접선의 길이가 <b>항상 정확히 같아요</b>. 이유는 간단해요. 접점과 원의 중심을 잇는 반지름은 접선과 항상 수직(90°)을 이루는데, 이 성질 덕분에 두 개의 직각삼각형(중심-접점-P)이 빗변과 한 변이 같은 RHS 합동이 되고, 그래서 나머지 변인 두 접선의 길이도 자동으로 같아지는 거예요.</p>
+      <p>마지막으로 <b>원에 내접하는 정다각형</b> 이야기는 원주율(π)의 역사와 맞닿아 있어요. 고대 그리스의 아르키메데스는 원 안에 정다각형을 그리고, 변의 개수를 6개→12개→24개→48개→96개로 두 배씩 늘려가며 다각형의 둘레를 계산했어요. 변의 개수가 많아질수록 다각형은 원에 점점 더 가까워지고, 다각형의 둘레도 원의 둘레(2πr)에 점점 더 가까워져요. 계산기도 없던 시절, 이렇게 다각형으로 원을 "조여가며" 원주율의 범위를 점점 좁혀나간 거예요.</p>
+      <p>저희 체험 페이지에서는 이 네 가지 성질을 각각 슬라이더로 직접 조절하면서 확인할 수 있어요. 직선을 원에 가까이 옮겨보고, 중심각을 바꿔가며 부채꼴이 커지는 걸 보고, 점 P를 움직여도 두 접선의 길이가 항상 같은지 검산해보고, 정다각형의 변의 개수를 96개까지 늘려가며 원에 얼마나 가까워지는지 직접 확인해보세요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="circle-properties.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

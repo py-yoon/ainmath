@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>원이 늘어나면 타원이 되는 이유 | 아인매스</title>
+<meta name="description" content="핀 두 개와 실 하나로 그리는 타원의 정의, 이심률, 넓이 공식(πab), 그리고 행성 궤도와 속삭이는 회랑 속에 숨어있는 타원의 초점 성질을 알아봐요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:280px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#D90500;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#D90500;background:#FFEAE8">📐 도형·기하</span>
+  <h1>원이 늘어나면 타원이 되는 이유</h1>
+  <p class="meta">중학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>타원을 "찌그러진 원"이라고 생각하기 쉽지만, 사실 타원은 원과는 조금 다른 방식으로 정의돼요. 압정 두 개를 판에 꽂고(이 두 점을 <b>초점</b>이라고 해요), 그 사이에 실을 느슨하게 걸어요. 연필로 실을 팽팽하게 당긴 채로 한 바퀴 빙 돌리면, 그 연필이 그리는 곡선이 바로 타원이에요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 260 120">
+          <ellipse cx="130" cy="60" rx="100" ry="45" fill="none" stroke="var(--ink-soft)" stroke-width="2"></ellipse>
+          <circle cx="70" cy="60" r="4" fill="var(--coral-ink)"></circle>
+          <circle cx="190" cy="60" r="4" fill="var(--violet-ink)"></circle>
+          <circle cx="160" cy="24" r="4.5" fill="var(--ink)"></circle>
+          <line x1="70" y1="60" x2="160" y2="24" stroke="var(--coral-ink)" stroke-width="2"></line>
+          <line x1="190" y1="60" x2="160" y2="24" stroke="var(--violet-ink)" stroke-width="2"></line>
+          <text x="70" y="78" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral-ink)">F₁</text>
+          <text x="190" y="78" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--violet-ink)">F₂</text>
+          <text x="160" y="14" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink)">P</text>
+        </svg>
+        <div class="illo-caption">점 P가 타원 위 어디에 있든, F₁까지 거리와 F₂까지 거리를 더하면 항상 똑같아요(실의 길이)</div>
+      </div>
+      <p>이 방법으로 그려진 곡선 위의 어떤 점을 잡아도, 그 점에서 두 초점(F₁, F₂)까지의 거리를 더한 값은 항상 똑같아요 — 바로 실의 길이예요. 이게 타원의 진짜 정의예요. 만약 두 초점이 완전히 같은 자리에 겹쳐진다면(핀 두 개를 한 곳에 꽂는다면), 이 정의는 그대로 원의 정의("중심에서 같은 거리에 있는 점들의 모임")가 돼요. 즉 원은 두 초점이 겹쳐진 특별한 타원인 셈이에요.</p>
+      <p>타원이 원에서 얼마나 벗어났는지를 숫자로 나타내는 값이 <b>이심률(e)</b>이에요. 반장축(타원의 가장 긴 반지름 방향, a)과 초점 사이 반거리(c)의 비율로, e = c ÷ a로 계산해요. 이심률이 0이면 두 초점이 완전히 겹쳐서 원이 되고, 이심률이 1에 가까워질수록 타원은 점점 더 납작하고 길쭉해져요. 태양계 행성들의 궤도 이심률은 대부분 0에 아주 가까워서(거의 원에 가까운 타원) 눈으로는 원과 구분하기 어려울 정도예요.</p>
+      <p>타원의 넓이 공식도 원의 넓이 공식과 깊이 연결돼 있어요. 타원의 넓이는 <b>π × a × b</b>(a는 반장축, b는 반단축)로 구하는데, 만약 a와 b가 같아지면(즉 타원이 원이 되면) 이 공식은 그대로 π × r × r = πr²이 돼요. 원의 넓이 공식이 사실은 타원 넓이 공식의 특별한 경우였던 거예요.</p>
+      <p>타원의 초점 성질은 실생활에서도 신기하게 쓰여요. 독일의 천문학자 케플러는 행성이 태양 주위를 완벽한 원이 아니라 <b>타원 궤도</b>로 돈다는 걸 발견했는데, 이때 태양은 타원의 중심이 아니라 <b>한쪽 초점</b>에 자리 잡고 있어요(케플러 제1법칙). 그래서 행성은 태양에 가까워질 때는 빠르게, 멀어질 때는 느리게 움직여요. 또 하나 재미있는 예는 "속삭이는 회랑"이라는 타원형 건축물이에요. 타원 벽 위의 한 점에서 소리가 반사될 때, 한쪽 초점에서 나온 소리가 벽에 부딪히는 각도와 반대쪽 초점으로 향하는 각도가 항상 똑같기 때문에, 한쪽 초점에서 작게 속삭인 소리가 반사를 거쳐 정확히 반대쪽 초점에서 크고 또렷하게 들려요.</p>
+      <p>저희 체험 페이지에서는 실제로 실을 당기듯 점 P를 움직이며 두 초점까지 거리의 합이 항상 일정한지 확인하고, 이심률을 조절하며 타원이 얼마나 납작해지는지 보고, 반장축과 반단축을 각각 바꿔가며 넓이 공식이 원의 넓이 공식과 어떻게 연결되는지, 그리고 행성 궤도와 속삭이는 회랑까지 직접 체험해볼 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="ellipse.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

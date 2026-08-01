@@ -53,6 +53,9 @@ p:last-child{margin-bottom:0;}
 .tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
 .tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
 .tip-list b{color:var(--coral-ink);}
+.illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:18px 0;text-align:center;}
+.illo svg{width:100%;max-width:260px;height:auto;display:block;margin:0 auto;}
+.illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
 footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 .footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
 .footer-nav a:hover{color:var(--ink);text-decoration:underline;}
@@ -82,6 +85,22 @@ footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;t
 
     <h2><span class="num">2</span>묶음 그림으로 보면 더 쉬워요</h2>
     <p>곱셈구구 놀이 화면에서는 사탕 봉지 대신 동그라미를 사용해요. 묶음이 3개 있고, 한 묶음 안에 동그라미가 4개 있으면 전체 동그라미 수를 세어보지 않아도 3 × 4로 바로 계산할 수 있어요. 슬라이더로 묶음 수와 개수를 바꿔보면, 동그라미가 늘어나거나 줄어드는 걸 눈으로 직접 확인할 수 있어요.</p>
+    <div class="illo">
+      <svg viewBox="0 0 260 130">
+        <g fill="none" stroke="var(--paper-line)" stroke-width="2">
+          <rect x="10" y="10" width="180" height="34" rx="10"></rect>
+          <rect x="10" y="50" width="180" height="34" rx="10"></rect>
+          <rect x="10" y="90" width="180" height="34" rx="10"></rect>
+        </g>
+        <g fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="2">
+          <circle cx="30" cy="27" r="12"></circle><circle cx="70" cy="27" r="12"></circle><circle cx="110" cy="27" r="12"></circle><circle cx="150" cy="27" r="12"></circle>
+          <circle cx="30" cy="67" r="12"></circle><circle cx="70" cy="67" r="12"></circle><circle cx="110" cy="67" r="12"></circle><circle cx="150" cy="67" r="12"></circle>
+          <circle cx="30" cy="107" r="12"></circle><circle cx="70" cy="107" r="12"></circle><circle cx="110" cy="107" r="12"></circle><circle cx="150" cy="107" r="12"></circle>
+        </g>
+        <text x="225" y="72" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="26" fill="var(--violet-ink)">12</text>
+      </svg>
+      <div class="illo-caption">4개씩 3묶음 — 세어보지 않아도 3 × 4 = 12예요</div>
+    </div>
     <div class="callout">
       <b>묶음 수 × 한 묶음의 개수 = 전체 개수</b><br>
       이 문장만 기억하면, 어떤 곱셈식도 그림으로 그릴 수 있어요.

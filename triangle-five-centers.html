@@ -90,15 +90,15 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
 
   <div class="euler-note" id="eulerNote"></div>
 
-    <!-- prev-next-nav -->
+      <!-- prev-next-nav -->
   <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
     <a href="inscribed-angle.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
       <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
       <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">원주각의 성질</span>
     </a>
-    <a href="shape-finder.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+    <a href="circle-properties.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
       <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
-      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">평면도형 모양 찾기</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">원의 성질 실험실</span>
     </a>
   </nav>
 <footer>정삼각형에서는 무게중심·외심·내심·수심이 전부 한 점에서 겹쳐요. 삼각형이 정삼각형에서 멀어질수록 이 점들은 서로 떨어지기 시작하는데, 그중 무게중심·외심·수심 세 점만큼은 끝까지 한 직선(오일러 선) 위에서 벗어나지 않아요.</footer>
@@ -189,6 +189,49 @@ function triOutlineSVG(){
   return `<polygon points="${A.x},${A.y} ${B.x},${B.y} ${C.x},${C.y}" fill="var(--paper-line)" fill-opacity="0.5" stroke="var(--ink-soft)" stroke-width="2"></polygon>`;
 }
 
+/* ==================== 각/수직 표시 ==================== */
+function arcSVG(vertex, dA, dB, radius, color){
+  const p1 = add(vertex, scl(dA, radius));
+  const p2 = add(vertex, scl(dB, radius));
+  const cross = dA.x*dB.y - dA.y*dB.x;
+  const sweep = cross > 0 ? 1 : 0;
+  return `<path d="M ${p1.x.toFixed(1)} ${p1.y.toFixed(1)} A ${radius} ${radius} 0 0 ${sweep} ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}" fill="none" stroke="${color}" stroke-width="1.5"></path>`;
+}
+function tickSVG(vertex, dir, radius, color){
+  const mid = add(vertex, scl(dir, radius));
+  const pd = perp(dir);
+  const t1 = add(mid, scl(pd, 3.5));
+  const t2 = sub(mid, scl(pd, 3.5));
+  return `<line x1="${t1.x.toFixed(1)}" y1="${t1.y.toFixed(1)}" x2="${t2.x.toFixed(1)}" y2="${t2.y.toFixed(1)}" stroke="${color}" stroke-width="1.5"></line>`;
+}
+function bisectorMarksSVG(vertex, dA, dB, bisDir, radius, color){
+  const midDir1 = norm(add(dA, bisDir));
+  const midDir2 = norm(add(bisDir, dB));
+  return arcSVG(vertex, dA, bisDir, radius, color) + arcSVG(vertex, bisDir, dB, radius, color) +
+         tickSVG(vertex, midDir1, radius, color) + tickSVG(vertex, midDir2, radius, color);
+}
+function rightAngleSVG(point, dir1, dir2, color, size){
+  size = size || 10;
+  const p1 = add(point, scl(dir1, size));
+  const p3 = add(p1, scl(dir2, size));
+  const p2 = add(point, scl(dir2, size));
+  return `<polyline points="${p1.x.toFixed(1)},${p1.y.toFixed(1)} ${p3.x.toFixed(1)},${p3.y.toFixed(1)} ${p2.x.toFixed(1)},${p2.y.toFixed(1)}" fill="none" stroke="${color}" stroke-width="1.5"></polyline>`;
+}
+
+/* ==================== 화면 범위(뷰박스) ==================== */
+function computeViewBox(m){
+  let minX=0, minY=0, maxX=460, maxY=400;
+  function include(p){ minX=Math.min(minX,p.x); minY=Math.min(minY,p.y); maxX=Math.max(maxX,p.x); maxY=Math.max(maxY,p.y); }
+  function includeCircle(c,r){ include({x:c.x-r,y:c.y-r}); include({x:c.x+r,y:c.y+r}); }
+  if(currentKey==='circumcenter'){ includeCircle(m.O, m.R); }
+  else if(currentKey==='incenter'){ includeCircle(m.I, m.r); }
+  else if(currentKey==='orthocenter'){ include(m.H); }
+  else if(currentKey==='excenter'){ includeCircle(m.IA, m.rA); }
+  const pad = 26;
+  minX-=pad; minY-=pad; maxX+=pad; maxY+=pad;
+  return {x:minX, y:minY, w:maxX-minX, h:maxY-minY};
+}
+
 function render(){
   const m = computeAll();
   const tab = TABS.find(t=>t.key===currentKey);
@@ -208,6 +251,9 @@ function render(){
     const eBC = extendedAttrs(m.midBC, add(m.midBC,perp(sub(C,B))), 400);
     const eCA = extendedAttrs(m.midCA, add(m.midCA,perp(sub(A,C))), 400);
     [eAB,eBC,eCA].forEach(e=>{ html += `<line x1="${e.x1}" y1="${e.y1}" x2="${e.x2}" y2="${e.y2}" stroke="var(--blue-ink)" stroke-width="2" stroke-dasharray="6 4" opacity="0.7"></line>`; });
+    html += rightAngleSVG(m.midAB, norm(sub(B,A)), norm(perp(sub(B,A))), 'var(--blue-ink)', 9);
+    html += rightAngleSVG(m.midBC, norm(sub(C,B)), norm(perp(sub(C,B))), 'var(--blue-ink)', 9);
+    html += rightAngleSVG(m.midCA, norm(sub(A,C)), norm(perp(sub(A,C))), 'var(--blue-ink)', 9);
     html += `<circle cx="${m.O.x}" cy="${m.O.y}" r="${m.R}" fill="none" stroke="var(--blue)" stroke-width="2"></circle>`;
     html += ptSVG(m.O, 'var(--blue-ink)', 'O');
     centerLabel.textContent = '외심 (Circumcenter)';
@@ -215,12 +261,18 @@ function render(){
     factBox.innerHTML = `외심에서 세 꼭짓점까지의 거리(외접원의 반지름)는 모두 <b>${fmt(m.R)}</b>로 같아요. 둔각삼각형에서는 외심이 삼각형 <b>바깥으로</b> 나가기도 해요 — 꼭짓점을 움직여서 확인해보세요!`;
   }
   else if(currentKey==='incenter'){
-    const bisA = norm(add(norm(sub(B,A)), norm(sub(C,A))));
-    const bisB = norm(add(norm(sub(A,B)), norm(sub(C,B))));
-    const bisC = norm(add(norm(sub(A,C)), norm(sub(B,C))));
+    const dAB=norm(sub(B,A)), dAC=norm(sub(C,A));
+    const dBA=norm(sub(A,B)), dBC=norm(sub(C,B));
+    const dCA=norm(sub(A,C)), dCB=norm(sub(B,C));
+    const bisA = norm(add(dAB, dAC));
+    const bisB = norm(add(dBA, dBC));
+    const bisC = norm(add(dCA, dCB));
     html += `<line x1="${A.x}" y1="${A.y}" x2="${A.x+bisA.x*400}" y2="${A.y+bisA.y*400}" stroke="var(--coral-ink)" stroke-width="2" stroke-dasharray="6 4" opacity="0.7"></line>`;
     html += `<line x1="${B.x}" y1="${B.y}" x2="${B.x+bisB.x*400}" y2="${B.y+bisB.y*400}" stroke="var(--coral-ink)" stroke-width="2" stroke-dasharray="6 4" opacity="0.7"></line>`;
     html += `<line x1="${C.x}" y1="${C.y}" x2="${C.x+bisC.x*400}" y2="${C.y+bisC.y*400}" stroke="var(--coral-ink)" stroke-width="2" stroke-dasharray="6 4" opacity="0.7"></line>`;
+    html += bisectorMarksSVG(A, dAB, dAC, bisA, 22, 'var(--coral-ink)');
+    html += bisectorMarksSVG(B, dBA, dBC, bisB, 22, 'var(--coral-ink)');
+    html += bisectorMarksSVG(C, dCA, dCB, bisC, 22, 'var(--coral-ink)');
     html += `<circle cx="${m.I.x}" cy="${m.I.y}" r="${m.r}" fill="none" stroke="var(--coral)" stroke-width="2"></circle>`;
     html += ptSVG(m.I, 'var(--coral-ink)', 'I');
     centerLabel.textContent = '내심 (Incenter)';
@@ -232,19 +284,34 @@ function render(){
     const eB = extendedAttrs(B, add(B,perp(sub(A,C))), 400);
     const eC = extendedAttrs(C, add(C,perp(sub(B,A))), 400);
     [eA,eB,eC].forEach(e=>{ html += `<line x1="${e.x1}" y1="${e.y1}" x2="${e.x2}" y2="${e.y2}" stroke="var(--violet-ink)" stroke-width="2" stroke-dasharray="6 4" opacity="0.7"></line>`; });
+    const dirBC = norm(sub(C,B)), footA = add(B, scl(dirBC, (A.x-B.x)*dirBC.x+(A.y-B.y)*dirBC.y));
+    const dirCA = norm(sub(A,C)), footB = add(C, scl(dirCA, (B.x-C.x)*dirCA.x+(B.y-C.y)*dirCA.y));
+    const dirAB = norm(sub(B,A)), footC = add(A, scl(dirAB, (C.x-A.x)*dirAB.x+(C.y-A.y)*dirAB.y));
+    html += rightAngleSVG(footA, dirBC, norm(sub(A,footA)), 'var(--violet-ink)', 9);
+    html += rightAngleSVG(footB, dirCA, norm(sub(B,footB)), 'var(--violet-ink)', 9);
+    html += rightAngleSVG(footC, dirAB, norm(sub(C,footC)), 'var(--violet-ink)', 9);
     html += ptSVG(m.H, 'var(--violet-ink)', 'H');
     centerLabel.textContent = '수심 (Orthocenter)';
     centerDef.innerHTML = '각 꼭짓점에서 대변(또는 그 연장선)에 내린 <b>수선</b> 세 개가 만나는 점이에요.';
     factBox.innerHTML = `예각삼각형에서는 수심이 삼각형 <b>안</b>에, 둔각삼각형에서는 <b>바깥</b>에, 직각삼각형에서는 직각을 낀 꼭짓점 <b>바로 위</b>에 있어요. 꼭짓점을 움직이며 세 경우를 모두 확인해보세요.`;
   }
   else if(currentKey==='excenter'){
-    const bisA = norm(add(norm(sub(B,A)), norm(sub(C,A))));
-    const extBisB = perp(norm(add(norm(sub(A,B)), norm(sub(C,B)))));
-    const extBisC = perp(norm(add(norm(sub(A,C)), norm(sub(B,C)))));
+    const dAB=norm(sub(B,A)), dAC=norm(sub(C,A));
+    const dBA=norm(sub(A,B)), dBC=norm(sub(C,B));
+    const dCA=norm(sub(A,C)), dCB=norm(sub(B,C));
+    const bisA = norm(add(dAB, dAC));
+    const extBisB = perp(norm(add(dBA, dBC)));
+    const extBisC = perp(norm(add(dCA, dCB)));
     const eA = extendedAttrs(A, add(A,bisA), 400);
     const eB = extendedAttrs(B, add(B,extBisB), 400);
     const eC = extendedAttrs(C, add(C,extBisC), 400);
     [eA,eB,eC].forEach(e=>{ html += `<line x1="${e.x1}" y1="${e.y1}" x2="${e.x2}" y2="${e.y2}" stroke="var(--amber-ink)" stroke-width="2" stroke-dasharray="6 4" opacity="0.7"></line>`; });
+    html += bisectorMarksSVG(A, dAB, dAC, bisA, 22, 'var(--amber-ink)');
+    const revBA = scl(dBA,-1), revCA = scl(dCA,-1);
+    const extBisAtB = norm(add(dBC, revBA));
+    const extBisAtC = norm(add(dCB, revCA));
+    html += bisectorMarksSVG(B, dBC, revBA, extBisAtB, 20, 'var(--amber-ink)');
+    html += bisectorMarksSVG(C, dCB, revCA, extBisAtC, 20, 'var(--amber-ink)');
     html += `<circle cx="${m.IA.x}" cy="${m.IA.y}" r="${m.rA}" fill="none" stroke="var(--amber)" stroke-width="2"></circle>`;
     html += ptSVG(m.IA, 'var(--amber-ink)', 'Iₐ');
     centerLabel.textContent = '방심 (Excenter)';
@@ -254,6 +321,8 @@ function render(){
 
   html += vertexSVG(A,'A') + vertexSVG(B,'B') + vertexSVG(C,'C');
   svg.innerHTML = html;
+  const vb = computeViewBox(m);
+  svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h}`);
 
   document.documentElement.style.setProperty('--tab-color', tab.color);
   document.documentElement.style.setProperty('--tab-soft', tab.soft);
@@ -276,12 +345,12 @@ function render(){
 function onVertexDown(e){
   e.preventDefault();
   const label = e.currentTarget.dataset.v;
-  const rect = svg.getBoundingClientRect();
-  const viewBox = svg.viewBox.baseVal;
 
   function toSvgXY(clientX, clientY){
+    const rect = svg.getBoundingClientRect();
+    const viewBox = svg.viewBox.baseVal;
     const scaleX = viewBox.width/rect.width, scaleY = viewBox.height/rect.height;
-    return { x: (clientX-rect.left)*scaleX, y: (clientY-rect.top)*scaleY };
+    return { x: viewBox.x + (clientX-rect.left)*scaleX, y: viewBox.y + (clientY-rect.top)*scaleY };
   }
   function onMove(ev){
     const p = toSvgXY(ev.clientX, ev.clientY);
