@@ -145,6 +145,7 @@ function applyView(){
   zoomPct.textContent = pct + '%';
   zoomInBtn.disabled = view.w <= ZOOM_MIN_W + 0.01;
   zoomOutBtn.disabled = view.w >= FULL_VIEW.w - 0.01;
+  render(); // 확대 배율이 바뀔 때마다 선 굵기(strokeW)도 다시 계산해서 그려야 해요
 }
 
 // (cx, cy)를 중심으로 factor만큼 확대(<1)/축소(>1)해요. 화면 밖으로 벗어나지 않게 범위를 제한해요.
@@ -161,6 +162,12 @@ function zoomAt(cx, cy, factor){
 
 function viewCenter(){
   return { x: view.x+view.w/2, y: view.y+view.h/2 };
+}
+
+// 확대할수록(view.w가 작아질수록) 선 굵기도 함께 줄여야 화면상 두께가 일정하게 유지되고,
+// 확대해도 가늘고 또렷한 벡터 선으로 세부 구조가 드러나요.
+function strokeW(base){
+  return (base * view.w / FULL_VIEW.w).toFixed(3);
 }
 
 function svgPointFromEvent(e){
@@ -188,7 +195,7 @@ function buildTabs(){
       if(parseInt(depthSlider.value) > t.max) depthSlider.value = t.max;
       view = {...FULL_VIEW};
       buildTabs();
-      render();
+      applyView();
     });
   });
 }
@@ -223,7 +230,7 @@ function renderKoch(depth){
     ...kochSegment(p2,p3,depth).slice(0,-1),
     ...kochSegment(p3,p1,depth),
   ];
-  fractalSvg.innerHTML = `<polygon points="${pts.map(p=>p.join(',')).join(' ')}" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="1.6"></polygon>`;
+  fractalSvg.innerHTML = `<polygon points="${pts.map(p=>p.join(',')).join(' ')}" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="${strokeW(1.6)}" stroke-linejoin="round"></polygon>`;
 
   const sides = 3*Math.pow(4,depth);
   const perimRatio = Math.pow(4/3, depth);
@@ -250,7 +257,7 @@ function renderSierpinski(depth){
 
   const tris = [];
   sierpinskiTris(p1,p2,p3,depth,tris);
-  const html = tris.map(t=>`<polygon points="${t.map(p=>p.join(',')).join(' ')}" fill="var(--blue)" fill-opacity="0.8" stroke="var(--paper)" stroke-width="0.6"></polygon>`).join('');
+  const html = tris.map(t=>`<polygon points="${t.map(p=>p.join(',')).join(' ')}" fill="var(--blue)" fill-opacity="0.8" stroke="var(--paper)" stroke-width="${strokeW(0.6)}"></polygon>`).join('');
   fractalSvg.innerHTML = html;
 
   const count = Math.pow(3,depth);
@@ -270,7 +277,6 @@ function render(){
 depthSlider.addEventListener('input', render);
 buildTabs();
 applyView();
-render();
 </script>
 </body>
 </html>
