@@ -191,6 +191,9 @@
   .card.disabled{opacity:0.55;cursor:default;}
   .card.disabled:hover{transform:none;}
   .card[tabindex]:focus-visible{outline:3px solid var(--coral);outline-offset:3px;}
+  .card.compact{padding:14px 16px;gap:8px;}
+  .card.compact .card-desc,
+  .card.compact .card-actions{display:none;}
 
   .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
   .card-icon{
@@ -439,7 +442,7 @@
   CATEGORIES.forEach(cat => cat.items.forEach(item => { itemsByHref[item.href] = {item, cat}; }));
 
   const RECENT_KEY = 'ainmath_recent_v1';
-  const RECENT_MAX = 6;
+  const RECENT_MAX = 3;
   function recordRecent(href){
     if(!href || !itemsByHref[href]) return;
     let list = [];
@@ -455,12 +458,12 @@
     return list.map(href => itemsByHref[href]).filter(Boolean);
   }
   function renderRecent(){
-    const entries = getRecentEntries();
+    const entries = getRecentEntries().slice(0, 3);
     const section = document.getElementById('recentSection');
     if(!entries.length){ section.style.display = 'none'; return; }
     section.style.display = '';
     document.getElementById('recentGrid').innerHTML =
-      entries.map(({item, cat}) => cardHtml(item, cat.color, cat.textColor)).join('');
+      entries.map(({item, cat}) => cardHtml(item, cat.color, cat.textColor, true)).join('');
   }
 
   // 오늘 날짜로 시드를 고정한 의사난수 — 같은 날에는 누가 접속해도 같은 추천이 보이고, 날짜가 바뀌면 다시 섞여요.
@@ -507,7 +510,7 @@
       .map(x => x.item);
   }
 
-  function cardHtml(item, accentColor, textColor){
+  function cardHtml(item, accentColor, textColor, compact){
     const gradeTags = item.grades.map(g=>`<span class="grade-tag ${g}">${gradeNames[g]}</span>`).join('');
     const gradeAttr = item.grades.join(' ');
     const isLive = item.status === 'live';
@@ -527,7 +530,7 @@
     if(item.isBest) badges.push(`<span class="badge-best">BEST</span>`);
     if(!isLive) badges.push(`<span class="status soon">준비 중</span>`);
     return `
-      <div class="card ${hasAnyLink ? 'live' : 'disabled'}" style="--card-accent:${accentColor};--card-accent-ink:${textColor}" data-grade="${gradeAttr}" data-search="${searchText.replace(/"/g,'&quot;')}" ${linkAttrs}>
+      <div class="card ${hasAnyLink ? 'live' : 'disabled'}${compact ? ' compact' : ''}" style="--card-accent:${accentColor};--card-accent-ink:${textColor}" data-grade="${gradeAttr}" data-search="${searchText.replace(/"/g,'&quot;')}" ${linkAttrs}>
         <div class="card-top">
           <div class="card-icon" style="background:${accentColor}22;color:${textColor}">${item.icon}</div>
           ${badges.length ? `<div class="card-badges">${badges.join('')}</div>` : ''}
@@ -558,7 +561,7 @@
   function renderRecommended(){
     const picks = getDailyRecommended();
     document.getElementById('recommended').innerHTML =
-      picks.map(({item, cat}) => cardHtml(item, cat.color, cat.textColor)).join('');
+      picks.map(({item, cat}) => cardHtml(item, cat.color, cat.textColor, true)).join('');
   }
 
   function attachCardNav(el){

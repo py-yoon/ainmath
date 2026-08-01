@@ -42,7 +42,7 @@ h1 span{color:var(--coral-ink);}
   display:grid;grid-template-columns: 1.2fr 0.8fr;gap:32px;align-items:start;}
 @media (max-width:820px){ .stage{grid-template-columns:1fr;} }
 .canvas-area{display:flex;flex-direction:column;align-items:center;gap:16px;}
-svg{width:100%;max-width:400px;height:auto;overflow:visible;}
+svg{width:100%;max-width:800px;height:auto;overflow:visible;}
 .legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-size:12.5px;color:var(--ink-soft);}
 .legend span{display:inline-flex;align-items:center;gap:6px;}
 .swatch{width:12px;height:12px;border-radius:3px;display:inline-block;}
@@ -82,7 +82,7 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
     <div class="howto"><b>벡터의 덧셈</b> — u+v는 u의 화살표 끝에 v를 이어 붙였을 때, 시작점에서 v의 끝점까지 가는 화살표예요("삼각형법칙"). 화살표 끝의 <b>동그란 점(●)을 마우스로 직접 드래그</b>해서 옮겨보세요 — u나 v를 옮기면 u+v가 따라 움직이고, u+v를 옮기면 v가 따라 움직여요. 슬라이더로 조절해도 똑같이 동작해요.</div>
     <div class="stage">
       <div class="canvas-area">
-        <svg id="addSvg" viewBox="0 0 380 380"></svg>
+        <svg id="addSvg" viewBox="0 0 760 760"></svg>
         <div class="legend">
           <span><i class="swatch" style="background:var(--blue-ink)"></i>u</span>
           <span><i class="swatch" style="background:var(--green-ink)"></i>v</span>
@@ -115,7 +115,7 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
     <div class="howto"><b>내적</b> u·v = uₓvₓ+uᵧvᵧ는 두 벡터가 "같은 방향으로 얼마나 나란한지"를 숫자로 알려줘요. 내적이 0이면 두 벡터는 정확히 <b>수직</b>이에요. 슬라이더로 v를 돌려가며 내적이 0이 되는 순간(직각)을 찾아보세요.</div>
     <div class="stage">
       <div class="canvas-area">
-        <svg id="dotSvg" viewBox="0 0 380 380"></svg>
+        <svg id="dotSvg" viewBox="0 0 760 760"></svg>
         <div class="control-row">
           <div class="control-label"><span>v의 각도 θᵥ</span><b id="angleLabel">70°</b></div>
           <input id="sliderAngle" type="range" min="0" max="180" value="70" step="1">
@@ -157,13 +157,13 @@ document.getElementById('tabRow').addEventListener('click', (e)=>{
 
 function fmt(v){ return (Math.round(v*100)/100).toString(); }
 
-const SCALE = 32, CX = 190, CY = 190;
+const SCALE = 64, CX = 380, CY = 380;
 function toXY(x,y){ return { x: CX + x*SCALE, y: CY - y*SCALE }; }
 
 function axesSvg(){
   let html = '';
-  html += `<line x1="10" y1="${CY}" x2="370" y2="${CY}" stroke="var(--paper-line)" stroke-width="1.5"></line>`;
-  html += `<line x1="${CX}" y1="10" x2="${CX}" y2="370" stroke="var(--paper-line)" stroke-width="1.5"></line>`;
+  html += `<line x1="20" y1="${CY}" x2="740" y2="${CY}" stroke="var(--paper-line)" stroke-width="1.5"></line>`;
+  html += `<line x1="${CX}" y1="20" x2="${CX}" y2="740" stroke="var(--paper-line)" stroke-width="1.5"></line>`;
   for(let t=-5;t<=5;t++){
     if(t===0) continue;
     const p = toXY(t,0);
@@ -181,9 +181,7 @@ function arrow(from, to, color, width, dashed){
   const p1x = backX+perpX*headWide, p1y = backY+perpY*headWide;
   const p2x = backX-perpX*headWide, p2y = backY-perpY*headWide;
   let html = `<line x1="${from.x.toFixed(1)}" y1="${from.y.toFixed(1)}" x2="${backX.toFixed(1)}" y2="${backY.toFixed(1)}" stroke="${color}" stroke-width="${width||3}" ${dashed?'stroke-dasharray="6 5"':''}></line>`;
-  if(!dashed){
-    html += `<polygon points="${to.x.toFixed(1)},${to.y.toFixed(1)} ${p1x.toFixed(1)},${p1y.toFixed(1)} ${p2x.toFixed(1)},${p2y.toFixed(1)}" fill="${color}"></polygon>`;
-  }
+  html += `<polygon points="${to.x.toFixed(1)},${to.y.toFixed(1)} ${p1x.toFixed(1)},${p1y.toFixed(1)} ${p2x.toFixed(1)},${p2y.toFixed(1)}" fill="${color}"></polygon>`;
   return html;
 }
 
@@ -215,10 +213,10 @@ function renderAdd(){
   html += arrow(O, V, 'var(--green-ink)', 3.5);
   html += arrow(U, Sum, 'var(--green-ink)', 2, true); // 이어붙인 v
   html += arrow(O, Sum, 'var(--coral-ink)', 3.5);
-  // 드래그로 옮길 수 있는 손잡이(끝점)
-  html += `<circle cx="${U.x.toFixed(1)}" cy="${U.y.toFixed(1)}" r="9" fill="#fff" stroke="var(--blue-ink)" stroke-width="3" style="cursor:grab;"></circle>`;
-  html += `<circle cx="${V.x.toFixed(1)}" cy="${V.y.toFixed(1)}" r="9" fill="#fff" stroke="var(--green-ink)" stroke-width="3" style="cursor:grab;"></circle>`;
-  html += `<circle cx="${Sum.x.toFixed(1)}" cy="${Sum.y.toFixed(1)}" r="9" fill="#fff" stroke="var(--coral-ink)" stroke-width="3" style="cursor:grab;"></circle>`;
+  // 드래그로 옮길 수 있는 손잡이(끝점) — 화살촉이 가려지지 않도록 속이 빈 고리로 표시해요
+  html += `<circle cx="${U.x.toFixed(1)}" cy="${U.y.toFixed(1)}" r="13" fill="none" stroke="var(--blue-ink)" stroke-width="2.5" opacity="0.55" style="cursor:grab;"></circle>`;
+  html += `<circle cx="${V.x.toFixed(1)}" cy="${V.y.toFixed(1)}" r="13" fill="none" stroke="var(--green-ink)" stroke-width="2.5" opacity="0.55" style="cursor:grab;"></circle>`;
+  html += `<circle cx="${Sum.x.toFixed(1)}" cy="${Sum.y.toFixed(1)}" r="13" fill="none" stroke="var(--coral-ink)" stroke-width="2.5" opacity="0.55" style="cursor:grab;"></circle>`;
   addSvg.innerHTML = html;
 
   addResult.innerHTML = `u+v = (${ux+vx}, ${uy+vy})`;
