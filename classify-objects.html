@@ -79,7 +79,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <p class="sub">색깔, 모양, 크기 중 어떤 기준으로 나누느냐에 따라 같은 물건들이 서로 다른 무리로 나뉘어요. 버튼을 눌러 직접 확인해보세요.</p>
 
   <div class="stage">
-    <div class="criteria-row" id="criteriaRow"></div>
+    <div class="criteria-row" id="criteriaRow" role="tablist"></div>
     <div class="groups" id="groups"></div>
   </div>
 
@@ -180,7 +180,7 @@ const criteriaRow = document.getElementById('criteriaRow');
 const groupsEl = document.getElementById('groups');
 
 function buildCriteriaRow(){
-  criteriaRow.innerHTML = CRITERIA.map(c=>`<button class="criteria-btn" data-k="${c.key}">${c.label}</button>`).join('');
+  criteriaRow.innerHTML = CRITERIA.map(c=>`<button class="criteria-btn" data-k="${c.key}" role="tab" aria-selected="false">${c.label}</button>`).join('');
   criteriaRow.querySelectorAll('.criteria-btn').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       activeCriterion = CRITERIA.find(c=>c.key===btn.dataset.k);
@@ -190,7 +190,11 @@ function buildCriteriaRow(){
 }
 
 function renderGroups(){
-  criteriaRow.querySelectorAll('.criteria-btn').forEach(b=>b.classList.toggle('active', b.dataset.k===activeCriterion.key));
+  criteriaRow.querySelectorAll('.criteria-btn').forEach(b=>{
+    const isActive = b.dataset.k===activeCriterion.key;
+    b.classList.toggle('active', isActive);
+    b.setAttribute('aria-selected', isActive ? 'true' : 'false');
+  });
   const groups = groupBy(activeCriterion);
   groupsEl.innerHTML = groups.map(g=>`
     <div class="group-box">

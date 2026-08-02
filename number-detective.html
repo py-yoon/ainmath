@@ -204,6 +204,14 @@ function buildCase(){
     if(matching.length<=1 || selected.length>=5) break;
   }
 
+  // 위 단서들만으로 후보가 하나로 좁혀지지 않으면, 남은 용의자를 하나씩 확실히 제외하는 단서를 추가해 정답을 유일하게 만듦
+  if(matching.length>1){
+    matching.filter(x=>x!==n).forEach(x=>{
+      selected.push({ text:`용의자 중 ${x}는 범인이 아니에요.`, test: v=>v!==x });
+    });
+    matching = [n];
+  }
+
   const wrongPool = shuffle([...Array(lvl.max-lvl.min+1).keys()].map(i=>i+lvl.min).filter(x=>!matching.includes(x)));
   let distractors = wrongPool.slice(0,3);
   while(distractors.length<3){

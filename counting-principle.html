@@ -69,9 +69,9 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <h1>경우의 수를 셀 때는<br><span>곱할지 더할지</span>부터 정해요</h1>
   <p class="sub">메뉴를 고르는 수형도로 곱의 법칙을, 최단 경로를 세는 격자로 합의 법칙을 확인해요. 두 법칙 모두 "경우를 겹치지 않고, 빠짐없이" 세는 게 핵심이에요.</p>
 
-  <div class="tab-row" id="tabRow">
-    <button class="tab-btn active" data-t="mul">🌳 곱의 법칙 (수형도)</button>
-    <button class="tab-btn" data-t="add">🧭 합의 법칙 (최단 경로)</button>
+  <div class="tab-row" id="tabRow" role="tablist">
+    <button class="tab-btn active" data-t="mul" role="tab" aria-selected="true">🌳 곱의 법칙 (수형도)</button>
+    <button class="tab-btn" data-t="add" role="tab" aria-selected="false">🧭 합의 법칙 (최단 경로)</button>
   </div>
 
   <div class="panel-wrap active" id="panel-mul">
@@ -141,8 +141,9 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
 document.getElementById('tabRow').addEventListener('click', (e)=>{
   const btn = e.target.closest('.tab-btn');
   if(!btn) return;
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>{ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
   btn.classList.add('active');
+  btn.setAttribute('aria-selected','true');
   document.querySelectorAll('.panel-wrap').forEach(p=>p.classList.remove('active'));
   document.getElementById('panel-'+btn.dataset.t).classList.add('active');
 });

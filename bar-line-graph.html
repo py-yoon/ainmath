@@ -78,7 +78,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <h1>자료를 <span>그래프로</span><br>한눈에 보아요</h1>
   <p class="sub">막대그래프는 항목끼리 크기를 비교하기 좋고, 꺾은선그래프는 시간에 따라 변하는 모습을 보기 좋아요.</p>
 
-  <div class="tab-row" id="tabRow"></div>
+  <div class="tab-row" id="tabRow" role="tablist"></div>
 
   <div class="stage">
     <div>
@@ -117,6 +117,21 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
 </div>
 
 <script>
+// 소리 피드백 — 외부 파일 없이 브라우저 내장 기능만 사용해요
+function beep(freq, dur, type){
+  try{
+    const ctx = beep.ctx || (beep.ctx = new (window.AudioContext||window.webkitAudioContext)());
+    const osc = ctx.createOscillator(); const gain = ctx.createGain();
+    osc.type = type||'sine'; osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+dur);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(); osc.stop(ctx.currentTime+dur);
+  }catch(e){}
+}
+function playCorrect(){ beep(660,0.12); setTimeout(()=>beep(880,0.18),120); }
+function playWrong(){ beep(220,0.25,'sawtooth'); }
+
 function randInt(min,max){ return min + Math.floor(Math.random()*(max-min+1)); }
 
 const GRAPHS = {
@@ -149,7 +164,7 @@ const sliderList = document.getElementById('sliderList');
 const factBox = document.getElementById('fact');
 
 function buildTabs(){
-  tabRow.innerHTML = Object.entries(GRAPHS).map(([k,g])=>`<button class="tab-btn" data-k="${k}">${g.label}</button>`).join('');
+  tabRow.innerHTML = Object.entries(GRAPHS).map(([k,g])=>`<button class="tab-btn" data-k="${k}" role="tab" aria-selected="false">${g.label}</button>`).join('');
   tabRow.querySelectorAll('.tab-btn').forEach(btn=>{
     btn.addEventListener('click', ()=>{ graphKey = btn.dataset.k; buildSliders(); render(); newQuizQuestion(); });
   });
@@ -218,7 +233,11 @@ function drawGraph(key, labels, vals, unit, svgEl){
 }
 
 function render(){
-  tabRow.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.k===graphKey));
+  tabRow.querySelectorAll('.tab-btn').forEach(b=>{
+    const isActive = b.dataset.k===graphKey;
+    b.classList.toggle('active', isActive);
+    b.setAttribute('aria-selected', isActive ? 'true' : 'false');
+  });
   const g = GRAPHS[graphKey];
   const vals = currentVals();
   drawGraph(graphKey, g.categories, vals, g.unit, mainSvg);
@@ -270,10 +289,12 @@ function newQuizQuestion(){
         score++;
         btn.classList.add('correct');
         quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+        playCorrect();
       } else {
         btn.classList.add('wrong');
         quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
         quizFeedback.innerHTML = `아쉬워요! 정답은 "${quizAnswer}"였어요. (정답 ${score} / 시도 ${tries})`;
+        playWrong();
       }
       scoreNumEl.textContent = score;
       triesNumEl.textContent = tries;
