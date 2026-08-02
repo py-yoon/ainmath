@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>돌만 세면 지지 않는 게임, 님 게임의 비밀 | 아인매스</title>
+<meta name="description" content="XOR 연산 하나로 절대 지지 않는 전략을 찾을 수 있는 님 게임의 원리를 알아봐요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#1D7C7E;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#1D7C7E;background:#E4FAF9">🎲 쉬는 시간·수학 탐구</span>
+  <h1>돌만 세면 지지 않는 게임, 님 게임의 비밀</h1>
+  <p class="meta">중학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>돌무더기 여러 개를 놓고 두 사람이 번갈아 돌을 가져가요. 규칙은 딱 두 가지예요. 한 번에 <b>한 무더기</b>에서만 가져갈 수 있고, 가져가는 개수는 1개든 전부든 자유예요. <b>마지막 돌을 가져가는 사람이 이겨요</b>. 이렇게 간단한 규칙인데, 놀랍게도 누가 이길지 게임을 시작하기 전에 완벽하게 예측할 수 있는 방법이 있어요.</p>
+      <p>비밀은 각 무더기의 돌 개수를 <b>XOR(배타적 논리합)</b>이라는 연산으로 계산하는 거예요. XOR은 두 수를 2진수로 놓고 자릿수마다 비교해서, 같으면 0, 다르면 1로 만드는 연산이에요. 예를 들어 무더기가 [3, 4, 5]라면, 2진수로 3=011, 4=100, 5=101이에요. 자릿수마다 XOR하면: 첫째 자리 0⊕1⊕1=0, 둘째 자리 1⊕0⊕0=1, 셋째 자리 1⊕0⊕1=0. 그래서 XOR 값은 010, 즉 2가 나와요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 260 130">
+          <text x="30" y="25" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink)">3 = 011</text>
+          <text x="30" y="50" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink)">4 = 100</text>
+          <text x="30" y="75" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink)">5 = 101</text>
+          <line x1="20" y1="85" x2="120" y2="85" stroke="var(--ink-soft)" stroke-width="1.5"></line>
+          <text x="30" y="105" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--teal-ink)">XOR = 010 = 2</text>
+          <text x="150" y="65" font-family="'Gowun Dodum',sans-serif" font-size="12" fill="var(--ink-soft)">자릿수마다 같으면 0,<br>다르면 1</text>
+        </svg>
+        <div class="illo-caption">각 무더기 개수를 2진수로 바꿔 자릿수마다 XOR을 계산해요</div>
+      </div>
+      <p>이 XOR 값(님-합이라고 불러요)이 <b>0이 아니면</b>, 지금 차례인 사람에게 반드시 이길 수 있는 수가 있어요. 각 무더기 개수를 XOR값과 다시 XOR해봐서, 그 결과가 원래 개수보다 <b>작아지는</b> 무더기를 찾으면 돼요. [3,4,5]에서 XOR은 2였는데, 5 XOR 2=7과 4 XOR 2=6은 오히려 커지니 불가능하고, 3 XOR 2=1은 작아지니 가능해요. 그래서 첫 번째 무더기(3개)에서 2개를 가져가 1개만 남기면 무더기가 [1,4,5]가 되고, 이때 XOR은 1⊕4⊕5=0이 됩니다.</p>
+      <p>반대로 XOR이 <b>이미 0이라면</b>, 지금 차례인 사람은 불리한 위치예요. 상대가 완벽하게 두는 한, 어떤 수를 두어도 XOR이 다시 0이 아닌 상태가 되고, 그러면 상대가 또 XOR을 0으로 되돌리는 걸 반복하다가 결국 상대가 마지막 돌을 가져가게 돼요. 그래서 님 게임의 필승 전략은 아주 단순해요 — "항상 내 차례가 끝날 때 XOR이 0이 되도록 만들어라."</p>
+      <p>왜 하필 XOR일까요? XOR은 "짝을 맞춰 없애는" 성질이 있어요. 게임이 끝났을 때(모든 무더기가 0일 때) XOR도 당연히 0이에요. 그리고 XOR이 0인 상태에서는 어떤 무더기 하나만 줄이면 반드시 XOR이 0이 아니게 바뀌어요(한 무더기만 바뀌면 균형이 깨지니까요). 반대로 XOR이 0이 아닐 때는, 그 불균형을 정확히 상쇄하는 무더기가 항상 존재해서 XOR을 다시 0으로 만들 수 있어요. 이 두 성질이 맞물려서, "XOR=0을 유지하며 상대에게 넘기면 언젠가 상대가 궁지에 몰린다"는 필승 전략이 성립하는 거예요.</p>
+      <p>저희 체험 페이지에서는 컴퓨터가 정확히 이 XOR 전략으로 두기 때문에, 컴퓨터가 유리한 위치에서 시작하면 이기기 정말 어려워요. 하지만 힌트 버튼으로 매 순간 XOR 값과 추천 수를 확인하면서 두면, 여러분도 컴퓨터를 상대로 이길 수 있어요. 여러 무더기 구성을 시도해보면서, 시작하자마자 XOR이 0인지(내가 불리한지) 아닌지 먼저 확인하는 습관을 들여보세요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="nim-game.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>내 눈이 나를 속이는 순간, 착시의 원리 | 아인매스</title>
+<meta name="description" content="뮐러-라이어 착시와 에빙하우스 착시가 왜 일어나는지, 자로 재는 마음으로 알아봐요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#1D7C7E;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#1D7C7E;background:#E4FAF9">🎲 쉬는 시간·수학 탐구</span>
+  <h1>내 눈이 나를 속이는 순간, 착시의 원리</h1>
+  <p class="meta">초등 고학년 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>똑같은 길이의 선 두 개가 있는데, 하나는 더 길어 보이고 하나는 더 짧아 보인다면 믿을 수 있을까요? 실제로 자로 재보면 완전히 똑같은 길이인데도, 우리 눈은 계속 다르다고 느껴요. 이런 현상을 <b>착시</b>라고 해요. 눈이 고장 난 게 아니라, 우리 뇌가 그림을 해석하는 방식 때문에 생기는 자연스러운 현상이에요.</p>
+      <p>가장 유명한 착시 중 하나가 <b>뮐러-라이어 착시</b>예요. 화살촉이 바깥으로 벌어진 선(&gt;—&lt;)과 안으로 모인 선(&lt;—&gt;)을 나란히 놓으면, 바깥으로 벌어진 쪽이 훨씬 길어 보여요. 하지만 자로 재보면 두 선의 길이는 똑같을 수 있어요. 뇌는 화살촉의 방향을 "이 물체가 나에게서 멀어지는지, 다가오는지"에 대한 단서로 해석하는데, 이 습관이 평면 그림에도 그대로 적용되면서 착시가 생긴다는 설명이 있어요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 240 100">
+          <line x1="40" y1="30" x2="200" y2="30" stroke="var(--violet-ink)" stroke-width="3"></line>
+          <line x1="40" y1="30" x2="55" y2="20" stroke="var(--violet-ink)" stroke-width="3"></line>
+          <line x1="40" y1="30" x2="55" y2="40" stroke="var(--violet-ink)" stroke-width="3"></line>
+          <line x1="200" y1="30" x2="185" y2="20" stroke="var(--violet-ink)" stroke-width="3"></line>
+          <line x1="200" y1="30" x2="185" y2="40" stroke="var(--violet-ink)" stroke-width="3"></line>
+          <line x1="60" y1="75" x2="180" y2="75" stroke="var(--coral-ink)" stroke-width="3"></line>
+          <line x1="60" y1="75" x2="45" y2="65" stroke="var(--coral-ink)" stroke-width="3"></line>
+          <line x1="60" y1="75" x2="45" y2="85" stroke="var(--coral-ink)" stroke-width="3"></line>
+          <line x1="180" y1="75" x2="195" y2="65" stroke="var(--coral-ink)" stroke-width="3"></line>
+          <line x1="180" y1="75" x2="195" y2="85" stroke="var(--coral-ink)" stroke-width="3"></line>
+        </svg>
+        <div class="illo-caption">두 선의 실제 길이는 같지만(160px), 화살촉 방향 때문에 위쪽이 더 길어 보여요</div>
+      </div>
+      <p>또 다른 유명한 착시는 <b>에빙하우스 착시</b>예요. 똑같은 크기의 원 두 개를 놓고, 하나는 큰 원들로 둘러싸고 다른 하나는 작은 원들로 둘러싸면, 큰 원들에 둘러싸인 원이 훨씬 작아 보여요. 우리 뇌가 크기를 절대적으로 판단하지 않고, <b>주변과 비교</b>해서 상대적으로 판단하기 때문에 생기는 현상이에요. 큰 원들 옆에 있으면 "상대적으로 작다"고, 작은 원들 옆에 있으면 "상대적으로 크다"고 착각하는 거예요.</p>
+      <p>이런 착시들은 단순히 눈속임 그림이 아니라, 우리 뇌가 세상을 효율적으로 이해하기 위해 사용하는 "지름길"이 만들어내는 부작용이에요. 실제 세계에서는 화살촉 같은 모서리 방향이 물체의 원근감을 판단하는 데 유용한 단서이고, 크기를 주변과 비교해서 빠르게 판단하는 것도 대부분 정확해요. 다만 이런 "지름길"이 특수하게 만들어진 그림 앞에서는 오히려 잘못된 결론으로 이어지는 거죠.</p>
+      <p>착시를 다루는 가장 확실한 방법은 <b>직접 재보는 것</b>이에요. 눈에 보이는 인상만으로 판단하지 않고, 자나 측정 도구를 이용해 실제 길이나 크기를 측정해보면 착시에 속지 않을 수 있어요. 이건 수학에서도 아주 중요한 태도예요 — 그림이나 직관만으로 결론 내리지 않고, 실제 수치로 검증하는 습관을 기르는 것 말이에요.</p>
+      <p>저희 체험 페이지에서는 슬라이더로 직접 도형의 크기를 조절해서 "똑같아 보이는" 지점을 찾은 다음, "정답 보기" 버튼으로 실제 수치를 확인할 수 있어요. 여러분이 맞춰본 값과 실제 값이 얼마나 차이 나는지 직접 확인해보세요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="optical-illusion.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

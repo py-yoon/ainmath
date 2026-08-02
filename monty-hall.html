@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>몬티홀 문제 실험실</title>
+<meta name="description" content="문을 바꾸는 게 정말 유리할까? 100판을 직접 시뮬레이션해서 확률을 눈으로 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--teal-ink);background:var(--teal-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--teal-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:66ch;margin:0 0 28px;}
+.howto{background:var(--teal-soft);border-radius:16px;padding:16px 18px;font-size:14px;line-height:1.7;color:var(--ink);margin-bottom:20px;}
+.howto b{color:var(--teal-ink);}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.doors-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;}
+.door{width:110px;height:150px;border-radius:14px;border:3px solid var(--paper-line);background:var(--paper);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:all .2s ease;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.door:hover:not(.disabled){border-color:var(--teal);transform:translateY(-3px);}
+.door.disabled{cursor:default;}
+.door.picked{border-color:var(--violet-ink);background:var(--violet-soft);}
+.door.revealed-goat{border-color:var(--coral-ink);background:var(--coral-soft);color:var(--coral-ink);}
+.door.revealed-car{border-color:var(--teal-ink);background:var(--teal-soft);color:var(--teal-ink);}
+.door .icon{font-size:44px;}
+.status-box{text-align:center;font-family:'Do Hyeon',sans-serif;font-size:17px;color:var(--ink);margin-bottom:18px;min-height:28px;}
+.btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;}
+.act-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--teal);color:#fff;border:none;border-radius:12px;padding:11px 22px;cursor:pointer;transition:transform .15s ease;}
+.act-btn:hover{transform:translateY(-2px);}
+.act-btn.secondary{background:var(--card);color:var(--ink);border:2px solid var(--paper-line);}
+.act-btn:disabled{opacity:0.4;cursor:default;transform:none;}
+.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;}
+@media (max-width:560px){ .stats-row{grid-template-columns:1fr;} }
+.stat-card{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:16px;text-align:center;}
+.stat-card .slbl{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);margin-bottom:6px;}
+.stat-card .sval{font-family:'Do Hyeon',sans-serif;font-size:26px;color:var(--ink);}
+.stat-card.switch .sval{color:var(--teal-ink);}
+.stat-card.stay .sval{color:var(--coral-ink);}
+.fact{background:var(--teal-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+.fact b{color:var(--teal-ink);}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-monty-hall.html" style="color:#fff;background:var(--teal-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🚪 몬티홀 문제 실험실</span>
+  <h1>문을 바꾸면<br>정말 <span>확률이 두 배</span>가 될까?</h1>
+  <p class="sub">문 3개 중 하나에는 자동차, 나머지 둘에는 염소가 있어요. 문을 하나 고르면 사회자가 염소가 있는 다른 문을 열어줘요. 이때 선택을 바꾸는 게 유리할까요, 그대로 두는 게 유리할까요?</p>
+
+  <div class="howto"><b>몬티홀 문제</b>: 직관적으로는 "남은 두 문 중 하나니까 50대50 아닐까?" 싶지만, 실제로는 <b>바꾸면 2/3, 그대로 두면 1/3</b> 확률로 자동차를 얻어요. 여러 판을 직접 플레이하거나 자동 시뮬레이션으로 확인해보세요.</p>
+
+  <div class="stage">
+    <div class="status-box" id="statusBox">문을 하나 골라보세요</div>
+    <div class="doors-row" id="doorsRow"></div>
+    <div class="btn-row" id="btnRow"></div>
+    <div class="stats-row">
+      <div class="stat-card switch">
+        <div class="slbl">바꿨을 때 (횟수 / 승리)</div>
+        <div class="sval" id="switchStat">0 / 0</div>
+      </div>
+      <div class="stat-card stay">
+        <div class="slbl">유지했을 때 (횟수 / 승리)</div>
+        <div class="sval" id="stayStat">0 / 0</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="act-btn secondary" id="autoBtn">⚡ 자동 100판 시뮬레이션</button>
+      <button class="act-btn secondary" id="resetBtn">🔄 기록 초기화</button>
+    </div>
+    <div class="fact" id="fact">문을 골라 게임을 시작해보세요.</div>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="spirograph.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">스피로그래프 실험실</span>
+    </a>
+    <a href="nim-game.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">님 게임</span>
+    </a>
+  </nav>
+<footer>사회자는 항상 "내가 고르지 않은 문 중 염소가 있는 문"을 알고서 열어줘요. 이 정보가 추가되기 때문에 확률이 50대50으로 나뉘지 않아요.</footer>
+</div>
+
+<script>
+const doorsRow = document.getElementById('doorsRow');
+const btnRow = document.getElementById('btnRow');
+const statusBox = document.getElementById('statusBox');
+const switchStat = document.getElementById('switchStat');
+const stayStat = document.getElementById('stayStat');
+const factBox = document.getElementById('fact');
+const autoBtn = document.getElementById('autoBtn');
+const resetBtn = document.getElementById('resetBtn');
+
+let carDoor, picked, revealed, stage; // stage: 'pick' | 'decide' | 'done'
+let stats = { switch:{n:0,w:0}, stay:{n:0,w:0} };
+
+function newRound(){
+  carDoor = Math.floor(Math.random()*3);
+  picked = null;
+  revealed = null;
+  stage = 'pick';
+  statusBox.textContent = '문을 하나 골라보세요';
+  renderDoors();
+  renderButtons();
+}
+
+function renderDoors(){
+  doorsRow.innerHTML = '';
+  for(let i=0;i<3;i++){
+    const d = document.createElement('div');
+    d.className = 'door';
+    if(stage==='pick'){
+      d.innerHTML = `<div class="icon">🚪</div><div>${i+1}번 문</div>`;
+      d.addEventListener('click', ()=> pickDoor(i));
+    } else {
+      if(i===picked && stage==='decide') d.classList.add('picked');
+      if(i===revealed) d.classList.add('revealed-goat');
+      if(stage==='done'){
+        if(i===carDoor) d.classList.add('revealed-car');
+        else if(i!==revealed) d.classList.add(i===picked?'picked':'');
+      }
+      if(stage!=='pick') d.classList.add('disabled');
+
+      let icon = '🚪', label = `${i+1}번 문`;
+      if(i===revealed){ icon='🐐'; label='염소'; }
+      else if(stage==='done'){
+        icon = (i===carDoor) ? '🚗' : '🐐';
+        label = (i===carDoor) ? '자동차!' : '염소';
+      } else if(i===picked){
+        label = `${i+1}번 문 (선택함)`;
+      }
+      d.innerHTML = `<div class="icon">${icon}</div><div>${label}</div>`;
+    }
+    doorsRow.appendChild(d);
+  }
+}
+
+function pickDoor(i){
+  picked = i;
+  const others = [0,1,2].filter(x=>x!==picked && x!==carDoor);
+  revealed = others[Math.floor(Math.random()*others.length)];
+  stage = 'decide';
+  statusBox.textContent = `${revealed+1}번 문에는 염소가 있었어요. 바꿀까요, 그대로 둘까요?`;
+  renderDoors();
+  renderButtons();
+}
+
+function decide(didSwitch){
+  const finalDoor = didSwitch ? [0,1,2].find(x=>x!==picked && x!==revealed) : picked;
+  const won = finalDoor === carDoor;
+  const key = didSwitch ? 'switch' : 'stay';
+  stats[key].n++;
+  if(won) stats[key].w++;
+  picked = finalDoor;
+  stage = 'done';
+  statusBox.textContent = won ? `🎉 ${didSwitch?'바꿔서':'유지해서'} 자동차를 얻었어요!` : `😢 ${didSwitch?'바꿨지만':'유지했지만'} 염소였어요.`;
+  renderDoors();
+  renderButtons();
+  updateStats();
+}
+
+function renderButtons(){
+  btnRow.innerHTML = '';
+  if(stage==='decide'){
+    const b1 = document.createElement('button');
+    b1.className='act-btn'; b1.textContent='🔄 문을 바꾼다';
+    b1.addEventListener('click', ()=> decide(true));
+    const b2 = document.createElement('button');
+    b2.className='act-btn secondary'; b2.textContent='✋ 그대로 둔다';
+    b2.addEventListener('click', ()=> decide(false));
+    btnRow.appendChild(b1); btnRow.appendChild(b2);
+  } else if(stage==='done'){
+    const b = document.createElement('button');
+    b.className='act-btn'; b.textContent='▶ 다음 판';
+    b.addEventListener('click', newRound);
+    btnRow.appendChild(b);
+  }
+}
+
+function updateStats(){
+  switchStat.textContent = `${stats.switch.n} / ${stats.switch.w}`;
+  stayStat.textContent = `${stats.stay.n} / ${stats.stay.w}`;
+  const sp = stats.switch.n ? Math.round(stats.switch.w/stats.switch.n*1000)/10 : 0;
+  const stp = stats.stay.n ? Math.round(stats.stay.w/stats.stay.n*1000)/10 : 0;
+  if(stats.switch.n + stats.stay.n > 0){
+    factBox.innerHTML = `지금까지 바꿨을 때 승률 <b>${sp}%</b>, 유지했을 때 승률 <b>${stp}%</b>예요. 판수가 많아질수록 바꿨을 때 승률은 66.7%(2/3), 유지했을 때 승률은 33.3%(1/3)에 가까워져요.`;
+  }
+}
+
+function runAutoSim(n){
+  for(let i=0;i<n;i++){
+    const car = Math.floor(Math.random()*3);
+    const pick = Math.floor(Math.random()*3);
+    const others = [0,1,2].filter(x=>x!==pick && x!==car);
+    const rev = others[Math.floor(Math.random()*others.length)];
+    const switchTo = [0,1,2].find(x=>x!==pick && x!==rev);
+
+    stats.switch.n++; if(switchTo===car) stats.switch.w++;
+    stats.stay.n++; if(pick===car) stats.stay.w++;
+  }
+  updateStats();
+}
+
+autoBtn.addEventListener('click', ()=> runAutoSim(100));
+resetBtn.addEventListener('click', ()=>{ stats = { switch:{n:0,w:0}, stay:{n:0,w:0} }; updateStats(); factBox.textContent='기록을 초기화했어요.'; });
+
+newRound();
+</script>
+</body>
+</html>
