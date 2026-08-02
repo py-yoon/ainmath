@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>뫼비우스의 띠와 클라인 병 실험실</title>
+<meta name="description" content="뫼비우스의 띠에 직접 선을 그어보고, 클라인 병에 물을 채워보며 안과 밖이 없는 곡면을 직접 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<script src="three.min.js"></script>
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1080px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--teal-ink);background:var(--teal-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--teal-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:70ch;margin:0 0 28px;}
+.tab-row{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);padding:9px 18px;border-radius:999px;cursor:pointer;transition:all .2s ease;}
+.tab-btn.active{background:var(--teal);border-color:var(--teal);color:#fff;}
+.howto{background:var(--teal-soft);border-radius:16px;padding:16px 18px;font-size:14px;line-height:1.7;color:var(--ink);margin-bottom:20px;}
+.howto b{color:var(--teal-ink);}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.viewer-stage{display:grid;grid-template-columns:1.2fr 0.8fr;gap:28px;align-items:start;}
+@media (max-width:860px){ .viewer-stage{grid-template-columns:1fr;} }
+#threeWrap{width:100%;height:380px;border-radius:18px;background:linear-gradient(180deg,var(--paper) 0%, #F1EAD8 100%);overflow:hidden;position:relative;cursor:grab;touch-action:none;}
+#threeWrap.draw-mode{cursor:crosshair;}
+#threeWrap:active{cursor:grabbing;}
+#threeWrap.draw-mode:active{cursor:crosshair;}
+.drag-hint{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-family:'Do Hyeon',sans-serif;font-size:12.5px;color:var(--ink-soft);background:rgba(255,255,255,0.8);padding:4px 12px;border-radius:999px;pointer-events:none;text-align:center;}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
+.act-btn{font-family:'Do Hyeon',sans-serif;font-size:14.5px;background:var(--teal);color:#fff;border:none;border-radius:12px;padding:10px 18px;cursor:pointer;transition:transform .15s ease;}
+.act-btn:hover{transform:translateY(-2px);}
+.act-btn.secondary{background:var(--card);color:var(--ink);border:2px solid var(--paper-line);}
+.act-btn.on{background:var(--coral);}
+.info-panel{display:flex;flex-direction:column;gap:14px;}
+.control-row{display:flex;flex-direction:column;gap:8px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:20px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--teal-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--teal);border:4px solid #fff;box-shadow:0 2px 8px rgba(46,196,198,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--teal);border:4px solid #fff;box-shadow:0 2px 8px rgba(46,196,198,0.5);cursor:pointer;}
+.fact{background:var(--teal-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--teal-ink);}
+.status-badge{display:inline-flex;align-items:center;gap:6px;font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);border-radius:12px;padding:8px 14px;}
+.status-badge b{color:var(--coral-ink);}
+footer{max-width:1080px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;line-height:1.8;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-mobius-klein.html" style="color:#fff;background:var(--teal-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🎀 뫼비우스의 띠·클라인 병 실험실</span>
+  <h1>겉과 속의 구분이<br><span>없는 곡면</span>이 있다고?</h1>
+  <p class="sub">뫼비우스의 띠는 종이를 한 번 비틀어 붙인 모양인데, 겉면과 안면의 구분이 없는 "단측곡면"이에요. 클라인 병은 이 아이디어를 한 단계 더 확장한 도형으로, 안과 밖의 구분 자체가 없어요. 직접 선을 그어보고 물을 채워보며 확인해보세요.</p>
+
+  <div class="tab-row" role="tablist" aria-label="탭 선택">
+    <button class="tab-btn active" data-tab="mobius" role="tab" aria-selected="true">➰ 뫼비우스의 띠</button>
+    <button class="tab-btn" data-tab="klein" role="tab" aria-selected="false">🍶 클라인 병</button>
+  </div>
+
+  <div class="howto" id="howtoBox"></div>
+
+  <div class="stage">
+    <div class="viewer-stage">
+      <div>
+        <div id="threeWrap">
+          <div class="drag-hint" id="dragHint">드래그해서 돌려보세요</div>
+        </div>
+        <div class="btn-row" id="mobiusBtns">
+          <button class="act-btn secondary" id="drawModeBtn">✏️ 그리기 모드 켜기</button>
+          <button class="act-btn" id="autoDrawBtn">🖊️ 자동으로 두 바퀴 그리기</button>
+          <button class="act-btn secondary" id="clearBtn">🔄 지우기</button>
+        </div>
+        <div class="btn-row" id="kleinBtns" style="display:none;">
+          <button class="act-btn" id="autoFillBtn">💧 자동으로 물 채우기</button>
+          <button class="act-btn secondary" id="resetFillBtn">🔄 비우기</button>
+        </div>
+      </div>
+      <div class="info-panel">
+        <div class="control-row" id="mobiusControls">
+          <div class="status-badge" id="loopBadge">지나온 바퀴 수: <b>0</b> / 2</div>
+        </div>
+        <div class="control-row" id="kleinControls" style="display:none;">
+          <div class="control-label"><span>물 채우기 진행도</span><b id="fillLabel">0%</b></div>
+          <input id="fillSlider" type="range" min="0" max="100" value="0" step="1" aria-label="물 채우기 진행도">
+        </div>
+        <div class="fact" id="fact"></div>
+      </div>
+    </div>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="platonic-solids-lab.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">정다면체 탐구 실험실</span>
+    </a>
+    <a href="fibonacci-in-nature.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">자연 속 피보나치 찾기</span>
+    </a>
+  </nav>
+<footer>클라인 병은 원래 4차원 공간에서만 스스로 겹치지 않게 만들 수 있어요. 3차원에 억지로 표현하다 보니 목 부분이 옆면을 뚫고 지나가는 것처럼 보이는 거예요.</footer>
+</div>
+
+<script>
+const threeWrap = document.getElementById('threeWrap');
+const dragHint = document.getElementById('dragHint');
+const howtoBox = document.getElementById('howtoBox');
+const factBox = document.getElementById('fact');
+const tabBtns = document.querySelectorAll('.tab-btn');
+const mobiusBtns = document.getElementById('mobiusBtns');
+const kleinBtns = document.getElementById('kleinBtns');
+const mobiusControls = document.getElementById('mobiusControls');
+const kleinControls = document.getElementById('kleinControls');
+const drawModeBtn = document.getElementById('drawModeBtn');
+const autoDrawBtn = document.getElementById('autoDrawBtn');
+const clearBtn = document.getElementById('clearBtn');
+const loopBadge = document.getElementById('loopBadge');
+const fillSlider = document.getElementById('fillSlider');
+const fillLabel = document.getElementById('fillLabel');
+const autoFillBtn = document.getElementById('autoFillBtn');
+const resetFillBtn = document.getElementById('resetFillBtn');
+
+let tab = 'mobius';
+let scene, camera, renderer;
+let mobiusMesh, kleinMesh;
+let isDragging=false, prevX=0, prevY=0, rotX=-0.4, rotY=0.6, autoRotate=true;
+let drawMode=false, isDrawingStroke=false;
+let strokes = []; // 완료된 스트로크들 (THREE.Line 객체 배열)
+let currentStrokePoints = [];
+let currentStrokeLine = null;
+const raycaster = new THREE.Raycaster();
+const mouseNDC = new THREE.Vector2();
+
+const MOBIUS_R = 1.3, MOBIUS_W = 0.55;
+function mobiusPoint(u, v){
+  // u: 각도(라디안, 미포장/연속), v: -1~1 (폭 방향)
+  const half = u/2;
+  const r = MOBIUS_R + v*MOBIUS_W*Math.cos(half);
+  return new THREE.Vector3(r*Math.cos(u), r*Math.sin(u), v*MOBIUS_W*Math.sin(half));
+}
+
+function buildMobiusGeometry(){
+  const segU = 120, segV = 12;
+  const positions = [], normals = [], indices = [];
+  for(let i=0;i<=segU;i++){
+    const u = i/segU * Math.PI*2;
+    for(let j=0;j<=segV;j++){
+      const v = -1 + (2*j/segV);
+      const p = mobiusPoint(u, v);
+      positions.push(p.x, p.y, p.z);
+      normals.push(0,0,1); // 임시(아래서 재계산)
+    }
+  }
+  const vCount = segV+1;
+  for(let i=0;i<segU;i++){
+    for(let j=0;j<segV;j++){
+      let a = i*vCount+j, b=(i+1)*vCount+j, c=(i+1)*vCount+j+1, d=i*vCount+j+1;
+      if(i===segU-1){
+        // 마지막 스트립: 시작 열과 연결하되 v를 뒤집어 이어붙임 (뫼비우스 반쪽 꼬임)
+        b = 0*vCount + (segV-j);
+        c = 0*vCount + (segV-(j+1));
+      }
+      indices.push(a,b,d, b,c,d);
+    }
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(positions,3));
+  geo.setIndex(indices);
+  geo.computeVertexNormals();
+  return geo;
+}
+
+function buildMobiusMesh(){
+  const geo = buildMobiusGeometry();
+  const mat = new THREE.MeshStandardMaterial({color:0xB9A9F5, side:THREE.DoubleSide, roughness:0.55, metalness:0.05});
+  return new THREE.Mesh(geo, mat);
+}
+
+const KLEIN_A = 1.0;
+function kleinPoint(u, v){
+  // 표준 "8자형(figure-8)" 클라인 병 몰입. u: 0~4π, v: 0~2π
+  const half = u/2;
+  const r = KLEIN_A + Math.cos(half)*Math.sin(v) - Math.sin(half)*Math.sin(2*v);
+  const x = r*Math.cos(u);
+  const y = r*Math.sin(u);
+  const z = Math.sin(half)*Math.sin(v) + Math.cos(half)*Math.sin(2*v);
+  return new THREE.Vector3(x*0.7, z*0.7, y*0.7);
+}
+
+function buildKleinGeometry(){
+  const segU = 100, segV = 40;
+  const positions = [], colors = [], us = [];
+  for(let i=0;i<=segU;i++){
+    const u = i/segU * Math.PI*4;
+    for(let j=0;j<=segV;j++){
+      const v = j/segV * Math.PI*2;
+      const p = kleinPoint(u,v);
+      positions.push(p.x,p.y,p.z);
+      colors.push(1,1,1);
+      us.push(u);
+    }
+  }
+  const vCount = segV+1;
+  const indices = [];
+  for(let i=0;i<segU;i++){
+    for(let j=0;j<segV;j++){
+      const a=i*vCount+j, b=(i+1)*vCount+j, c=(i+1)*vCount+j+1, d=i*vCount+j+1;
+      indices.push(a,b,d, b,c,d);
+    }
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(positions,3));
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(colors,3));
+  geo.setIndex(indices);
+  geo.computeVertexNormals();
+  geo.userData.us = us;
+  return geo;
+}
+
+function buildKleinMesh(){
+  const geo = buildKleinGeometry();
+  const mat = new THREE.MeshStandardMaterial({vertexColors:true, side:THREE.DoubleSide, roughness:0.4, metalness:0.05, transparent:true, opacity:0.92});
+  return new THREE.Mesh(geo, mat);
+}
+
+function updateKleinFill(progress){
+  const geo = kleinMesh.geometry;
+  const us = geo.userData.us;
+  const colorAttr = geo.getAttribute('color');
+  const threshold = progress * Math.PI*4;
+  const waterColor = [0.25, 0.55, 0.95];
+  const glassColor = [0.93, 0.93, 0.95];
+  for(let i=0;i<us.length;i++){
+    const filled = us[i] <= threshold;
+    const c = filled ? waterColor : glassColor;
+    colorAttr.setXYZ(i, c[0], c[1], c[2]);
+  }
+  colorAttr.needsUpdate = true;
+}
+
+function initThree(){
+  const width = threeWrap.clientWidth, height = threeWrap.clientHeight;
+  scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(45, width/height, 0.1, 100);
+  camera.position.set(0,0,6.5);
+
+  renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+  renderer.setSize(width,height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
+  threeWrap.appendChild(renderer.domElement);
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.75));
+  const d1 = new THREE.DirectionalLight(0xffffff, 0.7); d1.position.set(3,4,5); scene.add(d1);
+  const d2 = new THREE.DirectionalLight(0xffffff, 0.35); d2.position.set(-4,-2,-3); scene.add(d2);
+
+  mobiusMesh = buildMobiusMesh();
+  kleinMesh = buildKleinMesh();
+  kleinMesh.visible = false;
+  scene.add(mobiusMesh);
+  scene.add(kleinMesh);
+
+  animate();
+
+  const dom = renderer.domElement;
+  dom.style.touchAction = 'none';
+  dom.addEventListener('pointerdown', onPointerDown);
+  dom.addEventListener('pointerup', onPointerUp);
+  dom.addEventListener('pointercancel', onPointerUp);
+  dom.addEventListener('pointermove', onPointerMove);
+  window.addEventListener('resize', onResize);
+}
+
+function onPointerDown(e){
+  if(drawMode && tab==='mobius'){
+    isDrawingStroke = true;
+    autoRotate = false;
+    currentStrokePoints = [];
+    renderer.domElement.setPointerCapture(e.pointerId);
+    tryAddDrawPoint(e);
+  } else {
+    isDragging = true; autoRotate = false;
+    prevX = e.clientX; prevY = e.clientY;
+    renderer.domElement.setPointerCapture(e.pointerId);
+  }
+}
+function onPointerUp(){
+  isDragging = false;
+  if(isDrawingStroke){
+    isDrawingStroke = false;
+    finalizeStroke();
+  }
+}
+function onPointerMove(e){
+  if(isDrawingStroke){ tryAddDrawPoint(e); return; }
+  if(!isDragging) return;
+  const dx = e.clientX-prevX, dy = e.clientY-prevY;
+  rotY += dx*0.012; rotX += dy*0.012;
+  rotX = Math.max(Math.min(rotX, 1.4), -1.4);
+  prevX = e.clientX; prevY = e.clientY;
+}
+
+function tryAddDrawPoint(e){
+  const rect = renderer.domElement.getBoundingClientRect();
+  mouseNDC.x = ((e.clientX-rect.left)/rect.width)*2-1;
+  mouseNDC.y = -((e.clientY-rect.top)/rect.height)*2+1;
+  raycaster.setFromCamera(mouseNDC, camera);
+  const hits = raycaster.intersectObject(mobiusMesh, false);
+  if(hits.length>0){
+    const p = hits[0].point.clone();
+    const n = hits[0].face.normal.clone().transformDirection(mobiusMesh.matrixWorld).multiplyScalar(0.02);
+    p.add(n);
+    mobiusMesh.worldToLocal(p); // 이후 animate()에서 mesh와 동일한 회전을 다시 적용하므로 로컬 좌표로 저장
+    currentStrokePoints.push(p);
+    if(currentStrokePoints.length>=2){
+      const geo = new THREE.BufferGeometry().setFromPoints(currentStrokePoints);
+      if(currentStrokeLine){ mobiusMesh.parent.remove(currentStrokeLine); currentStrokeLine.geometry.dispose(); }
+      const mat = new THREE.LineBasicMaterial({color:0xD90500, linewidth:2});
+      currentStrokeLine = new THREE.Line(geo, mat);
+      scene.add(currentStrokeLine);
+    }
+  }
+}
+function finalizeStroke(){
+  if(currentStrokeLine){ strokes.push(currentStrokeLine); currentStrokeLine=null; }
+  currentStrokePoints = [];
+}
+
+function clearDrawing(){
+  strokes.forEach(s=>{ scene.remove(s); s.geometry.dispose(); });
+  strokes = [];
+  if(currentStrokeLine){ scene.remove(currentStrokeLine); currentStrokeLine=null; }
+  currentStrokePoints = [];
+  autoDrawState = null;
+  loopBadge.innerHTML = '지나온 바퀴 수: <b>0</b> / 2';
+  factBox.innerHTML = TABS.mobius.initialFact;
+}
+
+let autoDrawState = null; // { points: [], u: 0 }
+function startAutoDraw(){
+  autoRotate = false;
+  autoDrawState = { pts: [], u: 0, v0: 0.75 };
+  if(currentStrokeLine){ scene.remove(currentStrokeLine); currentStrokeLine=null; }
+  factBox.innerHTML = '자동으로 v=0.75 지점을 따라 그리는 중이에요. u가 2π(한 바퀴)에 도달하면 반대쪽 면에 도착하고, 4π(두 바퀴)에서 정확히 출발점으로 돌아와요.';
+}
+
+function stepAutoDraw(){
+  if(!autoDrawState) return;
+  const speed = 0.045;
+  autoDrawState.u += speed;
+  const p = mobiusPoint(autoDrawState.u, autoDrawState.v0);
+  // 표면 위 살짝 띄워서 그리기
+  autoDrawState.pts.push(p);
+  const geo = new THREE.BufferGeometry().setFromPoints(autoDrawState.pts);
+  if(currentStrokeLine){ scene.remove(currentStrokeLine); currentStrokeLine.geometry.dispose(); }
+  const mat = new THREE.LineBasicMaterial({color:0xD90500, linewidth:3});
+  currentStrokeLine = new THREE.Line(geo, mat);
+  scene.add(currentStrokeLine);
+
+  const loops = autoDrawState.u/(Math.PI*2);
+  loopBadge.innerHTML = `지나온 바퀴 수: <b>${Math.min(loops,2).toFixed(2)}</b> / 2`;
+
+  if(autoDrawState.u >= Math.PI*2 && !autoDrawState.hitOne){
+    autoDrawState.hitOne = true;
+    factBox.innerHTML = '한 바퀴(u=2π)를 돌았어요! 겉면에서 시작했는데 지금은 처음과 반대쪽 면 위치에 도착했어요. 계속 그려서 두 바퀴를 채워보세요.';
+  }
+  if(autoDrawState.u >= Math.PI*4){
+    strokes.push(currentStrokeLine);
+    currentStrokeLine = null;
+    factBox.innerHTML = '두 바퀴(u=4π)를 돌아 정확히 출발점으로 돌아왔어요! 뫼비우스의 띠는 겉과 속이 나뉘지 않은 <b>단 하나의 면</b>과 <b>단 하나의 가장자리</b>만 가진 곡면이에요. 손을 떼지 않고 선을 그으면 결국 표면 전체를 한 번씩 지나가게 돼요.';
+    autoDrawState = null;
+    return;
+  }
+  requestAnimationFrame(stepAutoDraw);
+}
+
+const TABS = {
+  mobius: {
+    howto: `<b>뫼비우스의 띠</b>: 긴 종이띠를 한 번 비틀어서 끝을 붙이면 만들어져요. "그리기 모드"를 켜고 표면 위에 직접 선을 그어보세요(드래그하면 그려져요). 손을 떼지 않고 계속 그으면 어느새 뒷면이라고 생각했던 곳까지 선이 이어져 있을 거예요. "자동으로 두 바퀴 그리기"를 누르면 한 지점을 따라 자동으로 그려주는 과정을 볼 수 있어요.`,
+    initialFact: '그리기 모드를 켜고 띠 위에 드래그해서 선을 그어보세요. 또는 "자동으로 두 바퀴 그리기" 버튼을 눌러 확인해도 좋아요.',
+  },
+  klein: {
+    howto: `<b>클라인 병</b>: 뫼비우스의 띠를 관 모양으로 확장한 도형이에요. 목 부분을 옆면 안으로 통과시켜 반대쪽 끝과 이어붙이면 만들어지는데, 이러면 안쪽과 바깥쪽의 구분이 완전히 사라져요. 슬라이더로 물을 채워보면서, 물이 "안쪽"이라는 갇힌 공간 없이 표면 전체로 번져나가는 걸 확인해보세요.`,
+    initialFact: '슬라이더를 움직이거나 "자동으로 물 채우기"를 눌러 물이 어떻게 퍼지는지 확인해보세요.',
+  }
+};
+
+function setTab(t){
+  tab = t;
+  tabBtns.forEach(b=>{
+    const active = b.dataset.tab===t;
+    b.classList.toggle('active', active);
+    b.setAttribute('aria-selected', active?'true':'false');
+  });
+  howtoBox.innerHTML = TABS[t].howto;
+  factBox.innerHTML = TABS[t].initialFact;
+  mobiusBtns.style.display = t==='mobius' ? '' : 'none';
+  kleinBtns.style.display = t==='klein' ? '' : 'none';
+  mobiusControls.style.display = t==='mobius' ? '' : 'none';
+  kleinControls.style.display = t==='klein' ? '' : 'none';
+  mobiusMesh.visible = t==='mobius';
+  kleinMesh.visible = t==='klein';
+  strokes.forEach(s=> s.visible = t==='mobius');
+  if(currentStrokeLine) currentStrokeLine.visible = t==='mobius';
+  dragHint.textContent = (t==='mobius' && drawMode) ? '드래그해서 선을 그어보세요' : '드래그해서 돌려보세요';
+}
+tabBtns.forEach(b=> b.addEventListener('click', ()=> setTab(b.dataset.tab)));
+
+drawModeBtn.addEventListener('click', ()=>{
+  drawMode = !drawMode;
+  drawModeBtn.textContent = drawMode ? '✏️ 그리기 모드 끄기 (회전으로 전환)' : '✏️ 그리기 모드 켜기';
+  drawModeBtn.classList.toggle('on', drawMode);
+  threeWrap.classList.toggle('draw-mode', drawMode);
+  dragHint.textContent = drawMode ? '드래그해서 선을 그어보세요' : '드래그해서 돌려보세요';
+});
+autoDrawBtn.addEventListener('click', ()=>{ startAutoDraw(); stepAutoDraw(); });
+clearBtn.addEventListener('click', clearDrawing);
+
+fillSlider.addEventListener('input', ()=>{
+  const p = parseInt(fillSlider.value)/100;
+  fillLabel.textContent = `${fillSlider.value}%`;
+  updateKleinFill(p);
+  if(p>=0.99){
+    factBox.innerHTML = '물이 표면 전체를 뒤덮었어요! 클라인 병에는 "물이 갇히는 안쪽 공간"이 따로 없기 때문에, 물을 부으면 안과 밖을 가리지 않고 곡면 전체로 퍼져나가요.';
+  } else if(p>0.4){
+    factBox.innerHTML = '목 부분이 옆면을 뚫고 들어가는 지점을 지나면서, 방금까지 "바깥쪽"처럼 보이던 곳까지 물이 번지고 있어요. 안과 밖의 경계가 없다는 뜻이에요.';
+  } else {
+    factBox.innerHTML = TABS.klein.initialFact;
+  }
+});
+autoFillBtn.addEventListener('click', ()=>{
+  let v = 0;
+  const step = ()=>{
+    v += 1;
+    fillSlider.value = v;
+    fillSlider.dispatchEvent(new Event('input'));
+    if(v<100) requestAnimationFrame(step);
+  };
+  step();
+});
+resetFillBtn.addEventListener('click', ()=>{
+  fillSlider.value = 0;
+  fillSlider.dispatchEvent(new Event('input'));
+});
+
+function onResize(){
+  const width = threeWrap.clientWidth, height = threeWrap.clientHeight;
+  if(!width||!height) return;
+  camera.aspect = width/height; camera.updateProjectionMatrix();
+  renderer.setSize(width,height);
+}
+
+function animate(){
+  requestAnimationFrame(animate);
+  if(autoRotate) rotY += 0.003;
+  [mobiusMesh, kleinMesh].forEach(m=>{
+    m.rotation.y = rotY;
+    m.rotation.x = rotX;
+  });
+  strokes.forEach(s=>{ s.rotation.y=rotY; s.rotation.x=rotX; });
+  if(currentStrokeLine){ currentStrokeLine.rotation.y=rotY; currentStrokeLine.rotation.x=rotX; }
+  renderer.render(scene, camera);
+}
+
+initThree();
+setTab('mobius');
+</script>
+</body>
+</html>

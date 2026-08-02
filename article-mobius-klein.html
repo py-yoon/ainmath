@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>겉과 속이 없는 도형, 뫼비우스의 띠와 클라인 병 | 아인매스</title>
+<meta name="description" content="종이를 한 번 비틀면 안과 밖이 사라진다? 뫼비우스의 띠와 클라인 병이 왜 특별한 곡면인지 알아봐요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#1D7C7E;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#1D7C7E;background:#E4FAF9">🎲 쉬는 시간·수학 탐구</span>
+  <h1>겉과 속이 없는 도형, 뫼비우스의 띠와 클라인 병</h1>
+  <p class="meta">초등 고학년 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>종이띠를 그냥 둥글게 말아 끝을 붙이면 원통이 되고, 원통에는 당연히 "바깥쪽 면"과 "안쪽 면"이 따로 있어요. 그런데 종이띠를 붙이기 전에 <b>한 번 살짝 비틀어서</b> 끝을 붙이면 어떻게 될까요? 놀랍게도 겉면과 안면의 구분이 완전히 사라진 도형이 만들어져요. 이걸 <b>뫼비우스의 띠</b>라고 불러요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 240 120">
+          <path d="M 40 60 C 40 20, 200 20, 200 60 C 200 100, 40 100, 40 60 Z" fill="none" stroke="var(--teal-ink)" stroke-width="3"></path>
+          <path d="M 60 55 C 100 30, 140 90, 180 62" fill="none" stroke="var(--coral-ink)" stroke-width="2.5" stroke-dasharray="6 5"></path>
+        </svg>
+        <div class="illo-caption">비틀어 붙인 띠의 표면을 따라 선을 그으면, 손을 떼지 않고도 "반대쪽"이라고 생각했던 면까지 이어져요</div>
+      </div>
+      <p>직접 확인하는 가장 쉬운 방법은 종이로 만들어보는 거예요. 긴 종이띠 한쪽 끝을 180도 비틀어서 다른 쪽 끝에 붙이고, 연필로 표면 위에 선을 계속 그어보세요. 펜을 떼지 않고 쭉 그으면, 원래는 "뒷면"이라고 생각했던 곳까지 선이 이어져 있고, 결국 출발점으로 돌아올 때까지 띠 전체를 한 바퀴 반이 아니라 <b>정확히 두 바퀴</b>를 돌아야 다시 만나요. 면이 하나뿐이니 가장자리도 하나뿐이에요 — 보통 종이 고리는 가장자리가 위·아래 두 개인데, 뫼비우스의 띠는 가장자리를 손가락으로 따라가 봐도 하나로 쭉 이어져 있어요.</p>
+      <p>이 아이디어를 한 단계 더 확장하면 <b>클라인 병</b>이 나와요. 관 모양의 긴 통을 만든 다음, 한쪽 끝(목 부분)을 통의 옆면 안쪽으로 통과시켜서 반대쪽 끝과 안에서 이어붙이면 만들어지는 도형이에요. 이렇게 만들면 "안쪽 공간"과 "바깥 공간"의 구분 자체가 사라져요. 물을 부어도 어딘가에 고이지 않고, 표면 전체로 계속 퍼져나가기만 하죠.</p>
+      <p>여기서 재미있는 사실이 하나 있어요. 클라인 병은 사실 3차원 공간 안에서는 스스로 겹치지 않게(자기 자신을 뚫고 지나가지 않게) 만들 수 없어요. 목 부분이 옆면을 뚫고 지나가는 것처럼 보이는 건, 원래 4차원 공간에서만 자연스럽게 존재할 수 있는 도형을 억지로 3차원에 구겨 넣었기 때문에 생기는 "그림자" 같은 현상이에요. 마치 3차원 물체를 2차원 종이에 그리면 선이 겹쳐 보이는 것과 비슷해요.</p>
+      <p>뫼비우스의 띠와 클라인 병은 수학자들이 "면에 방향을 줄 수 있는가"라는 질문에서 나온 개념이에요. 원통이나 공처럼 겉과 속을 분명히 나눌 수 있는 곡면을 <b>양측곡면</b>, 뫼비우스의 띠처럼 나눌 수 없는 곡면을 <b>단측곡면</b>이라고 불러요. 이 구분은 위상수학이라는 분야에서 도형을 늘리거나 구부려도 변하지 않는 근본적인 성질을 연구할 때 아주 중요한 출발점이 돼요.</p>
+      <p>저희 체험 페이지에서는 3D로 렌더링된 뫼비우스의 띠 위에 직접 선을 그어보면서 두 바퀴를 돌아야 출발점에 닿는 과정을 확인할 수 있고, "자동으로 두 바퀴 그리기" 버튼으로 그 과정을 애니메이션으로도 볼 수 있어요. 클라인 병 탭에서는 슬라이더로 물을 채워보면서, 안과 밖의 경계 없이 표면 전체로 물이 번져나가는 모습을 눈으로 확인할 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="mobius-klein.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
