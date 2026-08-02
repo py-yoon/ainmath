@@ -66,6 +66,10 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
 </head>
 <body>
 <div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-measurement-estimate.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
   <span class="eyebrow">📏 길이·들이·무게 어림하기 실험실</span>
   <h1>단위를 바꿔보고<br><span>얼마나 되는지</span> 어림해보아요</h1>
   <p class="sub">슬라이더로 값을 바꾸면서 단위끼리 어떻게 바뀌는지 확인하고, 주변 물건이 대략 얼마쯤 되는지 어림하는 퀴즈에 도전해보세요.</p>
@@ -209,7 +213,8 @@ function newQuizQuestion(){
   quizFeedback.textContent = '';
   const c = CATEGORIES[activeCat];
   correctItem = c.items[Math.floor(Math.random()*c.items.length)];
-  quizQuestion.textContent = `${correctItem.name}은(는) ${c.name === '무게' ? '얼마나' : '얼마나'} 될까요?`;
+  const qWord = { '길이':'길이가 얼마나', '들이':'들이가 얼마나', '무게':'무게가 얼마나' }[c.name] || '얼마나';
+  quizQuestion.textContent = `${correctItem.name}은(는) ${qWord} 될까요?`;
   const options = [...correctItem.options].sort(()=>Math.random()-0.5);
   quizOpts.innerHTML = options.map(o=>`<button class="opt-btn" data-o="${o}">${o}</button>`).join('');
   quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
