@@ -38,7 +38,7 @@ h1 span{color:var(--coral-ink);}
 .howto p{margin:0 0 10px;}
 .howto p:last-child{margin-bottom:0;}
 .canvas-area{display:flex;flex-direction:column;align-items:center;gap:16px;}
-svg{width:100%;max-width:460px;height:auto;overflow:visible;}
+svg{width:100%;max-width:560px;height:auto;overflow:visible;}
 .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:14px;color:var(--ink-soft);}
 .legend span{display:inline-flex;align-items:center;gap:6px;}
 .swatch{width:12px;height:12px;border-radius:3px;display:inline-block;}
@@ -61,6 +61,24 @@ input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--co
 .eq-ratio b{color:var(--green-ink);}
 .fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
 .fact b{color:var(--violet-ink);}
+
+.proof-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-top:24px;}
+.proof-title{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:22px;margin:0 0 8px;}
+.proof-desc{color:var(--ink-soft);font-size:14.5px;line-height:1.75;margin:0 0 20px;max-width:70ch;}
+.proof-canvas-wrap{display:flex;justify-content:center;margin-bottom:16px;}
+#proofSvg{width:100%;max-width:420px;height:auto;overflow:visible;cursor:grab;touch-action:none;}
+.pyr-group{transition:transform .7s cubic-bezier(.25,.8,.3,1);}
+#prismOutline{transition:opacity .4s ease;}
+#wedgeOutline{transition:opacity .4s ease;}
+.proof-btn-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:18px;}
+.explode-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:12px 22px;cursor:pointer;transition:background .2s ease;}
+.explode-btn:hover{background:var(--violet-ink);}
+.proof-legend{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;font-size:13.5px;color:var(--ink-soft);margin-bottom:18px;}
+.proof-legend span{display:inline-flex;align-items:center;gap:6px;}
+.proof-fact{background:var(--green-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.75;color:var(--ink);margin-bottom:14px;}
+.proof-fact b{color:var(--green-ink);}
+.bridge-fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.75;color:var(--ink);}
+.bridge-fact b{color:var(--coral-ink);}
 footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
@@ -76,7 +94,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
 
   <div class="stage">
     <div class="canvas-area">
-      <svg id="svg" viewBox="0 0 460 380"></svg>
+      <svg id="svg" viewBox="0 0 560 380"></svg>
       <div class="legend">
         <span><i class="swatch" style="background:var(--violet)"></i>원기둥</span>
         <span><i class="swatch" style="background:var(--coral)"></i>원뿔</span>
@@ -100,6 +118,33 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
         <div class="eq-ratio">원뿔 ÷ 원기둥 = <b id="ratioVal">0.333...</b> (항상 1/3!)</div>
       </div>
       <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+  <div class="proof-stage">
+    <p class="proof-title">🧩 왜 정확히 <span style="color:var(--coral-ink);">1/3</span>일까? — 삼각기둥으로 눈으로 확인하기</p>
+    <p class="proof-desc">각뿔의 부피가 왜 항상 기둥의 1/3인지, 계산 없이 눈으로 확인해볼 수 있어요. 삼각기둥 하나를 <b>부피가 똑같은 삼각뿔(사면체) 3개</b>로 쪼갤 수 있거든요 — 버튼을 눌러 직접 쪼개보세요.</p>
+
+    <div class="proof-canvas-wrap">
+      <svg id="proofSvg" viewBox="0 0 560 560"></svg>
+    </div>
+    <div style="text-align:center;font-size:13px;color:var(--ink-soft);margin-bottom:14px;">🔄 그림을 드래그하면 원하는 각도로 돌려볼 수 있어요 · <a href="#" id="resetRotateBtn" style="color:var(--violet-ink);">각도 초기화</a></div>
+    <div class="proof-legend">
+      <span><i class="swatch" style="background:var(--violet)"></i>삼각뿔 1</span>
+      <span><i class="swatch" style="background:var(--coral)"></i>삼각뿔 2</span>
+      <span><i class="swatch" style="background:var(--green)"></i>삼각뿔 3</span>
+    </div>
+    <div class="proof-btn-row">
+      <button class="explode-btn" id="step1Btn">1단계: 1/3 떼어내기</button>
+      <button class="explode-btn" id="step2Btn" style="display:none;">2단계: 나머지를 2개로 쪼개기</button>
+      <button class="explode-btn" id="resetProofBtn" style="display:none;background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);">↺ 처음으로</button>
+    </div>
+
+    <div class="proof-fact" id="proofFact">
+      삼각기둥을 이렇게 세 개의 삼각뿔로 나누면, <b>세 삼각뿔의 부피는 정확히 똑같아요</b> (모양은 조금씩 달라도 부피가 같다는 게 계산으로 증명돼요). 그래서 삼각뿔 하나의 부피는 삼각기둥의 <b>1/3</b>이 되고, 삼각기둥의 부피가 밑넓이×높이이니 삼각뿔의 부피는 자연스럽게 "(1/3) × 밑넓이 × 높이"가 되는 거예요.
+    </div>
+    <div class="bridge-fact">
+      이 원리는 원뿔과 원기둥에도 그대로 이어져요. 밑면이 삼각형인 뿔 대신, 변의 개수를 4개, 5개, ... 아주 많이 늘려가면 밑면은 점점 <b>원에 가까워지고</b>, 뿔은 점점 <b>원뿔에 가까워져요</b>. 밑면의 모양이 무엇이든 "뿔의 부피 = (1/3) × 밑넓이 × 높이" 관계는 그대로 유지되기 때문에, 밑면이 완전한 원이 된 원뿔에서도 이 <b>1/3 비율은 정확히 그대로</b> 남아있는 거예요.
     </div>
   </div>
 
@@ -128,7 +173,7 @@ const coneVal = document.getElementById('coneVal');
 const ratioVal = document.getElementById('ratioVal');
 const factBox = document.getElementById('fact');
 
-const PX_PER_CM = 16;
+const PX_PER_CM = 14;
 const ELLIPSE_RY_RATIO = 0.32; // 타원의 세로 반지름 비율 (원근감 표현)
 
 function shapeSvg(cx, topY, rPx, hPx, color, isCone){
@@ -159,7 +204,10 @@ function render(){
   rLabel.textContent = r; hLabel.textContent = h;
 
   const rPx = r*PX_PER_CM, hPx = h*PX_PER_CM;
-  const cylCx = 140, coneCx = 340;
+  const GAP = 26; // 두 도형 사이 최소 간격(고정)
+  const centerX = 280;
+  const cylCx = centerX - rPx - GAP/2;
+  const coneCx = centerX + rPx + GAP/2;
   const bottomY = 330;
   const cylTopY = bottomY - hPx, coneTopY = bottomY - hPx;
 
@@ -182,6 +230,168 @@ function render(){
 sliderR.addEventListener('input', render);
 sliderH.addEventListener('input', render);
 render();
+
+/* ===== 왜 1/3일까: 삼각기둥 -> 삼각뿔(사면체) 3개 증명 다이어그램 (2단계) ===== */
+const proofSvg = document.getElementById('proofSvg');
+const step1Btn = document.getElementById('step1Btn');
+const step2Btn = document.getElementById('step2Btn');
+const resetProofBtn = document.getElementById('resetProofBtn');
+const proofFact = document.getElementById('proofFact');
+
+const P_SCALE = 150;
+const P_CX = 280, P_CY = 280;
+
+let azimuth = Math.PI/4;              // 좌우로 도는 각도
+let elevation = Math.atan(1/Math.SQRT2); // 위아래로 기울이는 각도 (기본값 = 정통 등각투영 각도)
+
+function rotate3D(x,y,z){
+  // 중심(도형의 무게중심)을 기준으로 회전
+  const cx=x-0.5, cy=y-0.2887, cz=z-0.5;
+  const x1 = cx*Math.cos(azimuth) + cz*Math.sin(azimuth);
+  const z1 = -cx*Math.sin(azimuth) + cz*Math.cos(azimuth);
+  const y2 = cy*Math.cos(elevation) - z1*Math.sin(elevation);
+  const z2 = cy*Math.sin(elevation) + z1*Math.cos(elevation);
+  return { x:x1, y:y2, z:z2 };
+}
+
+function proj(x,y,z){
+  const r = rotate3D(x,y,z);
+  return { x: P_CX + r.x*P_SCALE, y: P_CY - r.y*P_SCALE };
+}
+function ptsStr(pts){ return pts.map(p=>`${p.x},${p.y}`).join(' '); }
+
+// 삼각기둥의 6개 꼭짓점 (밑면 삼각형 A,B,C + 그 위 A',B',C')
+const A =[0,0,0],  B =[1,0,0],  C =[0.5,0.866,0];
+const A2=[0,0,1],  B2=[1,0,1],  C2=[0.5,0.866,1];
+
+// 삼각기둥을 부피가 똑같은 삼각뿔(사면체) 3개로 나누는 고전적인 방법
+// dir3d는 무게중심 기준 실제 3차원 방향(회전에 맞춰 매번 다시 투영함)
+const TETRA = [
+  { color:'var(--violet)', verts:[A,B,C,A2],  dir3d:[-0.433,-0.25,-0.866], dist:0.85 },
+  { color:'var(--coral)',  verts:[B,C,A2,B2], dir3d:[0.866,-0.5,0],        dist:0.85 },
+  { color:'var(--green)',  verts:[C,A2,B2,C2],dir3d:[0,0.5,0.866],        dist:0.85 },
+];
+
+function tetraGroupSvg(tet, idx){
+  const v = tet.verts.map(p=>proj(...p));
+  let html = `<g class="pyr-group" data-i="${idx}">`;
+  const faceIdx = [[1,2,3],[0,2,3],[0,1,3],[0,1,2]];
+  faceIdx.forEach(fi=>{
+    const pts = fi.map(i=>v[i]);
+    html += `<polygon points="${ptsStr(pts)}" fill="${tet.color}" fill-opacity="0.28" stroke="${tet.color}" stroke-width="1.8"></polygon>`;
+  });
+  html += `</g>`;
+  return html;
+}
+
+// 3차원 방향 벡터를 지금의 회전 각도에 맞춰 화면 오프셋(px)으로 변환
+function explodeOffset(dir3d, distScale){
+  const d = dir3d.map(v=>v*distScale);
+  const x1 = d[0]*Math.cos(azimuth) + d[2]*Math.sin(azimuth);
+  const z1 = -d[0]*Math.sin(azimuth) + d[2]*Math.cos(azimuth);
+  const y2 = d[1]*Math.cos(elevation) - z1*Math.sin(elevation);
+  return { x: x1*P_SCALE, y: -y2*P_SCALE };
+}
+
+function edgesSvg(edgePairs, width){
+  let html = '';
+  edgePairs.forEach(([p1,p2])=>{
+    const s1=proj(...p1), s2=proj(...p2);
+    html += `<line x1="${s1.x}" y1="${s1.y}" x2="${s2.x}" y2="${s2.y}" stroke="var(--ink)" stroke-width="${width}"></line>`;
+  });
+  return html;
+}
+
+function prismOutlineSvg(){
+  const [pA,pB,pC,pA2,pB2,pC2] = [A,B,C,A2,B2,C2].map(p=>proj(...p));
+  let html = '';
+  html += `<polygon points="${ptsStr([pA,pB,pC])}" fill="none" stroke="var(--ink)" stroke-width="2.5"></polygon>`;
+  html += `<polygon points="${ptsStr([pA2,pB2,pC2])}" fill="none" stroke="var(--ink)" stroke-width="2.5"></polygon>`;
+  html += edgesSvg([[A,A2],[B,B2],[C,C2]], 2.5);
+  return html;
+}
+
+// 첫 조각(T1)을 떼어낸 뒤 남는 "2/3 쐐기" 조각의 테두리(8개 모서리)
+function remainingWedgeOutlineSvg(){
+  return edgesSvg([[B,C],[B,B2],[C,C2],[B2,C2],[A2,B2],[A2,C2],[B,A2],[C,A2]], 2.5);
+}
+
+let stage = 0; // 0: 조립됨, 1: 1/3 떼어냄, 2: 나머지도 분리됨
+
+function buildProof(){
+  let html = '';
+  TETRA.forEach((tet,i)=>{ html += tetraGroupSvg(tet, i); });
+  html += `<g id="prismOutline">${prismOutlineSvg()}</g>`;
+  html += `<g id="wedgeOutline">${remainingWedgeOutlineSvg()}</g>`;
+  proofSvg.innerHTML = html;
+  applyStage();
+}
+
+function applyStage(){
+  const prismOutline = document.getElementById('prismOutline');
+  const wedgeOutline = document.getElementById('wedgeOutline');
+  if(prismOutline) prismOutline.style.opacity = stage===0 ? '1' : '0';
+  if(wedgeOutline) wedgeOutline.style.opacity = stage===1 ? '1' : '0';
+
+  TETRA.forEach((tet,i)=>{
+    const g = proofSvg.querySelector(`.pyr-group[data-i="${i}"]`);
+    if(!g) return;
+    // 0번(T1)은 1단계부터 떨어져 나가고, 1·2번(T2,T3)은 2단계에서만 떨어짐
+    const shouldExplode = (i===0) ? stage>=1 : stage>=2;
+    if(shouldExplode){
+      const off = explodeOffset(tet.dir3d, tet.dist);
+      g.style.transform = `translate(${off.x}px, ${off.y}px)`;
+    } else {
+      g.style.transform = 'translate(0px, 0px)';
+    }
+  });
+
+  step1Btn.style.display = stage===0 ? 'inline-block' : 'none';
+  step2Btn.style.display = stage===1 ? 'inline-block' : 'none';
+  resetProofBtn.style.display = stage>0 ? 'inline-block' : 'none';
+
+  if(stage===0){
+    proofFact.innerHTML = `먼저 <b>삼각뿔 1(보라)</b>을 통째로 떼어내 볼게요. "1단계" 버튼을 눌러보세요.`;
+  } else if(stage===1){
+    proofFact.innerHTML = `삼각뿔 1을 떼어내고 나니, 남은 부분(<b>2/3 쐐기 모양</b>, 검은 테두리로 표시)이 보이시나요? 이 남은 조각을 다시 삼각뿔 2개로 쪼갤 수 있어요. "2단계" 버튼을 눌러보세요.`;
+  } else {
+    proofFact.innerHTML = `이제 세 조각(삼각뿔 1·2·3)으로 완전히 나뉘었어요. <b>세 조각의 부피는 정확히 똑같아요</b> (모양은 조금씩 달라도 부피가 같다는 게 계산으로 증명돼요). 그래서 삼각뿔 하나의 부피는 삼각기둥의 <b>1/3</b>이 되고, "(1/3) × 밑넓이 × 높이"라는 공식이 여기서 나오는 거예요.`;
+  }
+}
+
+step1Btn.addEventListener('click', ()=>{ stage=1; applyStage(); });
+step2Btn.addEventListener('click', ()=>{ stage=2; applyStage(); });
+resetProofBtn.addEventListener('click', ()=>{ stage=0; applyStage(); });
+
+/* ---- 드래그로 회전 ---- */
+let dragging = false, lastX = 0, lastY = 0;
+proofSvg.addEventListener('pointerdown', (e)=>{
+  dragging = true;
+  lastX = e.clientX; lastY = e.clientY;
+  proofSvg.setPointerCapture(e.pointerId);
+  proofSvg.style.cursor = 'grabbing';
+});
+proofSvg.addEventListener('pointermove', (e)=>{
+  if(!dragging) return;
+  const dx = e.clientX - lastX, dy = e.clientY - lastY;
+  lastX = e.clientX; lastY = e.clientY;
+  azimuth += dx*0.008;
+  elevation = Math.min(Math.PI/2-0.08, Math.max(0.08, elevation - dy*0.008));
+  buildProof();
+});
+function endDrag(){ dragging=false; proofSvg.style.cursor='grab'; }
+proofSvg.addEventListener('pointerup', endDrag);
+proofSvg.addEventListener('pointercancel', endDrag);
+proofSvg.addEventListener('pointerleave', endDrag);
+
+document.getElementById('resetRotateBtn').addEventListener('click', (e)=>{
+  e.preventDefault();
+  azimuth = Math.PI/4;
+  elevation = Math.atan(1/Math.SQRT2);
+  buildProof();
+});
+
+buildProof();
 </script>
 </body>
 </html>
