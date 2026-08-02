@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>표준편차와 분산 실험실</title>
+<meta name="description" content="자료 하나하나가 평균에서 얼마나 떨어져 있는지(편차)를 확인하고, 그 편차를 제곱해 평균 낸 분산과 표준편차가 왜 필요한지, 평균이 같아도 퍼짐 정도가 다를 수 있다는 것까지 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1040px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--green-ink);background:var(--green-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:66ch;margin:0 0 28px;}
+.tab-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:10px 18px;cursor:pointer;transition:all .15s ease;box-shadow:var(--shadow);}
+.tab-btn:hover{border-color:var(--green-ink);color:var(--green-ink);}
+.tab-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+.panel-wrap{display:none;}
+.panel-wrap.active{display:block;}
+.howto{background:var(--green-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 22px;}
+.howto b{color:var(--green-ink);}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.25fr 0.75fr;gap:32px;align-items:start;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+.canvas-area{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%;}
+svg{width:100%;max-width:480px;height:auto;overflow:visible;}
+.slider-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;width:100%;max-width:460px;}
+.slider-grid .col{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.slider-grid input[type=range]{writing-mode:vertical-lr;direction:rtl;width:8px;height:100px;}
+.slider-grid b{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink);}
+.slider-grid .lbl{font-size:11px;color:var(--ink-soft);}
+.control-row{width:100%;max-width:400px;display:flex;flex-direction:column;gap:8px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:20px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;outline:none;background:var(--green-soft);border-radius:999px;}
+input[type=range]:not([style*="vertical"]){width:100%;height:8px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--green);border:3px solid #fff;box-shadow:0 2px 8px rgba(76,175,142,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--green);border:3px solid #fff;box-shadow:0 2px 8px rgba(76,175,142,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+.panel{display:flex;flex-direction:column;gap:16px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:18px 20px;text-align:center;}
+.equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(13px,2.1vw,16px);color:var(--ink);}
+.equation .result{font-family:'Do Hyeon',sans-serif;font-size:clamp(18px,3vw,23px);color:var(--coral-ink);margin-top:6px;line-height:1.4;}
+.fact{background:var(--green-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--green-ink);}
+footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-standard-deviation.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">📏 표준편차와 분산 실험실</span>
+  <h1>평균이 같아도<br><span>퍼진 정도</span>는 다를 수 있어요</h1>
+  <p class="sub">자료가 평균에서 얼마나 떨어져 있는지(편차)를 확인하고, 그 편차를 제곱해 평균 낸 분산·표준편차가 왜 필요한지, 평균만으로는 알 수 없는 "퍼짐"을 어떻게 숫자로 나타내는지 알아봐요.</p>
+
+  <div class="tab-row" id="tabRow">
+    <button class="tab-btn active" data-t="dev">📐 편차와 분산</button>
+    <button class="tab-btn" data-t="compare">⚖️ 퍼짐 정도 비교하기</button>
+  </div>
+
+  <div class="panel-wrap active" id="panel-dev">
+    <div class="howto">슬라이더 5개로 자료값을 바꿔보세요. 각 점에서 평균(점선)까지의 거리가 <b>편차</b>예요. 편차를 그냥 더하면 항상 0이 되기 때문에, <b>제곱해서 평균 낸 값(분산)</b>과 그 제곱근(<b>표준편차</b>)으로 퍼짐을 나타내요.</div>
+    <div class="stage">
+      <div class="canvas-area">
+        <svg id="devSvg" viewBox="0 0 460 160"></svg>
+        <div class="slider-grid" id="devSliders"></div>
+      </div>
+      <div class="panel">
+        <div class="equation">
+          <div class="formula">분산 = 편차²의 평균 &nbsp;·&nbsp; 표준편차 = √분산</div>
+          <div class="result" id="devResult"></div>
+        </div>
+        <div class="fact" id="devFact"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-wrap" id="panel-compare">
+    <div class="howto">두 반의 시험 점수가 <b>평균은 똑같이 70점</b>이라고 해봐요. 슬라이더로 B반의 "퍼짐 정도"를 바꿔보며, 평균은 같아도 표준편차가 다르면 얼마나 다른 상황인지 확인해보세요.</div>
+    <div class="stage">
+      <div class="canvas-area">
+        <svg id="compareSvg" viewBox="0 0 460 190"></svg>
+        <div class="control-row">
+          <div class="control-label"><span>B반 퍼짐 배율</span><b id="spreadLabel">1.0</b><span>배</span></div>
+          <input id="spreadSlider" type="range" min="0.2" max="2.5" value="1" step="0.05" aria-label="B반 퍼짐 배율 조절">
+        </div>
+      </div>
+      <div class="panel">
+        <div class="equation">
+          <div class="formula">A반과 B반 모두 평균 70점</div>
+          <div class="result" id="compareResult"></div>
+        </div>
+        <div class="fact" id="compareFact"></div>
+      </div>
+    </div>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="frequency-table.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">도수분포표 실험실</span>
+    </a>
+    <a href="boxplot-scatter.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">산포도 (상자그림·산점도)</span>
+    </a>
+  </nav>
+<footer>편차를 그냥 더하면 양수와 음수가 서로 상쇄돼서 항상 0이 돼요. 그래서 부호를 없애려고 제곱을 하는데, 제곱하면 단위도 제곱(예: 점²)이 되니 원래 단위로 되돌리려고 제곱근을 씌운 게 표준편차예요.</footer>
+</div>
+
+<script>
+document.getElementById('tabRow').addEventListener('click', (e)=>{
+  const btn = e.target.closest('.tab-btn');
+  if(!btn) return;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.panel-wrap').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+btn.dataset.t).classList.add('active');
+});
+
+function fmt(v){ return (Math.round(v*100)/100).toString(); }
+
+/* ================= TAB1: 편차와 분산 ================= */
+const devSvg = document.getElementById('devSvg');
+const devSliders = document.getElementById('devSliders');
+const devResult = document.getElementById('devResult');
+const devFact = document.getElementById('devFact');
+
+let devValues = [4, 7, 10, 13, 16];
+
+function buildDevSliders(){
+  devSliders.innerHTML = devValues.map((v,i)=>`
+    <div class="col">
+      <b id="devVal${i}">${v}</b>
+      <input type="range" min="0" max="20" step="1" value="${v}" id="devSlider${i}" aria-label="${i+1}번째 자료값 조절">
+      <span class="lbl">x${i+1}</span>
+    </div>
+  `).join('');
+  devValues.forEach((v,i)=>{
+    document.getElementById(`devSlider${i}`).addEventListener('input', (e)=>{
+      devValues[i] = parseInt(e.target.value);
+      document.getElementById(`devVal${i}`).textContent = devValues[i];
+      renderDev();
+    });
+  });
+}
+
+function renderDev(){
+  const n = devValues.length;
+  const mean = devValues.reduce((a,b)=>a+b,0)/n;
+  const devs = devValues.map(v=>v-mean);
+  const sqDevs = devs.map(d=>d*d);
+  const variance = sqDevs.reduce((a,b)=>a+b,0)/n;
+  const stddev = Math.sqrt(variance);
+
+  const W=460,H=160, PADL=30, PADR=30, PADT=20, PADB=30;
+  const xMin=0, xMax=20;
+  const xOf = x => PADL + (x-xMin)/(xMax-xMin)*(W-PADL-PADR);
+  const midY = 70;
+  let html = `<line x1="${PADL}" y1="${midY}" x2="${W-PADR}" y2="${midY}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+  const meanX = xOf(mean);
+  html += `<line x1="${meanX}" y1="20" x2="${meanX}" y2="${H-30}" stroke="var(--violet-ink)" stroke-width="2" stroke-dasharray="5 4"></line>`;
+  html += `<text x="${meanX}" y="14" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--violet-ink)">평균 ${fmt(mean)}</text>`;
+
+  devValues.forEach((v,i)=>{
+    const x = xOf(v);
+    const color = v>=mean ? 'var(--blue-ink)' : 'var(--coral-ink)';
+    html += `<line x1="${meanX}" y1="${midY}" x2="${x}" y2="${midY}" stroke="${color}" stroke-width="2" opacity="0.55"></line>`;
+    html += `<circle cx="${x}" cy="${midY}" r="7" fill="${color}"></circle>`;
+    html += `<text x="${x}" y="${midY+22}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="${color}">${v}</text>`;
+  });
+
+  // 분산 막대 (제곱편차 시각화)
+  const barBaseY = H-8;
+  const barMaxH = 40;
+  const maxSq = Math.max(...sqDevs, 1);
+  devValues.forEach((v,i)=>{
+    const bx = PADL + i*(W-PADL-PADR)/5 + 10;
+    const bh = (sqDevs[i]/maxSq)*barMaxH;
+    html += `<rect x="${bx}" y="${barBaseY-bh}" width="18" height="${bh}" rx="3" fill="var(--green)" opacity="0.7"></rect>`;
+  });
+
+  devSvg.innerHTML = html;
+
+  devResult.innerHTML = `평균 = <b>${fmt(mean)}</b> &nbsp;|&nbsp; 분산 = <b>${fmt(variance)}</b> &nbsp;|&nbsp; 표준편차 = <b>${fmt(stddev)}</b>`;
+  const devSum = devs.reduce((a,b)=>a+b,0);
+  devFact.innerHTML = `각 점의 편차는 [${devs.map(d=>fmt(d)).join(', ')}]이고, 이걸 그냥 더하면 ${fmt(devSum)}(항상 0)이 돼요. 그래서 각 편차를 제곱한 [${sqDevs.map(d=>fmt(d)).join(', ')}]의 평균인 <b>분산 ${fmt(variance)}</b>을 쓰고, 원래 단위로 되돌리려고 제곱근을 씌운 <b>표준편차 ${fmt(stddev)}</b>로 자료가 평균에서 평균적으로 얼마나 떨어져 있는지를 나타내요.`;
+}
+buildDevSliders();
+renderDev();
+
+/* ================= TAB2: 퍼짐 정도 비교하기 ================= */
+const compareSvg = document.getElementById('compareSvg');
+const spreadSlider = document.getElementById('spreadSlider');
+const spreadLabel = document.getElementById('spreadLabel');
+const compareResult = document.getElementById('compareResult');
+const compareFact = document.getElementById('compareFact');
+
+const GROUP_A = [64, 68, 70, 72, 76]; // 평균 70, 표준편차 작음
+const MEAN_B = 70;
+const BASE_B_DEV = [-6, -2, 0, 2, 6]; // base deviations for B (mean 0, 배율 1일 때 A반과 표준편차가 같도록 맞춤), scaled by spread
+
+function stddevOf(arr){
+  const n = arr.length;
+  const mean = arr.reduce((a,b)=>a+b,0)/n;
+  const variance = arr.reduce((a,b)=>a+(b-mean)*(b-mean),0)/n;
+  return { mean, stddev: Math.sqrt(variance) };
+}
+
+function renderCompare(){
+  const spread = parseFloat(spreadSlider.value);
+  spreadLabel.textContent = fmt(spread);
+  const groupB = BASE_B_DEV.map(d => MEAN_B + d*spread);
+
+  const statsA = stddevOf(GROUP_A);
+  const statsB = stddevOf(groupB);
+
+  const W=460,H=190, PADL=30, PADR=30;
+  const xMin=30, xMax=110;
+  const xOf = x => PADL + (x-xMin)/(xMax-xMin)*(W-PADL-PADR);
+  const yA=60, yB=140;
+
+  let html = '';
+  [ {y:yA, label:'A반', color:'var(--blue-ink)'}, {y:yB, label:'B반', color:'var(--coral-ink)'} ].forEach(row=>{
+    html += `<line x1="${PADL}" y1="${row.y}" x2="${W-PADR}" y2="${row.y}" stroke="var(--paper-line)" stroke-width="2"></line>`;
+    html += `<text x="${PADL-6}" y="${row.y+5}" text-anchor="end" font-family="'Do Hyeon',sans-serif" font-size="13" fill="${row.color}">${row.label}</text>`;
+  });
+  const meanX = xOf(70);
+  html += `<line x1="${meanX}" y1="20" x2="${meanX}" y2="165" stroke="var(--violet-ink)" stroke-width="2" stroke-dasharray="5 4"></line>`;
+  html += `<text x="${meanX}" y="14" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--violet-ink)">평균 70</text>`;
+
+  GROUP_A.forEach(v=>{
+    html += `<circle cx="${xOf(v)}" cy="${yA}" r="7" fill="var(--blue-ink)"></circle>`;
+  });
+  groupB.forEach(v=>{
+    html += `<circle cx="${Math.max(PADL+4,Math.min(W-PADR-4,xOf(v)))}" cy="${yB}" r="7" fill="var(--coral-ink)"></circle>`;
+  });
+  compareSvg.innerHTML = html;
+
+  compareResult.innerHTML = `A반 표준편차 = <b>${fmt(statsA.stddev)}</b> &nbsp;|&nbsp; B반 표준편차 = <b>${fmt(statsB.stddev)}</b>`;
+  if(Math.abs(spread-1) < 0.03){
+    compareFact.innerHTML = `지금은 A반과 B반의 표준편차가 거의 비슷해요(${fmt(statsA.stddev)} vs ${fmt(statsB.stddev)}). 슬라이더를 양쪽으로 움직여서 B반 점수가 더 뭉쳐있을 때(표준편차 작음)와 더 흩어져있을 때(표준편차 큼)를 비교해보세요.`;
+  } else if(statsB.stddev > statsA.stddev){
+    compareFact.innerHTML = `두 반 다 평균은 70점으로 똑같지만, B반 표준편차(${fmt(statsB.stddev)})가 A반(${fmt(statsA.stddev)})보다 훨씬 커요. B반은 점수가 넓게 흩어져 있어서 잘하는 학생과 어려워하는 학생의 차이가 크다는 뜻이에요 — 평균만 봐서는 이 차이를 전혀 알 수 없어요.`;
+  } else {
+    compareFact.innerHTML = `두 반 다 평균은 70점으로 똑같지만, B반 표준편차(${fmt(statsB.stddev)})가 A반(${fmt(statsA.stddev)})보다 작아요. B반 학생들은 점수가 평균 근처에 촘촘하게 모여 있다는 뜻이에요 — 평균만으로는 이 차이를 전혀 알 수 없어요.`;
+  }
+}
+spreadSlider.addEventListener('input', renderCompare);
+renderCompare();
+</script>
+</body>
+</html>

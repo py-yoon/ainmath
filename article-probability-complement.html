@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>여사건, "적어도 하나"를 뒤집어서 쉽게 푸는 법 | 아인매스</title>
+<meta name="description" content="확률의 기본 정의부터, 직접 세기엔 너무 복잡한 '적어도 하나' 문제를 여사건(1-P)으로 순식간에 풀어내는 방법까지 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:280px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#6847F7;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#357A63;background:#E3F5EE">📊 확률과 통계</span>
+  <h1>여사건, "적어도 하나"를 뒤집어서 쉽게 푸는 법</h1>
+  <p class="meta">중학생 · 읽는 데 약 3분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>확률의 정의는 단순해요. <b>P(A) = (원하는 경우의 수) ÷ (전체 경우의 수)</b>. 주머니에 공 12개 중 빨간 공이 3개면, 빨간 공을 뽑을 확률은 3/12예요. 여기까지는 어렵지 않아요. 문제는 "적어도 하나는 ~일 확률"처럼 조금만 복잡해져도 이 정의를 그대로 적용하기가 갑자기 힘들어진다는 거예요.</p>
+      <p>예를 들어 "주사위 3개를 던졌을 때 적어도 하나는 6이 나올 확률"을 구해볼게요. 그대로 세려면 "정확히 1개만 6인 경우" + "정확히 2개가 6인 경우" + "3개 다 6인 경우"를 각각 구해서 더해야 해요. 경우의 수가 많아질수록 이 계산은 점점 지저분해져요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 220 110">
+          <rect x="15" y="20" width="80" height="70" rx="12" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="2"></rect>
+          <text x="55" y="50" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral-ink)">적어도</text>
+          <text x="55" y="68" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral-ink)">하나는 6</text>
+          <text x="110" y="60" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="18" fill="var(--ink-soft)">=</text>
+          <text x="150" y="45" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)">전체</text>
+          <text x="150" y="63" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="18" fill="var(--ink)">1 −</text>
+          <rect x="125" y="70" width="80" height="30" rx="10" fill="var(--green-soft)" stroke="var(--green-ink)" stroke-width="2"></rect>
+          <text x="165" y="90" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--green-ink)">하나도 없음</text>
+        </svg>
+        <div class="illo-caption">복잡한 사건도, 여사건(반대 상황)을 빼는 것만으로 답이 나와요</div>
+      </div>
+      <p>이럴 때 쓰는 게 <b>여사건</b>이에요. 어떤 사건 A와 정반대인 사건(A가 일어나지 않는 것)을 "여사건"이라고 부르는데, 둘을 합치면 항상 전체(확률 1)가 되니까 <b>P(A) = 1 − P(A의 여사건)</b>이 성립해요. "적어도 하나는 6"의 여사건은 "하나도 6이 아님"이에요. 훨씬 계산하기 쉽죠 — 주사위 하나가 6이 아닐 확률은 5/6이고, 3개 모두 6이 아니려면 5/6을 세 번 곱하면 끝이에요: (5/6)³ = 125/216. 여기서 1을 빼면 91/216이 바로 "적어도 하나는 6"의 답이에요.</p>
+      <p>"적어도", "최소 한 번", "하나 이상" 같은 표현이 문제에 보이면 일단 여사건을 의심해보는 습관을 들이면 좋아요. 직접 세면 여러 경우로 쪼개져서 복잡해지는 상황일수록, 반대 상황("하나도 없음", "전부 실패")은 대개 단순한 곱셈 하나로 끝나거든요. 이건 요행이 아니라, 사건과 그 여사건을 합치면 반드시 전체 경우(확률 1)가 된다는 확률의 기본 성질 덕분이에요.</p>
+      <p>저희 체험 페이지에서는 먼저 공을 뽑는 간단한 예시로 확률의 기본 정의를 확인하고, 이어서 주사위 개수를 슬라이더로 늘려가며 "적어도 하나는 6"이 나올 확률이 여사건 계산으로 순식간에 나오는 과정을, 그리고 주사위가 많아질수록 그 확률이 1에 점점 가까워지는 모습을 직접 확인할 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="probability-complement.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>도함수의 활용, f'(x) 부호 하나로 그래프의 모든 것을 읽는 법 | 아인매스</title>
+<meta name="description" content="도함수를 구하는 법을 배웠다면 이제 그걸로 무엇을 할 수 있는지 알아볼 차례예요. f'(x)의 부호로 증가·감소와 극값을 찾고, 실제 최적화 문제까지...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:280px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#0D62F1;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#0D62F1;background:#E7F0FF">📈 함수와 그래프</span>
+  <h1>도함수의 활용, f'(x) 부호 하나로 그래프의 모든 것을 읽는 법</h1>
+  <p class="meta">고등학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>도함수를 구하는 방법은 배웠는데, 정작 "그래서 이걸 어디에 쓰나요?"라는 질문에 답하지 못한다면 미분의 절반만 배운 셈이에요. 사실 도함수의 진짜 힘은 계산 자체가 아니라, <b>f'(x)의 부호만 보고도 원래 함수 f(x)가 어떻게 생겼는지 훤히 알 수 있다</b>는 데 있어요.</p>
+      <p>원리는 단순해요. f'(x)는 그 지점에서 그래프의 순간적인 기울기예요. 기울기가 양수(오르막)면 함수는 <b>증가</b>하고 있고, 음수(내리막)면 <b>감소</b>하고 있어요. 그렇다면 f'(x)=0인 지점, 즉 순간적으로 평평해지는 지점은 어떨까요? 오르막에서 평평해졌다가 다시 내리막이 되면 그 지점이 봉우리, 즉 <b>극대</b>예요. 반대로 내리막에서 평평해졌다가 다시 오르막이 되면 골짜기, <b>극소</b>가 돼요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 220 120">
+          <line x1="15" y1="60" x2="205" y2="60" stroke="var(--paper-line)" stroke-width="1.5"></line>
+          <path d="M 20 90 C 45 30, 65 20, 85 45 C 105 70, 115 95, 135 95 C 155 95, 175 40, 200 15" fill="none" stroke="var(--blue-ink)" stroke-width="2.5"></path>
+          <circle cx="66" cy="24" r="4" fill="var(--violet-ink)"></circle>
+          <text x="66" y="14" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--violet-ink)">극대</text>
+          <circle cx="135" cy="95" r="4" fill="var(--violet-ink)"></circle>
+          <text x="135" y="112" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--violet-ink)">극소</text>
+        </svg>
+        <div class="illo-caption">평평해지는 두 지점(f'(x)=0)이 바로 극대와 극소예요</div>
+      </div>
+      <p>여기서 한 단계 더 들어가면 <b>오목·볼록</b>이 나와요. f'(x)가 "기울기의 변화"를 알려준다면, f''(x)(f'(x)를 한 번 더 미분한 것)는 "기울기가 변하는 속도"를 알려줘요. f''(x)&gt;0이면 기울기가 점점 커지는 중이라 그래프가 그릇처럼 <b>아래로 볼록</b>하고, f''(x)&lt;0이면 기울기가 점점 작아지는 중이라 산처럼 <b>위로 볼록</b>해요. 이 오목·볼록이 뒤바뀌는 지점이 <b>변곡점</b>이에요. 극값을 찾을 때 f'(x)=0인 지점이 진짜 극값인지 확인하는 용도로도 f''(x)의 부호를 활용해요 — f''(x)&lt;0이면 극대, f''(x)&gt;0이면 극소라는 걸 계산만으로 판정할 수 있거든요.</p>
+      <p>이 모든 게 실전에서 가장 빛을 발하는 순간은 <b>최적화 문제</b>를 풀 때예요. "둘레가 정해진 울타리로 넓이를 최대로 만들려면?", "재료가 한정된 상자의 부피를 최대로 만들려면?" 같은 문제들은 언뜻 감으로 풀어야 할 것 같지만, 사실은 아주 명확한 절차가 있어요. ① 구하려는 양(넓이, 부피 등)을 변수 하나의 식으로 세우고, ② 그 식을 미분해서, ③ 도함수가 0이 되는 지점을 찾으면 돼요. 예를 들어 둘레 20m인 직사각형 텃밭의 넓이 A(w)=w(10−w)를 미분하면 A'(w)=10−2w인데, 이걸 0으로 놓고 풀면 w=5가 나와요. 감으로 이리저리 시도해볼 필요 없이, 미분 한 번으로 "정사각형(5m×5m)일 때 넓이가 최대"라는 답이 바로 나오는 거예요.</p>
+      <p>저희 체험 페이지에서는 x를 슬라이더로 움직이며 f'(x)의 부호가 바뀌는 순간 실제로 극대·극소가 나타나는 걸 확인하고, f''(x)의 부호로 오목·볼록과 변곡점을 찾아보고, 마지막으로 위 텃밭 문제를 직접 풀어보며 "미분해서 0으로 놓기"가 왜 최적화의 답이 되는지 눈으로 확인할 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="derivative-applications.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

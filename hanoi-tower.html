@@ -98,6 +98,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
       <div class="board-wrap"><svg id="board"></svg></div>
       <div class="msg-row" id="msgRow"></div>
       <div class="btn-row">
+        <button class="action-btn secondary" id="hintBtn">💡 힌트 한 수</button>
         <button class="action-btn secondary" id="resetBtn">↺ 다시 시작</button>
       </div>
     </div>
@@ -132,6 +133,7 @@ const levelPicker = document.getElementById('levelPicker');
 const board = document.getElementById('board');
 const msgRow = document.getElementById('msgRow');
 const resetBtn = document.getElementById('resetBtn');
+const hintBtn = document.getElementById('hintBtn');
 const minMovesEl = document.getElementById('minMoves');
 const moveNumEl = document.getElementById('moveNum');
 const solvedNumEl = document.getElementById('solvedNum');
@@ -144,6 +146,7 @@ let selected = null; // 선택된 기둥 index
 let moveCount = 0;
 let solvedCount = 0;
 let won = false;
+let lastFocusedPeg = null; // 키보드 포커스를 되돌려줄 기둥 index
 
 const palette = ['var(--coral)','var(--amber)','var(--green)','var(--blue)','var(--violet)','#8E7CC3'];
 const BASE_DISK_H = 26;
@@ -216,19 +219,32 @@ function render(){
     });
 
     // 클릭 가능한 투명 영역 (기둥 전체)
-    html += `<rect class="peg-zone" data-i="${i}" x="${cx-maxWidth/2}" y="${baseY-pegHeight-10}" width="${maxWidth}" height="${pegHeight+10}" fill="transparent"></rect>`;
+    const pegLabel = ['1번(왼쪽)','2번(가운데)','3번(오른쪽)'][i];
+    const ariaLabel = pegs[i].length ? `${pegLabel} 기둥, 원반 ${pegs[i].length}개, 맨 위 원반 크기 ${pegs[i][pegs[i].length-1]}` : `${pegLabel} 기둥, 비어있음`;
+    html += `<rect class="peg-zone" data-i="${i}" x="${cx-maxWidth/2}" y="${baseY-pegHeight-10}" width="${maxWidth}" height="${pegHeight+10}" fill="transparent" tabindex="0" role="button" aria-label="${ariaLabel}"></rect>`;
   }
 
   board.innerHTML = html;
 
   board.querySelectorAll('.peg-zone').forEach(z=>{
     z.addEventListener('click', ()=> onPegClick(parseInt(z.dataset.i)));
+    z.addEventListener('keydown', (e)=>{
+      if(e.key==='Enter' || e.key===' '){
+        e.preventDefault();
+        onPegClick(parseInt(z.dataset.i));
+      }
+    });
   });
+  if(lastFocusedPeg!==null){
+    const focusEl = board.querySelector(`.peg-zone[data-i="${lastFocusedPeg}"]`);
+    if(focusEl) focusEl.focus();
+  }
 }
 
 function onPegClick(i){
   if(won) return;
   msgRow.textContent = '';
+  lastFocusedPeg = i;
 
   if(selected===null){
     if(pegs[i].length===0){
@@ -271,6 +287,51 @@ function checkWin(){
     }
   }
 }
+
+// 현재 상태에서 목표(3번 기둥에 모두 모으기)까지 최단 경로의 첫 수를 너비우선탐색으로 찾음
+function findHintMove(){
+  const stateKey = s => s.map(p=>p.join(',')).join('|');
+  const isGoal = s => s[2].length===diskCount;
+  const start = pegs.map(p=>[...p]);
+  if(isGoal(start)) return null;
+
+  const visited = new Set([stateKey(start)]);
+  const queue = [{state:start, first:null}];
+  while(queue.length){
+    const {state, first} = queue.shift();
+    for(let i=0;i<3;i++){
+      if(state[i].length===0) continue;
+      for(let j=0;j<3;j++){
+        if(i===j) continue;
+        const moving = state[i][state[i].length-1];
+        const top = state[j].length ? state[j][state[j].length-1] : Infinity;
+        if(moving >= top) continue;
+        const next = state.map(p=>[...p]);
+        next[i].pop();
+        next[j].push(moving);
+        const key = stateKey(next);
+        if(visited.has(key)) continue;
+        const move = first || {from:i, to:j};
+        if(isGoal(next)) return move;
+        visited.add(key);
+        queue.push({state:next, first:move});
+      }
+    }
+  }
+  return null;
+}
+
+hintBtn.addEventListener('click', ()=>{
+  if(won) return;
+  const move = findHintMove();
+  if(!move){
+    msgRow.textContent = '지금 상태로는 다음 수를 찾을 수 없어요.';
+    return;
+  }
+  const labels = ['1번(왼쪽)','2번(가운데)','3번(오른쪽)'];
+  if(selected!==null){ selected = null; render(); }
+  msgRow.textContent = `💡 힌트: ${labels[move.from]} 기둥에서 ${labels[move.to]} 기둥으로 옮겨보세요.`;
+});
 
 resetBtn.addEventListener('click', setupPegs);
 

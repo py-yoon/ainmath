@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>조건부확률, 이미 일어난 일이 확률을 바꾸는 이유 | 아인매스</title>
+<meta name="description" content="공을 하나 뽑고 나면 다음 공을 뽑을 확률이 달라져요. 조건부확률의 원리와, 같은 시행을 여러 번 반복할 때 정확히 몇 번 성공하는지 구하는 독립시행의 확률을 알아봐요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#6847F7;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#357A63;background:#E3F5EE">📊 확률과 통계</span>
+  <h1>조건부확률, 이미 일어난 일이 확률을 바꾸는 이유</h1>
+  <p class="meta">고등학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>주머니에 빨간 공 3개, 파란 공 2개가 있어요. 아무것도 모르는 상태에서 하나를 뽑으면 빨간 공일 확률은 3/5예요. 그런데 이 공을 <b>다시 넣지 않고</b> 하나를 더 뽑는다면, 두 번째 공이 빨간색일 확률은 얼마일까요? 답은 "상황에 따라 다르다"예요 — 첫 번째로 무엇을 뽑았는지에 따라 달라지거든요.</p>
+      <p>첫 번째가 빨간 공이었다면 남은 건 빨강 2개, 파랑 2개(총 4개)라서 두 번째가 빨강일 확률은 2/4=1/2이에요. 반대로 첫 번째가 파란 공이었다면 빨강은 그대로 3개 남아 있고 전체는 4개니까 확률은 3/4예요. 이렇게 <b>"어떤 일이 이미 일어났다"는 조건 아래에서 다시 계산한 확률</b>을 조건부확률이라고 해요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 240 140">
+          <circle cx="30" cy="70" r="16" fill="var(--ink-soft)" opacity="0.15" stroke="var(--ink-soft)" stroke-width="2"></circle>
+          <text x="30" y="75" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">시작</text>
+          <line x1="46" y1="70" x2="110" y2="30" stroke="var(--coral-ink)" stroke-width="2.5"></line>
+          <line x1="46" y1="70" x2="110" y2="110" stroke="var(--blue-ink,#4C8BF5)" stroke-width="2.5"></line>
+          <text x="75" y="42" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--coral-ink)">빨강 3/5</text>
+          <text x="75" y="106" font-family="'Do Hyeon',sans-serif" font-size="11" fill="#4C8BF5">파랑 2/5</text>
+          <circle cx="120" cy="30" r="16" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="2"></circle>
+          <circle cx="120" cy="110" r="16" fill="#E7F0FF" stroke="#4C8BF5" stroke-width="2"></circle>
+          <line x1="136" y1="30" x2="200" y2="15" stroke="var(--coral-ink)" stroke-width="2"></line>
+          <line x1="136" y1="30" x2="200" y2="45" stroke="#4C8BF5" stroke-width="2"></line>
+          <text x="205" y="18" font-family="'Do Hyeon',sans-serif" font-size="10" fill="var(--ink)">빨강 2/4</text>
+          <text x="205" y="48" font-family="'Do Hyeon',sans-serif" font-size="10" fill="var(--ink)">파랑 2/4</text>
+          <line x1="136" y1="110" x2="200" y2="95" stroke="var(--coral-ink)" stroke-width="2"></line>
+          <line x1="136" y1="110" x2="200" y2="125" stroke="#4C8BF5" stroke-width="2"></line>
+          <text x="205" y="98" font-family="'Do Hyeon',sans-serif" font-size="10" fill="var(--ink)">빨강 3/4</text>
+          <text x="205" y="128" font-family="'Do Hyeon',sans-serif" font-size="10" fill="var(--ink)">파랑 1/4</text>
+        </svg>
+        <div class="illo-caption">1번째 결과에 따라 2번째 가지의 확률이 달라져요</div>
+      </div>
+      <p>조건부확률과 자주 짝지어 나오는 개념이 <b>독립시행</b>이에요. 조건부확률이 "이전 결과가 다음 확률에 영향을 준다"는 상황이라면, 독립시행은 정반대로 "이전 결과가 다음에 전혀 영향을 주지 않는" 상황이에요. 동전을 던지거나 주사위를 굴리는 건 매번 완전히 독립적이에요 — 방금 앞면이 나왔다고 다음 확률이 바뀌지 않아요.</p>
+      <p>독립시행이 반복될 때 자주 나오는 질문이 "n번 중 정확히 k번 성공할 확률"이에요. 예를 들어 자유투 성공률이 70%인 선수가 5번을 던지면, 정확히 3번 성공할 확률은 얼마일까요? 먼저 "몇 번째에 성공했는지"의 순서가 <sub>5</sub>C<sub>3</sub>=10가지가 있고, 그 순서 하나하나가 나올 확률은 성공 3번(0.7씩)과 실패 2번(0.3씩)을 곱한 값으로 모두 똑같아요. 그래서 답은 10×0.7³×0.3² 이에요. 이렇게 "경우의 수 × 그 경우가 나올 확률"을 곱하는 공식을 <b>독립시행의 확률</b>이라고 불러요.</p>
+      <p>저희 체험 페이지에서는 먼저 공을 뽑는 트리 다이어그램으로 조건부확률이 어떻게 갈라지는지 직접 확인하고, 이어서 시행 횟수·성공 횟수·성공 확률을 슬라이더로 바꿔가며 독립시행의 확률 분포가 막대그래프로 어떻게 변하는지 살펴볼 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="conditional-probability.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

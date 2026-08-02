@@ -84,6 +84,7 @@ footer{max-width:900px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;t
     <div class="numpad" id="numpad"></div>
     <div class="action-row">
       <button class="action-btn" id="checkBtn">✔ 확인하기</button>
+      <button class="action-btn" id="hintBtn">💡 힌트 한 칸</button>
       <button class="action-btn primary" id="newBtn">🎲 새 퍼즐</button>
     </div>
     <div class="fact" id="fact">빈칸을 선택하고 숫자를 눌러 채워보세요!</div>
@@ -108,6 +109,7 @@ const gridEl = document.getElementById('grid');
 const numpadEl = document.getElementById('numpad');
 const levelTabsEl = document.getElementById('levelTabs');
 const checkBtn = document.getElementById('checkBtn');
+const hintBtn = document.getElementById('hintBtn');
 const newBtn = document.getElementById('newBtn');
 const factBox = document.getElementById('fact');
 
@@ -253,7 +255,9 @@ function render(){
       if(c===size-1) borderStyles.push('border-right:3px solid var(--ink)');
       if(r===size-1) borderStyles.push('border-bottom:3px solid var(--ink)');
       const cls = `cell${isGiven?' given':''}${isSelected?' selected':''}${conflict?' conflict':''}`;
-      html += `<div class="${cls}" data-r="${r}" data-c="${c}" style="${borderStyles.join(';')}">${val||''}</div>`;
+      const tabAttr = isGiven ? '' : 'tabindex="0" role="button"';
+      const ariaLabel = isGiven ? `${r+1}행 ${c+1}열, 미리 채워진 ${val}` : `${r+1}행 ${c+1}열${val?', 현재 '+val:', 빈 칸'}`;
+      html += `<div class="${cls}" data-r="${r}" data-c="${c}" style="${borderStyles.join(';')}" ${tabAttr} aria-label="${ariaLabel}">${val||''}</div>`;
     }
   }
   gridEl.innerHTML = html;
@@ -264,7 +268,33 @@ function render(){
       selectedCell = {r,c};
       render();
     });
+    el.addEventListener('keydown', (e)=>{
+      const r = parseInt(el.dataset.r), c = parseInt(el.dataset.c);
+      if(given[r][c]) return;
+      if(e.key==='Enter' || e.key===' '){
+        e.preventDefault();
+        selectedCell = {r,c};
+        render();
+      } else if(e.key>='0' && e.key<='9'){
+        const n = parseInt(e.key);
+        if(n<=level.size){
+          e.preventDefault();
+          board[r][c] = n;
+          selectedCell = {r,c};
+          render();
+        }
+      } else if(e.key==='Backspace' || e.key==='Delete'){
+        e.preventDefault();
+        board[r][c] = 0;
+        selectedCell = {r,c};
+        render();
+      }
+    });
   });
+  if(selectedCell){
+    const focusEl = gridEl.querySelector(`.cell[data-r="${selectedCell.r}"][data-c="${selectedCell.c}"]`);
+    if(focusEl) focusEl.focus();
+  }
 }
 
 checkBtn.addEventListener('click', ()=>{
@@ -286,6 +316,27 @@ checkBtn.addEventListener('click', ()=>{
     factBox.className='fact win';
     factBox.innerHTML = `🎉 완성했어요! 모든 줄과 상자에 숫자가 한 번씩만 들어갔어요.`;
   }
+});
+
+hintBtn.addEventListener('click', ()=>{
+  const {size} = level;
+  const empties = [];
+  for(let r=0;r<size;r++){
+    for(let c=0;c<size;c++){
+      if(!given[r][c] && board[r][c]!==solution[r][c]) empties.push({r,c});
+    }
+  }
+  if(empties.length===0){
+    factBox.className='fact';
+    factBox.textContent = '이미 모든 칸이 정답으로 채워져 있어요!';
+    return;
+  }
+  const pick = empties[Math.floor(Math.random()*empties.length)];
+  board[pick.r][pick.c] = solution[pick.r][pick.c];
+  selectedCell = pick;
+  factBox.className='fact';
+  factBox.textContent = `힌트로 ${pick.r+1}행 ${pick.c+1}열을 채워드렸어요!`;
+  render();
 });
 
 newBtn.addEventListener('click', newPuzzle);

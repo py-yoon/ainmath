@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>표준편차, 평균만으로는 알 수 없는 이야기 | 아인매스</title>
+<meta name="description" content="평균이 같은 두 집단도 퍼진 정도는 전혀 다를 수 있어요. 편차를 제곱해서 평균 낸 분산과, 그 제곱근인 표준편차가 왜 필요한지 알아봐요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#6847F7;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#357A63;background:#E3F5EE">📊 확률과 통계</span>
+  <h1>표준편차, 평균만으로는 알 수 없는 이야기</h1>
+  <p class="meta">중학생 · 읽는 데 약 3분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>A반과 B반의 수학 시험 평균이 똑같이 70점이라고 해봐요. 두 반의 실력이 똑같다고 할 수 있을까요? 꼭 그렇지는 않아요. A반은 다들 65~75점 사이에 몰려 있는데, B반은 40점대와 100점대가 섞여 평균만 70점으로 맞춰진 것일 수도 있거든요. <b>평균은 "중심이 어디인지"만 알려줄 뿐, "얼마나 퍼져 있는지"는 전혀 알려주지 못해요.</b> 이 퍼진 정도를 숫자로 나타낸 것이 표준편차예요.</p>
+      <p>표준편차를 구하는 과정은 이렇게 이어져요. 먼저 자료 하나하나가 평균에서 얼마나 떨어져 있는지를 구하는데, 이걸 <b>편차</b>라고 해요(편차 = 자료값 − 평균). 그런데 편차를 그냥 다 더하면 항상 0이 돼요 — 평균보다 큰 값의 편차(양수)와 작은 값의 편차(음수)가 정확히 상쇄되거든요. 그래서 부호를 없애려고 편차를 <b>제곱</b>한 다음 평균을 내는데, 이걸 <b>분산</b>이라고 해요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 240 100">
+          <line x1="15" y1="60" x2="225" y2="60" stroke="var(--paper-line)" stroke-width="2"></line>
+          <line x1="120" y1="20" x2="120" y2="85" stroke="var(--violet-ink)" stroke-width="2" stroke-dasharray="4 3"></line>
+          <text x="120" y="14" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--violet-ink)">평균</text>
+          <circle cx="60" cy="60" r="7" fill="var(--coral-ink)"></circle>
+          <circle cx="90" cy="60" r="7" fill="var(--coral-ink)"></circle>
+          <circle cx="150" cy="60" r="7" fill="var(--blue-ink,#4C8BF5)"></circle>
+          <circle cx="180" cy="60" r="7" fill="var(--blue-ink,#4C8BF5)"></circle>
+          <text x="75" y="82" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="10" fill="var(--coral-ink)">평균보다 작음</text>
+          <text x="165" y="82" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="10" fill="#4C8BF5">평균보다 큼</text>
+        </svg>
+        <div class="illo-caption">편차를 그대로 더하면 항상 0 — 그래서 제곱해요</div>
+      </div>
+      <p>분산까지 구했으면 거의 다 왔어요. 다만 분산은 원래 자료를 제곱했기 때문에 단위도 제곱이 돼요(점수라면 "점²"). 원래 단위로 되돌리려고 분산에 <b>제곱근</b>을 씌운 값이 바로 <b>표준편차</b>예요. 표준편차가 작으면 자료가 평균 근처에 촘촘히 모여 있다는 뜻이고, 크면 넓게 흩어져 있다는 뜻이에요.</p>
+      <p>표준편차는 성적표뿐 아니라 아주 다양한 곳에 쓰여요. 공장에서 만드는 제품의 크기가 표준편차 안에서 얼마나 균일한지를 확인할 때, 주식이나 투자의 "위험도"(가격이 얼마나 출렁이는지)를 나타낼 때, 키나 몸무게 같은 신체 측정치가 또래 평균에서 얼마나 벗어나 있는지 볼 때도 표준편차가 핵심 지표로 쓰여요. "평균만으로는 부족하다"는 감각을 갖는 것 자체가 통계를 이해하는 첫걸음이에요.</p>
+      <p>저희 체험 페이지에서는 슬라이더 5개로 자료값을 직접 바꿔가며 편차·분산·표준편차가 실시간으로 어떻게 계산되는지 확인하고, 평균이 똑같은 두 반의 퍼짐 정도를 슬라이더로 비교하며 표준편차가 왜 필요한 정보인지 직접 느껴볼 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="standard-deviation.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

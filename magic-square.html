@@ -301,7 +301,15 @@ function render(){
   bankEl.innerHTML = bank.map(n=>`<button class="bank-tile${selected===n?' selected':''}" data-n="${n}">${n}</button>`).join('');
 
   magicGridEl.querySelectorAll('.cell[data-r]').forEach(el=>{
+    el.setAttribute('role','button');
+    el.setAttribute('aria-label', el.textContent ? `${el.textContent} 놓인 칸, 다시 누르면 뺄 수 있어요` : '빈 칸, 골라둔 숫자를 놓을 수 있어요');
     el.addEventListener('click', ()=>onCellClick(parseInt(el.dataset.r), parseInt(el.dataset.c)));
+    el.addEventListener('keydown', (e)=>{
+      if(e.key==='Enter' || e.key===' '){
+        e.preventDefault();
+        onCellClick(parseInt(el.dataset.r), parseInt(el.dataset.c));
+      }
+    });
   });
   bankEl.querySelectorAll('.bank-tile').forEach(el=>{
     el.addEventListener('click', ()=>onBankClick(parseInt(el.dataset.n)));
