@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>포 포즈 놀이, 4 네 개로 모든 숫자 만들기 | 아인매스</title>
+<meta name="description" content="포 포즈(Four Fours)는 4를 정확히 네 번 써서 원하는 숫자를 만드는 오래된 수학 퍼즐이에요. 사칙연산에 제곱근과 팩토리얼까지 더하면 얼마나 많은 숫자를 만들 수 있는지...">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:280px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#6847F7;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#D90500;background:#FFEAE8">🔢 수와 연산</span>
+  <h1>포 포즈 놀이, 4 네 개로 모든 숫자 만들기</h1>
+  <p class="meta">초등 고학년 ~ 중학생 · 읽는 데 약 3분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>포 포즈(Four Fours)는 19세기 오락 수학 책에도 등장할 만큼 오래된 퍼즐이에요. 규칙은 간단해요 — 숫자 4를 정확히 네 번 쓰고, 그 사이에 사칙연산(+, −, ×, ÷)을 자유롭게 넣어서 원하는 숫자를 만드는 거예요. 4라는 숫자 하나만 반복해서 쓴다는 제약이 오히려 이 퍼즐을 매력적으로 만들어요. 뻔해 보이는 숫자 하나로 얼마나 다양한 값을 만들 수 있는지 도전하게 되거든요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 280 110">
+          <g font-family="'Do Hyeon',sans-serif" font-size="22" text-anchor="middle">
+            <rect x="6" y="10" width="40" height="54" rx="8" fill="#fff" stroke="var(--violet-ink)" stroke-width="2.5"></rect>
+            <text x="26" y="44" fill="var(--violet-ink)">4</text>
+            <rect x="60" y="10" width="40" height="54" rx="8" fill="#fff" stroke="var(--violet-ink)" stroke-width="2.5"></rect>
+            <text x="80" y="44" fill="var(--violet-ink)">4</text>
+            <rect x="114" y="10" width="40" height="54" rx="8" fill="#fff" stroke="var(--violet-ink)" stroke-width="2.5"></rect>
+            <text x="134" y="44" fill="var(--violet-ink)">4</text>
+            <rect x="168" y="10" width="40" height="54" rx="8" fill="#fff" stroke="var(--violet-ink)" stroke-width="2.5"></rect>
+            <text x="188" y="44" fill="var(--violet-ink)">4</text>
+          </g>
+          <text x="140" y="95" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--coral-ink)">4 × 4 − 4 − 4 = 8</text>
+        </svg>
+        <div class="illo-caption">같은 4 네 개로도 연산 기호만 바꾸면 전혀 다른 숫자가 나와요</div>
+      </div>
+      <p>사칙연산만 쓰면 만들 수 있는 숫자가 그리 많지 않아요. 그래서 포 포즈에는 보통 몇 가지 규칙을 더 허용해요 — √(제곱근)를 씌우거나(√4=2), !(팩토리얼)을 붙이는 것(4!=24×1=24), 그리고 4와 4를 기호 없이 이어 붙여 44처럼 두 자리 수로 만드는 것이 대표적이에요. 팩토리얼 하나만 추가해도 4를 24로 바꿀 수 있고, 붙여쓰기를 쓰면 4 두 개가 갑자기 44라는 훨씬 큰 숫자가 되니, 손이 닿는 범위가 확 넓어져요. 여기에 두 숫자를 먼저 묶어서 계산하는 순서(괄호)까지 더하면, 4 네 개만으로도 0부터 32까지 모든 자연수를 만들 수 있어요.</p>
+      <p>재미있는 건 숫자마다 난이도 차이가 크다는 거예요. 4+4+4+4=16이나 4+4+4×4=24처럼 쉽게 나오는 수가 있는가 하면, 어떤 숫자는 한참을 씨름해야 겨우 나와요. 예를 들어 7은 4+4−4÷4처럼 나눗셈이 덧셈·뺄셈보다 먼저 계산된다는 걸 이용해야 나오고, 13처럼 홀수이면서 소수인 수는 사칙연산만으로 애를 먹다가 결국 4÷4+4!÷√(4)처럼 팩토리얼과 제곱근을 함께 써야 풀리기도 해요. 44는 4+44−4처럼 두 4를 붙이기만 하면 되고, 35처럼 33 이상인 수도 44÷4+4!=35로 붙여쓰기 덕분에 손이 닿아요. 다만 33 이상의 모든 수가 이 규칙(순서 고정, √·!, 두 개씩 묶기, 붙여쓰기)으로 풀리는 건 아니라서, 여전히 안 풀리는 숫자들이 남아 있어요 — 그런 숫자까지 풀려면 순서를 자유롭게 바꾸는 더 넓은 규칙이 필요해요.</p>
+      <p>이 퍼즐을 풀다 보면 자연스럽게 연산 순서(곱셈·나눗셈이 덧셈·뺄셈보다 먼저)와 괄호의 역할을 몸으로 익히게 돼요. 게다가 "정답은 하나가 아니다"라는 감각도 생겨요 — 같은 숫자를 만드는 식이 여러 개 있을 때가 많거든요. 목표 숫자를 만들고 나서 "다른 방법은 없을까?"를 한 번 더 고민해보는 것만으로도 사고력 훈련이 배가 돼요.</p>
+      <p>저희 체험 페이지에서는 4 네 개 위에 √·! 버튼을 눌러 꾸미고, 아래 기호 팔레트에서 +, −, ×, ÷, 그리고 붙여쓰기를 뜻하는 "44"를 끌어다 자리에 놓을 수 있어요. "앞 두 개 먼저" · "뒤 두 개 먼저" 버튼으로 괄호 묶기도 직접 조절할 수 있고요. 막히면 힌트 버튼으로 정답 예시 하나를 확인해보세요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="four-fours.html">🎲 이 놀이 직접 해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

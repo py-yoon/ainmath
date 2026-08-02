@@ -147,6 +147,7 @@
   .recommended-sub{font-size:13.5px;color:var(--ink-soft);}
   #recommended{grid-template-columns:repeat(3,1fr);}
   @media (max-width:680px){ #recommended{grid-template-columns:1fr;} }
+  #recentGrid{grid-template-columns:repeat(auto-fill, minmax(140px,1fr));gap:10px;}
 
   /* category sections */
   .category{
@@ -191,9 +192,12 @@
   .card.disabled{opacity:0.55;cursor:default;}
   .card.disabled:hover{transform:none;}
   .card[tabindex]:focus-visible{outline:3px solid var(--coral);outline-offset:3px;}
-  .card.compact{padding:14px 16px;gap:8px;}
-  .card.compact .card-desc,
-  .card.compact .card-actions{display:none;}
+  .card.mini{padding:10px 14px;gap:0;}
+  .card.mini .card-top,
+  .card.mini .card-desc,
+  .card.mini .grade-tags,
+  .card.mini .card-actions{display:none;}
+  .card.mini .card-title{font-size:14.5px;line-height:1.4;}
 
   .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
   .card-icon{
@@ -362,6 +366,7 @@
         { title:'정수와 유리수 (수직선 놀이)', desc:'시작하는 수와 이동할 크기를 정하면, 화살표가 수직선 위에서 움직이며 덧셈·뺄셈을 보여줘요.', grades:['mid'], status:'live', href:'integer-number-line.html', article:'article-integer-number-line.html', icon:'🌡️' },
         { title:'양동이 물 맞추기', desc:'정해진 양동이 몇 개로 채우기·비우기·붓기만 반복해서 목표량을 정확히 만드는 퍼즐이에요. 최대공약수로 나누어떨어지는 양만 만들 수 있다는 원리를 몸으로 익혀요.', grades:['high','mid'], status:'live', href:'water-jug-puzzle.html', article:'article-water-jug-puzzle.html', icon:'🪣' },
         { title:'24 게임', desc:'숫자 네 개와 사칙연산을 자유롭게 조합해서 정확히 24를 만들어봐요.', grades:['high','mid'], status:'live', href:'game-24.html', article:'article-game-24.html', icon:'🎯' },
+        { title:'포 포즈 놀이 (Four Fours)', desc:'4를 네 번 써서 √(제곱근), !(팩토리얼)과 사칙연산만으로 원하는 숫자를 만들어봐요. 앞뒤 두 개씩 묶어 계산 순서를 바꿔볼 수도 있어요.', grades:['high','mid'], status:'live', isNew:true, href:'four-fours.html', article:'article-four-fours.html', icon:'🎲' },
         { title:'자연수의 혼합 계산', desc:'괄호, 곱셈·나눗셈, 덧셈·뺄셈 중 어디부터 계산해야 하는지 순서를 한 단계씩 확인해요.', grades:['high'], status:'live', href:'mixed-calculation.html', article:'article-mixed-calculation.html', icon:'🔣' },
         { title:'약분과 통분', desc:'분수를 슬라이더로 바꾸며 약분과 통분이 어떻게 이루어지는지 막대 그림으로 확인해요.', grades:['high'], status:'live', href:'fraction-simplify.html', article:'article-fraction-simplify.html', icon:'🍕' },
         { title:'비례식과 비례배분', desc:'비례식을 세워 모르는 값을 구하고, 정해진 비로 전체를 나누는 비례배분을 확인해요.', grades:['high'], status:'live', href:'proportion-equation.html', article:'article-proportion-equation.html', icon:'📊' },
@@ -442,7 +447,7 @@
   CATEGORIES.forEach(cat => cat.items.forEach(item => { itemsByHref[item.href] = {item, cat}; }));
 
   const RECENT_KEY = 'ainmath_recent_v1';
-  const RECENT_MAX = 3;
+  const RECENT_MAX = 8;
   function recordRecent(href){
     if(!href || !itemsByHref[href]) return;
     let list = [];
@@ -458,12 +463,12 @@
     return list.map(href => itemsByHref[href]).filter(Boolean);
   }
   function renderRecent(){
-    const entries = getRecentEntries().slice(0, 3);
+    const entries = getRecentEntries();
     const section = document.getElementById('recentSection');
     if(!entries.length){ section.style.display = 'none'; return; }
     section.style.display = '';
     document.getElementById('recentGrid').innerHTML =
-      entries.map(({item, cat}) => cardHtml(item, cat.color, cat.textColor, true)).join('');
+      entries.map(({item, cat}) => cardHtml(item, cat.color, cat.textColor, 'mini')).join('');
   }
 
   // 오늘 날짜로 시드를 고정한 의사난수 — 같은 날에는 누가 접속해도 같은 추천이 보이고, 날짜가 바뀌면 다시 섞여요.
@@ -510,7 +515,7 @@
       .map(x => x.item);
   }
 
-  function cardHtml(item, accentColor, textColor, compact){
+  function cardHtml(item, accentColor, textColor, variant){
     const gradeTags = item.grades.map(g=>`<span class="grade-tag ${g}">${gradeNames[g]}</span>`).join('');
     const gradeAttr = item.grades.join(' ');
     const isLive = item.status === 'live';
@@ -530,7 +535,7 @@
     if(item.isBest) badges.push(`<span class="badge-best">BEST</span>`);
     if(!isLive) badges.push(`<span class="status soon">준비 중</span>`);
     return `
-      <div class="card ${hasAnyLink ? 'live' : 'disabled'}${compact ? ' compact' : ''}" style="--card-accent:${accentColor};--card-accent-ink:${textColor}" data-grade="${gradeAttr}" data-search="${searchText.replace(/"/g,'&quot;')}" ${linkAttrs}>
+      <div class="card ${hasAnyLink ? 'live' : 'disabled'}${variant ? ' '+variant : ''}" style="--card-accent:${accentColor};--card-accent-ink:${textColor}" data-grade="${gradeAttr}" data-search="${searchText.replace(/"/g,'&quot;')}" ${linkAttrs}>
         <div class="card-top">
           <div class="card-icon" style="background:${accentColor}22;color:${textColor}">${item.icon}</div>
           ${badges.length ? `<div class="card-badges">${badges.join('')}</div>` : ''}
@@ -561,7 +566,7 @@
   function renderRecommended(){
     const picks = getDailyRecommended();
     document.getElementById('recommended').innerHTML =
-      picks.map(({item, cat}) => cardHtml(item, cat.color, cat.textColor, true)).join('');
+      picks.map(({item, cat}) => cardHtml(item, cat.color, cat.textColor)).join('');
   }
 
   function attachCardNav(el){
