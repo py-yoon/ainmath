@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>음수 곱하기 음수는 왜 양수일까 | 아인매스</title>
+<meta name="description" content="외울 필요 없어요. 곱하는 수를 하나씩 줄여가는 패턴만 보면 정수의 부호규칙이 저절로 이해됩니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{
+    display:inline-flex;align-items:center;gap:6px;
+    color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;
+  }
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;
+    padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;
+  }
+  h1{
+    font-family:'Do Hyeon',sans-serif;font-weight:400;
+    font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;
+  }
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{
+    background:var(--card);border-radius:22px;box-shadow:var(--shadow);
+    padding:clamp(20px,4vw,40px);
+  }
+  .article-body p{
+    font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;
+  }
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:280px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;
+    background:#FF5B57;text-decoration:none;
+    padding:14px 22px;border-radius:14px;
+    transition:transform .15s ease;
+  }
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#D90500;background:#FFEAE8">🔢 수와 연산</span>
+  <h1>음수 곱하기 음수는 왜 양수일까</h1>
+  <p class="meta">중학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>"음수 곱하기 음수는 양수" — 다들 이 규칙을 외우긴 하지만, 정작 왜 그런지 설명해보라고 하면 머뭇거리는 경우가 많아요. 사실 이 규칙은 외우지 않아도, 곱셈이 원래 가지고 있던 패턴을 끝까지 따라가 보기만 하면 저절로 나옵니다.</p>
+      <p>3×3=9에서 시작해볼게요. 곱하는 수를 하나씩 줄이면 3×2=6, 3×1=3, 3×0=0으로, 결과가 3씩 일정하게 줄어듭니다. 이 패턴이 멈출 이유가 없으니 계속 이어가 보면 3×(−1)=−3, 3×(−2)=−6이 되어야 자연스러워요. 곱하는 수가 음수가 되는 순간 결과도 음수가 되는 거죠. 이게 "양수 × 음수 = 음수"가 나오는 이유예요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 240 170">
+          <text x="20" y="20" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)">3 × B</text>
+          <text x="20" y="45" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--blue-ink)">3 × 3 = 9</text>
+          <text x="20" y="65" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--blue-ink)">3 × 2 = 6</text>
+          <text x="20" y="85" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--blue-ink)">3 × 1 = 3</text>
+          <text x="20" y="105" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink)">3 × 0 = 0</text>
+          <text x="20" y="125" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--coral-ink)">3 × (−1) = −3</text>
+          <text x="20" y="145" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--coral-ink)">3 × (−2) = −6</text>
+          <text x="150" y="45" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">−3씩</text>
+          <text x="150" y="65" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">−3씩</text>
+          <text x="150" y="85" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">−3씩</text>
+          <text x="150" y="105" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">−3씩</text>
+          <text x="150" y="125" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">−3씩</text>
+        </svg>
+        <div class="illo-caption">B를 1씩 줄일 때마다 결과는 항상 3씩 줄어들어요 — 이 패턴이 부호를 뒤집는 이유예요</div>
+      </div>
+      <p>그럼 음수 곱하기 음수는 어떻게 설명할까요? 이번엔 (−3)×B의 패턴을 봅시다. (−3)×3=−9, (−3)×2=−6, (−3)×1=−3, (−3)×0=0으로, 결과가 3씩 일정하게 늘어나고 있어요(−9에서 −6, −6에서 −3, −3에서 0). 이 패턴을 그대로 이어가면 (−3)×(−1)=3, (−3)×(−2)=6이 되어야 앞뒤 패턴이 매끄럽게 연결됩니다. 즉 음수에 음수를 곱하면 양수가 나오는 것도, 억지로 정한 규칙이 아니라 곱셈이 원래 갖고 있던 규칙성을 자연스럽게 연장한 결과예요.</p>
+      <p>나눗셈의 부호규칙은 이보다 더 간단하게 설명할 수 있어요. 나눗셈은 곱셈의 반대이기 때문이에요. "12 ÷ (−4) = C"라는 식은 "(−4) × C = 12"와 완전히 같은 뜻이에요. C 자리에 어떤 수가 들어가야 (−4)를 곱해서 양수 12가 나올까요? 곱셈 부호규칙에서 "음수 × 음수 = 양수"였으니, C는 반드시 음수여야 해요(실제로 C=−3이면 (−4)×(−3)=12가 맞습니다). 이렇게 나눗셈은 항상 관련된 곱셈 하나를 떠올리면 부호를 스스로 검증할 수 있어요.</p>
+      <p>부호규칙을 빠르게 판단하는 팁도 있어요. 곱해지거나 나눠지는 수들 안에 있는 <b>음수의 개수</b>를 세어보세요. 음수가 짝수 개(0개, 2개, 4개…)면 결과는 양수, 홀수 개(1개, 3개…)면 결과는 음수예요. 예를 들어 (−2)×(−3)×(−5)처럼 음수가 3개(홀수 개) 곱해지면 결과는 음수이고, (−2)×(−3)×5처럼 음수가 2개(짝수 개)면 결과는 양수가 됩니다. 이 방법은 여러 수가 한꺼번에 곱해지는 복잡한 식에서 특히 유용해요.</p>
+      <p>저희 체험 페이지에서는 두 수를 슬라이더로 직접 움직이면서, 한쪽 수를 고정한 채 다른 수를 1씩 줄일 때 결과가 어떻게 변하는지 실시간으로 볼 수 있어요. 곱셈 탭과 나눗셈 탭을 오가며 슬라이더를 여러 번 움직여보면, "규칙이니까 외워야 하는 것"이 아니라 "패턴을 끝까지 따라가면 자연스럽게 나오는 결과"라는 걸 눈으로 확인할 수 있을 거예요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="integer-sign-rules.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

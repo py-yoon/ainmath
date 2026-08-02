@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>2³은 왜 2×3이 아니라 2×2×2일까 | 아인매스</title>
+<meta name="description" content="거듭제곱의 뜻부터, 두 거듭제곱을 곱하면 지수가 왜 더해지는지까지 하나의 흐름으로 이해해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#FF5B57;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#D90500;background:#FFEAE8">🔢 수와 연산</span>
+  <h1>2³은 왜 2×3이 아니라 2×2×2일까</h1>
+  <p class="meta">중학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>2³을 처음 보는 학생들이 자주 하는 실수가 있어요. 어깨에 있는 작은 숫자 3을 보고 2×3=6이라고 계산하는 거예요. 하지만 2³의 진짜 뜻은 "2를 3번 곱하라"이고, 정답은 2×2×2=8이에요. 곱하는 횟수와 곱해지는 크기를 헷갈리지 않는 게 거듭제곱을 이해하는 첫걸음이에요.</p>
+      <p>거듭제곱에서 aⁿ이라고 쓸 때, 아래에 있는 a를 <b>밑</b>이라 부르고 어깨 위에 작게 쓴 n을 <b>지수</b>라고 불러요. aⁿ은 "a를 n번 곱했다"는 뜻이에요. 예를 들어 5⁴는 5를 4번 곱한 5×5×5×5=625이고, 10²은 10을 2번 곱한 10×10=100이에요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 260 130">
+          <text x="20" y="30" font-family="'Do Hyeon',sans-serif" font-size="20" fill="var(--ink)">2</text>
+          <text x="34" y="20" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral-ink)">3</text>
+          <text x="55" y="30" font-family="'Do Hyeon',sans-serif" font-size="18" fill="var(--ink-soft)">=</text>
+          <text x="80" y="30" font-family="'Do Hyeon',sans-serif" font-size="18" fill="var(--blue-ink)">2 × 2 × 2</text>
+          <text x="205" y="30" font-family="'Do Hyeon',sans-serif" font-size="18" fill="var(--ink-soft)">=</text>
+          <text x="228" y="30" font-family="'Do Hyeon',sans-serif" font-size="18" fill="var(--ink)">8</text>
+          <text x="80" y="55" font-family="'Gowun Dodum',sans-serif" font-size="12" fill="var(--ink-soft)">밑(2)을 지수(3)번 만큼 곱해요</text>
+          <line x1="16" y1="70" x2="244" y2="70" stroke="var(--paper-line)" stroke-width="2"></line>
+          <text x="20" y="95" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--coral-ink)">✗ 흔한 실수</text>
+          <text x="20" y="118" font-family="'Gowun Dodum',sans-serif" font-size="13" fill="var(--ink-soft)">2³ = 2×3 = 6 (X) — 지수는 "곱하는 횟수"예요</text>
+        </svg>
+        <div class="illo-caption">지수는 곱하는 크기가 아니라 곱하는 "횟수"를 나타내요</div>
+      </div>
+      <p>지수가 0일 때는 조금 특별해요. 아무것도 곱하지 않은 상태를 수학자들은 약속으로 <b>1</b>이라고 정했어요(밑이 0이 아닐 때). 왜 하필 1일까요? 패턴으로 확인해보면 알 수 있어요. 2⁴=16, 2³=8, 2²=4, 2¹=2로, 지수가 1씩 줄어들 때마다 값이 절반이 되고 있죠. 이 패턴을 그대로 이어가면 2⁰은 2¹=2를 다시 절반으로 나눈 1이 되어야 자연스러워요. 그래서 2⁰=1로 약속한 거예요.</p>
+      <p>거듭제곱을 제대로 이해하면, 중학교에서 배우는 <b>지수법칙</b>도 훨씬 쉽게 받아들일 수 있어요. 지수법칙의 가장 기본은 "밑이 같은 두 거듭제곱을 곱하면 지수를 더한다"는 규칙이에요(aᵐ × aⁿ = a<sup>m+n</sup>). 왜 그럴까요? 2³ × 2²을 풀어서 써보면 (2×2×2) × (2×2)가 되는데, 곱셈에서는 순서나 묶음을 바꿔도 결과가 같으니 이걸 그냥 2×2×2×2×2로 이어붙일 수 있어요. 2를 몇 번 곱한 걸까요? 3번 곱한 것과 2번 곱한 것을 합쳤으니 총 5번, 즉 2⁵이 되는 거예요. 실제로 2³×2²=8×4=32이고 2⁵도 32로 정확히 일치합니다.</p>
+      <p>이 원리는 숫자뿐 아니라 문자에도 똑같이 적용돼요. x³ × x²도 마찬가지로 (x×x×x)×(x×x)를 이어붙이면 x⁵이 되죠. 중학교 수학에서 "동류항 정리"와 함께 배우는 지수법칙이 바로 이 아이디어의 확장이에요. 지수법칙을 공식으로만 외우면 지수가 복잡해질 때 헷갈리기 쉽지만, "곱하는 횟수를 이어붙인다"는 그림을 머릿속에 갖고 있으면 어떤 지수 조합이 나와도 스스로 유도할 수 있어요.</p>
+      <p>저희 체험 페이지에서는 먼저 밑과 지수를 슬라이더로 바꿔보며 거듭제곱이 "곱하는 횟수"라는 걸 블록으로 직접 확인할 수 있고, 두 번째 탭에서는 지수 m과 n을 각각 조절하면서 aᵐ × aⁿ = a<sup>m+n</sup>이 어떻게 성립하는지 두 묶음이 하나로 이어붙는 모습으로 볼 수 있어요. 여기서 익힌 감각은 이어지는 "식의 계산(지수법칙·동류항)" 체험에서 문자식을 다룰 때도 그대로 이어집니다.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="exponent-notation.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

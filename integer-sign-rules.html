@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>정수의 곱셈·나눗셈 부호규칙 실험실</title>
+<meta name="description" content="곱하는 수를 하나씩 줄여가며 부호가 왜 그렇게 바뀌는지 패턴으로 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.howto{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14px;line-height:1.7;color:var(--ink);margin-bottom:20px;}
+.howto b{color:var(--coral-ink);}
+.tab-row{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);padding:9px 18px;border-radius:999px;cursor:pointer;transition:all .2s ease;}
+.tab-btn.active{background:var(--coral);border-color:var(--coral);color:#fff;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.1fr 0.9fr;gap:32px;align-items:start;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+.control-row{width:100%;display:flex;flex-direction:column;gap:8px;margin-bottom:18px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--coral-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--violet);outline-offset:2px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:22px 20px;text-align:center;font-family:'Do Hyeon',sans-serif;font-size:clamp(24px,4.5vw,34px);margin-bottom:18px;}
+.equation .pos{color:var(--blue-ink);}
+.equation .neg{color:var(--coral-ink);}
+.pattern-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:16px 18px;}
+.pattern-box .ptitle{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);margin-bottom:10px;}
+.prow{display:flex;justify-content:space-between;align-items:center;font-family:'Do Hyeon',sans-serif;font-size:15px;padding:5px 8px;border-radius:8px;margin-bottom:3px;transition:background .2s ease;}
+.prow.current{background:var(--coral-soft);}
+.prow .parr{color:var(--ink-soft);font-size:13px;}
+.rule-box{display:flex;flex-direction:column;gap:8px;}
+.rule-row{display:flex;align-items:center;gap:10px;font-family:'Do Hyeon',sans-serif;font-size:16px;background:var(--paper);border:2px solid var(--paper-line);border-radius:12px;padding:10px 16px;}
+.rule-row .sign{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;flex-shrink:0;}
+.fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);margin-top:18px;}
+.fact b{color:var(--coral-ink);}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-integer-sign-rules.html" style="color:#fff;background:var(--coral-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🌡️ 정수의 곱셈·나눗셈 부호규칙 실험실</span>
+  <h1>왜 <span>음수 곱하기 음수</span>는<br>양수가 될까?</h1>
+  <p class="sub">외우지 않아도 괜찮아요. 곱하는 수를 1씩 줄여가면서 결과가 어떻게 변하는지 패턴을 보면, 부호가 바뀌는 규칙이 저절로 보여요.</p>
+
+  <div class="tab-row" role="tablist" aria-label="탭 선택">
+    <button class="tab-btn active" data-tab="mul" role="tab" aria-selected="true">✖️ 곱셈 부호규칙</button>
+    <button class="tab-btn" data-tab="div" role="tab" aria-selected="false">➗ 나눗셈 부호규칙</button>
+  </div>
+
+  <div class="howto" id="howtoBox"></div>
+
+  <div class="stage">
+    <div>
+      <div class="control-row">
+        <div class="control-label"><span id="aLabelText">A</span><b id="aLabel">3</b></div>
+        <input id="sliderA" type="range" min="-9" max="9" value="3" step="1" aria-label="A 값 조절">
+      </div>
+      <div class="control-row">
+        <div class="control-label"><span id="bLabelText">B</span><b id="bLabel">2</b></div>
+        <input id="sliderB" type="range" min="-9" max="9" value="2" step="1" aria-label="B 값 조절">
+      </div>
+      <div class="equation" id="eqBox"></div>
+      <div class="pattern-box">
+        <div class="ptitle" id="patternTitle">B를 1씩 줄여가며 결과가 어떻게 변하는지 보세요</div>
+        <div id="patternRows"></div>
+      </div>
+    </div>
+    <div>
+      <div class="rule-box" id="ruleBox"></div>
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="integer-number-line.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">정수와 유리수 (수직선 놀이)</span>
+    </a>
+    <a href="prime-factor-tree.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">소인수분해 나무</span>
+    </a>
+  </nav>
+<footer>부호규칙을 외우는 팁: 음수의 개수를 세어보세요. 곱해지는 음수가 <b>짝수 개</b>면 결과는 양수, <b>홀수 개</b>면 결과는 음수예요.</footer>
+</div>
+
+<script>
+const sliderA = document.getElementById('sliderA');
+const sliderB = document.getElementById('sliderB');
+const aLabel = document.getElementById('aLabel');
+const bLabel = document.getElementById('bLabel');
+const aLabelText = document.getElementById('aLabelText');
+const bLabelText = document.getElementById('bLabelText');
+const eqBox = document.getElementById('eqBox');
+const patternTitle = document.getElementById('patternTitle');
+const patternRows = document.getElementById('patternRows');
+const ruleBox = document.getElementById('ruleBox');
+const factBox = document.getElementById('fact');
+const howtoBox = document.getElementById('howtoBox');
+const tabBtns = document.querySelectorAll('.tab-btn');
+
+let tab = 'mul';
+
+function fmt(n){ return n>=0 ? `${n}` : `(${n})`; }
+function span(n){ return `<span class="${n>=0?'pos':'neg'}">${fmt(n)}</span>`; }
+
+function setTab(t){
+  tab = t;
+  tabBtns.forEach(b=>{
+    const active = b.dataset.tab===t;
+    b.classList.toggle('active', active);
+    b.setAttribute('aria-selected', active?'true':'false');
+  });
+  if(t==='mul'){
+    aLabelText.textContent='A (곱해지는 수)';
+    bLabelText.textContent='B (곱하는 수)';
+    howtoBox.innerHTML = `<b>곱셈 부호규칙</b>: A는 그대로 두고 B를 3, 2, 1, 0, −1, −2 …로 하나씩 줄여보세요. 결과가 A의 크기만큼씩 일정하게 줄어드는 걸 보면, B가 음수가 됐을 때 결과의 부호도 자연스럽게 뒤집히는 걸 알 수 있어요.`;
+    sliderB.min='-9'; sliderB.max='9'; if(parseInt(sliderB.value)===0) sliderB.value='2';
+  } else {
+    aLabelText.textContent='A (나뉘는 수)';
+    bLabelText.textContent='B (나누는 수, 0 제외)';
+    howtoBox.innerHTML = `<b>나눗셈 부호규칙</b>: 나눗셈은 곱셈의 반대예요. "A ÷ B = C"는 "B × C = A"와 같은 뜻이니, 곱셈 부호규칙을 거꾸로 적용하면 나눗셈의 부호규칙도 똑같이 나와요.`;
+    sliderB.min='-9'; sliderB.max='9';
+    if(parseInt(sliderB.value)===0) sliderB.value='2';
+  }
+  render();
+}
+
+tabBtns.forEach(b=> b.addEventListener('click', ()=> setTab(b.dataset.tab)));
+
+function render(){
+  let a = parseInt(sliderA.value);
+  let b = parseInt(sliderB.value);
+  if(tab==='div' && b===0){ b = 1; sliderB.value='1'; }
+  aLabel.textContent=a;
+  bLabel.textContent=b;
+
+  if(tab==='mul'){
+    const r = a*b;
+    eqBox.innerHTML = `${span(a)} × ${span(b)} = ${span(r)}`;
+    patternTitle.textContent = `A = ${a}로 고정하고, B를 하나씩 줄여봐요`;
+    let rows='';
+    for(let k=3;k>=-3;k--){
+      const val=a*k;
+      const isCur = k===b;
+      rows += `<div class="prow${isCur?' current':''}"><span>${span(a)} × ${span(k)}</span><span class="parr">= ${span(val)}</span></div>`;
+    }
+    patternRows.innerHTML = rows;
+    ruleBox.innerHTML = `
+      <div class="rule-row"><span class="sign" style="background:var(--blue-ink)">+</span>양수 × 양수 = <b style="margin-left:4px">양수</b></div>
+      <div class="rule-row"><span class="sign" style="background:var(--coral-ink)">−</span>양수 × 음수 = <b style="margin-left:4px">음수</b></div>
+      <div class="rule-row"><span class="sign" style="background:var(--coral-ink)">−</span>음수 × 양수 = <b style="margin-left:4px">음수</b></div>
+      <div class="rule-row"><span class="sign" style="background:var(--blue-ink)">+</span>음수 × 음수 = <b style="margin-left:4px">양수</b></div>
+    `;
+    factBox.innerHTML = `${span(a)} × ${span(b)} = ${span(r)}. B가 3에서 2, 1, 0으로 줄 때마다 결과는 ${Math.abs(a)}씩 일정하게 줄어들어요. 이 규칙이 B가 음수가 된 뒤에도 그대로 이어지기 때문에, 부호가 자연스럽게 뒤집히는 거예요.`;
+  } else {
+    const r = a/b;
+    const rTxt = Number.isInteger(r) ? span(r) : `${span(a)} ÷ ${span(b)}`;
+    eqBox.innerHTML = `${span(a)} ÷ ${span(b)} = ${Number.isInteger(r)? span(r) : `<span style="font-size:0.6em;color:var(--ink-soft)">(정수 아님)</span>`}`;
+    patternTitle.textContent = `곱셈의 반대로 확인해요: B × C = A`;
+    let rows='';
+    for(let c=3;c>=-3;c--){
+      const val = b*c;
+      const isCur = Number.isInteger(r) && c===r;
+      rows += `<div class="prow${isCur?' current':''}"><span>${span(b)} × ${span(c)}</span><span class="parr">= ${span(val)}</span></div>`;
+    }
+    patternRows.innerHTML = rows;
+    ruleBox.innerHTML = `
+      <div class="rule-row"><span class="sign" style="background:var(--blue-ink)">+</span>양수 ÷ 양수 = <b style="margin-left:4px">양수</b></div>
+      <div class="rule-row"><span class="sign" style="background:var(--coral-ink)">−</span>양수 ÷ 음수 = <b style="margin-left:4px">음수</b></div>
+      <div class="rule-row"><span class="sign" style="background:var(--coral-ink)">−</span>음수 ÷ 양수 = <b style="margin-left:4px">음수</b></div>
+      <div class="rule-row"><span class="sign" style="background:var(--blue-ink)">+</span>음수 ÷ 음수 = <b style="margin-left:4px">양수</b></div>
+    `;
+    if(Number.isInteger(r)){
+      factBox.innerHTML = `${span(a)} ÷ ${span(b)} = ${span(r)}이 맞는지는 거꾸로 곱해보면 확인할 수 있어요: ${span(b)} × ${span(r)} = ${span(b*r)}. 나눗셈의 부호는 곱셈 부호규칙을 거꾸로 적용한 것과 똑같아요.`;
+    } else {
+      factBox.innerHTML = `${a}는 ${b}로 나누어떨어지지 않아요. 그래도 부호는 똑같은 규칙을 따라요 — 두 수의 부호가 같으면 결과는 양수, 다르면 음수예요.`;
+    }
+  }
+}
+
+sliderA.addEventListener('input', render);
+sliderB.addEventListener('input', render);
+setTab('mul');
+</script>
+</body>
+</html>

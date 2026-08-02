@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>소인수분해 나무 실험실</title>
+<meta name="description" content="수를 두 수로 계속 쪼개면서, 더는 쪼갤 수 없는 소수만 남을 때까지 나무 모양으로 소인수분해해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.howto{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14px;line-height:1.7;color:var(--ink);margin-bottom:20px;}
+.howto b{color:var(--coral-ink);}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.control-row{width:100%;display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:24px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--coral-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--violet);outline-offset:2px;}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:10px;padding:6px 12px;cursor:pointer;transition:all .2s ease;}
+.preset-btn:hover{border-color:var(--coral);color:var(--coral-ink);}
+.tree-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:12px;overflow-x:auto;margin-bottom:20px;}
+.tree-box svg{display:block;margin:0 auto;}
+.result-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:18px 20px;text-align:center;}
+.result-box .rtitle{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);margin-bottom:8px;}
+.result-box .rval{font-family:'Do Hyeon',sans-serif;font-size:clamp(24px,4.5vw,34px);color:var(--coral-ink);}
+.fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);margin-top:18px;}
+.fact b{color:var(--coral-ink);}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-prime-factor-tree.html" style="color:#fff;background:var(--coral-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🌳 소인수분해 나무 실험실</span>
+  <h1>수를 계속 쪼개다 보면<br><span>소수</span>만 남아요</h1>
+  <p class="sub">숫자를 두 수의 곱으로 계속 쪼개보세요. 어떤 순서로 쪼개든, 더 이상 쪼갤 수 없는 소수만 남으면 결과는 항상 똑같아요.</p>
+
+  <div class="howto"><b>소인수분해</b>란 어떤 수를 소수(1과 자기 자신으로만 나누어지는 수)들의 곱으로 나타내는 거예요. 나무 그림에서 갈라지는 두 수를 계속 곱하면 원래 수가 되고, 맨 아래 나뭇잎(소수)들만 모아 곱해도 똑같이 원래 수가 나와요.</p>
+
+  <div class="stage">
+    <div class="control-row">
+      <div class="control-label"><span>수 N</span><b id="nLabel">60</b></div>
+      <input id="sliderN" type="range" min="4" max="180" value="60" step="1" aria-label="N 값 조절">
+    </div>
+    <div class="presets">
+      <button class="preset-btn" data-n="12">12</button>
+      <button class="preset-btn" data-n="36">36</button>
+      <button class="preset-btn" data-n="60">60</button>
+      <button class="preset-btn" data-n="72">72</button>
+      <button class="preset-btn" data-n="100">100</button>
+      <button class="preset-btn" data-n="144">144</button>
+      <button class="preset-btn" data-n="17">17 (소수)</button>
+    </div>
+    <div class="tree-box"><svg id="treeSvg"></svg></div>
+    <div class="result-box">
+      <div class="rtitle">소인수분해 결과</div>
+      <div class="rval" id="resultVal"></div>
+    </div>
+    <div class="fact" id="fact"></div>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="integer-sign-rules.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">정수의 곱셈·나눗셈 부호규칙</span>
+    </a>
+    <a href="exponent-notation.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">거듭제곱과 지수법칙 브리지</span>
+    </a>
+  </nav>
+<footer>어떤 순서로 쪼개든 나뭇잎(소수)의 종류와 개수는 항상 똑같아요 — 이걸 "소인수분해의 유일성"이라고 해요.</footer>
+</div>
+
+<script>
+const sliderN = document.getElementById('sliderN');
+const nLabel = document.getElementById('nLabel');
+const svg = document.getElementById('treeSvg');
+const resultVal = document.getElementById('resultVal');
+const factBox = document.getElementById('fact');
+const SVG_NS = 'http://www.w3.org/2000/svg';
+
+function isPrime(n){
+  if(n<2) return false;
+  for(let i=2;i*i<=n;i++){ if(n%i===0) return false; }
+  return true;
+}
+
+function buildTree(n){
+  if(isPrime(n)) return { val:n, leaf:true };
+  let d = Math.floor(Math.sqrt(n));
+  while(d>1 && n%d!==0) d--;
+  const other = n/d;
+  return { val:n, leaf:false, left:buildTree(d), right:buildTree(other) };
+}
+
+function collectLeaves(node, out){
+  if(node.leaf){ out.push(node.val); return; }
+  collectLeaves(node.left, out);
+  collectLeaves(node.right, out);
+}
+
+let leafCounter = 0;
+function layout(node, depth, positions){
+  if(node.leaf){
+    node.x = leafCounter; node.y = depth;
+    leafCounter++;
+    positions.push(node);
+    return;
+  }
+  layout(node.left, depth+1, positions);
+  layout(node.right, depth+1, positions);
+  node.x = (node.left.x + node.right.x)/2;
+  node.y = depth;
+  positions.push(node);
+}
+
+function maxDepth(node){
+  if(node.leaf) return node.y;
+  return Math.max(maxDepth(node.left), maxDepth(node.right), node.y);
+}
+
+function el(tag, attrs){
+  const e = document.createElementNS(SVG_NS, tag);
+  for(const k in attrs) e.setAttribute(k, attrs[k]);
+  return e;
+}
+
+function renderTree(n){
+  leafCounter = 0;
+  const root = isPrime(n) ? { val:n, leaf:true, x:0, y:0 } : buildTree(n);
+  const positions = [];
+  if(root.leaf){ positions.push(root); }
+  else layout(root, 0, positions);
+
+  const depth = maxDepth(root);
+  const leafCount = Math.max(leafCounter, 1);
+  const xSpacing = 78;
+  const ySpacing = 78;
+  const nodeR = 26;
+  const width = Math.max(leafCount * xSpacing, 200);
+  const height = (depth+1) * ySpacing + 20;
+
+  svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+  svg.setAttribute('width', width);
+  svg.setAttribute('height', height);
+  svg.innerHTML = '';
+
+  function px(node){ return node.x*xSpacing + xSpacing/2; }
+  function py(node){ return node.y*ySpacing + 40; }
+
+  // draw connecting lines first (so nodes sit on top)
+  function drawLines(node){
+    if(node.leaf) return;
+    const x1=px(node), y1=py(node);
+    [node.left, node.right].forEach(child=>{
+      const x2=px(child), y2=py(child);
+      svg.appendChild(el('line',{x1,y1,x2,y2,stroke:'var(--paper-line)','stroke-width':3}));
+      drawLines(child);
+    });
+  }
+  drawLines(root);
+
+  // draw nodes
+  function drawNode(node){
+    const x=px(node), y=py(node);
+    const fill = node.leaf ? 'var(--coral)' : 'var(--card)';
+    const stroke = node.leaf ? 'var(--coral-ink)' : 'var(--violet-ink)';
+    const textColor = node.leaf ? '#fff' : 'var(--ink)';
+    svg.appendChild(el('circle',{cx:x,cy:y,r:nodeR,fill,stroke,'stroke-width':2.5}));
+    const t = el('text',{x,y:y+6,'text-anchor':'middle','font-family':"'Do Hyeon',sans-serif",'font-size':17,fill:textColor});
+    t.textContent = node.val;
+    svg.appendChild(t);
+    if(!node.leaf){ drawNode(node.left); drawNode(node.right); }
+  }
+  drawNode(root);
+
+  return root;
+}
+
+function primeFactorsToText(leaves){
+  const counts = {};
+  leaves.forEach(p=>{ counts[p]=(counts[p]||0)+1; });
+  const primes = Object.keys(counts).map(Number).sort((a,b)=>a-b);
+  return primes.map(p=> counts[p]>1 ? `${p}<sup>${counts[p]}</sup>` : `${p}`).join(' × ');
+}
+
+function render(){
+  const n = parseInt(sliderN.value);
+  nLabel.textContent = n;
+
+  if(isPrime(n)){
+    renderTree(n);
+    resultVal.innerHTML = `${n} <span style="color:var(--ink-soft);font-size:0.55em">(이미 소수예요)</span>`;
+    factBox.innerHTML = `${n}은 1과 자기 자신 말고는 나누어떨어지는 수가 없는 <b>소수</b>예요. 그래서 더 쪼갤 필요 없이 나무에 나뭇잎 하나만 있어요.`;
+    return;
+  }
+
+  const root = renderTree(n);
+  const leaves = [];
+  collectLeaves(root, leaves);
+  const text = primeFactorsToText(leaves);
+  resultVal.innerHTML = `${n} = ${text}`;
+
+  const counts = {};
+  leaves.forEach(p=>{ counts[p]=(counts[p]||0)+1; });
+  const primeList = Object.keys(counts).map(Number).sort((a,b)=>a-b);
+  factBox.innerHTML = `${n}을 쪼개다 보면 결국 소수 ${primeList.join(', ')}만 남아요. 슬라이더를 조금만 움직여서 같은 수를 다른 순서로 쪼개봐도(예: 60을 6×10 대신 4×15로 나눠도) 나뭇잎에 남는 소수는 항상 똑같아요 — 이게 "소인수분해는 순서와 상관없이 하나로 정해진다"는 뜻이에요.`;
+}
+
+sliderN.addEventListener('input', render);
+document.querySelectorAll('.preset-btn').forEach(b=>{
+  b.addEventListener('click', ()=>{ sliderN.value=b.dataset.n; render(); });
+});
+render();
+</script>
+</body>
+</html>

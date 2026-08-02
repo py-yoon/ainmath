@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>거듭제곱과 지수법칙 브리지 실험실</title>
+<meta name="description" content="같은 수를 여러 번 곱하는 거듭제곱부터, 두 거듭제곱을 곱하면 지수가 왜 더해지는지까지 이어서 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.tab-row{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);padding:9px 18px;border-radius:999px;cursor:pointer;transition:all .2s ease;}
+.tab-btn.active{background:var(--coral);border-color:var(--coral);color:#fff;}
+.howto{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14px;line-height:1.7;color:var(--ink);margin-bottom:20px;}
+.howto b{color:var(--coral-ink);}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.control-row{width:100%;display:flex;flex-direction:column;gap:8px;margin-bottom:18px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--coral-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--violet);outline-offset:2px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:22px 20px;text-align:center;margin-bottom:18px;}
+.equation .big{font-family:'Do Hyeon',sans-serif;font-size:clamp(22px,4.5vw,32px);color:var(--ink);}
+.equation .expand{font-family:'Do Hyeon',sans-serif;font-size:clamp(15px,2.8vw,20px);color:var(--ink-soft);margin-top:10px;word-break:break-word;}
+.equation .expand b{color:var(--coral-ink);}
+.blocks-row{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:14px;}
+.blk{width:34px;height:34px;border-radius:8px;background:var(--coral);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Do Hyeon',sans-serif;font-size:14px;}
+.chain{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;margin-top:14px;}
+.chain .grp{display:flex;gap:4px;padding:6px;border-radius:10px;border:2px dashed var(--paper-line);}
+.chain .op{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink-soft);}
+.fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);margin-top:18px;}
+.fact b{color:var(--coral-ink);}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-exponent-notation.html" style="color:#fff;background:var(--coral-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">📐 거듭제곱과 지수법칙 브리지 실험실</span>
+  <h1>같은 수를 여러 번 곱한 걸<br><span>거듭제곱</span>이라 불러요</h1>
+  <p class="sub">2³은 그냥 "2세제곱"이 아니라 "2를 3번 곱했다"는 뜻이에요. 이 페이지에서 거듭제곱의 뜻을 먼저 확인하고, 두 거듭제곱을 곱하면 지수가 왜 더해지는지까지 이어서 살펴봐요.</p>
+
+  <div class="tab-row" role="tablist" aria-label="탭 선택">
+    <button class="tab-btn active" data-tab="basic" role="tab" aria-selected="true">🔢 거듭제곱이란?</button>
+    <button class="tab-btn" data-tab="bridge" role="tab" aria-selected="false">🌉 지수법칙 브리지</button>
+  </div>
+
+  <div class="stage" id="basicStage">
+    <div class="howto"><b>거듭제곱</b>: aⁿ에서 a를 <b>밑</b>, n을 <b>지수</b>라고 해요. aⁿ은 a를 n번 곱한다는 뜻이에요(a¹은 그냥 a). 지수를 하나씩 늘려보면서 값이 어떻게 커지는지 확인해보세요.</div>
+    <div class="control-row">
+      <div class="control-label"><span>밑 (a)</span><b id="baseLabel">2</b></div>
+      <input id="sliderBase" type="range" min="2" max="9" value="2" step="1" aria-label="밑 조절">
+    </div>
+    <div class="control-row">
+      <div class="control-label"><span>지수 (n)</span><b id="expLabel">3</b></div>
+      <input id="sliderExp" type="range" min="0" max="6" value="3" step="1" aria-label="지수 조절">
+    </div>
+    <div class="equation">
+      <div class="big" id="eqBig"></div>
+      <div class="expand" id="eqExpand"></div>
+      <div class="blocks-row" id="blocksRow"></div>
+    </div>
+    <div class="fact" id="basicFact"></div>
+  </div>
+
+  <div class="stage" id="bridgeStage" style="display:none;">
+    <div class="howto"><b>지수법칙</b>: 밑이 같은 두 거듭제곱을 곱하면, 곱셈 기호 양쪽의 반복된 곱하기를 그냥 이어붙이면 돼요. 그래서 aᵐ × aⁿ = a<sup>m+n</sup>이 성립해요 — a를 m번 곱한 것과 n번 곱한 것을 합치면 결국 a를 (m+n)번 곱한 것과 같기 때문이에요.</div>
+    <div class="control-row">
+      <div class="control-label"><span>밑 (a)</span><b id="baseLabel2">2</b></div>
+      <input id="sliderBase2" type="range" min="2" max="9" value="2" step="1" aria-label="밑 조절">
+    </div>
+    <div class="control-row">
+      <div class="control-label"><span>지수 m</span><b id="mLabel">3</b></div>
+      <input id="sliderM" type="range" min="1" max="5" value="3" step="1" aria-label="지수 m 조절">
+    </div>
+    <div class="control-row">
+      <div class="control-label"><span>지수 n</span><b id="nLabel">2</b></div>
+      <input id="sliderNexp" type="range" min="1" max="5" value="2" step="1" aria-label="지수 n 조절">
+    </div>
+    <div class="equation">
+      <div class="big" id="bridgeEqBig"></div>
+      <div class="chain" id="bridgeChain"></div>
+    </div>
+    <div class="fact" id="bridgeFact"></div>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="prime-factor-tree.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">소인수분해 나무</span>
+    </a>
+    <a href="repeating-decimal.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">유리수와 순환소수</span>
+    </a>
+  </nav>
+<footer>여기서 익힌 지수법칙은 문자식(단항식)에서도 똑같이 쓰여요. 더 깊이 다루는 "식의 계산(지수법칙·동류항)" 체험도 함께 확인해보세요.</footer>
+</div>
+
+<script>
+const sliderBase = document.getElementById('sliderBase');
+const sliderExp = document.getElementById('sliderExp');
+const baseLabel = document.getElementById('baseLabel');
+const expLabel = document.getElementById('expLabel');
+const eqBig = document.getElementById('eqBig');
+const eqExpand = document.getElementById('eqExpand');
+const blocksRow = document.getElementById('blocksRow');
+const basicFact = document.getElementById('basicFact');
+
+const sliderBase2 = document.getElementById('sliderBase2');
+const sliderM = document.getElementById('sliderM');
+const sliderNexp = document.getElementById('sliderNexp');
+const baseLabel2 = document.getElementById('baseLabel2');
+const mLabel = document.getElementById('mLabel');
+const nLabel2 = document.getElementById('nLabel');
+const bridgeEqBig = document.getElementById('bridgeEqBig');
+const bridgeChain = document.getElementById('bridgeChain');
+const bridgeFact = document.getElementById('bridgeFact');
+
+const basicStage = document.getElementById('basicStage');
+const bridgeStage = document.getElementById('bridgeStage');
+const tabBtns = document.querySelectorAll('.tab-btn');
+
+tabBtns.forEach(b=>{
+  b.addEventListener('click', ()=>{
+    tabBtns.forEach(x=>{ x.classList.toggle('active', x===b); x.setAttribute('aria-selected', x===b?'true':'false'); });
+    const t = b.dataset.tab;
+    basicStage.style.display = t==='basic' ? '' : 'none';
+    bridgeStage.style.display = t==='bridge' ? '' : 'none';
+  });
+});
+
+function renderBasic(){
+  const a = parseInt(sliderBase.value);
+  const n = parseInt(sliderExp.value);
+  baseLabel.textContent = a;
+  expLabel.textContent = n;
+  const result = Math.pow(a, n);
+
+  eqBig.innerHTML = `${a}<sup>${n}</sup> = ${result}`;
+  if(n===0){
+    eqExpand.innerHTML = `아무것도 곱하지 않은 상태(빈 곱)는 약속으로 <b>1</b>이라고 정해요.`;
+    blocksRow.innerHTML = `<div class="blk">1</div>`;
+  } else {
+    const parts = Array(n).fill(a);
+    eqExpand.innerHTML = `${a}를 <b>${n}번</b> 곱해요: ${parts.join(' × ')} = ${result}`;
+    blocksRow.innerHTML = parts.map(v=>`<div class="blk">${v}</div>`).join('');
+  }
+
+  let extra = '';
+  if(n===0){
+    extra = `밑이 무엇이든(0은 제외) 지수가 0이면 항상 결과는 1이에요. 패턴으로 보면 ${a}²=${a*a}, ${a}¹=${a}, ${a}⁰=? 이렇게 지수가 1씩 줄 때마다 ${a}로 나누고 있으니, ${a}÷${a}=1이 되는 게 자연스러워요.`;
+  } else if(n===1){
+    extra = `지수가 1이면 그냥 밑 자기 자신이에요. ${a}¹ = ${a}.`;
+  }
+  basicFact.innerHTML = `${a}<sup>${n}</sup>은 "${a}를 ${n}번 곱하라"는 뜻이에요. 지수(${n})를 1씩 늘릴 때마다 결과는 ${a}배씩 커져요. ${extra}`;
+}
+
+function renderBridge(){
+  const a = parseInt(sliderBase2.value);
+  const m = parseInt(sliderM.value);
+  const n = parseInt(sliderNexp.value);
+  baseLabel2.textContent = a;
+  mLabel.textContent = m;
+  nLabel2.textContent = n;
+
+  const sum = m+n;
+  const result = Math.pow(a, sum);
+
+  bridgeEqBig.innerHTML = `${a}<sup>${m}</sup> × ${a}<sup>${n}</sup> = ${a}<sup>${m}+${n}</sup> = ${a}<sup>${sum}</sup> = ${result}`;
+
+  const groupM = Array(m).fill(a).join(' × ');
+  const groupN = Array(n).fill(a).join(' × ');
+  bridgeChain.innerHTML = `
+    <div class="grp">${groupM}</div>
+    <span class="op">×</span>
+    <div class="grp">${groupN}</div>
+    <span class="op">=</span>
+    <div class="grp" style="border-color:var(--coral-ink)">${Array(sum).fill(a).join(' × ')}</div>
+  `;
+
+  bridgeFact.innerHTML = `${a}<sup>${m}</sup>은 ${a}를 ${m}번 곱한 것, ${a}<sup>${n}</sup>은 ${a}를 ${n}번 곱한 것이에요. 두 그룹을 이어붙이면 ${a}를 총 ${m}+${n}=${sum}번 곱한 것과 완전히 같아지죠. 그래서 <b>${a}<sup>${m}</sup> × ${a}<sup>${n}</sup> = ${a}<sup>${sum}</sup></b>이 성립해요 — 결과를 직접 계산해도 ${result}로 똑같이 나와요. 이 규칙은 숫자 대신 문자(x, y…)를 밑으로 써도 똑같이 성립해요.`;
+}
+
+sliderBase.addEventListener('input', renderBasic);
+sliderExp.addEventListener('input', renderBasic);
+sliderBase2.addEventListener('input', renderBridge);
+sliderM.addEventListener('input', renderBridge);
+sliderNexp.addEventListener('input', renderBridge);
+
+renderBasic();
+renderBridge();
+</script>
+</body>
+</html>

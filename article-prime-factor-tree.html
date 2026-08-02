@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>어떤 순서로 쪼개도 결국 같은 소수가 나오는 이유 | 아인매스</title>
+<meta name="description" content="소인수분해 나무를 그려보면, 어떤 방식으로 쪼개든 맨 아래 남는 소수는 항상 똑같다는 걸 확인할 수 있어요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#FF5B57;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#D90500;background:#FFEAE8">🔢 수와 연산</span>
+  <h1>어떤 순서로 쪼개도 결국 같은 소수가 나오는 이유</h1>
+  <p class="meta">중학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>60이라는 수를 소인수분해 해보라고 하면, 어떤 학생은 6×10으로 시작하고 어떤 학생은 4×15로, 또 어떤 학생은 2×30으로 시작합니다. 시작하는 방식이 다 다른데도, 결국 마지막에 남는 소수들은 정확히 똑같아요. 왜 그럴까요?</p>
+      <p>소인수분해란 어떤 수를 소수(1과 자기 자신으로만 나누어떨어지는 수, 예: 2, 3, 5, 7, 11…)들의 곱으로 나타내는 걸 말해요. "나무"에 비유하면 이해하기 쉬워요. 맨 위에 원래 수를 놓고, 그 수를 두 수의 곱으로 나누어 아래로 가지를 뻗어요. 갈라진 두 수 중에 아직 쪼갤 수 있는 수(합성수)가 있으면 또 그 아래로 가지를 뻗고요. 더 이상 쪼갤 수 없는 소수만 남으면 그 자리에서 가지 뻗기가 멈춥니다. 이렇게 마지막에 나뭇잎처럼 남는 소수들을 전부 곱하면 처음 수로 되돌아가요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 260 200">
+          <line x1="130" y1="30" x2="70" y2="80" stroke="var(--paper-line)" stroke-width="3"></line>
+          <line x1="130" y1="30" x2="190" y2="80" stroke="var(--paper-line)" stroke-width="3"></line>
+          <line x1="70" y1="80" x2="40" y2="140" stroke="var(--paper-line)" stroke-width="3"></line>
+          <line x1="70" y1="80" x2="100" y2="140" stroke="var(--paper-line)" stroke-width="3"></line>
+          <line x1="190" y1="80" x2="160" y2="140" stroke="var(--paper-line)" stroke-width="3"></line>
+          <line x1="190" y1="80" x2="220" y2="140" stroke="var(--paper-line)" stroke-width="3"></line>
+          <circle cx="130" cy="30" r="22" fill="#fff" stroke="var(--violet-ink)" stroke-width="2.5"></circle>
+          <text x="130" y="36" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--ink)">60</text>
+          <circle cx="70" cy="80" r="22" fill="#fff" stroke="var(--violet-ink)" stroke-width="2.5"></circle>
+          <text x="70" y="86" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--ink)">6</text>
+          <circle cx="190" cy="80" r="22" fill="#fff" stroke="var(--violet-ink)" stroke-width="2.5"></circle>
+          <text x="190" y="86" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--ink)">10</text>
+          <circle cx="40" cy="140" r="20" fill="var(--coral)" stroke="var(--coral-ink)" stroke-width="2.5"></circle>
+          <text x="40" y="146" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="#fff">2</text>
+          <circle cx="100" cy="140" r="20" fill="var(--coral)" stroke="var(--coral-ink)" stroke-width="2.5"></circle>
+          <text x="100" y="146" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="#fff">3</text>
+          <circle cx="160" cy="140" r="20" fill="var(--coral)" stroke="var(--coral-ink)" stroke-width="2.5"></circle>
+          <text x="160" y="146" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="#fff">2</text>
+          <circle cx="220" cy="140" r="20" fill="var(--coral)" stroke="var(--coral-ink)" stroke-width="2.5"></circle>
+          <text x="220" y="146" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="#fff">5</text>
+          <text x="130" y="185" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)">나뭇잎: 2, 3, 2, 5 → 60 = 2²×3×5</text>
+        </svg>
+        <div class="illo-caption">60 = 6×10으로 시작해도, 4×15로 시작해도 나뭇잎은 항상 2, 2, 3, 5예요</div>
+      </div>
+      <p>60을 4×15로 시작해서 쪼개봐도 결과는 같아요. 4=2×2, 15=3×5로 갈라지니 나뭇잎은 역시 2, 2, 3, 5가 됩니다. 2×30으로 시작해도 마찬가지예요. 30을 다시 5×6으로, 6을 2×3으로 쪼개면 결국 2, 2, 3, 5로 똑같이 도착하죠. 시작하는 가지는 달라도 도착하는 나뭇잎은 하나로 정해져 있는 거예요. 수학에서는 이걸 <b>소인수분해의 유일성</b>이라고 불러요 — 어떤 자연수든 소인수분해하는 방법은 순서를 무시하면 딱 하나뿐이라는 뜻이에요.</p>
+      <p>이 사실이 왜 중요할까요? 최대공약수와 최소공배수를 구할 때, 두 수를 각각 소인수분해한 다음 공통된 소인수를 비교하는 방법을 쓰는데, 이때 "소인수분해 결과가 항상 하나로 정해진다"는 사실이 전제로 깔려 있어요. 만약 쪼개는 순서에 따라 결과가 달라진다면 이런 비교 자체가 의미 없어지겠죠. 분수를 약분할 때 분자와 분모를 소인수분해해서 공통 인수를 찾는 것도 같은 원리예요.</p>
+      <p>나무를 그릴 때 팁이 하나 있어요. 두 수로 쪼갤 때 아무 쌍이나 골라도 상관없지만, 원래 수의 제곱근에 가까운 두 수로 쪼개면(예: 60이라면 8×8=64에 가까운 6×10 정도) 나무가 좌우로 균형 있게 갈라져서 보기 편해요. 반대로 항상 가장 작은 소수부터 나누는 방법(60÷2=30, 30÷2=15, 15÷3=5)을 쓰면 나무가 한쪽으로 길게 늘어지는 대신, 계산 실수 없이 기계적으로 끝까지 갈 수 있어서 편리해요. 두 방법 다 결과는 똑같으니, 본인이 헷갈리지 않는 방법을 쓰면 됩니다.</p>
+      <p>저희 체험 페이지에서는 슬라이더로 숫자를 바꾸면 자동으로 나무를 그려주는데, 큰 소수로 갈 수 있는 가장 균형 잡힌 방식으로 가지를 나눠서 보여줘요. 12, 36, 60, 72, 100, 144 같은 여러 숫자로 바꿔보면서, 나뭇잎에 어떤 소수가 몇 번씩 나오는지 관찰해보세요. 소수 하나만 슬라이더로 골라보면(예: 17) 나무에 가지 없이 나뭇잎 하나만 남는 것도 확인할 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="prime-factor-tree.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
