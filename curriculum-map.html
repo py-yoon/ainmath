@@ -137,7 +137,7 @@ footer a:hover{color:var(--ink);text-decoration:underline;}
     <div class="explore-head">
       <span class="explore-title">🌀 쉬는 시간 · 수학 탐구</span>
     </div>
-    <p class="explore-desc">특정 학년 교과서 단원에 딱 매이지는 않지만, 수학사 속에서 오랫동안 사랑받아 온 재미있는 패턴들이에요. 초등 고학년부터 중학생까지 누구나 즐길 수 있어요.</p>
+    <p class="explore-desc">특정 학년 교과서 단원에 딱 매이지는 않지만, 수학사 속에서 오랫동안 사랑받아 온 재미있는 패턴들이에요. 초등 저학년부터 고등학생까지 누구나 즐길 수 있어요.</p>
     <div class="unit-list" id="exploreList"></div>
   </div>
 
@@ -354,9 +354,10 @@ const GRADES = [
 const EXPLORE = [
   { icon:'▲', name:'파스칼의 삼각형', exp:[{label:'체험하기', href:'pascal-triangle.html'}], art:[{label:'설명 글', href:'article-pascals-triangle.html'}] },
   { icon:'🌀', name:'피보나치 수열과 나선', exp:[{label:'체험하기', href:'fibonacci-spiral.html'}], art:[{label:'설명 글', href:'article-fibonacci-spiral.html'}] },
+  { icon:'🔢', name:'등차수열과 등비수열 실험실', exp:[{label:'체험하기', href:'sequences.html'}], art:[{label:'설명 글', href:'article-sequences.html'}] },
   { icon:'🔷', name:'테셀레이션 (쪽매맞춤)', exp:[{label:'체험하기', href:'tessellation.html'}], art:[{label:'설명 글', href:'article-tessellation.html'}] },
   { icon:'🔲', name:'마방진 채우기', exp:[{label:'체험하기', href:'magic-square.html'}], art:[{label:'설명 글', href:'article-magic-square.html'}] },
-  { icon:'🗼', name:'하노이의 탑', exp:[{label:'체험하기', href:'hanoi-tower.html'}], art:[] },
+  { icon:'🗼', name:'하노이의 탑', exp:[{label:'체험하기', href:'hanoi-tower.html'}], art:[{label:'설명 글', href:'article-hanoi-tower.html'}] },
   { icon:'🎯', name:'24 게임', exp:[{label:'체험하기', href:'game-24.html'}], art:[{label:'설명 글', href:'article-game-24.html'}] },
   { icon:'🎲', name:'포 포즈 놀이 (Four Fours)', exp:[{label:'체험하기', href:'four-fours.html'}], art:[{label:'설명 글', href:'article-four-fours.html'}] },
   { icon:'🧩', name:'미니 스도쿠', exp:[{label:'체험하기', href:'mini-sudoku.html'}], art:[{label:'설명 글', href:'article-mini-sudoku.html'}] },
@@ -375,7 +376,8 @@ const EXPLORE = [
 
 function unitRowHtml(u){
   const hasLink = (u.exp && u.exp.length) > 0;
-  const links = (u.exp||[]).map(l=>`<a class="unit-link exp" href="${l.href}">🎮 ${l.label}</a>`).join('');
+  const links = (u.exp||[]).map(l=>`<a class="unit-link exp" href="${l.href}">🎮 ${l.label}</a>`).join('')
+    + (u.art||[]).map(l=>`<a class="unit-link art" href="${l.href}">📖 ${l.label}</a>`).join('');
   const iconPrefix = u.icon ? `<span style="margin-right:6px;">${u.icon}</span>` : '';
   return `
     <div class="unit-row ${hasLink?'linked':''}">
