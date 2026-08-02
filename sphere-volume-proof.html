@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>구의 부피 실험실 — 아르키메데스의 증명</title>
+<meta name="description" content="반구와 '원기둥에서 원뿔을 뺀 도형'의 단면 넓이가 항상 같다는 걸 확인하며, 구의 부피가 왜 (4/3)πr³인지 증명해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:66ch;margin:0 0 28px;}
+.howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--violet-ink);}
+
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
+.stage-title{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0 0 6px;}
+.stage-desc{color:var(--ink-soft);font-size:14.5px;line-height:1.7;margin:0 0 20px;max-width:70ch;}
+
+svg{width:100%;height:auto;display:block;overflow:visible;}
+.canvas-row{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;}
+.canvas-col{flex:1;min-width:220px;max-width:320px;text-align:center;}
+.canvas-col .cap{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);margin-top:8px;}
+
+.slider-row{max-width:480px;margin:0 auto 18px;display:flex;flex-direction:column;gap:8px;}
+.slider-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.slider-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--violet-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+
+.eq-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:18px 0;}
+.eq-card{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:14px 20px;text-align:center;min-width:130px;}
+.eq-card .label{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);}
+.eq-card .val{font-family:'Do Hyeon',sans-serif;font-size:22px;margin-top:4px;}
+.eq-card.hemi .val{color:var(--violet-ink);}
+.eq-card.cyl .val{color:var(--coral-ink);}
+.eq-card.match{background:var(--green-soft);}
+.eq-card.match .val{color:var(--green-ink);}
+
+.fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.75;color:var(--ink);max-width:760px;margin:0 auto;}
+.fact b{color:var(--violet-ink);}
+.fact.ok{background:var(--green-soft);}
+.fact.ok b{color:var(--green-ink);}
+
+.formula-final{background:var(--ink);color:#fff;border-radius:20px;padding:26px 24px;text-align:center;margin-top:8px;}
+.formula-final .line1{font-family:'Do Hyeon',sans-serif;font-size:15px;color:#c8cad6;margin-bottom:10px;}
+.formula-final .line2{font-family:'Do Hyeon',sans-serif;font-size:clamp(22px,4vw,30px);}
+.formula-final .line2 b{color:var(--violet);}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-sphere-volume-proof.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🌐 구의 부피 실험실</span>
+  <h1>구의 부피는 왜<br>정확히 <span>(4/3)πr³</span>일까?</h1>
+  <p class="sub">아르키메데스가 스스로 가장 자랑스러워했다는 증명을 따라가봐요. 반구와 "원기둥에서 원뿔을 파낸 도형"을 나란히 놓고 같은 높이에서 잘라보면, 단면의 넓이가 신기하게도 항상 똑같아요.</p>
+
+  <div class="howto">
+    <p><b>카발리에리의 원리</b>: 두 입체를 바닥부터 같은 높이마다 계속 잘라봤을 때, 그 단면의 넓이가 항상 같다면 두 입체의 부피도 반드시 같아요. 이 페이지에서는 반지름 r인 반구와, 반지름·높이가 r인 원기둥에서 반지름 r인 원뿔을 파낸 도형을 비교해요.</p>
+  </div>
+
+  <div class="stage">
+    <p class="stage-title">① 두 입체 비교하기</p>
+    <p class="stage-desc">반지름을 바꿔가며 반구와 "원기둥－원뿔" 도형의 부피를 비교해보세요. 두 부피는 반지름이 얼마든 항상 똑같아요.</p>
+
+    <div class="slider-row">
+      <div class="slider-label"><span>반지름 (r)</span><b id="rLabel">5</b><span>cm</span></div>
+      <input id="sliderR" type="range" min="2" max="9" value="5" step="1" aria-label="반지름 조절">
+    </div>
+
+    <div class="canvas-row">
+      <div class="canvas-col">
+        <svg id="mainSvg" viewBox="0 0 300 260"></svg>
+        <div class="cap">반구 (半球)</div>
+      </div>
+      <div class="canvas-col">
+        <svg id="mainSvg2" viewBox="0 0 300 260"></svg>
+        <div class="cap">원기둥 － 원뿔</div>
+      </div>
+    </div>
+
+    <div class="eq-row">
+      <div class="eq-card hemi"><div class="label">반구 부피</div><div class="val" id="hemiVal">261.8</div></div>
+      <div class="eq-card cyl"><div class="label">원기둥－원뿔 부피</div><div class="val" id="cylMinusConeVal">261.8</div></div>
+      <div class="eq-card match"><div class="label">두 부피의 차이</div><div class="val" id="diffVal">0.0</div></div>
+    </div>
+    <div class="fact ok" id="mainFact"></div>
+  </div>
+
+  <div class="stage">
+    <p class="stage-title">② 같은 높이에서 잘라 단면 비교하기</p>
+    <p class="stage-desc">슬라이더로 자르는 높이를 바꿔보세요. 반구를 자른 원과, 원기둥－원뿔을 자른 고리(도넛 모양)의 넓이가 어느 높이에서든 항상 같다는 걸 확인할 수 있어요.</p>
+
+    <div class="slider-row">
+      <div class="slider-label"><span>자르는 높이 (h)</span><b id="hLabel">2</b><span>cm</span></div>
+      <input id="sliderH" type="range" min="0" max="100" value="44" step="1" aria-label="높이 조절">
+    </div>
+
+    <div class="canvas-row">
+      <div class="canvas-col">
+        <svg id="sliceSvg1" viewBox="0 0 300 260"></svg>
+        <div class="cap">반구의 단면 = 원</div>
+      </div>
+      <div class="canvas-col">
+        <svg id="sliceSvg2" viewBox="0 0 300 260"></svg>
+        <div class="cap">원기둥－원뿔의 단면 = 고리</div>
+      </div>
+    </div>
+
+    <div class="eq-row">
+      <div class="eq-card hemi"><div class="label">원의 넓이 = π(r²－h²)</div><div class="val" id="circleAreaVal">78.5</div></div>
+      <div class="eq-card cyl"><div class="label">고리의 넓이 = πr²－πh²</div><div class="val" id="ringAreaVal">78.5</div></div>
+    </div>
+    <div class="fact ok" id="sliceFact"></div>
+
+    <div class="formula-final">
+      <div class="line1">그래서 반구의 부피는 (원기둥 부피) － (원뿔 부피)</div>
+      <div class="line2">= πr³ － <b>(1/3)πr³</b> = <b>(2/3)πr³</b></div>
+      <div class="line1" style="margin-top:10px;">구 전체는 반구 2개니까 → 구의 부피 = 2 × (2/3)πr³ = <b style="color:#fff;">(4/3)πr³</b></div>
+    </div>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="vectors.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">벡터 실험실</span>
+    </a>
+    <a href="shape-finder.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">평면도형 모양 찾기</span>
+    </a>
+  </nav>
+  <footer>이 증명은 기원전 3세기, 아르키메데스가 직접 발견한 것으로 알려져 있어요. 그는 이 증명을 무척 아껴서, 자신의 무덤에 원기둥 안에 꼭 맞게 들어간 구 그림을 새겨달라고 했대요 — 구의 부피와 겉넓이가 그 원기둥의 정확히 2/3라는 사실을 기리기 위해서였다고 전해져요.</footer>
+</div>
+
+<script>
+/* ===== ① 두 입체 비교 ===== */
+const sliderR = document.getElementById('sliderR');
+const rLabel = document.getElementById('rLabel');
+const mainSvg = document.getElementById('mainSvg');
+const mainSvg2 = document.getElementById('mainSvg2');
+const hemiVal = document.getElementById('hemiVal');
+const cylMinusConeVal = document.getElementById('cylMinusConeVal');
+const diffVal = document.getElementById('diffVal');
+const mainFact = document.getElementById('mainFact');
+
+const PX_PER_CM = 13;
+const ERY = 0.32;
+
+function fmt(n){ return (Math.round(n*10)/10).toFixed(1); }
+
+function renderHemisphereShape(svgEl, rPx, sliceHPx){
+  const cx=150, bottomY=220;
+  const topY = bottomY-rPx;
+  let html = '';
+  html += `<ellipse cx="${cx}" cy="${bottomY}" rx="${rPx}" ry="${rPx*ERY}" fill="var(--violet-soft)" stroke="var(--violet)" stroke-width="2.5"></ellipse>`;
+  html += `<path d="M${cx-rPx},${bottomY} A${rPx},${rPx} 0 0,1 ${cx+rPx},${bottomY}" fill="var(--violet)" fill-opacity="0.16" stroke="var(--violet)" stroke-width="2.5"></path>`;
+  if(sliceHPx!==null){
+    const sliceR = Math.sqrt(Math.max(0,rPx*rPx - sliceHPx*sliceHPx));
+    const sy = bottomY - sliceHPx;
+    html += `<ellipse cx="${cx}" cy="${sy}" rx="${sliceR}" ry="${sliceR*ERY}" fill="var(--green)" fill-opacity="0.6" stroke="var(--green-ink)" stroke-width="2"></ellipse>`;
+    html += `<line x1="${cx-rPx-14}" y1="${bottomY}" x2="${cx-rPx-14}" y2="${sy}" stroke="var(--ink-soft)" stroke-width="1.3" stroke-dasharray="3 3"></line>`;
+    html += `<text x="${cx-rPx-20}" y="${(sy+bottomY)/2}" text-anchor="end" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">h</text>`;
+  }
+  svgEl.innerHTML = html;
+}
+
+function renderCylMinusConeShape(svgEl, rPx, sliceHPx){
+  const cx=150, bottomY=220;
+  const topY = bottomY-rPx;
+  const ery = rPx*ERY;
+  let html = '';
+  html += `<line x1="${cx-rPx}" y1="${topY}" x2="${cx-rPx}" y2="${bottomY}" stroke="var(--coral)" stroke-width="2.5"></line>`;
+  html += `<line x1="${cx+rPx}" y1="${topY}" x2="${cx+rPx}" y2="${bottomY}" stroke="var(--coral)" stroke-width="2.5"></line>`;
+  html += `<ellipse cx="${cx}" cy="${bottomY}" rx="${rPx}" ry="${ery}" fill="var(--coral-soft)" stroke="var(--coral)" stroke-width="2.5"></ellipse>`;
+  // 파낸 원뿔(뒤집힌 모양) - 위쪽 테두리에서 바닥 중심까지
+  html += `<path d="M${cx-rPx},${topY} L${cx},${bottomY} L${cx+rPx},${topY}" fill="var(--paper)" stroke="var(--coral-ink)" stroke-width="2" stroke-dasharray="5 4"></path>`;
+  html += `<path d="M${cx-rPx},${topY} A${rPx},${ery} 0 0,0 ${cx+rPx},${topY}" fill="none" stroke="var(--coral)" stroke-width="2.5"></path>`;
+  html += `<ellipse cx="${cx}" cy="${topY}" rx="${rPx}" ry="${ery}" fill="var(--coral)" fill-opacity="0.3" stroke="var(--coral)" stroke-width="2.5"></ellipse>`;
+  if(sliceHPx!==null){
+    const sy = bottomY - sliceHPx;
+    const innerR = sliceHPx; // 원뿔의 그 높이에서의 반지름 = h
+    html += `<ellipse cx="${cx}" cy="${sy}" rx="${rPx}" ry="${ery}" fill="var(--green)" fill-opacity="0.6" stroke="var(--green-ink)" stroke-width="2"></ellipse>`;
+    if(innerR>1){
+      html += `<ellipse cx="${cx}" cy="${sy}" rx="${innerR}" ry="${innerR*ERY}" fill="var(--paper)" stroke="var(--coral-ink)" stroke-width="1.5"></ellipse>`;
+    }
+  }
+  svgEl.innerHTML = html;
+}
+
+function renderMain(){
+  const r = parseInt(sliderR.value);
+  rLabel.textContent = r;
+  const rPx = r*PX_PER_CM;
+
+  renderHemisphereShape(mainSvg, rPx, null);
+  renderCylMinusConeShape(mainSvg2, rPx, null);
+
+  const hemiVolume = (2/3)*Math.PI*r*r*r;
+  const cylVolume = Math.PI*r*r*r;
+  const coneVolume = (1/3)*Math.PI*r*r*r;
+  const cylMinusCone = cylVolume - coneVolume;
+
+  hemiVal.textContent = fmt(hemiVolume);
+  cylMinusConeVal.textContent = fmt(cylMinusCone);
+  diffVal.textContent = fmt(Math.abs(hemiVolume-cylMinusCone));
+
+  mainFact.innerHTML = `반지름이 ${r}cm일 때, 반구의 부피는 <b>(2/3)π×${r}³ ≈ ${fmt(hemiVolume)}cm³</b>이고, 원기둥(πr³)에서 원뿔((1/3)πr³)을 뺀 부피도 <b>≈ ${fmt(cylMinusCone)}cm³</b>로 완전히 똑같아요. 반지름을 어떻게 바꿔도 이 두 부피는 항상 일치해요.`;
+
+  renderSlice();
+}
+sliderR.addEventListener('input', renderMain);
+
+/* ===== ② 같은 높이 단면 비교 ===== */
+const sliderH = document.getElementById('sliderH');
+const hLabel = document.getElementById('hLabel');
+const sliceSvg1 = document.getElementById('sliceSvg1');
+const sliceSvg2 = document.getElementById('sliceSvg2');
+const circleAreaVal = document.getElementById('circleAreaVal');
+const ringAreaVal = document.getElementById('ringAreaVal');
+const sliceFact = document.getElementById('sliceFact');
+
+function renderSlice(){
+  const r = parseInt(sliderR.value);
+  const hFrac = parseInt(sliderH.value)/100; // 0~0.9 -> 비율
+  const h = hFrac*r;
+  hLabel.textContent = fmt(h);
+
+  const rPx = r*PX_PER_CM;
+  const hPx = hFrac*rPx;
+
+  renderHemisphereShape(sliceSvg1, rPx, hPx);
+  renderCylMinusConeShape(sliceSvg2, rPx, hPx);
+
+  const circleArea = Math.PI*(r*r - h*h);
+  const ringArea = Math.PI*r*r - Math.PI*h*h;
+
+  circleAreaVal.textContent = fmt(circleArea);
+  ringAreaVal.textContent = fmt(ringArea);
+
+  sliceFact.innerHTML = `높이 <b>${fmt(h)}cm</b>에서 자르면, 반구의 단면(원)의 반지름은 √(r²－h²) ≈ ${fmt(Math.sqrt(Math.max(0,r*r-h*h)))}cm로 넓이가 <b>${fmt(circleArea)}cm²</b>예요. 원기둥－원뿔의 단면(고리)은 바깥 반지름 r, 안쪽 반지름 h인 고리라서 넓이가 <b>${fmt(ringArea)}cm²</b> — 소수점까지 완전히 똑같죠? 이 관계는 h가 0부터 r까지 어떤 값이어도 항상 성립해요.`;
+}
+sliderH.addEventListener('input', renderSlice);
+
+renderMain();
+</script>
+</body>
+</html>

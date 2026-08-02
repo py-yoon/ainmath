@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>몬티홀 문제 실험실</title>
-<meta name="description" content="문을 바꾸는 게 정말 유리할까? 100판을 직접 시뮬레이션해서 확률을 눈으로 확인해요.">
+<meta name="description" content="문을 바꾸는 게 정말 유리할까? 문 3개와 10개 버전을 직접 플레이하고 자동 시뮬레이션으로 확률을 눈으로 확인해요.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
@@ -28,8 +28,11 @@ body{
 .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--teal-ink);background:var(--teal-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
 h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
 h1 span{color:var(--teal-ink);}
-.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:66ch;margin:0 0 28px;}
-.howto{background:var(--teal-soft);border-radius:16px;padding:16px 18px;font-size:14px;line-height:1.7;color:var(--ink);margin-bottom:20px;}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:66ch;margin:0 0 22px;}
+.tab-row{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:14.5px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);padding:9px 16px;border-radius:999px;cursor:pointer;transition:all .2s ease;}
+.tab-btn.active{background:var(--teal);border-color:var(--teal);color:#fff;}
+.howto{background:var(--teal-soft);border-radius:16px;padding:16px 18px;font-size:14px;line-height:1.75;color:var(--ink);margin-bottom:20px;}
 .howto b{color:var(--teal-ink);}
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
 .doors-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;}
@@ -40,6 +43,9 @@ h1 span{color:var(--teal-ink);}
 .door.revealed-goat{border-color:var(--coral-ink);background:var(--coral-soft);color:var(--coral-ink);}
 .door.revealed-car{border-color:var(--teal-ink);background:var(--teal-soft);color:var(--teal-ink);}
 .door .icon{font-size:44px;}
+.doors-row.many{gap:10px;}
+.doors-row.many .door{width:76px;height:100px;font-size:12px;gap:4px;border-width:2px;border-radius:10px;}
+.doors-row.many .door .icon{font-size:26px;}
 .status-box{text-align:center;font-family:'Do Hyeon',sans-serif;font-size:17px;color:var(--ink);margin-bottom:18px;min-height:28px;}
 .btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;}
 .act-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--teal);color:#fff;border:none;border-radius:12px;padding:11px 22px;cursor:pointer;transition:transform .15s ease;}
@@ -66,9 +72,14 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   </div>
   <span class="eyebrow">🚪 몬티홀 문제 실험실</span>
   <h1>문을 바꾸면<br>정말 <span>확률이 두 배</span>가 될까?</h1>
-  <p class="sub">문 3개 중 하나에는 자동차, 나머지 둘에는 염소가 있어요. 문을 하나 고르면 사회자가 염소가 있는 다른 문을 열어줘요. 이때 선택을 바꾸는 게 유리할까요, 그대로 두는 게 유리할까요?</p>
+  <p class="sub">문 여러 개 중 하나에만 자동차가 있고, 나머지에는 염소가 있어요. 문을 하나 고르면 사회자가 염소가 있는 다른 문들을 열어줘요. 이때 선택을 바꾸는 게 유리할까요, 그대로 두는 게 유리할까요? 문이 3개일 때는 헷갈려도, 10개로 늘려보면 답이 훨씬 뚜렷해져요.</p>
 
-  <div class="howto"><b>몬티홀 문제</b>: 직관적으로는 "남은 두 문 중 하나니까 50대50 아닐까?" 싶지만, 실제로는 <b>바꾸면 2/3, 그대로 두면 1/3</b> 확률로 자동차를 얻어요. 여러 판을 직접 플레이하거나 자동 시뮬레이션으로 확인해보세요.</p>
+  <div class="tab-row" role="tablist" aria-label="문 개수 선택">
+    <button class="tab-btn active" data-n="3" role="tab" aria-selected="true">🚪 문 3개</button>
+    <button class="tab-btn" data-n="10" role="tab" aria-selected="false">🚪 문 10개로 쉽게 이해하기</button>
+  </div>
+
+  <div class="howto" id="howtoBox"></div>
 
   <div class="stage">
     <div class="status-box" id="statusBox">문을 하나 골라보세요</div>
@@ -102,7 +113,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
       <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">님 게임</span>
     </a>
   </nav>
-<footer>사회자는 항상 "내가 고르지 않은 문 중 염소가 있는 문"을 알고서 열어줘요. 이 정보가 추가되기 때문에 확률이 50대50으로 나뉘지 않아요.</footer>
+<footer>사회자는 항상 "내가 고르지 않은 문 중 염소가 있는 문"만 골라서 열어줘요. 문이 몇 개든 이 규칙은 같아서, 사회자가 열어주지 않고 남겨둔 문 하나에 "내가 처음에 못 고른 나머지 확률"이 전부 몰리게 돼요.</footer>
 </div>
 
 <script>
@@ -112,46 +123,73 @@ const statusBox = document.getElementById('statusBox');
 const switchStat = document.getElementById('switchStat');
 const stayStat = document.getElementById('stayStat');
 const factBox = document.getElementById('fact');
+const howtoBox = document.getElementById('howtoBox');
 const autoBtn = document.getElementById('autoBtn');
 const resetBtn = document.getElementById('resetBtn');
+const tabBtns = document.querySelectorAll('.tab-btn');
 
-let carDoor, picked, revealed, stage; // stage: 'pick' | 'decide' | 'done'
+const HOWTO = {
+  3: `<b>몬티홀 문제</b>: 문 3개 중 1개에만 자동차가 있어요. ① 문을 하나 고르면 자동차일 확률은 1/3이에요. ② 사회자는 남은 2개 문 중 염소가 있는 문을 하나 열어 보여줘요. ③ 남은 다른 문으로 <b>바꾸면 2/3</b>, <b>그대로 두면 1/3</b> 확률로 자동차를 얻어요. 처음 고른 문의 확률(1/3)은 그대로인데, 나머지 확률(2/3)이 사회자가 남겨둔 문 하나에 몰리기 때문이에요.`,
+  10: `<b>문이 10개라면?</b> 처음 고른 문이 자동차일 확률은 1/10뿐이에요. 즉 나머지 9개 문 중 어딘가에 자동차가 있을 확률이 9/10이나 되죠. 사회자가 그 9개 중 염소가 있는 8개를 전부 열어서 보여주고 <b>단 1개만 남겨두면</b>, 원래 9개에 나뉘어 있던 확률 9/10이 고스란히 그 한 문으로 몰려요. 그래서 바꾸면 9/10, 그대로 두면 1/10 확률로 자동차를 얻어요 — 문이 3개일 때보다 훨씬 뚜렷하게 느껴지죠?`,
+};
+const INITIAL_FACT = {
+  3: '문을 골라 게임을 시작해보세요.',
+  10: '문 10개짜리 버전이에요. 사회자가 염소 문 8개를 열어주면, 남은 문 하나가 얼마나 수상한지 확인해보세요!',
+};
+
+let doorCount = 3;
+let carDoor, picked, revealed, remainingDoor, stage; // stage: 'pick' | 'decide' | 'done'
 let stats = { switch:{n:0,w:0}, stay:{n:0,w:0} };
 
 function newRound(){
-  carDoor = Math.floor(Math.random()*3);
+  carDoor = Math.floor(Math.random()*doorCount);
   picked = null;
-  revealed = null;
+  revealed = [];
+  remainingDoor = null;
   stage = 'pick';
-  statusBox.textContent = '문을 하나 골라보세요';
+  statusBox.textContent = doorCount===3 ? '문을 하나 골라보세요' : '문 10개 중 하나를 골라보세요';
   renderDoors();
   renderButtons();
 }
 
+function computeReveal(){
+  const others = [];
+  for(let i=0;i<doorCount;i++) if(i!==picked) others.push(i);
+  if(picked===carDoor){
+    remainingDoor = others[Math.floor(Math.random()*others.length)];
+  } else {
+    remainingDoor = carDoor; // 사회자는 자동차 문을 열 수 없으니, 자동차 문이 곧 남겨질 문
+  }
+  revealed = others.filter(x=>x!==remainingDoor);
+}
+
 function renderDoors(){
   doorsRow.innerHTML = '';
-  for(let i=0;i<3;i++){
+  doorsRow.classList.toggle('many', doorCount>3);
+  for(let i=0;i<doorCount;i++){
     const d = document.createElement('div');
     d.className = 'door';
     if(stage==='pick'){
-      d.innerHTML = `<div class="icon">🚪</div><div>${i+1}번 문</div>`;
+      d.innerHTML = doorCount===3
+        ? `<div class="icon">🚪</div><div>${i+1}번 문</div>`
+        : `<div class="icon">🚪</div><div>${i+1}</div>`;
       d.addEventListener('click', ()=> pickDoor(i));
     } else {
       if(i===picked && stage==='decide') d.classList.add('picked');
-      if(i===revealed) d.classList.add('revealed-goat');
+      if(revealed.includes(i)) d.classList.add('revealed-goat');
       if(stage==='done'){
         if(i===carDoor) d.classList.add('revealed-car');
-        else if(i!==revealed) d.classList.add(i===picked?'picked':'');
+        else if(i===picked) d.classList.add('picked');
       }
       if(stage!=='pick') d.classList.add('disabled');
 
-      let icon = '🚪', label = `${i+1}번 문`;
-      if(i===revealed){ icon='🐐'; label='염소'; }
+      let icon = '🚪', label = doorCount===3 ? `${i+1}번 문` : `${i+1}`;
+      if(revealed.includes(i)){ icon='🐐'; label='염소'; }
       else if(stage==='done'){
         icon = (i===carDoor) ? '🚗' : '🐐';
         label = (i===carDoor) ? '자동차!' : '염소';
       } else if(i===picked){
-        label = `${i+1}번 문 (선택함)`;
+        label = doorCount===3 ? `${i+1}번 문 (선택함)` : `${i+1} (선택)`;
       }
       d.innerHTML = `<div class="icon">${icon}</div><div>${label}</div>`;
     }
@@ -161,16 +199,17 @@ function renderDoors(){
 
 function pickDoor(i){
   picked = i;
-  const others = [0,1,2].filter(x=>x!==picked && x!==carDoor);
-  revealed = others[Math.floor(Math.random()*others.length)];
+  computeReveal();
   stage = 'decide';
-  statusBox.textContent = `${revealed+1}번 문에는 염소가 있었어요. 바꿀까요, 그대로 둘까요?`;
+  statusBox.textContent = doorCount===3
+    ? `${revealed[0]+1}번 문에는 염소가 있었어요. 바꿀까요, 그대로 둘까요?`
+    : `사회자가 염소가 있는 문 ${revealed.length}개를 모두 열었어요. ${remainingDoor+1}번 문만 남았어요. 바꿀까요, 그대로 둘까요?`;
   renderDoors();
   renderButtons();
 }
 
 function decide(didSwitch){
-  const finalDoor = didSwitch ? [0,1,2].find(x=>x!==picked && x!==revealed) : picked;
+  const finalDoor = didSwitch ? remainingDoor : picked;
   const won = finalDoor === carDoor;
   const key = didSwitch ? 'switch' : 'stay';
   stats[key].n++;
@@ -206,29 +245,50 @@ function updateStats(){
   stayStat.textContent = `${stats.stay.n} / ${stats.stay.w}`;
   const sp = stats.switch.n ? Math.round(stats.switch.w/stats.switch.n*1000)/10 : 0;
   const stp = stats.stay.n ? Math.round(stats.stay.w/stats.stay.n*1000)/10 : 0;
+  const theorSwitch = Math.round((doorCount-1)/doorCount*1000)/10;
+  const theorStay = Math.round(1/doorCount*1000)/10;
   if(stats.switch.n + stats.stay.n > 0){
-    factBox.innerHTML = `지금까지 바꿨을 때 승률 <b>${sp}%</b>, 유지했을 때 승률 <b>${stp}%</b>예요. 판수가 많아질수록 바꿨을 때 승률은 66.7%(2/3), 유지했을 때 승률은 33.3%(1/3)에 가까워져요.`;
+    factBox.innerHTML = `지금까지 바꿨을 때 승률 <b>${sp}%</b>, 유지했을 때 승률 <b>${stp}%</b>예요. 판수가 많아질수록 바꿨을 때 승률은 ${theorSwitch}%(${doorCount-1}/${doorCount}), 유지했을 때 승률은 ${theorStay}%(1/${doorCount})에 가까워져요.`;
   }
 }
 
 function runAutoSim(n){
   for(let i=0;i<n;i++){
-    const car = Math.floor(Math.random()*3);
-    const pick = Math.floor(Math.random()*3);
-    const others = [0,1,2].filter(x=>x!==pick && x!==car);
-    const rev = others[Math.floor(Math.random()*others.length)];
-    const switchTo = [0,1,2].find(x=>x!==pick && x!==rev);
-
+    const car = Math.floor(Math.random()*doorCount);
+    const pick = Math.floor(Math.random()*doorCount);
+    let switchTo;
+    if(pick===car){
+      const others = [];
+      for(let k=0;k<doorCount;k++) if(k!==pick) others.push(k);
+      switchTo = others[Math.floor(Math.random()*others.length)];
+    } else {
+      switchTo = car;
+    }
     stats.switch.n++; if(switchTo===car) stats.switch.w++;
     stats.stay.n++; if(pick===car) stats.stay.w++;
   }
   updateStats();
 }
 
+function setDoorCount(n){
+  doorCount = n;
+  tabBtns.forEach(b=>{
+    const active = parseInt(b.dataset.n)===n;
+    b.classList.toggle('active', active);
+    b.setAttribute('aria-selected', active?'true':'false');
+  });
+  howtoBox.innerHTML = HOWTO[n];
+  stats = { switch:{n:0,w:0}, stay:{n:0,w:0} };
+  updateStats();
+  factBox.textContent = INITIAL_FACT[n];
+  newRound();
+}
+tabBtns.forEach(b=> b.addEventListener('click', ()=> setDoorCount(parseInt(b.dataset.n))));
+
 autoBtn.addEventListener('click', ()=> runAutoSim(100));
 resetBtn.addEventListener('click', ()=>{ stats = { switch:{n:0,w:0}, stay:{n:0,w:0} }; updateStats(); factBox.textContent='기록을 초기화했어요.'; });
 
-newRound();
+setDoorCount(3);
 </script>
 </body>
 </html>
