@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>두 점 사이의 거리, 결국 피타고라스 정리예요 | 아인매스</title>
+<meta name="description" content="좌표평면 위 두 점 사이의 거리 공식이 왜 피타고라스 정리에서 나오는지 알아봐요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:280px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#6847F7;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#6847F7;background:#EEE8FF">📐 도형·기하</span>
+  <h1>두 점 사이의 거리, 결국 피타고라스 정리예요</h1>
+  <p class="meta">중학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>좌표평면 위에 점 A(1, 1)과 점 B(5, 4)가 있다고 해봐요. 두 점 사이의 거리는 얼마일까요? 자로 대각선을 재는 것 말고, 계산으로 정확하게 구하는 방법이 있어요. 그리고 그 방법은 놀랍게도 예전에 배운 <b>피타고라스 정리</b>와 완전히 똑같은 원리예요.</p>
+      <p>비결은 두 점을 잇는 대각선 대신, 가로선과 세로선을 하나씩 그어보는 거예요. A(1,1)에서 오른쪽으로 쭉 가서 B와 같은 x좌표인 지점(5,1)까지 가로로 이동하고, 그다음 위로 쭉 올라가 B(5,4)까지 세로로 이동하면 직각삼각형이 만들어져요. 가로로 이동한 거리는 5−1=4, 세로로 이동한 거리는 4−1=3이에요. 그리고 처음에 구하려던 A와 B 사이의 대각선 거리는 바로 이 직각삼각형의 <b>빗변</b>이 되는 거예요!</p>
+      <div class="illo">
+        <svg viewBox="0 0 220 180">
+          <line x1="20" y1="150" x2="200" y2="150" stroke="var(--paper-line)" stroke-width="1.5"></line>
+          <line x1="20" y1="20" x2="20" y2="150" stroke="var(--paper-line)" stroke-width="1.5"></line>
+          <line x1="50" y1="120" x2="170" y2="120" stroke="var(--blue-ink)" stroke-width="2.5" stroke-dasharray="5 3"></line>
+          <line x1="170" y1="120" x2="170" y2="40" stroke="var(--coral-ink)" stroke-width="2.5" stroke-dasharray="5 3"></line>
+          <line x1="50" y1="120" x2="170" y2="40" stroke="var(--violet-ink)" stroke-width="3"></line>
+          <circle cx="50" cy="120" r="5" fill="var(--blue-ink)"></circle>
+          <circle cx="170" cy="40" r="5" fill="var(--coral-ink)"></circle>
+          <text x="35" y="140" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--blue-ink)">A(1,1)</text>
+          <text x="150" y="30" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral-ink)">B(5,4)</text>
+          <text x="95" y="135" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--blue-ink)">가로 4</text>
+          <text x="178" y="85" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--coral-ink)">세로 3</text>
+        </svg>
+        <div class="illo-caption">가로 4, 세로 3인 직각삼각형의 빗변이 바로 A와 B 사이의 거리예요</div>
+      </div>
+      <p>피타고라스 정리는 직각삼각형에서 (밑변)² + (높이)² = (빗변)²이 성립한다는 정리였어요. 여기에 대입하면 4² + 3² = 16 + 9 = 25이니, 빗변(=거리)은 √25 = 5가 됩니다. 실제로 3-4-5는 피타고라스 정리에서 가장 유명한 직각삼각형 조합이에요.</p>
+      <p>이걸 일반적인 공식으로 정리하면 이렇게 돼요. 점 A(x₁, y₁)과 점 B(x₂, y₂) 사이의 거리는, 가로 차이(x₂−x₁)와 세로 차이(y₂−y₁)를 각각 제곱해서 더한 다음 제곱근을 씌운 값이에요: 거리 = √{(x₂−x₁)² + (y₂−y₁)²}. 복잡해 보이지만, 결국 "가로로 얼마나 떨어졌는지"와 "세로로 얼마나 떨어졌는지"를 직각삼각형의 두 변으로 보고, 피타고라스 정리로 빗변을 구하는 것뿐이에요.</p>
+      <p>특별한 경우도 살펴볼까요? 만약 두 점이 세로로만 떨어져 있다면(x좌표가 같다면), 가로 차이는 0이 되니 공식은 그냥 세로 차이의 절댓값이 돼요. 반대로 가로로만 떨어져 있다면 세로 차이가 0이 되어 가로 차이만 남죠. 어느 경우든 공식이 자연스럽게 더 간단한 상황에 맞춰 줄어드는 걸 확인할 수 있어요.</p>
+      <p>이 공식은 나중에 배우는 도형의 넓이 계산이나, 원의 방정식(원 위의 모든 점이 중심에서 같은 거리에 있다는 성질을 식으로 표현), 벡터의 크기 계산에서도 계속 등장하는 아주 기본적인 도구예요. 저희 체험 페이지에서는 A, B 두 점의 좌표를 슬라이더로 자유롭게 바꿔가며, 직각삼각형이 만들어지는 과정과 거리 공식이 적용되는 과정을 단계별로 확인할 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="distance-formula.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
