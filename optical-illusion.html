@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>착시 실험실</title>
-<meta name="description" content="눈으로 보이는 크기와 실제 크기가 다른 두 가지 유명한 착시를 슬라이더로 직접 맞춰보고 검증해요.">
+<meta name="description" content="눈으로 보이는 크기·밝기와 실제 값이 다른 여러 착시를 슬라이더로 직접 맞춰보고 검증해요.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
@@ -30,12 +30,13 @@ h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,
 h1 span{color:var(--teal-ink);}
 .sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:66ch;margin:0 0 28px;}
 .tab-row{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
-.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);padding:9px 18px;border-radius:999px;cursor:pointer;transition:all .2s ease;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:14.5px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);padding:9px 16px;border-radius:999px;cursor:pointer;transition:all .2s ease;}
 .tab-btn.active{background:var(--teal);border-color:var(--teal);color:#fff;}
 .howto{background:var(--teal-soft);border-radius:16px;padding:16px 18px;font-size:14px;line-height:1.7;color:var(--ink);margin-bottom:20px;}
 .howto b{color:var(--teal-ink);}
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
-svg{width:100%;max-width:520px;height:auto;display:block;margin:0 auto;}
+.svg-box{width:100%;overflow-x:auto;}
+svg{display:block;margin:0 auto;width:100%;max-width:560px;height:auto;}
 .control-row{width:100%;max-width:420px;margin:20px auto 0;display:flex;flex-direction:column;gap:8px;}
 .control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
 .control-label b{font-size:22px;color:var(--ink);}
@@ -43,9 +44,10 @@ input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:99
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--teal);border:4px solid #fff;box-shadow:0 2px 8px rgba(46,196,198,0.5);cursor:pointer;}
 input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--teal);border:4px solid #fff;box-shadow:0 2px 8px rgba(46,196,198,0.5);cursor:pointer;}
 input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
-.btn-row{display:flex;justify-content:center;margin-top:20px;}
+.btn-row{display:flex;justify-content:center;gap:10px;margin-top:20px;flex-wrap:wrap;}
 .act-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--teal);color:#fff;border:none;border-radius:12px;padding:11px 22px;cursor:pointer;transition:transform .15s ease;}
 .act-btn:hover{transform:translateY(-2px);}
+.act-btn.secondary{background:var(--card);color:var(--ink);border:2px solid var(--paper-line);}
 .fact{background:var(--teal-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);margin-top:18px;}
 .fact b{color:var(--teal-ink);}
 footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
@@ -58,24 +60,28 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
     <a href="article-optical-illusion.html" style="color:#fff;background:var(--teal-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
   </div>
   <span class="eyebrow">👀 착시 실험실</span>
-  <h1>눈에 보이는 크기와<br><span>진짜 크기</span>는 다를 수 있어요</h1>
-  <p class="sub">슬라이더로 두 도형이 똑같아 보이도록 맞춰보세요. 그런 다음 "정답 보기"를 눌러 실제 크기를 확인하면, 우리 눈이 얼마나 쉽게 속는지 알 수 있어요.</p>
+  <h1>눈에 보이는 크기·밝기와<br><span>진짜 값</span>은 다를 수 있어요</h1>
+  <p class="sub">슬라이더로 두 도형(또는 밝기)이 똑같아 보이도록 맞춰보세요. "정답 보기"로 실제 값을 확인하거나, "자동으로 같게 맞추기"로 진짜 같은 값을 바로 만들어봐도, 눈에는 여전히 달라 보일 수 있어요.</p>
 
   <div class="tab-row" role="tablist" aria-label="탭 선택">
-    <button class="tab-btn active" data-tab="muller" role="tab" aria-selected="true">↔️ 뮐러-라이어 착시</button>
-    <button class="tab-btn" data-tab="ebbinghaus" role="tab" aria-selected="false">⭕ 에빙하우스 착시</button>
+    <button class="tab-btn active" data-tab="muller" role="tab" aria-selected="true">↔️ 뮐러-라이어</button>
+    <button class="tab-btn" data-tab="ebbinghaus" role="tab" aria-selected="false">⭕ 에빙하우스</button>
+    <button class="tab-btn" data-tab="checker" role="tab" aria-selected="false">🌑 체커보드 그림자</button>
+    <button class="tab-btn" data-tab="contrast" role="tab" aria-selected="false">◼️ 동시대비</button>
+    <button class="tab-btn" data-tab="ponzo" role="tab" aria-selected="false">🛤️ 폰조 착시</button>
   </div>
 
   <div class="howto" id="howtoBox"></div>
 
   <div class="stage">
-    <svg id="svg" viewBox="0 0 500 220"></svg>
+    <div class="svg-box"><svg id="svg" viewBox="0 0 500 220"></svg></div>
     <div class="control-row" id="controlRow">
       <div class="control-label"><span id="ctrlLabel">아래 선의 길이</span><b id="ctrlVal"></b></div>
       <input id="slider" type="range" min="60" max="240" value="150" step="1" aria-label="크기 조절">
     </div>
     <div class="btn-row">
-      <button class="act-btn" id="revealBtn">📏 정답 보기 (실제 크기 비교)</button>
+      <button class="act-btn secondary" id="autoBtn">🎯 자동으로 같게 맞추기</button>
+      <button class="act-btn" id="revealBtn">📏 정답 보기</button>
     </div>
     <div class="fact" id="fact"></div>
   </div>
@@ -91,7 +97,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
       <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">파스칼의 삼각형</span>
     </a>
   </nav>
-<footer>착시는 눈이 고장 나서가 아니라, 뇌가 주변 맥락(화살표 방향, 주변 도형의 크기)을 이용해 크기를 "추측"하기 때문에 생겨요. 자로 재보면 언제나 진실을 알 수 있어요.</footer>
+<footer>착시는 눈이 고장 나서가 아니라, 뇌가 주변 맥락(화살표 방향, 주변 도형의 크기, 그림자, 배경 밝기, 원근감)을 이용해 값을 "추측"하기 때문에 생겨요. 자로 재보거나 색을 뽑아보면 언제나 진실을 알 수 있어요.</footer>
 </div>
 
 <script>
@@ -99,7 +105,9 @@ const svg = document.getElementById('svg');
 const slider = document.getElementById('slider');
 const ctrlLabel = document.getElementById('ctrlLabel');
 const ctrlVal = document.getElementById('ctrlVal');
+const controlRow = document.getElementById('controlRow');
 const revealBtn = document.getElementById('revealBtn');
+const autoBtn = document.getElementById('autoBtn');
 const factBox = document.getElementById('fact');
 const howtoBox = document.getElementById('howtoBox');
 const tabBtns = document.querySelectorAll('.tab-btn');
@@ -107,7 +115,12 @@ const SVG_NS = 'http://www.w3.org/2000/svg';
 
 let tab = 'muller';
 let revealed = false;
-const FIXED_LEN = 150; // 위쪽 고정 선의 실제 길이(뮐러라이어) / 왼쪽 중심원 반지름(에빙하우스)
+const FIXED_LEN = 150;      // 뮐러-라이어 위쪽 선 실제 길이
+const EBB_LEFT_R = 45;      // 에빙하우스 왼쪽(고정) 중심원 반지름
+const CONTRAST_GRAY = 130;  // 동시대비 왼쪽(고정) 사각형 실제 밝기
+const PONZO_TOP_LEN = 80;   // 폰조 위쪽(고정) 선분 실제 길이
+const CHECKER_TARGET = 110; // 체커보드 A, B의 실제(동일한) 밝기
+const CHECKER_ALPHA = 0.4;  // 그림자 불투명도
 
 function el(tag, attrs){
   const e = document.createElementNS(SVG_NS, tag);
@@ -115,22 +128,52 @@ function el(tag, attrs){
   return e;
 }
 
+const TABS = {
+  muller: {
+    label:'↔️ 뮐러-라이어',
+    howto:`<b>뮐러-라이어 착시</b>: 화살촉이 바깥으로 벌어진 선(위)과 안으로 모인 선(아래)이 있어요. 두 선이 똑같은 길이로 보이도록 아래 선의 길이를 슬라이더로 조절해보세요.`,
+    ctrlLabel:'아래 선의 길이', min:60, max:240, def:150, trueVal:FIXED_LEN, hasSlider:true,
+  },
+  ebbinghaus: {
+    label:'⭕ 에빙하우스',
+    howto:`<b>에빙하우스 착시</b>: 큰 원들에 둘러싸인 가운데 원(왼쪽)과 작은 원들에 둘러싸인 가운데 원(오른쪽)이 있어요. 두 가운데 원이 똑같은 크기로 보이도록 오른쪽 원의 반지름을 슬라이더로 조절해보세요.`,
+    ctrlLabel:'오른쪽 가운데 원의 반지름', min:20, max:70, def:45, trueVal:EBB_LEFT_R, hasSlider:true,
+  },
+  checker: {
+    label:'🌑 체커보드 그림자',
+    howto:`<b>체커보드 그림자 착시</b>: 원기둥이 드리운 그림자 밖에 있는 밝은 칸 A와, 그림자 안에 있는 어두운 칸 B가 보이나요? 두 칸은 놀랍게도 <b>완전히 같은 회색</b>이에요. "정답 보기"를 누르면 두 칸을 잇는 회색 띠가 나타나서 정말 같은 색이라는 걸 확인할 수 있어요.`,
+    hasSlider:false,
+  },
+  contrast: {
+    label:'◼️ 동시대비',
+    howto:`<b>동시대비 착시</b>: 어두운 배경 위의 회색 사각형(왼쪽)은 실제보다 더 밝아 보이고, 밝은 배경 위의 회색 사각형(오른쪽)은 실제보다 더 어두워 보여요. 오른쪽 사각형의 밝기를 슬라이더로 조절해서 왼쪽과 똑같아 보이게 맞춰보세요.`,
+    ctrlLabel:'오른쪽 사각형의 밝기', min:60, max:220, def:130, trueVal:CONTRAST_GRAY, hasSlider:true,
+  },
+  ponzo: {
+    label:'🛤️ 폰조 착시',
+    howto:`<b>폰조 착시</b>: 철길처럼 한 점으로 모이는 두 직선 사이에 가로 선분 두 개가 있어요. 소실점에 가까운 위쪽 선분이 실제보다 더 길어 보여요. 아래쪽 선분의 길이를 슬라이더로 조절해서 위쪽과 똑같아 보이게 맞춰보세요.`,
+    ctrlLabel:'아래쪽 선분의 길이', min:50, max:200, def:80, trueVal:PONZO_TOP_LEN, hasSlider:true,
+  },
+};
+
 function setTab(t){
   tab = t;
   revealed = false;
+  const cfg = TABS[t];
   tabBtns.forEach(b=>{
     const active = b.dataset.tab===t;
     b.classList.toggle('active', active);
     b.setAttribute('aria-selected', active?'true':'false');
   });
-  if(t==='muller'){
-    howtoBox.innerHTML = `<b>뮐러-라이어 착시</b>: 화살촉이 바깥으로 벌어진 선(위)과 안으로 모인 선(아래)이 있어요. 두 선이 똑같은 길이로 보이도록 아래 선의 길이를 슬라이더로 조절해보세요.`;
-    ctrlLabel.textContent = '아래 선의 길이';
-    slider.min='60'; slider.max='240'; slider.value='150';
+  howtoBox.innerHTML = cfg.howto;
+  if(cfg.hasSlider){
+    controlRow.style.display = '';
+    autoBtn.style.display = '';
+    ctrlLabel.textContent = cfg.ctrlLabel;
+    slider.min = cfg.min; slider.max = cfg.max; slider.value = cfg.def;
   } else {
-    howtoBox.innerHTML = `<b>에빙하우스 착시</b>: 큰 원들에 둘러싸인 가운데 원(왼쪽)과 작은 원들에 둘러싸인 가운데 원(오른쪽)이 있어요. 두 가운데 원이 똑같은 크기로 보이도록 오른쪽 원의 크기를 슬라이더로 조절해보세요.`;
-    ctrlLabel.textContent = '오른쪽 가운데 원의 반지름';
-    slider.min='20'; slider.max='70'; slider.value='45';
+    controlRow.style.display = 'none';
+    autoBtn.style.display = 'none';
   }
   render();
 }
@@ -145,16 +188,15 @@ function drawMuller(){
   function arrowLine(y, len, outward, color){
     const cx = 250;
     const x1 = cx-len/2, x2 = cx+len/2;
-    const g = [];
-    g.push(el('line',{x1,y1:y,x2,y2:y,stroke:color,'stroke-width':4}));
     const finLen=18;
     const dir = outward ? -1 : 1;
-    g.push(el('line',{x1,y1:y,x2:x1-dir*finLen*0.7,y2:y-finLen*0.7,stroke:color,'stroke-width':4}));
-    g.push(el('line',{x1,y1:y,x2:x1-dir*finLen*0.7,y2:y+finLen*0.7,stroke:color,'stroke-width':4}));
-    g.push(el('line',{x1:x2,y1:y,x2:x2+dir*finLen*0.7,y2:y-finLen*0.7,stroke:color,'stroke-width':4}));
-    g.push(el('line',{x1:x2,y1:y,x2:x2+dir*finLen*0.7,y2:y+finLen*0.7,stroke:color,'stroke-width':4}));
-    g.forEach(e=>svg.appendChild(e));
-    return [x1,x2];
+    [
+      [x1,y,x2,y],
+      [x1,y,x1-dir*finLen*0.7,y-finLen*0.7],
+      [x1,y,x1-dir*finLen*0.7,y+finLen*0.7],
+      [x2,y,x2+dir*finLen*0.7,y-finLen*0.7],
+      [x2,y,x2+dir*finLen*0.7,y+finLen*0.7],
+    ].forEach(([x1_,y1_,x2_,y2_])=> svg.appendChild(el('line',{x1:x1_,y1:y1_,x2:x2_,y2:y2_,stroke:color,'stroke-width':4})));
   }
 
   arrowLine(70, FIXED_LEN, true, 'var(--violet-ink)');
@@ -178,64 +220,181 @@ function drawMuller(){
 }
 
 function drawEbbinghaus(){
-  svg.setAttribute('viewBox','0 0 500 260');
+  // 좌우 그룹 모두 중심에서 최대 reach만큼 벗어나도 잘리지 않도록 충분한 여백을 둔 viewBox
+  const VB_W = 560, VB_H = 320;
+  svg.setAttribute('viewBox', `0 0 ${VB_W} ${VB_H}`);
   svg.innerHTML='';
   const val = parseInt(slider.value);
   ctrlVal.textContent = revealed ? `${val}px (실제 반지름)` : '?';
 
-  // 왼쪽: 큰 원들에 둘러싸인 중심원 (실제로 작아 보이는 배치)
-  const leftCx=130, cy=130;
+  const cy = 160;
+  const leftCx = 160, rightCx = 420;
   const bigR = 42;
-  const positions = [];
+  const leftDist = EBB_LEFT_R*2.07; // 큰 원들이 중심원 주위를 도는 반경 (여백 계산에 반영됨)
+
   for(let i=0;i<6;i++){
     const ang = i*Math.PI/3;
-    positions.push([leftCx+Math.cos(ang)*(FIXED_LEN*0.62), cy+Math.sin(ang)*(FIXED_LEN*0.62)]);
+    const [x,y] = [leftCx+Math.cos(ang)*leftDist, cy+Math.sin(ang)*leftDist];
+    svg.appendChild(el('circle',{cx:x,cy:y,r:bigR,fill:'none',stroke:'var(--ink-soft)','stroke-width':2}));
   }
-  positions.forEach(([x,y])=> svg.appendChild(el('circle',{cx:x,cy:y,r:bigR,fill:'none',stroke:'var(--ink-soft)','stroke-width':2})));
-  svg.appendChild(el('circle',{cx:leftCx,cy,r:FIXED_LEN*0.3,fill:'var(--violet-soft)',stroke:'var(--violet-ink)','stroke-width':2.5}));
+  svg.appendChild(el('circle',{cx:leftCx,cy,r:EBB_LEFT_R,fill:'var(--violet-soft)',stroke:'var(--violet-ink)','stroke-width':2.5}));
 
-  // 오른쪽: 작은 원들에 둘러싸인 중심원
-  const rightCx=370;
   const smallR = 14;
-  const positions2 = [];
+  const rightDist = val*0.85+30;
   for(let i=0;i<8;i++){
     const ang = i*Math.PI/4;
-    positions2.push([rightCx+Math.cos(ang)*(val*0.85+30), cy+Math.sin(ang)*(val*0.85+30)]);
+    const [x,y] = [rightCx+Math.cos(ang)*rightDist, cy+Math.sin(ang)*rightDist];
+    svg.appendChild(el('circle',{cx:x,cy:y,r:smallR,fill:'none',stroke:'var(--ink-soft)','stroke-width':2}));
   }
-  positions2.forEach(([x,y])=> svg.appendChild(el('circle',{cx:x,cy:y,r:smallR,fill:'none',stroke:'var(--ink-soft)','stroke-width':2})));
   svg.appendChild(el('circle',{cx:rightCx,cy,r:val,fill:'var(--coral-soft)',stroke:'var(--coral-ink)','stroke-width':2.5}));
 
   if(revealed){
-    const t1 = el('text',{x:leftCx,y:cy+6,'text-anchor':'middle','font-family':"'Do Hyeon',sans-serif",'font-size':13,fill:'var(--violet-ink)'});
-    t1.textContent = `r=${Math.round(FIXED_LEN*0.3)}`;
-    svg.appendChild(t1);
-    const t2 = el('text',{x:rightCx,y:cy+6,'text-anchor':'middle','font-family':"'Do Hyeon',sans-serif",'font-size':13,fill:'var(--coral-ink)'});
-    t2.textContent = `r=${val}`;
-    svg.appendChild(t2);
+    svg.appendChild(el('text',{x:leftCx,y:cy+6,'text-anchor':'middle','font-family':"'Do Hyeon',sans-serif",'font-size':13,fill:'var(--violet-ink)'})).textContent = `r=${EBB_LEFT_R}`;
+    svg.appendChild(el('text',{x:rightCx,y:cy+6,'text-anchor':'middle','font-family':"'Do Hyeon',sans-serif",'font-size':13,fill:'var(--coral-ink)'})).textContent = `r=${val}`;
   }
 }
 
+function drawChecker(){
+  const VB = 320;
+  svg.setAttribute('viewBox', `0 0 ${VB} ${VB}`);
+  svg.innerHTML='';
+
+  const offset = 40, cell = 40, cols=6, rows=6;
+  const lightBase = 200, darkBase = 70;
+  const aCol=1, aRow=1;
+  const bCol=3, bRow=4;
+  const bBaseFill = Math.min(255, Math.round(CHECKER_TARGET/(1-CHECKER_ALPHA)));
+
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<cols;c++){
+      let fill;
+      if(r===aRow && c===aCol) fill = CHECKER_TARGET;
+      else if(r===bRow && c===bCol) fill = bBaseFill;
+      else fill = (r+c)%2===0 ? lightBase : darkBase;
+      svg.appendChild(el('rect',{x:offset+c*cell, y:offset+r*cell, width:cell, height:cell, fill:`rgb(${fill},${fill},${fill})`}));
+    }
+  }
+  // 그림자 (반투명 검정 타원)
+  const shadowCx = offset+3*cell+10, shadowCy = offset+4*cell+20;
+  const shadowRx = 100, shadowRy = 70;
+  svg.appendChild(el('ellipse',{cx:shadowCx, cy:shadowCy, rx:shadowRx, ry:shadowRy, fill:'black', 'fill-opacity':CHECKER_ALPHA}));
+  svg.appendChild(el('text',{x:shadowCx, y:shadowCy-shadowRy+22,'text-anchor':'middle','font-family':"'Do Hyeon',sans-serif",'font-size':13,fill:'#fff'})).textContent = '🌑 그림자';
+
+  // A, B 칸 강조 테두리 + 라벨
+  const aX=offset+aCol*cell, aY=offset+aRow*cell;
+  const bX=offset+bCol*cell, bY=offset+bRow*cell;
+  svg.appendChild(el('rect',{x:aX,y:aY,width:cell,height:cell,fill:'none',stroke:'var(--violet-ink)','stroke-width':3}));
+  svg.appendChild(el('rect',{x:bX,y:bY,width:cell,height:cell,fill:'none',stroke:'var(--coral-ink)','stroke-width':3}));
+  svg.appendChild(el('text',{x:aX+cell/2,y:aY-8,'text-anchor':'middle','font-family':"'Do Hyeon',sans-serif",'font-size':15,fill:'var(--violet-ink)'})).textContent = 'A';
+  svg.appendChild(el('text',{x:bX+cell/2,y:bY+cell+18,'text-anchor':'middle','font-family':"'Do Hyeon',sans-serif",'font-size':15,fill:'var(--coral-ink)'})).textContent = 'B';
+
+  if(revealed){
+    // A와 B를 잇는 같은 회색 띠를 그려서 두 칸이 실제로 같은 색임을 증명
+    const barColor = `rgb(${CHECKER_TARGET},${CHECKER_TARGET},${CHECKER_TARGET})`;
+    svg.appendChild(el('rect',{x:aX, y:aY+cell*0.35, width:(bX-aX)+cell, height:cell*0.3, fill:barColor, opacity:0.92}));
+    svg.appendChild(el('rect',{x:aX+cell*0.35, y:aY, width:cell*0.3, height:(bY-aY)+cell, fill:barColor, opacity:0.92}));
+    svg.appendChild(el('rect',{x:aX+cell*0.35, y:bY, width:(bX-aX)+cell*0.65, height:cell*0.3, fill:barColor, opacity:0.92}));
+  }
+}
+
+function drawContrast(){
+  svg.setAttribute('viewBox','0 0 400 220');
+  svg.innerHTML='';
+  const val = parseInt(slider.value);
+  ctrlVal.textContent = revealed ? `${val} (실제 밝기, 0~255)` : '?';
+
+  svg.appendChild(el('rect',{x:20,y:20,width:170,height:180,fill:'#242424',rx:12}));
+  svg.appendChild(el('rect',{x:210,y:20,width:170,height:180,fill:'#eeeeee',rx:12}));
+
+  svg.appendChild(el('rect',{x:70,y:75,width:70,height:70,fill:`rgb(${CONTRAST_GRAY},${CONTRAST_GRAY},${CONTRAST_GRAY})`}));
+  svg.appendChild(el('rect',{x:260,y:75,width:70,height:70,fill:`rgb(${val},${val},${val})`}));
+
+  svg.appendChild(el('text',{x:105,y:200,'text-anchor':'middle','font-family':"'Do Hyeon',sans-serif",'font-size':13,fill:'#fff'})).textContent = '어두운 배경 위';
+  svg.appendChild(el('text',{x:295,y:200,'text-anchor':'middle','font-family':"'Do Hyeon',sans-serif",'font-size':13,fill:'#333'})).textContent = '밝은 배경 위';
+
+  if(revealed){
+    svg.appendChild(el('text',{x:105,y:55,'text-anchor':'middle','font-family':"'Do Hyeon',sans-serif",'font-size':13,fill:'#fff'})).textContent = `실제 밝기: ${CONTRAST_GRAY}`;
+    svg.appendChild(el('text',{x:295,y:55,'text-anchor':'middle','font-family':"'Do Hyeon',sans-serif",'font-size':13,fill:'#333'})).textContent = `실제 밝기: ${val}`;
+  }
+}
+
+function drawPonzo(){
+  svg.setAttribute('viewBox','0 0 400 340');
+  svg.innerHTML='';
+  const val = parseInt(slider.value);
+  ctrlVal.textContent = revealed ? `${val}px (실제)` : '?';
+
+  const vp = [200,30];
+  const trackBL = [70,320], trackBR = [330,320];
+  svg.appendChild(el('line',{x1:vp[0],y1:vp[1],x2:trackBL[0],y2:trackBL[1],stroke:'var(--ink-soft)','stroke-width':3}));
+  svg.appendChild(el('line',{x1:vp[0],y1:vp[1],x2:trackBR[0],y2:trackBR[1],stroke:'var(--ink-soft)','stroke-width':3}));
+
+  function xAtY(y){
+    const t = (y-vp[1])/(trackBL[1]-vp[1]);
+    return { left: vp[0]+(trackBL[0]-vp[0])*t, right: vp[0]+(trackBR[0]-vp[0])*t };
+  }
+
+  const yTop=130, yBottom=280;
+  const cTop = xAtY(yTop), cMidTop=(cTop.left+cTop.right)/2;
+  const cBottom = xAtY(yBottom), cMidBottom=(cBottom.left+cBottom.right)/2;
+
+  svg.appendChild(el('line',{x1:cMidTop-PONZO_TOP_LEN/2,y1:yTop,x2:cMidTop+PONZO_TOP_LEN/2,y2:yTop,stroke:'var(--violet-ink)','stroke-width':6,'stroke-linecap':'round'}));
+  svg.appendChild(el('line',{x1:cMidBottom-val/2,y1:yBottom,x2:cMidBottom+val/2,y2:yBottom,stroke:'var(--coral-ink)','stroke-width':6,'stroke-linecap':'round'}));
+
+  svg.appendChild(el('text',{x:cMidTop,y:yTop-14,'text-anchor':'middle','font-family':"'Do Hyeon',sans-serif",'font-size':13,fill:'var(--violet-ink)'})).textContent = revealed ? `${PONZO_TOP_LEN}px (실제)` : '위쪽 선분';
+  svg.appendChild(el('text',{x:cMidBottom,y:yBottom+24,'text-anchor':'middle','font-family':"'Do Hyeon',sans-serif",'font-size':13,fill:'var(--coral-ink)'})).textContent = revealed ? `${val}px (실제)` : '아래쪽 선분';
+}
+
 function render(){
-  if(tab==='muller') drawMuller(); else drawEbbinghaus();
-  if(!revealed) factBox.innerHTML = '두 도형이 똑같아 보이도록 슬라이더를 조절한 다음, "정답 보기"를 눌러 실제 크기를 확인해보세요.';
+  if(tab==='muller') drawMuller();
+  else if(tab==='ebbinghaus') drawEbbinghaus();
+  else if(tab==='checker') drawChecker();
+  else if(tab==='contrast') drawContrast();
+  else if(tab==='ponzo') drawPonzo();
+
+  if(!revealed){
+    factBox.innerHTML = TABS[tab].hasSlider
+      ? '두 값이 똑같아 보이도록 슬라이더를 조절한 다음, "정답 보기"를 눌러 실제 값을 확인해보세요.'
+      : 'A 칸과 B 칸이 정말 같은 색인지 "정답 보기"를 눌러 확인해보세요.';
+  }
 }
 
 function reveal(){
   revealed = true;
-  const val = parseInt(slider.value);
+  const val = TABS[tab].hasSlider ? parseInt(slider.value) : null;
   render();
+
   if(tab==='muller'){
     const diff = Math.abs(val - FIXED_LEN);
     factBox.innerHTML = `실제 길이는 위쪽 ${FIXED_LEN}px, 아래쪽 ${val}px이에요 (차이 ${diff}px). 화살촉이 바깥으로 벌어진 선은 실제보다 <b>더 길게</b>, 안으로 모인 선은 실제보다 <b>더 짧게</b> 보이는 경향이 있어요.`;
-  } else {
-    const leftR = Math.round(FIXED_LEN*0.3);
-    const diff = Math.abs(val - leftR);
-    factBox.innerHTML = `실제 반지름은 왼쪽 ${leftR}px, 오른쪽 ${val}px이에요 (차이 ${diff}px). 큰 원들에 둘러싸인 가운데 원은 실제보다 <b>더 작게</b>, 작은 원들에 둘러싸인 가운데 원은 실제보다 <b>더 크게</b> 보이는 경향이 있어요.`;
+  } else if(tab==='ebbinghaus'){
+    const diff = Math.abs(val - EBB_LEFT_R);
+    factBox.innerHTML = `실제 반지름은 왼쪽 ${EBB_LEFT_R}px, 오른쪽 ${val}px이에요 (차이 ${diff}px). 큰 원들에 둘러싸인 가운데 원은 실제보다 <b>더 작게</b>, 작은 원들에 둘러싸인 가운데 원은 실제보다 <b>더 크게</b> 보이는 경향이 있어요.`;
+  } else if(tab==='checker'){
+    factBox.innerHTML = `A와 B는 둘 다 정확히 <b>rgb(${CHECKER_TARGET},${CHECKER_TARGET},${CHECKER_TARGET})</b>로 완전히 같은 회색이에요. A를 잇는 회색 띠가 B까지 자연스럽게 이어지는 걸 보면 확인할 수 있어요. B는 그림자 때문에 어두운 "다크 타일"처럼 보이지만, 실제 칠해진 색은 그림자가 없었다면 거의 흰색(${bBaseFillDisplay()})에 가까울 만큼 밝아요.`;
+  } else if(tab==='contrast'){
+    const diff = Math.abs(val - CONTRAST_GRAY);
+    factBox.innerHTML = `실제 밝기는 왼쪽(어두운 배경) ${CONTRAST_GRAY}, 오른쪽(밝은 배경) ${val}이에요 (차이 ${diff}). 어두운 배경 위 사각형은 실제보다 <b>더 밝게</b>, 밝은 배경 위 사각형은 실제보다 <b>더 어둡게</b> 보이는 경향이 있어요.`;
+  } else if(tab==='ponzo'){
+    const diff = Math.abs(val - PONZO_TOP_LEN);
+    factBox.innerHTML = `실제 길이는 위쪽 ${PONZO_TOP_LEN}px, 아래쪽 ${val}px이에요 (차이 ${diff}px). 소실점에 가까운 위쪽 선분은 실제보다 <b>더 길게</b> 보이는 경향이 있어요(원근감 때문에 "더 멀리 있는데도 이 정도 크기"라고 뇌가 보정하기 때문이에요).`;
   }
+}
+
+function bBaseFillDisplay(){
+  return Math.min(255, Math.round(CHECKER_TARGET/(1-CHECKER_ALPHA)));
+}
+
+function autoMatch(){
+  const cfg = TABS[tab];
+  if(!cfg.hasSlider) return;
+  slider.value = cfg.trueVal;
+  reveal();
 }
 
 slider.addEventListener('input', ()=>{ if(revealed){ revealed=false; } render(); });
 revealBtn.addEventListener('click', reveal);
+autoBtn.addEventListener('click', autoMatch);
 setTab('muller');
 </script>
 </body>
