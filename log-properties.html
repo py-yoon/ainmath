@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>로그의 성질 실험실</title>
+<meta name="description" content="곱셈이 덧셈으로, 거듭제곱이 곱셈으로 바뀌는 로그의 성질을 숫자로 직접 검증해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue-ink);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--blue-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:66ch;margin:0 0 28px;}
+.tab-row{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);padding:9px 18px;border-radius:999px;cursor:pointer;transition:all .2s ease;}
+.tab-btn.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+.howto{background:var(--blue-soft);border-radius:16px;padding:16px 18px;font-size:14px;line-height:1.7;color:var(--ink);margin-bottom:20px;}
+.howto b{color:var(--blue-ink);}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.control-row{width:100%;display:flex;flex-direction:column;gap:8px;margin-bottom:18px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--blue-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:22px 20px;text-align:center;margin-bottom:18px;}
+.equation .big{font-family:'Do Hyeon',sans-serif;font-size:clamp(18px,3.6vw,28px);color:var(--ink);}
+.equation .nums{font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;color:var(--ink-soft);margin-top:10px;}
+.equation .nums b{color:var(--blue-ink);}
+.fact{background:var(--blue-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+.fact b{color:var(--blue-ink);}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-log-properties.html" style="color:#fff;background:var(--blue-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">📊 로그의 성질 실험실</span>
+  <h1>로그를 쓰면<br><span>곱셈이 덧셈</span>으로 바뀌어요</h1>
+  <p class="sub">로그의 성질을 외우지 않아도 괜찮아요. 숫자를 직접 바꿔가며 양쪽 값이 항상 똑같이 나오는지 계산기로 검증하다 보면 왜 그런 성질이 성립하는지 감이 잡혀요.</p>
+
+  <div class="tab-row" role="tablist" aria-label="탭 선택">
+    <button class="tab-btn active" data-tab="mul" role="tab" aria-selected="true">✖️ 곱셈 → 덧셈</button>
+    <button class="tab-btn" data-tab="div" role="tab" aria-selected="false">➗ 나눗셈 → 뺄셈</button>
+    <button class="tab-btn" data-tab="pow" role="tab" aria-selected="false">🔺 거듭제곱 → 계수 곱</button>
+  </div>
+
+  <div class="howto" id="howtoBox"></div>
+
+  <div class="stage">
+    <div class="control-row">
+      <div class="control-label"><span>밑 (a)</span><b id="aLabel">2</b></div>
+      <input id="sliderA" type="range" min="2" max="10" value="2" step="1" aria-label="밑 조절">
+    </div>
+    <div class="control-row" id="mRow">
+      <div class="control-label"><span id="mLabelText">M</span><b id="mLabel">4</b></div>
+      <input id="sliderM" type="range" min="1" max="20" value="4" step="1" aria-label="M 값 조절">
+    </div>
+    <div class="control-row" id="nRow">
+      <div class="control-label"><span id="nLabelText">N</span><b id="nLabel">8</b></div>
+      <input id="sliderN" type="range" min="1" max="20" value="8" step="1" aria-label="N 값 조절">
+    </div>
+    <div class="equation">
+      <div class="big" id="eqBig"></div>
+      <div class="nums" id="eqNums"></div>
+    </div>
+    <div class="fact" id="fact"></div>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="exp-log-function.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">지수함수와 로그함수</span>
+    </a>
+    <a href="sequence-limits.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">수열의 극한</span>
+    </a>
+  </nav>
+<footer>로그는 원래 "지수를 구하는 계산"이에요. 그래서 곱셈·나눗셈·거듭제곱처럼 지수법칙으로 다룰 수 있는 연산은, 로그를 씌우면 덧셈·뺄셈·곱셈처럼 한 단계 더 쉬운 연산으로 바뀌어요.</footer>
+</div>
+
+<script>
+const sliderA = document.getElementById('sliderA');
+const sliderM = document.getElementById('sliderM');
+const sliderN = document.getElementById('sliderN');
+const aLabel = document.getElementById('aLabel');
+const mLabel = document.getElementById('mLabel');
+const nLabel = document.getElementById('nLabel');
+const mLabelText = document.getElementById('mLabelText');
+const nLabelText = document.getElementById('nLabelText');
+const nRow = document.getElementById('nRow');
+const eqBig = document.getElementById('eqBig');
+const eqNums = document.getElementById('eqNums');
+const factBox = document.getElementById('fact');
+const howtoBox = document.getElementById('howtoBox');
+const tabBtns = document.querySelectorAll('.tab-btn');
+
+let tab = 'mul';
+
+function log(a, x){ return Math.log(x)/Math.log(a); }
+function fmt(n){ return Math.round(n*1000)/1000; }
+
+function setTab(t){
+  tab = t;
+  tabBtns.forEach(b=>{
+    const active = b.dataset.tab===t;
+    b.classList.toggle('active', active);
+    b.setAttribute('aria-selected', active?'true':'false');
+  });
+  if(t==='mul'){
+    mLabelText.textContent='M'; nRow.style.display='';
+    howtoBox.innerHTML = `<b>곱셈 법칙</b>: log<sub>a</sub>(M×N) = log<sub>a</sub>M + log<sub>a</sub>N. M과 N을 슬라이더로 바꿔가며 양쪽 값이 항상 똑같은지 확인해보세요.`;
+  } else if(t==='div'){
+    mLabelText.textContent='M'; nRow.style.display='';
+    howtoBox.innerHTML = `<b>나눗셈 법칙</b>: log<sub>a</sub>(M÷N) = log<sub>a</sub>M − log<sub>a</sub>N. 나눗셈이 뺄셈으로 바뀌는 것도 곱셈 법칙과 똑같은 원리예요.`;
+  } else {
+    mLabelText.textContent='M'; nRow.style.display='none';
+    howtoBox.innerHTML = `<b>거듭제곱 법칙</b>: log<sub>a</sub>(M<sup>k</sup>) = k×log<sub>a</sub>M. 지수(k)가 로그 밖으로 나오면서 곱셈이 돼요. k는 왼쪽의 N 슬라이더로 조절해요(1~5).`;
+    sliderN.min='1'; sliderN.max='5';
+    if(parseInt(sliderN.value)>5) sliderN.value='2';
+    nLabelText.textContent='k'; nRow.style.display='';
+  }
+  render();
+}
+
+tabBtns.forEach(b=> b.addEventListener('click', ()=> setTab(b.dataset.tab)));
+
+function render(){
+  const a = parseInt(sliderA.value);
+  const M = parseInt(sliderM.value);
+  const N = parseInt(sliderN.value);
+  aLabel.textContent=a; mLabel.textContent=M; nLabel.textContent=N;
+
+  if(tab==='mul'){
+    const left = log(a, M*N);
+    const right = log(a,M)+log(a,N);
+    eqBig.innerHTML = `log<sub>${a}</sub>(${M}×${N}) = log<sub>${a}</sub>${M} + log<sub>${a}</sub>${N}`;
+    eqNums.innerHTML = `log<sub>${a}</sub>${M*N} = <b>${fmt(left)}</b> &nbsp;&nbsp;|&nbsp;&nbsp; log<sub>${a}</sub>${M} + log<sub>${a}</sub>${N} = ${fmt(log(a,M))} + ${fmt(log(a,N))} = <b>${fmt(right)}</b>`;
+    factBox.innerHTML = `왼쪽 log<sub>${a}</sub>(${M*N}) = ${fmt(left)}, 오른쪽 log<sub>${a}</sub>${M}+log<sub>${a}</sub>${N} = ${fmt(right)} — 두 값이 정확히 같아요. M과 N을 다른 값으로 바꿔봐도 항상 똑같이 성립해요.`;
+  } else if(tab==='div'){
+    const left = log(a, M/N);
+    const right = log(a,M)-log(a,N);
+    eqBig.innerHTML = `log<sub>${a}</sub>(${M}÷${N}) = log<sub>${a}</sub>${M} − log<sub>${a}</sub>${N}`;
+    eqNums.innerHTML = `log<sub>${a}</sub>(${M}/${N}) = <b>${fmt(left)}</b> &nbsp;&nbsp;|&nbsp;&nbsp; log<sub>${a}</sub>${M} − log<sub>${a}</sub>${N} = ${fmt(log(a,M))} − ${fmt(log(a,N))} = <b>${fmt(right)}</b>`;
+    factBox.innerHTML = `왼쪽 log<sub>${a}</sub>(${M}/${N}) = ${fmt(left)}, 오른쪽 log<sub>${a}</sub>${M}−log<sub>${a}</sub>${N} = ${fmt(right)} — 두 값이 정확히 같아요. 나눗셈의 지수법칙(x<sup>m</sup>÷x<sup>n</sup>=x<sup>m−n</sup>)과 똑같은 구조예요.`;
+  } else {
+    const k = N;
+    const left = log(a, Math.pow(M,k));
+    const right = k*log(a,M);
+    eqBig.innerHTML = `log<sub>${a}</sub>(${M}<sup>${k}</sup>) = ${k} × log<sub>${a}</sub>${M}`;
+    eqNums.innerHTML = `log<sub>${a}</sub>${M}<sup>${k}</sup> = log<sub>${a}</sub>${Math.pow(M,k)} = <b>${fmt(left)}</b> &nbsp;&nbsp;|&nbsp;&nbsp; ${k} × log<sub>${a}</sub>${M} = ${k} × ${fmt(log(a,M))} = <b>${fmt(right)}</b>`;
+    factBox.innerHTML = `${M}<sup>${k}</sup> = ${M}을(를) ${k}번 곱한 수인데, 곱셈 법칙을 ${k-1}번 반복 적용하면 log<sub>${a}</sub>${M}이 ${k}번 더해지는 것과 같아요. 그래서 log<sub>${a}</sub>(${M}<sup>${k}</sup>) = ${k}×log<sub>${a}</sub>${M}이 성립해요.`;
+  }
+}
+
+sliderA.addEventListener('input', render);
+sliderM.addEventListener('input', render);
+sliderN.addEventListener('input', render);
+setTab('mul');
+</script>
+</body>
+</html>

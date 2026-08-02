@@ -321,8 +321,8 @@ const GRADES = [
     id:'h2', title:'고등학교 2학년 (대수·미적분Ⅰ·확률과 통계)', badge:'고 2', school:'고등학교', color:'green',
     domains: {
       number: [
-        { name:'지수함수와 로그함수', exp:[{label:'지수함수와 로그함수 실험실', href:'exp-log-function.html'}], art:[{label:'설명 글', href:'article-exp-log-function.html'}] },
-        { name:'수열', exp:[{label:'피보나치 수열과 나선', href:'fibonacci-spiral.html'},{label:'파스칼의 삼각형', href:'pascal-triangle.html'},{label:'등차수열과 등비수열', href:'sequences.html'}], art:[{label:'설명 글', href:'article-fibonacci-spiral.html'},{label:'설명 글', href:'article-pascals-triangle.html'},{label:'설명 글', href:'article-sequences.html'}] },
+        { name:'지수함수와 로그함수', exp:[{label:'지수함수와 로그함수 실험실', href:'exp-log-function.html'},{label:'로그의 성질', href:'log-properties.html'}], art:[{label:'설명 글', href:'article-exp-log-function.html'},{label:'설명 글', href:'article-log-properties.html'}] },
+        { name:'수열', exp:[{label:'피보나치 수열과 나선', href:'fibonacci-spiral.html'},{label:'파스칼의 삼각형', href:'pascal-triangle.html'},{label:'등차수열과 등비수열', href:'sequences.html'},{label:'수열의 극한', href:'sequence-limits.html'}], art:[{label:'설명 글', href:'article-fibonacci-spiral.html'},{label:'설명 글', href:'article-pascals-triangle.html'},{label:'설명 글', href:'article-sequences.html'},{label:'설명 글', href:'article-sequence-limits.html'}] },
       ],
       change: [
         { name:'삼각함수', exp:[{label:'단위원과 삼각비', href:'unit-circle.html'},{label:'삼각함수의 그래프', href:'trig-function-graphs.html'}], art:[{label:'설명 글', href:'article-unit-circle.html'},{label:'설명 글', href:'article-trig-function-graphs.html'}] },
@@ -343,7 +343,8 @@ const GRADES = [
     domains: {
       change: [
         { name:'여러 가지 함수의 미분', exp:[{label:'여러 가지 함수의 미분 실험실', href:'derivative-rules.html'}], art:[{label:'설명 글', href:'article-derivative-rules.html'}] },
-        { name:'여러 가지 적분법', exp:[{label:'여러 가지 적분법 실험실', href:'integration-techniques.html'}], art:[{label:'설명 글', href:'article-integration-techniques.html'}] },
+        { name:'매개변수와 음함수의 미분법', exp:[{label:'매개변수·음함수 미분', href:'parametric-implicit-derivative.html'}], art:[{label:'설명 글', href:'article-parametric-implicit-derivative.html'}] },
+        { name:'여러 가지 적분법', exp:[{label:'여러 가지 적분법 실험실', href:'integration-techniques.html'},{label:'치환적분·부분적분', href:'integration-methods.html'}], art:[{label:'설명 글', href:'article-integration-techniques.html'},{label:'설명 글', href:'article-integration-methods.html'}] },
       ],
       shape: [
         { name:'이차곡선 (타원·포물선·쌍곡선)', exp:[{label:'입체도형 단면 탐구', href:'solid-cross-sections-lab.html'}], art:[{label:'설명 글', href:'article-solid-cross-sections-lab.html'}], note:'원뿔을 잘라 이차곡선이 나오는 원리를 먼저 체험해요. 각 곡선의 방정식 자체는 아직 준비 중이에요' },

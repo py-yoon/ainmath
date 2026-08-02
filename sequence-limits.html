@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>수열의 극한 실험실</title>
+<meta name="description" content="n을 아주 크게 키워가며 수열이 한 값에 다가가는지, 끝없이 커지는지, 진동하는지 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue-ink);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--blue-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:66ch;margin:0 0 28px;}
+.tab-row{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);padding:9px 18px;border-radius:999px;cursor:pointer;transition:all .2s ease;}
+.tab-btn.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+.howto{background:var(--blue-soft);border-radius:16px;padding:16px 18px;font-size:14px;line-height:1.7;color:var(--ink);margin-bottom:20px;}
+.howto b{color:var(--blue-ink);}
+.chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
+.chip-btn{font-family:'Do Hyeon',sans-serif;font-size:14.5px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:10px;padding:7px 14px;cursor:pointer;transition:all .2s ease;}
+.chip-btn.sel{background:var(--ink);border-color:var(--ink);color:#fff;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.control-row{width:100%;display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--blue-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+.preset-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:13.5px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:8px;padding:5px 10px;cursor:pointer;}
+.preset-btn:hover{border-color:var(--blue);color:var(--blue-ink);}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:22px 20px;text-align:center;margin-bottom:18px;}
+.equation .big{font-family:'Do Hyeon',sans-serif;font-size:clamp(20px,4vw,30px);color:var(--ink);}
+table.vt{width:100%;border-collapse:collapse;margin-top:14px;font-family:'Do Hyeon',sans-serif;font-size:14px;}
+table.vt th{color:var(--ink-soft);font-weight:400;padding:6px 4px;border-bottom:2px solid var(--paper-line);}
+table.vt td{padding:6px 4px;text-align:center;border-bottom:1px solid var(--paper-line);}
+table.vt td.cur{background:var(--blue-soft);color:var(--blue-ink);border-radius:6px;}
+.fact{background:var(--blue-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+.fact b{color:var(--blue-ink);}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-sequence-limits.html" style="color:#fff;background:var(--blue-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🎯 수열의 극한 실험실</span>
+  <h1>n이 한없이 커지면<br>수열은 <span>어디로 갈까?</span></h1>
+  <p class="sub">n을 슬라이더로 아주 크게 키워보세요. 어떤 수열은 한 값에 점점 가까워지고(수렴), 어떤 수열은 한없이 커지거나 오락가락하며 정착하지 못해요(발산).</p>
+
+  <div class="tab-row" role="tablist" aria-label="탭 선택">
+    <button class="tab-btn active" data-tab="conv" role="tab" aria-selected="true">🎯 수렴하는 수열</button>
+    <button class="tab-btn" data-tab="div" role="tab" aria-selected="false">🚀 발산하는 수열</button>
+  </div>
+
+  <div class="howto" id="howtoBox"></div>
+
+  <div class="chip-row" id="chipRow"></div>
+
+  <div class="stage">
+    <div class="control-row">
+      <div class="control-label"><span>n</span><b id="nLabel">5</b></div>
+      <input id="sliderN" type="range" min="1" max="1000" value="5" step="1" aria-label="n 값 조절">
+    </div>
+    <div class="preset-row">
+      <button class="preset-btn" data-n="1">n=1</button>
+      <button class="preset-btn" data-n="5">n=5</button>
+      <button class="preset-btn" data-n="10">n=10</button>
+      <button class="preset-btn" data-n="50">n=50</button>
+      <button class="preset-btn" data-n="200">n=200</button>
+      <button class="preset-btn" data-n="1000">n=1000</button>
+    </div>
+    <div class="equation">
+      <div class="big" id="eqBig"></div>
+      <table class="vt" id="valTable"></table>
+    </div>
+    <div class="fact" id="fact"></div>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="log-properties.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">로그의 성질</span>
+    </a>
+    <a href="limits-continuity.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">함수의 극한과 연속</span>
+    </a>
+  </nav>
+<footer>수열의 극한은 "함수의 극한"의 특별한 경우예요(n이 자연수만 가진다는 점만 달라요). 수열에서 익힌 수렴·발산의 감각은 바로 다음 체험인 함수의 극한에서도 그대로 이어져요.</footer>
+</div>
+
+<script>
+const sliderN = document.getElementById('sliderN');
+const nLabel = document.getElementById('nLabel');
+const eqBig = document.getElementById('eqBig');
+const valTable = document.getElementById('valTable');
+const factBox = document.getElementById('fact');
+const howtoBox = document.getElementById('howtoBox');
+const chipRow = document.getElementById('chipRow');
+const tabBtns = document.querySelectorAll('.tab-btn');
+
+const CONV = {
+  'inv':   { label:'aₙ = 1/n', tex:(n)=>`1/${n}`, fn:(n)=> 1/n, limit:0, limitTxt:'0' },
+  'frac':  { label:'aₙ = (2n+1)/(n+3)', tex:(n)=>`(2×${n}+1)/(${n}+3)`, fn:(n)=> (2*n+1)/(n+3), limit:2, limitTxt:'2' },
+  'ratio': { label:'aₙ = (n+1)/n', tex:(n)=>`(${n}+1)/${n}`, fn:(n)=> (n+1)/n, limit:1, limitTxt:'1' },
+};
+const DIV = {
+  'lin':   { label:'aₙ = n', tex:(n)=>`${n}`, fn:(n)=> n, note:'양의 무한대로 발산(한없이 커져요)' },
+  'sq':    { label:'aₙ = n²', tex:(n)=>`${n}²`, fn:(n)=> n*n, note:'양의 무한대로 훨씬 더 빠르게 발산해요' },
+  'osc':   { label:'aₙ = (−1)ⁿ', tex:(n)=>`(−1)^${n}`, fn:(n)=> (n%2===0?1:-1), note:'−1과 1 사이를 계속 오가며 진동, 한 값에 정착하지 못해요(진동 발산)' },
+  'oscn':  { label:'aₙ = (−1)ⁿ × n', tex:(n)=>`(−1)^${n}×${n}`, fn:(n)=> (n%2===0?1:-1)*n, note:'진동하면서 폭까지 점점 커져요(진동 발산)' },
+};
+
+let tab='conv';
+let key='inv';
+
+function fmt(n){
+  if(!isFinite(n)) return '∞';
+  return Math.round(n*10000)/10000;
+}
+
+function buildChips(){
+  const set = tab==='conv' ? CONV : DIV;
+  chipRow.innerHTML = Object.keys(set).map(k=>`<button class="chip-btn${k===key?' sel':''}" data-k="${k}">${set[k].label}</button>`).join('');
+  chipRow.querySelectorAll('.chip-btn').forEach(b=>{
+    b.addEventListener('click', ()=>{ key=b.dataset.k; render(); });
+  });
+}
+
+function setTab(t){
+  tab=t;
+  tabBtns.forEach(b=>{
+    const active=b.dataset.tab===t;
+    b.classList.toggle('active',active);
+    b.setAttribute('aria-selected', active?'true':'false');
+  });
+  key = t==='conv' ? 'inv' : 'lin';
+  if(t==='conv'){
+    howtoBox.innerHTML = `<b>수렴</b>: n이 한없이 커질 때 aₙ이 어떤 한 값(극한값) L에 한없이 가까워지면, 이 수열은 L에 <b>수렴</b>한다고 해요(기호: lim<sub>n→∞</sub> aₙ = L).`;
+  } else {
+    howtoBox.innerHTML = `<b>발산</b>: 수렴하지 않는 수열은 모두 <b>발산</b>한다고 해요. 한없이 커지거나(양의 무한대로 발산) 오락가락하며 어떤 값에도 정착하지 못하는(진동) 두 가지 유형이 있어요.`;
+  }
+  buildChips();
+  render();
+}
+
+tabBtns.forEach(b=> b.addEventListener('click', ()=> setTab(b.dataset.tab)));
+
+function render(){
+  const n = parseInt(sliderN.value);
+  nLabel.textContent = n;
+  const set = tab==='conv' ? CONV : DIV;
+  const item = set[key];
+  const val = item.fn(n);
+
+  eqBig.innerHTML = `${item.label} &nbsp;→&nbsp; a<sub>${n}</sub> = ${item.tex(n)} = <b style="color:var(--blue-ink)">${fmt(val)}</b>`;
+
+  const checkpoints = [1,5,10,50,200,1000];
+  let rows = '<tr><th>n</th>' + checkpoints.map(c=>`<th>${c}</th>`).join('') + '</tr>';
+  rows += '<tr><td>a<sub>n</sub></td>' + checkpoints.map(c=>{
+    const v = item.fn(c);
+    const isCur = c===n;
+    return `<td class="${isCur?'cur':''}">${fmt(v)}</td>`;
+  }).join('') + '</tr>';
+  valTable.innerHTML = rows;
+
+  if(tab==='conv'){
+    factBox.innerHTML = `n이 1, 5, 10, 50, 200, 1000으로 커질수록 a<sub>n</sub>은 점점 <b>${item.limitTxt}</b>에 가까워지고 있어요. 아무리 n을 크게 키워도 이 값에서 벗어나지 않을 거예요. 그래서 lim<sub>n→∞</sub> ${item.label.split('=')[1].trim()} = <b>${item.limitTxt}</b>이라고 써요.`;
+  } else {
+    factBox.innerHTML = `n이 커질수록 a<sub>n</sub>의 값을 보세요 — ${item.note}. 어떤 하나의 값으로도 다가가지 않으니, 이 수열은 <b>발산</b>해요.`;
+  }
+}
+
+sliderN.addEventListener('input', render);
+document.querySelectorAll('.preset-btn').forEach(b=>{
+  b.addEventListener('click', ()=>{ sliderN.value=b.dataset.n; render(); });
+});
+
+setTab('conv');
+</script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>n이 한없이 커지면 수열은 어디로 갈까 | 아인매스</title>
+<meta name="description" content="수열의 극한, 수렴과 발산의 뜻을 숫자로 직접 확인해봐요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#0D62F1;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#0D62F1;background:#E7F0FF">📈 함수와 그래프</span>
+  <h1>n이 한없이 커지면 수열은 어디로 갈까</h1>
+  <p class="meta">고등학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>수열 aₙ = 1/n을 생각해봐요. a₁=1, a₅=0.2, a₁₀=0.1, a₁₀₀=0.01, a₁₀₀₀=0.001… n이 커질수록 값은 점점 작아지면서 0에 가까워집니다. 물론 0이 되지는 않아요(1을 아무리 큰 수로 나눠도 정확히 0은 아니니까요). 하지만 n을 원하는 만큼 얼마든지 크게 키우면, aₙ은 0에서 얼마든지 가까워질 수 있어요. 이럴 때 "수열 aₙ은 0으로 <b>수렴</b>한다"고 말하고, lim<sub>n→∞</sub> aₙ = 0이라고 써요.</p>
+      <p>모든 수열이 이렇게 한 값에 정착하는 건 아니에요. aₙ = n을 보면 1, 2, 3, 4…로 그냥 계속 커지기만 하죠. 어떤 값에도 다가가지 않고 한없이 커지기만 하니, 이 수열은 <b>발산</b>한다고 말해요(정확히는 "양의 무한대로 발산한다"). 발산에는 또 다른 유형도 있어요. aₙ = (−1)ⁿ을 보면 −1, 1, −1, 1…로 두 값 사이를 영원히 오갈 뿐, 한 값에 정착하지 못해요. 커지지도 않는데 수렴도 하지 않는 이런 경우를 <b>진동</b>한다고 말해요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 260 150">
+          <line x1="20" y1="120" x2="240" y2="120" stroke="var(--paper-line)" stroke-width="2"></line>
+          <line x1="20" y1="20" x2="20" y2="130" stroke="var(--paper-line)" stroke-width="2"></line>
+          <circle cx="40" cy="40" r="4" fill="var(--blue-ink)"></circle>
+          <circle cx="70" cy="90" r="4" fill="var(--blue-ink)"></circle>
+          <circle cx="100" cy="105" r="4" fill="var(--blue-ink)"></circle>
+          <circle cx="130" cy="112" r="4" fill="var(--blue-ink)"></circle>
+          <circle cx="160" cy="115" r="4" fill="var(--blue-ink)"></circle>
+          <circle cx="190" cy="117" r="4" fill="var(--blue-ink)"></circle>
+          <circle cx="220" cy="118" r="4" fill="var(--blue-ink)"></circle>
+          <line x1="20" y1="119" x2="240" y2="119" stroke="var(--coral-ink)" stroke-width="1.5" stroke-dasharray="4 3"></line>
+          <text x="200" y="112" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--coral-ink)">극한 0</text>
+          <text x="40" y="140" font-family="'Gowun Dodum',sans-serif" font-size="12" fill="var(--ink-soft)">n=1, 5, 10, 20, 40, 70, 100…</text>
+        </svg>
+        <div class="illo-caption">aₙ = 1/n의 점들이 n이 커질수록 0에 점점 더 가까이 붙어요</div>
+      </div>
+      <p>수렴하는지 아닌지 판단할 때 분수 형태의 수열은 요령이 있어요. aₙ = (2n+1)/(n+3) 같은 식은, 분자와 분모를 각각 n으로 나눠서 (2+1/n)/(1+3/n) 형태로 바꿔볼 수 있어요. n이 한없이 커지면 1/n과 3/n은 둘 다 0에 가까워지니, 결국 분수는 2/1 = 2에 가까워집니다. 이렇게 분자·분모의 최고차항 계수만 비교하면(여기선 2와 1) 극한값을 빠르게 예상할 수 있어요.</p>
+      <p>수열의 극한은 이후에 배우는 <b>함수의 극한</b>과 사실상 같은 개념이에요. 차이는 딱 하나, 수열은 n이 자연수(1, 2, 3…)만 가진다는 점뿐이에요. 함수의 극한에서는 x가 실수 전체를 매끄럽게 움직이며 어떤 값에 다가가는 걸 다루는데, 수열의 극한은 그중에서 정수 지점만 콕콕 짚어보는 특별한 경우라고 생각하면 됩니다. 그래서 수열의 극한에서 익힌 수렴·발산의 감각은 함수의 극한을 배울 때도 그대로 이어져요.</p>
+      <p>저희 체험 페이지에서는 여러 수열 중 하나를 골라 n을 슬라이더로 크게 키워보면서, 값이 어떤 수에 다가가는지(수렴) 아니면 계속 커지거나 오락가락하는지(발산)를 표로 직접 비교할 수 있어요. n=1000까지 키워보면서 값이 정말 안정되는지 확인해보세요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="sequence-limits.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

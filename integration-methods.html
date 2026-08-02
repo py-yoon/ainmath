@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>치환적분·부분적분 실험실</title>
+<meta name="description" content="치환적분과 부분적분으로 구한 부정적분이, 리만 합으로 직접 계산한 정적분 값과 정말 일치하는지 검증해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue-ink);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--blue-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:66ch;margin:0 0 28px;}
+.tab-row{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);padding:9px 18px;border-radius:999px;cursor:pointer;transition:all .2s ease;}
+.tab-btn.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+.howto{background:var(--blue-soft);border-radius:16px;padding:16px 18px;font-size:14px;line-height:1.7;color:var(--ink);margin-bottom:20px;}
+.howto b{color:var(--blue-ink);}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.control-row{width:100%;display:flex;flex-direction:column;gap:8px;margin-bottom:18px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--blue-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+.step-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px 20px;font-family:'Do Hyeon',sans-serif;font-size:15px;line-height:2.1;margin-bottom:18px;}
+.step-box .lbl{color:var(--ink-soft);font-size:13px;}
+.step-box b{color:var(--blue-ink);}
+.verify-box{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media (max-width:600px){ .verify-box{grid-template-columns:1fr;} }
+.verify-card{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:14px 16px;text-align:center;}
+.verify-card .vlbl{font-size:13px;color:var(--ink-soft);margin-bottom:6px;}
+.verify-card .vval{font-family:'Do Hyeon',sans-serif;font-size:22px;color:var(--coral-ink);}
+.fact{background:var(--blue-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);margin-top:18px;}
+.fact b{color:var(--blue-ink);}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-integration-methods.html" style="color:#fff;background:var(--blue-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🔗 치환적분·부분적분 실험실</span>
+  <h1>복잡한 적분도<br><span>두 가지 기술</span>로 풀 수 있어요</h1>
+  <p class="sub">치환적분과 부분적분으로 부정적분을 구한 다음, 아주 잘게 쪼갠 직사각형(리만 합)으로 직접 넓이를 계산해서 두 값이 정말 일치하는지 검증해봐요.</p>
+
+  <div class="tab-row" role="tablist" aria-label="탭 선택">
+    <button class="tab-btn active" data-tab="sub" role="tab" aria-selected="true">🔄 치환적분</button>
+    <button class="tab-btn" data-tab="parts" role="tab" aria-selected="false">🧩 부분적분</button>
+  </div>
+
+  <div class="howto" id="howtoBox"></div>
+
+  <div class="stage">
+    <div id="subControls">
+      <div class="control-row">
+        <div class="control-label"><span>상수 a</span><b id="aLabel">1</b></div>
+        <input id="sliderA" type="range" min="0" max="5" value="1" step="1" aria-label="상수 a 조절">
+      </div>
+      <div class="control-row">
+        <div class="control-label"><span>지수 n</span><b id="nLabel">2</b></div>
+        <input id="sliderNexp" type="range" min="2" max="5" value="2" step="1" aria-label="지수 n 조절">
+      </div>
+    </div>
+    <div id="partsControls" style="display:none;">
+      <div class="control-row">
+        <div class="control-label"><span>계수 k</span><b id="kLabel">1</b></div>
+        <input id="sliderK" type="range" min="1" max="3" value="1" step="0.5" aria-label="계수 k 조절">
+      </div>
+    </div>
+
+    <div class="step-box" id="stepBox"></div>
+    <div class="verify-box">
+      <div class="verify-card">
+        <div class="vlbl">부정적분 공식으로 계산한 정적분</div>
+        <div class="vval" id="formulaVal"></div>
+      </div>
+      <div class="verify-card">
+        <div class="vlbl">리만 합(직사각형 10,000개)으로 계산한 정적분</div>
+        <div class="vval" id="riemannVal"></div>
+      </div>
+    </div>
+    <div class="fact" id="fact"></div>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="integration-techniques.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">여러 가지 적분법</span>
+    </a>
+    <a href="equal-sign-balance.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">등호와 규칙</span>
+    </a>
+  </nav>
+<footer>리만 합은 직사각형을 아주 잘게(10,000개) 쪼개 넓이를 근사하는 방법이에요. 부정적분 공식으로 구한 값과 소수점까지 거의 일치하는 걸 보면, 치환적분·부분적분이 정말 올바른 넓이를 계산해준다는 걸 확인할 수 있어요.</footer>
+</div>
+
+<script>
+const sliderA = document.getElementById('sliderA');
+const sliderNexp = document.getElementById('sliderNexp');
+const sliderK = document.getElementById('sliderK');
+const aLabel = document.getElementById('aLabel');
+const nLabel = document.getElementById('nLabel');
+const kLabel = document.getElementById('kLabel');
+const subControls = document.getElementById('subControls');
+const partsControls = document.getElementById('partsControls');
+const stepBox = document.getElementById('stepBox');
+const formulaVal = document.getElementById('formulaVal');
+const riemannVal = document.getElementById('riemannVal');
+const factBox = document.getElementById('fact');
+const howtoBox = document.getElementById('howtoBox');
+const tabBtns = document.querySelectorAll('.tab-btn');
+
+let tab = 'sub';
+const UPPER = 2; // 정적분 구간 [0, UPPER]
+
+function riemannSum(f, lo, hi, n){
+  const h = (hi-lo)/n;
+  let sum = 0;
+  for(let i=0;i<n;i++){
+    const mid = lo + h*(i+0.5);
+    sum += f(mid)*h;
+  }
+  return sum;
+}
+
+function fmt(n){ return Math.round(n*10000)/10000; }
+
+function setTab(t){
+  tab = t;
+  tabBtns.forEach(b=>{
+    const active = b.dataset.tab===t;
+    b.classList.toggle('active', active);
+    b.setAttribute('aria-selected', active?'true':'false');
+  });
+  subControls.style.display = t==='sub' ? '' : 'none';
+  partsControls.style.display = t==='parts' ? '' : 'none';
+  if(t==='sub'){
+    howtoBox.innerHTML = `<b>치환적분</b>: f(g(x))·g′(x) 꼴의 식은, u=g(x)로 바꿔치기하면 훨씬 간단한 ∫f(u)du 형태가 돼요. 여기서는 ∫2x(x²+a)ⁿdx를 u=x²+a로 치환해봐요(du=2x dx가 딱 맞아떨어져요).`;
+  } else {
+    howtoBox.innerHTML = `<b>부분적분</b>: 두 함수의 곱을 적분할 때 쓰는 공식이에요. ∫u dv = uv − ∫v du. 여기서는 ∫x·e<sup>kx</sup>dx를 u=x, dv=e<sup>kx</sup>dx로 나눠 풀어봐요.`;
+  }
+  render();
+}
+tabBtns.forEach(b=> b.addEventListener('click', ()=> setTab(b.dataset.tab)));
+
+function render(){
+  if(tab==='sub'){
+    const a = parseInt(sliderA.value);
+    const n = parseInt(sliderNexp.value);
+    aLabel.textContent=a; nLabel.textContent=n;
+
+    const f = (x) => 2*x*Math.pow(x*x+a, n);
+    const F = (x) => Math.pow(x*x+a, n+1)/(n+1);
+    const formula = F(UPPER)-F(0);
+    const riemann = riemannSum(f, 0, UPPER, 10000);
+
+    stepBox.innerHTML = `
+      <div class="lbl">원래 적분</div>
+      ∫₀<sup>${UPPER}</sup> 2x(x²+${a})<sup>${n}</sup> dx<br>
+      <div class="lbl" style="margin-top:8px;">치환: u = x²+${a}, du = 2x dx</div>
+      = ∫ u<sup>${n}</sup> du = u<sup>${n+1}</sup>/${n+1} + C<br>
+      <div class="lbl" style="margin-top:8px;">되돌리기: u=x²+${a}</div>
+      F(x) = (x²+${a})<sup>${n+1}</sup>/${n+1}<br>
+      <div class="lbl" style="margin-top:8px;">정적분 값 = F(${UPPER}) − F(0)</div>
+      = <b>${fmt(formula)}</b>
+    `;
+    formulaVal.textContent = fmt(formula);
+    riemannVal.textContent = fmt(riemann);
+    factBox.innerHTML = `공식으로 구한 값 ${fmt(formula)}과 리만 합으로 직접 계산한 값 ${fmt(riemann)}이 소수점 넷째 자리까지 거의 일치해요. u=x²+${a}로 치환해서 구한 부정적분이 정말 맞는 넓이를 준다는 뜻이에요.`;
+  } else {
+    const k = parseFloat(sliderK.value);
+    kLabel.textContent = k;
+
+    const f = (x) => x*Math.exp(k*x);
+    const F = (x) => (x*Math.exp(k*x))/k - Math.exp(k*x)/(k*k);
+    const formula = F(1)-F(0);
+    const riemann = riemannSum(f, 0, 1, 10000);
+
+    stepBox.innerHTML = `
+      <div class="lbl">원래 적분</div>
+      ∫₀¹ x·e<sup>${k}x</sup> dx<br>
+      <div class="lbl" style="margin-top:8px;">u = x, dv = e<sup>${k}x</sup>dx → du = dx, v = e<sup>${k}x</sup>/${k}</div>
+      ∫u dv = uv − ∫v du<br>
+      <div class="lbl" style="margin-top:8px;">대입해서 정리</div>
+      F(x) = x·e<sup>${k}x</sup>/${k} − e<sup>${k}x</sup>/${k}²<br>
+      <div class="lbl" style="margin-top:8px;">정적분 값 = F(1) − F(0)</div>
+      = <b>${fmt(formula)}</b>
+    `;
+    formulaVal.textContent = fmt(formula);
+    riemannVal.textContent = fmt(riemann);
+    factBox.innerHTML = `공식으로 구한 값 ${fmt(formula)}과 리만 합으로 직접 계산한 값 ${fmt(riemann)}이 소수점 넷째 자리까지 거의 일치해요. u와 dv를 나눠서 부분적분한 결과가 정말 맞는 넓이를 준다는 뜻이에요.`;
+  }
+}
+
+sliderA.addEventListener('input', render);
+sliderNexp.addEventListener('input', render);
+sliderK.addEventListener('input', render);
+setTab('sub');
+</script>
+</body>
+</html>

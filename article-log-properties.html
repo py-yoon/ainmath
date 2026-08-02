@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>로그를 쓰면 곱셈이 덧셈이 되는 이유 | 아인매스</title>
+<meta name="description" content="로그의 성질을 외우기 전에, 왜 곱셈이 덧셈으로 바뀌는지부터 이해해봐요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#0D62F1;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#0D62F1;background:#E7F0FF">📈 함수와 그래프</span>
+  <h1>로그를 쓰면 곱셈이 덧셈이 되는 이유</h1>
+  <p class="meta">고등학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>log₂8=3, log₂16=4, log₂128=7. 이 세 수를 잘 보면 3+4=7이라는 걸 알 수 있어요. 그런데 8×16=128이니, 이건 우연이 아니에요. log₂(8×16) = log₂8 + log₂16이 정확히 성립하고 있는 거예요. 로그의 가장 유명한 성질, "곱셈이 덧셈으로 바뀐다"는 규칙이 바로 이거예요.</p>
+      <p>왜 이런 일이 생길까요? 로그는 원래 "몇 제곱해야 이 수가 나올까"를 묻는 계산이에요. log₂8=3은 "2를 3번 곱하면 8이 된다"는 뜻이고, log₂16=4는 "2를 4번 곱하면 16이 된다"는 뜻이죠. 그럼 8×16은 (2×2×2)×(2×2×2×2)이니, 2를 3번 곱한 것과 4번 곱한 것을 이어붙인 셈이에요. 지수법칙에서 aᵐ×aⁿ=a<sup>m+n</sup>이 성립했던 것과 완전히 같은 원리로, 2를 총 3+4=7번 곱한 128이 나오는 거예요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 260 140">
+          <text x="20" y="30" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--ink)">8 = 2³</text>
+          <text x="20" y="55" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--ink)">16 = 2⁴</text>
+          <text x="20" y="80" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--blue-ink)">8 × 16 = 2³ × 2⁴ = 2³⁺⁴ = 2⁷ = 128</text>
+          <line x1="16" y1="95" x2="244" y2="95" stroke="var(--paper-line)" stroke-width="2"></line>
+          <text x="20" y="118" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--coral-ink)">log₂8 + log₂16 = 3 + 4 = 7 = log₂128</text>
+        </svg>
+        <div class="illo-caption">곱셈 안에서 지수가 더해지는 것과, 로그값이 더해지는 것은 같은 사실의 두 가지 표현이에요</div>
+      </div>
+      <p>나눗셈도 똑같은 원리로 뺄셈이 돼요. log<sub>a</sub>(M÷N) = log<sub>a</sub>M − log<sub>a</sub>N인데, 이건 지수법칙에서 x<sup>m</sup>÷x<sup>n</sup>=x<sup>m−n</sup>이었던 것과 대응돼요. 예를 들어 log₂(16÷8) = log₂2 = 1이고, log₂16−log₂8 = 4−3 = 1로 똑같이 나오죠.</p>
+      <p>거듭제곱은 좀 더 재미있어요. log<sub>a</sub>(M<sup>k</sup>) = k×log<sub>a</sub>M인데, 이건 M<sup>k</sup>가 M을 k번 곱한 것이라서 곱셈 법칙을 k−1번 반복 적용한 결과라고 생각하면 돼요. log₂(8²) = log₂64 = 6이고, 2×log₂8 = 2×3 = 6으로 똑같이 나와요. 지수가 로그 앞으로 튀어나와 곱셈이 되는 이 성질은 로그를 이용해 복잡한 지수 계산을 간단하게 만드는 데 자주 쓰여요.</p>
+      <p>이 성질들이 왜 중요할까요? 컴퓨터가 없던 시절, 수학자와 과학자들은 아주 큰 수끼리 곱하는 계산을 로그표를 이용해서 훨씬 쉬운 덧셈으로 바꿔서 계산했어요. 오늘날에도 지진의 세기(리히터 규모)나 소리의 크기(데시벨)처럼 아주 큰 범위의 수를 다룰 때 로그를 쓰는 이유가 바로 이거예요 — 곱셈·나눗셈 관계를 덧셈·뺄셈으로 바꿔서 다루기 쉽게 만들어주거든요.</p>
+      <p>저희 체험 페이지에서는 밑 a와 M, N 값을 슬라이더로 직접 바꿔가며, 로그를 씌우기 전(곱셈·나눗셈·거듭제곱)과 씌운 후(덧셈·뺄셈·곱셈)의 값이 항상 똑같이 나오는지 계산기처럼 검증해볼 수 있어요. 숫자를 여러 조합으로 바꿔보면서 "정말 항상 성립하는구나"를 직접 확인해보세요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="log-properties.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

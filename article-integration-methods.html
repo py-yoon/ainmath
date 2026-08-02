@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>복잡한 적분을 푸는 두 가지 기술 | 아인매스</title>
+<meta name="description" content="치환적분과 부분적분이 왜 성립하는지, 그리고 정말 맞는 답을 주는지 리만 합으로 검증해봐요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#0D62F1;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#0D62F1;background:#E7F0FF">📈 함수와 그래프</span>
+  <h1>복잡한 적분을 푸는 두 가지 기술</h1>
+  <p class="meta">고등학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>∫2x(x²+3)⁴dx 같은 식을 만나면 막막해질 수 있어요. 괄호 안을 억지로 전개해서 다항식으로 만들면 계산은 되지만 너무 번거롭죠. 이럴 때 쓰는 기술이 <b>치환적분</b>이에요. 복잡해 보이는 식 안에 "어떤 함수와 그 함수의 미분"이 짝지어 들어있다면, 그 함수를 통째로 새로운 문자 u로 바꿔치기해서 훨씬 간단한 식으로 만드는 방법이에요.</p>
+      <p>위 예시에서 u=x²+3으로 놓으면 du=2x dx가 돼요. 그런데 원래 식을 보면 딱 2x dx가 곱해져 있죠! 그래서 식 전체가 ∫u⁴du로 바뀌어요. 이건 그냥 거듭제곱의 적분이니 u⁵/5+C로 바로 구할 수 있고, 마지막에 u자리에 x²+3을 다시 넣으면 (x²+3)⁵/5+C가 답이 됩니다. 핵심은 "안쪽 함수"와 "안쪽 함수의 미분"이 곱해진 형태를 알아보는 거예요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 260 130">
+          <text x="20" y="30" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--ink)">∫ 2x(x²+3)⁴ dx</text>
+          <text x="20" y="55" font-family="'Gowun Dodum',sans-serif" font-size="12" fill="var(--ink-soft)">u = x²+3 로 치환 (du = 2x dx)</text>
+          <text x="20" y="80" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--blue-ink)">= ∫ u⁴ du = u⁵/5 + C</text>
+          <text x="20" y="105" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--coral-ink)">= (x²+3)⁵/5 + C</text>
+        </svg>
+        <div class="illo-caption">복잡한 식을 u로 바꿔치기하면 간단한 거듭제곱 적분이 돼요</div>
+      </div>
+      <p>또 다른 기술은 <b>부분적분</b>이에요. ∫x·eˣdx처럼 서로 다른 두 종류의 함수(다항식과 지수함수)가 곱해진 형태는 치환으로 잘 풀리지 않아요. 이럴 때는 곱의 미분법을 거꾸로 이용한 공식을 써요: ∫u dv = uv − ∫v du. u=x, dv=eˣdx로 나누면 du=dx, v=eˣ이 되고, 공식에 대입하면 ∫x·eˣdx = x·eˣ − ∫eˣdx = x·eˣ − eˣ + C가 나와요. u와 dv를 어떻게 나누느냐가 핵심인데, 보통 미분하면 더 간단해지는 쪽(다항식)을 u로, 적분하기 쉬운 쪽(지수함수, 삼각함수)을 dv로 고르면 잘 풀려요.</p>
+      <p>이 두 방법이 정말 맞는 답을 주는지 어떻게 확신할 수 있을까요? 가장 확실한 방법은 직접 검산해보는 거예요. 정적분 구간을 아주 잘게(예: 10,000개) 쪼갠 직사각형의 넓이를 모두 더하는 <b>리만 합</b>으로 근사값을 구한 다음, 치환적분·부분적분으로 얻은 부정적분에 구간의 양 끝값을 대입해서 나온 값과 비교하는 거예요. 두 값이 소수점 넷째 자리까지 거의 똑같이 나온다면, 우리가 구한 부정적분이 정말 정확한 넓이를 계산해준다는 뜻이에요.</p>
+      <p>저희 체험 페이지에서는 치환적분 탭에서 ∫2x(x²+a)ⁿdx를, 부분적분 탭에서 ∫x·eᵏˣdx를 슬라이더로 상수를 바꿔가며 풀어볼 수 있어요. 계산 단계를 하나씩 보여준 다음, 공식으로 구한 정적분 값과 리만 합으로 직접 계산한 값을 나란히 비교해서 정말 일치하는지 눈으로 확인할 수 있습니다.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="integration-methods.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
