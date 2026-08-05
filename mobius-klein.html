@@ -294,6 +294,7 @@ function initThree(){
 
 function onPointerDown(e){
   if(drawMode && tab==='mobius'){
+    stopAutoDraw();
     isDrawingStroke = true;
     autoRotate = false;
     currentStrokePoints = [];
@@ -358,6 +359,12 @@ function clearDrawing(){
 }
 
 let autoDrawState = null; // { points: [], u: 0 }
+function stopAutoDraw(){
+  if(autoDrawState){
+    autoDrawState = null;
+    if(currentStrokeLine){ strokes.push(currentStrokeLine); currentStrokeLine = null; }
+  }
+}
 function startAutoDraw(){
   autoRotate = false;
   autoDrawState = { pts: [], u: 0, v0: 0.75 };

@@ -49,8 +49,11 @@ h1 span{color:var(--coral-ink);}
 .target-badge b{color:var(--blue-ink);font-size:1.3em;}
 
 .jugs-row{display:flex;gap:26px;justify-content:center;align-items:flex-end;min-height:180px;margin-bottom:18px;flex-wrap:wrap;}
-.jug-col{display:flex;flex-direction:column;align-items:center;gap:10px;}
-.jug{width:72px;border:3px solid var(--blue);border-radius:0 0 16px 16px;border-top:none;position:relative;display:flex;align-items:flex-end;background:#fff;overflow:hidden;}
+.jug-col{display:flex;flex-direction:column;align-items:center;gap:10px;border-radius:16px;transition:box-shadow .15s ease;}
+.jug-col.drop-target{box-shadow:0 0 0 4px var(--green-soft);}
+.jug-col.drop-target .jug{border-color:var(--green-ink);}
+.jug{width:72px;border:3px solid var(--blue);border-radius:0 0 16px 16px;border-top:none;position:relative;display:flex;align-items:flex-end;background:#fff;overflow:hidden;cursor:grab;touch-action:none;user-select:none;transition:border-color .15s ease;}
+.jug.dragging{cursor:grabbing;z-index:20;filter:drop-shadow(0 8px 14px rgba(34,40,58,0.25));transition:none;pointer-events:none;}
 .jug-fill{width:100%;background:var(--blue);opacity:.55;transition:height .3s ease;}
 .jug-cap-line{position:absolute;top:0;left:0;right:0;border-top:2px dashed var(--paper-line);}
 .jug-amt{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);}
@@ -104,6 +107,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
 
   <div class="howto">
     <p>할 수 있는 행동은 딱 세 가지예요: <b>채우기</b>(양동이를 가득 채움), <b>비우기</b>(양동이를 완전히 비움), <b>붓기</b>(한 양동이에서 다른 양동이로, 부어지는 쪽이 가득 차거나 붓는 쪽이 빌 때까지 옮기기). 이 세 가지만으로 목표한 양을 어느 양동이에든 정확히 만들면 성공이에요.</p>
+    <p>양동이를 <b>직접 드래그해서 다른 양동이 위에 놓으면</b> 그대로 붓기가 실행돼요. 붓기 버튼을 눌러도 똑같이 동작해요.</p>
     <p>막히면 <b>힌트</b> 버튼을 눌러보세요. 지금 상태에서 가장 빠르게 목표에 다가가는 다음 행동 하나를 알려줘요.</p>
   </div>
 
@@ -323,9 +327,9 @@ function render(){
     const h = cap*PX_PER_L;
     const fillH = state[i]*PX_PER_L;
     return `
-      <div class="jug-col">
+      <div class="jug-col" data-i="${i}">
         <div class="jug-name">${i+1}번 (최대 ${cap}L)</div>
-        <div class="jug" style="height:${h}px;">
+        <div class="jug" data-i="${i}" style="height:${h}px;">
           <div class="jug-fill" style="height:${fillH}px;"></div>
         </div>
         <div class="jug-amt">${state[i]} / ${cap} L</div>
@@ -359,7 +363,60 @@ function render(){
     });
   });
 
+  if(!solved){
+    jugsRow.querySelectorAll('.jug').forEach(jugEl=>{
+      jugEl.addEventListener('pointerdown', onJugPointerDown);
+    });
+  }
+
   hintBtn.disabled = solved;
+}
+
+let dragState = null;
+
+function onJugPointerDown(e){
+  if(solved) return;
+  const i = parseInt(e.currentTarget.dataset.i);
+  dragState = { i, startX:e.clientX, startY:e.clientY, el:e.currentTarget };
+  e.currentTarget.setPointerCapture(e.pointerId);
+  e.currentTarget.classList.add('dragging');
+  window.addEventListener('pointermove', onJugPointerMove);
+  window.addEventListener('pointerup', onJugPointerUp);
+  window.addEventListener('pointercancel', onJugPointerUp);
+}
+
+function onJugPointerMove(e){
+  if(!dragState) return;
+  const dx = e.clientX - dragState.startX;
+  const dy = e.clientY - dragState.startY;
+  const tilt = Math.max(-35, Math.min(35, dx*0.6));
+  dragState.el.style.transform = `translate(${dx}px, ${dy}px) rotate(${tilt}deg)`;
+
+  jugsRow.querySelectorAll('.jug-col').forEach(col=> col.classList.remove('drop-target'));
+  const under = document.elementFromPoint(e.clientX, e.clientY);
+  const col = under && under.closest('.jug-col');
+  if(col && parseInt(col.dataset.i) !== dragState.i){
+    col.classList.add('drop-target');
+  }
+}
+
+function onJugPointerUp(e){
+  window.removeEventListener('pointermove', onJugPointerMove);
+  window.removeEventListener('pointerup', onJugPointerUp);
+  window.removeEventListener('pointercancel', onJugPointerUp);
+  if(!dragState) return;
+  const from = dragState.i;
+  const under = document.elementFromPoint(e.clientX, e.clientY);
+  const col = under && under.closest('.jug-col');
+  dragState = null;
+  if(col){
+    const to = parseInt(col.dataset.i);
+    if(to !== from && !solved){
+      doAction({type:'pour', i:from, j:to});
+      return; // doAction -> render()가 화면을 원위치로 새로 그려줌
+    }
+  }
+  render(); // 유효하지 않은 위치에 놓으면 제자리로 스냅백
 }
 
 hintBtn.addEventListener('click', ()=>{
