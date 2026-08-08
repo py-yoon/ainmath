@@ -31,6 +31,11 @@
   h1 span{color:var(--coral);}
   .sub{color:var(--ink-soft);font-size:15.5px;line-height:1.7;margin:0 0 24px;}
 
+  .howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 24px;}
+  .howto b{color:var(--violet);}
+  .howto p{margin:0 0 10px;}
+  .howto p:last-child{margin-bottom:0;}
+
   .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:26px clamp(16px,4vw,36px) 32px;}
 
   .progress-grid{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:22px;}
@@ -149,6 +154,12 @@
   <span class="eyebrow">🎲 포 포즈 놀이 (Four Fours)</span>
   <h1>4는 이미 <span>4개</span> 준비했어요<br>기호만 골라 완성해보세요</h1>
   <p class="sub">4 위의 작은 버튼으로 √(제곱근)나 !(팩토리얼, 4!=24)을 씌워보고, 아래 기호 팔레트에서 +, −, ×, ÷ 를 자리로 끌어다 놓아보세요. 기호 없이 44처럼 두 숫자를 이어 붙이고 싶으면 "44" 조각을 끌어다 놓으면 돼요. 두 개씩 묶어서 먼저 계산하고 싶으면 "묶기" 버튼도 눌러보세요.</p>
+
+  <div class="howto">
+    <p><b>포 포즈(Four Fours)</b>는 숫자 4를 정확히 네 번 쓰고 사칙연산(+, −, ×, ÷)만으로 원하는 숫자를 만드는 오래된 오락 수학 퍼즐이에요. 4 하나만 반복해서 쓴다는 제약이 오히려 다양한 도전을 만들어내요.</p>
+    <p>사칙연산만으로는 만들 수 있는 숫자가 많지 않아서, 이 놀이에서는 √(제곱근)와 !(팩토리얼, 4!=24), 그리고 4와 4를 이어 붙이는 "44" 조각도 함께 쓸 수 있어요. 여기에 두 개씩 먼저 묶어 계산하는 순서(괄호)까지 더하면 손이 닿는 범위가 훨씬 넓어져요.</p>
+    <p>같은 숫자를 만드는 방법이 여러 개일 때가 많으니, 목표 숫자를 만들고 나면 "다른 방법은 없을까?"도 한 번 더 고민해보세요. 막히면 힌트 버튼으로 정답 예시를 확인할 수 있어요.</p>
+  </div>
 
   <div class="stage">
     <div class="progress-grid" id="progressGrid"></div>

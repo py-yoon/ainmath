@@ -63,6 +63,11 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <h1>같은 접선의 기울기를<br><span>두 가지 방법</span>으로 구해보기</h1>
   <p class="sub">원 위의 한 점을 슬라이더로 움직여보세요. 매개변수로 미분해도, 음함수로 미분해도 똑같은 접선의 기울기가 나와요 — 두 방법이 결국 같은 곡선을 다루기 때문이에요.</p>
 
+  <div class="howto">
+    <p>원의 방정식 x²+y²=r²은 y = f(x) 형태로 깔끔하게 풀리지 않아요. 이런 식을 <b>음함수</b>라고 불러요. 그런데도 접선의 기울기를 구하는 방법이 두 가지나 있어요.</p>
+    <p>하나는 매개변수 미분이에요. 원 위의 점을 x=r cos t, y=r sin t로 나타내면, dy/dx = (dy/dt)÷(dx/dt)로 기울기를 구할 수 있어요. 다른 하나는 음함수 미분이에요. x²+y²=r²의 양변을 그대로 x에 대해 미분하되, y는 x의 함수이니 연쇄법칙을 적용해 2x + 2y·y′ = 0으로 정리하고 y′을 구해요. 신기하게도 두 방법으로 구한 기울기는 항상 똑같이 나와요 — 결국 같은 점에서 같은 접선을 구하는 것이기 때문이에요. 슬라이더로 점을 움직이며 두 값이 일치하는지 확인해보세요.</p>
+  </div>
+
   <div class="tab-row" role="tablist" aria-label="탭 선택">
     <button class="tab-btn active" data-tab="param" role="tab" aria-selected="true">🌀 매개변수 미분</button>
     <button class="tab-btn" data-tab="implicit" role="tab" aria-selected="false">🔗 음함수 미분</button>

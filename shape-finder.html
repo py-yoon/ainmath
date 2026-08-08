@@ -61,6 +61,10 @@ svg{width:100%;max-width:340px;height:auto;overflow:visible;}
 .read-btn{display:block;margin:0 auto 14px;font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--blue-soft);color:var(--blue-ink);border:2px solid transparent;border-radius:999px;padding:7px 14px;cursor:pointer;transition:all .15s ease;}
 .read-btn:hover{filter:brightness(0.96);}
 .read-btn:focus-visible{outline:3px solid var(--violet);outline-offset:2px;}
+.howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--violet-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
@@ -73,6 +77,12 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <span class="eyebrow">◈ 평면도형 모양 찾기</span>
   <h1>변이 몇 개일까?<br>도형을 눌러서 <span>세어보아요!</span></h1>
   <p class="sub">도형 버튼을 눌러 모양을 골라보세요. "변 세어보기" 버튼을 누르면 변과 꼭짓점을 하나씩 세어줘요. 다 세고 나면 퀴즈도 풀 수 있어요!</p>
+
+  <div class="howto">
+    <p>세모는 왜 '세모'일까요? 답은 간단해요. 곧은 선(변)이 3개이고, 그 변들이 만나는 뾰족한 점(꼭짓점)도 3개거든요. 네모는 변과 꼭짓점이 각각 4개라서 '네모'예요. 삼각형·사각형·오각형·육각형처럼, 이 도형들은 변의 개수와 꼭짓점의 개수가 언제나 똑같아요.</p>
+    <p>원은 조금 특별해요. 곧은 변도, 뾰족한 꼭짓점도 없이 처음부터 끝까지 둥글게 이어지는 곡선 하나로만 되어 있거든요. 그래서 원은 삼각형이나 사각형과는 다른 도형으로 분류돼요. 재미있게도 변이 많아질수록 도형은 점점 원처럼 둥글어 보여요.</p>
+    <p>도형 버튼을 눌러 "변 세어보기"로 변과 꼭짓점을 하나씩 세어보고, 개수가 항상 같은지 직접 확인해보세요.</p>
+  </div>
 
   <div class="stage">
     <div class="canvas-area">

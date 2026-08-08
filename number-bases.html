@@ -106,6 +106,11 @@
   .answer-sentence{font-size:15px;color:var(--ink);line-height:1.7;}
   .answer-sentence b{color:var(--teal-ink);}
 
+  .howto{background:var(--teal-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+  .howto b{color:var(--teal-ink);}
+  .howto p{margin:0 0 10px;}
+  .howto p:last-child{margin-bottom:0;}
+
   footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
 </style>
 </head>
@@ -118,6 +123,12 @@
   <span class="eyebrow">🔢 진법 변환 실험실</span>
   <h1>10개씩 묶지 않고<br><span>다르게</span> 묶어보면?</h1>
   <p class="sub">우리는 보통 10개씩 묶어서 수를 세지만(10진법), 2개씩·3개씩·5개씩 묶어도 똑같이 수를 나타낼 수 있어요. 아래에서 직접 묶어보세요!</p>
+
+  <div class="howto">
+    <p>18개를 5개씩 묶으면 3묶음이 생기고 3개가 남아요. 이걸 5진법으로 <b>33</b>이라고 쓰는데, 왼쪽 3은 "5묶음이 3개", 오른쪽 3은 "낱개가 3개"라는 뜻이에요. 10진법의 18과 5진법의 33은 표기만 다를 뿐, 가리키는 개수는 완전히 똑같아요. 손가락이 10개라서 10진법이 익숙해진 것뿐, 몇 개씩 묶든 상관없어요.</p>
+    <p>진법 중 특히 중요한 건 <b>2진법</b>이에요. 컴퓨터 내부 회로는 전기가 "켜짐"과 "꺼짐" 두 가지 상태만 정확히 구별할 수 있어서, 모든 숫자를 0과 1로만 나타내는 2진법을 사용해요.</p>
+    <p>슬라이더로 별의 개수를 바꿔가며, 2진법·3진법·5진법·10진법으로 묶었을 때 몇 묶음이 남고 각 자릿수가 어떻게 모이는지 직접 확인해보세요.</p>
+  </div>
 
   <div class="stage">
     <div class="base-picker" id="basePicker"></div>

@@ -38,6 +38,8 @@ h1 span{color:var(--coral-ink);}
 .panel-wrap.active{display:block;}
 .howto{background:var(--green-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 22px;}
 .howto b{color:var(--green-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
   display:grid;grid-template-columns: 1.2fr 0.8fr;gap:32px;align-items:start;}
 @media (max-width:820px){ .stage{grid-template-columns:1fr;} }
@@ -71,6 +73,12 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <span class="eyebrow">🟩 적분 실험실</span>
   <h1>직사각형을 잘게 쪼갤수록<br>넓이는 <span>정확</span>해져요</h1>
   <p class="sub">곡선 아래 넓이를 직사각형 여러 개로 근사하는 구분구적법을 확인하고, x축 아래로 내려간 부분은 넓이가 음수로 빠진다는 것도 확인해봐요.</p>
+
+  <div class="howto">
+    <p>곡선으로 휘어진 도형은 직사각형 넓이 공식을 바로 쓸 수 없어요. 그래서 <b>구분구적법</b>은 곡선 아래 공간을 얇은 직사각형 여러 개로 잘라 넓이를 근사해요. 직사각형 개수를 늘릴수록 삐져나오는 부분이 줄어들고, 무한히 늘리는 극한을 취하면 근삿값이 실제 넓이(정적분)와 완전히 같아져요.</p>
+    <p>정적분에는 신기한 성질이 있어요. 그래프가 x축 아래로 내려가면, 그 부분의 넓이는 <b>빠지는</b> 것으로 계산돼요. 그래서 일반 도형 넓이와 달리 정적분값은 음수가 될 수도 있어요.</p>
+    <p>슬라이더로 직사각형 개수 n을 늘려가며 넓이가 정확한 값에 다가가는 모습과, x축 아래 넓이가 실제로 빠지는 모습을 직접 확인해보세요.</p>
+  </div>
 
   <div class="tab-row" id="tabRow">
     <button class="tab-btn active" data-t="riemann">🟩 구분구적법</button>

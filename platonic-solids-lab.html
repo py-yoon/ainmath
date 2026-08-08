@@ -28,6 +28,10 @@ body{
   min-height:100vh; padding: 32px 20px 80px;
 }
 .wrap{max-width:1080px;margin:0 auto;}
+.howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--violet-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
 h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
 h1 span{color:var(--violet-ink);}
@@ -100,6 +104,12 @@ footer{max-width:1080px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <span class="eyebrow">🔷 정다면체 탐구 실험실</span>
   <h1>정다면체는 왜<br><span>딱 5개</span>밖에 없을까요?</h1>
   <p class="sub">정다면체(플라톤의 다면체)는 모든 면이 합동인 정다각형이고, 모든 꼭짓점에 같은 개수의 면이 모이는 볼록다면체예요. 이런 도형은 무한히 많을 것 같지만, 사실 <b>정확히 5가지</b>만 존재해요. 각도를 직접 조절해보면서 그 이유를 확인해보세요.</p>
+
+  <div class="howto">
+    <p>평면 위의 정다각형은 변의 개수를 늘리면 끝없이 만들 수 있지만, 입체도형인 정다면체는 딱 <b>5가지</b>뿐이에요 — 정사면체, 정육면체, 정팔면체, 정십이면체, 정이십면체. 왜 이렇게 개수가 딱 정해질까요?</p>
+    <p>비밀은 꼭짓점에 모이는 각도의 합에 있어요. 종이를 뾰족하게 접으려면 한 점에 모인 각의 합이 360°보다 작아야 해요. 정확히 360°면 평평하게 펴지고, 그보다 크면 아예 겹쳐서 접을 수 없거든요. 정다각형의 변의 수(n)와 한 꼭짓점에 모이는 면의 수(p)를 아무리 조합해봐도, 이 조건을 만족하는 경우는 딱 5가지뿐이에요.</p>
+    <p>슬라이더로 n과 p를 바꿔가며, 각의 합이 360°를 넘거나 딱 맞는 순간 도형이 접히지 않는 걸 직접 확인해보세요.</p>
+  </div>
 
   <!-- 섹션 1: 각도 실험 -->
   <div class="card">

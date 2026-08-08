@@ -65,6 +65,11 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <h1>복잡한 적분도<br><span>두 가지 기술</span>로 풀 수 있어요</h1>
   <p class="sub">치환적분과 부분적분으로 부정적분을 구한 다음, 아주 잘게 쪼갠 직사각형(리만 합)으로 직접 넓이를 계산해서 두 값이 정말 일치하는지 검증해봐요.</p>
 
+  <div class="howto">
+    <p>∫2x(x²+3)⁴dx 같은 식을 만나면 막막해지기 쉬워요. 이럴 때 쓰는 기술이 <b>치환적분</b>이에요. 식 안에 "어떤 함수와 그 함수의 미분"이 짝지어 들어있다면, 그 함수를 통째로 새 문자 u로 바꿔치기해서 훨씬 간단한 식으로 만들어요. u=x²+3으로 놓으면 du=2x dx가 되어, 원래 식이 ∫u⁴du라는 간단한 거듭제곱 적분으로 바뀌어요.</p>
+    <p>서로 다른 두 종류의 함수가 곱해진 형태(예: x·eˣ)는 <b>부분적분</b> 공식 ∫u dv = uv − ∫v du를 써요. 이 두 방법으로 구한 답이 정말 맞는지는 적분 구간을 아주 잘게 쪼갠 직사각형의 넓이를 모두 더하는 리만 합으로 근사값을 구해서 직접 검산할 수 있어요. 두 값이 거의 똑같이 나오는지 직접 확인해보세요.</p>
+  </div>
+
   <div class="tab-row" role="tablist" aria-label="탭 선택">
     <button class="tab-btn active" data-tab="sub" role="tab" aria-selected="true">🔄 치환적분</button>
     <button class="tab-btn" data-tab="parts" role="tab" aria-selected="false">🧩 부분적분</button>

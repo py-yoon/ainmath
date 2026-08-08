@@ -36,6 +36,10 @@
   .tab-btn:hover{border-color:var(--blue);color:var(--blue);}
   .tab-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
   .tab-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+  .howto{background:var(--blue-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 20px;}
+  .howto b{color:var(--blue-ink);}
+  .howto p{margin:0 0 10px;}
+  .howto p:last-child{margin-bottom:0;}
 
   .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
     display:grid;grid-template-columns: 1.3fr 0.7fr;gap:32px;align-items:start;}
@@ -86,6 +90,12 @@
   <span class="eyebrow">📈 삼각함수의 그래프 실험실</span>
   <h1>sin·cos·tan을<br><span>함수 그래프</span>로 보면</h1>
   <p class="sub">단위원에서 만든 파동을 이번엔 진짜 함수로 다뤄봐요. 진폭(a), 주기를 바꾸는 b, 위상이동(h), 평행이동(d)을 각각 조절하면서 그래프가 어떻게 변하는지 확인해보세요.</p>
+
+  <div class="howto">
+    <p>단위원 위의 점이 빙글빙글 돌 때, 그 점의 세로 위치를 시간에 따라 죽 이어 그리면 구불구불한 파동 모양이 나와요. 이게 바로 sin 함수 그래프예요. cos와 tan도 같은 원리에서 나오지만 출발점과 모양이 조금씩 달라요.</p>
+    <p>이런 주기적인 파동은 우리 주변에 아주 많아요. 소리가 퍼지는 방식, 하루에 두 번 오르내리는 밀물과 썰물, 관람차가 도는 높이까지 모두 삼각함수 그래프로 표현할 수 있어요.</p>
+    <p>진폭 <b>a</b>는 파도의 높낮이를, <b>b</b>는 한 번 반복되는 데 걸리는 주기를, <b>h</b>는 그래프가 좌우로 밀리는 정도를, <b>d</b>는 위아래로 이동하는 정도를 결정해요. 슬라이더를 하나씩 움직이면서 그래프가 어떻게 늘어나고 밀리는지 확인해보세요.</p>
+  </div>
 
   <div class="tabs" id="tabs"></div>
 

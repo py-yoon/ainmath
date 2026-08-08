@@ -38,6 +38,8 @@ h1 span{color:var(--coral-ink);}
 .panel-wrap.active{display:block;}
 .howto{background:var(--blue-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 22px;}
 .howto b{color:var(--blue-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 .func-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px;}
 .func-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:10px;padding:8px 14px;cursor:pointer;transition:all .15s ease;box-shadow:var(--shadow);}
 .func-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
@@ -72,6 +74,12 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <span class="eyebrow">📐 여러 가지 함수의 미분 실험실</span>
   <h1>sin, cos, eˣ, ln x…<br>함수마다 <span>도함수 공식</span>이 달라요</h1>
   <p class="sub">함수 종류를 골라 접선과 도함수 그래프를 비교하고, 극한의 정의로 직접 계산한 기울기가 공식과 정확히 맞아떨어지는지 검증해봐요.</p>
+
+  <div class="howto">
+    <p>도함수(미분)는 함수가 특정 지점에서 얼마나 빠르게 변하는지 나타내는 값이에요. 그래프 위에서는 그 점에서 그은 접선의 기울기와 정확히 같아요.</p>
+    <p>함수마다 생김새가 다르니 도함수 공식도 저마다 달라요. 예를 들어 sin x의 도함수는 cos x이고, eˣ의 도함수는 자기 자신인 eˣ 그대로예요. 이런 공식들은 극한의 정의 [f(x+h)−f(x)]÷h에서 h를 0에 한없이 가깝게 보내는 계산을 통해 유도된 거예요.</p>
+    <p>미분은 속도(위치의 순간 변화율), 가속도(속도의 순간 변화율)처럼 일상에서 지금 이 순간 얼마나 빠르게 바뀌는지를 다룰 때 널리 쓰여요. 함수를 골라 접선이 그려지는 그래프와 도함수 그래프를 나란히 비교해보세요.</p>
+  </div>
 
   <div class="tab-row" id="tabRow">
     <button class="tab-btn active" data-t="graph">📈 접선과 도함수</button>

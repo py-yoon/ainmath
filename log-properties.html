@@ -61,6 +61,11 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <h1>로그를 쓰면<br><span>곱셈이 덧셈</span>으로 바뀌어요</h1>
   <p class="sub">로그의 성질을 외우지 않아도 괜찮아요. 숫자를 직접 바꿔가며 양쪽 값이 항상 똑같이 나오는지 계산기로 검증하다 보면 왜 그런 성질이 성립하는지 감이 잡혀요.</p>
 
+  <div class="howto">
+    <p>log₂8=3이라는 건 "2를 3번 곱하면 8이 된다"는 뜻이에요. 이렇게 로그는 원래 "몇 제곱해야 이 수가 나올까"를 묻는 계산이에요. 그런데 log₂8=3, log₂16=4, log₂128=7을 보면 3+4=7이 성립하죠. 실제로 8×16=128이니 우연이 아니에요 — <b>log(M×N) = logM + logN</b>, 곱셈이 덧셈으로 바뀌는 거예요.</p>
+    <p>나눗셈은 뺄셈으로, 거듭제곱은 곱셈으로 바뀌는 성질도 마찬가지 원리에서 나와요. 컴퓨터가 없던 시절엔 이 성질 덕분에 어려운 곱셈을 쉬운 덧셈으로 바꿔 계산했고, 오늘날에도 지진 규모나 소리 크기처럼 엄청나게 큰 범위의 수를 다룰 때 로그를 써요. 숫자를 슬라이더로 바꿔가며 양쪽 값이 정말 항상 똑같이 나오는지 계산기로 직접 검증해보세요.</p>
+  </div>
+
   <div class="tab-row" role="tablist" aria-label="탭 선택">
     <button class="tab-btn active" data-tab="mul" role="tab" aria-selected="true">✖️ 곱셈 → 덧셈</button>
     <button class="tab-btn" data-tab="div" role="tab" aria-selected="false">➗ 나눗셈 → 뺄셈</button>

@@ -27,6 +27,10 @@ body{
 }
 .wrap{max-width:1000px;margin:0 auto;}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--amber-ink);background:var(--amber-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.howto{background:var(--amber-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--amber-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
 h1 span{color:var(--coral-ink);}
 .sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
@@ -75,6 +79,11 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <span class="eyebrow">📐 각도 재기 실험실</span>
   <h1>가상 각도기로<br><span>각의 크기</span>를 직접 재어보아요</h1>
   <p class="sub">슬라이더로 각을 벌려보면서 각도기 눈금이 어떻게 읽히는지 확인해보세요. 그런 다음 퀴즈에서 각도기 눈금만 보고 각도를 직접 읽어보세요.</p>
+
+  <div class="howto">
+    <p>각도기를 처음 쓰면 어느 쪽 눈금을 읽어야 할지 헷갈려요. 사실 규칙은 간단해요. 먼저 각의 꼭짓점을 각도기의 중심점에 맞추고, 한쪽 변을 눈금 0에 맞춘 다음, 나머지 한쪽 변이 가리키는 눈금을 읽으면 그게 바로 <b>각도</b>예요.</p>
+    <p>각의 크기에 따라 부르는 이름도 달라져요. 0°보다 크고 90°보다 작으면 예각, 정확히 90°면 직각, 90°보다 크고 180°보다 작으면 둔각, 정확히 180°면 평각이라고 불러요. 예각과 둔각은 범위로 정해지지만 직각과 평각은 정확히 그 값일 때만 그렇게 불러요 — 89°는 아직 예각이고 91°는 벌써 둔각이 되는 식이에요. 슬라이더로 각을 벌려보면서 각도기 눈금이 어떻게 읽히는지 직접 확인해보세요.</p>
+  </div>
 
   <div class="stage">
     <div>

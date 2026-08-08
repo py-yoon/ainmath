@@ -32,6 +32,8 @@ h1 span{color:var(--coral-ink);}
 .sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:66ch;margin:0 0 28px;}
 .howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 22px;}
 .howto b{color:var(--violet-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
   display:grid;grid-template-columns: 1.2fr 0.8fr;gap:32px;align-items:start;}
 @media (max-width:820px){ .stage{grid-template-columns:1fr;} }
@@ -76,7 +78,11 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <h1>모양은 완전히 달라져도<br><span>넓이는 그대로</span>예요</h1>
   <p class="sub">꼭짓점 C를 슬라이더로 옆으로 옮겨보세요. 예각삼각형, 직각삼각형, 둔각삼각형까지 모양이 완전히 바뀌지만, 밑변 AB와 높이 h가 그대로인 한 넓이는 절대 변하지 않아요.</p>
 
-  <div class="howto"><b>왜 그럴까요?</b> 삼각형의 넓이 공식은 (밑변 × 높이) ÷ 2예요. C가 밑변과 평행한 점선 위에서 어디에 있든, 밑변 AB로부터의 수직 거리(높이)는 항상 똑같아요. 공식에 들어가는 두 숫자(밑변, 높이)가 안 바뀌니 넓이도 안 바뀌는 거예요.</div>
+  <div class="howto">
+    <p>삼각형 넓이 공식이 왜 (밑변×높이)÷2인지 궁금했나요? 같은 밑변과 높이를 가진 평행사변형을 그리면, 그 평행사변형 넓이는 정확히 삼각형 넓이의 두 배가 돼요. 삼각형과 합동인 삼각형을 거꾸로 뒤집어 옆에 붙이면 딱 평행사변형이 되기 때문이에요.</p>
+    <p><b>왜 그럴까요?</b> 삼각형의 넓이 공식은 (밑변 × 높이) ÷ 2예요. C가 밑변과 평행한 점선 위에서 어디에 있든, 밑변 AB로부터의 수직 거리(높이)는 항상 똑같아요. 공식에 들어가는 두 숫자(밑변, 높이)가 안 바뀌니 넓이도 안 바뀌는 거예요.</p>
+    <p>슬라이더로 꼭짓점 C를 움직이며 삼각형이 예각·직각·둔각으로 모양이 완전히 바뀌는 걸 보면서도, 넓이를 나타내는 숫자는 그대로 유지되는지 함께 확인해보세요.</p>
+  </div>
 
   <div class="stage">
     <div class="canvas-area">

@@ -34,6 +34,8 @@ h1 span{color:var(--violet-ink);}
 
 .howto{background:var(--violet-soft);border-radius:16px;padding:16px 20px;font-size:14px;line-height:1.75;color:var(--ink);margin:0 0 24px;}
 .howto b{color:var(--violet-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
 .tab-btn{font-family:'Do Hyeon',sans-serif;font-size:14.5px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:10px 16px;cursor:pointer;transition:all .15s ease;}
@@ -78,7 +80,11 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <h1>삼각형 안에는<br><span>특별한 점</span>이 다섯 개나 있어요</h1>
   <p class="sub">삼각형의 세 변이나 세 각을 기준으로 선을 그으면, 신기하게도 그 선들이 항상 한 점에서 만나요. 이런 점을 삼각형의 "중심"이라고 불러요. 꼭짓점 A, B, C를 자유롭게 끌어서 삼각형 모양을 바꿔가며, 다섯 가지 중심이 각각 어떻게 만들어지는지 확인해보세요.</p>
 
-  <div class="howto"><b>사용법</b> — 아래 탭에서 중심을 하나 고르면 그 중심을 만드는 선들이 나타나요. 꼭짓점 A, B, C를 손가락이나 마우스로 끌어보면, 삼각형 모양이 바뀔 때마다 중심의 위치도 실시간으로 따라 움직여요.</div>
+  <div class="howto">
+    <p>삼각형에는 변이나 각을 이용해 그은 특별한 선들이 어디서 만나는지에 따라 성격이 다른 점들이 있어요. 세 변의 수직이등분선이 만나는 점(외심)은 세 꼭짓점에서 거리가 똑같아서, 그 점을 중심으로 삼각형을 딱 맞게 감싸는 원을 그릴 수 있어요. 세 각을 반씩 나누는 선이 만나는 점(내심)은 반대로 세 변에서 거리가 똑같아서, 삼각형 안에 꼭 맞게 들어가는 원의 중심이 돼요.</p>
+    <p>재밌는 사실 하나 — 무게중심, 외심, 수심 이 세 점은 삼각형 모양이 어떻게 바뀌든 항상 한 직선(오일러 선) 위에 나란히 놓여요. 게다가 무게중심은 외심에서 수심까지 거리를 1:2로 나누는 지점에 항상 위치해요.</p>
+    <p><b>사용법</b> — 아래 탭에서 중심을 하나씩 골라 선이 그려지는 방식을 비교해보고, 꼭짓점 A, B, C를 손가락이나 마우스로 끌어보며 중심의 위치가 삼각형 밖으로 나가는 경우도 있는지 살펴보세요.</p>
+  </div>
 
   <div class="tabs" id="tabs"></div>
   <div class="excenter-sub" id="excenterSub"></div>

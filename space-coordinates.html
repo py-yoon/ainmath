@@ -38,6 +38,8 @@ h1 span{color:var(--coral-ink);}
 .panel-wrap.active{display:block;}
 .howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 22px;}
 .howto b{color:var(--violet-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
   display:grid;grid-template-columns: 1.2fr 0.8fr;gap:32px;align-items:start;}
 @media (max-width:820px){ .stage{grid-template-columns:1fr;} }
@@ -68,6 +70,12 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <span class="eyebrow">📦 공간도형과 공간좌표 실험실</span>
   <h1>평면에 축 하나를 더하면<br><span>공간</span> 전체를 좌표로 나타내요</h1>
   <p class="sub">x, y, z 세 방향의 슬라이더로 점의 위치를 옮겨보고, 원점에서부터의 거리, 그리고 두 점 사이의 거리를 공식으로 직접 확인해봐요.</p>
+
+  <div class="howto">
+    <p>평면 위의 점은 (x, y) 두 숫자로 위치를 나타내지만, 우리가 사는 세상은 입체예요. 방 안의 드론 위치를 말하려면 "왼쪽으로, 앞으로"뿐 아니라 "바닥에서 얼마나 높이"까지 필요해서, 세 번째 숫자 z를 더한 <b>(x, y, z)</b>로 위치를 나타내요.</p>
+    <p>원점에서 점 P까지의 거리를 구할 때는 피타고라스 정리가 두 번 쓰여요. 먼저 바닥에서의 대각선 길이를 구하고, 그 대각선과 높이 z로 다시 한 번 직각삼각형을 만들면 √(x²+y²+z²)이 나와요.</p>
+    <p>x, y, z 슬라이더로 점을 자유롭게 옮기며 원점까지의 거리를 확인하고, 두 점 사이의 거리 공식도 직접 검증해보세요.</p>
+  </div>
 
   <div class="tab-row" id="tabRow">
     <button class="tab-btn active" data-t="point">📍 공간 위의 점</button>

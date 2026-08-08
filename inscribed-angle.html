@@ -32,6 +32,8 @@ h1 span{color:var(--violet-ink);}
 .sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 22px;}
 .howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
 .howto b{color:var(--violet-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
   display:grid;grid-template-columns: 1.15fr 0.85fr;gap:32px;align-items:start;}
 @media (max-width:820px){ .stage{grid-template-columns:1fr;} }
@@ -69,7 +71,11 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <h1>원 위에서 점 P를 움직여도<br><span>원주각은 그대로</span>예요</h1>
   <p class="sub">호 AB를 바라보는 원주각(∠APB)은, 점 P가 원 위 어디에 있든 항상 똑같은 크기를 유지해요. 그리고 그 크기는 항상 중심각(∠AOB)의 딱 절반이에요. 슬라이더로 직접 확인해보세요.</p>
 
-  <div class="howto"><b>원주각의 성질</b>: 한 호에 대한 원주각의 크기는 항상 일정하고, 그 호에 대한 중심각의 절반이에요. 특히 지름(반원)에 대한 원주각은 항상 <b>90°</b>예요 — 이걸 "탈레스의 정리"라고도 불러요.</div>
+  <div class="howto">
+    <p><b>원주각의 성질</b>: 한 호에 대한 원주각의 크기는 항상 일정하고, 그 호에 대한 중심각의 절반이에요. 특히 지름(반원)에 대한 원주각은 항상 <b>90°</b>예요 — 이걸 "탈레스의 정리"라고도 불러요.</p>
+    <p>점 P가 원 위 어디에 있어도 각도가 똑같이 유지되는 건, 중심각은 항상 고정되어 있고 원주각은 그 절반이라는 관계가 점의 위치와 상관없이 성립하기 때문이에요. 호 AB만 정해지면 원주각의 크기도 자동으로 정해져요.</p>
+    <p>슬라이더로 점 P를 원 위에서 이리저리 움직이면서 각 ∠APB가 정말 그대로인지 확인해보세요. 호 AB의 크기를 바꾸면 원주각과 중심각이 함께 달라지는 것도 볼 수 있어요.</p>
+  </div>
 
   <div class="stage">
     <div class="canvas-area">

@@ -26,6 +26,10 @@ body{
 }
 .wrap{max-width:1000px;margin:0 auto;}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.howto{background:var(--coral-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--coral-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
 h1 span{color:var(--coral-ink);}
 .sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
@@ -85,6 +89,11 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <span class="eyebrow">⚖️ 비례식과 비례배분 실험실</span>
   <h1>같은 비율을 <span>유지</span>하며<br>모르는 값을 <span>구해보아요</span></h1>
   <p class="sub">비례식은 두 비가 같다는 걸 이용해 모르는 값을 구하는 식이고, 비례배분은 전체를 정해진 비로 나누는 것이에요.</p>
+
+  <div class="howto">
+    <p>두 비가 같다는 걸 나타내는 식을 비례식이라고 해요. 예를 들어 2:3과 4:6은 숫자는 다르지만 나타내는 비율이 똑같아서 2:3 = 4:6이라고 쓸 수 있어요. 이때 양 끝의 두 수(2와 6)를 외항, 가운데 두 수(3과 4)를 내항이라고 부르는데, 비례식이 성립하면 <b>외항끼리 곱한 값과 내항끼리 곱한 값이 항상 같아요</b>(2×6 = 3×4 = 12). 이 성질 덕분에 모르는 값이 하나 있어도 곱셈만으로 금방 찾을 수 있어요.</p>
+    <p>비례배분은 조금 달라요. 전체를 미리 정해둔 비율대로 나누는 거예요. 예를 들어 사탕 20개를 3:2로 나눈다면, 전체를 5묶음(3+2)으로 보고 한 묶음이 몇 개인지부터 구해요. 슬라이더로 비율과 전체 개수를 바꿔가면서, 나뉜 두 몫이 정말 처음 정한 비율을 유지하는지 확인해보세요.</p>
+  </div>
 
   <div class="stage">
     <div class="section-title">🧮 비례식 — 모르는 값 구하기</div>

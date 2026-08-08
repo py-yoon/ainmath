@@ -70,6 +70,11 @@ input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;bac
 .action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
 .action-btn:hover{background:var(--violet-ink);}
 
+.howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--violet-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+
 footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
@@ -82,6 +87,12 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <span class="eyebrow">🔺 각기둥과 각뿔 실험실</span>
   <h1>밑면의 변이 늘어나면<br><span>면·모서리·꼭짓점</span>도 달라져요</h1>
   <p class="sub">각기둥은 위아래에 똑같은 밑면이 2개, 각뿔은 밑면이 1개에 뾰족한 꼭짓점이 있어요. 밑면의 변 개수를 바꿔가며 구조를 확인해보세요.</p>
+
+  <div class="howto">
+    <p>각기둥과 각뿔은 둘 다 밑면이 다각형인 입체도형이지만, 밑면의 개수로 이름이 갈려요. 각기둥은 위와 아래에 서로 합동인 다각형 밑면 <b>2개</b>가 있고, 그 사이를 직사각형 옆면들이 이어줘요. 사각기둥은 사실 우리가 아는 직육면체와 똑같은 구조예요.</p>
+    <p>각뿔은 밑면이 <b>1개</b>뿐이고, 밑면의 각 변이 삼각형 옆면을 통해 꼭대기의 한 점으로 모여요. 피라미드를 떠올리면 딱 이 모양이에요. 밑면이 n각형이면 각기둥의 옆면도, 각뿔의 삼각형 옆면도 똑같이 n개가 생겨요.</p>
+    <p>슬라이더로 밑면의 변 개수를 하나씩 늘려보면서, 면·모서리·꼭짓점 개수가 어떤 규칙으로 늘어나는지 확인해보세요.</p>
+  </div>
 
   <div class="stage">
     <div class="canvas-area">

@@ -66,6 +66,11 @@ svg{width:100%;max-width:340px;height:auto;overflow:visible;}
 .action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
 .action-btn:hover{background:var(--violet-ink);}
 
+.howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--violet-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+
 footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
@@ -78,6 +83,12 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <span class="eyebrow">🧊 쌓기나무 실험실</span>
   <h1>눈에 보이는 것만큼,<br><span>가려진 것</span>도 세어야 해요</h1>
   <p class="sub">쌓기나무 그림은 앞에서 보이는 것 말고도, 뒤에 가려진 나무토막이 숨어있어요. 각 칸에 몇 개씩 쌓였는지 숫자로 확인하면 정확하게 셀 수 있어요.</p>
+
+  <div class="howto">
+    <p>쌓기나무 그림은 눈속임이 있어요. 바닥을 바둑판처럼 칸으로 나누고 각 칸에 나무토막을 쌓아 올렸는데, 앞에서 보이는 토막 뒤에 똑같이 가려진 토막이 숨어 있을 수 있거든요. 그림만 보고 세면 뒤쪽 부분을 놓치기 쉬워요.</p>
+    <p>그래서 각 칸 위에 쌓인 개수를 숫자로 적은 "숫자 그림"을 함께 보면 훨씬 정확해요. 예를 들어 2×2 칸에 1, 2, 2, 1이 적혀 있다면, 전체 개수는 <b>1+2+2+1=6개</b>예요. 앞쪽이 높고 뒤로 갈수록 낮아지는 계단 모양은 특히 헷갈리기 쉬우니, 숫자 그림으로 다시 한번 확인하는 습관이 중요해요.</p>
+    <p>먼저 그림만 보고 전체 개수를 짐작해본 다음, 숫자를 하나씩 켜보면서 실제 개수와 맞는지 확인해보세요.</p>
+  </div>
 
   <div class="stage">
     <div class="canvas-area">

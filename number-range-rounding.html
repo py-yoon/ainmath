@@ -32,6 +32,10 @@ h1 span{color:var(--coral-ink);}
 .sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
 
 .section-card{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:26px clamp(16px,4vw,36px) 30px;margin-bottom:28px;}
+.howto{background:var(--coral-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 24px;}
+.howto b{color:var(--coral-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 .section-title{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink);margin:0 0 6px;}
 .section-desc{color:var(--ink-soft);font-size:14.5px;line-height:1.6;margin:0 0 20px;}
 
@@ -75,6 +79,12 @@ footer{max-width:1000px;margin:12px auto 0;color:var(--ink-soft);font-size:14px;
   <span class="eyebrow">🎯 수의 범위와 올림·버림·반올림</span>
   <h1>어디까지 <span>포함</span>되고,<br>어디로 <span>맞춰</span>질까?</h1>
   <p class="sub">기준이 되는 수를 정하고, 그 수가 포함되는지 아닌지, 그리고 어림한 값이 어느 쪽으로 가는지 직접 확인해요.</p>
+
+  <div class="howto">
+    <p><b>이상·이하</b>와 <b>초과·미만</b>은 둘 다 어떤 수보다 크거나 작다는 뜻이지만 큰 차이가 있어요. 이상·이하는 그 기준 수 자체를 포함하고, 초과·미만은 기준 수를 포함하지 않아요. 예를 들어 '12세 이상'은 12세를 포함하지만 '12세 초과'는 13세부터예요.</p>
+    <p>올림·버림·반올림은 어림수를 만드는 방법이에요. 올림은 무조건 큰 쪽으로, 버림은 무조건 작은 쪽으로 맞추고, 반올림은 5를 기준으로 가까운 쪽을 선택해요. 마트에서 물건값을 100원 단위로 반올림해서 안내하거나, 요금을 정해진 단위로 올림해서 계산하는 것도 이 원리예요.</p>
+    <p>기준 수와 표현을 바꿔가며 수직선 위에서 점이 채워지는지 비어있는지 살펴보고, 슬라이더로 자리를 옮기면서 값이 어떻게 달라지는지 비교해보세요.</p>
+  </div>
 
   <div class="section-card">
     <p class="section-title">① 수의 범위 — 이상·이하·초과·미만</p>

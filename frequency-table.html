@@ -35,6 +35,8 @@ h1 span{color:var(--violet-ink);}
 @media (max-width:860px){ .stage{grid-template-columns:1fr;} }
 .howto{background:var(--green-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
 .howto b{color:var(--green-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 .raw-data{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;max-height:90px;overflow-y:auto;}
 .raw-chip{font-family:'Do Hyeon',sans-serif;font-size:13.5px;background:var(--paper);border:1px solid var(--paper-line);color:var(--ink-soft);border-radius:8px;padding:4px 8px;}
 .control-row{width:100%;max-width:420px;display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
@@ -74,6 +76,8 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
     <div>
       <div class="howto">
         <p>자료를 하나하나 나열하면 전체 흐름을 파악하기 어려워요. 일정한 폭(계급의 크기)으로 구간을 나누고, 각 구간에 몇 개의 자료가 들어가는지(도수) 세어서 표로 만들면 자료의 분포가 한눈에 보여요. 이렇게 정리한 표를 <b>도수분포표</b>라고 하고, 막대로 그리면 <b>히스토그램</b>이 돼요.</p>
+        <p>이런 정리 방법은 실생활에서도 자주 쓰여요. 시험 점수를 10점 단위로 나눠 몇 명이 몇 점대에 있는지 보거나, 하루 동안 팔린 물건 개수를 시간대별로 묶어 보는 것도 모두 도수분포표의 예시예요.</p>
+        <p>슬라이더로 계급의 크기를 바꿔보세요. 구간을 너무 넓게 잡으면 분포가 뭉뚱그려지고, 너무 좁게 잡으면 자료가 듬성듬성해 보여요.</p>
       </div>
       <div class="raw-data" id="rawData"></div>
       <div class="control-row">

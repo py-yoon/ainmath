@@ -36,6 +36,8 @@ h1 span{color:var(--coral-ink);}
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
 .howto{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 20px;}
 .howto b{color:var(--coral-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 .area-svg{width:100%;max-width:360px;height:auto;display:block;margin:18px auto 4px;}
 .div-note{font-size:13.5px;color:var(--ink-soft);text-align:center;margin:6px 0 0;line-height:1.6;}
 
@@ -91,6 +93,12 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <span class="eyebrow">✖️ 곱셈과 나눗셈 실험실</span>
   <h1>큰 수의 곱셈과 나눗셈,<br><span>나누어서 계산</span>해보아요</h1>
   <p class="sub">두 자리 수 곱셈은 자릿값별로 나누어 계산하면 쉬워져요. 나눗셈은 몇 묶음이 되고 얼마가 남는지로 이해할 수 있어요.</p>
+
+  <div class="howto">
+    <p>두 자리 수끼리 곱하는 걸 한 번에 계산하려면 머릿속이 복잡해지죠. 그런데 34 × 6처럼 두 자리 수를 십의 자리(30)와 일의 자리(4)로 나눠서 각각 곱한 다음 더하면(30×6=180, 4×6=24, 180+24=204) 훨씬 쉬워져요. 이건 곱셈의 분배법칙이라는 성질 덕분에 가능한 거예요.</p>
+    <p>나눗셈은 반대로 물건을 똑같이 나누어 담는 상황이에요. 38개를 4묶음씩 담으면 몇 묶음이 만들어지고 몇 개가 남는지가 바로 몫과 나머지예요. 마트에서 물건을 상자에 담거나 친구들끼리 과자를 똑같이 나눌 때도 매일 쓰는 계산이에요.</p>
+    <p>슬라이더로 숫자를 바꿔가며 곱셈은 두 사각형 넓이가 합쳐지는 모습을, 나눗셈은 묶음과 남는 것이 달라지는 모습을 직접 확인해보세요.</p>
+  </div>
 
   <div class="stage">
     <div class="section-title">✖️ 곱셈 — 자릿값으로 나누어 곱하기</div>

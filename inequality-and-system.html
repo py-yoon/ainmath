@@ -43,6 +43,8 @@ h1 span{color:var(--coral-ink);}
 svg{width:100%;max-width:440px;height:auto;overflow:visible;}
 .howto{background:var(--blue-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 22px;}
 .howto b{color:var(--blue-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 .progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;align-self:center;}
 .progress-badge b{color:var(--blue-ink);}
 .panel{display:flex;flex-direction:column;gap:16px;}
@@ -86,6 +88,12 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <span class="eyebrow">⚖️ 일차부등식과 연립방정식 실험실</span>
   <h1>부등호는 언제 <span>방향이 바뀔까?</span><br>두 직선은 어디서 만날까?</h1>
   <p class="sub">부등식은 방정식과 풀이 방법이 거의 같지만, 음수를 곱하거나 나눌 때 방향이 뒤집힌다는 점이 달라요. 연립방정식은 두 식을 각각 그래프로 그렸을 때 만나는 점이 바로 해가 돼요.</p>
+
+  <div class="howto">
+    <p>방정식이 "정확히 얼마인지"를 찾는다면, 부등식은 "어느 범위인지"를 찾아요. 풀이 방법은 방정식과 거의 같지만 딱 하나가 달라요 — 양쪽에 <b>음수</b>를 곱하거나 나누면 부등호 방향이 뒤집혀요. 2&lt;5의 양쪽에 −1을 곱하면 −2&gt;−5가 되는 걸 보면 왜 방향이 뒤집혀야 하는지 알 수 있어요.</p>
+    <p>연립방정식은 미지수 2개짜리 식 두 개를 동시에 만족하는 값을 찾는 문제예요. 두 식을 각각 직선으로 그리면, 두 직선이 만나는 <b>단 하나의 점</b>이 바로 답이에요.</p>
+    <p>부등식을 단계별로 풀면서 음수로 나눌 때 방향이 실제로 바뀌는지 확인하고, 연립방정식은 두 직선을 그래프로 그려 교점을 직접 맞혀보세요.</p>
+  </div>
 
   <div class="tab-row" id="tabRow">
     <button class="tab-btn active" data-t="ineq">📏 일차부등식</button>

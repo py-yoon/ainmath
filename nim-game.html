@@ -31,6 +31,8 @@ h1 span{color:var(--teal-ink);}
 .sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:66ch;margin:0 0 28px;}
 .howto{background:var(--teal-soft);border-radius:16px;padding:16px 18px;font-size:14px;line-height:1.7;color:var(--ink);margin-bottom:20px;}
 .howto b{color:var(--teal-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
 .status-box{text-align:center;font-family:'Do Hyeon',sans-serif;font-size:17px;color:var(--ink);margin-bottom:20px;min-height:28px;}
 .pile-row{display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap;}
@@ -61,7 +63,11 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <h1>마지막 돌을 가져가면<br><span>승리</span>! 필승 전략이 있을까?</h1>
   <p class="sub">돌무더기 여러 개에서 번갈아 돌을 가져가요. 한 번에 한 무더기에서만, 원하는 개수만큼 가져갈 수 있어요. 마지막 돌을 가져가는 사람이 이겨요. 컴퓨터를 이길 수 있을까요?</p>
 
-  <div class="howto"><b>하는 법</b>: 가져갈 무더기에서, 남기고 싶은 지점 바로 다음 돌을 클릭하면 그 돌부터 오른쪽 끝까지 전부 가져가요. 예를 들어 5개 중 3번째 돌을 클릭하면 3, 4, 5번째 돌(3개)을 가져가요.</p>
+  <div class="howto">
+    <p>님(Nim)은 세상에서 가장 오래 연구된 전략 게임 중 하나예요. 규칙은 단순해 보이지만, 100년도 더 전인 1901년에 수학자 찰스 부톤이 완벽한 필승 전략을 수학적으로 증명했어요.</p>
+    <p>비밀은 각 무더기의 돌 개수를 이진수로 바꾼 다음, 자릿수마다 XOR(둘 다 같으면 0, 다르면 1) 연산을 한 값에 있어요. 이 값이 0이면 지금 차례인 사람이 불리하고, 0이 아니면 유리해요. 유리한 쪽은 항상 이 값을 다시 0으로 만드는 수만큼 돌을 가져가면 결국 승리하게 돼요.</p>
+    <p><b>하는 법</b>: 가져갈 무더기에서, 남기고 싶은 지점 바로 다음 돌을 클릭하면 그 돌부터 오른쪽 끝까지 전부 가져가요. 예를 들어 5개 중 3번째 돌을 클릭하면 3, 4, 5번째 돌(3개)을 가져가요.</p>
+  </div>
 
   <div class="stage">
     <div class="preset-row">

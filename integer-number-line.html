@@ -42,6 +42,8 @@ h1 span{color:var(--violet-ink);}
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
 .howto{background:var(--coral-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 22px;}
 .howto b{color:var(--coral-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 
 .metaphor-tabs{display:flex;gap:10px;margin-bottom:20px;}
 .metaphor-btn{flex:1;font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:11px;cursor:pointer;transition:all .15s ease;}
@@ -105,6 +107,12 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <span class="eyebrow">🌡️ 정수와 수직선 실험실</span>
   <h1>더하고 빼는 건<br>수직선 위에서 <span>움직이는 것</span>이에요</h1>
   <p class="sub">4단계를 순서대로 따라가 보세요. 양수를 더하는 쉬운 것부터 시작해서, 가장 헷갈리는 "음수를 빼기"까지 하나씩 이해할 수 있어요. 다 익혔다면 자유 탐구에서 마음대로 섞어보세요.</p>
+
+  <div class="howto">
+    <p>온도가 영하로 내려가거나 지하 주차장으로 내려갈 때 쓰는 음수, 궁금했던 적 있나요? 정수는 0을 기준으로 오른쪽에는 양수, 왼쪽에는 음수가 나란히 놓인 수직선으로 이해하면 쉬워져요. <b>더하기는 오른쪽으로, 빼기는 왼쪽으로</b> 움직이는 것과 같아요.</p>
+    <p>그런데 음수를 더하거나 뺄 때는 방향이 한 번 더 뒤집혀요. 음수를 더하면 오히려 왼쪽으로 가고, 음수를 빼면 오히려 오른쪽으로 가죠. 마치 엘리베이터에서 지하로 내려가는 버튼을 취소하면 다시 위로 올라가는 것과 같은 원리예요.</p>
+    <p>1단계부터 4단계까지 순서대로 풀어보면서 화살표가 어느 방향으로, 몇 칸 움직이는지 눈으로 확인해보세요. 다 익혔다면 자유 탐구에서 마음대로 숫자를 바꿔가며 규칙이 항상 성립하는지 확인해보세요.</p>
+  </div>
 
   <div class="stage-tabs" id="stageTabs"></div>
 

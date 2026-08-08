@@ -128,6 +128,11 @@
   }
   .fact b{color:var(--violet-ink);}
 
+  .howto{background:#E4FAF9;border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+  .howto b{color:var(--teal-ink);}
+  .howto p{margin:0 0 10px;}
+  .howto p:last-child{margin-bottom:0;}
+
   .tick-label{font-family:'Do Hyeon',sans-serif;font-size:14px;fill:var(--ink-soft);text-anchor:middle;}
   .tick-label.rem{fill:var(--coral);}
 
@@ -147,6 +152,12 @@
   <span class="eyebrow">⚪ 원주율 실험실</span>
   <h1>원을 한 바퀴 굴리면,<br>지름의 <span>몇 배</span>를 갈까?</h1>
   <p class="sub">원의 지름을 바꿔가며 굴려보세요. 원이 한 바퀴 구를 때 생기는 길이(원주)가 항상 지름의 약 <b>3.14배</b>라는 걸, 눈금으로 직접 확인할 수 있어요. 이 3.14…라는 값이 바로 <b>원주율(π)</b>이에요.</p>
+
+  <div class="howto">
+    <p>원주율은 원의 둘레(원주)를 지름으로 나눈 값이에요. 신기하게도 이 값은 원이 아무리 크든 작든 항상 똑같이 <b>3.14159…</b>로 나와요. 100원짜리 동전이든 운동장에 그린 커다란 원이든, 둘레를 지름으로 나누면 늘 같은 숫자가 나온다는 뜻이에요.</p>
+    <p>원주율은 3.14 뒤로도 끝없이 이어지고 똑같은 숫자가 반복되지 않는데, 이런 수를 무리수라고 불러요. 옛날 그리스의 수학자 아르키메데스는 계산기도 컴퓨터도 없이, 원 안팎에 다각형을 그려 변의 개수를 늘려가며 원주율 값을 점점 더 정확하게 좁혀나갔어요.</p>
+    <p>지름을 슬라이더로 바꿔가며 원을 굴려보세요. 원이 몇 바퀴가 아니라 지름의 몇 "배"만큼 굴러가는지, 눈금으로 직접 확인해보세요.</p>
+  </div>
 
   <div class="stage">
     <svg id="svg" viewBox="0 0 680 300"></svg>

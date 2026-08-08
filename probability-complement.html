@@ -38,6 +38,8 @@ h1 span{color:var(--coral-ink);}
 .panel-wrap.active{display:block;}
 .howto{background:var(--green-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 22px;}
 .howto b{color:var(--green-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
   display:grid;grid-template-columns: 1.2fr 0.8fr;gap:32px;align-items:start;}
 @media (max-width:820px){ .stage{grid-template-columns:1fr;} }
@@ -74,6 +76,12 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <span class="eyebrow">🎲 확률의 기본 정의와 여사건 실험실</span>
   <h1>"적어도 하나"는<br>반대로 뒤집으면 <span>훨씬 쉬워요</span></h1>
   <p class="sub">확률의 기본 정의를 확인하고, "적어도 하나는 ~일 확률" 같은 복잡한 문제를 여사건(1−P)으로 뒤집어서 훨씬 쉽게 푸는 법을 알아봐요.</p>
+
+  <div class="howto">
+    <p>확률은 어떤 일이 일어날 가능성을 숫자로 나타낸 거예요. 일어날 수 있는 모든 경우 중에서 우리가 원하는 경우가 차지하는 비율로 계산하고, 항상 0(절대 안 일어남)과 1(반드시 일어남) 사이 값이 나와요.</p>
+    <p><b>여사건</b>은 그 일이 안 일어날 확률을 뜻해요. 한 사건과 그 여사건의 확률을 더하면 항상 1이 되니까, P(여사건)=1−P(사건)이 성립해요. "적어도 하나는 ~일 확률"처럼 경우의 수가 너무 많아 직접 세기 힘든 문제는, 반대로 "하나도 ~가 아닐 확률"을 구해서 1에서 빼면 훨씬 간단해져요.</p>
+    <p>일기예보의 강수 확률, 복권 당첨 확률처럼 실생활에서도 확률은 자주 쓰여요. 탭을 옮겨가며 기본 확률부터 여사건까지 순서대로 확인해보세요.</p>
+  </div>
 
   <div class="tab-row" id="tabRow">
     <button class="tab-btn active" data-t="basic">🎯 확률의 기본 정의</button>

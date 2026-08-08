@@ -27,6 +27,10 @@ body{
 }
 .wrap{max-width:1000px;margin:0 auto;}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--violet-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
 h1 span{color:var(--coral-ink);}
 .sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
@@ -67,6 +71,11 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <span class="eyebrow">🌀 스피로그래프 실험실</span>
   <h1>두 원의 비율로<br><span>회전 무늬</span>를 그려보아요</h1>
   <p class="sub">큰 원 안에서 작은 원이 돌아가며 펜이 그리는 무늬예요. 반지름과 펜 위치를 슬라이더로 바꿔보면서, 숫자 비율이 무늬의 모양을 어떻게 바꾸는지 확인해보세요.</p>
+
+  <div class="howto">
+    <p>스피로그래프는 큰 원 틀 안에서 톱니 달린 작은 원을 굴리며 펜으로 무늬를 그리는 장난감이에요. 무늬의 생김새는 전부 두 원의 반지름 비율로 결정돼요. 큰 원의 반지름을 R, 작은 원의 반지름을 r이라 하고 이를 가장 간단한 정수비로 나타내면(예: R:r = 24:7), 그 작은 쪽 숫자(7)가 완성된 무늬의 꽃잎 개수가 돼요.</p>
+    <p>R과 r의 최대공약수가 크면 무늬가 단순해지고, 두 수가 서로소에 가까울수록(공약수가 거의 없을수록) 작은 원이 훨씬 여러 바퀴를 돌아야 해서 촘촘하고 화려한 무늬가 만들어져요. 펜을 꽂는 위치도 무늬에 영향을 줘요 — 작은 원 가장자리에 가까울수록 뾰족한 모양이, 중심에 가까울수록 둥근 꽃잎 모양이 나와요. 슬라이더로 반지름과 펜 위치를 바꿔가며 무늬가 어떻게 달라지는지 확인해보세요.</p>
+  </div>
 
   <div class="stage">
     <div>

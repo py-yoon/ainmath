@@ -63,6 +63,10 @@ input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--co
 .formula .top{color:var(--violet-ink);} .formula .front{color:var(--coral-ink);} .formula .side{color:var(--blue-ink);}
 .fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
 .fact b{color:var(--violet-ink);}
+.howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--violet-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
@@ -75,6 +79,12 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <span class="eyebrow">📦 직육면체의 겉넓이와 부피</span>
   <h1>상자를 <span>펼쳐보고</span><br>겉넓이와 부피를 확인해요</h1>
   <p class="sub">가로·세로·높이를 슬라이더로 바꿔보면서, 직육면체의 겉넓이(여섯 면의 넓이 합)와 부피가 어떻게 달라지는지 확인해요.</p>
+
+  <div class="howto">
+    <p>택배 상자의 겉을 다 칠하려면 페인트가 얼마나 필요할까요? 이건 <b>겉넓이</b>가 답해요. 직육면체는 위-아래, 앞-뒤, 옆-옆 세 쌍의 면으로 이루어지고, 마주 보는 면끼리는 크기가 똑같아요. 그래서 세 가지 넓이(가로×세로, 가로×높이, 세로×높이)를 구해 더한 다음 2배 하면 겉넓이가 나와요.</p>
+    <p>반면 상자 안에 물건이 얼마나 들어갈지는 <b>부피</b>가 답해요. 부피는 가로×세로×높이로, 바닥에 깐 블록을 높이만큼 쌓아 올린 개수와 같아요. 재미있는 건, 가로·세로·높이를 모두 2배로 늘리면 겉넓이는 4배(제곱)로, 부피는 8배(세제곱)로 늘어난다는 점이에요.</p>
+    <p>슬라이더로 한 변씩 바꿔보면서 겉넓이와 부피가 서로 다른 속도로 변하는 걸 직접 확인해보세요.</p>
+  </div>
 
   <div class="stage">
     <div class="canvas-area">

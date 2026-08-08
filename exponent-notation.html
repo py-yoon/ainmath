@@ -35,6 +35,8 @@ h1 span{color:var(--coral-ink);}
 .tab-btn.active{background:var(--coral);border-color:var(--coral);color:#fff;}
 .howto{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14px;line-height:1.7;color:var(--ink);margin-bottom:20px;}
 .howto b{color:var(--coral-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
 .control-row{width:100%;display:flex;flex-direction:column;gap:8px;margin-bottom:18px;}
 .control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
@@ -66,6 +68,12 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <span class="eyebrow">📐 거듭제곱과 지수법칙 브리지 실험실</span>
   <h1>같은 수를 여러 번 곱한 걸<br><span>거듭제곱</span>이라 불러요</h1>
   <p class="sub">2³은 그냥 "2세제곱"이 아니라 "2를 3번 곱했다"는 뜻이에요. 이 페이지에서 거듭제곱의 뜻을 먼저 확인하고, 두 거듭제곱을 곱하면 지수가 왜 더해지는지까지 이어서 살펴봐요.</p>
+
+  <div class="howto">
+    <p>거듭제곱은 같은 수를 여러 번 곱하는 걸 짧게 적는 방법이에요. 2×2×2를 매번 다 쓰는 대신 2³이라고 쓰면 훨씬 간단하죠. 이때 반복해서 곱하는 수 2를 밑, 곱한 횟수 3을 지수라고 불러요. 지수가 1씩 늘어날 때마다 값은 두 배가 되니, 더하기와는 비교도 안 될 만큼 빠르게 커져요.</p>
+    <p>거듭제곱은 숫자가 아주 빠르게 커지는 걸 표현할 때 유용해요. 컴퓨터 저장 용량 1KB가 정확히 2¹⁰(=1024)바이트인 것도, 세균이 한 번 분열할 때마다 개수가 두 배씩 늘어나는 것도 모두 거듭제곱으로 설명돼요.</p>
+    <p>밑이 같은 두 거듭제곱을 곱하면 지수끼리 더해지는 이유도 궁금하지 않나요? 탭을 바꿔가며 거듭제곱의 뜻부터 지수법칙까지 순서대로 확인해보세요.</p>
+  </div>
 
   <div class="tab-row" role="tablist" aria-label="탭 선택">
     <button class="tab-btn active" data-tab="basic" role="tab" aria-selected="true">🔢 거듭제곱이란?</button>

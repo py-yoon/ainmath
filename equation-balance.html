@@ -38,6 +38,8 @@ h1 span{color:var(--violet-ink);}
 .progress-badge b{color:var(--violet-ink);}
 .howto{background:var(--blue-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 20px;}
 .howto b{color:var(--blue-ink);}
+.howto p{margin:0 0 8px;}
+.howto p:last-child{margin-bottom:0;}
 svg{width:100%;max-width:480px;height:auto;overflow:visible;display:block;margin:0 auto 16px;}
 .op-panel{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
 .op-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
@@ -80,7 +82,9 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
     <div>
       <div class="quiz-head">
         <div class="howto" style="margin:0;flex:1;">
-          <b>등식의 성질</b>을 이용해요: 양쪽에서 같은 수를 빼거나, 같은 수로 나눠도 저울은 계속 균형을 유지해요.
+          <p>방정식은 양팔저울과 같아요. 양쪽 무게가 같아야 저울이 수평을 유지하는 것처럼, 등호(=) 양쪽의 값도 항상 같아야 해요. 이 균형을 유지한 채로 x만 혼자 남기는 게 방정식을 푸는 목표예요.</p>
+          <p><b>등식의 성질</b>을 이용해요: 양쪽에서 같은 수를 빼거나, 같은 수로 나눠도 저울은 계속 균형을 유지해요. 한쪽에만 조작을 하면 저울이 기울어지는 것처럼, 식도 한쪽만 바꾸면 더 이상 같은 식이 아니게 돼요.</p>
+          <p>예를 들어 3명이 나눠 낸 총 금액을 알 때 한 사람 몫을 구하려면 전체 금액을 3으로 나누죠? 이때도 똑같이 양쪽에 같은 조작을 하는 거예요. x의 계수가 1이 되고 상수항이 사라질 때까지 조작을 반복해보세요.</p>
         </div>
       </div>
       <div class="progress-badge" style="margin-bottom:14px;display:inline-block;">해결 <b id="scoreNum">0</b>문제 · 이번 문제 조작 <b id="triesNum">0</b>번</div>

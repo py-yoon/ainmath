@@ -84,6 +84,10 @@ table.pv td{font-family:'Do Hyeon',sans-serif;font-size:18px;color:var(--ink);ba
 .expand{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--ink);text-align:center;line-height:1.6;}
 .fact{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
 .fact b{color:var(--coral-ink);}
+.howto{background:var(--coral-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--coral-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
@@ -96,6 +100,12 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <span class="eyebrow">🔟 자릿값과 큰 수 읽기</span>
   <h1>같은 숫자 <span>2</span>인데,<br>자리에 따라 값이 달라져요</h1>
   <p class="sub">슬라이더로 각 자리의 숫자를 바꿔보면서, 블록의 크기와 개수가 어떻게 달라지는지, 그리고 수를 어떻게 읽는지 확인해요.</p>
+
+  <div class="howto">
+    <p>222라는 수에는 숫자 2가 세 번 나오지만, 이 셋은 서로 다른 크기를 나타내요. 맨 앞의 2는 200을, 가운데 2는 20을, 맨 뒤의 2는 그냥 2를 뜻해요. 같은 숫자라도 어느 자리에 있느냐에 따라 값이 완전히 달라지는데, 이걸 <b>자릿값</b>이라고 해요.</p>
+    <p>자릿값 블록에서는 일의 자리를 작은 정육면체 하나로, 십의 자리는 그 10개를 이어붙인 막대로, 백의 자리는 막대 10개를 붙인 판으로 나타내요. 자리가 하나씩 올라갈 때마다 블록 크기가 정확히 10배씩 커지는 걸 보면, 자릿값이 왜 10배씩 커지는지 눈으로 실감할 수 있어요.</p>
+    <p>슬라이더로 각 자리의 숫자를 바꿔보면서, 블록의 크기·개수와 한글로 읽는 방법이 어떻게 함께 바뀌는지 확인해보세요.</p>
+  </div>
 
   <div class="mode-row" id="modeRow">
     <button class="mode-btn" data-mode="3">세 자리 수</button>

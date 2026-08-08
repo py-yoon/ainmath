@@ -38,6 +38,8 @@ h1 span{color:var(--teal-ink);}
 .panel-wrap.active{display:block;}
 .howto{background:var(--teal-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 22px;}
 .howto b{color:var(--teal-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
   display:grid;grid-template-columns: 1.15fr 0.85fr;gap:32px;align-items:start;}
 @media (max-width:820px){ .stage{grid-template-columns:1fr;} }
@@ -86,6 +88,12 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <span class="eyebrow">∩ 집합과 명제 실험실</span>
   <h1>겹치는 부분을 눈으로 보는<br><span>집합</span>, 참·거짓을 뒤집는 <span>명제</span></h1>
   <p class="sub">두 조건을 만족하는 숫자들을 벤다이어그램으로 나눠보고, 합집합·교집합 같은 집합 연산이 어떤 영역을 가리키는지 확인해요. 그리고 하나의 명제에서 나오는 역·이·대우가 서로 어떤 관계인지도 살펴봐요.</p>
+
+  <div class="howto">
+    <p><b>집합</b>은 어떤 조건을 만족하는 대상들을 하나로 묶어놓은 거예요. 벤다이어그램은 이런 집합들을 원으로 그려서, 두 조건을 동시에 만족하는 교집합이나 둘 중 하나라도 만족하는 합집합을 겹치는 영역으로 한눈에 보여줘요.</p>
+    <p><b>명제</b>는 참인지 거짓인지 분명히 판별할 수 있는 문장이에요. "p이면 q이다"라는 명제가 있을 때, 조건과 결론의 순서를 바꾸면 역, 둘 다 부정하면 이, 순서를 바꾸고 부정도 하면 대우가 돼요. 흥미롭게도 원명제와 대우는 항상 참·거짓이 같이 움직여요 — 하나가 참이면 다른 하나도 반드시 참이에요.</p>
+    <p>벤다이어그램에서 조건을 바꿔가며 영역이 어떻게 달라지는지, 그리고 명제 예시를 골라 네 문장의 참·거짓이 어떻게 엇갈리는지 직접 비교해보세요.</p>
+  </div>
 
   <div class="tab-row" id="tabRow">
     <button class="tab-btn active" data-t="sets">🔵 집합의 연산</button>

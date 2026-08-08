@@ -26,6 +26,10 @@ body{
 }
 .wrap{max-width:1040px;margin:0 auto;}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue-ink);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.howto{background:var(--blue-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--blue-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
 h1 span{color:var(--coral-ink);}
 .sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:66ch;margin:0 0 28px;}
@@ -63,6 +67,11 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <span class="eyebrow">📈 지수함수와 로그함수 실험실</span>
   <h1>y=x 직선에 대고<br>거울처럼 <span>반사</span>된 두 그래프</h1>
   <p class="sub">밑 a를 슬라이더로 바꿔보세요. 지수함수 y=aˣ와 로그함수 y=logₐx는 서로 역함수 관계라서, 직선 y=x를 기준으로 완벽하게 반사된 모양이 돼요.</p>
+
+  <div class="howto">
+    <p>2³=8을 "2를 3번 곱하면 8"이라고 읽으면 지수이고, 거꾸로 "8을 만들려면 2를 몇 번 곱해야 할까?"라고 물으면 <b>로그</b>예요. 답은 3이고, log₂8=3이라고 써요. 즉 aˣ=y를 x에 대해 풀면 x=logₐy가 되는, 완전히 같은 관계를 다른 방향에서 보는 것뿐이에요.</p>
+    <p>이 관계를 그래프로 그리면 훨씬 선명해져요. y=aˣ 위에 점 (p, q)가 있다면 로그함수 y=logₐx 위에는 반드시 (q, p)가 있어요. x좌표와 y좌표를 맞바꾼 점은 항상 직선 y=x에 대해 대칭이라서, 두 그래프는 마치 거울에 비친 것처럼 완벽한 대칭을 이뤄요. 밑 a를 슬라이더로 바꿔가며 두 그래프가 항상 y=x에 대해 반사된 모양을 유지하는지 확인해보세요.</p>
+  </div>
 
   <div class="stage">
     <div class="canvas-area">

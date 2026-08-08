@@ -39,6 +39,8 @@ h1 span{color:var(--coral-ink);}
 .panel-wrap.active{display:block;}
 .howto{background:var(--amber-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 22px;}
 .howto b{color:var(--amber-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
   display:grid;grid-template-columns: 1.15fr 0.85fr;gap:32px;align-items:start;}
 @media (max-width:820px){ .stage{grid-template-columns:1fr;} }
@@ -82,6 +84,12 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <span class="eyebrow">🧩 다항식의 곱셈·인수분해와 이차방정식</span>
   <h1>넓이로 확인하는 곱셈공식,<br><span>거꾸로 풀면</span> 인수분해예요</h1>
   <p class="sub">(a+b)²을 정사각형 넓이로 쪼개보면 공식이 왜 그렇게 생겼는지 눈으로 보여요. 그리고 인수분해는 곱셈공식을 거꾸로 이용해서, 이차방정식의 두 근을 찾는 데 쓰여요.</p>
+
+  <div class="howto">
+    <p>(a+b)² = a² + 2ab + b²는 외워야 하는 공식이 아니라, 한 변이 (a+b)인 정사각형을 <b>a와 b로 나눈 네 조각의 넓이</b>를 더한 것과 같다는 눈에 보이는 사실이에요.</p>
+    <p><b>인수분해</b>는 이 곱셈공식을 거꾸로 쓰는 거예요. x²+5x+6 = (x+2)(x+3)처럼 여러 항의 식을 곱셈 형태로 다시 묶으면, 이차방정식 x²+5x+6=0도 (x+2)(x+3)=0으로 바뀌어서 x=−2 또는 x=−3이라는 두 근을 쉽게 구할 수 있어요.</p>
+    <p>슬라이더로 a, b를 바꾸며 (a+b)²이 왜 그 공식이 되는지 넓이로 확인하고, 인수분해로 이차방정식의 두 근을 직접 맞혀보세요.</p>
+  </div>
 
   <div class="tab-row" id="tabRow">
     <button class="tab-btn active" data-t="expand">🟧 곱셈공식 (a+b)²</button>

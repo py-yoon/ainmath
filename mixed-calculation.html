@@ -31,6 +31,8 @@ h1 span{color:var(--coral-ink);}
 .sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
 .howto{background:var(--coral-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
 .howto b{color:var(--coral-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
 .preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
@@ -85,6 +87,8 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
 
   <div class="howto">
     <p><b>계산 순서</b>: ① 괄호 안 → ② 곱셈·나눗셈 (왼쪽부터) → ③ 덧셈·뺄셈 (왼쪽부터) 순서로 계산해요.</p>
+    <p>순서를 안 지키면 같은 식이라도 답이 완전히 달라져요. 예를 들어 2 + 3 × 4는 앞에서부터 더하면 20이 되지만, 곱셈을 먼저 계산하면 14가 나와요 — 약속된 순서를 지켜야 누가 계산해도 똑같은 답이 나오는 거예요.</p>
+    <p>이 약속은 계산기나 프로그래밍 언어에서도 그대로 지켜져요. 버튼을 하나씩 눌러보면서 지금 어떤 부분이 먼저 계산되는지, 왜 그 순서인지 하나씩 확인해보세요. 괄호가 있으면 항상 가장 먼저 계산한다는 것도 함께 기억해두세요.</p>
   </div>
 
   <div class="stage">

@@ -59,6 +59,18 @@
     max-width:62ch;
     margin:0 0 28px;
   }
+  .howto{
+    background:#E7F0FF;
+    border-radius:16px;
+    padding:18px 20px;
+    font-size:14.5px;
+    line-height:1.75;
+    color:var(--ink);
+    margin:0 0 26px;
+  }
+  .howto b{color:var(--blue-ink);}
+  .howto p{margin:0 0 10px;}
+  .howto p:last-child{margin-bottom:0;}
   .stage{
     background:var(--card);
     border-radius:24px;
@@ -159,6 +171,12 @@
   <span class="eyebrow">📐 피타고라스 실험실</span>
   <h1>직각삼각형의 두 변,<br>정사각형 넓이로 <span>비교</span>해보기</h1>
   <p class="sub">직각을 낀 두 변 a, b의 길이를 바꿔보세요. 각 변 위에 그린 정사각형의 넓이(a², b²)를 더하면, 빗변 위에 그린 정사각형의 넓이(c²)와 항상 정확히 같아져요. 이게 바로 <b>피타고라스 정리, a² + b² = c²</b>예요.</p>
+
+  <div class="howto">
+    <p>피타고라스 정리는 수학에서 가장 유명한 공식 중 하나예요. 직각삼각형에서 직각을 낀 두 변(a, b)의 길이를 각각 제곱해서 더하면, 빗변(c)의 길이를 제곱한 값과 항상 같아져요(a²+b²=c²). 놀랍게도 피타고라스보다 훨씬 전인 고대 바빌로니아와 이집트 사람들도 이미 이 관계를 알고 실생활에 활용했다고 해요.</p>
+    <p>옛날 이집트에서는 밧줄에 매듭을 3:4:5 간격으로 묶어서 직각을 만드는 데 썼어요. 이 세 변의 길이(3, 4, 5)는 3²+4²=5²(9+16=25)을 정확히 만족하거든요. 지금도 건축이나 목공에서 직각을 확인할 때 같은 원리를 사용해요.</p>
+    <p>슬라이더로 a와 b의 길이를 바꿔가며, 두 정사각형 넓이를 합친 값이 항상 빗변 위 정사각형 넓이와 같아지는지 눈으로 직접 확인해보세요.</p>
+  </div>
 
   <div class="stage">
     <div class="canvas-area">

@@ -65,6 +65,11 @@ svg#quizSvg{max-width:460px;}
 .action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
 .action-btn:hover{background:var(--green-ink);}
 
+.howto{background:var(--green-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--green-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+
 footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
@@ -77,6 +82,12 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <span class="eyebrow">📊 막대그래프·꺾은선그래프 실험실</span>
   <h1>자료를 <span>그래프로</span><br>한눈에 보아요</h1>
   <p class="sub">막대그래프는 항목끼리 크기를 비교하기 좋고, 꺾은선그래프는 시간에 따라 변하는 모습을 보기 좋아요.</p>
+
+  <div class="howto">
+    <p>같은 자료라도 무엇을 보여주고 싶은지에 따라 어울리는 그래프가 달라요. 막대그래프는 막대의 높이로 값을 나타내서, 여러 항목 중 무엇이 더 크고 작은지 한눈에 비교하기 좋아요. 반면 꺾은선그래프는 점들을 선으로 이어서, 값이 시간이 지나며 오르내리는 흐름을 보여줘요.</p>
+    <p>꺾은선그래프에서 선이 가파르게 오르내리면 그 구간에서 값이 크게 변했다는 뜻이고, 선이 평평하면 거의 변화가 없다는 뜻이에요. 요일별 기온처럼 시간 순서가 있는 자료는 꺾은선그래프가, 계절별 학생 수처럼 독립된 항목을 비교할 때는 막대그래프가 더 어울려요.</p>
+    <p>탭을 눌러 막대그래프와 꺾은선그래프를 오가며, 슬라이더로 값을 바꿔볼 때 두 그래프의 모습이 어떻게 달라지는지 비교해보세요.</p>
+  </div>
 
   <div class="tab-row" id="tabRow" role="tablist"></div>
 

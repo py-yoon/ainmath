@@ -35,6 +35,8 @@ h1 span{color:var(--violet-ink);}
 @media (max-width:860px){ .stage{grid-template-columns:1fr;} }
 .howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
 .howto b{color:var(--violet-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 svg{width:100%;max-width:480px;height:auto;overflow:visible;display:block;margin:0 auto 16px;}
 .control-row{width:100%;max-width:440px;margin:0 auto 18px;display:flex;flex-direction:column;gap:8px;}
 .control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
@@ -69,6 +71,8 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
     <div>
       <div class="howto">
         <p><b>맞꼭지각</b>은 한 점에서 만나는 두 직선이 만드는 마주보는 각, <b>동위각</b>은 두 교점에서 같은 위치에 있는 각, <b>엇각</b>은 두 평행선 사이에서 가로지르는 선의 반대쪽에 있는 각이에요. 두 직선이 평행할 때 이 세 관계의 각들은 항상 크기가 같아요.</p>
+        <p>이런 각의 관계는 우리 주변 곳곳에 숨어 있어요. 기찻길의 두 레일은 항상 평행하고, 침목이 그 사이를 가로지르며 만드는 각들이 바로 동위각과 엇각 관계예요. 건물 창틀이나 책장의 평행한 선반에서도 같은 원리를 찾을 수 있어요.</p>
+        <p>각도 슬라이더로 가로지르는 직선의 기울기를 바꿔보고, 세 각 관계를 하나씩 눌러 어떤 각들끼리 짝을 이루는지 확인해보세요.</p>
       </div>
       <svg id="svg" viewBox="0 0 460 420"></svg>
       <div class="control-row">

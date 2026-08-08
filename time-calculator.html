@@ -59,6 +59,11 @@ svg{width:100%;max-width:280px;height:auto;display:block;margin:0 auto;}
 .action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;}
 .action-btn:hover{background:var(--blue-ink);}
 
+.howto{background:var(--blue-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--blue-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+
 footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
@@ -71,6 +76,12 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <span class="eyebrow">🕐 시각과 시간 계산기 실험실</span>
   <h1>시곗바늘을 움직이고<br><span>경과 시간</span>을 계산해보아요</h1>
   <p class="sub">슬라이더로 시·분·초를 바꾸면서 시곗바늘이 어떻게 움직이는지 확인하고, 아래 퀴즈에서 시간이 얼마나 지났는지 계산해보세요.</p>
+
+  <div class="howto">
+    <p>10개가 모이면 다음 자리로 올라가는 우리가 아는 숫자와 달리, 시간의 세계는 <b>60개</b>가 모여야 다음 자리로 올라가요. 60초가 모이면 1분이 되고, 60분이 모이면 1시간이 돼요. 그래서 초바늘은 60초마다, 분바늘은 60분마다, 시침은 12시간마다 한 바퀴를 돌아요.</p>
+    <p>두 시각의 차이를 구할 때도 이 60의 규칙을 써요. 예를 들어 3시 40분에서 4시 15분까지는, 20분이 지나 4시가 되고 거기서 15분이 더 지나니까 총 35분이 지난 거예요. 나중 시각의 "분"이 처음 시각의 "분"보다 작다면, 시간에서 60분을 빌려와 계산하면 돼요.</p>
+    <p>슬라이더로 시·분·초를 바꿔보면서, 초가 60이 되는 순간 분바늘이, 분이 60이 되는 순간 시침이 어떻게 움직이는지 직접 확인해보세요.</p>
+  </div>
 
   <div class="stage">
     <div>

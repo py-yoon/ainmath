@@ -36,6 +36,8 @@ h1 span{color:var(--teal-ink);}
 .tab-btn.active{background:var(--teal);border-color:var(--teal);color:#fff;}
 .howto{background:var(--teal-soft);border-radius:16px;padding:16px 18px;font-size:14px;line-height:1.7;color:var(--ink);margin-bottom:20px;}
 .howto b{color:var(--teal-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
 .viewer-stage{display:grid;grid-template-columns:1.2fr 0.8fr;gap:28px;align-items:start;}
 @media (max-width:860px){ .viewer-stage{grid-template-columns:1fr;} }
@@ -72,6 +74,12 @@ footer{max-width:1080px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <span class="eyebrow">🎀 뫼비우스의 띠·클라인 병 실험실</span>
   <h1>겉과 속의 구분이<br><span>없는 곡면</span>이 있다고?</h1>
   <p class="sub">뫼비우스의 띠는 종이를 한 번 비틀어 붙인 모양인데, 겉면과 안면의 구분이 없는 "단측곡면"이에요. 클라인 병은 이 아이디어를 한 단계 더 확장한 도형으로, 안과 밖의 구분 자체가 없어요. 직접 선을 그어보고 물을 채워보며 확인해보세요.</p>
+
+  <div class="howto">
+    <p>뫼비우스의 띠는 긴 종이띠를 한 번 비틀어서 끝을 붙이기만 하면 만들 수 있어요. 그런데 신기하게도 <b>앞면과 뒷면이 따로 없는 하나로 이어진 면</b>이 돼요. 이런 도형을 단측곡면이라고 불러요.</p>
+    <p>이 성질은 실제로도 쓰여요. 컨베이어 벨트를 뫼비우스 띠 모양으로 만들면 벨트의 양쪽 면이 골고루 닳아서 더 오래 쓸 수 있고, 우리가 흔히 보는 재활용 마크도 뫼비우스의 띠에서 아이디어를 얻었어요. 아래 두 번째 탭의 클라인 병은 이 아이디어를 한 단계 더 확장한 도형이에요.</p>
+    <p>'그리기 모드'를 켜고 표면 위에 선을 쭉 이어 그어보세요. 손을 떼지 않고 계속 그으면, 분명 반대쪽이라고 생각했던 면까지 어느새 선이 이어져 있는 걸 볼 수 있어요.</p>
+  </div>
 
   <div class="tab-row" role="tablist" aria-label="탭 선택">
     <button class="tab-btn active" data-tab="mobius" role="tab" aria-selected="true">➰ 뫼비우스의 띠</button>

@@ -33,6 +33,8 @@ h1 span{color:var(--violet-ink);}
 .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
 .howto{background:var(--coral-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
 .howto b{color:var(--coral-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
 .scoreboard{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:22px;}
 .score-box{flex:1;min-width:120px;background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:12px 16px;text-align:center;}
 .score-box .label{font-size:13.5px;color:var(--ink-soft);font-family:'Do Hyeon',sans-serif;}
@@ -101,7 +103,9 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
 
   <div class="stage">
     <div class="howto">
+      <p><b>24 게임</b>은 카드 네 장에 적힌 숫자를 사칙연산으로 조합해서 정확히 24를 만드는 오래된 두뇌 게임이에요. 같은 숫자 네 개라도 연산 기호를 어떻게 배치하느냐에 따라 답이 나올 수도, 안 나올 수도 있어요.</p>
       <p><b>사용법</b>: +, −, ×, ÷ 기호를 원하는 빈칸으로 드래그해서 놓아보세요. (기호를 살짝 탭한 다음 빈칸을 탭해도 놓을 수 있어요.) 채워진 칸을 다시 누르면 지워져요. 곱하기·나누기는 더하기·빼기보다 먼저 계산돼요.</p>
+      <p>정답이 안 보일 때는 두 수를 먼저 곱하거나 나눠서 24에 가까운 수를 만든 다음, 남은 두 수로 그 차이를 메우는 방법을 시도해보세요. 8×3, 6×4, 12×2처럼 24를 만드는 곱셈 조합을 미리 몇 개 외워두면 훨씬 빠르게 풀 수 있어요.</p>
     </div>
 
     <div class="scoreboard">
