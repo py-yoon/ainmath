@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>신기한 수의 성질 실험실</title>
+<meta name="description" content="카프레카 상수 6174, 삼각수·사각수·오각수 같은 도형수, 메르센 소수와 완전수 — 계산할수록 패턴이 드러나는 신기한 수들을 슬라이더와 버튼으로 직접 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue-ink);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.howto{background:var(--blue-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--blue-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--blue-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.section-title{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink);margin:0 0 16px;display:flex;align-items:center;gap:8px;}
+.section-sub{color:var(--ink-soft);font-size:14.5px;line-height:1.7;margin:-8px 0 18px;max-width:62ch;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
+
+svg{width:100%;max-width:460px;height:auto;overflow:visible;display:block;margin:0 auto 18px;}
+
+.preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;justify-content:center;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;}
+.preset-btn:hover{border-color:var(--blue-ink);color:var(--blue-ink);}
+.preset-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+.slider-row{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+.slider-row label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);min-width:96px;}
+.slider-row input[type=range]{flex:1;-webkit-appearance:none;height:8px;border-radius:999px;background:var(--blue-soft);outline:none;}
+.slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--blue-ink);border:4px solid #fff;box-shadow:0 2px 8px rgba(13,98,241,0.5);cursor:pointer;}
+.slider-row input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--blue-ink);border:4px solid #fff;box-shadow:0 2px 8px rgba(13,98,241,0.5);cursor:pointer;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--blue-ink);min-width:56px;text-align:right;}
+
+.equation-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:24px;text-align:center;margin-bottom:16px;}
+.equation-box .expr{font-family:'Do Hyeon',sans-serif;font-size:clamp(17px,3.4vw,24px);color:var(--ink);word-break:break-word;}
+.equation-box .expr .unknown{color:var(--blue-ink);}
+.equation-box .check{font-size:14.5px;color:var(--ink-soft);margin-top:12px;}
+.equation-box .check b{color:var(--green-ink);}
+
+.fact{background:var(--blue-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--blue-ink);}
+.fact.ok{background:var(--green-soft);} .fact.ok b{color:var(--green-ink);}
+.fact.warn{background:var(--coral-soft);} .fact.warn b{color:var(--coral-ink);}
+
+.badge{display:inline-block;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:5px 14px;border-radius:999px;margin-top:10px;}
+.badge.yes{background:var(--green-soft);color:var(--green-ink);}
+.badge.no{background:var(--coral-soft);color:var(--coral-ink);}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--blue-ink);}
+.quiz-q{font-size:15.5px;line-height:1.7;text-align:center;background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:20px;margin-bottom:16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--blue-ink);color:var(--blue-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
+.action-btn:hover{background:var(--blue-ink);}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-number-properties-lab.html" style="color:#fff;background:var(--blue-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🎲 신기한 수의 성질 실험실</span>
+  <h1>계산할수록<br><span>패턴</span>이 보이는 수들</h1>
+  <p class="sub">어떤 숫자로 시작해도 계산을 반복하면 항상 같은 곳에 도착하는 신기한 규칙이 있어요. 숫자를 점으로 쌓으면 삼각형·사각형 모양이 만들어지기도 하고요. 이번에는 카프레카 상수, 도형수, 메르센 소수를 직접 계산해보며 그 패턴을 확인해봐요.</p>
+
+  <div class="howto">
+    <p><b>카프레카 상수</b>는 네 자리 숫자로 무엇을 시작하든 정해진 계산을 반복하면 반드시 도착하는 마법 같은 수예요. <b>도형수</b>는 숫자를 점으로 배열했을 때 삼각형, 사각형 같은 도형 모양이 되는 수고요. <b>메르센 소수</b>는 2를 여러 번 곱한 뒤 1을 뺀 수 중에서 소수인 것들로, 완전수와 깊은 관계가 있어요.</p>
+  </div>
+
+  <!-- ===== 카프레카 상수 ===== -->
+  <div class="stage">
+    <div class="section-title">🔄 카프레카 상수 — 언제나 6174로</div>
+    <p class="section-sub">네 자리 숫자(모든 자리가 같은 숫자만 아니면 돼요)를 고른 뒤, 숫자를 큰 순서로 배열한 수에서 작은 순서로 배열한 수를 빼요. 이 계산을 반복하면 최대 7번 안에 반드시 <b>6174</b>에 도착해요.</p>
+    <svg id="svgKaprekar" viewBox="0 0 460 200"></svg>
+    <div class="preset-row" id="kapPresetRow"></div>
+    <div class="slider-row">
+      <label>계산 단계</label>
+      <input id="kapSlider" type="range" min="0" max="0" value="0" step="1">
+      <span class="val" id="kapVal">1</span>
+    </div>
+    <div class="equation-box">
+      <div class="expr" id="kapExpr"></div>
+      <div class="check" id="kapCheck"></div>
+    </div>
+    <div class="fact" id="kapFact"></div>
+  </div>
+
+  <!-- ===== 도형수 ===== -->
+  <div class="stage">
+    <div class="section-title">🔺 도형수 — 점으로 쌓는 수</div>
+    <p class="section-sub">숫자를 점으로 나란히 배열하면 어떤 수는 삼각형, 어떤 수는 정사각형 모양이 만들어져요. 이런 수를 도형수라고 해요. 모양과 개수(n)를 골라 어떤 수가 되는지 확인해보세요.</p>
+    <svg id="svgFigurate" viewBox="0 0 460 260"></svg>
+    <div class="preset-row" id="figTypeRow"></div>
+    <div class="slider-row">
+      <label>몇 번째 수인가</label>
+      <input id="figSlider" type="range" min="1" max="10" value="4" step="1">
+      <span class="val" id="figVal">4</span>
+    </div>
+    <div class="equation-box">
+      <div class="expr" id="figExpr"></div>
+      <div class="check" id="figCheck"></div>
+    </div>
+    <div class="fact" id="figFact"></div>
+  </div>
+
+  <!-- ===== 메르센 소수 ===== -->
+  <div class="stage">
+    <div class="section-title">🔢 메르센 소수와 완전수</div>
+    <p class="section-sub">2를 p번 곱한 뒤 1을 뺀 수(2ᵖ−1)를 메르센 수라고 해요. p가 소수여도 2ᵖ−1이 항상 소수인 건 아니에요. 그런데 2ᵖ−1이 소수(메르센 소수)일 때마다, 2^(p−1)×(2ᵖ−1)은 반드시 완전수가 돼요!</p>
+    <svg id="svgMersenne" viewBox="0 0 460 170"></svg>
+    <div class="preset-row" id="mersennePresetRow"></div>
+    <div class="equation-box">
+      <div class="expr" id="mersenneExpr"></div>
+      <div class="check" id="mersenneCheck"></div>
+      <div id="mersenneBadge"></div>
+    </div>
+    <div class="fact" id="mersenneFact"></div>
+  </div>
+
+  <!-- ===== 퀴즈 ===== -->
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 신기한 수 퀴즈</h2>
+      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+    </div>
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextQuizBtn">➡ 다음 문제</button>
+  </div>
+
+<footer>카프레카 상수는 1949년 인도 수학자 카프레카가 발견했고, 메르센 소수와 완전수의 관계는 유클리드와 오일러가 증명한 정리예요. 지금까지 알려진 메르센 소수는 겨우 52개뿐이라, 새로운 걸 찾을 때마다 뉴스가 될 정도로 귀해요.</footer>
+</div>
+
+<script>
+function randInt(min,max){ return min + Math.floor(Math.random()*(max-min+1)); }
+function isPrime(n){
+  if(n<2) return false;
+  for(let i=2;i*i<=n;i++){ if(n%i===0) return false; }
+  return true;
+}
+
+// ============================================================
+// 카프레카 상수
+// ============================================================
+const KAP_STARTS = [3524, 1234, 9831, 2005, 7641, 1000];
+let kapIdx = 0;
+let kapSteps = [];
+const kapPresetRow = document.getElementById('kapPresetRow');
+const kapSlider = document.getElementById('kapSlider');
+const kapVal = document.getElementById('kapVal');
+const svgKaprekar = document.getElementById('svgKaprekar');
+const kapExpr = document.getElementById('kapExpr');
+const kapCheck = document.getElementById('kapCheck');
+const kapFact = document.getElementById('kapFact');
+
+function kaprekarSteps(start){
+  let steps = [];
+  let n = start;
+  let seen = new Set();
+  while(true){
+    const s = String(n).padStart(4,'0');
+    if(new Set(s).size===1){ steps.push({n, repdigit:true}); break; }
+    const desc = parseInt(s.split('').sort().reverse().join(''),10);
+    const asc = parseInt(s.split('').sort().join(''),10);
+    const diff = desc-asc;
+    steps.push({n, desc, asc, diff});
+    if(diff===6174 || seen.has(diff)) break;
+    seen.add(diff);
+    n = diff;
+  }
+  return steps;
+}
+
+function buildKapPresets(){
+  kapPresetRow.innerHTML = KAP_STARTS.map((n,i)=>`<button class="preset-btn" data-i="${i}">${n}</button>`).join('');
+  kapPresetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ kapIdx = parseInt(btn.dataset.i); setupKapSequence(); });
+  });
+}
+
+function setupKapSequence(){
+  kapPresetRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===kapIdx));
+  kapSteps = kaprekarSteps(KAP_STARTS[kapIdx]);
+  kapSlider.max = kapSteps.length-1;
+  kapSlider.value = 0;
+  renderKap();
+}
+
+function renderKap(){
+  const step = parseInt(kapSlider.value,10);
+  kapVal.textContent = `${step+1} / ${kapSteps.length}`;
+  const cur = kapSteps[step];
+  const s = String(cur.n).padStart(4,'0');
+
+  kapExpr.innerHTML = `${cur.desc} − ${cur.asc} = <span class="unknown">${cur.diff}</span>`;
+  kapCheck.innerHTML = cur.diff===6174 ? `6174에 도착했어요! 🎉` : `다음 단계에서는 ${cur.diff}로 같은 계산을 또 반복해요.`;
+  kapFact.innerHTML = cur.diff===6174
+    ? `${KAP_STARTS[kapIdx]}에서 시작해 <b>${step+1}번</b> 만에 6174에 도착했어요. 어떤 네 자리 수로 시작하든(자리가 모두 같은 숫자만 아니면) 결국 6174에 도착해요 — 이걸 <b>카프레카 상수</b>라고 불러요.`
+    : `${cur.n}의 숫자를 큰 순서로 배열하면 <b>${cur.desc}</b>, 작은 순서로 배열하면 <b>${cur.asc}</b>예요. 두 수를 빼면 <b>${cur.diff}</b>가 나와요.`;
+
+  const digits = s.split('');
+  const descDigits = digits.slice().sort().reverse();
+  const ascDigits = digits.slice().sort();
+  let html = '';
+  function drawDigits(arr, y, color){
+    const startX = 230 - (arr.length*38)/2;
+    let out='';
+    arr.forEach((d,i)=>{
+      const x = startX+i*38;
+      out += `<rect x="${x}" y="${y}" width="30" height="40" rx="8" fill="${color}"></rect>`;
+      out += `<text x="${x+15}" y="${y+27}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="18" fill="#fff">${d}</text>`;
+    });
+    return out;
+  }
+  html += `<text x="230" y="20" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)">큰 순서로</text>`;
+  html += drawDigits(descDigits, 28, 'var(--blue-ink)');
+  html += `<text x="230" y="100" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="20" fill="var(--ink-soft)">−</text>`;
+  html += `<text x="230" y="120" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)">작은 순서로</text>`;
+  html += drawDigits(ascDigits, 128, 'var(--coral)');
+  const resultColor = cur.diff===6174 ? 'var(--green-ink)' : 'var(--ink)';
+  html += `<text x="230" y="195" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="22" fill="${resultColor}">= ${cur.diff}${cur.diff===6174?' 🎉':''}</text>`;
+  svgKaprekar.innerHTML = html;
+}
+buildKapPresets();
+setupKapSequence();
+kapSlider.addEventListener('input', renderKap);
+
+// ============================================================
+// 도형수
+// ============================================================
+const FIG_TYPES = [
+  {key:'tri', name:'삼각수', formula:(n)=>n*(n+1)/2, expr:(n)=>`n(n+1)/2 = ${n}×${n+1}/2`},
+  {key:'sq', name:'사각수', formula:(n)=>n*n, expr:(n)=>`n² = ${n}×${n}`},
+  {key:'pent', name:'오각수', formula:(n)=>n*(3*n-1)/2, expr:(n)=>`n(3n−1)/2 = ${n}×${3*n-1}/2`},
+];
+let figTypeIdx = 0;
+const figTypeRow = document.getElementById('figTypeRow');
+const figSlider = document.getElementById('figSlider');
+const figVal = document.getElementById('figVal');
+const svgFigurate = document.getElementById('svgFigurate');
+const figExpr = document.getElementById('figExpr');
+const figCheck = document.getElementById('figCheck');
+const figFact = document.getElementById('figFact');
+
+function buildFigTypeRow(){
+  figTypeRow.innerHTML = FIG_TYPES.map((t,i)=>`<button class="preset-btn" data-i="${i}">${t.name}</button>`).join('');
+  figTypeRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ figTypeIdx = parseInt(btn.dataset.i); renderFig(); });
+  });
+}
+
+function renderFig(){
+  figTypeRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===figTypeIdx));
+  const n = parseInt(figSlider.value,10);
+  figVal.textContent = n;
+  const type = FIG_TYPES[figTypeIdx];
+  const value = type.formula(n);
+
+  figExpr.innerHTML = `${type.expr(n)} = <span class="unknown">${value}</span>`;
+  figCheck.innerHTML = `${n}번째 ${type.name} = <b>${value}</b>`;
+
+  const factByType = {
+    tri: `점을 한 줄씩 늘려가며 삼각형으로 쌓으면 ${n}번째 줄까지 쌓았을 때 점은 총 <b>${value}</b>개예요. 1, 3, 6, 10, 15... 순서로 늘어나요.`,
+    sq: `가로세로 ${n}개씩 정사각형으로 점을 배열하면 총 <b>${value}</b>개예요. 1, 4, 9, 16, 25... 제곱수와 같아요.`,
+    pent: `점을 층층이 쌓을 때마다 이번 층에서는 ${3*n-2}개가 새로 늘어나요(3n−2). 그렇게 ${n}층까지 쌓으면 총 <b>${value}</b>개가 돼요. 1, 5, 12, 22, 35... 순서로 늘어나요.`,
+  };
+  figFact.innerHTML = factByType[type.key];
+
+  let html = '';
+  if(type.key==='tri'){
+    const rowGap=26, dotR=9;
+    const totalH = n*rowGap;
+    const startY = 130-totalH/2+rowGap/2;
+    for(let r=1;r<=n;r++){
+      const y = startY+(r-1)*rowGap;
+      const w = (r-1)*28;
+      const startX = 230-w/2;
+      for(let c=0;c<r;c++){
+        html += `<circle cx="${startX+c*28}" cy="${y}" r="${dotR}" fill="var(--blue-ink)"></circle>`;
+      }
+    }
+  } else if(type.key==='sq'){
+    const gap = Math.min(34, 300/n);
+    const dotR = Math.max(5, gap*0.32);
+    const total = (n-1)*gap;
+    const startX = 230-total/2, startY = 130-total/2;
+    for(let r=0;r<n;r++){
+      for(let c=0;c<n;c++){
+        html += `<circle cx="${startX+c*gap}" cy="${startY+r*gap}" r="${dotR}" fill="var(--green-ink)"></circle>`;
+      }
+    }
+  } else {
+    const CX=230, CY=130;
+    for(let k=1;k<=n;k++){
+      const count = k===1?1:3*k-2;
+      const radius = 16+k*18;
+      const dotR = 6;
+      const colors = ['var(--violet)','var(--coral)'];
+      for(let i=0;i<count;i++){
+        const ang = (2*Math.PI*i/count) - Math.PI/2;
+        const x = CX+radius*Math.cos(ang), y=CY+radius*Math.sin(ang);
+        html += `<circle cx="${x}" cy="${y}" r="${dotR}" fill="${colors[k%2]}" opacity="0.9"></circle>`;
+      }
+    }
+  }
+  svgFigurate.innerHTML = html;
+}
+buildFigTypeRow();
+figSlider.addEventListener('input', renderFig);
+renderFig();
+
+// ============================================================
+// 메르센 소수
+// ============================================================
+const MERSENNE_P = [2,3,5,7,11,13,17,19];
+let mersenneIdx = 0;
+const mersennePresetRow = document.getElementById('mersennePresetRow');
+const svgMersenne = document.getElementById('svgMersenne');
+const mersenneExpr = document.getElementById('mersenneExpr');
+const mersenneCheck = document.getElementById('mersenneCheck');
+const mersenneBadge = document.getElementById('mersenneBadge');
+const mersenneFact = document.getElementById('mersenneFact');
+
+function buildMersennePresets(){
+  mersennePresetRow.innerHTML = MERSENNE_P.map((p,i)=>`<button class="preset-btn" data-i="${i}">p=${p}</button>`).join('');
+  mersennePresetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ mersenneIdx = parseInt(btn.dataset.i); renderMersenne(); });
+  });
+}
+
+function renderMersenne(){
+  mersennePresetRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===mersenneIdx));
+  const p = MERSENNE_P[mersenneIdx];
+  const m = Math.pow(2,p)-1;
+  const prime = isPrime(m);
+
+  mersenneExpr.innerHTML = `2<sup>${p}</sup> − 1 = <span class="unknown">${m.toLocaleString()}</span>`;
+  mersenneBadge.innerHTML = `<span class="badge ${prime?'yes':'no'}">${prime?'메르센 소수예요!':'소수가 아니에요'}</span>`;
+
+  if(prime){
+    const perfect = Math.pow(2,p-1)*m;
+    mersenneCheck.innerHTML = `대응하는 완전수 = 2<sup>${p-1}</sup>×${m.toLocaleString()} = <b>${perfect.toLocaleString()}</b>`;
+    mersenneFact.innerHTML = `${m.toLocaleString()}은 소수라서 메르센 소수예요! 그래서 2<sup>${p-1}</sup>×(2<sup>${p}</sup>−1) = <b>${perfect.toLocaleString()}</b>은 반드시 완전수가 돼요 — 이게 바로 유클리드-오일러 정리예요.`;
+  } else {
+    const factors = [];
+    let x = m;
+    for(let d=2; d*d<=x; d++){
+      while(x%d===0){ factors.push(d); x/=d; }
+    }
+    if(x>1) factors.push(x);
+    mersenneCheck.innerHTML = `${m.toLocaleString()} = ${factors.join(' × ')}`;
+    mersenneFact.innerHTML = `p=${p}는 소수이지만, 2<sup>${p}</sup>−1 = <b>${m.toLocaleString()}</b>은 소수가 아니에요(${factors.join('×')}로 나뉘어요). p가 소수라고 해서 2ᵖ−1도 항상 소수인 건 아니에요 — 그래서 메르센 소수는 아주 드물어요.`;
+  }
+
+  const barW = Math.min(380, Math.log2(m+1)*22);
+  let html = '';
+  html += `<text x="230" y="30" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink-soft)">2<tspan font-size="10" dy="-5">${p}</tspan><tspan dy="5"> − 1 = ${m.toLocaleString()}</tspan></text>`;
+  html += `<rect x="${230-barW/2}" y="55" width="${barW}" height="34" rx="10" fill="${prime?'var(--green-soft)':'var(--coral-soft)'}" stroke="${prime?'var(--green-ink)':'var(--coral-ink)'}" stroke-width="2"></rect>`;
+  html += `<text x="230" y="77" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="${prime?'var(--green-ink)':'var(--coral-ink)'}">${prime?'소수':'합성수'}</text>`;
+  html += `<text x="230" y="130" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)">${prime?`→ 완전수 ${(Math.pow(2,p-1)*m).toLocaleString()}로 연결!`:'→ 완전수와 연결되지 않아요'}</text>`;
+  svgMersenne.innerHTML = html;
+}
+buildMersennePresets();
+renderMersenne();
+
+// ============================================================
+// 퀴즈
+// ============================================================
+const quizQ = document.getElementById('quizQ');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextQuizBtn = document.getElementById('nextQuizBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+const triesNumEl = document.getElementById('triesNum');
+let score=0, tries=0, answered=false, quizAnswer=null;
+
+function distractors(answer, count, minGap){
+  const opts = new Set([answer]);
+  let guard=0;
+  while(opts.size<count+1 && guard<300){
+    guard++;
+    const delta = randInt(-minGap*3, minGap*3);
+    const cand = answer+delta;
+    if(delta!==0 && cand>0) opts.add(cand);
+  }
+  let extra=minGap;
+  while(opts.size<count+1){ opts.add(answer+extra); extra+=minGap; }
+  return [...opts];
+}
+
+function newQuizQuestion(){
+  answered=false;
+  quizFeedback.textContent='';
+  const type = Math.random();
+
+  if(type < 0.34){
+    const start = KAP_STARTS[randInt(0,KAP_STARTS.length-1)];
+    const steps = kaprekarSteps(start);
+    quizAnswer = steps.length;
+    quizQ.innerHTML = `${start}에서 시작해서 카프레카 계산을 반복하면 몇 번 만에 6174에 도착할까요?`;
+    renderOpts(distractors(steps.length,3,1).filter(v=>v>0).sort((a,b)=>a-b), v=>`${v}번`);
+  } else if(type < 0.67){
+    const type2 = FIG_TYPES[randInt(0,2)];
+    const n = randInt(3,9);
+    const answer = type2.formula(n);
+    quizAnswer = answer;
+    quizQ.innerHTML = `${n}번째 ${type2.name}는 얼마일까요?`;
+    renderOpts(distractors(answer,3,Math.max(2,Math.round(answer*0.15))).sort((a,b)=>a-b), v=>`${v}`);
+  } else {
+    const p = MERSENNE_P[randInt(0,MERSENNE_P.length-1)];
+    const m = Math.pow(2,p)-1;
+    const answer = isPrime(m) ? '소수(메르센 소수)' : '합성수';
+    quizAnswer = answer;
+    quizQ.innerHTML = `2<sup>${p}</sup> − 1 = ${m.toLocaleString()} 은(는) 소수일까요, 합성수일까요?`;
+    renderOpts(['소수(메르센 소수)','합성수'], v=>v);
+  }
+}
+
+function renderOpts(opts, formatter){
+  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${formatter(o)}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered=true;
+      tries++;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      const chosen = btn.dataset.o;
+      const isCorrect = (typeof quizAnswer==='number') ? parseInt(chosen)===quizAnswer : chosen===quizAnswer;
+      if(isCorrect){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `아쉬워요! 정답은 ${quizAnswer}였어요. (정답 ${score} / 시도 ${tries})`;
+      }
+      scoreNumEl.textContent = score;
+      triesNumEl.textContent = tries;
+    });
+  });
+}
+nextQuizBtn.addEventListener('click', newQuizQuestion);
+newQuizQuestion();
+</script>
+</body>
+</html>

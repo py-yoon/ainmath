@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>자릿수로 노는 수 실험실</title>
+<meta name="description" content="회문수, 해피 넘버, 자기 닮음수 — 숫자의 자릿수만 가지고 노는데도 신기한 규칙이 생기는 수들을 슬라이더와 버튼으로 직접 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--green-ink);background:var(--green-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.howto{background:var(--green-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--green-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--green-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.section-title{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink);margin:0 0 16px;display:flex;align-items:center;gap:8px;}
+.section-sub{color:var(--ink-soft);font-size:14.5px;line-height:1.7;margin:-8px 0 18px;max-width:62ch;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
+
+svg{width:100%;max-width:460px;height:auto;overflow:visible;display:block;margin:0 auto 18px;}
+
+.preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;justify-content:center;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;}
+.preset-btn:hover{border-color:var(--green-ink);color:var(--green-ink);}
+.preset-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+.slider-row{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+.slider-row label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);min-width:96px;}
+.slider-row input[type=range]{flex:1;-webkit-appearance:none;height:8px;border-radius:999px;background:var(--green-soft);outline:none;}
+.slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--green-ink);border:4px solid #fff;box-shadow:0 2px 8px rgba(53,122,99,0.5);cursor:pointer;}
+.slider-row input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--green-ink);border:4px solid #fff;box-shadow:0 2px 8px rgba(53,122,99,0.5);cursor:pointer;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--green-ink);min-width:70px;text-align:right;}
+
+.equation-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:24px;text-align:center;margin-bottom:16px;}
+.equation-box .expr{font-family:'Do Hyeon',sans-serif;font-size:clamp(16px,3.2vw,22px);color:var(--ink);word-break:break-word;}
+.equation-box .expr .unknown{color:var(--green-ink);}
+.equation-box .check{font-size:14.5px;color:var(--ink-soft);margin-top:12px;}
+.equation-box .check b{color:var(--green-ink);}
+
+.fact{background:var(--green-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--green-ink);}
+.fact.warn{background:var(--coral-soft);} .fact.warn b{color:var(--coral-ink);}
+
+.badge{display:inline-block;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:5px 14px;border-radius:999px;margin-top:10px;}
+.badge.yes{background:var(--green-soft);color:var(--green-ink);}
+.badge.no{background:var(--coral-soft);color:var(--coral-ink);}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--green-ink);}
+.quiz-q{font-size:15.5px;line-height:1.7;text-align:center;background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:20px;margin-bottom:16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
+.action-btn:hover{background:var(--green-ink);}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-curious-digit-numbers-lab.html" style="color:#fff;background:var(--green-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🔮 자릿수로 노는 수 실험실</span>
+  <h1>숫자를 뒤집고, 제곱하고,<br>더해봤더니 <span>생기는 규칙</span></h1>
+  <p class="sub">지난 번 카프레카 상수처럼, 숫자의 자릿수만 가지고 계산을 반복해도 신기한 규칙이 나타나는 수들이 더 있어요. 뒤집어도 같은 회문수, 계속 제곱해서 더하면 결국 1이 되는 해피 넘버, 자기 자릿수의 거듭제곱 합이 자기 자신과 같은 자기 닮음수를 만나볼게요.</p>
+
+  <div class="howto">
+    <p><b>회문수</b>는 121처럼 앞에서 읽으나 뒤에서 읽으나 똑같은 수예요. <b>해피 넘버</b>는 각 자리 숫자를 제곱해서 더하는 걸 반복했을 때 결국 1이 되는 수고, 그렇지 않으면 4-16-37-58-89-145-42-20을 도는 고리에 갇혀요. <b>자기 닮음수</b>는 153 = 1³+5³+3³처럼 각 자릿수를 자릿수 개수만큼 거듭제곱해서 더하면 다시 자기 자신이 되는 수예요.</p>
+  </div>
+
+  <!-- ===== 회문수 ===== -->
+  <div class="stage">
+    <div class="section-title">🪞 회문수 — 뒤집어도 똑같은 수</div>
+    <p class="section-sub">121, 3553처럼 앞에서 읽으나 뒤에서 읽으나 똑같은 수를 회문수라고 해요. 심지어 727처럼 회문수이면서 소수인 경우도 있어요.</p>
+    <svg id="svgPalindrome" viewBox="0 0 460 160"></svg>
+    <div class="preset-row" id="palPresetRow"></div>
+    <div class="equation-box">
+      <div class="expr" id="palExpr"></div>
+      <div class="check" id="palCheck"></div>
+      <div id="palBadge"></div>
+    </div>
+    <div class="fact" id="palFact"></div>
+  </div>
+
+  <!-- ===== 해피 넘버 ===== -->
+  <div class="stage">
+    <div class="section-title">😊 해피 넘버 — 계속 제곱해서 더하면?</div>
+    <p class="section-sub">각 자리 숫자를 제곱해서 더하는 걸 반복해보세요. 결국 1에 도착하면 해피 넘버, 4-16-37-58-89-145-42-20 고리에 갇히면 언해피 넘버예요.</p>
+    <svg id="svgHappy" viewBox="0 0 460 200"></svg>
+    <div class="preset-row" id="happyPresetRow"></div>
+    <div class="slider-row">
+      <label>계산 단계</label>
+      <input id="happySlider" type="range" min="0" max="0" value="0" step="1">
+      <span class="val" id="happyVal">1</span>
+    </div>
+    <div class="equation-box">
+      <div class="expr" id="happyExpr"></div>
+      <div class="check" id="happyCheck"></div>
+      <div id="happyBadge"></div>
+    </div>
+    <div class="fact" id="happyFact"></div>
+  </div>
+
+  <!-- ===== 자기 닮음수 ===== -->
+  <div class="stage">
+    <div class="section-title">🌟 자기 닮음수 — 자릿수의 거듭제곱 합이 자기 자신</div>
+    <p class="section-sub">153은 자릿수가 3개니까 각 숫자를 3제곱해서 더해요: 1³+5³+3³ = 1+125+27 = 153, 정확히 자기 자신이 나와요!</p>
+    <svg id="svgNarc" viewBox="0 0 460 180"></svg>
+    <div class="preset-row" id="narcPresetRow"></div>
+    <div class="equation-box">
+      <div class="expr" id="narcExpr"></div>
+      <div class="check" id="narcCheck"></div>
+      <div id="narcBadge"></div>
+    </div>
+    <div class="fact" id="narcFact"></div>
+  </div>
+
+  <!-- ===== 퀴즈 ===== -->
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 자릿수 퀴즈</h2>
+      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+    </div>
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextQuizBtn">➡ 다음 문제</button>
+  </div>
+
+<footer>회문수·해피 넘버·자기 닮음수는 전부 숫자를 "숫자 그 자체"로 다루는 재귀적 계산에서 나와요. 컴퓨터가 아주 잘하는 반복 계산이라, 아주 큰 수에서도 쉽게 찾아낼 수 있어요.</footer>
+</div>
+
+<script>
+function randInt(min,max){ return min + Math.floor(Math.random()*(max-min+1)); }
+function isPrime(n){
+  if(n<2) return false;
+  for(let i=2;i*i<=n;i++){ if(n%i===0) return false; }
+  return true;
+}
+
+// ============================================================
+// 회문수
+// ============================================================
+const PAL_EXAMPLES = [121, 12321, 194, 727, 909, 1234];
+let palIdx = 0;
+const palPresetRow = document.getElementById('palPresetRow');
+const svgPalindrome = document.getElementById('svgPalindrome');
+const palExpr = document.getElementById('palExpr');
+const palCheck = document.getElementById('palCheck');
+const palBadge = document.getElementById('palBadge');
+const palFact = document.getElementById('palFact');
+
+function buildPalPresets(){
+  palPresetRow.innerHTML = PAL_EXAMPLES.map((n,i)=>`<button class="preset-btn" data-i="${i}">${n}</button>`).join('');
+  palPresetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ palIdx = parseInt(btn.dataset.i); renderPal(); });
+  });
+}
+
+function renderPal(){
+  palPresetRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===palIdx));
+  const n = PAL_EXAMPLES[palIdx];
+  const s = String(n);
+  const rev = s.split('').reverse().join('');
+  const isPal = s===rev;
+  const prime = isPrime(n);
+
+  palExpr.innerHTML = `${s} 를 뒤집으면 → <span class="unknown">${rev}</span>`;
+  palCheck.innerHTML = isPal ? `앞뒤가 똑같아요!` : `앞뒤가 달라요.`;
+  palBadge.innerHTML = `<span class="badge ${isPal?'yes':'no'}">${isPal?'회문수예요':'회문수가 아니에요'}</span>`;
+  palFact.innerHTML = isPal
+    ? (prime ? `${n}은 회문수이면서 동시에 소수예요! 727, 131처럼 회문수이자 소수인 수는 특히 드물고 재미있어요.` : `${n}은 앞에서 읽으나 뒤에서 읽으나 똑같은 회문수예요.`)
+    : `${n}은 뒤집으면 ${rev}로 원래 수와 달라져서 회문수가 아니에요.`;
+
+  const digits = s.split('');
+  const startX = 230-(digits.length*36)/2;
+  let html = '';
+  digits.forEach((d,i)=>{
+    const x = startX+i*36;
+    html += `<rect x="${x}" y="20" width="30" height="40" rx="8" fill="var(--green-ink)"></rect>`;
+    html += `<text x="${x+15}" y="47" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="18" fill="#fff">${d}</text>`;
+  });
+  html += `<text x="230" y="90" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="18" fill="var(--ink-soft)">↓ 뒤집기</text>`;
+  const revDigits = rev.split('');
+  const startX2 = 230-(revDigits.length*36)/2;
+  revDigits.forEach((d,i)=>{
+    const x = startX2+i*36;
+    const match = digits[i]===revDigits[i];
+    html += `<rect x="${x}" y="105" width="30" height="40" rx="8" fill="${isPal?'var(--green-ink)':'var(--coral)'}"></rect>`;
+    html += `<text x="${x+15}" y="132" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="18" fill="#fff">${d}</text>`;
+  });
+  svgPalindrome.innerHTML = html;
+}
+buildPalPresets();
+renderPal();
+
+// ============================================================
+// 해피 넘버
+// ============================================================
+const HAPPY_STARTS = [7, 4, 19, 2, 13, 86];
+let happyIdx = 0;
+let happySteps = [];
+const happyPresetRow = document.getElementById('happyPresetRow');
+const happySlider = document.getElementById('happySlider');
+const happyVal = document.getElementById('happyVal');
+const svgHappy = document.getElementById('svgHappy');
+const happyExpr = document.getElementById('happyExpr');
+const happyCheck = document.getElementById('happyCheck');
+const happyBadge = document.getElementById('happyBadge');
+const happyFact = document.getElementById('happyFact');
+
+function sumSqDigits(n){
+  return String(n).split('').reduce((a,d)=>a+parseInt(d,10)**2, 0);
+}
+
+function happyStepsFn(start){
+  let steps=[start];
+  let seen=new Set();
+  let cur=start;
+  while(cur!==1 && !seen.has(cur)){
+    seen.add(cur);
+    cur = sumSqDigits(cur);
+    steps.push(cur);
+  }
+  return {steps, happy: cur===1};
+}
+
+function buildHappyPresets(){
+  happyPresetRow.innerHTML = HAPPY_STARTS.map((n,i)=>`<button class="preset-btn" data-i="${i}">${n}</button>`).join('');
+  happyPresetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ happyIdx = parseInt(btn.dataset.i); setupHappySequence(); });
+  });
+}
+
+function setupHappySequence(){
+  happyPresetRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===happyIdx));
+  const {steps} = happyStepsFn(HAPPY_STARTS[happyIdx]);
+  happySteps = steps;
+  happySlider.max = steps.length-2 >= 0 ? steps.length-2 : 0;
+  happySlider.value = 0;
+  renderHappy();
+}
+
+function renderHappy(){
+  const step = parseInt(happySlider.value,10);
+  const from = happySteps[step];
+  const to = happySteps[step+1];
+  happyVal.textContent = `${step+1} / ${happySteps.length-1}`;
+
+  const s = String(from);
+  const parts = s.split('').map(d=>`${d}²`);
+  happyExpr.innerHTML = `${parts.join('+')} = <span class="unknown">${to}</span>`;
+
+  const {happy} = happyStepsFn(HAPPY_STARTS[happyIdx]);
+  const isEnd = step===happySteps.length-2;
+  happyCheck.innerHTML = isEnd ? (happy ? `1에 도착했어요!` : `이미 나왔던 수(${to})로 돌아가 고리에 갇혔어요.`) : `${from} → ${to}`;
+  if(isEnd){
+    happyBadge.innerHTML = `<span class="badge ${happy?'yes':'no'}">${happy?'해피 넘버예요!':'언해피 넘버예요'}</span>`;
+  } else {
+    happyBadge.innerHTML = '';
+  }
+  happyFact.innerHTML = isEnd
+    ? (happy
+        ? `${HAPPY_STARTS[happyIdx]}에서 시작해 계산을 반복하니 결국 <b>1</b>에 도착했어요. 이런 수를 해피 넘버라고 해요.`
+        : `${HAPPY_STARTS[happyIdx]}에서 시작하면 4→16→37→58→89→145→42→20→4로 도는 고리에 갇혀서 절대 1에 도착하지 못해요. 이런 수를 언해피 넘버라고 해요.`)
+    : `${from}의 각 자리를 제곱해서 더하면 <b>${to}</b>가 나와요. 다음 단계로 계속 반복해보세요.`;
+
+  let html = '';
+  const CX=230;
+  const seq = happySteps.slice(0, step+2);
+  const maxRowW = 430;
+  const rawBoxW = 64, rawGap = 10;
+  const rawTotalW = seq.length*rawBoxW+(seq.length-1)*rawGap;
+  const scale = Math.min(1, maxRowW/rawTotalW);
+  const boxW = rawBoxW*scale, gap = rawGap*scale;
+  const fontSize = Math.max(10, 14*scale);
+  const totalW = seq.length*boxW+(seq.length-1)*gap;
+  const startX = CX-totalW/2;
+  seq.forEach((v,i)=>{
+    const x = startX + i*(boxW+gap);
+    const isCur = i===step+1;
+    const color = isCur ? (isEnd ? (happy?'var(--green-ink)':'var(--coral)') : 'var(--green-ink)') : 'var(--ink-soft)';
+    html += `<rect x="${x}" y="70" width="${boxW}" height="40" rx="10" fill="${color}" opacity="${isCur?1:0.55}"></rect>`;
+    html += `<text x="${x+boxW/2}" y="95" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="${fontSize}" fill="#fff">${v}</text>`;
+    if(i<seq.length-1){
+      html += `<text x="${x+boxW+gap/2}" y="95" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="${fontSize}" fill="var(--ink-soft)">→</text>`;
+    }
+  });
+  if(isEnd){
+    html += `<text x="230" y="150" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="${happy?'var(--green-ink)':'var(--coral-ink)'}">${happy?'🎉 1 도착!':'🔁 고리에 갇힘'}</text>`;
+  }
+  svgHappy.innerHTML = html;
+}
+buildHappyPresets();
+setupHappySequence();
+happySlider.addEventListener('input', renderHappy);
+
+// ============================================================
+// 자기 닮음수
+// ============================================================
+const NARC_EXAMPLES = [153, 9474, 1634, 8208, 371, 407, 100, 123];
+let narcIdx = 0;
+const narcPresetRow = document.getElementById('narcPresetRow');
+const svgNarc = document.getElementById('svgNarc');
+const narcExpr = document.getElementById('narcExpr');
+const narcCheck = document.getElementById('narcCheck');
+const narcBadge = document.getElementById('narcBadge');
+const narcFact = document.getElementById('narcFact');
+
+function buildNarcPresets(){
+  narcPresetRow.innerHTML = NARC_EXAMPLES.map((n,i)=>`<button class="preset-btn" data-i="${i}">${n}</button>`).join('');
+  narcPresetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ narcIdx = parseInt(btn.dataset.i); renderNarc(); });
+  });
+}
+
+function renderNarc(){
+  narcPresetRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===narcIdx));
+  const n = NARC_EXAMPLES[narcIdx];
+  const s = String(n);
+  const p = s.length;
+  const digits = s.split('').map(d=>parseInt(d,10));
+  const total = digits.reduce((a,d)=>a+Math.pow(d,p),0);
+  const isNarc = total===n;
+
+  const terms = digits.map(d=>`${d}<sup>${p}</sup>`).join('+');
+  narcExpr.innerHTML = `${terms} = <span class="unknown">${total}</span>`;
+  narcCheck.innerHTML = `자릿수 ${p}개, 원래 수는 ${n}`;
+  narcBadge.innerHTML = `<span class="badge ${isNarc?'yes':'no'}">${isNarc?'자기 닮음수예요!':'자기 닮음수가 아니에요'}</span>`;
+  narcFact.innerHTML = isNarc
+    ? `${n}은 자릿수(${p}개)만큼 각 숫자를 거듭제곱해서 더하면 정확히 <b>${n}</b>이 나와요. 그래서 자기 닮음수예요.`
+    : `${n}의 각 자릿수를 ${p}제곱해서 더하면 <b>${total}</b>이 나오는데, 원래 수인 ${n}과 달라서 자기 닮음수가 아니에요.`;
+
+  const boxW=54, gap=10;
+  const totalW = digits.length*boxW+(digits.length-1)*gap;
+  let startX = 230-totalW/2;
+  let html='';
+  digits.forEach((d,i)=>{
+    const x = startX+i*(boxW+gap);
+    html += `<rect x="${x}" y="20" width="${boxW}" height="50" rx="10" fill="var(--green-ink)"></rect>`;
+    html += `<text x="${x+boxW/2}" y="42" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="#fff">${d}<tspan font-size="10" dy="-5">${p}</tspan></text>`;
+    html += `<text x="${x+boxW/2}" y="60" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="#fff">=${Math.pow(d,p)}</text>`;
+  });
+  html += `<text x="230" y="110" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--ink-soft)">모두 더하면</text>`;
+  html += `<rect x="${230-70}" y="122" width="140" height="42" rx="12" fill="${isNarc?'var(--green-soft)':'var(--coral-soft)'}" stroke="${isNarc?'var(--green-ink)':'var(--coral-ink)'}" stroke-width="2"></rect>`;
+  html += `<text x="230" y="149" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="17" fill="${isNarc?'var(--green-ink)':'var(--coral-ink)'}">${total}</text>`;
+  svgNarc.innerHTML = html;
+}
+buildNarcPresets();
+renderNarc();
+
+// ============================================================
+// 퀴즈
+// ============================================================
+const quizQ = document.getElementById('quizQ');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextQuizBtn = document.getElementById('nextQuizBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+const triesNumEl = document.getElementById('triesNum');
+let score=0, tries=0, answered=false, quizAnswer=null;
+
+function newQuizQuestion(){
+  answered=false;
+  quizFeedback.textContent='';
+  const type = Math.random();
+
+  if(type < 0.34){
+    const pool = [121, 12321, 194, 727, 909, 1234, 353, 2468];
+    const n = pool[randInt(0,pool.length-1)];
+    const s=String(n);
+    const isPal = s===s.split('').reverse().join('');
+    quizAnswer = isPal ? '회문수' : '회문수 아님';
+    quizQ.innerHTML = `${n}은(는) 회문수일까요?`;
+    renderOpts(['회문수','회문수 아님'], v=>v);
+  } else if(type < 0.67){
+    const pool = [7,4,19,2,13,86,23,44];
+    const n = pool[randInt(0,pool.length-1)];
+    const {happy} = happyStepsFn(n);
+    quizAnswer = happy ? '해피 넘버' : '언해피 넘버';
+    quizQ.innerHTML = `${n}은(는) 해피 넘버일까요, 언해피 넘버일까요?`;
+    renderOpts(['해피 넘버','언해피 넘버'], v=>v);
+  } else {
+    const pool = [153, 9474, 1634, 8208, 371, 407, 100, 123, 4150, 234];
+    const n = pool[randInt(0,pool.length-1)];
+    const s=String(n); const p=s.length;
+    const total = s.split('').reduce((a,d)=>a+Math.pow(parseInt(d,10),p),0);
+    quizAnswer = total===n ? '자기 닮음수' : '자기 닮음수 아님';
+    quizQ.innerHTML = `${n}은(는) 자기 닮음수일까요?`;
+    renderOpts(['자기 닮음수','자기 닮음수 아님'], v=>v);
+  }
+}
+
+function renderOpts(opts, formatter){
+  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${formatter(o)}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered=true;
+      tries++;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      const chosen = btn.dataset.o;
+      const isCorrect = chosen===quizAnswer;
+      if(isCorrect){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `아쉬워요! 정답은 ${quizAnswer}였어요. (정답 ${score} / 시도 ${tries})`;
+      }
+      scoreNumEl.textContent = score;
+      triesNumEl.textContent = tries;
+    });
+  });
+}
+nextQuizBtn.addEventListener('click', newQuizQuestion);
+newQuizQuestion();
+</script>
+</body>
+</html>

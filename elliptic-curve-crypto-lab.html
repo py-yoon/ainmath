@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>타원곡선 암호 실험실</title>
+<meta name="description" content="타원곡선 위에서 점과 점을 더하는 신기한 규칙부터, 그 규칙이 어떻게 이산로그 문제라는 어려운 수학 문제가 되어 암호가 되는지 슬라이더와 직접 도전으로 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--green-ink);background:var(--green-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.howto{background:var(--green-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--green-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.3vw,42px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--green-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.section-title{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink);margin:0 0 16px;display:flex;align-items:center;gap:8px;}
+.section-sub{color:var(--ink-soft);font-size:14.5px;line-height:1.7;margin:-8px 0 18px;max-width:62ch;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
+
+svg{width:100%;max-width:460px;height:auto;overflow:visible;display:block;margin:0 auto 18px;}
+
+.preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;justify-content:center;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;}
+.preset-btn:hover{border-color:var(--green-ink);color:var(--green-ink);}
+.preset-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+.slider-row{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+.slider-row label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);min-width:96px;}
+.slider-row input[type=range]{flex:1;-webkit-appearance:none;height:8px;border-radius:999px;background:var(--green-soft);outline:none;}
+.slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--green-ink);border:4px solid #fff;box-shadow:0 2px 8px rgba(53,122,99,0.4);cursor:pointer;}
+.slider-row input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--green-ink);border:4px solid #fff;box-shadow:0 2px 8px rgba(53,122,99,0.4);cursor:pointer;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--green-ink);min-width:70px;text-align:right;}
+
+.equation-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:24px;text-align:center;margin-bottom:16px;}
+.equation-box .expr{font-family:'Do Hyeon',sans-serif;font-size:clamp(16px,3.2vw,22px);color:var(--ink);word-break:break-word;}
+.equation-box .expr .unknown{color:var(--green-ink);}
+.equation-box .check{font-size:14.5px;color:var(--ink-soft);margin-top:12px;}
+.equation-box .check b{color:var(--green-ink);}
+
+.fact{background:var(--green-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--green-ink);}
+.fact.ok{background:var(--blue-soft);} .fact.ok b{color:var(--blue-ink);}
+.fact.warn{background:var(--coral-soft);} .fact.warn b{color:var(--coral-ink);}
+
+.badge{display:inline-block;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:5px 14px;border-radius:999px;margin-top:10px;}
+.badge.easy{background:var(--blue-soft);color:var(--blue-ink);}
+.badge.hard{background:var(--coral-soft);color:var(--coral-ink);}
+
+.guess-row{display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:16px;flex-wrap:wrap;}
+.guess-input{font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--ink);background:var(--paper);border:2px solid var(--paper-line);border-radius:12px;padding:10px 14px;width:150px;text-align:center;}
+.guess-input:focus{outline:none;border-color:var(--green-ink);}
+.guess-row .action-btn{margin:0;}
+.guess-log{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:16px;min-height:28px;}
+.guess-chip{font-family:'Do Hyeon',sans-serif;font-size:13px;border-radius:8px;padding:5px 10px;background:var(--coral-soft);color:var(--coral-ink);border:2px solid var(--coral-ink);}
+.guess-chip.right{background:var(--green-soft);color:var(--green-ink);border-color:var(--green-ink);}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--green-ink);}
+.quiz-q{font-size:15.5px;line-height:1.7;text-align:center;background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:20px;margin-bottom:16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
+.action-btn:hover{background:var(--green-ink);}
+.action-btn.secondary{background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.action-btn.secondary:hover{background:var(--paper);color:var(--green-ink);border-color:var(--green-ink);}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-elliptic-curve-crypto-lab.html" style="color:#fff;background:var(--green-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🌐 타원곡선 암호 실험실</span>
+  <h1>타원도 아닌데<br>왜 <span>타원곡선</span>이라 부를까?</h1>
+  <p class="sub">이름과 달리 타원곡선은 타원(원을 찌그러뜨린 모양)처럼 생기지 않았어요. 이름의 유래는 "타원의 둘레를 구하는 계산(타원 적분)"에 이 곡선이 등장했기 때문이에요. 그런데 이 낯선 곡선 위에서 점과 점을 더하는 신기한 규칙이, 어떻게 비트코인과 우리가 매일 쓰는 HTTPS 연결을 지키는 암호가 됐는지 하나씩 확인해봐요 (고등학교~대학 초반 수준의 내용이 포함돼요).</p>
+
+  <div class="howto">
+    <p>타원곡선은 y² = x³ + ax + b 라는 식으로 그려지는 곡선이에요. 이 곡선 위의 두 점을 아주 독특한 방법으로 "더할" 수 있는데, 이 덧셈을 계속 반복하는 건 쉽지만, 결과만 보고 몇 번 더했는지 거꾸로 알아내는 건 아주 어려워요. RSA가 "소인수분해의 어려움"을 이용했다면, 타원곡선 암호(ECC)는 "이 덧셈을 거꾸로 푸는 어려움"을 이용해요.</p>
+  </div>
+
+  <!-- ===== 타원곡선이란 무엇일까 ===== -->
+  <div class="stage">
+    <div class="section-title">🌊 타원곡선이란 무엇일까?</div>
+    <p class="section-sub">y² = x³ + ax + b 에서 a와 b를 바꿔가며 곡선의 모양이 어떻게 달라지는지 확인해보세요.</p>
+    <svg id="svgCurve" viewBox="0 0 460 300"></svg>
+    <div class="slider-row">
+      <label>a 값</label>
+      <input id="aSlider" type="range" min="-3" max="3" value="-1" step="1">
+      <span class="val" id="aVal">-1</span>
+    </div>
+    <div class="slider-row">
+      <label>b 값</label>
+      <input id="bSlider" type="range" min="-3" max="3" value="1" step="1">
+      <span class="val" id="bVal">1</span>
+    </div>
+    <div class="equation-box">
+      <div class="expr" id="curveExpr"></div>
+    </div>
+    <div class="fact" id="curveFact"></div>
+  </div>
+
+  <!-- ===== 점과 점을 더하는 방법 ===== -->
+  <div class="stage">
+    <div class="section-title">➕ 점과 점을 더하는 방법</div>
+    <p class="section-sub">타원곡선 위의 두 점 P, Q를 더하려면: 두 점을 잇는 직선을 그어 곡선과 만나는 세 번째 점을 찾고, 그 점을 x축 기준으로 뒤집어요. 그게 바로 P+Q예요.</p>
+    <svg id="svgAdd" viewBox="0 0 460 300"></svg>
+    <div class="preset-row" id="addModeRow"></div>
+    <div class="equation-box">
+      <div class="expr" id="addExpr"></div>
+      <div class="check" id="addCheck"></div>
+    </div>
+    <div class="fact" id="addFact"></div>
+  </div>
+
+  <!-- ===== 유한체 위에서 계산하기 ===== -->
+  <div class="stage">
+    <div class="section-title">🔢 유한체 위에서 진짜로 계산하기</div>
+    <p class="section-sub">실제 암호에서는 실수가 아니라 "나머지 연산(mod)"으로 계산해요. 소수 17로 나머지 연산을 하는 작은 곡선 y² ≡ x³+2x+2 (mod 17)에서, 기준점 P를 계속 더한 배수들을 확인해보세요.</p>
+    <svg id="svgField" viewBox="0 0 460 260"></svg>
+    <div class="slider-row">
+      <label>P의 배수 (n)</label>
+      <input id="fieldSlider" type="range" min="1" max="18" value="1" step="1">
+      <span class="val" id="fieldVal">1</span>
+    </div>
+    <div class="equation-box">
+      <div class="expr" id="fieldExpr"></div>
+      <div class="check" id="fieldCheck"></div>
+    </div>
+    <div class="fact" id="fieldFact"></div>
+  </div>
+
+  <!-- ===== 이산로그 문제 도전 ===== -->
+  <div class="stage">
+    <div class="section-title">🕵️ 이산로그 문제에 직접 도전해보기</div>
+    <p class="section-sub">컴퓨터가 비밀 숫자 k를 골라서 kP를 계산해 알려줬어요. P와 kP만 보고 k를 맞혀보세요 — 경우의 수가 겨우 18개뿐인 이 장난감 곡선에서도 하나씩 확인하는 것 말고는 뾰족한 방법이 없다는 걸 느껴보세요.</p>
+    <svg id="svgDlog" viewBox="0 0 460 130"></svg>
+    <div class="guess-row">
+      <input id="dlogGuessInput" class="guess-input" type="number" min="1" max="18" placeholder="k를 맞혀보세요 (1~18)">
+      <button class="action-btn" id="dlogGuessBtn">확인</button>
+      <button class="action-btn secondary" id="dlogNewBtn">🔀 새 문제</button>
+    </div>
+    <div class="guess-log" id="dlogGuessLog"></div>
+    <div class="equation-box">
+      <div class="expr" id="dlogExpr"></div>
+      <div class="check" id="dlogCheck"></div>
+    </div>
+    <div class="fact" id="dlogFact"></div>
+  </div>
+
+  <div class="stage">
+    <div class="section-title">🌍 실생활에서 어디에 쓰일까?</div>
+    <div class="fact" style="max-width:66ch;">
+      <p style="margin:0 0 10px;"><b>비트코인과 이더리움</b> 같은 암호화폐는 지갑 서명에 타원곡선 암호(ECDSA)를 써요. 내 지갑에서 거래를 승인했다는 걸 증명하지만, 개인키(비밀 숫자 k)는 절대 드러나지 않아요.</p>
+      <p style="margin:0 0 10px;"><b>HTTPS 웹사이트 연결</b>에서도 대부분 타원곡선 기반의 키 교환(ECDH)을 써서 브라우저와 서버가 안전하게 암호 키를 주고받아요. 자물쇠 아이콘이 뜨는 그 순간, 이 페이지에서 배운 점 덧셈이 실제로 작동하고 있는 거예요.</p>
+      <p style="margin:0;"><b>스마트폰, 메신저 앱(예: 시그널)</b>도 ECC를 즐겨 써요. RSA보다 훨씬 짧은 키로 비슷한 안전성을 낼 수 있어서, 배터리와 연산 능력이 부족한 기기에 특히 유리하거든요.</p>
+    </div>
+  </div>
+
+  <!-- ===== 퀴즈 ===== -->
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 타원곡선 암호 퀴즈</h2>
+      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+    </div>
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextQuizBtn">➡ 다음 문제</button>
+  </div>
+
+<footer>실제 암호에서 쓰는 타원곡선은 이 페이지의 장난감 곡선(경우의 수 18개)과 원리는 똑같지만, 경우의 수가 2²⁵⁶(2를 256번 곱한 수)에 가까워요. 하나씩 확인하는 방법으로는 우주의 나이보다 훨씬 오랜 시간이 걸려요.</footer>
+</div>
+
+<script>
+function randInt(min,max){ return min + Math.floor(Math.random()*(max-min+1)); }
+
+// ============================================================
+// 타원곡선이란 무엇일까
+// ============================================================
+const aSlider = document.getElementById('aSlider');
+const bSlider = document.getElementById('bSlider');
+const aVal = document.getElementById('aVal');
+const bVal = document.getElementById('bVal');
+const svgCurve = document.getElementById('svgCurve');
+const curveExpr = document.getElementById('curveExpr');
+const curveFact = document.getElementById('curveFact');
+
+function renderCurve(){
+  const a = parseInt(aSlider.value,10);
+  const b = parseInt(bSlider.value,10);
+  aVal.textContent = a;
+  bVal.textContent = b;
+  curveExpr.innerHTML = `y² = x³ + (${a})x + (${b})`;
+
+  const disc = -16*(4*a*a*a + 27*b*b);
+  const singular = Math.abs(4*a*a*a + 27*b*b) < 1e-6;
+  curveFact.innerHTML = singular
+    ? `이 a, b 조합은 곡선이 스스로 교차하거나 뾰족해지는 "특이한" 경우예요. 암호에는 이런 곡선을 쓰지 않아요 — 슬라이더를 조금만 옮겨도 다시 매끈한 곡선이 돼요.`
+    : `a와 b를 바꿀 때마다 곡선의 모양이 달라져요. 오른쪽으로 갈수록 곡선이 두 조각으로 갈라지기도 하고 하나로 이어지기도 해요. 이름은 "타원"곡선이지만, 보다시피 타원이랑은 전혀 다르게 생겼어요.`;
+
+  const CX=230, CY=150, scale=32;
+  let path1='', path2='';
+  for(let px=-4.5; px<=4.5; px+=0.03){
+    const val = px*px*px + a*px + b;
+    if(val>=0){
+      const y = Math.sqrt(val);
+      const sx = CX+px*scale, sy1 = CY-y*scale, sy2 = CY+y*scale;
+      path1 += (path1===''?'M':'L') + `${sx},${sy1} `;
+      path2 += (path2===''?'M':'L') + `${sx},${sy2} `;
+    } else {
+      path1 += '';
+    }
+  }
+  let html = '';
+  html += `<line x1="20" y1="${CY}" x2="440" y2="${CY}" stroke="var(--paper-line)" stroke-width="2"></line>`;
+  html += `<line x1="${CX}" y1="10" x2="${CX}" y2="290" stroke="var(--paper-line)" stroke-width="2"></line>`;
+  html += `<path d="${path1}" fill="none" stroke="var(--green-ink)" stroke-width="3"></path>`;
+  html += `<path d="${path2}" fill="none" stroke="var(--green-ink)" stroke-width="3"></path>`;
+  svgCurve.innerHTML = html;
+}
+aSlider.addEventListener('input', renderCurve);
+bSlider.addEventListener('input', renderCurve);
+renderCurve();
+
+// ============================================================
+// 점과 점을 더하는 방법 (실수 위에서, 고정 곡선 y^2 = x^3 - x + 1)
+// ============================================================
+const ADD_A = -1, ADD_B = 1;
+function addReal(P, Q){
+  const [x1,y1] = P, [x2,y2] = Q;
+  let m;
+  if(x1===x2 && y1===y2){
+    m = (3*x1*x1+ADD_A) / (2*y1);
+  } else {
+    m = (y2-y1)/(x2-x1);
+  }
+  const x3 = m*m - x1 - x2;
+  const yLine = y1 + m*(x3-x1);
+  return {x3, yLine, result:[x3, -yLine], m};
+}
+
+const ADD_MODES = [
+  {key:'add', label:'P + Q 구하기', P:[0,1], Q:[1,1]},
+  {key:'double', label:'2P 구하기 (P 두 배)', P:[0,1], Q:[0,1]},
+];
+let addIdx = 0;
+const addModeRow = document.getElementById('addModeRow');
+const svgAdd = document.getElementById('svgAdd');
+const addExpr = document.getElementById('addExpr');
+const addCheck = document.getElementById('addCheck');
+const addFact = document.getElementById('addFact');
+
+function buildAddPresets(){
+  addModeRow.innerHTML = ADD_MODES.map((m,i)=>`<button class="preset-btn" data-i="${i}">${m.label}</button>`).join('');
+  addModeRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ addIdx = parseInt(btn.dataset.i); renderAdd(); });
+  });
+}
+
+function renderAdd(){
+  addModeRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===addIdx));
+  const mode = ADD_MODES[addIdx];
+  const {P,Q} = mode;
+  const isDouble = mode.key==='double';
+  const {x3, yLine, result} = addReal(P,Q);
+
+  if(isDouble){
+    addExpr.innerHTML = `2P = <span class="unknown">(${result[0].toFixed(2)}, ${result[1].toFixed(2)})</span>`;
+    addCheck.innerHTML = `P에서의 접선을 그어서 두 배를 구해요.`;
+    addFact.innerHTML = `P를 P 자신과 더할 때는 두 점을 잇는 직선 대신, P에서 곡선에 <b>접하는 선(접선)</b>을 그어요. 그 접선이 곡선과 다시 만나는 점을 뒤집으면 2P가 나와요.`;
+  } else {
+    addExpr.innerHTML = `P + Q = <span class="unknown">(${result[0].toFixed(2)}, ${result[1].toFixed(2)})</span>`;
+    addCheck.innerHTML = `P, Q를 지나는 직선이 곡선과 세 번째로 만나는 점을 뒤집어요.`;
+    addFact.innerHTML = `P(${P[0]},${P[1]})와 Q(${Q[0]},${Q[1]})를 지나는 직선을 그으면 곡선과 세 번째 점 (${x3.toFixed(2)}, ${yLine.toFixed(2)})에서 만나요. 이 점을 x축 기준으로 뒤집은 (${result[0].toFixed(2)}, ${result[1].toFixed(2)})가 바로 P+Q예요.`;
+  }
+
+  const CX=230, CY=150, scale=70;
+  function toPx(pt){ return [CX+pt[0]*scale, CY-pt[1]*scale]; }
+  let path1='', path2='';
+  for(let px=-1.6; px<=1.8; px+=0.02){
+    const val = px*px*px + ADD_A*px + ADD_B;
+    if(val>=0){
+      const y = Math.sqrt(val);
+      const [sx,sy1] = toPx([px,y]);
+      const [,sy2] = toPx([px,-y]);
+      path1 += (path1===''?'M':'L') + `${sx},${sy1} `;
+      path2 += (path2===''?'M':'L') + `${sx},${sy2} `;
+    }
+  }
+  let html='';
+  html += `<line x1="20" y1="${CY}" x2="440" y2="${CY}" stroke="var(--paper-line)" stroke-width="2"></line>`;
+  html += `<line x1="${CX}" y1="10" x2="${CX}" y2="290" stroke="var(--paper-line)" stroke-width="2"></line>`;
+  html += `<path d="${path1}" fill="none" stroke="var(--paper-line)" stroke-width="2.5"></path>`;
+  html += `<path d="${path2}" fill="none" stroke="var(--paper-line)" stroke-width="2.5"></path>`;
+
+  const [px1,py1] = toPx(P);
+  const [px3,py3] = toPx([x3,yLine]);
+  const [rx,ry] = toPx(result);
+  const dx = px3-px1, dy = py3-py1;
+  const ext = 60;
+  const len = Math.hypot(dx,dy)||1;
+  const lx1 = px1 - dx/len*ext, ly1 = py1 - dy/len*ext;
+  const lx2 = px3 + dx/len*ext, ly2 = py3 + dy/len*ext;
+  html += `<line x1="${lx1}" y1="${ly1}" x2="${lx2}" y2="${ly2}" stroke="var(--blue-ink)" stroke-width="2" stroke-dasharray="5 4"></line>`;
+  html += `<line x1="${px3}" y1="${py3}" x2="${rx}" y2="${ry}" stroke="var(--coral)" stroke-width="2" stroke-dasharray="3 3"></line>`;
+
+  html += `<circle cx="${px1}" cy="${py1}" r="6" fill="var(--blue-ink)"></circle>`;
+  html += `<text x="${px1-10}" y="${py1-10}" text-anchor="end" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--blue-ink)">P</text>`;
+  if(!isDouble){
+    const [px2,py2] = toPx(Q);
+    html += `<circle cx="${px2}" cy="${py2}" r="6" fill="var(--blue-ink)"></circle>`;
+    html += `<text x="${px2+10}" y="${py2-10}" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--blue-ink)">Q</text>`;
+  }
+  html += `<circle cx="${px3}" cy="${py3}" r="6" fill="var(--ink-soft)"></circle>`;
+  html += `<text x="${px3+8}" y="${py3-8}" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">세번째 교점</text>`;
+  html += `<circle cx="${rx}" cy="${ry}" r="7" fill="var(--green-ink)"></circle>`;
+  html += `<text x="${rx+10}" y="${ry+16}" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--green-ink)">${isDouble?'2P':'P+Q'}</text>`;
+  svgAdd.innerHTML = html;
+}
+buildAddPresets();
+renderAdd();
+
+// ============================================================
+// 유한체 위에서 계산하기
+// ============================================================
+const FIELD_P = 17, FIELD_A = 2, FIELD_B = 2;
+function modInv(x, m){
+  x = ((x%m)+m)%m;
+  for(let i=1;i<m;i++){ if((x*i)%m===1) return i; }
+  return 1;
+}
+function addMod(P, Q){
+  if(P===null) return Q;
+  if(Q===null) return P;
+  const [x1,y1]=P, [x2,y2]=Q;
+  if(x1===x2 && (y1+y2)%FIELD_P===0) return null;
+  let m;
+  if(x1===x2 && y1===y2){
+    m = (3*x1*x1+FIELD_A) * modInv(2*y1, FIELD_P) % FIELD_P;
+  } else {
+    m = ((y2-y1+FIELD_P*10) * modInv(((x2-x1)%FIELD_P+FIELD_P)%FIELD_P, FIELD_P)) % FIELD_P;
+  }
+  m = ((m%FIELD_P)+FIELD_P)%FIELD_P;
+  const x3 = ((m*m - x1 - x2)%FIELD_P + FIELD_P*10)%FIELD_P;
+  const y3 = ((m*(x1-x3) - y1)%FIELD_P + FIELD_P*10)%FIELD_P;
+  return [x3,y3];
+}
+
+const BASE_P = [5,1];
+const SCALAR_TABLE = [null, BASE_P];
+for(let k=2;k<=18;k++){ SCALAR_TABLE.push(addMod(SCALAR_TABLE[k-1], BASE_P)); }
+
+const ALL_FIELD_POINTS = [];
+for(let x=0;x<FIELD_P;x++){
+  for(let y=0;y<FIELD_P;y++){
+    if((y*y - (x*x*x+FIELD_A*x+FIELD_B)) % FIELD_P === 0) ALL_FIELD_POINTS.push([x,y]);
+  }
+}
+
+const fieldSlider = document.getElementById('fieldSlider');
+const fieldVal = document.getElementById('fieldVal');
+const svgField = document.getElementById('svgField');
+const fieldExpr = document.getElementById('fieldExpr');
+const fieldCheck = document.getElementById('fieldCheck');
+const fieldFact = document.getElementById('fieldFact');
+
+function renderField(){
+  const n = parseInt(fieldSlider.value,10);
+  fieldVal.textContent = n;
+  const pt = SCALAR_TABLE[n];
+
+  fieldExpr.innerHTML = `${n}P = <span class="unknown">(${pt[0]}, ${pt[1]})</span>`;
+  fieldCheck.innerHTML = `기준점 P=(5,1)을 ${n}번 더한 값이에요.`;
+  fieldFact.innerHTML = n===18
+    ? `18P = (${pt[0]}, ${pt[1]})까지 왔어요. 이 곡선 위의 점은 총 18개뿐이라(+무한원점 1개), 19번째로 더하면 다시 처음 자리로 돌아와요. 실제 암호에서는 점의 개수가 18개가 아니라 2²⁵⁶에 가까운 어마어마한 수예요.`
+    : `n을 1씩 늘릴 때마다 매번 P를 한 번 더 더해요. 어떤 규칙 없이 완전히 다른 자리로 튀는 것처럼 보이죠? 이 "예측 불가능해 보이는 점프"가 바로 암호로 쓰이는 이유예요.`;
+
+  const CX0=30, CX1=430, CY0=30, CY1=230;
+  const cell = (CX1-CX0)/FIELD_P;
+  let html='';
+  html += `<rect x="${CX0}" y="${CY0}" width="${CX1-CX0}" height="${CY1-CY0}" fill="none" stroke="var(--paper-line)" stroke-width="2"></rect>`;
+  ALL_FIELD_POINTS.forEach(([x,y])=>{
+    const cx = CX0+x*cell+cell/2, cy = CY1-y*cell-cell/2;
+    const isCurrent = x===pt[0] && y===pt[1];
+    html += `<circle cx="${cx}" cy="${cy}" r="${isCurrent?7:4}" fill="${isCurrent?'var(--green-ink)':'var(--blue-soft)'}"></circle>`;
+  });
+  html += `<text x="230" y="248" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">y² ≡ x³+2x+2 (mod 17) 위의 점 18개</text>`;
+  svgField.innerHTML = html;
+}
+fieldSlider.addEventListener('input', renderField);
+renderField();
+
+// ============================================================
+// 이산로그 문제 도전
+// ============================================================
+const svgDlog = document.getElementById('svgDlog');
+const dlogGuessInput = document.getElementById('dlogGuessInput');
+const dlogGuessBtn = document.getElementById('dlogGuessBtn');
+const dlogNewBtn = document.getElementById('dlogNewBtn');
+const dlogGuessLog = document.getElementById('dlogGuessLog');
+const dlogExpr = document.getElementById('dlogExpr');
+const dlogCheck = document.getElementById('dlogCheck');
+const dlogFact = document.getElementById('dlogFact');
+let dlogSecret = null;
+let dlogGuesses = [];
+let dlogSolved = false;
+
+function newDlogChallenge(){
+  dlogSecret = randInt(2,18);
+  dlogGuesses = [];
+  dlogSolved = false;
+  dlogGuessInput.value='';
+  renderDlog();
+}
+
+function renderDlog(){
+  const target = SCALAR_TABLE[dlogSecret];
+  dlogGuessLog.innerHTML = dlogGuesses.map(g=>`<span class="guess-chip ${g.right?'right':''}">${g.value} ${g.right?'✓':'✕'}</span>`).join('');
+
+  if(dlogSolved){
+    dlogExpr.innerHTML = `k = <span class="unknown">${dlogSecret}</span> 였어요!`;
+    dlogCheck.innerHTML = `${dlogGuesses.length}번 만에 찾았어요.`;
+    dlogFact.innerHTML = `경우의 수가 18개뿐인 이 장난감 곡선도 ${dlogGuesses.length}번이나 시도해야 했어요. 실제 암호에서 쓰는 곡선은 경우의 수가 2²⁵⁶ 근처라서, 이런 식으로 하나씩 확인하는 건 사실상 불가능해요.`;
+  } else {
+    dlogExpr.innerHTML = `P = (5,1), kP = <span class="unknown">(${target[0]}, ${target[1]})</span>`;
+    dlogCheck.innerHTML = dlogGuesses.length===0 ? `k는 몇일까요? 1부터 18 사이예요.` : `${dlogGuesses.length}번 틀렸어요. 계속 시도해보세요.`;
+    dlogFact.innerHTML = `P를 몇 번 더했을 때 (${target[0]}, ${target[1]})가 나오는지 맞혀보세요. kP를 계산하는 건 쉽지만, kP만 보고 k를 알아내는 건 하나씩 확인하는 것 말고는 방법이 없어요 — 이게 이산로그 문제예요.`;
+  }
+
+  const CX=230;
+  let html='';
+  html += `<rect x="${CX-200}" y="30" width="180" height="60" rx="14" fill="var(--blue-soft)" stroke="var(--blue-ink)" stroke-width="2"></rect>`;
+  html += `<text x="${CX-110}" y="55" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--blue-ink)">기준점 P</text>`;
+  html += `<text x="${CX-110}" y="78" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--blue-ink)">(5, 1)</text>`;
+  html += `<rect x="${CX+20}" y="30" width="180" height="60" rx="14" fill="${dlogSolved?'var(--green-soft)':'var(--coral-soft)'}" stroke="${dlogSolved?'var(--green-ink)':'var(--coral-ink)'}" stroke-width="2"></rect>`;
+  html += `<text x="${CX+110}" y="55" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="${dlogSolved?'var(--green-ink)':'var(--coral-ink)'}">kP = ?</text>`;
+  html += `<text x="${CX+110}" y="78" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="${dlogSolved?'var(--green-ink)':'var(--coral-ink)'}">(${target[0]}, ${target[1]})</text>`;
+  html += `<text x="${CX}" y="115" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="20" fill="var(--ink-soft)">k = ?</text>`;
+  svgDlog.innerHTML = html;
+}
+
+function submitDlogGuess(){
+  if(dlogSolved) return;
+  const g = parseInt(dlogGuessInput.value,10);
+  if(!g || g<1 || g>18) return;
+  const isRight = g===dlogSecret;
+  dlogGuesses.push({value:g, right:isRight});
+  if(isRight) dlogSolved = true;
+  dlogGuessInput.value='';
+  renderDlog();
+}
+dlogGuessBtn.addEventListener('click', submitDlogGuess);
+dlogGuessInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') submitDlogGuess(); });
+dlogNewBtn.addEventListener('click', newDlogChallenge);
+newDlogChallenge();
+
+// ============================================================
+// 퀴즈
+// ============================================================
+const quizQ = document.getElementById('quizQ');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextQuizBtn = document.getElementById('nextQuizBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+const triesNumEl = document.getElementById('triesNum');
+let score=0, tries=0, answered=false, quizAnswer=null;
+
+const TRUE_FALSE = [
+  {s:'타원곡선은 실제로 타원(원을 찌그러뜨린 모양)처럼 생겼다', a:'거짓'},
+  {s:'타원곡선 위의 점 덧셈은 두 점을 지나는 직선과 곡선의 세 번째 교점을 이용한다', a:'참'},
+  {s:'kP를 계산하는 것보다 kP와 P만 보고 k를 알아내는 게 훨씬 쉽다', a:'거짓'},
+  {s:'ECC는 RSA보다 훨씬 짧은 키로 비슷한 안전성을 낼 수 있다', a:'참'},
+  {s:'비트코인은 타원곡선 암호를 이용한 서명 방식을 사용한다', a:'참'},
+  {s:'실제 암호용 타원곡선의 점의 개수는 이 페이지의 예제(18개)와 비슷한 수준이다', a:'거짓'},
+];
+
+function newQuizQuestion(){
+  answered=false;
+  quizFeedback.textContent='';
+  const type = Math.random();
+
+  if(type < 0.4){
+    const n = randInt(1,18);
+    quizAnswer = `(${SCALAR_TABLE[n][0]}, ${SCALAR_TABLE[n][1]})`;
+    quizQ.innerHTML = `y²≡x³+2x+2 (mod 17) 곡선에서, ${n}P는 무엇일까요? (P=(5,1))`;
+    const wrongs = new Set();
+    while(wrongs.size<3){
+      const rn = randInt(1,18);
+      const cand = `(${SCALAR_TABLE[rn][0]}, ${SCALAR_TABLE[rn][1]})`;
+      if(cand!==quizAnswer) wrongs.add(cand);
+    }
+    renderOpts([quizAnswer,...wrongs].sort(()=>Math.random()-0.5), v=>v);
+  } else {
+    const item = TRUE_FALSE[randInt(0,TRUE_FALSE.length-1)];
+    quizAnswer = item.a;
+    quizQ.innerHTML = `"${item.s}" — 참일까요, 거짓일까요?`;
+    renderOpts(['참','거짓'], v=>v);
+  }
+}
+
+function renderOpts(opts, formatter){
+  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${formatter(o)}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered=true;
+      tries++;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      const chosen = btn.dataset.o;
+      const isCorrect = chosen===quizAnswer;
+      if(isCorrect){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `아쉬워요! 정답은 ${quizAnswer}였어요. (정답 ${score} / 시도 ${tries})`;
+      }
+      scoreNumEl.textContent = score;
+      triesNumEl.textContent = tries;
+    });
+  });
+}
+nextQuizBtn.addEventListener('click', newQuizQuestion);
+newQuizQuestion();
+</script>
+</body>
+</html>

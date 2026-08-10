@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>순환소수 실험실</title>
+<meta name="description" content="1/3, 1/7 같은 분수를 나눗셈하면 왜 소수점이 끝없이 반복될까요? 순환소수가 생기는 이유, 순환마디 길이, 다시 분수로 바꾸는 방법을 슬라이더로 직접 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue-ink);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.howto{background:var(--blue-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--blue-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--blue-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.section-title{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink);margin:0 0 16px;display:flex;align-items:center;gap:8px;}
+.section-sub{color:var(--ink-soft);font-size:14.5px;line-height:1.7;margin:-8px 0 18px;max-width:62ch;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
+
+svg{width:100%;max-width:460px;height:auto;overflow:visible;display:block;margin:0 auto 18px;}
+
+.preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;justify-content:center;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;}
+.preset-btn:hover{border-color:var(--blue-ink);color:var(--blue-ink);}
+.preset-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+.slider-row{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+.slider-row label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);min-width:96px;}
+.slider-row input[type=range]{flex:1;-webkit-appearance:none;height:8px;border-radius:999px;background:var(--blue-soft);outline:none;}
+.slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--blue-ink);border:4px solid #fff;box-shadow:0 2px 8px rgba(13,98,241,0.4);cursor:pointer;}
+.slider-row input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--blue-ink);border:4px solid #fff;box-shadow:0 2px 8px rgba(13,98,241,0.4);cursor:pointer;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--blue-ink);min-width:56px;text-align:right;}
+
+.equation-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:24px;text-align:center;margin-bottom:16px;}
+.equation-box .expr{font-family:'Do Hyeon',sans-serif;font-size:clamp(17px,3.4vw,24px);color:var(--ink);word-break:break-word;}
+.equation-box .expr .unknown{color:var(--blue-ink);}
+.equation-box .check{font-size:14.5px;color:var(--ink-soft);margin-top:12px;}
+.equation-box .check b{color:var(--green-ink);}
+.equation-box .steps{font-size:14px;color:var(--ink-soft);margin-top:14px;line-height:2;text-align:left;max-width:320px;margin-left:auto;margin-right:auto;}
+.equation-box .steps b{color:var(--blue-ink);}
+
+.fact{background:var(--blue-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--blue-ink);}
+.fact.ok{background:var(--green-soft);} .fact.ok b{color:var(--green-ink);}
+
+.badge{display:inline-block;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:5px 14px;border-radius:999px;margin-top:10px;}
+.badge.terminate{background:var(--green-soft);color:var(--green-ink);}
+.badge.repeat{background:var(--coral-soft);color:var(--coral-ink);}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--blue-ink);}
+.quiz-q{font-size:15.5px;line-height:1.7;text-align:center;background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:20px;margin-bottom:16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--blue-ink);color:var(--blue-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
+.action-btn:hover{background:var(--blue-ink);}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-repeating-decimals-lab.html" style="color:#fff;background:var(--blue-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🔂 순환소수 실험실</span>
+  <h1>왜 1/3은<br>소수점이 <span>끝없이</span> 반복될까?</h1>
+  <p class="sub">1÷3을 계산하면 0.333...으로 3이 끝없이 반복돼요. 그런데 1÷4는 0.25에서 딱 끝나고요. 나눗셈을 직접 따라가 보면 왜 어떤 분수는 끝나고 어떤 분수는 영원히 반복되는지, 그 반복 구간(순환마디)은 얼마나 긴지 알 수 있어요.</p>
+
+  <div class="howto">
+    <p>분수를 소수로 바꿀 때 나눗셈을 하다 보면 <b>나머지</b>가 계속 나와요. 나머지가 0이 되면 소수는 거기서 끝나고(유한소수), 나머지가 예전에 나왔던 값과 <b>똑같아지면</b> 그 뒤로는 똑같은 숫자들이 계속 반복돼요(순환소수) — 나머지가 될 수 있는 값은 나누는 수보다 작은 정수뿐이라서, 언젠가는 반드시 반복되거나 0이 될 수밖에 없어요.</p>
+  </div>
+
+  <!-- ===== 나눗셈으로 순환소수 만나기 ===== -->
+  <div class="stage">
+    <div class="section-title">➗ 나눗셈으로 순환소수 만나기</div>
+    <p class="section-sub">분수를 골라 나눗셈을 한 단계씩 따라가 보세요. 나머지가 예전과 똑같아지는 순간, 그 뒤로는 같은 숫자들이 계속 반복돼요.</p>
+    <svg id="svgDiv" viewBox="0 0 460 170"></svg>
+    <div class="preset-row" id="divPresetRow"></div>
+    <div class="slider-row">
+      <label>계산 단계</label>
+      <input id="divSlider" type="range" min="0" max="0" value="0" step="1">
+      <span class="val" id="divVal">1</span>
+    </div>
+    <div class="equation-box">
+      <div class="expr" id="divExpr"></div>
+      <div class="check" id="divCheck"></div>
+    </div>
+    <div class="fact" id="divFact"></div>
+  </div>
+
+  <!-- ===== 순환마디 길이 ===== -->
+  <div class="stage">
+    <div class="section-title">📏 분모마다 다른 순환마디 길이</div>
+    <p class="section-sub">분모가 2나 5의 곱으로만 이루어져 있으면 소수가 딱 끝나요. 그렇지 않으면 반드시 반복되는데, 반복되는 구간(순환마디)의 길이는 분모마다 완전히 달라요.</p>
+    <svg id="svgCycle" viewBox="0 0 460 230"></svg>
+    <div class="slider-row">
+      <label>분모 (1/n)</label>
+      <input id="cycleSlider" type="range" min="2" max="19" value="7" step="1">
+      <span class="val" id="cycleVal">7</span>
+    </div>
+    <div class="equation-box">
+      <div class="expr" id="cycleExpr"></div>
+      <div class="check" id="cycleCheck"></div>
+      <div id="cycleBadge"></div>
+    </div>
+    <div class="fact" id="cycleFact"></div>
+  </div>
+
+  <!-- ===== 순환소수를 분수로 ===== -->
+  <div class="stage">
+    <div class="section-title">🔄 순환소수를 다시 분수로</div>
+    <p class="section-sub">거꾸로, 순환소수는 항상 분수로 정확히 바꿀 수 있어요. x라고 놓고 순환마디만큼 10을 곱한 뒤 빼면 반복되는 부분이 사라져요.</p>
+    <svg id="svgConvert" viewBox="0 0 460 90"></svg>
+    <div class="preset-row" id="convPresetRow"></div>
+    <div class="equation-box">
+      <div class="expr" id="convExpr"></div>
+      <div class="steps" id="convSteps"></div>
+    </div>
+    <div class="fact ok" id="convFact"></div>
+  </div>
+
+  <!-- ===== 퀴즈 ===== -->
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 순환소수 퀴즈</h2>
+      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+    </div>
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextQuizBtn">➡ 다음 문제</button>
+  </div>
+
+<footer>나눗셈의 나머지는 나누는 수보다 항상 작아요. 그래서 나머지의 가짓수가 유한하고, 계속 나눗셈을 하다 보면 언젠가 나머지가 0이 되거나(유한소수) 예전 나머지가 다시 나타날 수밖에 없어요(순환소수) — 비둘기집 원리와 같은 이유예요.</footer>
+</div>
+
+<script>
+function randInt(min,max){ return min + Math.floor(Math.random()*(max-min+1)); }
+function gcd(a,b){ return b===0 ? a : gcd(b,a%b); }
+
+// ============================================================
+// 나눗셈으로 순환소수 만나기
+// ============================================================
+const DIV_FRACTIONS = [[1,3],[1,7],[1,6],[2,7],[1,11],[1,13]];
+let divIdx = 1;
+let divSteps = [];
+let divRepeatStart = null;
+const divPresetRow = document.getElementById('divPresetRow');
+const divSlider = document.getElementById('divSlider');
+const divVal = document.getElementById('divVal');
+const svgDiv = document.getElementById('svgDiv');
+const divExpr = document.getElementById('divExpr');
+const divCheck = document.getElementById('divCheck');
+const divFact = document.getElementById('divFact');
+
+function longDivSteps(num, den, maxsteps=20){
+  let steps = [];
+  let r = num;
+  let seen = {};
+  while(r!==0 && !(r in seen) && steps.length<maxsteps){
+    seen[r] = steps.length;
+    const r10 = r*10;
+    const digit = Math.floor(r10/den);
+    const rNext = r10%den;
+    steps.push({rBefore:r, digit, rAfter:rNext});
+    r = rNext;
+  }
+  const repeatStart = (r!==0) ? seen[r] : null;
+  return {steps, repeatStart};
+}
+
+function buildDivPresets(){
+  divPresetRow.innerHTML = DIV_FRACTIONS.map((f,i)=>`<button class="preset-btn" data-i="${i}">${f[0]}/${f[1]}</button>`).join('');
+  divPresetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ divIdx = parseInt(btn.dataset.i); setupDivSequence(); });
+  });
+}
+
+function setupDivSequence(){
+  divPresetRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===divIdx));
+  const [num,den] = DIV_FRACTIONS[divIdx];
+  const result = longDivSteps(num,den);
+  divSteps = result.steps;
+  divRepeatStart = result.repeatStart;
+  divSlider.max = divSteps.length-1;
+  divSlider.value = 0;
+  renderDiv();
+}
+
+function renderDiv(){
+  const step = parseInt(divSlider.value,10);
+  const [num,den] = DIV_FRACTIONS[divIdx];
+  const s = divSteps[step];
+  divVal.textContent = `${step+1} / ${divSteps.length}`;
+
+  divExpr.innerHTML = `${s.rBefore}0 ÷ ${den} = <span class="unknown">${s.digit}</span> 나머지 ${s.rAfter}`;
+  const isCycleHit = divRepeatStart!==null && step===divSteps.length-1;
+  divCheck.innerHTML = isCycleHit
+    ? `나머지 ${s.rAfter}는 ${divRepeatStart+1}번째 단계에서 이미 나왔던 값이에요!`
+    : `나머지 ${s.rAfter}로 다음 단계를 계속 진행해요.`;
+
+  const decimalDigits = divSteps.slice(0, step+1).map(x=>x.digit);
+  const decStr = decimalDigits.map((d,i)=> (divRepeatStart!==null && i>=divRepeatStart && step===divSteps.length-1) ? `<u>${d}</u>` : d).join('');
+
+  divFact.innerHTML = isCycleHit
+    ? `나머지가 ${divRepeatStart+1}번째 단계와 똑같아졌어요. 그래서 그 뒤로는 숫자 <b>${decimalDigits.slice(divRepeatStart).join('')}</b>가 영원히 반복돼요. ${num}/${den} = 0.${decStr}... (밑줄 친 부분이 순환마디예요)`
+    : `나머지 ${s.rBefore}에 0을 붙인 ${s.rBefore}0을 ${den}로 나누면 몫은 ${s.digit}, 나머지는 ${s.rAfter}예요.`;
+
+  const CX=230;
+  const seq = divSteps.slice(0, step+1);
+  const boxW=44, gap=6;
+  const totalW = seq.length*boxW+(seq.length-1)*gap;
+  const scale = Math.min(1, 430/totalW);
+  const sBoxW=boxW*scale, sGap=gap*scale;
+  const sTotalW = seq.length*sBoxW+(seq.length-1)*sGap;
+  const startX = CX-sTotalW/2;
+  const fontSize = Math.max(9, 12*scale);
+  let html='';
+  seq.forEach((x,i)=>{
+    const isCyclePoint = divRepeatStart!==null && i===divRepeatStart;
+    const isCur = i===step;
+    const color = isCyclePoint ? 'var(--coral)' : (isCur?'var(--blue-ink)':'var(--ink-soft)');
+    const xPos = startX+i*(sBoxW+sGap);
+    html += `<rect x="${xPos}" y="20" width="${sBoxW}" height="34" rx="8" fill="${color}" opacity="${isCur||isCyclePoint?1:0.55}"></rect>`;
+    html += `<text x="${xPos+sBoxW/2}" y="42" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="${fontSize}" fill="#fff">r=${x.rBefore}</text>`;
+    html += `<text x="${xPos+sBoxW/2}" y="70" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="${fontSize+1}" fill="var(--ink)">${x.digit}</text>`;
+  });
+  html += `<text x="230" y="95" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">위: 나눗셈 전 나머지 / 아래: 나온 숫자</text>`;
+  html += `<text x="230" y="130" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="18" fill="var(--blue-ink)">${num}/${den} = 0.${decStr}${isCycleHit?'...':''}</text>`;
+  svgDiv.innerHTML = html;
+}
+buildDivPresets();
+setupDivSequence();
+divSlider.addEventListener('input', renderDiv);
+
+// ============================================================
+// 순환마디 길이
+// ============================================================
+const cycleSlider = document.getElementById('cycleSlider');
+const cycleVal = document.getElementById('cycleVal');
+const svgCycle = document.getElementById('svgCycle');
+const cycleExpr = document.getElementById('cycleExpr');
+const cycleCheck = document.getElementById('cycleCheck');
+const cycleBadge = document.getElementById('cycleBadge');
+const cycleFact = document.getElementById('cycleFact');
+
+function decimalInfo(den){
+  let n = den;
+  while(n%2===0) n/=2;
+  while(n%5===0) n/=5;
+  if(n===1) return {terminating:true, order:null};
+  let order=1, r=10%n;
+  while(r!==1){ r=(r*10)%n; order++; }
+  return {terminating:false, order};
+}
+
+const CYCLE_RANGE = Array.from({length:18},(_,i)=>i+2);
+const CYCLE_DATA = CYCLE_RANGE.map(n=>({n, ...decimalInfo(n)}));
+
+function renderCycle(){
+  const n = parseInt(cycleSlider.value,10);
+  cycleVal.textContent = n;
+  const info = decimalInfo(n);
+  const {steps} = longDivSteps(1,n,40);
+  const decStr = steps.map(s=>s.digit).join('');
+
+  if(info.terminating){
+    cycleExpr.innerHTML = `1/${n} = <span class="unknown">0.${decStr}</span>`;
+    cycleCheck.innerHTML = `${n} = 2와 5의 곱으로만 이루어져 있어서 소수가 딱 끝나요.`;
+    cycleBadge.innerHTML = `<span class="badge terminate">유한소수</span>`;
+    cycleFact.innerHTML = `분모 ${n}은 소인수가 2와 5뿐이에요. 그래서 10의 거듭제곱을 곱하면 언젠가 정확히 나누어떨어져서, 소수점 몇 자리 뒤에 나눗셈이 끝나요.`;
+  } else {
+    const repeatPart = decStr.slice(-info.order);
+    const nonRepeat = decStr.slice(0, decStr.length-info.order);
+    cycleExpr.innerHTML = `1/${n} = <span class="unknown">0.${nonRepeat}<u>${repeatPart}</u>...</span>`;
+    cycleCheck.innerHTML = `순환마디 길이 = <b>${info.order}자리</b>`;
+    cycleBadge.innerHTML = `<span class="badge repeat">순환소수</span>`;
+    cycleFact.innerHTML = `${n}은 2, 5 말고 다른 소인수가 있어서 소수가 끝나지 않아요. 순환마디는 <b>${info.order}자리</b>(${repeatPart})이고, 이 길이는 10을 ${n}으로 나눈 나머지가 몇 번 만에 다시 1이 되는지로 정해져요.`;
+  }
+
+  const maxOrder = Math.max(...CYCLE_DATA.map(d=>d.order||1));
+  const CX0=30, CX1=440, CY0=190, CY1=20;
+  const barW = (CX1-CX0)/CYCLE_DATA.length;
+  let html='';
+  CYCLE_DATA.forEach((d,i)=>{
+    const h = d.terminating ? 6 : (d.order/maxOrder)*(CY0-CY1);
+    const x = CX0+i*barW;
+    const y = CY0-h;
+    const active = d.n===n;
+    const color = d.terminating ? (active?'var(--green-ink)':'var(--green-soft)') : (active?'var(--coral-ink)':'var(--coral-soft)');
+    html += `<rect x="${x+1}" y="${y}" width="${barW-2}" height="${h}" fill="${color}"></rect>`;
+  });
+  html += `<line x1="${CX0}" y1="${CY0}" x2="${CX1}" y2="${CY0}" stroke="var(--paper-line)" stroke-width="2"></line>`;
+  html += `<text x="${CX0+(n-2)*barW+barW/2}" y="${CY0+18}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink)">${n}</text>`;
+  html += `<text x="230" y="${CY1-2}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">분모 2~19의 순환마디 길이 (초록=유한소수)</text>`;
+  svgCycle.innerHTML = html;
+}
+cycleSlider.addEventListener('input', renderCycle);
+renderCycle();
+
+// ============================================================
+// 순환소수를 다시 분수로
+// ============================================================
+const CONVERT_EXAMPLES = [
+  {repeat:'3', k:1, num:3, den:9},
+  {repeat:'18', k:2, num:18, den:99},
+  {repeat:'076923', k:6, num:76923, den:999999},
+  {repeat:'142857', k:6, num:142857, den:999999},
+];
+let convIdx = 0;
+const convPresetRow = document.getElementById('convPresetRow');
+const svgConvert = document.getElementById('svgConvert');
+const convExpr = document.getElementById('convExpr');
+const convSteps = document.getElementById('convSteps');
+const convFact = document.getElementById('convFact');
+
+function buildConvPresets(){
+  convPresetRow.innerHTML = CONVERT_EXAMPLES.map((c,i)=>`<button class="preset-btn" data-i="${i}">0.${overline(c.repeat)}</button>`).join('');
+  convPresetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ convIdx = parseInt(btn.dataset.i); renderConvert(); });
+  });
+}
+function overline(s){ return s.split('').map(ch=>ch+'\u0305').join(''); }
+
+function renderConvert(){
+  convPresetRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===convIdx));
+  const c = CONVERT_EXAMPLES[convIdx];
+  const g = gcd(c.num, c.den);
+  const rn = c.num/g, rd = c.den/g;
+  const tenK = Math.pow(10, c.k);
+
+  convExpr.innerHTML = `0.${overline(c.repeat)} = <span class="unknown">${rn}/${rd}</span>`;
+  convSteps.innerHTML = `
+    <div>x = 0.${overline(c.repeat)}...</div>
+    <div><b>${tenK.toLocaleString()}</b>x = ${c.repeat}.${overline(c.repeat)}...</div>
+    <div>${tenK.toLocaleString()}x − x = ${c.repeat}</div>
+    <div>${tenK-1}x = ${c.num}</div>
+    <div>x = ${c.num}/${tenK-1} = <b>${rn}/${rd}</b></div>
+  `;
+  convFact.innerHTML = `순환마디가 ${c.k}자리(${c.repeat})라서 10<sup>${c.k}</sup> = ${tenK.toLocaleString()}을 곱했어요. 두 식을 빼면 반복되는 부분이 정확히 사라지면서 분수 <b>${rn}/${rd}</b>가 나와요.`;
+
+  let html = '';
+  html += `<text x="230" y="30" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--ink-soft)">${tenK.toLocaleString()}x − x = ${c.repeat}</text>`;
+  html += `<text x="230" y="60" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="17" fill="var(--blue-ink)">→ x = ${rn}/${rd}</text>`;
+  svgConvert.innerHTML = html;
+}
+buildConvPresets();
+renderConvert();
+
+// ============================================================
+// 퀴즈
+// ============================================================
+const quizQ = document.getElementById('quizQ');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextQuizBtn = document.getElementById('nextQuizBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+const triesNumEl = document.getElementById('triesNum');
+let score=0, tries=0, answered=false, quizAnswer=null;
+
+function newQuizQuestion(){
+  answered=false;
+  quizFeedback.textContent='';
+  const type = Math.random();
+
+  if(type < 0.4){
+    const pool = [2,3,4,5,6,7,8,9,10,11,12,13,16];
+    const n = pool[randInt(0,pool.length-1)];
+    const info = decimalInfo(n);
+    quizAnswer = info.terminating ? '유한소수' : '순환소수';
+    quizQ.innerHTML = `1/${n}은 유한소수일까요, 순환소수일까요?`;
+    renderOpts(['유한소수','순환소수'], v=>v);
+  } else if(type < 0.7){
+    const pool = [3,6,7,9,11,12,13,14];
+    const n = pool[randInt(0,pool.length-1)];
+    const info = decimalInfo(n);
+    quizAnswer = info.order;
+    quizQ.innerHTML = `1/${n}의 순환마디는 몇 자리일까요?`;
+    const opts = new Set([info.order]);
+    while(opts.size<4){
+      const d = randInt(-2,2);
+      if(d!==0 && info.order+d>0) opts.add(info.order+d);
+    }
+    renderOpts([...opts].sort((a,b)=>a-b), v=>`${v}자리`);
+  } else {
+    const c = CONVERT_EXAMPLES[randInt(0,CONVERT_EXAMPLES.length-1)];
+    const g = gcd(c.num,c.den);
+    const answer = `${c.num/g}/${c.den/g}`;
+    quizAnswer = answer;
+    quizQ.innerHTML = `0.${overline(c.repeat)}... 을 분수로 나타내면?`;
+    const wrongs = new Set();
+    while(wrongs.size<3){
+      const dn = c.num/g + randInt(-3,3);
+      const dd = c.den/g + randInt(-3,3);
+      if(dn>0 && dd>0 && `${dn}/${dd}`!==answer) wrongs.add(`${dn}/${dd}`);
+    }
+    renderOpts([answer, ...wrongs].sort(()=>Math.random()-0.5), v=>v);
+  }
+}
+
+function renderOpts(opts, formatter){
+  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${formatter(o)}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered=true;
+      tries++;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      const chosen = btn.dataset.o;
+      const isCorrect = (typeof quizAnswer==='number') ? parseInt(chosen)===quizAnswer : chosen===quizAnswer;
+      if(isCorrect){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `아쉬워요! 정답은 ${quizAnswer}였어요. (정답 ${score} / 시도 ${tries})`;
+      }
+      scoreNumEl.textContent = score;
+      triesNumEl.textContent = tries;
+    });
+  });
+}
+nextQuizBtn.addEventListener('click', newQuizQuestion);
+newQuizQuestion();
+</script>
+</body>
+</html>

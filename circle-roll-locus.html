@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>도형 둘레를 굴러가는 원, 중심의 자취 실험실</title>
+<meta name="description" content="원이 다각형이나 여러 원의 둘레를 한 바퀴 굴러갈 때, 원의 중심이 그리는 자취의 길이를 직접 원을 굴려보며 확인해요. 볼록한 모서리와 오목한(오목각) 모서리에서 원의 움직임이 어떻게 다른지도 눈으로 확인할 수 있어요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+    --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+    --amber:#E2A93C; --amber-soft:#FBF0DC; --amber-ink:#A96F0B;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 80px;
+  }
+  .wrap{max-width:1040px;margin:0 auto;}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+  h1 span{color:var(--coral-ink);}
+  .sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:70ch;margin:0 0 24px;}
+
+  .howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+  .howto b{color:var(--violet-ink);}
+  .howto p{margin:0 0 10px;}
+  .howto p:last-child{margin-bottom:0;}
+
+  .section-block{margin-top:52px;}
+  .section-tag{display:inline-block;font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--violet-ink);background:var(--violet-soft);padding:4px 12px;border-radius:999px;margin-bottom:10px;}
+  h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(22px,3.4vw,30px);margin:0 0 8px;line-height:1.3;}
+  .section-sub{color:var(--ink-soft);font-size:15px;line-height:1.7;max-width:70ch;margin:0 0 22px;}
+
+  .stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+    display:grid;grid-template-columns: 1.2fr 0.8fr;gap:32px;align-items:start;}
+  @media (max-width:800px){ .stage{grid-template-columns:1fr;} }
+  .canvas-area{display:flex;flex-direction:column;align-items:center;gap:14px;}
+  svg{width:100%;max-width:520px;height:auto;overflow:visible;}
+
+  .legend{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;font-size:12.5px;color:var(--ink-soft);}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .swatch{width:12px;height:12px;border-radius:3px;display:inline-block;}
+  .swatch.dashed{background:transparent;border:2px dashed var(--ink-soft);}
+
+  .presets{display:flex;gap:8px;flex-wrap:wrap;width:100%;max-width:460px;justify-content:center;}
+  .preset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:12px;padding:9px 14px;cursor:pointer;transition:all .15s ease;}
+  .preset-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+  .preset-btn.active{background:var(--violet-ink);border-color:var(--violet-ink);color:#fff;}
+  .preset-btn:focus-visible{outline:3px solid var(--coral-ink);outline-offset:2px;}
+
+  .control-row{width:100%;max-width:420px;display:flex;flex-direction:column;gap:8px;}
+  .control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+  .control-label b{font-size:22px;color:var(--ink);}
+  input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--violet-soft);outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);cursor:pointer;}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);cursor:pointer;}
+  input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral-ink);outline-offset:2px;}
+
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap;width:100%;max-width:420px;}
+  .action-btn{font-family:'Do Hyeon',sans-serif;font-size:14.5px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:12px;padding:10px 16px;cursor:pointer;flex:1;min-width:110px;transition:all .15s ease;}
+  .action-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+  .action-btn.active{background:var(--violet-ink);border-color:var(--violet-ink);color:#fff;}
+  .action-btn:focus-visible{outline:3px solid var(--coral-ink);outline-offset:2px;}
+
+  .equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:18px 20px;text-align:center;}
+  .equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(14px,2.2vw,16.5px);color:var(--ink-soft);}
+  .equation .formula b{color:var(--ink);}
+  .equation .result{font-family:'Do Hyeon',sans-serif;font-size:clamp(28px,5vw,40px);color:var(--violet-ink);margin-top:6px;line-height:1;}
+  .equation .result span{font-size:0.42em;color:var(--ink-soft);}
+  .equation .subline{margin-top:10px;font-size:13px;color:var(--ink-soft);line-height:1.6;}
+
+  .breakdown{display:flex;gap:8px;margin-top:14px;}
+  .bd-item{flex:1;background:#fff;border:2px solid var(--paper-line);border-radius:12px;padding:10px 8px;text-align:center;}
+  .bd-item .bd-label{font-size:11.5px;color:var(--ink-soft);}
+  .bd-item .bd-val{font-family:'Do Hyeon',sans-serif;font-size:18px;margin-top:2px;}
+
+  .badge{display:inline-block;font-size:12.5px;padding:5px 10px;border-radius:999px;margin-top:10px;}
+  .badge.reflex{background:var(--coral-soft);color:var(--coral-ink);}
+  .badge.convex{background:var(--green-soft);color:var(--green-ink);}
+
+  .fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);margin-top:14px;}
+  .fact b{color:var(--violet-ink);}
+
+  footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+  </div>
+  <span class="eyebrow">⚙️ 원의 이동 실험실</span>
+  <h1>도형을 따라 굴러가는 원,<br>중심이 그리는 <span>자취</span></h1>
+  <p class="sub">원이 다각형이나 여러 원의 바깥 둘레를 따라 미끄러지지 않고 한 바퀴 굴러갈 때, 원의 중심은 원래 도형과는 다른 모양의 자취를 그려요. 슬라이더로 원을 직접 굴려보면서, 볼록한 모서리와 오목한 모서리에서 중심이 어떻게 다르게 움직이는지 확인해보세요.</p>
+
+  <div class="howto">
+    <p><b>핵심 원리</b> — 원이 변을 따라 <b>직선으로</b> 굴러갈 때는 중심도 그 변과 나란한 직선을 그리며, 길이는 원래 변의 길이와 거의 같아요(반지름만큼 바깥으로 밀려날 뿐이에요).</p>
+    <p>원이 <b>볼록한 꼭짓점</b>(내각 180°보다 작은 곳)을 만나면, 중심은 그 꼭짓점을 중심으로 반지름 r인 부채꼴을 그리며 방향을 바꿔요. 이 부채꼴의 중심각은 정확히 그 꼭짓점의 <b>외각</b>(180°−내각)과 같아요.</p>
+    <p>반대로 <b>오목한 꼭짓점</b>(내각 180°보다 큰 곳, 오목각)에서는 원이 전혀 회전하지 않고 두 변 위를 매끄럽게 이어서 지나가요. 그래서 오목한 부분이 있는 도형은 자취의 길이를 구할 때 부채꼴의 개수도, 직선 부분의 길이도 원래 도형과 달라져요 — 아래에서 직접 확인해보세요.</p>
+  </div>
+
+  <!-- ===== STEP 1: 다각형 둘레를 도는 원 ===== -->
+  <div class="section-block" style="margin-top:0;">
+    <span class="section-tag">STEP 1</span>
+    <h2>다각형 둘레를 도는 원의 중심</h2>
+    <p class="section-sub">도형을 골라보세요. 정삼각형·직사각형처럼 <b>볼록다각형</b>은 부채꼴 중심각의 합이 항상 360°지만, 화살표·ㄴ자 모양처럼 <b>오목한 부분</b>이 있는 도형은 그 합이 360°보다 커지고, 오목한 꼭짓점에서는 부채꼴이 아예 생기지 않아요.</p>
+    <div class="stage">
+      <div class="canvas-area">
+        <svg id="svgPoly" viewBox="0 0 520 420"></svg>
+        <div class="legend">
+          <span><span class="swatch" style="background:var(--green);opacity:.3;border:2px solid var(--green);"></span>원래 도형</span>
+          <span><span class="swatch dashed"></span>중심이 그린 전체 자취</span>
+          <span><span class="swatch" style="background:var(--coral);"></span>지금까지 굴러온 자취</span>
+          <span><span class="swatch" style="background:var(--violet);opacity:.35;border:2px solid var(--violet);"></span>굴러가는 원</span>
+        </div>
+        <div class="presets" id="polyPresets">
+          <button class="preset-btn" data-k="triangle">정삼각형</button>
+          <button class="preset-btn" data-k="rect">직사각형</button>
+          <button class="preset-btn" data-k="dart">화살표 모양</button>
+          <button class="preset-btn" data-k="lshape">ㄴ자 모양</button>
+        </div>
+        <div class="control-row">
+          <div class="control-label"><span>원의 반지름 (r)</span><b id="polyRLabel">1.0</b><span>cm</span></div>
+          <input id="polyRSlider" type="range" min="0.3" max="2.5" value="1" step="0.1" aria-label="반지름 조절">
+        </div>
+        <div class="control-row">
+          <div class="control-label"><span>굴러간 정도</span><b id="polyTLabel">0</b><span>%</span></div>
+          <input id="polyTSlider" type="range" min="0" max="1000" value="0" step="1" aria-label="굴러간 정도 조절">
+        </div>
+        <div class="btn-row">
+          <button class="action-btn" id="polyPlayBtn">▶ 굴려보기</button>
+          <button class="action-btn" id="polyResetBtn">⟲ 처음으로</button>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="equation">
+          <div class="formula">중심이 그린 자취의 길이</div>
+          <div class="result" id="polyResult">0.00<span>cm</span></div>
+          <div class="breakdown">
+            <div class="bd-item"><div class="bd-label">직선 부분</div><div class="bd-val" id="polyStraight" style="color:var(--ink);">0.00</div></div>
+            <div class="bd-item"><div class="bd-label">부채꼴(호) 부분</div><div class="bd-val" id="polyArc" style="color:var(--violet-ink);">0.00</div></div>
+          </div>
+          <div class="subline" id="polySub"></div>
+        </div>
+        <div class="fact" id="polyFact"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== STEP 2: 여러 원을 따라 도는 원 ===== -->
+  <div class="section-block">
+    <span class="section-tag">STEP 2</span>
+    <h2>나란히 놓인 원들을 따라 도는 원</h2>
+    <p class="section-sub">크기가 같은 원 여러 개를 한 줄로 붙여 놓고, 그 바깥을 다른 원이 굴러갑니다. 원의 개수(N)와 두 반지름을 바꿔가며 중심의 자취가 어떻게 변하는지 확인해보세요. 가운데 원들 사이에서는 원이 전혀 휘지 않고 <b>일직선으로</b> 지나가고, 양 끝 원에서만 <b>반원</b>을 그린다는 게 포인트예요.</p>
+    <div class="stage">
+      <div class="canvas-area">
+        <svg id="svgRow" viewBox="0 0 560 340"></svg>
+        <div class="legend">
+          <span><span class="swatch" style="background:var(--green);opacity:.3;border:2px solid var(--green);"></span>고정된 원들</span>
+          <span><span class="swatch dashed"></span>중심이 그린 전체 자취</span>
+          <span><span class="swatch" style="background:var(--coral);"></span>지금까지 굴러온 자취</span>
+          <span><span class="swatch" style="background:var(--violet);opacity:.35;border:2px solid var(--violet);"></span>굴러가는 원</span>
+        </div>
+        <div class="control-row">
+          <div class="control-label"><span>고정된 원의 개수 (N)</span><b id="rowNLabel">5</b><span>개</span></div>
+          <input id="rowNSlider" type="range" min="2" max="7" value="5" step="1" aria-label="원의 개수 조절">
+        </div>
+        <div class="control-row">
+          <div class="control-label"><span>고정된 원의 반지름 (R)</span><b id="rowRLabel">1.5</b><span>cm</span></div>
+          <input id="rowRSlider" type="range" min="0.8" max="2.5" value="1.5" step="0.1" aria-label="고정된 원 반지름 조절">
+        </div>
+        <div class="control-row">
+          <div class="control-label"><span>굴러가는 원의 반지름 (r)</span><b id="rowrLabel">1.0</b><span>cm</span></div>
+          <input id="rowrSlider" type="range" min="0.3" max="2.5" value="1" step="0.1" aria-label="굴러가는 원 반지름 조절">
+        </div>
+        <div class="control-row">
+          <div class="control-label"><span>굴러간 정도</span><b id="rowTLabel">0</b><span>%</span></div>
+          <input id="rowTSlider" type="range" min="0" max="1000" value="0" step="1" aria-label="굴러간 정도 조절">
+        </div>
+        <div class="btn-row">
+          <button class="action-btn" id="rowPlayBtn">▶ 굴려보기</button>
+          <button class="action-btn" id="rowResetBtn">⟲ 처음으로</button>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="equation">
+          <div class="formula">중심이 그린 자취의 길이</div>
+          <div class="result" id="rowResult">0.00<span>cm</span></div>
+          <div class="breakdown">
+            <div class="bd-item"><div class="bd-label">직선 부분</div><div class="bd-val" id="rowStraight" style="color:var(--ink);">0.00</div></div>
+            <div class="bd-item"><div class="bd-label">반원 두 개(=원 하나)</div><div class="bd-val" id="rowArc" style="color:var(--violet-ink);">0.00</div></div>
+          </div>
+          <div class="subline" id="rowSub"></div>
+        </div>
+        <div class="fact" id="rowFact"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="circle-properties.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">원의 성질 실험실</span>
+    </a>
+    <a href="pi-circumference.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">원주율(π) 체험</span>
+    </a>
+  </nav>
+  <footer>볼록한 꼭짓점에서는 원이 그 점을 축으로 반지름 r, 중심각(180°−내각)인 부채꼴을 그리며 돌고, 오목한 꼭짓점(오목각)에서는 아예 회전하지 않고 두 변의 자취가 곧바로 이어져요. 그래서 오목한 도형일수록 부채꼴 중심각의 합이 360°보다 훨씬 커질 수 있어요 — 볼록한 부분이 오목한 부분의 몫까지 더 돌아줘야 하기 때문이에요.</footer>
+</div>
+
+<script>
+  function fmt(v){ return (Math.round(v*100)/100).toFixed(2); }
+  function fmt1(v){ return (Math.round(v*10)/10).toFixed(1); }
+
+  // ============================================================
+  // Core geometry engine: offset (Minkowski) path of a simple
+  // polygon by radius r = locus of the center of a circle of
+  // radius r rolling around the OUTSIDE of the polygon.
+  // ============================================================
+  function buildOffsetPath(inputPts, r){
+    let pts = inputPts.slice();
+    let n = pts.length;
+    let area = 0;
+    for(let i=0;i<n;i++){ const [x1,y1]=pts[i], [x2,y2]=pts[(i+1)%n]; area += x1*y2-x2*y1; }
+    if (area < 0) pts = pts.slice().reverse();
+    n = pts.length;
+    const sub = (a,b)=>[a[0]-b[0], a[1]-b[1]];
+    const norm = (v)=>{ const m=Math.hypot(v[0],v[1]); return [v[0]/m, v[1]/m]; };
+    const outward = (d)=>[d[1], -d[0]];
+
+    const edges = [];
+    for(let i=0;i<n;i++){
+      const p1=pts[i], p2=pts[(i+1)%n];
+      const d = norm(sub(p2,p1));
+      const nrm = outward(d);
+      edges.push({p1,p2,d,nrm});
+    }
+
+    const starts = new Array(n), ends = new Array(n);
+    const vertexInfo = new Array(n);
+    for(let i=0;i<n;i++){
+      const e1 = edges[i], e2 = edges[(i+1)%n];
+      const cross = e1.d[0]*e2.d[1] - e1.d[1]*e2.d[0];
+      if (cross > 1e-9){
+        const endpt = [e1.p2[0]+r*e1.nrm[0], e1.p2[1]+r*e1.nrm[1]];
+        const startpt = [e2.p1[0]+r*e2.nrm[0], e2.p1[1]+r*e2.nrm[1]];
+        ends[i] = endpt; starts[(i+1)%n] = startpt;
+        let a1 = Math.atan2(e1.nrm[1], e1.nrm[0]);
+        let a2 = Math.atan2(e2.nrm[1], e2.nrm[0]);
+        let dth = a2-a1;
+        while(dth<=0) dth += 2*Math.PI;
+        while(dth>2*Math.PI) dth -= 2*Math.PI;
+        vertexInfo[i] = {type:'arc', V:e1.p2, r, startAngle:a1, endAngle:a2, sweep:dth, convex:true, exteriorDeg: dth*180/Math.PI};
+      } else {
+        const x1=e1.p1[0]+r*e1.nrm[0], y1=e1.p1[1]+r*e1.nrm[1];
+        const x2=x1+e1.d[0], y2=y1+e1.d[1];
+        const x3=e2.p1[0]+r*e2.nrm[0], y3=e2.p1[1]+r*e2.nrm[1];
+        const x4=x3+e2.d[0], y4=y3+e2.d[1];
+        const denom = (x1-x2)*(y3-y4)-(y1-y2)*(x3-x4);
+        const px = ((x1*y2-y1*x2)*(x3-x4)-(x1-x2)*(x3*y4-y3*x4))/denom;
+        const py = ((x1*y2-y1*x2)*(y3-y4)-(y1-y2)*(x3*y4-y3*x4))/denom;
+        ends[i]=[px,py]; starts[(i+1)%n]=[px,py];
+        vertexInfo[i] = {type:'mitre', point:[px,py], convex:false};
+      }
+    }
+
+    const segments = [];
+    let straightTotal=0, arcTotal=0;
+    for(let i=0;i<n;i++){
+      const s = starts[i], e = ends[i];
+      const len = Math.hypot(e[0]-s[0], e[1]-s[1]);
+      segments.push({type:'line', from:s, to:e, len, r, normal:edges[i].nrm});
+      straightTotal += len;
+      const vi = vertexInfo[i];
+      if (vi.type==='arc'){
+        const alen = vi.r*vi.sweep;
+        segments.push({type:'arc', center:vi.V, r:vi.r, startAngle:vi.startAngle, endAngle:vi.endAngle, sweep:vi.sweep, len:alen});
+        arcTotal += alen;
+      }
+    }
+    return {pts, segments, straightTotal, arcTotal, total: straightTotal+arcTotal, vertexInfo, n};
+  }
+
+  function polygonVertexAngles(inputPts){
+    let pts = inputPts.slice();
+    let n = pts.length;
+    let area = 0;
+    for(let i=0;i<n;i++){ const [x1,y1]=pts[i], [x2,y2]=pts[(i+1)%n]; area += x1*y2-x2*y1; }
+    if (area < 0) pts = pts.slice().reverse();
+    n = pts.length;
+    const out = [];
+    for(let i=0;i<n;i++){
+      const P = pts[(i-1+n)%n], O = pts[i], Q = pts[(i+1)%n];
+      const v1=[P[0]-O[0],P[1]-O[1]], v2=[Q[0]-O[0],Q[1]-O[1]];
+      const m1=Math.hypot(v1[0],v1[1]), m2=Math.hypot(v2[0],v2[1]);
+      let c=(v1[0]*v2[0]+v1[1]*v2[1])/(m1*m2); c=Math.max(-1,Math.min(1,c));
+      const raw = Math.acos(c)*180/Math.PI;
+      const d1=[Q[0]-O[0],Q[1]-O[1]];
+      const prevEdge=[O[0]-P[0],O[1]-P[1]];
+      const cross = prevEdge[0]*d1[1]-prevEdge[1]*d1[0];
+      const convex = cross > 1e-9;
+      out.push({point:O, interiorDeg: convex? raw : 360-raw, convex});
+    }
+    return out;
+  }
+
+  function pointAndContactAtLength(res, t){
+    const total = res.total;
+    let rem = ((t % total)+total)%total;
+    for (const seg of res.segments){
+      if (rem <= seg.len + 1e-9){
+        if (seg.type==='line'){
+          const frac = seg.len>1e-9 ? rem/seg.len : 0;
+          const cx = seg.from[0]+(seg.to[0]-seg.from[0])*frac;
+          const cy = seg.from[1]+(seg.to[1]-seg.from[1])*frac;
+          const contact = [cx-seg.r*seg.normal[0], cy-seg.r*seg.normal[1]];
+          return {center:[cx,cy], contact};
+        } else {
+          const ang = seg.startAngle + seg.sweep*(rem/seg.len);
+          const cx = seg.center[0]+seg.r*Math.cos(ang);
+          const cy = seg.center[1]+seg.r*Math.sin(ang);
+          return {center:[cx,cy], contact:seg.center};
+        }
+      }
+      rem -= seg.len;
+    }
+    const last = res.segments[res.segments.length-1];
+    return {center:last.to || last.from, contact:null};
+  }
+
+  function fitView(allPts, marginWorld, W, H){
+    let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
+    allPts.forEach(([x,y])=>{ minX=Math.min(minX,x);maxX=Math.max(maxX,x);minY=Math.min(minY,y);maxY=Math.max(maxY,y); });
+    minX-=marginWorld; minY-=marginWorld; maxX+=marginWorld; maxY+=marginWorld;
+    const wWorld = Math.max(maxX-minX, 0.01), hWorld = Math.max(maxY-minY, 0.01);
+    const scale = Math.min(W/wWorld, H/hWorld);
+    const offX = (W - wWorld*scale)/2 - minX*scale;
+    const offY = (H - hWorld*scale)/2 - minY*scale;
+    return {
+      scale,
+      toSvg: (pt)=>[pt[0]*scale+offX, H-(pt[1]*scale+offY)]
+    };
+  }
+
+  function buildSvgPathD(res, fit, uptoT){
+    let d = '';
+    let travelled = 0;
+    const limit = (uptoT===undefined) ? Infinity : Math.max(0, uptoT);
+    for (const seg of res.segments){
+      if (travelled >= limit - 1e-9) break;
+      const remainAllowed = limit - travelled;
+      const takeFull = remainAllowed >= seg.len - 1e-9;
+      if (seg.type==='line'){
+        const [fx,fy] = fit.toSvg(seg.from);
+        d += (d==='' ? `M ${fx} ${fy} ` : `L ${fx} ${fy} `);
+        const toPt = takeFull ? seg.to : [
+          seg.from[0]+(seg.to[0]-seg.from[0])*(remainAllowed/seg.len),
+          seg.from[1]+(seg.to[1]-seg.from[1])*(remainAllowed/seg.len)
+        ];
+        const [tx,ty] = fit.toSvg(toPt);
+        d += `L ${tx} ${ty} `;
+      } else {
+        const dir = seg.dir || 1; // +1 = sweep via increasing angle, -1 = via decreasing angle
+        const startPt = [seg.center[0]+seg.r*Math.cos(seg.startAngle), seg.center[1]+seg.r*Math.sin(seg.startAngle)];
+        const [fx,fy] = fit.toSvg(startPt);
+        d += (d==='' ? `M ${fx} ${fy} ` : `L ${fx} ${fy} `);
+        const endAngle = takeFull ? seg.endAngle : seg.startAngle + dir*seg.sweep*(remainAllowed/seg.len);
+        let sweepUsed = dir*(endAngle - seg.startAngle);
+        while(sweepUsed<0) sweepUsed += 2*Math.PI;
+        const large = sweepUsed>Math.PI ? 1 : 0;
+        const sweepFlag = dir>0 ? 0 : 1;
+        const endPt = [seg.center[0]+seg.r*Math.cos(endAngle), seg.center[1]+seg.r*Math.sin(endAngle)];
+        const [ex,ey] = fit.toSvg(endPt);
+        const rPx = seg.r*fit.scale;
+        d += `A ${rPx} ${rPx} 0 ${large} ${sweepFlag} ${ex} ${ey} `;
+      }
+      travelled += seg.len;
+    }
+    return d;
+  }
+
+  function polygonSvgPoints(pts, fit){
+    return pts.map(p=>fit.toSvg(p).join(',')).join(' ');
+  }
+
+  // ============================================================
+  // Generic "roller" controller shared by both steps
+  // ============================================================
+  function makeRoller(cfg){
+    const svg = document.getElementById(cfg.svgId);
+    let playing = false, rafId = null, lastTs = null;
+    const speed = cfg.speed || 0.22; // fraction of total per second
+
+    function render(){
+      const data = cfg.getData();
+      const res = data.res, fit = data.fit;
+      const t = cfg.getT() * res.total;
+      const pac = pointAndContactAtLength(res, t);
+      const spinAngle = (t / res.r0) % (2*Math.PI);
+
+      let html = '';
+      html += cfg.shapeHtml ? cfg.shapeHtml(data, fit) : '';
+      // full faint locus
+      html += `<path d="${buildSvgPathD(res, fit)}" fill="none" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="1 7" stroke-linecap="round" opacity="0.55"></path>`;
+      // traced-so-far locus
+      html += `<path d="${buildSvgPathD(res, fit, t)}" fill="none" stroke="var(--coral)" stroke-width="3.5" stroke-linecap="round"></path>`;
+      // contact radius line + point
+      if (pac.contact){
+        const [ccx,ccy] = fit.toSvg(pac.center);
+        const [ptx,pty] = fit.toSvg(pac.contact);
+        html += `<line x1="${ccx}" y1="${ccy}" x2="${ptx}" y2="${pty}" stroke="var(--ink-soft)" stroke-width="1.5" stroke-dasharray="3 3"></line>`;
+        html += `<circle cx="${ptx}" cy="${pty}" r="3.5" fill="var(--ink)"></circle>`;
+      }
+      // rolling circle
+      {
+        const [ccx,ccy] = fit.toSvg(pac.center);
+        const rpx = res.r0*fit.scale;
+        html += `<circle cx="${ccx}" cy="${ccy}" r="${rpx}" fill="var(--violet)" fill-opacity="0.28" stroke="var(--violet-ink)" stroke-width="2.5"></circle>`;
+        const spx = ccx + rpx*Math.cos(-spinAngle), spy = ccy + rpx*Math.sin(-spinAngle);
+        html += `<line x1="${ccx}" y1="${ccy}" x2="${spx}" y2="${spy}" stroke="var(--violet-ink)" stroke-width="2"></line>`;
+        html += `<circle cx="${ccx}" cy="${ccy}" r="3" fill="var(--violet-ink)"></circle>`;
+      }
+      svg.innerHTML = html;
+      cfg.onRender && cfg.onRender(data, res, t);
+    }
+
+    function step(ts){
+      if (!playing) return;
+      if (lastTs===null) lastTs = ts;
+      const dt = (ts-lastTs)/1000; lastTs = ts;
+      let v = parseFloat(cfg.tSlider.value)/1000 + speed*dt;
+      if (v >= 1){ v = 1; playing=false; cfg.playBtn.textContent='▶ 굴려보기'; }
+      cfg.tSlider.value = Math.round(v*1000);
+      render();
+      if (playing) rafId = requestAnimationFrame(step);
+    }
+
+    cfg.playBtn.addEventListener('click', ()=>{
+      if (playing){ playing=false; cfg.playBtn.textContent='▶ 굴려보기'; if(rafId) cancelAnimationFrame(rafId); }
+      else {
+        if (parseFloat(cfg.tSlider.value) >= 1000) cfg.tSlider.value = 0;
+        playing=true; lastTs=null; cfg.playBtn.textContent='⏸ 멈추기';
+        rafId = requestAnimationFrame(step);
+      }
+    });
+    cfg.resetBtn.addEventListener('click', ()=>{
+      playing=false; cfg.playBtn.textContent='▶ 굴려보기'; if(rafId) cancelAnimationFrame(rafId);
+      cfg.tSlider.value = 0; render();
+    });
+    cfg.tSlider.addEventListener('input', ()=>{
+      playing=false; cfg.playBtn.textContent='▶ 굴려보기'; if(rafId) cancelAnimationFrame(rafId);
+      render();
+    });
+    return { render };
+  }
+
+  // ============================================================
+  // STEP 1: 다각형 둘레를 도는 원
+  // ============================================================
+  (function(){
+    const PRESETS = {
+      triangle: {
+        label:'정삼각형', rMax:2.5, rDefault:1,
+        pts: [[0,0],[9,0],[4.5,7.7942286341]]
+      },
+      rect: {
+        label:'직사각형', rMax:2.5, rDefault:1,
+        pts: [[0,0],[10,0],[10,6],[0,6]]
+      },
+      dart: {
+        label:'화살표 모양', rMax:1.8, rDefault:1,
+        pts: [[0,0],[8.660254,-5],[8.660254,-2],[12.660254,-2],[12.660254,2],[8.660254,2],[8.660254,5]]
+      },
+      lshape: {
+        label:'ㄴ자 모양', rMax:3.5, rDefault:1,
+        pts: [[0,0],[10,0],[10,4],[4,4],[4,10],[0,10]]
+      }
+    };
+    let currentKey = 'triangle';
+    const rSlider = document.getElementById('polyRSlider');
+    const rLabel = document.getElementById('polyRLabel');
+    const tSlider = document.getElementById('polyTSlider');
+    const tLabel = document.getElementById('polyTLabel');
+    const playBtn = document.getElementById('polyPlayBtn');
+    const resetBtn = document.getElementById('polyResetBtn');
+    const resultEl = document.getElementById('polyResult');
+    const straightEl = document.getElementById('polyStraight');
+    const arcEl = document.getElementById('polyArc');
+    const subEl = document.getElementById('polySub');
+    const factEl = document.getElementById('polyFact');
+    const presetBtns = document.querySelectorAll('#polyPresets .preset-btn');
+
+    function getData(){
+      const preset = PRESETS[currentKey];
+      const r = parseFloat(rSlider.value);
+      const res = buildOffsetPath(preset.pts, r);
+      res.r0 = r;
+      const margin = preset.rMax + 1.2;
+      const fit = fitView(preset.pts, margin, 520, 420);
+      const angles = polygonVertexAngles(preset.pts);
+      return {preset, res, fit, angles};
+    }
+
+    const roller = makeRoller({
+      svgId:'svgPoly', tSlider, playBtn, resetBtn,
+      getT: ()=> parseFloat(tSlider.value)/1000,
+      getData,
+      shapeHtml: (data, fit)=>{
+        const pts = data.res.pts;
+        let html = `<polygon points="${polygonSvgPoints(pts, fit)}" fill="var(--green)" fill-opacity="0.16" stroke="var(--green)" stroke-width="3"></polygon>`;
+        data.angles.forEach(a=>{
+          const [x,y] = fit.toSvg(a.point);
+          html += `<circle cx="${x}" cy="${y}" r="${a.convex?4:5.5}" fill="${a.convex?'var(--green-ink)':'var(--coral-ink)'}"></circle>`;
+        });
+        return html;
+      },
+      onRender: (data, res, t)=>{
+        rLabel.textContent = fmt1(res.r0);
+        tLabel.textContent = Math.round(parseFloat(tSlider.value)/10);
+        resultEl.innerHTML = `${fmt(res.total)}<span>cm</span>`;
+        straightEl.textContent = fmt(res.straightTotal);
+        arcEl.textContent = fmt(res.arcTotal);
+        const reflexCount = data.angles.filter(a=>!a.convex).length;
+        const arcDegSum = res.arcTotal / res.r0 * 180/Math.PI;
+        if (reflexCount===0){
+          subEl.innerHTML = `볼록다각형이라 부채꼴 중심각의 합이 항상 <b>360°</b>예요 → 둘레 + 2πr`;
+          factEl.innerHTML = `<b>${data.preset.label}</b>은 모든 꼭짓점이 볼록해서, 원이 각 꼭짓점을 돌 때 생기는 부채꼴들의 중심각을 모두 더하면 정확히 <b>360°</b>가 돼요(다각형 외각의 합과 같은 원리). 그래서 중심의 자취 길이는 항상 <b>원래 도형의 둘레 + 2πr</b>로 간단히 구할 수 있어요.`;
+        } else {
+          const reflexList = data.angles.filter(a=>!a.convex).map(a=>Math.round(a.interiorDeg*10)/10).join('°, ')+'°';
+          subEl.innerHTML = `부채꼴 중심각의 합 = <b>${fmt1(arcDegSum)}°</b> (오목각 ${reflexCount}개는 제외)`;
+          factEl.innerHTML = `<b>${data.preset.label}</b>에는 내각이 <b>${reflexList}</b>인 오목한 꼭짓점이 있어요(빨간 점). 이 지점에서는 원이 전혀 회전하지 않고 두 변의 자취가 직선으로 곧장 이어져요. 그 대신 나머지 볼록한 꼭짓점들(초록 점)이 더 많이 돌아줘야 해서, 부채꼴 중심각의 합이 360°보다 훨씬 큰 <b>${fmt1(arcDegSum)}°</b>가 돼요.`;
+        }
+      }
+    });
+
+    presetBtns.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        currentKey = btn.dataset.k;
+        presetBtns.forEach(b=>b.classList.toggle('active', b===btn));
+        const preset = PRESETS[currentKey];
+        rSlider.max = preset.rMax;
+        rSlider.value = preset.rDefault;
+        tSlider.value = 0;
+        roller.render();
+      });
+    });
+    presetBtns[0].classList.add('active');
+
+    rSlider.addEventListener('input', ()=> roller.render());
+    roller.render();
+  })();
+
+  // ============================================================
+  // STEP 2: 나란히 놓인 원들을 따라 도는 원
+  // ============================================================
+  (function(){
+    const nSlider = document.getElementById('rowNSlider');
+    const nLabel = document.getElementById('rowNLabel');
+    const RSlider = document.getElementById('rowRSlider');
+    const RLabel = document.getElementById('rowRLabel');
+    const rSlider = document.getElementById('rowrSlider');
+    const rLabel = document.getElementById('rowrLabel');
+    const tSlider = document.getElementById('rowTSlider');
+    const tLabel = document.getElementById('rowTLabel');
+    const playBtn = document.getElementById('rowPlayBtn');
+    const resetBtn = document.getElementById('rowResetBtn');
+    const resultEl = document.getElementById('rowResult');
+    const straightEl = document.getElementById('rowStraight');
+    const arcEl = document.getElementById('rowArc');
+    const subEl = document.getElementById('rowSub');
+    const factEl = document.getElementById('rowFact');
+
+    function buildRowPath(N, R, r){
+      // centers along x axis at y=0, spacing 2R
+      const centers = []; for(let i=0;i<N;i++) centers.push([i*2*R, 0]);
+      const rowLen = (N-1)*2*R;
+      const topY = R+r, botY = -(R+r);
+      // segments: straight along top (left->right), arc around right end (top->bottom),
+      // straight along bottom (right->left), arc around left end (bottom->top)
+      const segments = [];
+      segments.push({type:'line', from:[0,topY], to:[rowLen,topY], len: rowLen});
+      segments.push({type:'arc', center: centers[N-1], r: R+r, startAngle: Math.PI/2, endAngle: -Math.PI/2, sweep: Math.PI, dir:-1, len: Math.PI*(R+r)});
+      segments.push({type:'line', from:[rowLen,botY], to:[0,botY], len: rowLen});
+      segments.push({type:'arc', center: centers[0], r: R+r, startAngle: -Math.PI/2, endAngle: Math.PI/2, sweep: Math.PI, dir:-1, len: Math.PI*(R+r)});
+      const straightTotal = rowLen*2;
+      const arcTotal = Math.PI*(R+r)*2;
+      return {pts: centers, segments, straightTotal, arcTotal, total: straightTotal+arcTotal, r0:r, R, N, rowLen, centers};
+    }
+
+    function contactForRow(res, t){
+      // reuse generic point-at-length but contact needs custom (line: foot on baseline; arc: fixed circle center)
+      const total = res.total;
+      let rem = ((t % total)+total)%total;
+      for (const seg of res.segments){
+        if (rem <= seg.len+1e-9){
+          if (seg.type==='line'){
+            const frac = seg.len>1e-9? rem/seg.len : 0;
+            const cx = seg.from[0]+(seg.to[0]-seg.from[0])*frac;
+            const cy = seg.from[1]+(seg.to[1]-seg.from[1])*frac;
+            const contact = [cx, cy>0 ? res.R : -res.R];
+            return {center:[cx,cy], contact};
+          } else {
+            const dir = seg.dir || 1;
+            const ang = seg.startAngle + dir*seg.sweep*(rem/seg.len);
+            const cx = seg.center[0]+seg.r*Math.cos(ang);
+            const cy = seg.center[1]+seg.r*Math.sin(ang);
+            return {center:[cx,cy], contact: seg.center};
+          }
+        }
+        rem -= seg.len;
+      }
+      const last = res.segments[res.segments.length-1];
+      return {center:last.to||last.from, contact:null};
+    }
+
+    function getData(){
+      const N = parseInt(nSlider.value);
+      const R = parseFloat(RSlider.value);
+      const r = parseFloat(rSlider.value);
+      const res = buildRowPath(N, R, r);
+      const margin = R+r+1.2;
+      const allPts = res.centers.concat([[0,R+r+margin],[res.rowLen,-(R+r+margin)]]);
+      const fit = fitView(allPts, margin, 560, 340);
+      return {N,R,r,res,fit};
+    }
+
+    const svg = document.getElementById('svgRow');
+    let playing=false, rafId=null, lastTs=null;
+    const speed = 0.22;
+
+    function render(){
+      const data = getData();
+      const res = data.res, fit = data.fit;
+      const t = (parseFloat(tSlider.value)/1000) * res.total;
+      const pac = contactForRow(res, t);
+      const spinAngle = (t/res.r0) % (2*Math.PI);
+
+      let html = '';
+      res.centers.forEach(c=>{
+        const [cx,cy] = fit.toSvg(c);
+        html += `<circle cx="${cx}" cy="${cy}" r="${res.R*fit.scale}" fill="var(--green)" fill-opacity="0.18" stroke="var(--green)" stroke-width="3"></circle>`;
+      });
+      html += `<path d="${buildSvgPathD(res, fit)}" fill="none" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="1 7" stroke-linecap="round" opacity="0.55"></path>`;
+      html += `<path d="${buildSvgPathD(res, fit, t)}" fill="none" stroke="var(--coral)" stroke-width="3.5" stroke-linecap="round"></path>`;
+      if (pac.contact){
+        const [ccx,ccy] = fit.toSvg(pac.center);
+        const [ptx,pty] = fit.toSvg(pac.contact);
+        html += `<line x1="${ccx}" y1="${ccy}" x2="${ptx}" y2="${pty}" stroke="var(--ink-soft)" stroke-width="1.5" stroke-dasharray="3 3"></line>`;
+        html += `<circle cx="${ptx}" cy="${pty}" r="3.5" fill="var(--ink)"></circle>`;
+      }
+      {
+        const [ccx,ccy] = fit.toSvg(pac.center);
+        const rpx = res.r0*fit.scale;
+        html += `<circle cx="${ccx}" cy="${ccy}" r="${rpx}" fill="var(--violet)" fill-opacity="0.28" stroke="var(--violet-ink)" stroke-width="2.5"></circle>`;
+        const spx = ccx+rpx*Math.cos(-spinAngle), spy=ccy+rpx*Math.sin(-spinAngle);
+        html += `<line x1="${ccx}" y1="${ccy}" x2="${spx}" y2="${spy}" stroke="var(--violet-ink)" stroke-width="2"></line>`;
+        html += `<circle cx="${ccx}" cy="${ccy}" r="3" fill="var(--violet-ink)"></circle>`;
+      }
+      svg.innerHTML = html;
+
+      nLabel.textContent = data.N;
+      RLabel.textContent = fmt1(data.R);
+      rLabel.textContent = fmt1(data.r);
+      tLabel.textContent = Math.round(parseFloat(tSlider.value)/10);
+      resultEl.innerHTML = `${fmt(res.total)}<span>cm</span>`;
+      straightEl.textContent = fmt(res.straightTotal);
+      arcEl.textContent = fmt(res.arcTotal);
+      subEl.innerHTML = `직선 ${fmt(res.straightTotal)}cm(위+아래) + 반원 두 개 = 반지름 ${fmt1(data.R+data.r)}cm인 원 하나(=2π×${fmt1(data.R+data.r)})`;
+      factEl.innerHTML = `원 ${data.N}개가 한 줄로 붙어있으면 양 끝 원 중심 사이의 거리는 <b>${fmt1(res.rowLen)}cm</b>예요. 굴러가는 원은 위·아래에서 이 길이만큼 <b>직선</b>으로 지나가고(가운데 원들 사이는 전혀 오목하지 않으니까요!), 왼쪽·오른쪽 끝 원에서만 각각 <b>반원(180°)</b>을 그려요. 반원 두 개를 합치면 반지름 R+r=${fmt1(data.R+data.r)}cm인 원 하나와 둘레가 똑같아져요.`;
+    }
+
+    function step(ts){
+      if(!playing) return;
+      if(lastTs===null) lastTs=ts;
+      const dt=(ts-lastTs)/1000; lastTs=ts;
+      let v = parseFloat(tSlider.value)/1000 + speed*dt;
+      if (v>=1){ v=1; playing=false; playBtn.textContent='▶ 굴려보기'; }
+      tSlider.value = Math.round(v*1000);
+      render();
+      if (playing) rafId = requestAnimationFrame(step);
+    }
+    playBtn.addEventListener('click', ()=>{
+      if (playing){ playing=false; playBtn.textContent='▶ 굴려보기'; if(rafId) cancelAnimationFrame(rafId); }
+      else {
+        if (parseFloat(tSlider.value)>=1000) tSlider.value=0;
+        playing=true; lastTs=null; playBtn.textContent='⏸ 멈추기';
+        rafId=requestAnimationFrame(step);
+      }
+    });
+    resetBtn.addEventListener('click', ()=>{
+      playing=false; playBtn.textContent='▶ 굴려보기'; if(rafId) cancelAnimationFrame(rafId);
+      tSlider.value=0; render();
+    });
+    [nSlider,RSlider,rSlider,tSlider].forEach(el=> el.addEventListener('input', ()=>{
+      playing=false; playBtn.textContent='▶ 굴려보기'; if(rafId) cancelAnimationFrame(rafId);
+      render();
+    }));
+    render();
+  })();
+</script>
+</body>
+</html>

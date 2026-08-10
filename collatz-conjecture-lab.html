@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>콜라츠 추측 실험실</title>
+<meta name="description" content="짝수면 반으로, 홀수면 3배하고 1을 더해서 — 어떤 수로 시작해도 결국 1로 끝난다는 콜라츠 추측(3n+1 문제)을 슬라이더로 직접 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+  --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--violet-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--violet-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.section-title{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink);margin:0 0 16px;display:flex;align-items:center;gap:8px;}
+.section-sub{color:var(--ink-soft);font-size:14.5px;line-height:1.7;margin:-8px 0 18px;max-width:62ch;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
+
+svg{width:100%;max-width:460px;height:auto;overflow:visible;display:block;margin:0 auto 18px;}
+
+.preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;justify-content:center;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;}
+.preset-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.preset-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+.slider-row{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+.slider-row label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);min-width:96px;}
+.slider-row input[type=range]{flex:1;-webkit-appearance:none;height:8px;border-radius:999px;background:var(--violet-soft);outline:none;}
+.slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--violet-ink);border:4px solid #fff;box-shadow:0 2px 8px rgba(104,71,247,0.4);cursor:pointer;}
+.slider-row input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--violet-ink);border:4px solid #fff;box-shadow:0 2px 8px rgba(104,71,247,0.4);cursor:pointer;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--violet-ink);min-width:70px;text-align:right;}
+
+.equation-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:24px;text-align:center;margin-bottom:16px;}
+.equation-box .expr{font-family:'Do Hyeon',sans-serif;font-size:clamp(18px,3.8vw,28px);color:var(--ink);word-break:break-word;}
+.equation-box .expr .unknown{color:var(--violet-ink);}
+.equation-box .check{font-size:14.5px;color:var(--ink-soft);margin-top:12px;}
+.equation-box .check b{color:var(--green-ink);}
+
+.fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--violet-ink);}
+.fact.ok{background:var(--green-soft);} .fact.ok b{color:var(--green-ink);}
+
+.badge{display:inline-block;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:5px 14px;border-radius:999px;margin-top:10px;}
+.badge.even{background:var(--blue-soft);color:var(--blue-ink);}
+.badge.odd{background:var(--coral-soft);color:var(--coral-ink);}
+.badge.done{background:var(--green-soft);color:var(--green-ink);}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--violet-ink);}
+.quiz-q{font-size:15.5px;line-height:1.7;text-align:center;background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:20px;margin-bottom:16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
+.action-btn:hover{background:var(--violet-ink);}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-collatz-conjecture-lab.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🔁 콜라츠 추측 실험실</span>
+  <h1>어떤 수로 시작해도<br>결국 <span>1</span>로 끝난다?</h1>
+  <p class="sub">규칙은 딱 두 줄이에요. 짝수면 2로 나누고, 홀수면 3배하고 1을 더해요. 이걸 계속 반복하면 어떤 수로 시작하든 결국 1에 도착한다는 게 콜라츠 추측이에요. 규칙은 이렇게 단순한데, 1937년에 제기된 이후로 아직 아무도 증명하지 못했어요.</p>
+
+  <div class="howto">
+    <p>숫자 하나를 골라보세요. <b>짝수면 2로 나누고</b>, <b>홀수면 3배한 뒤 1을 더해요</b>. 그렇게 나온 새로운 수에 같은 규칙을 또 적용해요. 이 과정을 계속 반복하면, 지금까지 컴퓨터로 확인한 모든 수는 결국 4 → 2 → 1을 맴도는 고리에 도착했어요.</p>
+    <p>문제는 "정말 모든 자연수가 다 그럴까?"예요. 얼마나 큰 수를 넣어도, 아무리 이상하게 튀는 것처럼 보여도 결국 1로 끝났지만, 그게 "모든 수에 대해 항상 그렇다"는 증명은 아직 없어요.</p>
+  </div>
+
+  <!-- ===== 콜라츠 규칙 ===== -->
+  <div class="stage">
+    <div class="section-title">🔁 콜라츠 규칙 따라가기</div>
+    <p class="section-sub">시작 숫자를 고르고 슬라이더로 한 단계씩 따라가 보세요. 짝수는 파란색, 홀수는 코랄색으로 표시돼요.</p>
+    <svg id="svgCollatz" viewBox="0 0 460 160"></svg>
+    <div class="preset-row" id="colPresetRow"></div>
+    <div class="slider-row">
+      <label>계산 단계</label>
+      <input id="colSlider" type="range" min="0" max="0" value="0" step="1">
+      <span class="val" id="colVal">1</span>
+    </div>
+    <div class="equation-box">
+      <div class="expr" id="colExpr"></div>
+      <div class="check" id="colCheck"></div>
+      <div id="colBadge"></div>
+    </div>
+    <div class="fact" id="colFact"></div>
+  </div>
+
+  <!-- ===== 얼마나 오래 걸릴까 ===== -->
+  <div class="stage">
+    <div class="section-title">📊 얼마나 오래, 얼마나 높이 튈까?</div>
+    <p class="section-sub">시작 숫자에 따라 1에 도착하기까지 걸리는 단계 수도, 중간에 치솟는 최고값도 완전히 달라져요. 27처럼 작은 수도 111단계나 걸리고 9232까지 치솟을 수 있어요.</p>
+    <svg id="svgStats" viewBox="0 0 460 240"></svg>
+    <div class="slider-row">
+      <label>시작 숫자</label>
+      <input id="statsSlider" type="range" min="1" max="30" value="27" step="1">
+      <span class="val" id="statsVal">27</span>
+    </div>
+    <div class="equation-box">
+      <div class="expr" id="statsExpr"></div>
+      <div class="check" id="statsCheck"></div>
+    </div>
+    <div class="fact" id="statsFact"></div>
+  </div>
+
+  <div class="stage">
+    <div class="section-title">🕵️ 왜 아직 증명하지 못했을까?</div>
+    <div class="fact" style="max-width:66ch;">
+      <p style="margin:0 0 10px;">1937년 독일 수학자 로타르 콜라츠가 처음 제기한 이 문제는 규칙이 초등학생도 이해할 만큼 간단해서 더 유명해요. 컴퓨터로 2<sup>68</sup>(약 3×10²⁰)보다 작은 모든 수를 다 확인했지만 예외는 하나도 없었어요.</p>
+      <p style="margin:0;">그런데 숫자가 짝수일 때와 홀수일 때 규칙이 완전히 달라서, 수가 커지고 작아지는 걸 한 번에 다루는 수학 이론이 마땅치 않아요. 헝가리의 유명한 수학자 폴 에르되시는 이 문제가 지금 수학이 다루기엔 아직 너무 이르다고 말할 정도였어요. 상금이 걸린 문제이기도 해서, 지금도 전 세계 수학자와 아마추어들이 계속 도전하고 있어요.</p>
+    </div>
+  </div>
+
+  <!-- ===== 퀴즈 ===== -->
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 콜라츠 퀴즈</h2>
+      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+    </div>
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextQuizBtn">➡ 다음 문제</button>
+  </div>
+
+<footer>규칙은 "짝수는 반으로, 홀수는 3배하고 1 더하기" 딱 이것뿐이에요. 그런데도 왜 항상 1로 끝나는지는 아직 아무도 몰라요 — 수학에서 가장 쉬워 보이면서 가장 어려운 문제 중 하나예요.</footer>
+</div>
+
+<script>
+function randInt(min,max){ return min + Math.floor(Math.random()*(max-min+1)); }
+
+function collatzSteps(n){
+  let seq=[n];
+  while(n!==1){
+    n = (n%2===0) ? n/2 : 3*n+1;
+    seq.push(n);
+  }
+  return seq;
+}
+
+// ============================================================
+// 콜라츠 규칙 따라가기
+// ============================================================
+const COL_STARTS = [6, 7, 11, 19, 27, 97];
+let colIdx = 0;
+let colSeq = [];
+const colPresetRow = document.getElementById('colPresetRow');
+const colSlider = document.getElementById('colSlider');
+const colVal = document.getElementById('colVal');
+const svgCollatz = document.getElementById('svgCollatz');
+const colExpr = document.getElementById('colExpr');
+const colCheck = document.getElementById('colCheck');
+const colBadge = document.getElementById('colBadge');
+const colFact = document.getElementById('colFact');
+
+function buildColPresets(){
+  colPresetRow.innerHTML = COL_STARTS.map((n,i)=>`<button class="preset-btn" data-i="${i}">${n}</button>`).join('');
+  colPresetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ colIdx = parseInt(btn.dataset.i); setupColSequence(); });
+  });
+}
+
+function setupColSequence(){
+  colPresetRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===colIdx));
+  colSeq = collatzSteps(COL_STARTS[colIdx]);
+  colSlider.max = Math.max(0, colSeq.length-2);
+  colSlider.value = 0;
+  renderCol();
+}
+
+function renderCol(){
+  const step = parseInt(colSlider.value,10);
+  const from = colSeq[step];
+  const to = colSeq[step+1];
+  const isEven = from%2===0;
+  colVal.textContent = `${step+1} / ${colSeq.length-1}`;
+
+  colExpr.innerHTML = isEven
+    ? `${from} ÷ 2 = <span class="unknown">${to}</span>`
+    : `${from} × 3 + 1 = <span class="unknown">${to}</span>`;
+  const isDone = to===1;
+  colCheck.innerHTML = isDone ? `1에 도착했어요! 총 ${colSeq.length-1}단계 걸렸어요.` : `${from}은 ${isEven?'짝수':'홀수'}니까 ${isEven?'2로 나눠요':'3배하고 1을 더해요'}.`;
+  colBadge.innerHTML = isDone
+    ? `<span class="badge done">1 도착 🎉</span>`
+    : `<span class="badge ${isEven?'even':'odd'}">${isEven?'짝수':'홀수'}</span>`;
+  colFact.innerHTML = isDone
+    ? `${COL_STARTS[colIdx]}에서 시작해 <b>${colSeq.length-1}번</b> 계산을 반복하니 1에 도착했어요. 중간에 최고 <b>${Math.max(...colSeq)}</b>까지 치솟기도 했지만, 결국 4 → 2 → 1 고리에 도착했어요.`
+    : `${from}은 ${isEven?'짝수라서 2로 나누면':'홀수라서 3배하고 1을 더하면'} <b>${to}</b>이 나와요. 슬라이더를 옮겨서 다음 단계로 가보세요.`;
+
+  const CX=230;
+  const seqWindow = colSeq.slice(Math.max(0,step-2), step+3);
+  const windowStart = Math.max(0,step-2);
+  const boxW=56, gap=8;
+  const totalW = seqWindow.length*boxW+(seqWindow.length-1)*gap;
+  const startX = CX-totalW/2;
+  let html='';
+  seqWindow.forEach((v,i)=>{
+    const realIdx = windowStart+i;
+    const x = startX+i*(boxW+gap);
+    const isCur = realIdx===step || realIdx===step+1;
+    const wasEven = v%2===0;
+    const color = realIdx===step+1 ? (v===1?'var(--green-ink)':(wasEven?'var(--blue-ink)':'var(--coral)')) : 'var(--ink-soft)';
+    html += `<rect x="${x}" y="60" width="${boxW}" height="42" rx="10" fill="${color}" opacity="${isCur?1:0.5}"></rect>`;
+    html += `<text x="${x+boxW/2}" y="86" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="#fff">${v}</text>`;
+    if(i<seqWindow.length-1){
+      html += `<text x="${x+boxW+gap/2}" y="86" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink-soft)">→</text>`;
+    }
+  });
+  html += `<text x="${CX}" y="130" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">전체 ${colSeq.length-1}단계 중 ${step+1}번째</text>`;
+  svgCollatz.innerHTML = html;
+}
+buildColPresets();
+setupColSequence();
+colSlider.addEventListener('input', renderCol);
+
+// ============================================================
+// 얼마나 오래 걸릴까
+// ============================================================
+const statsSlider = document.getElementById('statsSlider');
+const statsVal = document.getElementById('statsVal');
+const svgStats = document.getElementById('svgStats');
+const statsExpr = document.getElementById('statsExpr');
+const statsCheck = document.getElementById('statsCheck');
+const statsFact = document.getElementById('statsFact');
+
+const STATS_RANGE = Array.from({length:30}, (_,i)=>i+1);
+const STATS_DATA = STATS_RANGE.map(n=>{
+  const seq = collatzSteps(n);
+  return {n, steps: seq.length-1, max: Math.max(...seq)};
+});
+
+function renderStats(){
+  const n = parseInt(statsSlider.value,10);
+  statsVal.textContent = n;
+  const d = STATS_DATA.find(x=>x.n===n);
+
+  statsExpr.innerHTML = `${n} → 1에 도착하기까지 <span class="unknown">${d.steps}단계</span>`;
+  statsCheck.innerHTML = `중간에 도달한 최고값 = <b>${d.max.toLocaleString()}</b>`;
+  statsFact.innerHTML = d.n===27
+    ? `27은 1~30 사이 수 중 유독 튀는 수예요. 겨우 두 자리 숫자인데 <b>111단계</b>나 걸리고, 중간에 <b>9232</b>까지 치솟아요. 이렇게 작은 수에서도 예측이 안 될 만큼 복잡한 패턴이 나와요.`
+    : `${n}은 1에 도착하기까지 ${d.steps}단계가 걸리고, 중간 최고값은 ${d.max}예요. 27을 한번 눌러서 얼마나 다른지 비교해보세요.`;
+
+  const maxSteps = Math.max(...STATS_DATA.map(x=>x.steps));
+  const CX0=30, CX1=440, CY0=210, CY1=20;
+  const barW = (CX1-CX0)/STATS_RANGE.length;
+  let html='';
+  STATS_DATA.forEach((d2,i)=>{
+    const h = (d2.steps/maxSteps)*(CY0-CY1);
+    const x = CX0+i*barW;
+    const y = CY0-h;
+    const active = d2.n===n;
+    html += `<rect x="${x+1}" y="${y}" width="${barW-2}" height="${h}" fill="${active?'var(--violet-ink)':'var(--violet-soft)'}"></rect>`;
+  });
+  html += `<line x1="${CX0}" y1="${CY0}" x2="${CX1}" y2="${CY0}" stroke="var(--paper-line)" stroke-width="2"></line>`;
+  html += `<text x="${CX0+(n-1)*barW+barW/2}" y="${CY0+18}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--violet-ink)">${n}</text>`;
+  html += `<text x="230" y="${CY1-2}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">1~30까지 단계 수 비교</text>`;
+  svgStats.innerHTML = html;
+}
+statsSlider.addEventListener('input', renderStats);
+renderStats();
+
+// ============================================================
+// 퀴즈
+// ============================================================
+const quizQ = document.getElementById('quizQ');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextQuizBtn = document.getElementById('nextQuizBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+const triesNumEl = document.getElementById('triesNum');
+let score=0, tries=0, answered=false, quizAnswer=null;
+
+const TRUE_FALSE = [
+  {s:'콜라츠 추측은 아직 증명되지 않았다', a:'참'},
+  {s:'짝수일 때는 3배하고 1을 더한다', a:'거짓'},
+  {s:'홀수일 때는 2로 나눈다', a:'거짓'},
+  {s:'27은 100단계 넘게 걸린다', a:'참'},
+  {s:'컴퓨터로 아주 큰 범위까지 확인했지만 예외는 없었다', a:'참'},
+  {s:'콜라츠 추측은 1937년에 처음 제기됐다', a:'참'},
+];
+
+function newQuizQuestion(){
+  answered=false;
+  quizFeedback.textContent='';
+  const type = Math.random();
+
+  if(type < 0.4){
+    const n = randInt(2,50);
+    const isEven = n%2===0;
+    quizAnswer = isEven ? n/2 : 3*n+1;
+    quizQ.innerHTML = `${n}은 ${isEven?'짝수':'홀수'}예요. 콜라츠 규칙을 적용하면 다음 수는 무엇일까요?`;
+    const opts = new Set([quizAnswer]);
+    while(opts.size<4){
+      const d = randInt(-5,5);
+      if(d!==0 && quizAnswer+d>0) opts.add(quizAnswer+d);
+    }
+    renderOpts([...opts].sort((a,b)=>a-b), v=>`${v}`);
+  } else if(type < 0.7){
+    const n = randInt(2,30);
+    const seq = collatzSteps(n);
+    quizAnswer = seq.length-1;
+    quizQ.innerHTML = `${n}은 몇 단계 만에 1에 도착할까요?`;
+    const opts = new Set([quizAnswer]);
+    while(opts.size<4){
+      const d = randInt(-4,4);
+      if(d!==0 && quizAnswer+d>=0) opts.add(quizAnswer+d);
+    }
+    renderOpts([...opts].sort((a,b)=>a-b), v=>`${v}단계`);
+  } else {
+    const item = TRUE_FALSE[randInt(0,TRUE_FALSE.length-1)];
+    quizAnswer = item.a;
+    quizQ.innerHTML = `"${item.s}" — 참일까요, 거짓일까요?`;
+    renderOpts(['참','거짓'], v=>v);
+  }
+}
+
+function renderOpts(opts, formatter){
+  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${formatter(o)}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered=true;
+      tries++;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      const chosen = btn.dataset.o;
+      const isCorrect = (typeof quizAnswer==='number') ? parseInt(chosen)===quizAnswer : chosen===quizAnswer;
+      if(isCorrect){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `아쉬워요! 정답은 ${quizAnswer}였어요. (정답 ${score} / 시도 ${tries})`;
+      }
+      scoreNumEl.textContent = score;
+      triesNumEl.textContent = tries;
+    });
+  });
+}
+nextQuizBtn.addEventListener('click', newQuizQuestion);
+newQuizQuestion();
+</script>
+</body>
+</html>

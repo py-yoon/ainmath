@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>생일 역설 실험실</title>
+<meta name="description" content="딱 23명만 모여도 생일이 같은 두 사람이 있을 확률이 50%를 넘는다는 생일 역설을 슬라이더와 직접 시뮬레이션으로 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+  --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.howto{background:var(--coral-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--coral-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.section-title{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink);margin:0 0 16px;display:flex;align-items:center;gap:8px;}
+.section-sub{color:var(--ink-soft);font-size:14.5px;line-height:1.7;margin:-8px 0 18px;max-width:62ch;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
+
+svg{width:100%;max-width:460px;height:auto;overflow:visible;display:block;margin:0 auto 18px;}
+
+.preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;justify-content:center;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;}
+.preset-btn:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
+.preset-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+.slider-row{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+.slider-row label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);min-width:96px;}
+.slider-row input[type=range]{flex:1;-webkit-appearance:none;height:8px;border-radius:999px;background:var(--coral-soft);outline:none;}
+.slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--coral-ink);border:4px solid #fff;box-shadow:0 2px 8px rgba(217,5,0,0.4);cursor:pointer;}
+.slider-row input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--coral-ink);border:4px solid #fff;box-shadow:0 2px 8px rgba(217,5,0,0.4);cursor:pointer;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--coral-ink);min-width:60px;text-align:right;}
+
+.equation-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:24px;text-align:center;margin-bottom:16px;}
+.equation-box .expr{font-family:'Do Hyeon',sans-serif;font-size:clamp(16px,3.2vw,23px);color:var(--ink);word-break:break-word;}
+.equation-box .expr .unknown{color:var(--coral-ink);}
+.equation-box .check{font-size:14.5px;color:var(--ink-soft);margin-top:12px;}
+.equation-box .check b{color:var(--green-ink);}
+
+.fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--coral-ink);}
+.fact.ok{background:var(--green-soft);} .fact.ok b{color:var(--green-ink);}
+
+.badge{display:inline-block;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:5px 14px;border-radius:999px;margin-top:10px;}
+.badge.over{background:var(--coral-soft);color:var(--coral-ink);}
+.badge.under{background:var(--blue-soft);color:var(--blue-ink);}
+
+.bday-grid{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:16px;max-width:440px;margin-left:auto;margin-right:auto;}
+.bday-chip{font-family:'Do Hyeon',sans-serif;font-size:12px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:8px;padding:5px 8px;}
+.bday-chip.match{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);font-weight:bold;}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--coral-ink);}
+.quiz-q{font-size:15.5px;line-height:1.7;text-align:center;background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:20px;margin-bottom:16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
+.action-btn:hover{background:var(--coral-ink);}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-birthday-paradox-lab.html" style="color:#fff;background:var(--coral-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🎂 생일 역설 실험실</span>
+  <h1>딱 23명만 모여도<br>생일이 <span>겹칠 확률</span>이 반이 넘는다?</h1>
+  <p class="sub">1년은 365일이니까, 생일이 같은 두 사람을 만나려면 엄청 많은 사람이 모여야 할 것 같죠? 그런데 딱 23명만 모여도 그중 생일이 같은 두 사람이 있을 확률이 50%를 넘어요. 직관과 정반대라서 '역설'이라고 불려요.</p>
+
+  <div class="howto">
+    <p>착각하기 쉬운 이유는, 흔히 "나와 생일이 같은 사람"을 떠올리기 때문이에요. 그런데 우리가 구하는 건 "23명 중 어느 누구든 두 명이 겹칠 확률"이에요. 23명이면 가능한 짝의 수가 23×22/2 = <b>253쌍</b>이나 돼요. 253번이나 "혹시 겹칠까?"를 확인하는 셈이니, 확률이 훌쩍 높아지는 거예요.</p>
+  </div>
+
+  <!-- ===== 인원수와 확률 ===== -->
+  <div class="stage">
+    <div class="section-title">🎂 인원수를 늘리면 확률은?</div>
+    <p class="section-sub">사람 수를 슬라이더로 바꿔가며, 그중 생일이 겹치는 두 사람이 있을 확률을 확인해보세요.</p>
+    <svg id="svgProb" viewBox="0 0 460 130"></svg>
+    <div class="slider-row">
+      <label>사람 수</label>
+      <input id="probSlider" type="range" min="2" max="70" value="23" step="1">
+      <span class="val" id="probVal">23명</span>
+    </div>
+    <div class="equation-box">
+      <div class="expr" id="probExpr"></div>
+      <div class="check" id="probCheck"></div>
+      <div id="probBadge"></div>
+    </div>
+    <div class="fact" id="probFact"></div>
+  </div>
+
+  <!-- ===== 확률이 확 뛰는 지점 ===== -->
+  <div class="stage">
+    <div class="section-title">📈 확률이 확 뛰는 지점</div>
+    <p class="section-sub">인원수별 확률을 막대그래프로 비교해보면, 23명 근처에서 확률이 얼마나 가파르게 올라가는지 한눈에 보여요.</p>
+    <svg id="svgBar" viewBox="0 0 460 220"></svg>
+    <div class="fact" id="barFact"></div>
+  </div>
+
+  <!-- ===== 직접 뽑아보기 ===== -->
+  <div class="stage">
+    <div class="section-title">🎲 직접 생일을 뽑아보기</div>
+    <p class="section-sub">인원수를 고르고 버튼을 눌러 실제로 무작위 생일을 뽑아보세요. 여러 번 뽑으면서 실제로 얼마나 자주 겹치는지 확인해보세요.</p>
+    <div class="preset-row" id="simPresetRow"></div>
+    <div id="bdayGridWrap"></div>
+    <button class="action-btn" id="simDrawBtn">🎲 생일 뽑기</button>
+    <div class="equation-box">
+      <div class="expr" id="simExpr"></div>
+      <div class="check" id="simCheck"></div>
+    </div>
+    <div class="fact" id="simFact"></div>
+  </div>
+
+  <!-- ===== 퀴즈 ===== -->
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 생일 역설 퀴즈</h2>
+      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+    </div>
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextQuizBtn">➡ 다음 문제</button>
+  </div>
+
+<footer>생일 역설의 핵심은 "짝의 개수"예요. n명이 있으면 짝의 개수는 n(n−1)/2로, 사람 수보다 훨씬 빠르게 늘어나요. 그래서 사람 수가 조금만 늘어도 겹칠 기회(짝의 수)는 폭발적으로 많아져요.</footer>
+</div>
+
+<script>
+function randInt(min,max){ return min + Math.floor(Math.random()*(max-min+1)); }
+
+function birthdayProb(n){
+  let pNoMatch = 1.0;
+  for(let i=0;i<n;i++){ pNoMatch *= (365-i)/365; }
+  return 1-pNoMatch;
+}
+
+// ============================================================
+// 인원수와 확률
+// ============================================================
+const probSlider = document.getElementById('probSlider');
+const probVal = document.getElementById('probVal');
+const svgProb = document.getElementById('svgProb');
+const probExpr = document.getElementById('probExpr');
+const probCheck = document.getElementById('probCheck');
+const probBadge = document.getElementById('probBadge');
+const probFact = document.getElementById('probFact');
+
+function renderProb(){
+  const n = parseInt(probSlider.value,10);
+  probVal.textContent = `${n}명`;
+  const p = birthdayProb(n)*100;
+  const pairs = n*(n-1)/2;
+
+  probExpr.innerHTML = `${n}명 중 생일이 겹칠 확률 = <span class="unknown">${p.toFixed(2)}%</span>`;
+  probCheck.innerHTML = `가능한 짝의 수 = ${n}×${n-1}÷2 = <b>${pairs.toLocaleString()}쌍</b>`;
+  probBadge.innerHTML = p>=50 ? `<span class="badge over">50% 이상!</span>` : `<span class="badge under">50% 미만</span>`;
+  probFact.innerHTML = n>=23
+    ? `${n}명이면 확률이 이미 ${p.toFixed(1)}%예요. 23명부터는 "겹칠 확률"이 "안 겹칠 확률"보다 높아져요 — 그래서 생일 역설의 기준점으로 23이 유명해요.`
+    : `${n}명일 때 확률은 아직 ${p.toFixed(1)}%예요. 슬라이더를 23 근처로 옮겨서 확률이 얼마나 빨리 뛰는지 확인해보세요.`;
+
+  const CX0=40, CX1=440, Y=60;
+  let html='';
+  html += `<rect x="${CX0}" y="${Y-16}" width="${CX1-CX0}" height="32" rx="10" fill="var(--paper)" stroke="var(--paper-line)" stroke-width="2"></rect>`;
+  html += `<rect x="${CX0}" y="${Y-16}" width="${(CX1-CX0)*(p/100)}" height="32" rx="10" fill="${p>=50?'var(--coral-ink)':'var(--blue-ink)'}"></rect>`;
+  const midX = CX0+(CX1-CX0)*0.5;
+  html += `<line x1="${midX}" y1="${Y-24}" x2="${midX}" y2="${Y+24}" stroke="var(--ink-soft)" stroke-width="1.5" stroke-dasharray="3 3"></line>`;
+  html += `<text x="${midX}" y="${Y-30}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">50%</text>`;
+  html += `<text x="230" y="${Y+55}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="${p>=50?'var(--coral-ink)':'var(--blue-ink)'}">${p.toFixed(2)}%</text>`;
+  svgProb.innerHTML = html;
+}
+probSlider.addEventListener('input', renderProb);
+renderProb();
+
+// ============================================================
+// 확률이 확 뛰는 지점
+// ============================================================
+const BAR_N = [5,10,15,20,23,30,40,50,70];
+const svgBar = document.getElementById('svgBar');
+const barFact = document.getElementById('barFact');
+
+function renderBar(){
+  const values = BAR_N.map(n=>birthdayProb(n)*100);
+  const CX0=30, CX1=440, CY0=170, CY1=20;
+  const barW = (CX1-CX0)/BAR_N.length - 10;
+  let html='';
+  const midY = CY0-(50/100)*(CY0-CY1);
+  html += `<line x1="${CX0}" y1="${midY}" x2="${CX1}" y2="${midY}" stroke="var(--ink-soft)" stroke-width="1.5" stroke-dasharray="4 3"></line>`;
+  html += `<text x="${CX1}" y="${midY-6}" text-anchor="end" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">50%</text>`;
+  BAR_N.forEach((n,i)=>{
+    const v = values[i];
+    const h = (v/100)*(CY0-CY1);
+    const cx = CX0 + i*((CX1-CX0)/BAR_N.length) + ((CX1-CX0)/BAR_N.length)/2;
+    const isTarget = n===23;
+    html += `<rect x="${cx-barW/2}" y="${CY0-h}" width="${barW}" height="${h}" rx="6" fill="${isTarget?'var(--coral-ink)':(v>=50?'var(--coral-soft)':'var(--blue-soft)')}"></rect>`;
+    html += `<text x="${cx}" y="${CY0-h-8}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="10" fill="var(--ink-soft)">${v.toFixed(0)}%</text>`;
+    html += `<text x="${cx}" y="${CY0+18}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="${isTarget?'var(--coral-ink)':'var(--ink-soft)'}">${n}명</text>`;
+  });
+  html += `<line x1="${CX0}" y1="${CY0}" x2="${CX1}" y2="${CY0}" stroke="var(--paper-line)" stroke-width="2"></line>`;
+  svgBar.innerHTML = html;
+  barFact.innerHTML = `5명일 때는 겨우 ${values[0].toFixed(1)}%지만, 23명이 되면 ${values[4].toFixed(1)}%로 훌쩍 뛰어요. 70명이면 ${values[8].toFixed(1)}%로 거의 확실히 겹쳐요. 사람 수는 3배(23→70)로 늘었을 뿐인데, 확률은 이미 거의 100%에 다다라요.`;
+}
+renderBar();
+
+// ============================================================
+// 직접 뽑아보기
+// ============================================================
+const SIM_N = [10,23,40];
+let simIdx = 1;
+let simStats = {10:{trials:0,matches:0}, 23:{trials:0,matches:0}, 40:{trials:0,matches:0}};
+const simPresetRow = document.getElementById('simPresetRow');
+const bdayGridWrap = document.getElementById('bdayGridWrap');
+const simDrawBtn = document.getElementById('simDrawBtn');
+const simExpr = document.getElementById('simExpr');
+const simCheck = document.getElementById('simCheck');
+const simFact = document.getElementById('simFact');
+
+const MONTH_DAYS = [31,28,31,30,31,30,31,31,30,31,30,31];
+function dayToDate(day){
+  let d = day;
+  for(let m=0;m<12;m++){
+    if(d<=MONTH_DAYS[m]) return `${m+1}/${d}`;
+    d-=MONTH_DAYS[m];
+  }
+  return `12/31`;
+}
+
+function buildSimPresets(){
+  simPresetRow.innerHTML = SIM_N.map((n,i)=>`<button class="preset-btn" data-i="${i}">${n}명</button>`).join('');
+  simPresetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ simIdx = parseInt(btn.dataset.i); renderSimIdle(); });
+  });
+}
+
+function renderSimIdle(){
+  simPresetRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===simIdx));
+  const n = SIM_N[simIdx];
+  const stat = simStats[n];
+  bdayGridWrap.innerHTML = '';
+  simExpr.innerHTML = `${n}명의 이론적 확률 = <span class="unknown">${(birthdayProb(n)*100).toFixed(1)}%</span>`;
+  simCheck.innerHTML = stat.trials>0
+    ? `지금까지 ${stat.trials}번 뽑아서 ${stat.matches}번 겹쳤어요 (실제 비율 ${(stat.matches/stat.trials*100).toFixed(1)}%)`
+    : `아직 뽑지 않았어요. 버튼을 눌러보세요!`;
+  simFact.innerHTML = `여러 번 뽑을수록 실제 겹친 비율이 이론적 확률(${(birthdayProb(n)*100).toFixed(1)}%)에 점점 가까워지는 걸 확인할 수 있어요.`;
+}
+
+function drawBirthdays(){
+  const n = SIM_N[simIdx];
+  const days = Array.from({length:n}, ()=>randInt(1,365));
+  const counts = {};
+  days.forEach(d=>{ counts[d]=(counts[d]||0)+1; });
+  const hasMatch = Object.values(counts).some(c=>c>=2);
+
+  simStats[n].trials++;
+  if(hasMatch) simStats[n].matches++;
+  const stat = simStats[n];
+
+  bdayGridWrap.innerHTML = `<div class="bday-grid">${days.map(d=>`<span class="bday-chip ${counts[d]>=2?'match':''}">${dayToDate(d)}</span>`).join('')}</div>`;
+  simExpr.innerHTML = hasMatch ? `이번엔 <span class="unknown">생일이 겹쳤어요!</span> 🎉` : `이번엔 <span class="unknown">아무도 안 겹쳤어요</span>`;
+  simCheck.innerHTML = `지금까지 ${stat.trials}번 뽑아서 ${stat.matches}번 겹쳤어요 (실제 비율 ${(stat.matches/stat.trials*100).toFixed(1)}%, 이론값 ${(birthdayProb(n)*100).toFixed(1)}%)`;
+  simFact.innerHTML = hasMatch
+    ? `빨간색으로 표시된 날짜가 겹친 생일이에요. ${n}명 중 생일이 겹칠 이론적 확률은 ${(birthdayProb(n)*100).toFixed(1)}%였어요.`
+    : `이번엔 안 겹쳤지만, ${n}명 기준 겹칠 확률은 ${(birthdayProb(n)*100).toFixed(1)}%나 돼요. 버튼을 몇 번 더 눌러보세요.`;
+}
+buildSimPresets();
+renderSimIdle();
+simDrawBtn.addEventListener('click', drawBirthdays);
+
+// ============================================================
+// 퀴즈
+// ============================================================
+const quizQ = document.getElementById('quizQ');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextQuizBtn = document.getElementById('nextQuizBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+const triesNumEl = document.getElementById('triesNum');
+let score=0, tries=0, answered=false, quizAnswer=null;
+
+const TRUE_FALSE = [
+  {s:'23명이 모이면 생일이 겹칠 확률이 50%를 넘는다', a:'참'},
+  {s:'생일 역설은 "나와 생일이 같은 사람"을 찾는 확률을 다룬다', a:'거짓'},
+  {s:'70명이 모이면 생일이 겹칠 확률은 거의 100%에 가깝다', a:'참'},
+  {s:'인원수가 2배가 되면 짝의 수도 정확히 2배가 된다', a:'거짓'},
+  {s:'365명이 모이면 반드시 생일이 겹치는 두 사람이 있다는 것이 100% 확률과 같은 말이다', a:'거짓'},
+];
+
+function newQuizQuestion(){
+  answered=false;
+  quizFeedback.textContent='';
+  const type = Math.random();
+
+  if(type < 0.4){
+    const n = [10,15,20,23,25,30,40][randInt(0,6)];
+    const p = birthdayProb(n)*100;
+    quizAnswer = p>=50 ? '50% 이상' : '50% 미만';
+    quizQ.innerHTML = `${n}명이 모이면 생일이 겹칠 확률은 50% 이상일까요, 미만일까요?`;
+    renderOpts(['50% 이상','50% 미만'], v=>v);
+  } else if(type < 0.7){
+    const n = randInt(2,10);
+    quizAnswer = n*(n-1)/2;
+    quizQ.innerHTML = `${n}명이 있을 때 만들 수 있는 짝의 수는 몇 개일까요?`;
+    const opts = new Set([quizAnswer]);
+    while(opts.size<4){
+      const d = randInt(-3,3);
+      if(d!==0 && quizAnswer+d>0) opts.add(quizAnswer+d);
+    }
+    renderOpts([...opts].sort((a,b)=>a-b), v=>`${v}개`);
+  } else {
+    const item = TRUE_FALSE[randInt(0,TRUE_FALSE.length-1)];
+    quizAnswer = item.a;
+    quizQ.innerHTML = `"${item.s}" — 참일까요, 거짓일까요?`;
+    renderOpts(['참','거짓'], v=>v);
+  }
+}
+
+function renderOpts(opts, formatter){
+  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${formatter(o)}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered=true;
+      tries++;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      const chosen = btn.dataset.o;
+      const isCorrect = (typeof quizAnswer==='number') ? parseInt(chosen)===quizAnswer : chosen===quizAnswer;
+      if(isCorrect){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `아쉬워요! 정답은 ${quizAnswer}였어요. (정답 ${score} / 시도 ${tries})`;
+      }
+      scoreNumEl.textContent = score;
+      triesNumEl.textContent = tries;
+    });
+  });
+}
+nextQuizBtn.addEventListener('click', newQuizQuestion);
+newQuizQuestion();
+</script>
+</body>
+</html>

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>약수 사슬 실험실</title>
+<meta name="description" content="완전수, 친화수, 사교수 — 진약수의 합을 계속 구하면 다시 처음 수로 돌아오는 신기한 수들의 고리를 슬라이더와 버튼으로 직접 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.howto{background:var(--coral-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--coral-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.section-title{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink);margin:0 0 16px;display:flex;align-items:center;gap:8px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
+
+svg{width:100%;max-width:460px;height:auto;overflow:visible;display:block;margin:0 auto 18px;}
+
+.preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;}
+.preset-btn:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
+.preset-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+.slider-row{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+.slider-row label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);min-width:90px;}
+.slider-row input[type=range]{flex:1;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--coral-ink);min-width:56px;text-align:right;}
+
+.equation-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:24px;text-align:center;margin-bottom:16px;}
+.equation-box .expr{font-family:'Do Hyeon',sans-serif;font-size:clamp(20px,4vw,28px);color:var(--ink);}
+.equation-box .expr .unknown{color:var(--coral-ink);}
+.equation-box .check{font-size:14.5px;color:var(--ink-soft);margin-top:12px;}
+.equation-box .check b{color:var(--green-ink);}
+
+.fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--coral-ink);}
+.fact.ok{background:var(--green-soft);} .fact.ok b{color:var(--green-ink);}
+
+.cmp-row{margin-bottom:10px;}
+.cmp-label{font-family:'Do Hyeon',sans-serif;font-size:13.5px;color:var(--ink-soft);margin-bottom:6px;}
+.cmp-track{background:var(--paper);border:2px solid var(--paper-line);border-radius:10px;height:30px;overflow:hidden;}
+.cmp-fill{height:100%;display:flex;align-items:center;justify-content:flex-end;padding-right:10px;font-family:'Do Hyeon',sans-serif;color:#fff;font-size:13px;border-radius:8px 0 0 8px;transition:width .15s ease;}
+
+.badge{display:inline-block;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:5px 14px;border-radius:999px;margin-top:10px;}
+.badge.deficient{background:var(--blue-soft);color:var(--blue-ink);}
+.badge.perfect{background:var(--green-soft);color:var(--green-ink);}
+.badge.abundant{background:var(--coral-soft);color:var(--coral-ink);}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--coral-ink);}
+.quiz-q{font-size:15.5px;line-height:1.7;text-align:center;background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:20px;margin-bottom:16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
+.action-btn:hover{background:var(--coral-ink);}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-divisor-chain-numbers.html" style="color:#fff;background:var(--coral-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🔗 약수 사슬 실험실</span>
+  <h1>약수의 합이<br>다시 <span>나</span>를 가리킬 때</h1>
+  <p class="sub">어떤 수의 진약수(자기 자신을 뺀 약수)를 모두 더하면 새로운 수가 나와요. 그 수의 진약수를 또 더하고… 이렇게 계속하다 보면, 몇몇 신기한 수들은 결국 처음 출발했던 수로 다시 돌아오는 고리를 만들어요.</p>
+
+  <div class="howto">
+    <p>예를 들어 6의 진약수는 1, 2, 3이고 이걸 더하면 1+2+3=6, 바로 자기 자신이 나와요! 이렇게 <b>진약수의 합이 자기 자신과 같은 수</b>를 완전수라고 불러요 — 고리의 길이가 1인 셈이죠.</p>
+    <p>어떤 두 수는 서로를 가리켜요. A의 진약수 합이 B가 되고, B의 진약수 합이 다시 A가 되는 거예요. 이런 짝을 친화수라고 하고, 5개 이상의 수가 빙 돌면서 서로를 가리키면 사교수라고 불러요. 반대로 대부분의 수는 부족수 또는 과잉수로, 이런 고리를 만들지 못해요.</p>
+  </div>
+
+  <!-- ===== 완전수 ===== -->
+  <div class="stage">
+    <div class="section-title">🌀 완전수 — 자기 자신으로 돌아오는 고리</div>
+    <svg id="svgPerfect" viewBox="0 0 460 240"></svg>
+    <div class="preset-row" id="perfectPresetRow"></div>
+    <div class="equation-box">
+      <div class="expr" id="perfectExpr"></div>
+      <div class="check" id="perfectCheck"></div>
+    </div>
+    <div class="fact ok" id="perfectFact"></div>
+  </div>
+
+  <!-- ===== 친화수 ===== -->
+  <div class="stage">
+    <div class="section-title">🔁 친화수 — 서로를 가리키는 두 수</div>
+    <svg id="svgAmicable" viewBox="0 0 460 210"></svg>
+    <div class="preset-row" id="amicablePresetRow"></div>
+    <div class="equation-box">
+      <div class="expr" id="amicableExpr"></div>
+      <div class="check" id="amicableCheck"></div>
+    </div>
+    <div class="fact ok" id="amicableFact"></div>
+  </div>
+
+  <!-- ===== 사교수 ===== -->
+  <div class="stage">
+    <div class="section-title">⭕ 사교수 — 여러 수가 도는 큰 고리</div>
+    <svg id="svgChain" viewBox="0 0 460 300"></svg>
+    <div class="slider-row">
+      <label>고리 단계</label>
+      <input type="range" id="chainSlider" min="0" max="4" value="0" step="1">
+      <span class="val" id="chainVal">1 / 5</span>
+    </div>
+    <div class="equation-box">
+      <div class="expr" id="chainExpr"></div>
+      <div class="check" id="chainCheck"></div>
+    </div>
+    <div class="fact" id="chainFact"></div>
+  </div>
+
+  <!-- ===== 부족수 / 완전수 / 과잉수 ===== -->
+  <div class="stage">
+    <div class="section-title">⚖️ 부족수 · 완전수 · 과잉수 분류하기</div>
+    <div class="slider-row">
+      <label>숫자 선택</label>
+      <input type="range" id="classifySlider" min="2" max="220" value="6" step="1">
+      <span class="val" id="classifyVal">6</span>
+    </div>
+    <div class="cmp-row">
+      <div class="cmp-label">자기 자신</div>
+      <div class="cmp-track"><div class="cmp-fill" id="cmpN" style="background:var(--ink-soft);"></div></div>
+    </div>
+    <div class="cmp-row">
+      <div class="cmp-label">진약수의 합</div>
+      <div class="cmp-track"><div class="cmp-fill" id="cmpSum" style="background:var(--blue-ink);"></div></div>
+    </div>
+    <div class="equation-box">
+      <div class="expr" id="classifyExpr"></div>
+      <div class="check" id="classifyCheck"></div>
+      <div id="classifyBadge"></div>
+    </div>
+    <div class="fact" id="classifyFact"></div>
+  </div>
+
+  <!-- ===== 퀴즈 ===== -->
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 약수 사슬 퀴즈</h2>
+      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+    </div>
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextQuizBtn">➡ 다음 문제</button>
+  </div>
+
+<footer>완전수(고리 길이 1), 친화수(고리 길이 2), 사교수(고리 길이 3 이상) — 모두 "진약수의 합"이라는 같은 규칙에서 태어난 서로 다른 크기의 고리랍니다. 홀수 완전수가 있는지는 2,000년이 넘도록 아직 아무도 증명하지 못한 문제예요.</footer>
+</div>
+
+<script>
+function fmt(v){ return (Math.round(v*100)/100).toString(); }
+function properDivisorsList(n){
+  let divs=[];
+  for(let i=1;i*i<=n;i++){
+    if(n%i===0){
+      if(i!==n) divs.push(i);
+      const j=n/i;
+      if(j!==n && j!==i) divs.push(j);
+    }
+  }
+  return divs.sort((a,b)=>a-b);
+}
+function properDivSum(n){ return properDivisorsList(n).reduce((a,b)=>a+b,0); }
+function arrowDefs(id,color){
+  return `<defs><marker id="${id}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="${color}"></path></marker></defs>`;
+}
+function randInt(min,max){ return min + Math.floor(Math.random()*(max-min+1)); }
+
+// ---------- 완전수 ----------
+const PERFECTS = [6, 28, 496, 8128];
+let perfectIdx = 0;
+const perfectPresetRow = document.getElementById('perfectPresetRow');
+const svgPerfect = document.getElementById('svgPerfect');
+const perfectExpr = document.getElementById('perfectExpr');
+const perfectCheck = document.getElementById('perfectCheck');
+const perfectFact = document.getElementById('perfectFact');
+
+function buildPerfectPresets(){
+  perfectPresetRow.innerHTML = PERFECTS.map((n,i)=>`<button class="preset-btn" data-i="${i}">${n}</button>`).join('');
+  perfectPresetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ perfectIdx = parseInt(btn.dataset.i); renderPerfect(); });
+  });
+}
+
+function renderPerfect(){
+  perfectPresetRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===perfectIdx));
+  const n = PERFECTS[perfectIdx];
+  const divs = properDivisorsList(n);
+  const sum = divs.reduce((a,b)=>a+b,0);
+
+  perfectExpr.innerHTML = `${divs.join(' + ')} = <span class="unknown">${sum}</span>`;
+  perfectCheck.innerHTML = `${n}의 진약수 ${divs.length}개를 모두 더한 값 = <b>${sum}</b>`;
+  perfectFact.innerHTML = `${n}의 진약수를 다 더하면 <b>${sum}</b> — 바로 ${n} 자기 자신이에요! 그래서 ${n}은 완전수예요. 고리로 보면 ${n} → (진약수 합) → ${n}, 딱 한 걸음만에 제자리로 돌아와요.`;
+
+  const CX=230, CY=64, R_N=32;
+  const k = divs.length;
+  const rDiv = k<=5?20:(k<=9?16:12);
+  const fSize = k<=5?15:(k<=9?13:11);
+  const y2 = 160;
+  const xStart = 40, xEnd = 420;
+  const step = k>1 ? (xEnd-xStart)/(k-1) : 0;
+  const nodePos = divs.map((d,i)=>({d, x: k>1 ? xStart+step*i : (xStart+xEnd)/2, y:y2}));
+
+  let html = arrowDefs('arrPerfect','var(--green)');
+  nodePos.forEach(p=>{
+    html += `<line x1="${CX}" y1="${CY+R_N-4}" x2="${p.x}" y2="${p.y-rDiv-2}" stroke="var(--paper-line)" stroke-width="2"></line>`;
+  });
+  const sumY = 220;
+  html += `<rect x="${CX-86}" y="${sumY-20}" width="172" height="40" rx="14" fill="var(--paper)" stroke="var(--coral)" stroke-width="2"></rect>`;
+  html += `<text x="${CX}" y="${sumY+6}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--coral-ink)">합 = ${sum}</text>`;
+  nodePos.forEach(p=>{
+    html += `<line x1="${p.x}" y1="${p.y+rDiv+2}" x2="${CX}" y2="${sumY-20}" stroke="var(--coral)" stroke-width="1.5" opacity="0.55"></line>`;
+  });
+  html += `<path d="M ${CX+88} ${sumY} C ${400} ${(sumY+CY)/2}, ${400} ${CY}, ${CX+R_N+2} ${CY}" fill="none" stroke="var(--green)" stroke-width="3" marker-end="url(#arrPerfect)"></path>`;
+  html += `<text x="392" y="${(sumY+CY)/2}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--green-ink)">다시 나에게!</text>`;
+  html += `<circle cx="${CX}" cy="${CY}" r="${R_N}" fill="var(--ink)"></circle>`;
+  html += `<text x="${CX}" y="${CY+6}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="18" fill="#fff">${n}</text>`;
+  nodePos.forEach(p=>{
+    html += `<circle cx="${p.x}" cy="${p.y}" r="${rDiv}" fill="var(--coral-soft)" stroke="var(--coral)" stroke-width="2"></circle>`;
+    html += `<text x="${p.x}" y="${p.y+4}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="${fSize}" fill="var(--coral-ink)">${p.d}</text>`;
+  });
+  svgPerfect.innerHTML = html;
+}
+buildPerfectPresets();
+renderPerfect();
+
+// ---------- 친화수 ----------
+const AMICABLE = [[220,284],[1184,1210],[2620,2924],[5020,5564],[6232,6368]];
+let amicableIdx = 0;
+const amicablePresetRow = document.getElementById('amicablePresetRow');
+const svgAmicable = document.getElementById('svgAmicable');
+const amicableExpr = document.getElementById('amicableExpr');
+const amicableCheck = document.getElementById('amicableCheck');
+const amicableFact = document.getElementById('amicableFact');
+
+function buildAmicablePresets(){
+  amicablePresetRow.innerHTML = AMICABLE.map((p,i)=>`<button class="preset-btn" data-i="${i}">${p[0]} : ${p[1]}</button>`).join('');
+  amicablePresetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ amicableIdx = parseInt(btn.dataset.i); renderAmicable(); });
+  });
+}
+
+function renderAmicable(){
+  amicablePresetRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===amicableIdx));
+  const [a,b] = AMICABLE[amicableIdx];
+  const sumA = properDivSum(a), sumB = properDivSum(b);
+
+  amicableExpr.innerHTML = `${a} ⇄ <span class="unknown">${b}</span>`;
+  amicableCheck.innerHTML = `${a}의 진약수 합 = <b>${sumB}</b>, &nbsp; ${b}의 진약수 합 = <b>${sumA}</b>`;
+  amicableFact.innerHTML = `${a}의 진약수를 다 더하면 <b>${sumB}</b>가 되고, 거꾸로 ${b}의 진약수를 다 더하면 <b>${sumA}</b>가 돼요. 두 수가 딱 서로를 가리키는 짝이에요 — 이게 친화수예요.`;
+
+  const CXA=125, CXB=335, CY=100, R=42;
+  let html = arrowDefs('arrAmA','var(--coral)') + arrowDefs('arrAmB','var(--blue)');
+  html += `<path d="M ${CXA+R-4} ${CY-18} C ${(CXA+CXB)/2} ${CY-85}, ${(CXA+CXB)/2} ${CY-85}, ${CXB-R+4} ${CY-18}" fill="none" stroke="var(--coral)" stroke-width="3" marker-end="url(#arrAmA)"></path>`;
+  html += `<text x="${(CXA+CXB)/2}" y="${CY-62}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--coral-ink)">약수의 합 = ${sumA}</text>`;
+  html += `<path d="M ${CXB-R+4} ${CY+18} C ${(CXA+CXB)/2} ${CY+85}, ${(CXA+CXB)/2} ${CY+85}, ${CXA+R-4} ${CY+18}" fill="none" stroke="var(--blue)" stroke-width="3" marker-end="url(#arrAmB)"></path>`;
+  html += `<text x="${(CXA+CXB)/2}" y="${CY+76}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--blue-ink)">약수의 합 = ${sumB}</text>`;
+  html += `<circle cx="${CXA}" cy="${CY}" r="${R}" fill="var(--coral)"></circle>`;
+  html += `<text x="${CXA}" y="${CY+6}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="18" fill="#fff">${a}</text>`;
+  html += `<circle cx="${CXB}" cy="${CY}" r="${R}" fill="var(--blue-ink)"></circle>`;
+  html += `<text x="${CXB}" y="${CY+6}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="18" fill="#fff">${b}</text>`;
+  svgAmicable.innerHTML = html;
+}
+buildAmicablePresets();
+renderAmicable();
+
+// ---------- 사교수 ----------
+const CHAIN = [12496, 14288, 15472, 14536, 14264];
+const chainSlider = document.getElementById('chainSlider');
+const chainVal = document.getElementById('chainVal');
+const svgChain = document.getElementById('svgChain');
+const chainExpr = document.getElementById('chainExpr');
+const chainCheck = document.getElementById('chainCheck');
+const chainFact = document.getElementById('chainFact');
+
+const CCX=230, CCY=150, CRADIUS=112, CNODE_R=36;
+const chainPositions = CHAIN.map((n,i)=>{
+  const ang = -Math.PI/2 + i*(2*Math.PI/CHAIN.length);
+  return {n, x: CCX+CRADIUS*Math.cos(ang), y: CCY+CRADIUS*Math.sin(ang)};
+});
+
+function renderChain(){
+  const step = parseInt(chainSlider.value,10);
+  chainVal.textContent = `${step+1} / 5`;
+  const from = CHAIN[step], to = CHAIN[(step+1)%CHAIN.length];
+  const sum = properDivSum(from);
+
+  chainExpr.innerHTML = `${from}의 진약수 합 = <span class="unknown">${sum}</span>`;
+  const isLast = step===CHAIN.length-1;
+  chainCheck.innerHTML = isLast ? `처음 출발했던 ${CHAIN[0]}과 정확히 같아요!` : `다음 수인 ${to}로 정확히 이어져요.`;
+  chainFact.innerHTML = isLast
+    ? `${from}의 진약수 합은 <b>${sum}</b>이고, 이건 맨 처음 출발했던 <b>${CHAIN[0]}</b>과 똑같아요! 다섯 개의 수가 빙 돌아서 제자리로 돌아온 거예요 — 이런 걸 5차 사교수 고리라고 해요.`
+    : `${from}에서 출발해 진약수를 모두 더하면 <b>${sum}</b>, 바로 다음 수인 ${to}가 나와요. 계속 이 과정을 반복하면 결국 처음 수로 되돌아와요.`;
+
+  let html = arrowDefs('arrChain','var(--ink-soft)') + arrowDefs('arrChainActive','var(--coral)');
+  chainPositions.forEach((p,i)=>{
+    const q = chainPositions[(i+1)%chainPositions.length];
+    const dx=q.x-p.x, dy=q.y-p.y, len=Math.hypot(dx,dy);
+    const ux=dx/len, uy=dy/len;
+    const x1=p.x+ux*CNODE_R, y1=p.y+uy*CNODE_R;
+    const x2=q.x-ux*(CNODE_R+6), y2=q.y-uy*(CNODE_R+6);
+    const active = i===step;
+    html += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${active?'var(--coral)':'var(--paper-line)'}" stroke-width="${active?3.5:2}" marker-end="url(#${active?'arrChainActive':'arrChain'})"></line>`;
+  });
+  chainPositions.forEach((p,i)=>{
+    const active = i===step || i===(step+1)%CHAIN.length;
+    html += `<circle cx="${p.x}" cy="${p.y}" r="${CNODE_R}" fill="${active?'var(--coral)':'var(--blue-ink)'}"></circle>`;
+    html += `<text x="${p.x}" y="${p.y+5}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="#fff">${p.n}</text>`;
+  });
+  svgChain.innerHTML = html;
+}
+chainSlider.addEventListener('input', renderChain);
+renderChain();
+
+// ---------- 부족수 / 완전수 / 과잉수 ----------
+const classifySlider = document.getElementById('classifySlider');
+const classifyVal = document.getElementById('classifyVal');
+const cmpN = document.getElementById('cmpN');
+const cmpSum = document.getElementById('cmpSum');
+const classifyExpr = document.getElementById('classifyExpr');
+const classifyCheck = document.getElementById('classifyCheck');
+const classifyBadge = document.getElementById('classifyBadge');
+const classifyFact = document.getElementById('classifyFact');
+
+function renderClassify(){
+  const n = parseInt(classifySlider.value,10);
+  classifyVal.textContent = n;
+  const divs = properDivisorsList(n);
+  const sum = divs.reduce((a,b)=>a+b,0);
+  const maxV = Math.max(n,sum,1);
+
+  cmpN.style.width = (n/maxV*100)+'%';
+  cmpN.textContent = n;
+  cmpSum.style.width = (sum/maxV*100)+'%';
+  cmpSum.textContent = sum;
+
+  let cls,label,msg;
+  if(sum<n){ cls='deficient'; label='부족수'; msg=`진약수 합(${sum})이 ${n}보다 작아요. 자연수 대부분은 부족수예요.`; }
+  else if(sum===n){ cls='perfect'; label='완전수'; msg=`진약수 합(${sum})이 ${n}과 정확히 같아요! 아주 드문 완전수를 찾았어요.`; }
+  else { cls='abundant'; label='과잉수'; msg=`진약수 합(${sum})이 ${n}보다 커요. 약수가 많은 수에서 자주 나타나요.`; }
+
+  classifyExpr.innerHTML = `진약수 합 ${sum} ${sum<n?'<':(sum>n?'>':'=')} ${n}`;
+  classifyCheck.textContent = `${n}의 진약수: ${divs.join(', ')}`;
+  classifyBadge.innerHTML = `<span class="badge ${cls}">${label}</span>`;
+  classifyFact.innerHTML = msg;
+}
+classifySlider.addEventListener('input', renderClassify);
+renderClassify();
+
+// ---------- 퀴즈 ----------
+const quizQ = document.getElementById('quizQ');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextQuizBtn = document.getElementById('nextQuizBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+const triesNumEl = document.getElementById('triesNum');
+let score = 0, tries = 0, answered = false, quizAnswer = null;
+
+function distractors(answer, count, minGap){
+  const opts = new Set([answer]);
+  let guard = 0;
+  while(opts.size < count+1 && guard < 300){
+    guard++;
+    const delta = randInt(-minGap*3, minGap*3);
+    const cand = answer+delta;
+    if(delta!==0 && cand>0) opts.add(cand);
+  }
+  let extra = minGap;
+  while(opts.size < count+1){ opts.add(answer+extra); extra+=minGap; }
+  return [...opts];
+}
+
+function newQuizQuestion(){
+  answered = false;
+  quizFeedback.textContent = '';
+  const type = Math.random();
+
+  if(type < 0.5){
+    const n = randInt(4,60);
+    const sum = properDivSum(n);
+    quizAnswer = sum;
+    quizQ.innerHTML = `${n}의 진약수를 모두 더하면 얼마일까요?`;
+    renderOpts(distractors(sum,3,2).sort(()=>Math.random()-0.5), v=>`${v}`);
+  } else {
+    const pool = [6,8,10,12,15,18,20,21,24,28,30,33,36,40,42,45,48,66,88,100,102,104,112,120,150,220,284,496];
+    const n = pool[randInt(0,pool.length-1)];
+    const sum = properDivSum(n);
+    const answer = sum<n ? '부족수' : (sum===n ? '완전수' : '과잉수');
+    quizAnswer = answer;
+    quizQ.innerHTML = `${n}은(는) 부족수, 완전수, 과잉수 중 무엇일까요?`;
+    renderOpts(['부족수','완전수','과잉수'], v=>v);
+  }
+}
+
+function renderOpts(opts, formatter){
+  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${formatter(o)}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered = true;
+      tries++;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      const chosen = btn.dataset.o;
+      const isCorrect = (typeof quizAnswer === 'number') ? parseInt(chosen)===quizAnswer : chosen===quizAnswer;
+      if(isCorrect){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `아쉬워요! 정답은 ${quizAnswer}였어요. (정답 ${score} / 시도 ${tries})`;
+      }
+      scoreNumEl.textContent = score;
+      triesNumEl.textContent = tries;
+    });
+  });
+}
+nextQuizBtn.addEventListener('click', newQuizQuestion);
+newQuizQuestion();
+</script>
+</body>
+</html>

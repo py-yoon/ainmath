@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>RSA 암호 실험실</title>
+<meta name="description" content="큰 수를 소인수분해하기 어렵다는 사실이 어떻게 인터넷 보안의 열쇠가 되는지, 작은 숫자로 RSA 암호의 원리를 직접 체험해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue-ink);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.howto{background:var(--blue-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--blue-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.3vw,42px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--blue-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.section-title{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink);margin:0 0 16px;display:flex;align-items:center;gap:8px;}
+.section-sub{color:var(--ink-soft);font-size:14.5px;line-height:1.7;margin:-8px 0 18px;max-width:62ch;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
+
+svg{width:100%;max-width:460px;height:auto;overflow:visible;display:block;margin:0 auto 18px;}
+
+.preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;justify-content:center;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;}
+.preset-btn:hover{border-color:var(--blue-ink);color:var(--blue-ink);}
+.preset-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+.slider-row{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+.slider-row label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);min-width:96px;}
+.slider-row input[type=range]{flex:1;-webkit-appearance:none;height:8px;border-radius:999px;background:var(--blue-soft);outline:none;}
+.slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--blue-ink);border:4px solid #fff;box-shadow:0 2px 8px rgba(13,98,241,0.4);cursor:pointer;}
+.slider-row input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--blue-ink);border:4px solid #fff;box-shadow:0 2px 8px rgba(13,98,241,0.4);cursor:pointer;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--blue-ink);min-width:56px;text-align:right;}
+
+.equation-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:24px;text-align:center;margin-bottom:16px;}
+.equation-box .expr{font-family:'Do Hyeon',sans-serif;font-size:clamp(16px,3.2vw,22px);color:var(--ink);word-break:break-word;}
+.equation-box .expr .unknown{color:var(--blue-ink);}
+.equation-box .check{font-size:14.5px;color:var(--ink-soft);margin-top:12px;}
+.equation-box .check b{color:var(--green-ink);}
+.equation-box .steps{font-size:14px;color:var(--ink-soft);margin-top:14px;line-height:1.9;text-align:left;max-width:340px;margin-left:auto;margin-right:auto;}
+.equation-box .steps b{color:var(--blue-ink);}
+
+.fact{background:var(--blue-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--blue-ink);}
+.fact.ok{background:var(--green-soft);} .fact.ok b{color:var(--green-ink);}
+.fact.warn{background:var(--coral-soft);} .fact.warn b{color:var(--coral-ink);}
+
+.badge{display:inline-block;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:5px 14px;border-radius:999px;margin-top:10px;}
+.badge.easy{background:var(--green-soft);color:var(--green-ink);}
+.badge.hard{background:var(--coral-soft);color:var(--coral-ink);}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--blue-ink);}
+.quiz-q{font-size:15.5px;line-height:1.7;text-align:center;background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:20px;margin-bottom:16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--blue-ink);color:var(--blue-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
+.action-btn:hover{background:var(--blue-ink);}
+.action-btn.secondary{background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.action-btn.secondary:hover{background:var(--paper);color:var(--blue-ink);border-color:var(--blue-ink);}
+.action-btn:disabled{opacity:0.5;cursor:not-allowed;}
+
+.guess-row{display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:16px;flex-wrap:wrap;}
+.guess-input{font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--ink);background:var(--paper);border:2px solid var(--paper-line);border-radius:12px;padding:10px 14px;width:150px;text-align:center;}
+.guess-input:focus{outline:none;border-color:var(--blue-ink);}
+.guess-row .action-btn{margin:0;}
+.guess-log{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:16px;min-height:28px;}
+.guess-chip{font-family:'Do Hyeon',sans-serif;font-size:13px;border-radius:8px;padding:5px 10px;background:var(--coral-soft);color:var(--coral-ink);border:2px solid var(--coral-ink);}
+.guess-chip.right{background:var(--green-soft);color:var(--green-ink);border-color:var(--green-ink);}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-rsa-encryption-lab.html" style="color:#fff;background:var(--blue-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🔐 RSA 암호 실험실</span>
+  <h1>소인수분해가 어렵다는 사실이<br>어떻게 <span>인터넷 보안</span>이 될까?</h1>
+  <p class="sub">우리가 매일 쓰는 인터넷 뱅킹, 로그인, 메신저는 전부 암호화되어 있어요. 그 암호화의 핵심에는 아주 단순한 수학적 사실이 있어요 — "두 소수를 곱하는 건 쉽지만, 그 곱을 다시 두 소수로 나누는 건 아주 어렵다"는 거예요. 작은 숫자로 그 원리를 직접 체험해봐요 (일부 내용은 고등학교 수준이에요).</p>
+
+  <div class="howto">
+    <p>15 = 3×5라는 걸 확인하는 건 순식간이에요. 그런데 거꾸로 "15를 소인수분해하면?"이라는 질문도 여전히 쉬워요. 문제는 숫자가 커질 때예요. 두 소수를 곱해서 600자리가 넘는 큰 수를 만드는 건 컴퓨터로 순식간이지만, 그 큰 수만 보고 원래 두 소수를 찾아내는 건 슈퍼컴퓨터로도 사실상 불가능해요. RSA 암호는 이 "곱하기는 쉽지만 나누기(인수분해)는 어렵다"는 비대칭성을 열쇠로 사용해요.</p>
+  </div>
+
+  <!-- ===== 소인수분해는 왜 어려울까 ===== -->
+  <div class="stage">
+    <div class="section-title">🔢 소인수분해는 왜 어려울까? — 직접 찾아보기</div>
+    <p class="section-sub">숫자를 고르고, 그 수를 나누어떨어지게 하는 약수를 직접 입력해서 찾아보세요. 몇 번 만에 찾는지 세어보면 숫자가 커질수록 얼마나 힘들어지는지 몸으로 느낄 수 있어요.</p>
+    <svg id="svgFactor" viewBox="0 0 460 110"></svg>
+    <div class="preset-row" id="factorPresetRow"></div>
+    <div class="guess-row">
+      <input id="factorGuessInput" class="guess-input" type="number" min="2" placeholder="약수를 입력해보세요">
+      <button class="action-btn" id="factorGuessBtn">확인</button>
+      <button class="action-btn secondary" id="factorRevealBtn">🙈 포기하고 정답 보기</button>
+    </div>
+    <div class="guess-log" id="factorGuessLog"></div>
+    <div class="equation-box">
+      <div class="expr" id="factorExpr"></div>
+      <div class="check" id="factorCheck"></div>
+      <div id="factorBadge"></div>
+    </div>
+    <div class="fact" id="factorFact"></div>
+  </div>
+
+  <!-- ===== RSA 키 만들기 ===== -->
+  <div class="stage">
+    <div class="section-title">🔑 RSA 키 만들기 (작은 숫자로)</div>
+    <p class="section-sub">진짜 RSA는 수백 자리 소수를 쓰지만, 원리를 보기 위해 p=5, q=11이라는 아주 작은 소수로 키를 만들어봐요.</p>
+    <svg id="svgKey" viewBox="0 0 460 160"></svg>
+    <div class="preset-row" id="keyPresetRow"></div>
+    <div class="equation-box">
+      <div class="expr" id="keyExpr"></div>
+      <div class="steps" id="keySteps"></div>
+    </div>
+    <div class="fact" id="keyFact"></div>
+  </div>
+
+  <!-- ===== 암호화와 복호화 ===== -->
+  <div class="stage">
+    <div class="section-title">✉️ 암호화와 복호화 체험</div>
+    <p class="section-sub">메시지를 숫자 하나(m)라고 생각해봐요. 공개키(e)로 암호화하고, 나만 아는 비밀키(d)로 다시 원래 숫자로 복호화해봐요.</p>
+    <svg id="svgCrypt" viewBox="0 0 460 140"></svg>
+    <div class="preset-row" id="cryptPresetRow"></div>
+    <div class="equation-box">
+      <div class="expr" id="cryptExpr"></div>
+      <div class="check" id="cryptCheck"></div>
+    </div>
+    <div class="fact ok" id="cryptFact"></div>
+  </div>
+
+  <div class="stage">
+    <div class="section-title">🕵️ 왜 안전할까?</div>
+    <div class="fact" style="max-width:66ch;">
+      <p style="margin:0 0 10px;">암호화에 쓰는 공개키(n과 e)는 누구나 볼 수 있어요. 그런데 이걸로 원래 메시지를 알아내려면 <b>n을 소인수분해해서 p와 q를 찾아야</b> 해요. 우리가 쓴 예제(n=55)는 5×11로 3초면 풀리지만, 실제 RSA는 n이 600자리가 넘는 수예요.</p>
+      <p style="margin:0;">이런 크기의 수는 지금 있는 모든 컴퓨터를 다 동원해도 우주의 나이보다 오랜 시간이 걸릴 거라고 추정돼요. 그래서 n을 공개해도 안전해요 — 소인수분해가 어렵다는 "수학적으로 증명되진 않았지만 실제로 아무도 빠른 방법을 못 찾은" 사실이 우리의 온라인 보안을 지켜주고 있는 셈이에요.</p>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="section-title">🔮 RSA 말고 다른 암호도 있을까?</div>
+    <div class="fact" style="max-width:66ch;">
+      <p style="margin:0 0 10px;"><b>타원곡선 암호(ECC)</b>는 소인수분해 대신 "타원곡선 위의 이산로그 문제"라는 또 다른 어려운 수학 문제를 이용해요. 원리는 다르지만 목적은 같아요 — 한쪽 방향(계산)은 쉽고 반대 방향(역산)은 아주 어려운 수학 문제를 찾는 거죠. ECC는 RSA보다 훨씬 짧은 키로 비슷한 수준의 안전성을 낼 수 있어서, 배터리와 처리 능력이 부족한 스마트폰이나 IoT 기기, 비트코인 같은 암호화폐 지갑에 특히 많이 쓰여요.</p>
+      <p style="margin:0 0 10px;"><b>양자컴퓨터라는 새로운 위협</b>도 있어요. 쇼어 알고리즘이라는 양자 알고리즘은 이론적으로 소인수분해와 이산로그 문제를 훨씬 빠르게 풀 수 있다고 알려져 있어요. 지금 수준의 양자컴퓨터로는 아직 실제 RSA를 깰 수 없지만, 앞으로 크고 안정적인 양자컴퓨터가 만들어지면 RSA와 ECC 둘 다 위험해질 수 있어요.</p>
+      <p style="margin:0;">그래서 <b>양자컴퓨터로도 풀기 어려운 새로운 수학 문제</b>(예: 격자 문제)를 기반으로 한 "포스트 양자 암호"가 활발히 연구되고 있어요. 미국 표준기술연구소(NIST)는 2024년에 이런 포스트 양자 암호의 첫 공식 표준을 발표했고, 앞으로 점차 지금의 RSA·ECC를 대체하거나 함께 쓰일 걸로 예상돼요.</p>
+    </div>
+  </div>
+
+  <!-- ===== 퀴즈 ===== -->
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 RSA 암호 퀴즈</h2>
+      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+    </div>
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextQuizBtn">➡ 다음 문제</button>
+  </div>
+
+<footer>RSA는 1977년 리베스트, 샤미르, 애들먼(이름의 첫 글자를 따서 RSA) 세 사람이 만들었어요. 지금도 인터넷 보안(HTTPS), 전자서명, 암호화폐 등 곳곳에서 이 원리가 쓰이고 있어요.</footer>
+</div>
+
+<script>
+function randInt(min,max){ return min + Math.floor(Math.random()*(max-min+1)); }
+function factorize(n){
+  let factors=[];
+  let x=n;
+  for(let d=2; d*d<=x; d++){
+    while(x%d===0){ factors.push(d); x/=d; }
+  }
+  if(x>1) factors.push(x);
+  return factors;
+}
+
+// ============================================================
+// 소인수분해는 왜 어려울까 — 직접 찾아보기
+// ============================================================
+const FACTOR_EXAMPLES = [
+  {n:15, level:'easy'}, {n:91, level:'easy'}, {n:323, level:'medium'}, {n:3233, level:'hard'}
+];
+let factorIdx = 0;
+let factorState = {}; // per-n: {attempts, solved, guesses:[]}
+const factorPresetRow = document.getElementById('factorPresetRow');
+const svgFactor = document.getElementById('svgFactor');
+const factorGuessInput = document.getElementById('factorGuessInput');
+const factorGuessBtn = document.getElementById('factorGuessBtn');
+const factorRevealBtn = document.getElementById('factorRevealBtn');
+const factorGuessLog = document.getElementById('factorGuessLog');
+const factorExpr = document.getElementById('factorExpr');
+const factorCheck = document.getElementById('factorCheck');
+const factorBadge = document.getElementById('factorBadge');
+const factorFact = document.getElementById('factorFact');
+
+function buildFactorPresets(){
+  factorPresetRow.innerHTML = FACTOR_EXAMPLES.map((f,i)=>`<button class="preset-btn" data-i="${i}">${f.n}</button>`).join('');
+  factorPresetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ factorIdx = parseInt(btn.dataset.i); factorGuessInput.value=''; renderFactor(); });
+  });
+}
+
+function getFactorState(n){
+  if(!factorState[n]) factorState[n] = {attempts:0, solved:false, guesses:[]};
+  return factorState[n];
+}
+
+function renderFactor(){
+  factorPresetRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===factorIdx));
+  const f = FACTOR_EXAMPLES[factorIdx];
+  const factors = factorize(f.n);
+  const st = getFactorState(f.n);
+  const levelLabel = {easy:'쉬움', medium:'조금 어려움', hard:'꽤 오래 걸림'}[f.level];
+
+  factorGuessLog.innerHTML = st.guesses.map(g=>`<span class="guess-chip ${g.right?'right':''}">${g.value} ${g.right?'✓':'✕'}</span>`).join('');
+
+  if(st.solved){
+    factorExpr.innerHTML = `${f.n} = <span class="unknown">${factors.join(' × ')}</span>`;
+    factorCheck.innerHTML = st.attempts>0 ? `${st.attempts}번 만에 찾았어요!` : `정답을 확인했어요.`;
+    factorBadge.innerHTML = f.level==='easy' ? `<span class="badge easy">암산으로 가능</span>` : `<span class="badge hard">계산이 필요해요</span>`;
+    factorFact.innerHTML = f.n<100
+      ? `${f.n}은 숫자가 작아서 몇 번 안 걸려 ${factors.join('×')}를 찾을 수 있었을 거예요.`
+      : `${f.n}을 찾는 데 ${st.attempts>0?`${st.attempts}번의 시도가 필요했어요(${factors.join('×')})`:'시도 없이 정답을 확인했어요'}. 실제 RSA에서 쓰는 수는 이보다 자릿수가 200배 넘게 길어요 — 이런 식으로 하나씩 나눠보는 방법으로는 우주의 나이만큼 시간이 걸려도 못 찾아요.`;
+    renderFactorSvg(f.n, factors, true);
+  } else {
+    factorExpr.innerHTML = `${f.n} = <span class="unknown">?</span> × <span class="unknown">?</span>`;
+    factorCheck.innerHTML = st.attempts===0 ? `아직 시도하지 않았어요. 약수를 입력해보세요!` : `${st.attempts}번 시도했어요. 계속해보세요!`;
+    factorBadge.innerHTML = `<span class="badge ${f.level==='easy'?'easy':'hard'}">체감 난이도: ${levelLabel}</span>`;
+    factorFact.innerHTML = `${f.n}을 나누어떨어지게 하는 수(1과 자기 자신 빼고)를 찾아보세요. 2부터 하나씩 나눠봐도 되고, 감으로 찍어봐도 좋아요.`;
+    renderFactorSvg(f.n, null, false);
+  }
+}
+
+function renderFactorSvg(n, factors, solved){
+  const CX=230;
+  let html='';
+  html += `<rect x="${CX-110}" y="20" width="220" height="50" rx="14" fill="var(--blue-soft)" stroke="var(--blue-ink)" stroke-width="2"></rect>`;
+  html += `<text x="${CX}" y="52" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="22" fill="var(--blue-ink)">${n}</text>`;
+  if(solved){
+    html += `<text x="${CX}" y="90" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--green-ink)">= ${factors.join(' × ')}</text>`;
+  } else {
+    html += `<text x="${CX}" y="90" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--ink-soft)">= ? × ?</text>`;
+  }
+  svgFactor.innerHTML = html;
+}
+
+function submitFactorGuess(){
+  const f = FACTOR_EXAMPLES[factorIdx];
+  const st = getFactorState(f.n);
+  if(st.solved) return;
+  const guess = parseInt(factorGuessInput.value,10);
+  if(!guess || guess<2 || guess>=f.n){
+    factorCheck.innerHTML = `2부터 ${f.n-1} 사이의 수를 입력해보세요.`;
+    return;
+  }
+  st.attempts++;
+  const isRight = f.n % guess === 0;
+  st.guesses.push({value:guess, right:isRight});
+  if(isRight){
+    st.solved = true;
+  }
+  factorGuessInput.value='';
+  renderFactor();
+}
+factorGuessBtn.addEventListener('click', submitFactorGuess);
+factorGuessInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') submitFactorGuess(); });
+factorRevealBtn.addEventListener('click', ()=>{
+  const f = FACTOR_EXAMPLES[factorIdx];
+  const st = getFactorState(f.n);
+  st.solved = true;
+  renderFactor();
+});
+buildFactorPresets();
+renderFactor();
+
+// ============================================================
+// RSA 키 만들기
+// ============================================================
+const p=5, q=11, n=55, phi=40;
+const KEY_OPTIONS = [{e:3,d:27},{e:7,d:23}];
+let keyIdx = 0;
+const keyPresetRow = document.getElementById('keyPresetRow');
+const svgKey = document.getElementById('svgKey');
+const keyExpr = document.getElementById('keyExpr');
+const keySteps = document.getElementById('keySteps');
+const keyFact = document.getElementById('keyFact');
+
+function buildKeyPresets(){
+  keyPresetRow.innerHTML = KEY_OPTIONS.map((k,i)=>`<button class="preset-btn" data-i="${i}">e = ${k.e}</button>`).join('');
+  keyPresetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ keyIdx = parseInt(btn.dataset.i); renderKey(); });
+  });
+}
+
+function renderKey(){
+  keyPresetRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===keyIdx));
+  const {e,d} = KEY_OPTIONS[keyIdx];
+
+  keyExpr.innerHTML = `공개키 (n=${n}, e=${e}) &nbsp; / &nbsp; 비밀키 d = <span class="unknown">${d}</span>`;
+  keySteps.innerHTML = `
+    <div>1. 소수 두 개 고르기: p=<b>${p}</b>, q=<b>${q}</b></div>
+    <div>2. n = p×q = ${p}×${q} = <b>${n}</b></div>
+    <div>3. φ(n) = (p−1)(q−1) = ${p-1}×${q-1} = <b>${phi}</b></div>
+    <div>4. φ(n)과 서로소인 e 선택: e = <b>${e}</b></div>
+    <div>5. e×d ≡ 1 (mod φ(n))을 만족하는 d 찾기: d = <b>${d}</b></div>
+  `;
+  keyFact.innerHTML = `공개키 (n=${n}, e=${e})는 누구에게나 알려줘도 돼요. 하지만 비밀키 d=${d}는 나만 가지고 있어야 해요. d를 구하려면 φ(n)을 알아야 하는데, φ(n)을 구하려면 n을 소인수분해해서 p, q를 알아내야 해요 — 그래서 n을 소인수분해하기 어려울수록 이 시스템이 안전해져요.`;
+
+  const CX=230;
+  let html='';
+  html += `<rect x="${CX-190}" y="20" width="180" height="90" rx="14" fill="var(--green-soft)" stroke="var(--green-ink)" stroke-width="2"></rect>`;
+  html += `<text x="${CX-100}" y="45" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--green-ink)">공개키 (모두에게)</text>`;
+  html += `<text x="${CX-100}" y="72" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--green-ink)">n = ${n}</text>`;
+  html += `<text x="${CX-100}" y="95" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--green-ink)">e = ${e}</text>`;
+
+  html += `<rect x="${CX+10}" y="20" width="180" height="90" rx="14" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="2"></rect>`;
+  html += `<text x="${CX+100}" y="45" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral-ink)">비밀키 (나만)</text>`;
+  html += `<text x="${CX+100}" y="72" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--coral-ink)">d = ${d}</text>`;
+  html += `<text x="${CX+100}" y="95" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral-ink)">(p=${p}, q=${q} 알아야 계산 가능)</text>`;
+  svgKey.innerHTML = html;
+}
+buildKeyPresets();
+renderKey();
+
+// ============================================================
+// 암호화와 복호화
+// ============================================================
+const CRYPT_MESSAGES = [2,4,7,9,10];
+let cryptIdx = 1;
+const cryptPresetRow = document.getElementById('cryptPresetRow');
+const svgCrypt = document.getElementById('svgCrypt');
+const cryptExpr = document.getElementById('cryptExpr');
+const cryptCheck = document.getElementById('cryptCheck');
+const cryptFact = document.getElementById('cryptFact');
+
+function modPow(base, exp, mod){
+  let result=1; base=base%mod;
+  while(exp>0){
+    if(exp%2===1) result=(result*base)%mod;
+    exp=Math.floor(exp/2);
+    base=(base*base)%mod;
+  }
+  return result;
+}
+
+function buildCryptPresets(){
+  cryptPresetRow.innerHTML = CRYPT_MESSAGES.map((m,i)=>`<button class="preset-btn" data-i="${i}">m = ${m}</button>`).join('');
+  cryptPresetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ cryptIdx = parseInt(btn.dataset.i); renderCrypt(); });
+  });
+}
+
+function renderCrypt(){
+  cryptPresetRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===cryptIdx));
+  const {e,d} = KEY_OPTIONS[keyIdx];
+  const m = CRYPT_MESSAGES[cryptIdx];
+  const c = modPow(m,e,n);
+  const m2 = modPow(c,d,n);
+
+  cryptExpr.innerHTML = `${m} → 암호화 → <span class="unknown">${c}</span> → 복호화 → ${m2}`;
+  cryptCheck.innerHTML = `암호화: ${m}<sup>${e}</sup> mod ${n} = ${c} &nbsp; / &nbsp; 복호화: ${c}<sup>${d}</sup> mod ${n} = ${m2}`;
+  cryptFact.innerHTML = `원래 메시지 ${m}이 암호문 ${c}로 바뀌었다가, 비밀키로 다시 정확히 ${m2}으로 돌아왔어요! 중간에 암호문 ${c}만 본 사람은 d를 모르면 원래 메시지를 알아낼 수 없어요.`;
+
+  const CX0=40, CX1=440, Y=70;
+  let html='';
+  html += `<circle cx="${CX0}" cy="${Y}" r="30" fill="var(--blue-ink)"></circle>`;
+  html += `<text x="${CX0}" y="${Y+6}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="17" fill="#fff">${m}</text>`;
+  html += `<text x="${CX0}" y="${Y+48}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">원래 메시지</text>`;
+
+  html += `<text x="${(CX0+230)/2}" y="${Y-10}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="20" fill="var(--ink-soft)">→</text>`;
+  html += `<text x="${(CX0+230)/2}" y="${Y+30}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--green-ink)">^e mod n</text>`;
+
+  html += `<circle cx="230" cy="${Y}" r="30" fill="var(--coral-ink)"></circle>`;
+  html += `<text x="230" y="${Y+6}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="17" fill="#fff">${c}</text>`;
+  html += `<text x="230" y="${Y+48}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">암호문</text>`;
+
+  html += `<text x="${(230+CX1)/2}" y="${Y-10}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="20" fill="var(--ink-soft)">→</text>`;
+  html += `<text x="${(230+CX1)/2}" y="${Y+30}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--green-ink)">^d mod n</text>`;
+
+  html += `<circle cx="${CX1}" cy="${Y}" r="30" fill="var(--green-ink)"></circle>`;
+  html += `<text x="${CX1}" y="${Y+6}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="17" fill="#fff">${m2}</text>`;
+  html += `<text x="${CX1}" y="${Y+48}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">복원된 메시지</text>`;
+  svgCrypt.innerHTML = html;
+}
+buildCryptPresets();
+renderCrypt();
+
+// ============================================================
+// 퀴즈
+// ============================================================
+const quizQ = document.getElementById('quizQ');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextQuizBtn = document.getElementById('nextQuizBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+const triesNumEl = document.getElementById('triesNum');
+let score=0, tries=0, answered=false, quizAnswer=null;
+
+const TRUE_FALSE = [
+  {s:'RSA 암호에서 공개키는 아무에게나 알려줘도 안전하다', a:'참'},
+  {s:'RSA의 안전성은 소인수분해가 어렵다는 사실에 기반한다', a:'참'},
+  {s:'두 소수를 곱하는 것과 그 곱을 다시 소인수분해하는 것은 똑같이 쉽다', a:'거짓'},
+  {s:'실제 RSA에서 쓰는 소수는 우리 예제(5, 11)처럼 아주 작다', a:'거짓'},
+  {s:'비밀키 d는 n을 소인수분해해야 정확히 계산할 수 있다', a:'참'},
+  {s:'타원곡선 암호(ECC)는 RSA와 완전히 똑같은 수학 문제를 이용한다', a:'거짓'},
+  {s:'양자컴퓨터가 충분히 발전하면 RSA와 ECC 모두 위협받을 수 있다', a:'참'},
+];
+
+function newQuizQuestion(){
+  answered=false;
+  quizFeedback.textContent='';
+  const type = Math.random();
+
+  if(type < 0.35){
+    const f = FACTOR_EXAMPLES[randInt(0,FACTOR_EXAMPLES.length-1)];
+    const factors = factorize(f.n);
+    quizAnswer = factors.join('×');
+    quizQ.innerHTML = `${f.n}을 소인수분해하면?`;
+    const wrongs = new Set();
+    while(wrongs.size<3){
+      const a2 = factors[0]+randInt(-2,2);
+      const b2 = factors[1]+randInt(-2,2);
+      if(a2>1 && b2>1){
+        const cand = `${a2}×${b2}`;
+        if(cand!==quizAnswer) wrongs.add(cand);
+      }
+    }
+    renderOpts([quizAnswer,...wrongs].sort(()=>Math.random()-0.5), v=>v);
+  } else if(type < 0.65){
+    const {e,d} = KEY_OPTIONS[randInt(0,KEY_OPTIONS.length-1)];
+    const m = CRYPT_MESSAGES[randInt(0,CRYPT_MESSAGES.length-1)];
+    const c = modPow(m,e,n);
+    quizAnswer = c;
+    quizQ.innerHTML = `n=${n}, e=${e}일 때, m=${m}을 암호화(m<sup>e</sup> mod n)하면?`;
+    const opts = new Set([c]);
+    while(opts.size<4){
+      const d2 = randInt(-8,8);
+      if(d2!==0 && c+d2>=0 && c+d2<n) opts.add(c+d2);
+    }
+    renderOpts([...opts].sort((a,b)=>a-b), v=>`${v}`);
+  } else {
+    const item = TRUE_FALSE[randInt(0,TRUE_FALSE.length-1)];
+    quizAnswer = item.a;
+    quizQ.innerHTML = `"${item.s}" — 참일까요, 거짓일까요?`;
+    renderOpts(['참','거짓'], v=>v);
+  }
+}
+
+function renderOpts(opts, formatter){
+  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${formatter(o)}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered=true;
+      tries++;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      const chosen = btn.dataset.o;
+      const isCorrect = (typeof quizAnswer==='number') ? parseInt(chosen)===quizAnswer : chosen===quizAnswer;
+      if(isCorrect){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `아쉬워요! 정답은 ${quizAnswer}였어요. (정답 ${score} / 시도 ${tries})`;
+      }
+      scoreNumEl.textContent = score;
+      triesNumEl.textContent = tries;
+    });
+  });
+}
+nextQuizBtn.addEventListener('click', newQuizQuestion);
+newQuizQuestion();
+</script>
+</body>
+</html>

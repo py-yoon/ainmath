@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>거대한 수와 무한 실험실</title>
+<meta name="description" content="구골, 구골플렉스 같은 거대한 수부터 무한에도 크기가 있다는 칸토어의 발견까지 — 슬라이더와 버튼으로 직접 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+  --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--violet-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--violet-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.section-title{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink);margin:0 0 16px;display:flex;align-items:center;gap:8px;}
+.section-sub{color:var(--ink-soft);font-size:14.5px;line-height:1.7;margin:-8px 0 18px;max-width:62ch;}
+.subsection-title{font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--ink-soft);margin:26px 0 12px;padding-top:20px;border-top:2px dashed var(--paper-line);}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
+
+svg{width:100%;max-width:460px;height:auto;overflow:visible;display:block;margin:0 auto 18px;}
+
+.preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;justify-content:center;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;}
+.preset-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.preset-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+.slider-row{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+.slider-row label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);min-width:96px;}
+.slider-row input[type=range]{flex:1;-webkit-appearance:none;height:8px;border-radius:999px;background:var(--violet-soft);outline:none;}
+.slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--violet-ink);border:4px solid #fff;box-shadow:0 2px 8px rgba(104,71,247,0.4);cursor:pointer;}
+.slider-row input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--violet-ink);border:4px solid #fff;box-shadow:0 2px 8px rgba(104,71,247,0.4);cursor:pointer;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--violet-ink);min-width:56px;text-align:right;}
+
+.equation-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:24px;text-align:center;margin-bottom:16px;}
+.equation-box .expr{font-family:'Do Hyeon',sans-serif;font-size:clamp(16px,3.2vw,23px);color:var(--ink);word-break:break-word;}
+.equation-box .expr .unknown{color:var(--violet-ink);}
+.equation-box .check{font-size:14.5px;color:var(--ink-soft);margin-top:12px;}
+.equation-box .check b{color:var(--green-ink);}
+
+.fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--violet-ink);}
+.fact.ok{background:var(--green-soft);} .fact.ok b{color:var(--green-ink);}
+
+.badge{display:inline-block;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:5px 14px;border-radius:999px;margin-top:10px;}
+.badge.countable{background:var(--blue-soft);color:var(--blue-ink);}
+.badge.uncountable{background:var(--coral-soft);color:var(--coral-ink);}
+
+.diag-table{border-collapse:collapse;margin:0 auto 14px;font-family:'Do Hyeon',sans-serif;font-size:14px;}
+.diag-table td{width:30px;height:30px;text-align:center;border:1px solid var(--paper-line);}
+.diag-table td.diag{background:var(--coral-soft);color:var(--coral-ink);font-weight:bold;}
+.diag-table td.prefix{color:var(--ink-soft);border:none;padding-right:6px;}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--violet-ink);}
+.quiz-q{font-size:15.5px;line-height:1.7;text-align:center;background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:20px;margin-bottom:16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
+.action-btn:hover{background:var(--violet-ink);}
+.action-btn.secondary{background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);margin:0 auto 14px;}
+.action-btn.secondary:hover{background:var(--paper);color:var(--violet-ink);border-color:var(--violet-ink);}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-huge-numbers-infinity-lab.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🌌 거대한 수와 무한 실험실</span>
+  <h1>상상하기도 힘든 수,<br><span>크기가 다른</span> 무한</h1>
+  <p class="sub">구골처럼 우주의 원자 수보다도 큰 수부터, 무한인데도 크기가 다른 무한까지 — 수학은 우리 직관을 훌쩍 뛰어넘는 곳까지 뻗어 있어요. 이번엔 조금 더 먼 곳까지 가볼게요 (일부 내용은 고등학교 수준이에요).</p>
+
+  <!-- ===== 큰 수 표기법 ===== -->
+  <div class="stage">
+    <div class="section-title">🔢 큰 수 표기법 — 0이 몇 개일까?</div>
+    <p class="section-sub">10을 몇 번 곱하느냐에 따라 한국어와 영어는 이름 붙이는 방식이 서로 달라요. 슬라이더로 10의 거듭제곱을 옮겨가며 단위 이름을 확인해보세요.</p>
+    <svg id="svgUnits" viewBox="0 0 460 130"></svg>
+    <div class="slider-row">
+      <label>10의 거듭제곱</label>
+      <input id="unitSlider" type="range" min="0" max="18" value="8" step="1">
+      <span class="val" id="unitVal">10⁸</span>
+    </div>
+    <div class="equation-box">
+      <div class="expr" id="unitExpr"></div>
+      <div class="check" id="unitCheck"></div>
+    </div>
+    <div class="fact" id="unitFact"></div>
+
+    <div class="subsection-title">🪐 상상을 뛰어넘는 거대한 수들</div>
+    <svg id="svgBig" viewBox="0 0 460 220"></svg>
+    <div class="preset-row" id="bigPresetRow"></div>
+    <div class="equation-box">
+      <div class="expr" id="bigExpr"></div>
+      <div class="check" id="bigCheck"></div>
+    </div>
+    <div class="fact" id="bigFact"></div>
+  </div>
+
+  <!-- ===== 무한의 크기 ===== -->
+  <div class="stage">
+    <div class="section-title">♾️ 무한에도 크기가 있다?</div>
+    <p class="section-sub">직관적으로는 "무한은 다 똑같은 무한"일 것 같지만, 19세기 수학자 게오르크 칸토어는 무한에도 서로 다른 크기가 있다는 걸 증명했어요.</p>
+
+    <div class="preset-row" id="hotelPresetRow"></div>
+    <svg id="svgHotel" viewBox="0 0 460 140"></svg>
+    <div class="equation-box">
+      <div class="expr" id="hotelExpr"></div>
+      <div class="check" id="hotelCheck"></div>
+    </div>
+    <div class="fact" id="hotelFact"></div>
+
+    <div class="subsection-title">🔍 대각선 논법 — 실수는 셀 수 없다</div>
+    <p class="section-sub">0과 1 사이의 모든 실수를 순서대로 나열할 수 있다고 가정해봐요. 대각선 자리의 숫자를 하나씩 바꾸면, 목록에 없는 새로운 수를 항상 만들 수 있어요 — 그래서 그런 목록은 애초에 불가능해요.</p>
+    <div id="diagTableWrap"></div>
+    <button class="action-btn secondary" id="diagRegenBtn">🔄 다른 예시로 다시 보기</button>
+    <div class="equation-box">
+      <div class="expr" id="diagExpr"></div>
+    </div>
+    <div class="fact ok" id="diagFact"></div>
+  </div>
+
+  <!-- ===== 퀴즈 ===== -->
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 거대한 수와 무한 퀴즈</h2>
+      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+    </div>
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextQuizBtn">➡ 다음 문제</button>
+  </div>
+
+<footer>구골도, 무한의 크기도 모두 "이런 게 있다고 하면 어떨까?"라는 상상에서 출발했어요. 그런데 그 상상들이 지금은 컴퓨터과학, 우주론 곳곳에서 실제로 쓰이고 있어요.</footer>
+</div>
+
+<script>
+function randInt(min,max){ return min + Math.floor(Math.random()*(max-min+1)); }
+
+// ============================================================
+// 큰 수 표기법 — 단위 슬라이더
+// ============================================================
+const KOREAN_UNITS = ['일','십','백','천','만','십만','백만','천만','억','십억','백억','천억','조','십조','백조','천조','경','십경','백경'];
+const ENGLISH_UNITS = {0:'one',3:'thousand',6:'million',9:'billion',12:'trillion',15:'quadrillion',18:'quintillion'};
+
+const unitSlider = document.getElementById('unitSlider');
+const unitVal = document.getElementById('unitVal');
+const svgUnits = document.getElementById('svgUnits');
+const unitExpr = document.getElementById('unitExpr');
+const unitCheck = document.getElementById('unitCheck');
+const unitFact = document.getElementById('unitFact');
+
+function renderUnits(){
+  const n = parseInt(unitSlider.value,10);
+  unitVal.textContent = `10^${n}`;
+  const korName = KOREAN_UNITS[n];
+  const engName = ENGLISH_UNITS[n];
+  const digits = '1'+'0'.repeat(n);
+
+  unitExpr.innerHTML = `10<sup>${n}</sup> = <span class="unknown">${digits}</span>`;
+  unitCheck.innerHTML = `한국어로는 <b>${korName}</b>${engName?`, 영어로는 <b>${engName}</b>`:''}`;
+  unitFact.innerHTML = engName
+    ? `10<sup>${n}</sup>은 한국어로 ${korName}, 영어로는 ${engName}이라고 불러요.`
+    : `10<sup>${n}</sup>은 한국어로는 ${korName}이라는 이름이 있지만, 영어는 1000배(10³)씩만 새 이름을 붙이기 때문에 이 자리는 딱 맞는 표준 이름이 없어요.`;
+
+  let html = '';
+  html += `<text x="230" y="30" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink-soft)">한국어 단위 (만 단위로 새 이름)</text>`;
+  const korPos = ['일','만','억','조','경'];
+  korPos.forEach((u,i)=>{
+    const x = 40+i*100;
+    const active = korName===u || (n>0 && Math.floor(n/4)*4===i*4 && korName.includes(u));
+    html += `<circle cx="${x}" cy="60" r="6" fill="${u===getBaseUnit(n)?'var(--violet-ink)':'var(--paper-line)'}"></circle>`;
+    html += `<text x="${x}" y="80" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">${u}</text>`;
+  });
+  html += `<text x="230" y="115" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--violet-ink)">지금: ${korName} (10^${n})</text>`;
+  svgUnits.innerHTML = html;
+}
+function getBaseUnit(n){
+  if(n<4) return '일';
+  if(n<8) return '만';
+  if(n<12) return '억';
+  if(n<16) return '조';
+  return '경';
+}
+unitSlider.addEventListener('input', renderUnits);
+renderUnits();
+
+// ============================================================
+// 큰 수 표기법 — 상상을 뛰어넘는 수
+// ============================================================
+const BIG_NUMBERS = [
+  {name:'아보가드로 수', value:'6.022×10²³', log10:23.78, desc:'화학에서 물질 1몰(mol)에 들어있는 입자의 개수예요.'},
+  {name:'우주의 원자 수', value:'약 10⁸⁰', log10:80, desc:'우리가 관측할 수 있는 우주 전체에 있는 원자 수의 추정치예요.'},
+  {name:'구골', value:'10¹⁰⁰', log10:100, desc:'1 뒤에 0이 100개 붙는 수예요. 수학자 에드워드 카스너의 9살 조카가 이름을 붙였다고 해요.'},
+  {name:'섀넌 수', value:'약 10¹²⁰', log10:120, desc:'체스에서 가능한 대국의 경우의 수 추정치예요(클로드 섀넌이 계산).'},
+  {name:'구골플렉스', value:'10^(10¹⁰⁰)', log10:null, desc:'0의 개수가 무려 구골 개나 되는 수예요. 우주에 있는 모든 원자를 다 써서 0을 하나씩 적어도 다 적지 못해요.'},
+];
+let bigIdx = 2;
+const bigPresetRow = document.getElementById('bigPresetRow');
+const svgBig = document.getElementById('svgBig');
+const bigExpr = document.getElementById('bigExpr');
+const bigCheck = document.getElementById('bigCheck');
+const bigFact = document.getElementById('bigFact');
+
+function buildBigPresets(){
+  bigPresetRow.innerHTML = BIG_NUMBERS.map((b,i)=>`<button class="preset-btn" data-i="${i}">${b.name}</button>`).join('');
+  bigPresetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ bigIdx = parseInt(btn.dataset.i); renderBig(); });
+  });
+}
+
+function renderBig(){
+  bigPresetRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===bigIdx));
+  const b = BIG_NUMBERS[bigIdx];
+  bigExpr.innerHTML = `${b.name} ≈ <span class="unknown">${b.value}</span>`;
+  bigCheck.innerHTML = b.desc;
+  bigFact.innerHTML = b.log10===null
+    ? `구골플렉스는 너무 커서 아래 막대그래프에 표시조차 할 수 없어요. 구골(10¹⁰⁰)보다 훨씬, 훨씬 더 커요.`
+    : `로그로 보면 10의 <b>${b.log10}제곱</b> 정도 크기예요.`;
+
+  const withLog = BIG_NUMBERS.filter(x=>x.log10!==null);
+  const maxLog = Math.max(...withLog.map(x=>x.log10));
+  const CX0=40, CX1=420, CY0=170, CY1=20;
+  const barW = (CX1-CX0)/withLog.length - 16;
+  let html='';
+  withLog.forEach((x,i)=>{
+    const h = (x.log10/maxLog)*(CY0-CY1);
+    const cx = CX0 + i*((CX1-CX0)/withLog.length) + ((CX1-CX0)/withLog.length)/2;
+    const active = x.name===b.name;
+    html += `<rect x="${cx-barW/2}" y="${CY0-h}" width="${barW}" height="${h}" rx="6" fill="${active?'var(--violet-ink)':'var(--violet-soft)'}"></rect>`;
+    html += `<text x="${cx}" y="${CY0+16}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="10" fill="var(--ink-soft)">${x.name}</text>`;
+  });
+  html += `<line x1="${CX0}" y1="${CY0}" x2="${CX1}" y2="${CY0}" stroke="var(--paper-line)" stroke-width="2"></line>`;
+  if(b.log10===null){
+    html += `<text x="230" y="${CY1-4}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--coral-ink)">↑ 구골플렉스는 이 그래프 훨씬 밖에 있어요</text>`;
+  } else {
+    html += `<text x="230" y="${CY1-4}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">막대 높이 = log₁₀(값)</text>`;
+  }
+  svgBig.innerHTML = html;
+}
+buildBigPresets();
+renderBig();
+
+// ============================================================
+// 무한의 크기 — 힐베르트 호텔
+// ============================================================
+const HOTEL_SCENARIOS = [
+  {key:'one', name:'손님 1명 추가'},
+  {key:'infinite', name:'무한 버스 도착'},
+];
+let hotelIdx = 0;
+const hotelPresetRow = document.getElementById('hotelPresetRow');
+const svgHotel = document.getElementById('svgHotel');
+const hotelExpr = document.getElementById('hotelExpr');
+const hotelCheck = document.getElementById('hotelCheck');
+const hotelFact = document.getElementById('hotelFact');
+
+function buildHotelPresets(){
+  hotelPresetRow.innerHTML = HOTEL_SCENARIOS.map((s,i)=>`<button class="preset-btn" data-i="${i}">${s.name}</button>`).join('');
+  hotelPresetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ hotelIdx = parseInt(btn.dataset.i); renderHotel(); });
+  });
+}
+
+function renderHotel(){
+  hotelPresetRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===hotelIdx));
+  const scenario = HOTEL_SCENARIOS[hotelIdx].key;
+  const rooms = 6;
+  let html = '';
+  const boxW=50, gap=8, startX=230-(rooms*boxW+(rooms-1)*gap)/2;
+
+  if(scenario==='one'){
+    hotelExpr.innerHTML = `방 n → 방 <span class="unknown">n+1</span>`;
+    hotelCheck.innerHTML = `모든 손님이 옆방으로 한 칸씩 옮기면 1번 방이 비어요.`;
+    hotelFact.innerHTML = `방이 무한 개라서 "마지막 방"이 없어요. 그래서 모든 손님을 한 칸씩 옮겨도 아무도 밀려나지 않고, 1번 방이 새 손님을 위해 비어요. 유한한 호텔이었다면 절대 불가능한 일이에요.`;
+    for(let i=0;i<rooms;i++){
+      const x = startX+i*(boxW+gap);
+      html += `<rect x="${x}" y="20" width="${boxW}" height="40" rx="8" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2"></rect>`;
+      html += `<text x="${x+boxW/2}" y="44" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--violet-ink)">${i+1}번</text>`;
+      html += `<text x="${x+boxW/2}" y="90" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="20" fill="var(--ink-soft)">↓</text>`;
+      const x2 = startX+(i+1)*(boxW+gap);
+      html += `<text x="${x+boxW/2}" y="115" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--blue-ink)">${i+2}번으로</text>`;
+    }
+    html += `<rect x="${startX-boxW-gap}" y="20" width="${boxW}" height="40" rx="8" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="2" stroke-dasharray="4 3"></rect>`;
+    html += `<text x="${startX-boxW/2-gap}" y="44" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--coral-ink)">새손님</text>`;
+  } else {
+    hotelExpr.innerHTML = `방 n → 방 <span class="unknown">2n</span>`;
+    hotelCheck.innerHTML = `모든 손님이 2배 방으로 옮기면 홀수 번 방이 전부 비어요.`;
+    hotelFact.innerHTML = `손님을 n번 방에서 2n번 방으로 옮기면, 1, 3, 5, 7...번처럼 홀수 번 방이 전부 비어요. 홀수도 무한히 많으니까, 무한 대의 버스에 무한 명씩 타고 와도 전부 방을 줄 수 있어요!`;
+    for(let i=0;i<rooms;i++){
+      const room = i+1;
+      const x = startX+i*(boxW+gap);
+      const isOdd = room%2===1;
+      html += `<rect x="${x}" y="20" width="${boxW}" height="40" rx="8" fill="${isOdd?'var(--coral-soft)':'var(--violet-soft)'}" stroke="${isOdd?'var(--coral-ink)':'var(--violet-ink)'}" stroke-width="2"></rect>`;
+      html += `<text x="${x+boxW/2}" y="44" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="${isOdd?'var(--coral-ink)':'var(--violet-ink)'}">${room}번</text>`;
+      html += `<text x="${x+boxW/2}" y="90" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">${isOdd?'비어요':`손님→${room*2}번`}</text>`;
+    }
+  }
+  svgHotel.innerHTML = html;
+}
+buildHotelPresets();
+renderHotel();
+
+// ============================================================
+// 무한의 크기 — 대각선 논법
+// ============================================================
+const diagTableWrap = document.getElementById('diagTableWrap');
+const diagRegenBtn = document.getElementById('diagRegenBtn');
+const diagExpr = document.getElementById('diagExpr');
+const diagFact = document.getElementById('diagFact');
+
+function renderDiagonal(){
+  const N=5;
+  const rows = Array.from({length:N}, ()=> Array.from({length:N}, ()=> randInt(0,9)));
+  let tableHtml = '<table class="diag-table">';
+  rows.forEach((row,i)=>{
+    tableHtml += '<tr><td class="prefix">0.</td>';
+    row.forEach((d,j)=>{
+      tableHtml += `<td class="${i===j?'diag':''}">${d}</td>`;
+    });
+    tableHtml += '</tr>';
+  });
+  tableHtml += '</table>';
+  diagTableWrap.innerHTML = tableHtml;
+
+  const newDigits = rows.map((row,i)=> (row[i]+1)%10);
+  diagExpr.innerHTML = `새로운 수 = <span class="unknown">0.${newDigits.join('')}...</span>`;
+  diagFact.innerHTML = `대각선 자리(빨간 칸)의 숫자를 하나씩 골라 1을 더했어요(9면 0으로). 이렇게 만든 수는 <b>목록의 모든 수와 최소 한 자리씩 달라요</b> — 1번째 수와는 첫째 자리가, 2번째 수와는 둘째 자리가 다르죠. 그러니 이 새 수는 절대 목록 안에 없어요. 아무리 목록을 다시 만들어도 똑같은 방법으로 빠진 수를 또 찾을 수 있어서, 실수는 자연수처럼 순서대로 나열할 수 없다는 게 증명돼요.`;
+}
+diagRegenBtn.addEventListener('click', renderDiagonal);
+renderDiagonal();
+
+// ============================================================
+// 퀴즈
+// ============================================================
+const quizQ = document.getElementById('quizQ');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextQuizBtn = document.getElementById('nextQuizBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+const triesNumEl = document.getElementById('triesNum');
+let score=0, tries=0, answered=false, quizAnswer=null;
+
+const TRUE_FALSE = [
+  {s:'자연수와 정수 중, 정수가 자연수보다 더 많다', a:'거짓'},
+  {s:'실수는 자연수와 똑같은 크기의 무한이다', a:'거짓'},
+  {s:'힐베르트 호텔은 방이 다 차 있어도 새 손님을 받을 수 있다', a:'참'},
+  {s:'구골플렉스는 구골보다 작다', a:'거짓'},
+  {s:'유리수는 셀 수 있는(가산) 무한이다', a:'참'},
+];
+
+function newQuizQuestion(){
+  answered=false;
+  quizFeedback.textContent='';
+  const type = Math.random();
+
+  if(type < 0.34){
+    const pairs = [['아보가드로 수','구골'], ['우주의 원자 수','구골'], ['구골','섀넌 수'], ['섀넌 수','구골플렉스']];
+    const [a,b] = pairs[randInt(0,pairs.length-1)];
+    quizAnswer = b;
+    quizQ.innerHTML = `${a}와(과) ${b} 중 어느 쪽이 더 클까요?`;
+    renderOpts([a,b], v=>v);
+  } else if(type < 0.67){
+    const opts = [4,8,12,16];
+    const n = opts[randInt(0,opts.length-1)];
+    quizAnswer = KOREAN_UNITS[n];
+    quizQ.innerHTML = `10<sup>${n}</sup>의 한국어 단위 이름은 무엇일까요?`;
+    const wrongs = new Set();
+    while(wrongs.size<3){
+      const d = KOREAN_UNITS[opts[randInt(0,opts.length-1)]];
+      if(d!==quizAnswer) wrongs.add(d);
+    }
+    renderOpts([quizAnswer,...wrongs].sort(()=>Math.random()-0.5), v=>v);
+  } else {
+    const item = TRUE_FALSE[randInt(0,TRUE_FALSE.length-1)];
+    quizAnswer = item.a;
+    quizQ.innerHTML = `"${item.s}" — 참일까요, 거짓일까요?`;
+    renderOpts(['참','거짓'], v=>v);
+  }
+}
+
+function renderOpts(opts, formatter){
+  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${formatter(o)}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered=true;
+      tries++;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      const chosen = btn.dataset.o;
+      const isCorrect = chosen===quizAnswer;
+      if(isCorrect){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `아쉬워요! 정답은 ${quizAnswer}였어요. (정답 ${score} / 시도 ${tries})`;
+      }
+      scoreNumEl.textContent = score;
+      triesNumEl.textContent = tries;
+    });
+  });
+}
+nextQuizBtn.addEventListener('click', newQuizQuestion);
+newQuizQuestion();
+</script>
+</body>
+</html>

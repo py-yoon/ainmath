@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>허수와 복소수 실험실</title>
+<meta name="description" content="제곱해서 음수가 되는 허수 i부터 복소수의 덧셈·곱셈, 극형식과 오일러 공식까지 — 상상에서 시작해 실제로 쓰이는 수의 세계를 슬라이더와 버튼으로 직접 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+  --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--violet-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--violet-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.section-title{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink);margin:0 0 16px;display:flex;align-items:center;gap:8px;}
+.section-sub{color:var(--ink-soft);font-size:14.5px;line-height:1.7;margin:-8px 0 18px;max-width:62ch;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
+
+svg{width:100%;max-width:460px;height:auto;overflow:visible;display:block;margin:0 auto 18px;}
+
+.preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;justify-content:center;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;}
+.preset-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.preset-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+.slider-row{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+.slider-row label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);min-width:96px;}
+.slider-row input[type=range]{flex:1;-webkit-appearance:none;height:8px;border-radius:999px;background:var(--violet-soft);outline:none;}
+.slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--violet-ink);border:4px solid #fff;box-shadow:0 2px 8px rgba(104,71,247,0.4);cursor:pointer;}
+.slider-row input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--violet-ink);border:4px solid #fff;box-shadow:0 2px 8px rgba(104,71,247,0.4);cursor:pointer;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--violet-ink);min-width:70px;text-align:right;}
+
+.equation-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:24px;text-align:center;margin-bottom:16px;}
+.equation-box .expr{font-family:'Do Hyeon',sans-serif;font-size:clamp(16px,3.2vw,23px);color:var(--ink);word-break:break-word;}
+.equation-box .expr .unknown{color:var(--violet-ink);}
+.equation-box .check{font-size:14.5px;color:var(--ink-soft);margin-top:12px;}
+.equation-box .check b{color:var(--green-ink);}
+
+.fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--violet-ink);}
+.fact.ok{background:var(--green-soft);} .fact.ok b{color:var(--green-ink);}
+.fact.warn{background:var(--coral-soft);} .fact.warn b{color:var(--coral-ink);}
+
+.badge{display:inline-block;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:5px 14px;border-radius:999px;margin-top:10px;}
+.badge.real{background:var(--blue-soft);color:var(--blue-ink);}
+.badge.imag{background:var(--coral-soft);color:var(--coral-ink);}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--violet-ink);}
+.quiz-q{font-size:15.5px;line-height:1.7;text-align:center;background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:20px;margin-bottom:16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
+.action-btn:hover{background:var(--violet-ink);}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-imaginary-complex-numbers-lab.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">➕ 허수와 복소수 실험실</span>
+  <h1>존재하지 않는 수에서 시작해<br><span>실제로 쓰이는</span> 수가 되다</h1>
+  <p class="sub">어떤 실수를 제곱해도 음수가 될 수 없어요. 그런데 수학자들은 "그런 수가 있다고 하면 어떨까?"라는 상상에서 출발해 완전히 새로운 수의 체계를 만들었어요. 지금은 전자공학부터 양자역학까지 실제로 쓰이는, 허수와 복소수의 세계로 들어가봐요 (일부 내용은 고등학교 수준이에요).</p>
+
+  <div class="howto">
+    <p>제곱해서 −1이 되는 수를 <b>i</b>라고 정의해요(i² = −1). 실수에 i를 곱한 수를 <b>허수</b>라고 하고, 실수와 허수를 더한 a+bi 꼴의 수를 <b>복소수</b>라고 해요. 복소수는 가로축이 실수, 세로축이 허수인 평면(복소평면) 위의 한 점으로 그릴 수 있어요.</p>
+  </div>
+
+  <!-- ===== 왜 허수가 필요할까 ===== -->
+  <div class="stage">
+    <div class="section-title">🤔 왜 허수가 필요할까?</div>
+    <p class="section-sub">x² = a라는 방정식을 풀어보세요. a가 양수면 실수 범위에서 풀리지만, a가 음수가 되는 순간 실수로는 답을 구할 수 없어요.</p>
+    <svg id="svgWhy" viewBox="0 0 460 160"></svg>
+    <div class="slider-row">
+      <label>x² = a 에서 a</label>
+      <input id="whySlider" type="range" min="-9" max="9" value="4" step="1">
+      <span class="val" id="whyVal">4</span>
+    </div>
+    <div class="equation-box">
+      <div class="expr" id="whyExpr"></div>
+      <div class="check" id="whyCheck"></div>
+      <div id="whyBadge"></div>
+    </div>
+    <div class="fact" id="whyFact"></div>
+  </div>
+
+  <!-- ===== i의 거듭제곱 ===== -->
+  <div class="stage">
+    <div class="section-title">🔁 i의 거듭제곱 — 4개 값을 맴도는 순환</div>
+    <p class="section-sub">i를 계속 곱하면 1, i, −1, −i 네 값을 영원히 반복해요. n이 아무리 커도 4로 나눈 나머지만 알면 바로 답을 알 수 있어요.</p>
+    <svg id="svgIPower" viewBox="0 0 460 200"></svg>
+    <div class="slider-row">
+      <label>i의 거듭제곱</label>
+      <input id="iSlider" type="range" min="0" max="24" value="1" step="1">
+      <span class="val" id="iVal">i¹</span>
+    </div>
+    <div class="equation-box">
+      <div class="expr" id="iExpr"></div>
+      <div class="check" id="iCheck"></div>
+    </div>
+    <div class="fact" id="iFact"></div>
+  </div>
+
+  <!-- ===== 복소수의 덧셈과 곱셈 ===== -->
+  <div class="stage">
+    <div class="section-title">➕✖️ 복소수의 덧셈과 곱셈</div>
+    <p class="section-sub">복소수의 덧셈은 벡터처럼 더해지고, 곱셈은 크기는 곱하고 각도는 더해져요. 두 복소수와 연산을 골라 복소평면에서 확인해보세요.</p>
+    <svg id="svgOps" viewBox="0 0 300 300"></svg>
+    <div class="preset-row" id="opsPairRow"></div>
+    <div class="preset-row" id="opsModeRow"></div>
+    <div class="equation-box">
+      <div class="expr" id="opsExpr"></div>
+      <div class="check" id="opsCheck"></div>
+    </div>
+    <div class="fact" id="opsFact"></div>
+  </div>
+
+  <!-- ===== 극형식과 오일러 공식 ===== -->
+  <div class="stage">
+    <div class="section-title">🌐 극형식과 오일러 공식</div>
+    <p class="section-sub">복소수는 "실수부, 허수부"뿐 아니라 "원점에서 거리(크기)와 각도"로도 나타낼 수 있어요. 이걸 극형식이라고 하고, 반지름이 1인 단위원 위의 점들은 특히 오일러 공식과 이어져요.</p>
+    <svg id="svgPolar" viewBox="0 0 300 300"></svg>
+    <div class="slider-row">
+      <label>각도 θ</label>
+      <input id="polarSlider" type="range" min="0" max="360" value="60" step="15">
+      <span class="val" id="polarVal">60°</span>
+    </div>
+    <div class="equation-box">
+      <div class="expr" id="polarExpr"></div>
+      <div class="check" id="polarCheck"></div>
+    </div>
+    <div class="fact" id="polarFact"></div>
+  </div>
+
+  <div class="stage">
+    <div class="section-title">⚡ 허수는 실제로 어디에 쓰일까?</div>
+    <div class="fact" style="max-width:66ch;">
+      <p style="margin:0 0 10px;"><b>전기공학</b>에서는 교류 전류의 크기와 위상(타이밍 차이)을 한 번에 다루려고 복소수를 써요. 저항, 코일, 콘덴서가 섞인 회로 계산이 복소수 덕분에 훨씬 간단해져요.</p>
+      <p style="margin:0 0 10px;"><b>신호·이미지 처리</b>에서는 소리나 이미지를 여러 파동으로 분해하는 푸리에 변환에 복소수가 핵심적으로 쓰여요. 음악 앱의 이퀄라이저, 사진 압축 모두 이 원리를 활용해요.</p>
+      <p style="margin:0;"><b>양자역학</b>에서는 입자의 상태를 나타내는 파동함수 자체가 복소수예요. 허수 없이는 양자역학의 방정식을 아예 쓸 수조차 없어요.</p>
+    </div>
+  </div>
+
+  <!-- ===== 퀴즈 ===== -->
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 허수와 복소수 퀴즈</h2>
+      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+    </div>
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextQuizBtn">➡ 다음 문제</button>
+  </div>
+
+<footer>i는 "허수(虛數, imaginary number)"라는 이름 때문에 가짜 수처럼 느껴지지만, 실은 실수만큼이나 엄밀하게 정의된 수예요. 오일러 공식 e^(iπ)+1=0은 e, i, π, 1, 0이라는 수학의 가장 중요한 다섯 상수를 한 줄에 담고 있어서 "가장 아름다운 공식"이라고 불려요.</footer>
+</div>
+
+<script>
+function randInt(min,max){ return min + Math.floor(Math.random()*(max-min+1)); }
+
+// ============================================================
+// 왜 허수가 필요할까
+// ============================================================
+const whySlider = document.getElementById('whySlider');
+const whyVal = document.getElementById('whyVal');
+const svgWhy = document.getElementById('svgWhy');
+const whyExpr = document.getElementById('whyExpr');
+const whyCheck = document.getElementById('whyCheck');
+const whyBadge = document.getElementById('whyBadge');
+const whyFact = document.getElementById('whyFact');
+
+function renderWhy(){
+  const a = parseInt(whySlider.value,10);
+  whyVal.textContent = a;
+  const CX=230, CY=80, scale=42;
+
+  let html = '';
+  html += `<line x1="20" y1="${CY}" x2="440" y2="${CY}" stroke="var(--paper-line)" stroke-width="2"></line>`;
+  html += `<text x="440" y="${CY-8}" text-anchor="end" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">실수축</text>`;
+
+  if(a>=0){
+    const r = Math.sqrt(a);
+    whyExpr.innerHTML = `x² = ${a} → x = <span class="unknown">±${fmtRoot(a)}</span>`;
+    whyCheck.innerHTML = a===0 ? `x = 0 하나뿐이에요.` : `실수 범위 안에서 답을 구할 수 있어요.`;
+    whyBadge.innerHTML = `<span class="badge real">실수 해</span>`;
+    whyFact.innerHTML = `x² = ${a}일 때는 ${a===0?'x=0 하나만 답이에요.':`x = +${fmtRoot(a)}와 x = −${fmtRoot(a)}, 두 실수가 답이 돼요.`} 제곱해서 ${a}가 되는 실수를 실수축 위에서 바로 찾을 수 있어요.`;
+
+    html += `<line x1="${CX-r*scale}" y1="${CY}" x2="${CX+r*scale}" y2="${CY}" stroke="var(--blue-ink)" stroke-width="2" stroke-dasharray="4 3"></line>`;
+    html += `<circle cx="${CX-r*scale}" cy="${CY}" r="7" fill="var(--blue-ink)"></circle>`;
+    html += `<circle cx="${CX+r*scale}" cy="${CY}" r="7" fill="var(--blue-ink)"></circle>`;
+    html += `<text x="${CX-r*scale}" y="${CY-14}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--blue-ink)">−${fmtRoot(a)}</text>`;
+    html += `<text x="${CX+r*scale}" y="${CY-14}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--blue-ink)">+${fmtRoot(a)}</text>`;
+  } else {
+    const r = Math.sqrt(-a);
+    whyExpr.innerHTML = `x² = ${a} → x = <span class="unknown">±${fmtRoot(-a)}i</span>`;
+    whyCheck.innerHTML = `실수 범위에는 해가 없지만, i를 쓰면 답을 구할 수 있어요.`;
+    whyBadge.innerHTML = `<span class="badge imag">허수 해</span>`;
+    whyFact.innerHTML = `실수는 제곱하면 항상 0 이상이라서, x² = ${a}(음수)를 만드는 실수는 없어요. 하지만 i² = −1이므로 (${fmtRoot(-a)}i)² = ${-a}×(−1) = ${a}가 성립해요. 그래서 x = ±${fmtRoot(-a)}i가 답이 돼요.`;
+
+    html += `<text x="${CX}" y="${CY+20}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--coral-ink)">실수축엔 해가 없어요 ✕</text>`;
+    html += `<line x1="${CX}" y1="${CY-r*scale}" x2="${CX}" y2="${CY+r*scale}" stroke="var(--coral)" stroke-width="2" stroke-dasharray="4 3"></line>`;
+    html += `<circle cx="${CX}" cy="${CY-r*scale}" r="7" fill="var(--coral)"></circle>`;
+    html += `<circle cx="${CX}" cy="${CY+r*scale}" r="7" fill="var(--coral)"></circle>`;
+    html += `<text x="${CX+14}" y="${CY-r*scale+4}" text-anchor="start" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral-ink)">+${fmtRoot(-a)}i</text>`;
+    html += `<text x="${CX+14}" y="${CY+r*scale+4}" text-anchor="start" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral-ink)">−${fmtRoot(-a)}i</text>`;
+    html += `<text x="${CX+18}" y="20" text-anchor="start" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">허수축</text>`;
+  }
+  svgWhy.innerHTML = html;
+}
+function fmtRoot(v){
+  const r = Math.sqrt(v);
+  return Number.isInteger(r) ? `${r}` : `√${v}`;
+}
+whySlider.addEventListener('input', renderWhy);
+renderWhy();
+
+// ============================================================
+// i의 거듭제곱
+// ============================================================
+const I_CYCLE = ['1','i','-1','-i'];
+const iSlider = document.getElementById('iSlider');
+const iVal = document.getElementById('iVal');
+const svgIPower = document.getElementById('svgIPower');
+const iExpr = document.getElementById('iExpr');
+const iCheck = document.getElementById('iCheck');
+const iFact = document.getElementById('iFact');
+
+function renderIPower(){
+  const n = parseInt(iSlider.value,10);
+  iVal.textContent = `i^${n}`;
+  const value = I_CYCLE[n%4];
+  iExpr.innerHTML = `i<sup>${n}</sup> = i<sup>${n}mod4</sup> = i<sup>${n%4}</sup> = <span class="unknown">${value}</span>`;
+  iCheck.innerHTML = `${n} ÷ 4의 나머지는 ${n%4}예요.`;
+  iFact.innerHTML = `i¹=i, i²=−1, i³=−i, i⁴=1이고, i⁵부터는 다시 i, −1, −i, 1을 반복해요. 그래서 i<sup>n</sup>의 값은 n을 4로 나눈 나머지만 보면 바로 알 수 있어요.`;
+
+  let html = '';
+  I_CYCLE.forEach((v,i)=>{
+    const x = 65+i*100;
+    const active = i===n%4;
+    html += `<circle cx="${x}" cy="50" r="30" fill="${active?'var(--violet-ink)':'var(--violet-soft)'}"></circle>`;
+    html += `<text x="${x}" y="57" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="17" fill="${active?'#fff':'var(--violet-ink)'}">${v}</text>`;
+    html += `<text x="${x}" y="95" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">i^${i}</text>`;
+    if(i<3){
+      html += `<text x="${x+50}" y="57" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--ink-soft)">→</text>`;
+    }
+  });
+  html += `<text x="365" y="57" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--ink-soft)">↺</text>`;
+
+  const chainCount = Math.min(n+1, 25);
+  const startIdx = Math.max(0, n-24);
+  const boxW=15, gap=2, startX=230-(chainCount*boxW+(chainCount-1)*gap)/2;
+  for(let k=0;k<chainCount;k++){
+    const realN = startIdx+k;
+    const x = startX+k*(boxW+gap);
+    const isCur = realN===n;
+    html += `<rect x="${x}" y="140" width="${boxW}" height="22" rx="4" fill="${isCur?'var(--violet-ink)':'var(--violet-soft)'}"></rect>`;
+    html += `<text x="${x+boxW/2}" y="156" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="9" fill="${isCur?'#fff':'var(--violet-ink)'}">${I_CYCLE[realN%4]}</text>`;
+  }
+  html += `<text x="230" y="182" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">i⁰부터 i${n}까지 — 4칸마다 똑같은 값이 반복돼요</text>`;
+  svgIPower.innerHTML = html;
+}
+iSlider.addEventListener('input', renderIPower);
+renderIPower();
+
+// ============================================================
+// 복소수의 덧셈과 곱셈
+// ============================================================
+const OPS_PAIRS = [[[3,2],[1,3]], [[4,1],[-2,3]], [[2,-1],[3,1]], [[-3,2],[1,-2]]];
+let opsPairIdx = 0;
+let opsMode = 'add';
+const opsPairRow = document.getElementById('opsPairRow');
+const opsModeRow = document.getElementById('opsModeRow');
+const svgOps = document.getElementById('svgOps');
+const opsExpr = document.getElementById('opsExpr');
+const opsCheck = document.getElementById('opsCheck');
+const opsFact = document.getElementById('opsFact');
+
+function fmtComplex(z){ return `${z[0]}${z[1]>=0?'+':''}${z[1]}i`; }
+function cAdd(a,b){ return [a[0]+b[0], a[1]+b[1]]; }
+function cMul(a,b){ return [a[0]*b[0]-a[1]*b[1], a[0]*b[1]+a[1]*b[0]]; }
+function cAbs(a){ return Math.hypot(a[0],a[1]); }
+function cAngle(a){ return Math.atan2(a[1],a[0])*180/Math.PI; }
+
+function buildOpsPresets(){
+  opsPairRow.innerHTML = OPS_PAIRS.map((p,i)=>`<button class="preset-btn" data-i="${i}">z1=${fmtComplex(p[0])}, z2=${fmtComplex(p[1])}</button>`).join('');
+  opsPairRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ opsPairIdx = parseInt(btn.dataset.i); renderOps(); });
+  });
+  opsModeRow.innerHTML = `<button class="preset-btn" data-m="add">덧셈 z1+z2</button><button class="preset-btn" data-m="mul">곱셈 z1×z2</button>`;
+  opsModeRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ opsMode = btn.dataset.m; renderOps(); });
+  });
+}
+
+function renderOps(){
+  opsPairRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===opsPairIdx));
+  opsModeRow.querySelectorAll('.preset-btn').forEach(b=>b.classList.toggle('active', b.dataset.m===opsMode));
+  const [z1,z2] = OPS_PAIRS[opsPairIdx];
+
+  const CX=150, CY=150;
+  const allPts = opsMode==='add' ? [z1,z2,cAdd(z1,z2)] : [z1,z2,cMul(z1,z2)];
+  const maxAbs = Math.max(...allPts.flat().map(Math.abs), 1);
+  const scale = 95/maxAbs;
+  let html = '';
+  html += `<line x1="15" y1="${CY}" x2="285" y2="${CY}" stroke="var(--paper-line)" stroke-width="2"></line>`;
+  html += `<line x1="${CX}" y1="15" x2="${CX}" y2="285" stroke="var(--paper-line)" stroke-width="2"></line>`;
+  html += `<text x="278" y="${CY-8}" text-anchor="end" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">실수축</text>`;
+  html += `<text x="${CX+8}" y="24" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">허수축</text>`;
+
+  function toPx(p){ return [CX+p[0]*scale, CY-p[1]*scale]; }
+  const [p1x,p1y] = toPx(z1);
+  const [p2x,p2y] = toPx(z2);
+
+  if(opsMode==='add'){
+    const sum = cAdd(z1,z2);
+    const [psx,psy] = toPx(sum);
+    opsExpr.innerHTML = `(${fmtComplex(z1)}) + (${fmtComplex(z2)}) = <span class="unknown">${fmtComplex(sum)}</span>`;
+    opsCheck.innerHTML = `실수부끼리, 허수부끼리 각각 더해요: (${z1[0]}+${z2[0]}) + (${z1[1]}+${z2[1]})i`;
+    opsFact.innerHTML = `복소수의 덧셈은 벡터 덧셈과 똑같아요. z1과 z2를 두 변으로 하는 평행사변형을 그리면, 그 대각선이 바로 z1+z2예요.`;
+
+    html += `<line x1="${p2x}" y1="${p2y}" x2="${psx}" y2="${psy}" stroke="var(--paper-line)" stroke-width="2" stroke-dasharray="4 3"></line>`;
+    html += `<line x1="${p1x}" y1="${p1y}" x2="${psx}" y2="${psy}" stroke="var(--paper-line)" stroke-width="2" stroke-dasharray="4 3"></line>`;
+    html += `<line x1="${CX}" y1="${CY}" x2="${p1x}" y2="${p1y}" stroke="var(--blue-ink)" stroke-width="3"></line>`;
+    html += `<line x1="${CX}" y1="${CY}" x2="${p2x}" y2="${p2y}" stroke="var(--coral-ink)" stroke-width="3"></line>`;
+    html += `<line x1="${CX}" y1="${CY}" x2="${psx}" y2="${psy}" stroke="var(--violet-ink)" stroke-width="4"></line>`;
+    html += `<circle cx="${p1x}" cy="${p1y}" r="6" fill="var(--blue-ink)"></circle>`;
+    html += `<circle cx="${p2x}" cy="${p2y}" r="6" fill="var(--coral-ink)"></circle>`;
+    html += `<circle cx="${psx}" cy="${psy}" r="7" fill="var(--violet-ink)"></circle>`;
+    html += `<text x="${p1x+8}" y="${p1y-8}" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--blue-ink)">z1</text>`;
+    html += `<text x="${p2x+8}" y="${p2y-8}" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--coral-ink)">z2</text>`;
+    html += `<text x="${psx+8}" y="${psy-8}" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--violet-ink)">z1+z2</text>`;
+  } else {
+    const prod = cMul(z1,z2);
+    const [ppx,ppy] = toPx(prod);
+    const r1=cAbs(z1), r2=cAbs(z2), t1=cAngle(z1), t2=cAngle(z2);
+    opsExpr.innerHTML = `(${fmtComplex(z1)}) × (${fmtComplex(z2)}) = <span class="unknown">${fmtComplex(prod)}</span>`;
+    opsCheck.innerHTML = `크기: ${r1.toFixed(2)} × ${r2.toFixed(2)} = ${(r1*r2).toFixed(2)}, &nbsp; 각도: ${t1.toFixed(1)}° + ${t2.toFixed(1)}° = ${(t1+t2).toFixed(1)}°`;
+    opsFact.innerHTML = `복소수의 곱셈은 <b>크기는 곱하고 각도는 더해요</b>. z1×z2의 크기는 z1과 z2 크기의 곱, 각도는 두 각도의 합이 돼요 — 그래서 곱셈이 회전과 확대·축소를 동시에 하는 셈이에요.`;
+
+    html += `<line x1="${CX}" y1="${CY}" x2="${p1x}" y2="${p1y}" stroke="var(--blue-ink)" stroke-width="3"></line>`;
+    html += `<line x1="${CX}" y1="${CY}" x2="${p2x}" y2="${p2y}" stroke="var(--coral-ink)" stroke-width="3"></line>`;
+    html += `<line x1="${CX}" y1="${CY}" x2="${ppx}" y2="${ppy}" stroke="var(--violet-ink)" stroke-width="4"></line>`;
+    html += `<circle cx="${p1x}" cy="${p1y}" r="6" fill="var(--blue-ink)"></circle>`;
+    html += `<circle cx="${p2x}" cy="${p2y}" r="6" fill="var(--coral-ink)"></circle>`;
+    html += `<circle cx="${ppx}" cy="${ppy}" r="7" fill="var(--violet-ink)"></circle>`;
+    html += `<text x="${p1x+8}" y="${p1y-8}" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--blue-ink)">z1</text>`;
+    html += `<text x="${p2x+8}" y="${p2y-8}" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--coral-ink)">z2</text>`;
+    html += `<text x="${ppx+8}" y="${ppy-8}" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--violet-ink)">z1×z2</text>`;
+  }
+  svgOps.innerHTML = html;
+}
+buildOpsPresets();
+renderOps();
+
+// ============================================================
+// 극형식과 오일러 공식
+// ============================================================
+const polarSlider = document.getElementById('polarSlider');
+const polarVal = document.getElementById('polarVal');
+const svgPolar = document.getElementById('svgPolar');
+const polarExpr = document.getElementById('polarExpr');
+const polarCheck = document.getElementById('polarCheck');
+const polarFact = document.getElementById('polarFact');
+
+function renderPolar(){
+  const deg = parseInt(polarSlider.value,10);
+  polarVal.textContent = `${deg}°`;
+  const rad = deg*Math.PI/180;
+  const x = Math.cos(rad), y = Math.sin(rad);
+
+  polarExpr.innerHTML = `cos(${deg}°) + i·sin(${deg}°) = <span class="unknown">${x.toFixed(3)} + ${y.toFixed(3)}i</span>`;
+  polarCheck.innerHTML = `크기(반지름) = 1, 각도 = ${deg}°`;
+  polarFact.innerHTML = `이 점은 원점에서 거리가 항상 1인 단위원 위에 있어요. 오일러 공식에 따르면 이 값은 e<sup>iθ</sup>(θ는 라디안)와 정확히 같아요. θ=180°(π 라디안)를 넣으면 e<sup>iπ</sup> = −1, 즉 <b>e<sup>iπ</sup> + 1 = 0</b>이라는 유명한 식이 나와요.`;
+
+  const CX=150, CY=150, R=110;
+  let html = '';
+  html += `<line x1="15" y1="${CY}" x2="285" y2="${CY}" stroke="var(--paper-line)" stroke-width="2"></line>`;
+  html += `<line x1="${CX}" y1="15" x2="${CX}" y2="285" stroke="var(--paper-line)" stroke-width="2"></line>`;
+  html += `<circle cx="${CX}" cy="${CY}" r="${R}" fill="none" stroke="var(--violet-soft)" stroke-width="2"></circle>`;
+  const px = CX+x*R, py = CY-y*R;
+  html += `<path d="M ${CX+R*0.28} ${CY} A ${R*0.28} ${R*0.28} 0 ${deg>180?1:0} 0 ${CX+Math.cos(rad)*R*0.28} ${CY-Math.sin(rad)*R*0.28}" fill="none" stroke="var(--green-ink)" stroke-width="2"></path>`;
+  html += `<line x1="${CX}" y1="${CY}" x2="${px}" y2="${py}" stroke="var(--violet-ink)" stroke-width="3"></line>`;
+  html += `<circle cx="${px}" cy="${py}" r="7" fill="var(--violet-ink)"></circle>`;
+  html += `<text x="${px + (x>=0?10:-10)}" y="${py + (y>=0?-8:16)}" text-anchor="${x>=0?'start':'end'}" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--violet-ink)">e^(iθ)</text>`;
+  html += `<text x="278" y="${CY-8}" text-anchor="end" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">실수축</text>`;
+  html += `<text x="${CX+8}" y="24" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">허수축</text>`;
+  svgPolar.innerHTML = html;
+}
+polarSlider.addEventListener('input', renderPolar);
+renderPolar();
+
+// ============================================================
+// 퀴즈
+// ============================================================
+const quizQ = document.getElementById('quizQ');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextQuizBtn = document.getElementById('nextQuizBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+const triesNumEl = document.getElementById('triesNum');
+let score=0, tries=0, answered=false, quizAnswer=null;
+
+const TRUE_FALSE = [
+  {s:'i² = −1이다', a:'참'},
+  {s:'i⁴ = 1이다', a:'참'},
+  {s:'모든 이차방정식 x²=a는 실수 범위에서 항상 풀린다', a:'거짓'},
+  {s:'복소수의 곱셈은 각도를 더하고 크기를 곱한다', a:'참'},
+  {s:'허수는 실제로는 아무 데도 쓰이지 않는 순수 상상의 수이다', a:'거짓'},
+  {s:'오일러 공식은 e, i, π, 1, 0을 한 식에 담고 있다', a:'참'},
+];
+
+function newQuizQuestion(){
+  answered=false;
+  quizFeedback.textContent='';
+  const type = Math.random();
+
+  if(type < 0.3){
+    const n = randInt(0,30);
+    quizAnswer = I_CYCLE[n%4];
+    quizQ.innerHTML = `i<sup>${n}</sup>의 값은 무엇일까요?`;
+    renderOpts(['1','i','-1','-i'], v=>v);
+  } else if(type < 0.5){
+    const a = randInt(-9,9);
+    quizAnswer = a>=0 ? '실수 해' : '허수 해';
+    quizQ.innerHTML = `x² = ${a}의 해는 실수일까요, 허수일까요?`;
+    renderOpts(['실수 해','허수 해'], v=>v);
+  } else if(type < 0.8){
+    const [z1,z2] = OPS_PAIRS[randInt(0,OPS_PAIRS.length-1)];
+    const isAdd = Math.random()<0.5;
+    const result = isAdd ? cAdd(z1,z2) : cMul(z1,z2);
+    quizAnswer = fmtComplex(result);
+    quizQ.innerHTML = `(${fmtComplex(z1)}) ${isAdd?'+':'×'} (${fmtComplex(z2)}) = ?`;
+    const wrongs = new Set();
+    while(wrongs.size<3){
+      const dr = result[0]+randInt(-3,3), di = result[1]+randInt(-3,3);
+      const cand = fmtComplex([dr,di]);
+      if(cand!==quizAnswer) wrongs.add(cand);
+    }
+    renderOpts([quizAnswer,...wrongs].sort(()=>Math.random()-0.5), v=>v);
+  } else {
+    const item = TRUE_FALSE[randInt(0,TRUE_FALSE.length-1)];
+    quizAnswer = item.a;
+    quizQ.innerHTML = `"${item.s}" — 참일까요, 거짓일까요?`;
+    renderOpts(['참','거짓'], v=>v);
+  }
+}
+
+function renderOpts(opts, formatter){
+  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${formatter(o)}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered=true;
+      tries++;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      const chosen = btn.dataset.o;
+      const isCorrect = chosen===quizAnswer;
+      if(isCorrect){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `아쉬워요! 정답은 ${quizAnswer}였어요. (정답 ${score} / 시도 ${tries})`;
+      }
+      scoreNumEl.textContent = score;
+      triesNumEl.textContent = tries;
+    });
+  });
+}
+nextQuizBtn.addEventListener('click', newQuizQuestion);
+newQuizQuestion();
+</script>
+</body>
+</html>

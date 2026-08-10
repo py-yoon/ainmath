@@ -262,7 +262,7 @@ const GRADES = [
     id:'m2', title:'중학교 2학년', badge:'중 2', school:'중학교', color:'teal',
     domains: {
       number: [
-        { name:'유리수와 순환소수', exp:[{label:'유리수와 순환소수', href:'repeating-decimal.html'}], art:[{label:'설명 글', href:'article-repeating-decimal.html'}] },
+        { name:'유리수와 순환소수', exp:[{label:'유리수와 순환소수', href:'repeating-decimal.html'},{label:'순환소수 실험실', href:'repeating-decimals-lab.html'}], art:[{label:'설명 글', href:'article-repeating-decimal.html'}] },
       ],
       change: [
         { name:'식의 계산', exp:[{label:'지수법칙·동류항', href:'monomial-calculation.html'}], art:[{label:'설명 글', href:'article-monomial-calculation.html'}] },
@@ -306,6 +306,7 @@ const GRADES = [
         { name:'집합과 명제', exp:[{label:'집합과 명제 실험실', href:'sets-propositions.html'}], art:[{label:'설명 글', href:'article-sets-propositions.html'}] },
       ],
       change: [
+        { name:'복소수와 이차방정식', exp:[{label:'허수와 복소수 실험실', href:'imaginary-complex-numbers-lab.html'}], note:'극형식·오일러 공식 부분은 고1 범위를 넘는 심화 내용이에요' },
         { name:'이차방정식과 이차부등식', exp:[{label:'곱셈공식·인수분해', href:'factoring-quadratic.html'}], art:[{label:'설명 글', href:'article-factoring-quadratic.html'}], note:'이차부등식 부분은 아직 준비 중이에요' },
         { name:'함수와 그래프', exp:[{label:'일차함수 그래프', href:'linear-function-graph.html'},{label:'이차함수 그래프', href:'quadratic-function-graph.html'}], art:[{label:'설명 글', href:'article-linear-function.html'},{label:'설명 글', href:'article-quadratic-function.html'}] },
       ],
@@ -381,6 +382,18 @@ const EXPLORE = [
   { icon:'👀', name:'착시 실험실', exp:[{label:'체험하기', href:'optical-illusion.html'}], art:[{label:'설명 글', href:'article-optical-illusion.html'}] },
   { icon:'🎀', name:'뫼비우스의 띠·클라인 병 실험실', exp:[{label:'체험하기', href:'mobius-klein.html'}], art:[{label:'설명 글', href:'article-mobius-klein.html'}] },
   { icon:'🌐', name:'구의 부피 실험실', exp:[{label:'체험하기', href:'sphere-volume-proof.html'}], art:[{label:'설명 글', href:'article-sphere-volume-proof.html'}] },
+  { icon:'⚙️', name:'도형을 따라 굴러가는 원의 자취', exp:[{label:'체험하기', href:'circle-roll-locus.html'}] },
+  { icon:'🎂', name:'생일 역설 실험실', exp:[{label:'체험하기', href:'birthday-paradox-lab.html'}] },
+  { icon:'🌀', name:'콜라츠 추측 실험실', exp:[{label:'체험하기', href:'collatz-conjecture-lab.html'}] },
+  { icon:'🔢', name:'자릿수로 노는 수 실험실', exp:[{label:'체험하기', href:'curious-digit-numbers-lab.html'}] },
+  { icon:'🔗', name:'약수 사슬 실험실', exp:[{label:'체험하기', href:'divisor-chain-numbers.html'}] },
+  { icon:'🔐', name:'타원곡선 암호 실험실', exp:[{label:'체험하기', href:'elliptic-curve-crypto-lab.html'}] },
+  { icon:'♾️', name:'거대한 수와 무한 실험실', exp:[{label:'체험하기', href:'huge-numbers-infinity-lab.html'}] },
+  { icon:'✨', name:'신기한 수의 성질 실험실', exp:[{label:'체험하기', href:'number-properties-lab.html'}] },
+  { icon:'🔍', name:'소수의 미해결 문제 실험실', exp:[{label:'체험하기', href:'prime-mysteries-lab.html'}] },
+  { icon:'🔑', name:'RSA 암호 실험실', exp:[{label:'체험하기', href:'rsa-encryption-lab.html'}] },
+  { icon:'⭐', name:'특별한 수 실험실', exp:[{label:'체험하기', href:'special-numbers-lab.html'}] },
+  { icon:'🐢', name:'제논의 역설 실험실', exp:[{label:'체험하기', href:'zeno-paradox-lab.html'}] },
 ];
 
 function unitRowHtml(u){
