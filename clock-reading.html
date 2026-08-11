@@ -39,6 +39,8 @@ h1 span{color:var(--violet-ink);}
 @media (max-width:820px){ .stage{grid-template-columns:1fr;} }
 .canvas-area{display:flex;flex-direction:column;align-items:center;gap:18px;}
 svg{width:100%;max-width:300px;height:auto;overflow:visible;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--coral-ink);}
 .level-picker{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;max-width:420px;}
 .level-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:10px 14px;cursor:pointer;transition:all .15s ease;}
 .level-btn:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
@@ -82,6 +84,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <div class="stage">
     <div class="canvas-area">
       <div class="level-picker" id="levelPicker"></div>
+      <div class="progress-badge">문제 <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · 정답 <b id="scoreNum">0</b>개</div>
       <svg id="svg" viewBox="0 0 300 300"></svg>
       <button class="read-btn" id="readBtn" type="button">🔊 문제 읽어주기</button>
       <div class="quiz-opts" id="quizOpts"></div>
@@ -138,6 +141,10 @@ const readBtn = document.getElementById('readBtn');
 const quizOpts = document.getElementById('quizOpts');
 const nextBtn = document.getElementById('nextBtn');
 const feedback = document.getElementById('feedback');
+const scoreNumEl = document.getElementById('scoreNum');
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+const TOTAL_QUESTIONS = 10;
 readBtn.addEventListener('click', ()=> speakText('시계를 보고, 지금 몇 시 몇 분인지 골라보세요.'));
 
 const LEVELS = [
@@ -148,6 +155,10 @@ const LEVELS = [
 let level = 'hour';
 let hour = 3, minute = 0;
 let answered = false;
+let score = 0, questionIndex = 0, quizFinished = false;
+let usedQuestions = [];
+
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
 
 function buildLevelPicker(){
   levelPicker.innerHTML = LEVELS.map(l=>`<button class="level-btn${l.key===level?' active':''}" data-k="${l.key}">${l.name}</button>`).join('');
@@ -155,7 +166,7 @@ function buildLevelPicker(){
     btn.addEventListener('click', ()=>{
       level = btn.dataset.k;
       buildLevelPicker();
-      newProblem();
+      resetQuiz();
     });
   });
 }
@@ -197,8 +208,20 @@ function randomTime(){
 }
 
 function newProblem(){
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
+  qIdxNumEl.textContent = questionIndex;
+  nextBtn.textContent = questionIndex >= TOTAL_QUESTIONS ? '🏁 결과 보기' : '➡ 다음 문제';
   answered = false;
-  randomTime();
+
+  let key, attempts = 0;
+  do {
+    randomTime();
+    key = hour+'_'+minute;
+    attempts++;
+  } while(usedQuestions.includes(key) && attempts < 30);
+  usedQuestions.push(key);
+
   drawClock(hour, minute);
   feedback.textContent = '시계를 보고 몇 시 몇 분인지 골라보세요!';
 
@@ -224,6 +247,8 @@ function newProblem(){
       const bh = parseInt(btn.dataset.h), bm = parseInt(btn.dataset.m);
       quizOpts.querySelectorAll('.quiz-btn').forEach(b=>b.disabled=true);
       if(bh===correct.h && bm===correct.m){
+        score++;
+        scoreNumEl.textContent = score;
         btn.classList.add('correct');
         feedback.innerHTML = `🎉 정답이에요! 지금은 <b>${timeLabel(correct.h,correct.m)}</b>예요.`;
         playCorrect();
@@ -238,7 +263,27 @@ function newProblem(){
   });
 }
 
-nextBtn.addEventListener('click', newProblem);
+function showQuizResult(){
+  quizFinished = true;
+  svg.style.display = 'none';
+  quizOpts.innerHTML = '';
+  nextBtn.textContent = '🔄 다시 풀기';
+  feedback.innerHTML = `🏁 퀴즈 완료! ${TOTAL_QUESTIONS}문제 중 <b>${score}</b>개 맞혔어요.`;
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  svg.style.display = '';
+  newProblem();
+}
+
+nextBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newProblem(); }
+});
 buildLevelPicker();
 newProblem();
 </script>

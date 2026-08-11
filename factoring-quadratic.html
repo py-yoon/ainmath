@@ -123,7 +123,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
     <div class="howto"><b>인수분해</b>는 곱셈공식을 거꾸로 쓰는 거예요. x² + bx + c 꼴의 식을 (x−r₁)(x−r₂) 형태로 쪼갤 수 있으면, x² + bx + c = 0의 두 근은 정확히 r₁과 r₂가 돼요. 곱해서 0이 되려면 둘 중 하나가 반드시 0이어야 하기 때문이에요.</div>
     <div class="stage">
       <div class="canvas-area">
-        <div class="progress-badge">정답 <b id="quadScoreNum">0</b> / 시도 <b id="quadTriesNum">0</b></div>
+        <div class="progress-badge">문제 <b id="quadQIdxNum">1</b>/<b id="quadQTotalNum">10</b> · 정답 <b id="quadScoreNum">0</b>개</div>
         <div class="equation" style="width:100%;">
           <div class="formula" id="quadFormula"></div>
         </div>
@@ -220,10 +220,18 @@ const quadNextBtn = document.getElementById('quadNextBtn');
 const quadFeedback = document.getElementById('quadFeedback');
 const quadStepList = document.getElementById('quadStepList');
 const quadScoreNumEl = document.getElementById('quadScoreNum');
-const quadTriesNumEl = document.getElementById('quadTriesNum');
+const quadQIdxNumEl = document.getElementById('quadQIdxNum');
+const quadQTotalNumEl = document.getElementById('quadQTotalNum');
+const quadEquationBox = document.querySelector('#panel-quad .equation');
+const quadInputRow = document.querySelector('#panel-quad .answer-row');
+const QUAD_TOTAL_QUESTIONS = 10;
 
 let qr1, qr2, qb, qc;
-let qScore = 0, qTries = 0, qDone = false;
+let qScore = 0, qDone = false;
+let qQuestionIndex = 0, qQuizFinished = false;
+let qUsedQuestions = [];
+
+quadQTotalNumEl.textContent = QUAD_TOTAL_QUESTIONS;
 
 function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
 
@@ -237,11 +245,28 @@ function fmtQuad(b,c){
   return s;
 }
 
+function buildQuadCandidate(){
+  const R1 = randInt(-7,7);
+  const R2 = randInt(-7,7);
+  const B = -(R1+R2);
+  const C = R1*R2;
+  return { r1:R1, r2:R2, b:B, c:C, text:`${B},${C}` };
+}
+
 function quadNewProblem(){
-  qr1 = randInt(-7,7);
-  qr2 = randInt(-7,7);
-  qb = -(qr1+qr2);
-  qc = qr1*qr2;
+  if(qQuestionIndex >= QUAD_TOTAL_QUESTIONS){ showQuadResult(); return; }
+  qQuestionIndex++;
+  quadQIdxNumEl.textContent = qQuestionIndex;
+  quadNextBtn.textContent = qQuestionIndex >= QUAD_TOTAL_QUESTIONS ? '🏁 결과 보기' : '➡ 다음 문제';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildQuadCandidate();
+    attempts++;
+  } while(qUsedQuestions.includes(candidate.text) && attempts < 30);
+  qUsedQuestions.push(candidate.text);
+
+  qr1 = candidate.r1; qr2 = candidate.r2; qb = candidate.b; qc = candidate.c;
   qDone = false;
 
   quadFormula.textContent = fmtQuad(qb,qc);
@@ -250,6 +275,30 @@ function quadNewProblem(){
   quadCheckBtn.disabled = false; quadRevealBtn.disabled = false;
   quadFeedback.textContent = '';
   quadStepList.textContent = '정답을 맞히거나 풀이 보기를 누르면 인수분해 과정이 나와요.';
+}
+
+function showQuadResult(){
+  qQuizFinished = true;
+  quadEquationBox.style.display = 'none';
+  quadInputRow.style.display = 'none';
+  quadCheckBtn.style.display = 'none';
+  quadRevealBtn.style.display = 'none';
+  quadNextBtn.textContent = '🔄 다시 풀기';
+  quadStepList.innerHTML = '';
+  quadFeedback.innerHTML = `🏁 퀴즈 완료! ${QUAD_TOTAL_QUESTIONS}문제 중 <b>${qScore}</b>개 맞혔어요.`;
+}
+
+function resetQuadQuiz(){
+  qQuizFinished = false;
+  qQuestionIndex = 0;
+  qScore = 0;
+  qUsedQuestions = [];
+  quadScoreNumEl.textContent = '0';
+  quadEquationBox.style.display = '';
+  quadInputRow.style.display = '';
+  quadCheckBtn.style.display = '';
+  quadRevealBtn.style.display = '';
+  quadNewProblem();
 }
 
 function quadFinish(){
@@ -266,8 +315,6 @@ quadCheckBtn.addEventListener('click', ()=>{
     quadFeedback.textContent = '두 근을 모두 입력해주세요.';
     return;
   }
-  qTries++;
-  quadTriesNumEl.textContent = qTries;
   const guess = [v1,v2].sort((x,y)=>x-y);
   const ans = [qr1,qr2].sort((x,y)=>x-y);
   if(guess[0]===ans[0] && guess[1]===ans[1]){
@@ -284,7 +331,9 @@ quadRevealBtn.addEventListener('click', ()=>{
   quadFeedback.innerHTML = `정답은 ${qr1}, ${qr2}예요.`;
   quadFinish();
 });
-quadNextBtn.addEventListener('click', quadNewProblem);
+quadNextBtn.addEventListener('click', ()=>{
+  if(qQuizFinished){ resetQuadQuiz(); } else { quadNewProblem(); }
+});
 quadNewProblem();
 </script>
 </body>

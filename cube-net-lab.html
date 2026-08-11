@@ -132,7 +132,7 @@ footer{max-width:1080px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
     <h2>③ 퀴즈: 정육면체가 될까요?</h2>
     <div class="quiz-head">
       <p class="card-sub" style="margin:0;">전개도 그림을 보고 정육면체가 되는지 안 되는지 맞혀보세요.</p>
-      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+      <div class="progress-badge">문제 <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · 정답 <b id="scoreNum">0</b>개</div>
     </div>
     <div class="quiz-body">
       <div id="quizPreview"></div>
@@ -450,21 +450,33 @@ netGallery.addEventListener('click',(e)=>{
 
 /* ==================== 퀴즈 ==================== */
 const quizPreview=document.getElementById('quizPreview');
+const quizOpts=document.getElementById('quizOpts');
 const quizYes=document.getElementById('quizYes');
 const quizNo=document.getElementById('quizNo');
 const quizFeedback=document.getElementById('quizFeedback');
 const nextQuizBtn=document.getElementById('nextQuizBtn');
 const scoreNumEl=document.getElementById('scoreNum');
-const triesNumEl=document.getElementById('triesNum');
+const qIdxNumEl=document.getElementById('qIdxNum');
+const qTotalNumEl=document.getElementById('qTotalNum');
 
 const QUIZ_KEYS=Object.keys(NETS);
-let score=0, tries=0, answered=false, quizKey=null;
+const TOTAL_QUESTIONS=10;
+let score=0, answered=false, quizKey=null, questionIndex=0, quizFinished=false;
+let usedQuestions=[];
+
+qTotalNumEl.textContent=TOTAL_QUESTIONS;
 
 function newQuizQuestion(){
+  if(questionIndex>=TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
   answered=false;
   quizFeedback.textContent='';
-  let k;
-  do{ k=QUIZ_KEYS[Math.floor(Math.random()*QUIZ_KEYS.length)]; } while(k===quizKey && QUIZ_KEYS.length>1);
+  qIdxNumEl.textContent=questionIndex;
+  nextQuizBtn.textContent = questionIndex>=TOTAL_QUESTIONS ? '🏁 결과 보기' : '➡ 다음 문제';
+
+  let k, attempts=0;
+  do{ k=QUIZ_KEYS[Math.floor(Math.random()*QUIZ_KEYS.length)]; attempts++; } while(usedQuestions.includes(k) && attempts<30);
+  usedQuestions.push(k);
   quizKey=k;
   const net=NETS[k];
   quizPreview.innerHTML=netGridSVG(net.grid, 26, true);
@@ -473,9 +485,8 @@ function newQuizQuestion(){
   quizNo.classList.remove('correct','wrong');
 }
 function answerQuiz(userSaysValid){
-  if(answered) return;
+  if(answered || quizFinished) return;
   answered=true;
-  tries++;
   const net=NETS[quizKey];
   quizYes.disabled=true; quizNo.disabled=true;
   const correct = (userSaysValid===net.valid);
@@ -483,18 +494,36 @@ function answerQuiz(userSaysValid){
   if(correct){
     score++;
     chosenBtn.classList.add('correct');
-    quizFeedback.innerHTML=`🎉 맞았어요! <b>${net.label}</b> — ${net.reason} (정답 ${score} / 시도 ${tries})`;
+    quizFeedback.innerHTML=`🎉 맞았어요! <b>${net.label}</b> — ${net.reason}`;
   } else {
     chosenBtn.classList.add('wrong');
     (net.valid?quizYes:quizNo).classList.add('correct');
-    quizFeedback.innerHTML=`아쉬워요! <b>${net.label}</b>은(는) ${net.valid?'정육면체가 돼요':'정육면체가 되지 않아요'}. ${net.reason} (정답 ${score} / 시도 ${tries})`;
+    quizFeedback.innerHTML=`아쉬워요! <b>${net.label}</b>은(는) ${net.valid?'정육면체가 돼요':'정육면체가 되지 않아요'}. ${net.reason}`;
   }
   scoreNumEl.textContent=score;
-  triesNumEl.textContent=tries;
+}
+function showQuizResult(){
+  quizFinished=true;
+  quizPreview.style.display='none';
+  quizOpts.style.display='none';
+  nextQuizBtn.textContent='🔄 다시 풀기';
+  quizFeedback.innerHTML=`🏁 퀴즈 완료! ${TOTAL_QUESTIONS}문제 중 <b>${score}</b>개 맞혔어요.`;
+}
+function resetQuiz(){
+  quizFinished=false;
+  questionIndex=0;
+  score=0;
+  usedQuestions=[];
+  scoreNumEl.textContent='0';
+  quizPreview.style.display='';
+  quizOpts.style.display='';
+  newQuizQuestion();
 }
 quizYes.addEventListener('click',()=>answerQuiz(true));
 quizNo.addEventListener('click',()=>answerQuiz(false));
-nextQuizBtn.addEventListener('click', newQuizQuestion);
+nextQuizBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newQuizQuestion(); }
+});
 
 newQuizQuestion();
 

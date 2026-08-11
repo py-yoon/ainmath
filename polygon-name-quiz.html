@@ -106,7 +106,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <div class="quiz-stage">
     <div class="quiz-head">
       <h2>🧩 다각형 퀴즈</h2>
-      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+      <div class="progress-badge">문제 <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · 정답 <b id="scoreNum">0</b>개</div>
     </div>
     <div class="quiz-question" id="quizQuestion"></div>
     <div class="quiz-body">
@@ -179,34 +179,38 @@ const quizSvg = document.getElementById('quizSvg');
 const quizOpts = document.getElementById('quizOpts');
 const quizQuestion = document.getElementById('quizQuestion');
 const quizFeedback = document.getElementById('quizFeedback');
+const quizBody = document.querySelector('.quiz-body');
 const nextBtn = document.getElementById('nextBtn');
 const scoreNumEl = document.getElementById('scoreNum');
-const triesNumEl = document.getElementById('triesNum');
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+const TOTAL_QUESTIONS = 10;
 
-let score=0, tries=0, answered=false;
+let score=0, answered=false, questionIndex=0, quizFinished=false;
 let quizType='', correctAnswer='';
+let usedQuestions = [];
 
-function newQuizQuestion(){
-  answered = false;
-  quizFeedback.textContent = '';
-  quizType = Math.random()<0.7 ? 'name' : 'convex';
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
 
-  if(quizType==='name'){
-    quizQuestion.textContent = '이 도형의 이름은 무엇일까요?';
+function buildQuizCandidate(){
+  const type = Math.random()<0.7 ? 'name' : 'convex';
+
+  if(type==='name'){
+    const questionText = '이 도형의 이름은 무엇일까요?';
     const n = 3 + Math.floor(Math.random()*8); // 3~10
-    correctAnswer = String(n);
+    const answer = String(n);
     const rot = Math.floor(Math.random()*360);
     const pts = transformPoints(regularPolygonPoints(n,80), rot, 1, 100, 100);
-    quizSvg.innerHTML = `<polygon points="${pts.map(p=>p.join(',')).join(' ')}" fill="var(--teal-soft)" stroke="var(--teal)" stroke-width="3"></polygon>`;
+    const svgHTML = `<polygon points="${pts.map(p=>p.join(',')).join(' ')}" fill="var(--teal-soft)" stroke="var(--teal)" stroke-width="3"></polygon>`;
 
     const nums = Object.keys(POLY_NAMES).map(Number);
     let distractors = nums.filter(x=>x!==n).sort(()=>Math.random()-0.5).slice(0,3);
     const options = [n, ...distractors].sort(()=>Math.random()-0.5).map(x=>({key:String(x), label:POLY_NAMES[x]}));
-    quizOpts.innerHTML = options.map(o=>`<button class="opt-btn" data-k="${o.key}">${o.label}</button>`).join('');
+    return { dedupeKey:`name:${answer}`, quizType:type, questionText, svgHTML, options, answer };
   } else {
-    quizQuestion.textContent = '이 도형은 볼록다각형일까요, 오목다각형일까요?';
+    const questionText = '이 도형은 볼록다각형일까요, 오목다각형일까요?';
     const isConvex = Math.random()<0.5;
-    correctAnswer = isConvex ? 'convex' : 'concave';
+    const answer = isConvex ? 'convex' : 'concave';
     const rot = Math.floor(Math.random()*360);
     let pts;
     if(isConvex){
@@ -215,38 +219,79 @@ function newQuizQuestion(){
     } else {
       pts = transformPoints(CONCAVE_SHAPE, rot, 0.85, 100, 100);
     }
-    quizSvg.innerHTML = `<polygon points="${pts.map(p=>p.join(',')).join(' ')}" fill="var(--coral-soft)" stroke="var(--coral)" stroke-width="3"></polygon>`;
+    const svgHTML = `<polygon points="${pts.map(p=>p.join(',')).join(' ')}" fill="var(--coral-soft)" stroke="var(--coral)" stroke-width="3"></polygon>`;
 
     const options = [
       {key:'convex', label:'볼록다각형'},
       {key:'concave', label:'오목다각형'},
     ].sort(()=>Math.random()-0.5);
-    quizOpts.innerHTML = options.map(o=>`<button class="opt-btn" data-k="${o.key}">${o.label}</button>`).join('');
+    return { dedupeKey:`convex:${answer}`, quizType:type, questionText, svgHTML, options, answer };
   }
+}
+
+function newQuizQuestion(){
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
+  answered = false;
+  quizFeedback.textContent = '';
+  qIdxNumEl.textContent = questionIndex;
+  nextBtn.textContent = questionIndex >= TOTAL_QUESTIONS ? '🏁 결과 보기' : '➡ 다음 문제';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildQuizCandidate();
+    attempts++;
+  } while(usedQuestions.includes(candidate.dedupeKey) && attempts < 30);
+  usedQuestions.push(candidate.dedupeKey);
+
+  quizType = candidate.quizType;
+  correctAnswer = candidate.answer;
+  quizQuestion.textContent = candidate.questionText;
+  quizSvg.innerHTML = candidate.svgHTML;
+  quizOpts.innerHTML = candidate.options.map(o=>`<button class="opt-btn" data-k="${o.key}">${o.label}</button>`).join('');
 
   quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       if(answered) return;
       answered = true;
-      tries++;
       quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
       const labelOf = k => quizType==='name' ? POLY_NAMES[parseInt(k)] : (k==='convex'?'볼록다각형':'오목다각형');
       if(btn.dataset.k===correctAnswer){
         score++;
         btn.classList.add('correct');
-        quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+        quizFeedback.innerHTML = `🎉 맞았어요!`;
       } else {
         btn.classList.add('wrong');
         quizOpts.querySelector(`[data-k="${correctAnswer}"]`)?.classList.add('correct');
-        quizFeedback.innerHTML = `아쉬워요! 정답은 "${labelOf(correctAnswer)}"이었어요. (정답 ${score} / 시도 ${tries})`;
+        quizFeedback.innerHTML = `아쉬워요! 정답은 "${labelOf(correctAnswer)}"이었어요.`;
       }
       scoreNumEl.textContent = score;
-      triesNumEl.textContent = tries;
     });
   });
 }
 
-nextBtn.addEventListener('click', newQuizQuestion);
+function showQuizResult(){
+  quizFinished = true;
+  quizQuestion.style.display = 'none';
+  quizBody.style.display = 'none';
+  nextBtn.textContent = '🔄 다시 풀기';
+  quizFeedback.innerHTML = `🏁 퀴즈 완료! ${TOTAL_QUESTIONS}문제 중 <b>${score}</b>개 맞혔어요.`;
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  quizQuestion.style.display = '';
+  quizBody.style.display = '';
+  newQuizQuestion();
+}
+
+nextBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newQuizQuestion(); }
+});
 newQuizQuestion();
 </script>
 </body>

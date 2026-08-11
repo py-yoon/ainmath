@@ -50,6 +50,8 @@ svg{width:100%;max-width:340px;height:auto;overflow:visible;}
 .equation .big{font-family:'Do Hyeon',sans-serif;font-size:clamp(30px,5vw,40px);color:var(--violet);line-height:1.4;}
 .equation .big b{color:var(--coral-ink);}
 .quiz-box{background:var(--violet-soft);border-radius:18px;padding:20px;}
+.progress-badge{display:block;text-align:center;font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:#fff;border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;margin:0 auto 14px;width:fit-content;}
+.progress-badge b{color:var(--violet-ink);}
 .quiz-q{font-family:'Do Hyeon',sans-serif;font-size:19px;color:var(--ink);margin-bottom:14px;text-align:center;}
 .quiz-opts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
 .quiz-btn{font-family:'Do Hyeon',sans-serif;font-size:22px;width:60px;height:60px;border-radius:16px;background:#fff;border:3px solid var(--paper-line);color:var(--ink);cursor:pointer;transition:all .15s ease;}
@@ -96,10 +98,12 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
         <div class="big" id="resultLine">삼각형을 골라보세요</div>
       </div>
       <div class="quiz-box">
+        <div class="progress-badge">문제 <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · 정답 <b id="scoreNum">0</b>개</div>
         <div class="quiz-q" id="quizQ">이 도형은 변이 몇 개일까요?</div>
         <button class="read-btn" id="readBtn" type="button">🔊 문제 읽어주기</button>
         <div class="quiz-opts" id="quizOpts"></div>
         <div class="quiz-feedback" id="quizFeedback"></div>
+        <button class="action-btn" id="quizRetryBtn" type="button" style="display:none;margin-top:14px;">🔄 다시 풀기</button>
       </div>
     </div>
   </div>
@@ -152,6 +156,11 @@ const quizOpts = document.getElementById('quizOpts');
 const quizFeedback = document.getElementById('quizFeedback');
 const readBtn = document.getElementById('readBtn');
 readBtn.addEventListener('click', ()=> speakText(quizQ.textContent));
+const scoreNumEl = document.getElementById('scoreNum');
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+const quizRetryBtn = document.getElementById('quizRetryBtn');
+const TOTAL_QUESTIONS = 10;
 
 const SHAPES = [
   {n:0, name:'원', icon:'⚪'},
@@ -162,15 +171,17 @@ const SHAPES = [
 ];
 let currentIdx = 1;
 let counting = false;
+let score = 0, questionIndex = 0, quizFinished = false;
+let usedQuestions = [];
+
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
 
 function buildPicker(){
   shapePicker.innerHTML = SHAPES.map((s,i)=>`<button class="shape-btn${i===currentIdx?' active':''}" data-i="${i}">${s.icon} ${s.name}</button>`).join('');
   shapePicker.querySelectorAll('.shape-btn').forEach(btn=>{
     btn.addEventListener('click', ()=>{
-      currentIdx = parseInt(btn.dataset.i);
-      buildPicker();
-      drawShape();
-      buildQuiz();
+      if(quizFinished) return;
+      buildQuiz(parseInt(btn.dataset.i));
     });
   });
 }
@@ -241,7 +252,25 @@ function countShape(){
   });
 }
 
-function buildQuiz(){
+function buildQuiz(forceIdx){
+  if(quizFinished) return;
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
+  qIdxNumEl.textContent = questionIndex;
+
+  let idx = forceIdx;
+  if(idx===undefined){
+    let attempts = 0;
+    do {
+      idx = Math.floor(Math.random()*SHAPES.length);
+      attempts++;
+    } while(usedQuestions.includes(SHAPES[idx].name) && attempts < 30);
+  }
+  currentIdx = idx;
+  usedQuestions.push(SHAPES[currentIdx].name);
+  buildPicker();
+  drawShape();
+
   const s = SHAPES[currentIdx];
   quizFeedback.textContent = '';
   if(s.n===0){
@@ -265,6 +294,8 @@ function renderQuizOpts(opts, correct){
       const val = parseInt(btn.dataset.v);
       quizOpts.querySelectorAll('.quiz-btn').forEach(b=>b.disabled=true);
       if(val===correct){
+        score++;
+        scoreNumEl.textContent = score;
         btn.classList.add('correct');
         quizFeedback.textContent = '🎉 정답이에요! 참 잘했어요!';
         playCorrect();
@@ -282,6 +313,25 @@ function renderQuizOpts(opts, correct){
   });
 }
 
+function showQuizResult(){
+  quizFinished = true;
+  quizQ.textContent = `🏁 퀴즈 완료! ${TOTAL_QUESTIONS}문제 중 ${score}개 맞혔어요.`;
+  quizOpts.innerHTML = '';
+  quizFeedback.textContent = '';
+  quizRetryBtn.style.display = 'block';
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  quizRetryBtn.style.display = 'none';
+  buildQuiz();
+}
+
+quizRetryBtn.addEventListener('click', resetQuiz);
 countBtn.addEventListener('click', countShape);
 buildPicker();
 drawShape();

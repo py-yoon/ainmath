@@ -104,7 +104,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
     <div class="howto"><b>부등식의 성질</b>: 양쪽에 같은 수를 더하거나 빼면 방향은 그대로예요. 양쪽에 <b>양수</b>를 곱하거나 나눠도 방향은 그대로지만, 양쪽에 <b>음수</b>를 곱하거나 나누면 부등호 방향이 <b>반대로 바뀌어요</b>.</div>
     <div class="stage">
       <div class="canvas-area">
-        <div class="progress-badge">정답 <b id="ineqScoreNum">0</b> / 시도 <b id="ineqTriesNum">0</b></div>
+        <div class="progress-badge">문제 <b id="ineqQIdxNum">1</b>/<b id="ineqQTotalNum">10</b> · 정답 <b id="ineqScoreNum">0</b>개</div>
         <svg id="ineqSvg" viewBox="0 0 440 120"></svg>
         <div class="quiz-row" id="ineqQuizRow" style="display:none;"></div>
         <div class="quiz-feedback" id="ineqQuizFeedback"></div>
@@ -130,6 +130,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
     <div class="howto"><b>연립방정식</b>은 식 두 개를 동시에 만족하는 x, y를 찾는 거예요. 두 식을 각각 그래프로 그리면, 두 직선이 만나는 점의 좌표가 바로 정답이에요.</div>
     <div class="stage">
       <div class="canvas-area">
+        <div class="progress-badge">문제 <b id="sysQIdxNum">1</b>/<b id="sysQTotalNum">10</b> · 정답 <b id="sysScoreNum">0</b>개</div>
         <svg id="sysSvg" viewBox="0 0 400 400"></svg>
         <div class="answer-row">
           <label>x =</label><input type="number" id="sysX" inputmode="numeric">
@@ -186,20 +187,43 @@ const ineqQuizRow = document.getElementById('ineqQuizRow');
 const ineqQuizFeedback = document.getElementById('ineqQuizFeedback');
 const ineqNextBtn = document.getElementById('ineqNextBtn');
 const ineqScoreNumEl = document.getElementById('ineqScoreNum');
-const ineqTriesNumEl = document.getElementById('ineqTriesNum');
+const ineqQIdxNumEl = document.getElementById('ineqQIdxNum');
+const ineqQTotalNumEl = document.getElementById('ineqQTotalNum');
+const INEQ_TOTAL_QUESTIONS = 10;
 
 let ia, ib, ic, ix0, idir; // a x + b (dir) c
 let iStep = 0;
-let iScore = 0, iTries = 0;
+let iScore = 0;
+let ineqQuestionIndex = 0, ineqQuizFinished = false;
+let ineqUsedQuestions = [];
+
+ineqQTotalNumEl.textContent = INEQ_TOTAL_QUESTIONS;
 
 function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
 
+function buildIneqCandidate(){
+  const A = [1,2,3,-1,-2,-3][randInt(0,5)];
+  const B = randInt(0,9);
+  const X0 = randInt(-5,5);
+  const DIR = Math.random()<0.5 ? '>' : '<';
+  const C = A*X0 + B;
+  return { a:A, b:B, x0:X0, dir:DIR, c:C, text:`${A}x+${B}${DIR}${C}` };
+}
+
 function ineqNewProblem(){
-  ia = [1,2,3,-1,-2,-3][randInt(0,5)];
-  ib = randInt(0,9);
-  ix0 = randInt(-5,5);
-  idir = Math.random()<0.5 ? '>' : '<';
-  ic = ia*ix0 + ib;
+  if(ineqQuestionIndex >= INEQ_TOTAL_QUESTIONS){ showIneqResult(); return; }
+  ineqQuestionIndex++;
+  ineqQIdxNumEl.textContent = ineqQuestionIndex;
+  ineqNextBtn.textContent = ineqQuestionIndex >= INEQ_TOTAL_QUESTIONS ? '🏁 결과 보기' : '➡ 다음 문제';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildIneqCandidate();
+    attempts++;
+  } while(ineqUsedQuestions.includes(candidate.text) && attempts < 30);
+  ineqUsedQuestions.push(candidate.text);
+
+  ia = candidate.a; ib = candidate.b; ix0 = candidate.x0; idir = candidate.dir; ic = candidate.c;
   iStep = 0;
   ineqStep1Btn.disabled = false;
   ineqStep2Btn.disabled = true;
@@ -209,6 +233,31 @@ function ineqNewProblem(){
   ineqFact.textContent = '해가 정해지면 그 값을 확인하는 문제가 나와요.';
   drawNumberLine(null, null);
   renderIneqFormula();
+}
+
+function showIneqResult(){
+  ineqQuizFinished = true;
+  ineqSvg.style.display = 'none';
+  ineqQuizRow.style.display = 'none';
+  ineqStep1Btn.style.display = 'none';
+  ineqStep2Btn.style.display = 'none';
+  ineqNextBtn.textContent = '🔄 다시 풀기';
+  ineqQuizFeedback.textContent = '';
+  ineqFormula.textContent = '';
+  ineqStepList.innerHTML = '';
+  ineqFact.innerHTML = `🏁 퀴즈 완료! ${INEQ_TOTAL_QUESTIONS}문제 중 <b>${iScore}</b>개 맞혔어요.`;
+}
+
+function resetIneqQuiz(){
+  ineqQuizFinished = false;
+  ineqQuestionIndex = 0;
+  iScore = 0;
+  ineqUsedQuestions = [];
+  ineqScoreNumEl.textContent = '0';
+  ineqSvg.style.display = '';
+  ineqStep1Btn.style.display = '';
+  ineqStep2Btn.style.display = '';
+  ineqNewProblem();
 }
 
 function renderIneqFormula(){
@@ -262,8 +311,6 @@ function startIneqQuiz(){
   ineqQuizFeedback.textContent = '';
   ineqQuizRow.querySelectorAll('.quiz-btn').forEach(btn=>{
     btn.addEventListener('click', ()=>{
-      iTries++;
-      ineqTriesNumEl.textContent = iTries;
       ineqQuizRow.querySelectorAll('.quiz-btn').forEach(b=>b.disabled=true);
       const guess = btn.dataset.v==='yes';
       if(guess===satisfies){
@@ -299,7 +346,9 @@ ineqStep2Btn.addEventListener('click', ()=>{
     : `<b>a가 양수</b>일 때는 방향을 바꿀 필요가 없어요. 방정식을 풀 때와 똑같은 방식이에요.`;
   startIneqQuiz();
 });
-ineqNextBtn.addEventListener('click', ineqNewProblem);
+ineqNextBtn.addEventListener('click', ()=>{
+  if(ineqQuizFinished){ resetIneqQuiz(); } else { ineqNewProblem(); }
+});
 ineqNewProblem();
 
 /* ================= 연립방정식 ================= */
@@ -312,18 +361,43 @@ const sysRevealBtn = document.getElementById('sysRevealBtn');
 const sysNextBtn = document.getElementById('sysNextBtn');
 const sysFeedback = document.getElementById('sysFeedback');
 const sysStepList = document.getElementById('sysStepList');
+const sysScoreNumEl = document.getElementById('sysScoreNum');
+const sysQIdxNumEl = document.getElementById('sysQIdxNum');
+const sysQTotalNumEl = document.getElementById('sysQTotalNum');
+const sysAnswerRow = document.querySelector('#panel-sys .answer-row');
+const SYS_TOTAL_QUESTIONS = 10;
 
 let sx0, sy0, sc1, sc2; // x+y=c1, x-y=c2
 let sSolved = false, sRevealed = false;
+let sysScore = 0;
+let sysQuestionIndex = 0, sysQuizFinished = false;
+let sysUsedQuestions = [];
+
+sysQTotalNumEl.textContent = SYS_TOTAL_QUESTIONS;
 
 const RANGE = 8, SIZE = 400, CX = SIZE/2, CY = SIZE/2, SCALE = (SIZE/2-30)/RANGE;
 function toSvg(x,y){ return [CX + x*SCALE, CY - y*SCALE]; }
 
+function buildSysCandidate(){
+  const X0 = randInt(-4,4);
+  const Y0 = randInt(-4,4);
+  return { x0:X0, y0:Y0, c1:X0+Y0, c2:X0-Y0, text:`${X0},${Y0}` };
+}
+
 function sysNewProblem(){
-  sx0 = randInt(-4,4);
-  sy0 = randInt(-4,4);
-  sc1 = sx0 + sy0;
-  sc2 = sx0 - sy0;
+  if(sysQuestionIndex >= SYS_TOTAL_QUESTIONS){ showSysResult(); return; }
+  sysQuestionIndex++;
+  sysQIdxNumEl.textContent = sysQuestionIndex;
+  sysNextBtn.textContent = sysQuestionIndex >= SYS_TOTAL_QUESTIONS ? '🏁 결과 보기' : '➡ 다음 문제';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildSysCandidate();
+    attempts++;
+  } while(sysUsedQuestions.includes(candidate.text) && attempts < 30);
+  sysUsedQuestions.push(candidate.text);
+
+  sx0 = candidate.x0; sy0 = candidate.y0; sc1 = candidate.c1; sc2 = candidate.c2;
   sSolved = false; sRevealed = false;
   sysX.value = ''; sysY.value = '';
   sysX.disabled = false; sysY.disabled = false;
@@ -332,6 +406,27 @@ function sysNewProblem(){
   sysStepList.textContent = '정답을 맞히거나 풀이 보기를 누르면 소거법 과정이 나와요.';
   sysFormula.innerHTML = `x + y = ${sc1}<br>x − y = ${sc2}`;
   drawSysGraph(false);
+}
+
+function showSysResult(){
+  sysQuizFinished = true;
+  sysSvg.style.display = 'none';
+  sysAnswerRow.style.display = 'none';
+  sysNextBtn.textContent = '🔄 다시 풀기';
+  sysFeedback.textContent = '';
+  sysStepList.innerHTML = '';
+  sysFormula.innerHTML = `🏁 퀴즈 완료! ${SYS_TOTAL_QUESTIONS}문제 중 <b>${sysScore}</b>개 맞혔어요.`;
+}
+
+function resetSysQuiz(){
+  sysQuizFinished = false;
+  sysQuestionIndex = 0;
+  sysScore = 0;
+  sysUsedQuestions = [];
+  sysScoreNumEl.textContent = '0';
+  sysSvg.style.display = '';
+  sysAnswerRow.style.display = '';
+  sysNewProblem();
 }
 
 function drawSysGraph(showSolution){
@@ -380,6 +475,8 @@ sysCheckBtn.addEventListener('click', ()=>{
     return;
   }
   if(vx===sx0 && vy===sy0){
+    sysScore++;
+    sysScoreNumEl.textContent = sysScore;
     sysFeedback.innerHTML = `🎉 정답이에요! (${sx0}, ${sy0})가 두 직선의 교점이에요.`;
     sysFinish();
   } else {
@@ -392,7 +489,9 @@ sysRevealBtn.addEventListener('click', ()=>{
   sysFeedback.innerHTML = `정답은 (${sx0}, ${sy0})예요.`;
   sysFinish();
 });
-sysNextBtn.addEventListener('click', sysNewProblem);
+sysNextBtn.addEventListener('click', ()=>{
+  if(sysQuizFinished){ resetSysQuiz(); } else { sysNewProblem(); }
+});
 sysNewProblem();
 </script>
 </body>

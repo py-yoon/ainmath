@@ -119,7 +119,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <div class="quiz-stage">
     <div class="quiz-head">
       <h2>🧩 대응 관계 퀴즈</h2>
-      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+      <div class="progress-badge">문제 <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · 정답 <b id="scoreNum">0</b>개</div>
     </div>
     <div class="quiz-q" id="quizQ"></div>
     <div class="quiz-opts" id="quizOpts"></div>
@@ -229,48 +229,90 @@ const quizOpts = document.getElementById('quizOpts');
 const quizFeedback = document.getElementById('quizFeedback');
 const nextQuizBtn = document.getElementById('nextQuizBtn');
 const scoreNumEl = document.getElementById('scoreNum');
-const triesNumEl = document.getElementById('triesNum');
-let score = 0, tries = 0, answered = false, quizAnswer = 0;
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+const TOTAL_QUESTIONS = 10;
+let score = 0, answered = false, quizAnswer = 0, questionIndex = 0, quizFinished = false;
+let usedQuestions = [];
+
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
 
 function randInt(min,max){ return min + Math.floor(Math.random()*(max-min+1)); }
 
-function newQuizQuestion(){
-  answered = false;
-  quizFeedback.textContent = '';
+function buildQuizCandidate(){
   const c = CONTEXTS[randInt(0,CONTEXTS.length-1)];
   const qx = randInt(2,9);
-  quizAnswer = c.rule(qx);
-  quizQ.innerHTML = `<b>${c.label}</b> — ${c.xLabel}가 <b>${qx}${c.unit}</b>일 때, ${c.yLabel}는 몇 ${c.yUnit}일까요?`;
+  const answer = c.rule(qx);
+  const text = `<b>${c.label}</b> — ${c.xLabel}가 <b>${qx}${c.unit}</b>일 때, ${c.yLabel}는 몇 ${c.yUnit}일까요?`;
 
-  const opts = new Set([quizAnswer]);
+  const opts = new Set([answer]);
   while(opts.size<4){
     const delta = randInt(-4,4);
-    if(delta!==0) opts.add(quizAnswer+delta);
+    if(delta!==0) opts.add(answer+delta);
   }
   const optArr = [...opts].filter(v=>v>0).sort(()=>Math.random()-0.5);
-  quizOpts.innerHTML = optArr.map(o=>`<button class="opt-btn" data-o="${o}">${o}${c.yUnit}</button>`).join('');
+  return { text, answer, opts: optArr, unit: c.yUnit };
+}
+
+function newQuizQuestion(){
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
+  answered = false;
+  quizFeedback.textContent = '';
+  qIdxNumEl.textContent = questionIndex;
+  nextQuizBtn.textContent = questionIndex >= TOTAL_QUESTIONS ? '🏁 결과 보기' : '➡ 다음 문제';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildQuizCandidate();
+    attempts++;
+  } while(usedQuestions.includes(candidate.text) && attempts < 30);
+  usedQuestions.push(candidate.text);
+
+  quizAnswer = candidate.answer;
+  quizQ.innerHTML = candidate.text;
+  quizOpts.innerHTML = candidate.opts.map(o=>`<button class="opt-btn" data-o="${o}">${o}${candidate.unit}</button>`).join('');
   quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       if(answered) return;
       answered = true;
-      tries++;
       quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
       if(parseInt(btn.dataset.o)===quizAnswer){
         score++;
         btn.classList.add('correct');
-        quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+        quizFeedback.innerHTML = `🎉 맞았어요!`;
       } else {
         btn.classList.add('wrong');
         quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
-        quizFeedback.innerHTML = `아쉬워요! 정답은 ${quizAnswer}${c.yUnit}였어요. (정답 ${score} / 시도 ${tries})`;
+        quizFeedback.innerHTML = `아쉬워요! 정답은 ${quizAnswer}${candidate.unit}였어요.`;
       }
       scoreNumEl.textContent = score;
-      triesNumEl.textContent = tries;
     });
   });
 }
 
-nextQuizBtn.addEventListener('click', newQuizQuestion);
+function showQuizResult(){
+  quizFinished = true;
+  quizQ.style.display = 'none';
+  quizOpts.style.display = 'none';
+  nextQuizBtn.textContent = '🔄 다시 풀기';
+  quizFeedback.innerHTML = `🏁 퀴즈 완료! ${TOTAL_QUESTIONS}문제 중 <b>${score}</b>개 맞혔어요.`;
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  quizQ.style.display = '';
+  quizOpts.style.display = '';
+  newQuizQuestion();
+}
+
+nextQuizBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newQuizQuestion(); }
+});
 newQuizQuestion();
 </script>
 </body>

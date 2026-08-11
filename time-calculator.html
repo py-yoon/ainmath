@@ -98,7 +98,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <div class="quiz-stage">
     <div class="quiz-head">
       <h2>🧩 경과 시간 계산 퀴즈</h2>
-      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+      <div class="progress-badge">문제 <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · 정답 <b id="scoreNum">0</b>개</div>
     </div>
     <div class="quiz-question" id="quizQuestion"></div>
     <div class="quiz-opts" id="quizOpts"></div>
@@ -162,9 +162,14 @@ const quizOpts = document.getElementById('quizOpts');
 const quizFeedback = document.getElementById('quizFeedback');
 const nextBtn = document.getElementById('nextBtn');
 const scoreNumEl = document.getElementById('scoreNum');
-const triesNumEl = document.getElementById('triesNum');
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+const TOTAL_QUESTIONS = 10;
+let score = 0, answered = false, questionIndex = 0, quizFinished = false;
+let usedQuestions = [];
+let correctKey = 0, correctFmt = '';
 
-let score=0, tries=0, answered=false, correctKey=0;
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
 
 function toHMS(totalSec){
   const wrapped = ((totalSec % 43200) + 43200) % 43200; // 12시간 = 43200초
@@ -176,10 +181,7 @@ function toHMS(totalSec){
 }
 function fmt(t){ return `${t.h}시 ${t.m}분 ${t.s}초`; }
 
-function newQuizQuestion(){
-  answered = false;
-  quizFeedback.textContent = '';
-
+function buildQuizCandidate(){
   const startH = 1+Math.floor(Math.random()*11);
   const startM = Math.floor(Math.random()*60);
   const startS = Math.floor(Math.random()*60);
@@ -189,44 +191,85 @@ function newQuizQuestion(){
   const startSec = (startH%12)*3600+startM*60+startS;
   const addSec = addM*60+addS;
   const correct = toHMS(startSec+addSec);
-  correctKey = correct.key;
 
-  quizQuestion.innerHTML = `지금 시각이 <b>${startH}시 ${startM}분 ${startS}초</b>예요. 여기서 <b>${addM}분 ${addS}초</b>가 지나면 몇 시일까요?`;
+  const text = `지금 시각이 ${startH}시 ${startM}분 ${startS}초예요. 여기서 ${addM}분 ${addS}초가 지나면 몇 시일까요?`;
+  const html = `지금 시각이 <b>${startH}시 ${startM}분 ${startS}초</b>예요. 여기서 <b>${addM}분 ${addS}초</b>가 지나면 몇 시일까요?`;
 
   const perturbs = [60,-60,600,-600,10,-10,3600,-3600];
   const candSet = new Map();
   candSet.set(correct.key, correct);
   perturbs.forEach(p=>{
-    const t = toHMS(correctKey+p);
-    if(t.key!==correctKey && !candSet.has(t.key)) candSet.set(t.key, t);
+    const t = toHMS(correct.key+p);
+    if(t.key!==correct.key && !candSet.has(t.key)) candSet.set(t.key, t);
   });
   let candidates = [...candSet.values()];
-  const wrongOnes = candidates.filter(c=>c.key!==correctKey).sort(()=>Math.random()-0.5).slice(0,3);
+  const wrongOnes = candidates.filter(c=>c.key!==correct.key).sort(()=>Math.random()-0.5).slice(0,3);
   const options = [correct, ...wrongOnes].sort(()=>Math.random()-0.5);
 
-  quizOpts.innerHTML = options.map(o=>`<button class="opt-btn" data-k="${o.key}">${fmt(o)}</button>`).join('');
+  return { text, html, correct, options };
+}
+
+function newQuizQuestion(){
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
+  answered = false;
+  quizFeedback.textContent = '';
+  qIdxNumEl.textContent = questionIndex;
+  nextBtn.textContent = questionIndex >= TOTAL_QUESTIONS ? '🏁 결과 보기' : '➡ 다음 문제';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildQuizCandidate();
+    attempts++;
+  } while(usedQuestions.includes(candidate.text) && attempts < 30);
+  usedQuestions.push(candidate.text);
+
+  correctKey = candidate.correct.key;
+  correctFmt = fmt(candidate.correct);
+  quizQuestion.innerHTML = candidate.html;
+
+  quizOpts.innerHTML = candidate.options.map(o=>`<button class="opt-btn" data-k="${o.key}">${fmt(o)}</button>`).join('');
   quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       if(answered) return;
       answered = true;
-      tries++;
       quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
       if(parseInt(btn.dataset.k)===correctKey){
         score++;
         btn.classList.add('correct');
-        quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+        quizFeedback.innerHTML = `🎉 맞았어요!`;
       } else {
         btn.classList.add('wrong');
         quizOpts.querySelector(`[data-k="${correctKey}"]`)?.classList.add('correct');
-        quizFeedback.innerHTML = `아쉬워요! 정답은 "${fmt(correct)}"였어요. (정답 ${score} / 시도 ${tries})`;
+        quizFeedback.innerHTML = `아쉬워요! 정답은 "${correctFmt}"였어요.`;
       }
       scoreNumEl.textContent = score;
-      triesNumEl.textContent = tries;
     });
   });
 }
 
-nextBtn.addEventListener('click', newQuizQuestion);
+function showQuizResult(){
+  quizFinished = true;
+  quizQuestion.style.display = 'none';
+  quizOpts.style.display = 'none';
+  nextBtn.textContent = '🔄 다시 풀기';
+  quizFeedback.innerHTML = `🏁 퀴즈 완료! ${TOTAL_QUESTIONS}문제 중 <b>${score}</b>개 맞혔어요.`;
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  quizQuestion.style.display = '';
+  quizOpts.style.display = '';
+  newQuizQuestion();
+}
+
+nextBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newQuizQuestion(); }
+});
 newQuizQuestion();
 </script>
 </body>

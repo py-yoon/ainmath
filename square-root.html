@@ -105,7 +105,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <div class="quiz-stage">
     <div class="quiz-head">
       <h2>🧩 크기 비교 퀴즈</h2>
-      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+      <div class="progress-badge">문제 <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · 정답 <b id="scoreNum">0</b>개</div>
     </div>
     <div class="quiz-q" id="quizQ"></div>
     <div class="quiz-opts" id="quizOpts"></div>
@@ -194,44 +194,87 @@ const quizOpts = document.getElementById('quizOpts');
 const quizFeedback = document.getElementById('quizFeedback');
 const nextQuizBtn = document.getElementById('nextQuizBtn');
 const scoreNumEl = document.getElementById('scoreNum');
-const triesNumEl = document.getElementById('triesNum');
-let score = 0, tries = 0, answered = false;
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+const TOTAL_QUESTIONS = 10;
+let score = 0, answered = false, questionIndex = 0, quizFinished = false;
+let usedQuestions = [];
+let quizA = 0, quizB = 0, quizCorrect = '';
+
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
 
 function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
 
-function newQuizQuestion(){
-  answered = false;
-  quizFeedback.textContent = '';
+function buildQuizCandidate(){
   let a = randInt(2,40), b = randInt(2,40);
   while(a===b){ b = randInt(2,40); }
-  quizQ.textContent = `√${a} 과 √${b} 중에서 어느 쪽이 더 클까요?`;
-  const correct = a>b ? 'a' : 'b';
+  const text = `√${a} 과 √${b} 중에서 어느 쪽이 더 클까요?`;
+  const answer = a>b ? 'a' : 'b';
+  return { text, answer, a, b };
+}
+
+function newQuizQuestion(){
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
+  answered = false;
+  quizFeedback.textContent = '';
+  qIdxNumEl.textContent = questionIndex;
+  nextQuizBtn.textContent = questionIndex >= TOTAL_QUESTIONS ? '🏁 결과 보기' : '➡ 다음 문제';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildQuizCandidate();
+    attempts++;
+  } while(usedQuestions.includes(candidate.text) && attempts < 30);
+  usedQuestions.push(candidate.text);
+
+  quizA = candidate.a; quizB = candidate.b; quizCorrect = candidate.answer;
+  quizQ.textContent = candidate.text;
   quizOpts.innerHTML = `
-    <button class="opt-btn" data-o="a">√${a}</button>
-    <button class="opt-btn" data-o="b">√${b}</button>
+    <button class="opt-btn" data-o="a">√${quizA}</button>
+    <button class="opt-btn" data-o="b">√${quizB}</button>
   `;
   quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       if(answered) return;
       answered = true;
-      tries++;
       quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
-      if(btn.dataset.o===correct){
+      if(btn.dataset.o===quizCorrect){
         score++;
         btn.classList.add('correct');
-        quizFeedback.innerHTML = `🎉 맞았어요! ${a>b?`${a} > ${b}`:`${b} > ${a}`}이니까 √${a>b?a:b}이 더 커요. (정답 ${score} / 시도 ${tries})`;
+        quizFeedback.innerHTML = `🎉 맞았어요! ${quizA>quizB?`${quizA} > ${quizB}`:`${quizB} > ${quizA}`}이니까 √${quizA>quizB?quizA:quizB}이 더 커요.`;
       } else {
         btn.classList.add('wrong');
-        quizOpts.querySelector(`[data-o="${correct}"]`)?.classList.add('correct');
-        quizFeedback.innerHTML = `아쉬워요! √${a>b?a:b}이 더 커요 — 근호 안의 수가 클수록 제곱근도 커져요. (정답 ${score} / 시도 ${tries})`;
+        quizOpts.querySelector(`[data-o="${quizCorrect}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `아쉬워요! √${quizA>quizB?quizA:quizB}이 더 커요 — 근호 안의 수가 클수록 제곱근도 커져요.`;
       }
       scoreNumEl.textContent = score;
-      triesNumEl.textContent = tries;
     });
   });
 }
 
-nextQuizBtn.addEventListener('click', newQuizQuestion);
+function showQuizResult(){
+  quizFinished = true;
+  quizQ.style.display = 'none';
+  quizOpts.style.display = 'none';
+  nextQuizBtn.textContent = '🔄 다시 풀기';
+  quizFeedback.innerHTML = `🏁 퀴즈 완료! ${TOTAL_QUESTIONS}문제 중 <b>${score}</b>개 맞혔어요.`;
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  quizQ.style.display = '';
+  quizOpts.style.display = '';
+  newQuizQuestion();
+}
+
+nextQuizBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newQuizQuestion(); }
+});
 newQuizQuestion();
 </script>
 </body>

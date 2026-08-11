@@ -180,7 +180,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <div class="quiz-stage">
     <div class="quiz-head">
       <h2>🧩 허수와 복소수 퀴즈</h2>
-      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+      <div class="progress-badge">문제 <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · 정답 <b id="scoreNum">0</b>개</div>
     </div>
     <div class="quiz-q" id="quizQ"></div>
     <div class="quiz-opts" id="quizOpts"></div>
@@ -433,8 +433,13 @@ const quizOpts = document.getElementById('quizOpts');
 const quizFeedback = document.getElementById('quizFeedback');
 const nextQuizBtn = document.getElementById('nextQuizBtn');
 const scoreNumEl = document.getElementById('scoreNum');
-const triesNumEl = document.getElementById('triesNum');
-let score=0, tries=0, answered=false, quizAnswer=null;
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+const TOTAL_QUESTIONS = 10;
+let score=0, answered=false, quizAnswer=null, questionIndex=0, quizFinished=false;
+let usedQuestions = [];
+
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
 
 const TRUE_FALSE = [
   {s:'i² = −1이다', a:'참'},
@@ -445,67 +450,105 @@ const TRUE_FALSE = [
   {s:'오일러 공식은 e, i, π, 1, 0을 한 식에 담고 있다', a:'참'},
 ];
 
-function newQuizQuestion(){
-  answered=false;
-  quizFeedback.textContent='';
+function buildQuizCandidate(){
   const type = Math.random();
 
   if(type < 0.3){
     const n = randInt(0,30);
-    quizAnswer = I_CYCLE[n%4];
-    quizQ.innerHTML = `i<sup>${n}</sup>의 값은 무엇일까요?`;
-    renderOpts(['1','i','-1','-i'], v=>v);
+    const answer = I_CYCLE[n%4];
+    const text = `i<sup>${n}</sup>의 값은 무엇일까요?`;
+    return { text, answer, opts: ['1','i','-1','-i'] };
   } else if(type < 0.5){
     const a = randInt(-9,9);
-    quizAnswer = a>=0 ? '실수 해' : '허수 해';
-    quizQ.innerHTML = `x² = ${a}의 해는 실수일까요, 허수일까요?`;
-    renderOpts(['실수 해','허수 해'], v=>v);
+    const answer = a>=0 ? '실수 해' : '허수 해';
+    const text = `x² = ${a}의 해는 실수일까요, 허수일까요?`;
+    return { text, answer, opts: ['실수 해','허수 해'] };
   } else if(type < 0.8){
     const [z1,z2] = OPS_PAIRS[randInt(0,OPS_PAIRS.length-1)];
     const isAdd = Math.random()<0.5;
     const result = isAdd ? cAdd(z1,z2) : cMul(z1,z2);
-    quizAnswer = fmtComplex(result);
-    quizQ.innerHTML = `(${fmtComplex(z1)}) ${isAdd?'+':'×'} (${fmtComplex(z2)}) = ?`;
+    const answer = fmtComplex(result);
+    const text = `(${fmtComplex(z1)}) ${isAdd?'+':'×'} (${fmtComplex(z2)}) = ?`;
     const wrongs = new Set();
     while(wrongs.size<3){
       const dr = result[0]+randInt(-3,3), di = result[1]+randInt(-3,3);
       const cand = fmtComplex([dr,di]);
-      if(cand!==quizAnswer) wrongs.add(cand);
+      if(cand!==answer) wrongs.add(cand);
     }
-    renderOpts([quizAnswer,...wrongs].sort(()=>Math.random()-0.5), v=>v);
+    return { text, answer, opts: [answer,...wrongs].sort(()=>Math.random()-0.5) };
   } else {
     const item = TRUE_FALSE[randInt(0,TRUE_FALSE.length-1)];
-    quizAnswer = item.a;
-    quizQ.innerHTML = `"${item.s}" — 참일까요, 거짓일까요?`;
-    renderOpts(['참','거짓'], v=>v);
+    const answer = item.a;
+    const text = `"${item.s}" — 참일까요, 거짓일까요?`;
+    return { text, answer, opts: ['참','거짓'] };
   }
 }
 
-function renderOpts(opts, formatter){
-  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${formatter(o)}</button>`).join('');
+function newQuizQuestion(){
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
+  answered=false;
+  quizFeedback.textContent='';
+  qIdxNumEl.textContent = questionIndex;
+  nextQuizBtn.textContent = questionIndex >= TOTAL_QUESTIONS ? '🏁 결과 보기' : '➡ 다음 문제';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildQuizCandidate();
+    attempts++;
+  } while(usedQuestions.includes(candidate.text) && attempts < 30);
+  usedQuestions.push(candidate.text);
+
+  quizAnswer = candidate.answer;
+  quizQ.innerHTML = candidate.text;
+  renderOpts(candidate.opts);
+}
+
+function renderOpts(opts){
+  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${o}</button>`).join('');
   quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       if(answered) return;
       answered=true;
-      tries++;
       quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
       const chosen = btn.dataset.o;
       const isCorrect = chosen===quizAnswer;
       if(isCorrect){
         score++;
         btn.classList.add('correct');
-        quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+        quizFeedback.innerHTML = `🎉 맞았어요!`;
       } else {
         btn.classList.add('wrong');
         quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
-        quizFeedback.innerHTML = `아쉬워요! 정답은 ${quizAnswer}였어요. (정답 ${score} / 시도 ${tries})`;
+        quizFeedback.innerHTML = `아쉬워요! 정답은 ${quizAnswer}였어요.`;
       }
       scoreNumEl.textContent = score;
-      triesNumEl.textContent = tries;
     });
   });
 }
-nextQuizBtn.addEventListener('click', newQuizQuestion);
+
+function showQuizResult(){
+  quizFinished = true;
+  quizQ.style.display = 'none';
+  quizOpts.style.display = 'none';
+  nextQuizBtn.textContent = '🔄 다시 풀기';
+  quizFeedback.innerHTML = `🏁 퀴즈 완료! ${TOTAL_QUESTIONS}문제 중 <b>${score}</b>개 맞혔어요.`;
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  quizQ.style.display = '';
+  quizOpts.style.display = '';
+  newQuizQuestion();
+}
+
+nextQuizBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newQuizQuestion(); }
+});
 newQuizQuestion();
 </script>
 </body>

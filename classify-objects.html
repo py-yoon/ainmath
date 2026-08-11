@@ -97,7 +97,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <div class="quiz-stage">
     <div class="quiz-head">
       <h2>🧩 분류 기준 맞히기 퀴즈</h2>
-      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+      <div class="progress-badge">문제 <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · 정답 <b id="scoreNum">0</b>개</div>
     </div>
     <div class="quiz-q" id="quizQ">이렇게 나눈 기준은 무엇일까요?</div>
     <button class="read-btn" id="readBtn" type="button">🔊 문제 읽어주기</button>
@@ -224,50 +224,91 @@ const quizOpts = document.getElementById('quizOpts');
 const quizFeedback = document.getElementById('quizFeedback');
 const nextQuizBtn = document.getElementById('nextQuizBtn');
 const scoreNumEl = document.getElementById('scoreNum');
-const triesNumEl = document.getElementById('triesNum');
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
 const readBtn = document.getElementById('readBtn');
 readBtn.addEventListener('click', ()=> speakText(document.getElementById('quizQ').textContent));
-let score = 0, tries = 0, answered = false, quizAnswer = '';
+const TOTAL_QUESTIONS = 10;
+let score = 0, answered = false, quizAnswer = '', questionIndex = 0, quizFinished = false;
+let usedQuestions = [];
+
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
+
+function buildQuizCandidate(){
+  const criterion = CRITERIA[Math.floor(Math.random()*CRITERIA.length)];
+  const answer = criterion.key;
+  const groups = groupBy(criterion);
+  const opts = [...CRITERIA].sort(()=>Math.random()-0.5);
+  return { text: criterion.key, answer, groups, opts };
+}
 
 function newQuizQuestion(){
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
   answered = false;
   quizFeedback.textContent = '';
-  const criterion = CRITERIA[Math.floor(Math.random()*CRITERIA.length)];
-  quizAnswer = criterion.key;
-  const groups = groupBy(criterion);
-  quizGroups.innerHTML = groups.map(g=>`
+  qIdxNumEl.textContent = questionIndex;
+  nextQuizBtn.textContent = questionIndex >= TOTAL_QUESTIONS ? '🏁 결과 보기' : '➡ 다음 문제';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildQuizCandidate();
+    attempts++;
+  } while(usedQuestions.includes(candidate.text) && attempts < 30);
+  usedQuestions.push(candidate.text);
+
+  quizAnswer = candidate.answer;
+  quizGroups.innerHTML = candidate.groups.map(g=>`
     <div class="group-box">
       <div class="group-label">&nbsp;</div>
       <div class="group-items">${g.items.map(itemHtml).join('')}</div>
     </div>
   `).join('');
 
-  const opts = [...CRITERIA].sort(()=>Math.random()-0.5);
-  quizOpts.innerHTML = opts.map(c=>`<button class="opt-btn" data-k="${c.key}">${c.label}</button>`).join('');
+  quizOpts.innerHTML = candidate.opts.map(c=>`<button class="opt-btn" data-k="${c.key}">${c.label}</button>`).join('');
   quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       if(answered) return;
       answered = true;
-      tries++;
       quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
       if(btn.dataset.k===quizAnswer){
         score++;
         btn.classList.add('correct');
-        quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+        quizFeedback.innerHTML = `🎉 맞았어요!`;
         playCorrect();
       } else {
         btn.classList.add('wrong');
         quizOpts.querySelector(`[data-k="${quizAnswer}"]`)?.classList.add('correct');
-        quizFeedback.innerHTML = `아쉬워요! 정답은 "${CRITERIA.find(c=>c.key===quizAnswer).label}"였어요. (정답 ${score} / 시도 ${tries})`;
+        quizFeedback.innerHTML = `아쉬워요! 정답은 "${CRITERIA.find(c=>c.key===quizAnswer).label}"였어요.`;
         playWrong();
       }
       scoreNumEl.textContent = score;
-      triesNumEl.textContent = tries;
     });
   });
 }
 
-nextQuizBtn.addEventListener('click', newQuizQuestion);
+function showQuizResult(){
+  quizFinished = true;
+  quizGroups.style.display = 'none';
+  quizOpts.style.display = 'none';
+  nextQuizBtn.textContent = '🔄 다시 풀기';
+  quizFeedback.innerHTML = `🏁 퀴즈 완료! ${TOTAL_QUESTIONS}문제 중 <b>${score}</b>개 맞혔어요.`;
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  quizGroups.style.display = '';
+  quizOpts.style.display = '';
+  newQuizQuestion();
+}
+
+nextQuizBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newQuizQuestion(); }
+});
 newQuizQuestion();
 </script>
 </body>

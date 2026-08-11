@@ -87,7 +87,7 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
           <p>예를 들어 3명이 나눠 낸 총 금액을 알 때 한 사람 몫을 구하려면 전체 금액을 3으로 나누죠? 이때도 똑같이 양쪽에 같은 조작을 하는 거예요. x의 계수가 1이 되고 상수항이 사라질 때까지 조작을 반복해보세요.</p>
         </div>
       </div>
-      <div class="progress-badge" style="margin-bottom:14px;display:inline-block;">해결 <b id="scoreNum">0</b>문제 · 이번 문제 조작 <b id="triesNum">0</b>번</div>
+      <div class="progress-badge" style="margin-bottom:14px;display:inline-block;">문제 <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · 해결 <b id="scoreNum">0</b>문제</div>
       <svg id="svg" viewBox="0 0 480 300"></svg>
 
       <div class="op-panel">
@@ -148,14 +148,21 @@ const stepList = document.getElementById('stepList');
 const factBox = document.getElementById('fact');
 const quizFeedback = document.getElementById('quizFeedback');
 const scoreNumEl = document.getElementById('scoreNum');
-const triesNumEl = document.getElementById('triesNum');
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+const opPanel = document.querySelector('.op-panel');
+const TOTAL_QUESTIONS = 10;
 
 let a=2, b=3, xAns=4, c=11;   // 문제: ax + b = c (c는 항상 a*xAns+b로 만들어 정수해 보장)
 let curA, curB, curC;         // 사용자가 조작 중인 현재 식의 계수
-let opsCount = 0;
 let score = 0;
 let solvedCounted = false;
 let history = [];
+let questionIndex = 0;
+let quizFinished = false;
+let usedQuestions = [];
+
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
 
 function fmt(n){
   const r = Math.round(n*1000)/1000;
@@ -259,7 +266,6 @@ function applySubtract(){
   }
   const before = formatEquation(curA,curB,curC);
   curB -= k; curC -= k;
-  opsCount++; triesNumEl.textContent = opsCount;
   const after = formatEquation(curA,curB,curC);
   history.push(`양쪽에서 ${fmt(k)} 빼기: ${before} → ${after}`);
   quizFeedback.textContent = '';
@@ -282,7 +288,6 @@ function applyDivide(){
   }
   const before = formatEquation(curA,curB,curC);
   curA /= k; curB /= k; curC /= k;
-  opsCount++; triesNumEl.textContent = opsCount;
   const after = formatEquation(curA,curB,curC);
   history.push(`양쪽을 ${fmt(k)}로 나누기: ${before} → ${after}`);
   quizFeedback.textContent = '';
@@ -290,13 +295,29 @@ function applyDivide(){
   updatePanels();
 }
 
+function buildProblemCandidate(){
+  const A = randInt(1,5);
+  const XAns = randInt(1,9);
+  const B = randInt(0,9);
+  const C = A*XAns + B;
+  return { a:A, b:B, xAns:XAns, c:C, text:`${A}x+${B}=${C}` };
+}
+
 function newProblem(){
-  a = randInt(1,5);
-  xAns = randInt(1,9);
-  b = randInt(0,9);
-  c = a*xAns + b;
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
+  qIdxNumEl.textContent = questionIndex;
+  nextBtn.textContent = questionIndex >= TOTAL_QUESTIONS ? '🏁 결과 보기' : '➡ 다음 문제';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildProblemCandidate();
+    attempts++;
+  } while(usedQuestions.includes(candidate.text) && attempts < 30);
+  usedQuestions.push(candidate.text);
+
+  a = candidate.a; xAns = candidate.xAns; b = candidate.b; c = candidate.c;
   curA = a; curB = b; curC = c;
-  opsCount = 0; triesNumEl.textContent = 0;
   solvedCounted = false;
   history = [];
   subInput.value = 1;
@@ -307,19 +328,44 @@ function newProblem(){
   updatePanels();
 }
 
+function showQuizResult(){
+  quizFinished = true;
+  svg.style.display = 'none';
+  opPanel.style.display = 'none';
+  resetBtn.style.display = 'none';
+  nextBtn.textContent = '🔄 다시 풀기';
+  quizFeedback.textContent = '';
+  formula.innerHTML = '';
+  stepList.innerHTML = '';
+  factBox.innerHTML = `🏁 퀴즈 완료! ${TOTAL_QUESTIONS}문제 중 <b>${score}</b>문제를 해결했어요.`;
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  svg.style.display = '';
+  opPanel.style.display = '';
+  resetBtn.style.display = '';
+  newProblem();
+}
+
 subBtn.addEventListener('click', applySubtract);
 divBtn.addEventListener('click', applyDivide);
 subInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') applySubtract(); });
 divInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') applyDivide(); });
 resetBtn.addEventListener('click', ()=>{
   curA = a; curB = b; curC = c;
-  opsCount = 0; triesNumEl.textContent = 0;
   history = [];
   quizFeedback.textContent = '';
   render();
   updatePanels();
 });
-nextBtn.addEventListener('click', newProblem);
+nextBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newProblem(); }
+});
 
 newProblem();
 </script>

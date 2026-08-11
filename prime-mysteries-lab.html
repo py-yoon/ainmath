@@ -151,7 +151,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <div class="quiz-stage">
     <div class="quiz-head">
       <h2>🧩 소수 미해결 문제 퀴즈</h2>
-      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+      <div class="progress-badge">문제 <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · 정답 <b id="scoreNum">0</b>개</div>
     </div>
     <div class="quiz-q" id="quizQ"></div>
     <div class="quiz-opts" id="quizOpts"></div>
@@ -307,8 +307,13 @@ const quizOpts = document.getElementById('quizOpts');
 const quizFeedback = document.getElementById('quizFeedback');
 const nextQuizBtn = document.getElementById('nextQuizBtn');
 const scoreNumEl = document.getElementById('scoreNum');
-const triesNumEl = document.getElementById('triesNum');
-let score=0, tries=0, answered=false, quizAnswer=null;
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+const TOTAL_QUESTIONS = 10;
+let score=0, answered=false, quizAnswer=null, questionIndex=0, quizFinished=false;
+let usedQuestions = [];
+
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
 
 const TRUE_FALSE = [
   {s:'쌍둥이 소수가 무한히 많다는 것은 증명되었다', a:'거짓'},
@@ -320,36 +325,52 @@ const TRUE_FALSE = [
   {s:'6번째 페르마 소수가 없다는 것은 증명되었다', a:'거짓'},
 ];
 
-function newQuizQuestion(){
-  answered=false;
-  quizFeedback.textContent='';
+function buildQuizCandidate(){
   const type = Math.random();
 
   if(type < 0.34){
     const evens = [6,10,16,24,34,48,58,64,78,88];
     const n = evens[randInt(0,evens.length-1)];
     const decomps = goldbachDecomps(n);
-    quizAnswer = decomps.length;
-    quizQ.innerHTML = `${n}을 두 소수의 합으로 나타내는 방법은 몇 가지일까요?`;
+    const text = `${n}을 두 소수의 합으로 나타내는 방법은 몇 가지일까요?`;
     const opts = new Set([decomps.length]);
     while(opts.size<4){
       const d = randInt(-2,2);
       if(d!==0 && decomps.length+d>0) opts.add(decomps.length+d);
     }
-    renderOpts([...opts].sort((a,b)=>a-b), v=>`${v}가지`);
+    return { text, answer: decomps.length, opts: [...opts].sort((a,b)=>a-b), formatter: v=>`${v}가지` };
   } else if(type < 0.67){
     const pairs = [[5,7],[8,10],[13,15],[23,25],[29,31],[41,43]];
     const [a,b] = pairs[randInt(0,pairs.length-1)];
     const bothPrime = isPrime(a) && isPrime(b);
-    quizAnswer = bothPrime ? '쌍둥이 소수' : '쌍둥이 소수 아님';
-    quizQ.innerHTML = `(${a}, ${b})는 쌍둥이 소수 쌍일까요?`;
-    renderOpts(['쌍둥이 소수','쌍둥이 소수 아님'], v=>v);
+    const answer = bothPrime ? '쌍둥이 소수' : '쌍둥이 소수 아님';
+    const text = `(${a}, ${b})는 쌍둥이 소수 쌍일까요?`;
+    return { text, answer, opts: ['쌍둥이 소수','쌍둥이 소수 아님'], formatter: v=>v };
   } else {
     const item = TRUE_FALSE[randInt(0,TRUE_FALSE.length-1)];
-    quizAnswer = item.a;
-    quizQ.innerHTML = `"${item.s}" — 참일까요, 거짓일까요?`;
-    renderOpts(['참','거짓'], v=>v);
+    const text = `"${item.s}" — 참일까요, 거짓일까요?`;
+    return { text, answer: item.a, opts: ['참','거짓'], formatter: v=>v };
   }
+}
+
+function newQuizQuestion(){
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
+  answered=false;
+  quizFeedback.textContent='';
+  qIdxNumEl.textContent = questionIndex;
+  nextQuizBtn.textContent = questionIndex >= TOTAL_QUESTIONS ? '🏁 결과 보기' : '➡ 다음 문제';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildQuizCandidate();
+    attempts++;
+  } while(usedQuestions.includes(candidate.text) && attempts < 30);
+  usedQuestions.push(candidate.text);
+
+  quizAnswer = candidate.answer;
+  quizQ.innerHTML = candidate.text;
+  renderOpts(candidate.opts, candidate.formatter);
 }
 
 function renderOpts(opts, formatter){
@@ -358,25 +379,45 @@ function renderOpts(opts, formatter){
     btn.addEventListener('click', ()=>{
       if(answered) return;
       answered=true;
-      tries++;
       quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
       const chosen = btn.dataset.o;
       const isCorrect = (typeof quizAnswer==='number') ? parseInt(chosen)===quizAnswer : chosen===quizAnswer;
       if(isCorrect){
         score++;
         btn.classList.add('correct');
-        quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+        quizFeedback.innerHTML = `🎉 맞았어요!`;
       } else {
         btn.classList.add('wrong');
         quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
-        quizFeedback.innerHTML = `아쉬워요! 정답은 ${quizAnswer}였어요. (정답 ${score} / 시도 ${tries})`;
+        quizFeedback.innerHTML = `아쉬워요! 정답은 ${quizAnswer}였어요.`;
       }
       scoreNumEl.textContent = score;
-      triesNumEl.textContent = tries;
     });
   });
 }
-nextQuizBtn.addEventListener('click', newQuizQuestion);
+
+function showQuizResult(){
+  quizFinished = true;
+  quizQ.style.display = 'none';
+  quizOpts.style.display = 'none';
+  nextQuizBtn.textContent = '🔄 다시 풀기';
+  quizFeedback.innerHTML = `🏁 퀴즈 완료! ${TOTAL_QUESTIONS}문제 중 <b>${score}</b>개 맞혔어요.`;
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  quizQ.style.display = '';
+  quizOpts.style.display = '';
+  newQuizQuestion();
+}
+
+nextQuizBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newQuizQuestion(); }
+});
 newQuizQuestion();
 </script>
 </body>

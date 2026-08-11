@@ -110,7 +110,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <div class="quiz-stage">
     <div class="quiz-head">
       <h2>🧩 개수 맞히기 퀴즈</h2>
-      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b> · 난이도 <b id="levelLabel">쉬움</b></div>
+      <div class="progress-badge">문제 <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · 정답 <b id="scoreNum">0</b>개 · 난이도 <b id="levelLabel">쉬움</b></div>
     </div>
     <div class="quiz-body">
       <svg id="quizSvg" viewBox="0 0 300 270"></svg>
@@ -218,10 +218,14 @@ const quizOpts = document.getElementById('quizOpts');
 const quizFeedback = document.getElementById('quizFeedback');
 const nextQuizBtn = document.getElementById('nextQuizBtn');
 const scoreNumEl = document.getElementById('scoreNum');
-const triesNumEl = document.getElementById('triesNum');
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
 const levelLabelEl = document.getElementById('levelLabel');
-let score = 0, tries = 0, answered = false, quizAnswer = 0;
-let lastGridKey = '';
+const TOTAL_QUESTIONS = 10;
+let score = 0, answered = false, quizAnswer = 0, questionIndex = 0, quizFinished = false;
+let usedQuestions = [];
+
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
 
 function randInt(min,max){ return min + Math.floor(Math.random()*(max-min+1)); }
 function distractors(answer, count){
@@ -247,7 +251,7 @@ const LEVELS = [
 
 function generateGrid(level){
   const cfg = LEVELS[Math.min(level, LEVELS.length-1)];
-  let grid, key, guard = 0;
+  let grid, guard = 0;
   do {
     grid = [];
     for(let r=0;r<cfg.rows;r++){
@@ -257,45 +261,79 @@ function generateGrid(level){
       }
       grid.push(row);
     }
-    key = JSON.stringify(grid);
     guard++;
-  } while((grid.flat().every(v=>v===0) || key===lastGridKey) && guard<30);
-  lastGridKey = key;
+  } while(grid.flat().every(v=>v===0) && guard<30);
   return {grid, label: cfg.label};
 }
 
+function buildQuizCandidate(){
+  const level = Math.min(Math.floor(questionIndex/3), LEVELS.length-1);
+  const {grid, label} = generateGrid(level);
+  const answer = grid.flat().reduce((a,b)=>a+b,0);
+  const opts = distractors(answer,3).sort(()=>Math.random()-0.5);
+  return { text: JSON.stringify(grid), grid, label, answer, opts };
+}
+
 function newQuizQuestion(){
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
   answered = false;
   quizFeedback.textContent = '';
-  const level = Math.min(Math.floor(tries/3), LEVELS.length-1);
-  const {grid, label} = generateGrid(level);
-  levelLabelEl.textContent = label;
-  quizAnswer = grid.flat().reduce((a,b)=>a+b,0);
-  quizSvg.innerHTML = isoSvg(grid, 150, 190);
-  const opts = distractors(quizAnswer,3).sort(()=>Math.random()-0.5);
-  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${o}개</button>`).join('');
+  qIdxNumEl.textContent = questionIndex;
+  nextQuizBtn.textContent = questionIndex >= TOTAL_QUESTIONS ? '🏁 결과 보기' : '➡ 다음 문제';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildQuizCandidate();
+    attempts++;
+  } while(usedQuestions.includes(candidate.text) && attempts < 30);
+  usedQuestions.push(candidate.text);
+
+  levelLabelEl.textContent = candidate.label;
+  quizAnswer = candidate.answer;
+  quizSvg.innerHTML = isoSvg(candidate.grid, 150, 190);
+  quizOpts.innerHTML = candidate.opts.map(o=>`<button class="opt-btn" data-o="${o}">${o}개</button>`).join('');
   quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       if(answered) return;
       answered = true;
-      tries++;
       quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
       if(parseInt(btn.dataset.o)===quizAnswer){
         score++;
         btn.classList.add('correct');
-        quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+        quizFeedback.innerHTML = `🎉 맞았어요!`;
       } else {
         btn.classList.add('wrong');
         quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
-        quizFeedback.innerHTML = `아쉬워요! 정답은 ${quizAnswer}개였어요. (정답 ${score} / 시도 ${tries})`;
+        quizFeedback.innerHTML = `아쉬워요! 정답은 ${quizAnswer}개였어요.`;
       }
       scoreNumEl.textContent = score;
-      triesNumEl.textContent = tries;
     });
   });
 }
 
-nextQuizBtn.addEventListener('click', newQuizQuestion);
+function showQuizResult(){
+  quizFinished = true;
+  quizSvg.style.display = 'none';
+  quizOpts.style.display = 'none';
+  nextQuizBtn.textContent = '🔄 다시 풀기';
+  quizFeedback.innerHTML = `🏁 퀴즈 완료! ${TOTAL_QUESTIONS}문제 중 <b>${score}</b>개 맞혔어요.`;
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  quizSvg.style.display = '';
+  quizOpts.style.display = '';
+  newQuizQuestion();
+}
+
+nextQuizBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newQuizQuestion(); }
+});
 newQuizQuestion();
 </script>
 </body>

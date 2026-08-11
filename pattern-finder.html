@@ -41,6 +41,8 @@ h1 span{color:var(--coral-ink);}
 .level-btn:hover{border-color:var(--teal-ink);color:var(--teal-ink);}
 .level-btn.active{background:var(--teal-ink);border-color:var(--teal-ink);color:#fff;}
 .level-btn:focus-visible{outline:4px solid var(--coral);outline-offset:2px;}
+.progress-badge{display:block;width:fit-content;margin:0 auto 20px;font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--teal-ink);}
 .sequence{display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:center;background:var(--paper);border-radius:18px;padding:26px;margin-bottom:26px;min-height:110px;}
 .item{width:56px;height:56px;flex:none;}
 .item.circle{border-radius:50%;}
@@ -84,6 +86,7 @@ footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
 
   <div class="stage">
     <div class="level-picker" id="levelPicker"></div>
+    <div class="progress-badge">문제 <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · 정답 <b id="scoreNum">0</b>개</div>
     <div class="sequence" id="sequence"></div>
     <div class="quiz-label">? 자리에 올 모양은 무엇일까요?</div>
     <button class="read-btn" id="readBtn" type="button">🔊 문제 읽어주기</button>
@@ -153,6 +156,14 @@ let level = 'AB';
 let answered = false;
 let currentSeq = [];
 let correctLetter = 'A';
+const scoreNumEl = document.getElementById('scoreNum');
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+const TOTAL_QUESTIONS = 10;
+let score = 0, questionIndex = 0, quizFinished = false;
+let usedQuestions = [];
+
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
 
 function buildLevelPicker(){
   levelPicker.innerHTML = LEVELS.map(l=>`<button class="level-btn${l.key===level?' active':''}" data-k="${l.key}">${l.name}</button>`).join('');
@@ -160,7 +171,7 @@ function buildLevelPicker(){
     btn.addEventListener('click', ()=>{
       level = btn.dataset.k;
       buildLevelPicker();
-      newProblem();
+      resetQuiz();
     });
   });
 }
@@ -174,17 +185,36 @@ function itemHtml(letter, big){
   return `<div class="item ${info.cls}" style="background:${info.color}"></div>`;
 }
 
-function newProblem(){
-  answered = false;
-  feedback.textContent = '';
+function buildPatternCandidate(){
   const lvl = LEVELS.find(l=>l.key===level);
   const unit = lvl.unit;
-  const totalLen = 8;
-  currentSeq = [];
-  for(let i=0;i<totalLen;i++){ currentSeq.push(unit[i % unit.length]); }
-  correctLetter = currentSeq[totalLen-1];
+  const totalLen = 6 + Math.floor(Math.random()*5); // 6~10
+  const offset = Math.floor(Math.random()*unit.length);
+  const seq = [];
+  for(let i=0;i<totalLen;i++){ seq.push(unit[(i+offset) % unit.length]); }
+  const correct = seq[totalLen-1];
+  return { seq, correct, text: `${level}:${totalLen}:${offset}` };
+}
 
-  const shown = currentSeq.slice(0, totalLen-1);
+function newProblem(){
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
+  qIdxNumEl.textContent = questionIndex;
+  nextBtn.textContent = questionIndex >= TOTAL_QUESTIONS ? '🏁 결과 보기' : '➡ 다음 문제';
+  answered = false;
+  feedback.textContent = '';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildPatternCandidate();
+    attempts++;
+  } while(usedQuestions.includes(candidate.text) && attempts < 30);
+  usedQuestions.push(candidate.text);
+
+  currentSeq = candidate.seq;
+  correctLetter = candidate.correct;
+
+  const shown = currentSeq.slice(0, currentSeq.length-1);
   sequence.innerHTML = shown.map(l=>itemHtml(l)).join('') + `<div class="item qmark">?</div>`;
 
   const letters = ['A','B','C'];
@@ -197,6 +227,8 @@ function newProblem(){
       const val = btn.dataset.l;
       quizOpts.querySelectorAll('.quiz-btn').forEach(b=>b.disabled=true);
       if(val===correctLetter){
+        score++;
+        scoreNumEl.textContent = score;
         btn.classList.add('correct');
         feedback.innerHTML = `🎉 정답이에요! 규칙을 잘 찾았어요!`;
         playCorrect();
@@ -210,7 +242,27 @@ function newProblem(){
   });
 }
 
-nextBtn.addEventListener('click', newProblem);
+function showQuizResult(){
+  quizFinished = true;
+  sequence.style.display = 'none';
+  quizOpts.innerHTML = '';
+  nextBtn.textContent = '🔄 다시 풀기';
+  feedback.innerHTML = `🏁 퀴즈 완료! ${TOTAL_QUESTIONS}문제 중 <b>${score}</b>개 맞혔어요.`;
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  sequence.style.display = '';
+  newProblem();
+}
+
+nextBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newProblem(); }
+});
 buildLevelPicker();
 newProblem();
 </script>

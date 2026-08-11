@@ -163,7 +163,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <div class="quiz-stage">
     <div class="quiz-head">
       <h2>🧩 제논의 역설 퀴즈</h2>
-      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+      <div class="progress-badge">문제 <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · 정답 <b id="scoreNum">0</b>개</div>
     </div>
     <div class="quiz-q" id="quizQ"></div>
     <div class="quiz-opts" id="quizOpts"></div>
@@ -328,8 +328,13 @@ const quizOpts = document.getElementById('quizOpts');
 const quizFeedback = document.getElementById('quizFeedback');
 const nextQuizBtn = document.getElementById('nextQuizBtn');
 const scoreNumEl = document.getElementById('scoreNum');
-const triesNumEl = document.getElementById('triesNum');
-let score=0, tries=0, answered=false, quizAnswer=null;
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+const TOTAL_QUESTIONS = 10;
+let score = 0, answered = false, quizAnswer = null, questionIndex = 0, quizFinished = false;
+let usedQuestions = [];
+
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
 
 const TRUE_FALSE = [
   {s:'무한히 많은 수를 더하면 항상 무한대가 된다', a:'거짓'},
@@ -341,60 +346,96 @@ const TRUE_FALSE = [
   {s:'"무한한 단계"와 "무한한 시간"은 같은 말이다', a:'거짓'},
 ];
 
-function newQuizQuestion(){
-  answered=false;
-  quizFeedback.textContent='';
+function buildQuizCandidate(){
   const type = Math.random();
 
   if(type < 0.35){
     const g = GEO_RATIOS[randInt(0,GEO_RATIOS.length-1)];
     const limit = 1/(1-g.r);
-    quizAnswer = limit.toFixed(2);
-    quizQ.innerHTML = `1 + ${g.label} + ${g.label}² + ... 을 무한히 더하면 얼마에 수렴할까요?`;
-    const opts = new Set([quizAnswer]);
+    const answer = limit.toFixed(2);
+    const text = `1 + ${g.label} + ${g.label}² + ... 을 무한히 더하면 얼마에 수렴할까요?`;
+    const opts = new Set([answer]);
     while(opts.size<4){
       const d = (Math.random()*2-1).toFixed(2);
       const cand = (limit+parseFloat(d)).toFixed(2);
-      if(cand!==quizAnswer && parseFloat(cand)>0) opts.add(cand);
+      if(cand!==answer && parseFloat(cand)>0) opts.add(cand);
     }
-    renderOpts([...opts].sort((a,b)=>a-b), v=>v);
+    return { text, answer, opts: [...opts].sort((a,b)=>a-b) };
   } else if(type < 0.6){
-    quizQ.innerHTML = `조화급수 1+1/2+1/3+...은 수렴할까요, 발산할까요?`;
-    quizAnswer = '발산';
-    renderOpts(['수렴','발산'], v=>v);
+    const text = `조화급수 1+1/2+1/3+...은 수렴할까요, 발산할까요?`;
+    return { text, answer: '발산', opts: ['수렴','발산'] };
   } else {
     const item = TRUE_FALSE[randInt(0,TRUE_FALSE.length-1)];
-    quizAnswer = item.a;
-    quizQ.innerHTML = `"${item.s}" — 참일까요, 거짓일까요?`;
-    renderOpts(['참','거짓'], v=>v);
+    const text = `"${item.s}" — 참일까요, 거짓일까요?`;
+    return { text, answer: item.a, opts: ['참','거짓'] };
   }
 }
 
-function renderOpts(opts, formatter){
-  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${formatter(o)}</button>`).join('');
+function newQuizQuestion(){
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
+  answered = false;
+  quizFeedback.textContent = '';
+  qIdxNumEl.textContent = questionIndex;
+  nextQuizBtn.textContent = questionIndex >= TOTAL_QUESTIONS ? '🏁 결과 보기' : '➡ 다음 문제';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildQuizCandidate();
+    attempts++;
+  } while(usedQuestions.includes(candidate.text) && attempts < 30);
+  usedQuestions.push(candidate.text);
+
+  quizAnswer = candidate.answer;
+  quizQ.innerHTML = candidate.text;
+  renderOpts(candidate.opts);
+}
+
+function renderOpts(opts){
+  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${o}</button>`).join('');
   quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       if(answered) return;
-      answered=true;
-      tries++;
+      answered = true;
       quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
       const chosen = btn.dataset.o;
       const isCorrect = chosen===quizAnswer;
       if(isCorrect){
         score++;
         btn.classList.add('correct');
-        quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+        quizFeedback.innerHTML = `🎉 맞았어요!`;
       } else {
         btn.classList.add('wrong');
         quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
-        quizFeedback.innerHTML = `아쉬워요! 정답은 ${quizAnswer}였어요. (정답 ${score} / 시도 ${tries})`;
+        quizFeedback.innerHTML = `아쉬워요! 정답은 ${quizAnswer}였어요.`;
       }
       scoreNumEl.textContent = score;
-      triesNumEl.textContent = tries;
     });
   });
 }
-nextQuizBtn.addEventListener('click', newQuizQuestion);
+
+function showQuizResult(){
+  quizFinished = true;
+  quizQ.style.display = 'none';
+  quizOpts.style.display = 'none';
+  nextQuizBtn.textContent = '🔄 다시 풀기';
+  quizFeedback.innerHTML = `🏁 퀴즈 완료! ${TOTAL_QUESTIONS}문제 중 <b>${score}</b>개 맞혔어요.`;
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  quizQ.style.display = '';
+  quizOpts.style.display = '';
+  newQuizQuestion();
+}
+
+nextQuizBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newQuizQuestion(); }
+});
 newQuizQuestion();
 </script>
 </body>
