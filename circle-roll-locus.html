@@ -92,6 +92,26 @@
   .fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);margin-top:14px;}
   .fact b{color:var(--violet-ink);}
 
+  .calc-explain{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:26px clamp(16px,4vw,36px) 30px;margin-top:22px;}
+  .calc-explain-title{font-family:'Do Hyeon',sans-serif;font-size:18px;color:var(--ink);margin-bottom:18px;}
+  .calc-step{display:flex;gap:16px;align-items:flex-start;padding:16px 0;border-top:1px dashed var(--paper-line);}
+  .calc-step:first-of-type{border-top:none;padding-top:0;}
+  .calc-num{flex:none;width:30px;height:30px;border-radius:50%;background:var(--violet-ink);color:#fff;font-family:'Do Hyeon',sans-serif;font-size:15px;display:flex;align-items:center;justify-content:center;}
+  .calc-body{flex:1;min-width:0;}
+  .calc-body-title{font-family:'Do Hyeon',sans-serif;font-size:15.5px;color:var(--ink);margin-bottom:6px;}
+  .calc-body-desc{font-size:13.5px;line-height:1.7;color:var(--ink-soft);margin-bottom:12px;}
+  .calc-body-desc b{color:var(--violet-ink);}
+  .calc-list{display:flex;flex-direction:column;gap:6px;margin-bottom:10px;}
+  .calc-item{display:flex;gap:8px;align-items:baseline;background:var(--paper);border:1px solid var(--paper-line);border-radius:10px;padding:8px 12px;font-size:13px;line-height:1.6;color:var(--ink);}
+  .calc-item.reflex{background:var(--coral-soft);border-color:var(--coral);}
+  .calc-item-tag{flex:none;font-family:'Do Hyeon',sans-serif;font-size:12px;color:var(--violet-ink);background:var(--violet-soft);border-radius:999px;padding:2px 9px;}
+  .calc-item.reflex .calc-item-tag{color:var(--coral-ink);background:#fff;}
+  .calc-item-body b{color:var(--ink);}
+  .calc-subtotal{font-family:'Do Hyeon',sans-serif;font-size:14.5px;color:var(--ink-soft);}
+  .calc-subtotal b{color:var(--violet-ink);font-size:16px;}
+  #polyCalcTotal{font-size:14.5px;}
+  #polyCalcTotal b{color:var(--violet-ink);}
+
   footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;text-align:center;}
 </style>
 </head>
@@ -156,13 +176,43 @@
         <div class="fact" id="polyFact"></div>
       </div>
     </div>
+
+    <div class="calc-explain" id="polyCalcExplain">
+      <div class="calc-explain-title">📐 이 숫자는 어떻게 나왔을까? — 계산 과정 직접 보기</div>
+      <div class="calc-step">
+        <div class="calc-num">1</div>
+        <div class="calc-body">
+          <div class="calc-body-title">직선 부분 — 변을 바깥으로 r만큼 밀어내기</div>
+          <div class="calc-body-desc">원이 변을 따라 미끄러지지 않고 굴러갈 때, 원의 중심은 변에서 항상 반지름 r만큼 떨어져 있어요. 그래서 중심이 그리는 자취는 원래 변을 <b>바깥으로 r만큼 평행이동</b>한 직선과 같고, 길이도 원래 변과 똑같아요.</div>
+          <div class="calc-list" id="polyCalcLines"></div>
+          <div class="calc-subtotal">직선 부분 합계 = <b id="polyCalcLineSum"></b></div>
+        </div>
+      </div>
+      <div class="calc-step">
+        <div class="calc-num">2</div>
+        <div class="calc-body">
+          <div class="calc-body-title">호(부채꼴) 부분 — 볼록 꼭짓점에서 방향 바꾸기</div>
+          <div class="calc-body-desc">원이 볼록 꼭짓점을 만나면 그 점을 축으로 삼아 회전하며 방향을 바꿔요. 이때 도는 각도는 정확히 그 꼭짓점의 <b>외각</b>(180° − 내각)과 같고, 부채꼴 호의 길이는 다음 공식으로 구해요:<br><b>호 길이 = 반지름(r) × 각도(라디안)</b> &nbsp;(각도를 라디안으로 바꾸려면 도 × π/180)</div>
+          <div class="calc-list" id="polyCalcArcs"></div>
+          <div class="calc-list" id="polyCalcReflex"></div>
+          <div class="calc-subtotal">호 부분 합계 = <b id="polyCalcArcSum"></b></div>
+        </div>
+      </div>
+      <div class="calc-step">
+        <div class="calc-num">3</div>
+        <div class="calc-body">
+          <div class="calc-body-title">모두 더하기</div>
+          <div class="calc-body-desc" id="polyCalcTotal"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- ===== STEP 2: 여러 원을 따라 도는 원 ===== -->
   <div class="section-block">
     <span class="section-tag">STEP 2</span>
     <h2>나란히 놓인 원들을 따라 도는 원</h2>
-    <p class="section-sub">크기가 같은 원 여러 개를 한 줄로 붙여 놓고, 그 바깥을 다른 원이 굴러갑니다. 원의 개수(N)와 두 반지름을 바꿔가며 중심의 자취가 어떻게 변하는지 확인해보세요. 가운데 원들 사이에서는 원이 전혀 휘지 않고 <b>일직선으로</b> 지나가고, 양 끝 원에서만 <b>반원</b>을 그린다는 게 포인트예요.</p>
+    <p class="section-sub">크기가 같은 원 여러 개를 한 줄로 붙여 놓고, 그 바깥을 다른 원이 굴러갑니다. 원의 개수(N)와 두 반지름을 바꿔가며 중심의 자취가 어떻게 변하는지 확인해보세요. 원끼리 서로 맞닿아 있는 지점마다 <b>오목한 틈(홈)</b>이 생기는데, 굴러가는 원이 그 틈에 <b>얼마나 깊이 빠지는지</b>는 두 반지름의 비율로 정해져요 — 고정된 원(R)을 키우고 굴러가는 원(r)을 작게 할수록 훨씬 깊이 빠지는 걸 직접 확인해보세요.</p>
     <div class="stage">
       <div class="canvas-area">
         <svg id="svgRow" viewBox="0 0 560 340"></svg>
@@ -198,8 +248,8 @@
           <div class="formula">중심이 그린 자취의 길이</div>
           <div class="result" id="rowResult">0.00<span>cm</span></div>
           <div class="breakdown">
-            <div class="bd-item"><div class="bd-label">직선 부분</div><div class="bd-val" id="rowStraight" style="color:var(--ink);">0.00</div></div>
-            <div class="bd-item"><div class="bd-label">반원 두 개(=원 하나)</div><div class="bd-val" id="rowArc" style="color:var(--violet-ink);">0.00</div></div>
+            <div class="bd-item"><div class="bd-label">양 끝 큰 호</div><div class="bd-val" id="rowStraight" style="color:var(--ink);">0.00</div></div>
+            <div class="bd-item"><div class="bd-label">가운데 홈 호들</div><div class="bd-val" id="rowArc" style="color:var(--violet-ink);">0.00</div></div>
           </div>
           <div class="subline" id="rowSub"></div>
         </div>
@@ -544,6 +594,39 @@
           subEl.innerHTML = `부채꼴 중심각의 합 = <b>${fmt1(arcDegSum)}°</b> (오목각 ${reflexCount}개는 제외)`;
           factEl.innerHTML = `<b>${data.preset.label}</b>에는 내각이 <b>${reflexList}</b>인 오목한 꼭짓점이 있어요(빨간 점). 이 지점에서는 원이 전혀 회전하지 않고 두 변의 자취가 직선으로 곧장 이어져요. 그 대신 나머지 볼록한 꼭짓점들(초록 점)이 더 많이 돌아줘야 해서, 부채꼴 중심각의 합이 360°보다 훨씬 큰 <b>${fmt1(arcDegSum)}°</b>가 돼요.`;
         }
+
+        // ----- calculation walkthrough -----
+        let lineItems = '', arcItems = '';
+        let edgeNum = 0, vertexNum = 0;
+        res.segments.forEach(seg=>{
+          if (seg.type==='line'){
+            edgeNum++;
+            lineItems += `<div class="calc-item"><span class="calc-item-tag">변 ${edgeNum}</span><span class="calc-item-body">원래 변의 길이 그대로, 바깥으로 r=${fmt1(res.r0)}cm만큼 옮긴 직선 → <b>${fmt(seg.len)}cm</b></span></div>`;
+          } else {
+            vertexNum++;
+            const deg = seg.sweep*180/Math.PI;
+            const rad = seg.sweep;
+            arcItems += `<div class="calc-item"><span class="calc-item-tag">꼭짓점 ${vertexNum}</span><span class="calc-item-body">외각 <b>${fmt1(deg)}°</b> = ${fmt(rad)}라디안 → 호 길이 = r × 각도(라디안) = ${fmt1(res.r0)} × ${fmt(rad)} = <b>${fmt(seg.len)}cm</b></span></div>`;
+          }
+        });
+        document.getElementById('polyCalcLines').innerHTML = lineItems;
+        document.getElementById('polyCalcArcs').innerHTML = arcItems;
+        document.getElementById('polyCalcLineSum').textContent = `${fmt(res.straightTotal)}cm (변 ${edgeNum}개 합)`;
+        document.getElementById('polyCalcArcSum').textContent = `${fmt(res.arcTotal)}cm (부채꼴 ${vertexNum}개 합)`;
+
+        const reflexVerts = data.angles.filter(a=>!a.convex);
+        const reflexEl = document.getElementById('polyCalcReflex');
+        if (reflexVerts.length>0){
+          reflexEl.innerHTML = reflexVerts.map(a=>
+            `<div class="calc-item reflex"><span class="calc-item-tag">오목 꼭짓점</span><span class="calc-item-body">내각 <b>${fmt1(a.interiorDeg)}°</b>(180°보다 커요) → 원이 전혀 돌지 않아요. 부채꼴이 생기지 않고, 두 변의 자취가 이 점에서 직접 만나요(그만큼 위의 변 길이가 살짝 조정돼요).</span></div>`
+          ).join('');
+        } else {
+          reflexEl.innerHTML = '';
+        }
+
+        document.getElementById('polyCalcTotal').innerHTML =
+          `직선 부분(${fmt(res.straightTotal)}) + 호 부분(${fmt(res.arcTotal)}) = <b>${fmt(res.total)}cm</b>` +
+          (reflexCount===0 ? ` &nbsp;→&nbsp; 볼록다각형이라 이 값은 <b>둘레 + 2π×r</b>과 정확히 같아요.` : ``);
       }
     });
 
@@ -585,41 +668,61 @@
     const factEl = document.getElementById('rowFact');
 
     function buildRowPath(N, R, r){
-      // centers along x axis at y=0, spacing 2R
+      // centers along x axis at y=0, spacing 2R (circles are tangent/touching)
       const centers = []; for(let i=0;i<N;i++) centers.push([i*2*R, 0]);
       const rowLen = (N-1)*2*R;
-      const topY = R+r, botY = -(R+r);
-      // segments: straight along top (left->right), arc around right end (top->bottom),
-      // straight along bottom (right->left), arc around left end (bottom->top)
+      const rad = R+r;
+      // Between any two touching fixed circles there's a concave notch (they only
+      // touch at one point, so just above/below that point is empty space). The
+      // rolling circle (radius r) dips into that notch: it stays tangent to one
+      // fixed circle, arcing around it, until it becomes simultaneously tangent to
+      // the next fixed circle too — that handoff point is at angle ±phi from the
+      // horizontal (measured from each fixed circle's own center), where
+      // cos(phi) = R/(R+r). The whole boundary is therefore made of circular arcs
+      // only (radius R+r, one or two per fixed circle) — there is NO flat straight
+      // stretch, no matter how large R is relative to r.
+      const phi = Math.acos(R/rad);
+      const interiorSweep = Math.PI - 2*phi;   // top (or bottom) arc for an interior circle
+      const endSweep = 2*Math.PI - 2*phi;      // the big wrap-around arc for an end circle
+
       const segments = [];
-      segments.push({type:'line', from:[0,topY], to:[rowLen,topY], len: rowLen});
-      segments.push({type:'arc', center: centers[N-1], r: R+r, startAngle: Math.PI/2, endAngle: -Math.PI/2, sweep: Math.PI, dir:-1, len: Math.PI*(R+r)});
-      segments.push({type:'line', from:[rowLen,botY], to:[0,botY], len: rowLen});
-      segments.push({type:'arc', center: centers[0], r: R+r, startAngle: -Math.PI/2, endAngle: Math.PI/2, sweep: Math.PI, dir:-1, len: Math.PI*(R+r)});
-      const straightTotal = rowLen*2;
-      const arcTotal = Math.PI*(R+r)*2;
-      return {pts: centers, segments, straightTotal, arcTotal, total: straightTotal+arcTotal, r0:r, R, N, rowLen, centers};
+      // left endpoint: one big arc from its lower handoff point, around the
+      // exterior (left, top-ish is NOT visited here — it's visited via the top
+      // sweep below), to its upper handoff point.
+      segments.push({type:'arc', center:centers[0], r:rad, startAngle:-phi, endAngle:-phi-endSweep, sweep:endSweep, dir:-1, len:rad*endSweep, fixedCenter:centers[0], fixedR:R});
+      // interior circles' TOP arcs, left to right
+      for(let i=1;i<=N-2;i++){
+        segments.push({type:'arc', center:centers[i], r:rad, startAngle:Math.PI-phi, endAngle:Math.PI-phi-interiorSweep, sweep:interiorSweep, dir:-1, len:rad*interiorSweep, fixedCenter:centers[i], fixedR:R});
+      }
+      // right endpoint: big arc from upper handoff point, around the exterior, to lower handoff point
+      segments.push({type:'arc', center:centers[N-1], r:rad, startAngle:Math.PI-phi, endAngle:Math.PI-phi-endSweep, sweep:endSweep, dir:-1, len:rad*endSweep, fixedCenter:centers[N-1], fixedR:R});
+      // interior circles' BOTTOM arcs, right to left (mirrors the top arcs)
+      for(let i=N-2;i>=1;i--){
+        segments.push({type:'arc', center:centers[i], r:rad, startAngle:-phi, endAngle:-phi-interiorSweep, sweep:interiorSweep, dir:-1, len:rad*interiorSweep, fixedCenter:centers[i], fixedR:R});
+      }
+
+      const endArcsTotal = 2*rad*endSweep;
+      const interiorArcsTotal = Math.max(0,N-2)*2*rad*interiorSweep;
+      const total = endArcsTotal + interiorArcsTotal;
+      const notchHeight = Math.sqrt(rad*rad - R*R); // how high above the touching point the rolling circle's center gets when nestled in the notch
+      const dipDepth = rad - notchHeight;            // how far the rolling circle dips below the "would-be flat" height R+r
+
+      return {pts: centers, segments, straightTotal:0, arcTotal: total, total, r0:r, R, N, rowLen, centers, phi, endArcsTotal, interiorArcsTotal, notchHeight, dipDepth};
     }
 
     function contactForRow(res, t){
-      // reuse generic point-at-length but contact needs custom (line: foot on baseline; arc: fixed circle center)
       const total = res.total;
       let rem = ((t % total)+total)%total;
       for (const seg of res.segments){
         if (rem <= seg.len+1e-9){
-          if (seg.type==='line'){
-            const frac = seg.len>1e-9? rem/seg.len : 0;
-            const cx = seg.from[0]+(seg.to[0]-seg.from[0])*frac;
-            const cy = seg.from[1]+(seg.to[1]-seg.from[1])*frac;
-            const contact = [cx, cy>0 ? res.R : -res.R];
-            return {center:[cx,cy], contact};
-          } else {
-            const dir = seg.dir || 1;
-            const ang = seg.startAngle + dir*seg.sweep*(rem/seg.len);
-            const cx = seg.center[0]+seg.r*Math.cos(ang);
-            const cy = seg.center[1]+seg.r*Math.sin(ang);
-            return {center:[cx,cy], contact: seg.center};
-          }
+          const dir = seg.dir || 1;
+          const ang = seg.startAngle + dir*seg.sweep*(rem/seg.len);
+          const cx = seg.center[0]+seg.r*Math.cos(ang);
+          const cy = seg.center[1]+seg.r*Math.sin(ang);
+          // true point of tangency lies on the fixed circle's own boundary (radius R),
+          // not at its center — both centers and the contact point are colinear.
+          const contact = [seg.fixedCenter[0]+seg.fixedR*Math.cos(ang), seg.fixedCenter[1]+seg.fixedR*Math.sin(ang)];
+          return {center:[cx,cy], contact};
         }
         rem -= seg.len;
       }
@@ -632,9 +735,13 @@
       const R = parseFloat(RSlider.value);
       const r = parseFloat(rSlider.value);
       const res = buildRowPath(N, R, r);
-      const margin = R+r+1.2;
-      const allPts = res.centers.concat([[0,R+r+margin],[res.rowLen,-(R+r+margin)]]);
-      const fit = fitView(allPts, margin, 560, 340);
+      const rad = R+r;
+      // true bounding box of the whole locus: the end-arcs reach exactly rad
+      // to the left/right of the outermost centers, and every arc's radius is
+      // rad, so the top/bottom extent is also exactly rad — no extra padding
+      // needs to be baked in here, fitView adds its own margin below.
+      const allPts = [[-rad, -rad], [res.rowLen+rad, rad]];
+      const fit = fitView(allPts, 0.8, 560, 340);
       return {N,R,r,res,fit};
     }
 
@@ -677,10 +784,15 @@
       rLabel.textContent = fmt1(data.r);
       tLabel.textContent = Math.round(parseFloat(tSlider.value)/10);
       resultEl.innerHTML = `${fmt(res.total)}<span>cm</span>`;
-      straightEl.textContent = fmt(res.straightTotal);
-      arcEl.textContent = fmt(res.arcTotal);
-      subEl.innerHTML = `직선 ${fmt(res.straightTotal)}cm(위+아래) + 반원 두 개 = 반지름 ${fmt1(data.R+data.r)}cm인 원 하나(=2π×${fmt1(data.R+data.r)})`;
-      factEl.innerHTML = `원 ${data.N}개가 한 줄로 붙어있으면 양 끝 원 중심 사이의 거리는 <b>${fmt1(res.rowLen)}cm</b>예요. 굴러가는 원은 위·아래에서 이 길이만큼 <b>직선</b>으로 지나가고(가운데 원들 사이는 전혀 오목하지 않으니까요!), 왼쪽·오른쪽 끝 원에서만 각각 <b>반원(180°)</b>을 그려요. 반원 두 개를 합치면 반지름 R+r=${fmt1(data.R+data.r)}cm인 원 하나와 둘레가 똑같아져요.`;
+      straightEl.textContent = fmt(res.endArcsTotal);
+      arcEl.textContent = fmt(res.interiorArcsTotal);
+      const dipPct = res.dipDepth/(res.R+res.r)*100;
+      if (data.N <= 2){
+        subEl.innerHTML = `양 끝 큰 호 2개 = ${fmt(res.endArcsTotal)}cm (가운데 원이 없어서 홈 호는 없어요)`;
+      } else {
+        subEl.innerHTML = `양 끝 큰 호 2개 = ${fmt(res.endArcsTotal)}cm + 가운데 홈 호 ${2*(data.N-2)}개 = ${fmt(res.interiorArcsTotal)}cm`;
+      }
+      factEl.innerHTML = `원끼리 서로 <b>맞닿아(접하여)</b> 있으면, 닿는 점 바로 위·아래에는 아주 좁은 틈이 생겨요. 굴러가는 원이 그 틈으로 <b>얼마나 깊이 빠지는지</b>는 두 반지름의 비율로 정해져요 — 지금 설정(R=${fmt1(data.R)}, r=${fmt1(data.r)})에서는 틈의 바닥이 "평평했다면 있었을 높이(R+r=${fmt1(data.R+data.r)})"보다 <b>${fmt1(res.dipDepth)}cm(${fmt1(dipPct)}%)</b>나 아래로 내려가요. R을 키우고 r을 줄일수록 이 틈이 훨씬 깊어져서, 굴러가는 원이 마치 우물에 빠지듯 아래로 훅 꺼졌다가 다시 올라오는 게 보일 거예요. 그래서 직선 구간은 <b>전혀 없고</b>, 경로 전체가 반지름 R+r인 호들로만 이루어져요.`;
     }
 
     function step(ts){
