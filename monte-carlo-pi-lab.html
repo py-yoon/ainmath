@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>몬테카를로 원주율 실험실</title>
+<meta name="description" content="정사각형 안에 무작위로 점을 뿌려서 원 안에 들어가는 비율로 원주율(π)을 추정하는 몬테카를로 방법을 직접 점을 뿌려보며 체험해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+  --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--violet-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.3vw,42px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--violet-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.section-title{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink);margin:0 0 16px;display:flex;align-items:center;gap:8px;}
+.section-sub{color:var(--ink-soft);font-size:14.5px;line-height:1.7;margin:-8px 0 18px;max-width:62ch;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
+
+svg{width:100%;max-width:400px;height:auto;overflow:visible;display:block;margin:0 auto 18px;}
+svg.wide{max-width:460px;}
+
+.preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;justify-content:center;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;}
+.preset-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.preset-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+.equation-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:24px;text-align:center;margin-bottom:16px;}
+.equation-box .expr{font-family:'Do Hyeon',sans-serif;font-size:clamp(17px,3.4vw,25px);color:var(--ink);word-break:break-word;}
+.equation-box .expr .unknown{color:var(--violet-ink);}
+.equation-box .check{font-size:14.5px;color:var(--ink-soft);margin-top:12px;}
+.equation-box .check b{color:var(--green-ink);}
+
+.fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--violet-ink);}
+.fact.ok{background:var(--green-soft);} .fact.ok b{color:var(--green-ink);}
+
+.stat-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:16px;}
+.stat-chip{font-family:'Do Hyeon',sans-serif;font-size:13.5px;background:var(--paper);border:2px solid var(--paper-line);border-radius:12px;padding:8px 14px;color:var(--ink-soft);}
+.stat-chip b{color:var(--violet-ink);font-size:15px;}
+
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:6px;margin-bottom:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
+.action-btn:hover{background:var(--violet-ink);}
+.action-btn.secondary{background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.action-btn.secondary:hover{background:var(--paper);color:var(--violet-ink);border-color:var(--violet-ink);}
+.btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.btn-row .action-btn{margin:0 0 14px;}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--violet-ink);}
+.quiz-q{font-size:15.5px;line-height:1.7;text-align:center;background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:20px;margin-bottom:16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.quiz-stage .action-btn{margin-top:14px;}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="index.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-monte-carlo-pi-lab.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🎯 몬테카를로 원주율 실험실</span>
+  <h1>점을 무작위로 뿌리기만 해도<br><span>원주율</span>을 구할 수 있다?</h1>
+  <p class="sub">정사각형 안에 원을 하나 그려 넣고, 그 정사각형 안에 점을 완전히 무작위로 뿌려보세요. 점이 원 안에 떨어진 비율만 알면, 신기하게도 원주율 π의 값을 추정할 수 있어요. 계산이 아니라 확률로 π를 구하는 이 방법을 몬테카를로 방법이라고 해요.</p>
+
+  <div class="howto">
+    <p>한 변의 길이가 2인 정사각형 안에 반지름 1인 원을 꽉 채워 그리면, 정사각형의 넓이는 4, 원의 넓이는 π예요. 그러니 <b>원의 넓이 ÷ 정사각형의 넓이 = π/4</b>가 되죠. 정사각형 안에 점을 완전히 고르게 무작위로 뿌리면, 점이 원 안에 떨어질 확률도 이 비율(π/4)에 가까워져요. 그래서 <b>π ≈ 4 × (원 안의 점 개수 ÷ 전체 점 개수)</b>로 추정할 수 있어요.</p>
+  </div>
+
+  <!-- ===== 점 뿌리기 ===== -->
+  <div class="stage">
+    <div class="section-title">🎯 원 안에 점 뿌리기</div>
+    <p class="section-sub">버튼을 눌러 무작위 점을 뿌려보세요. 원 안에 떨어지면 보라색, 밖에 떨어지면 회색으로 표시돼요.</p>
+    <svg id="svgScatter" viewBox="0 0 400 400"></svg>
+    <div class="stat-row">
+      <span class="stat-chip">전체 점 <b id="statTotal">0</b>개</span>
+      <span class="stat-chip">원 안 <b id="statInside">0</b>개</span>
+      <span class="stat-chip">추정 π ≈ <b id="statPi">-</b></span>
+    </div>
+    <div class="btn-row">
+      <button class="action-btn" id="addBtn100">+ 100개 뿌리기</button>
+      <button class="action-btn" id="addBtn1000">+ 1,000개 뿌리기</button>
+      <button class="action-btn secondary" id="resetBtn">🔄 초기화</button>
+    </div>
+    <div class="equation-box">
+      <div class="expr" id="scatterExpr"></div>
+      <div class="check" id="scatterCheck"></div>
+    </div>
+    <div class="fact" id="scatterFact"></div>
+  </div>
+
+  <!-- ===== 수렴 과정 ===== -->
+  <div class="stage">
+    <div class="section-title">📈 점이 많아질수록 정확해지는 과정</div>
+    <p class="section-sub">위에서 점을 뿌릴 때마다, 그 시점까지의 추정값이 실제 π(3.14159...)에 얼마나 가까워지는지 그래프로 확인해보세요.</p>
+    <svg id="svgConverge" class="wide" viewBox="0 0 460 220"></svg>
+    <div class="fact" id="convergeFact">아직 점을 뿌리지 않았어요. 위에서 점을 뿌려보세요!</div>
+  </div>
+
+  <div class="stage">
+    <div class="section-title">🧮 몬테카를로 방법은 얼마나 효율적일까?</div>
+    <div class="fact" style="max-width:66ch;">
+      <p style="margin:0 0 10px;">아쉽게도 몬테카를로 방법은 <b>수렴이 아주 느려요</b>. 오차를 10분의 1로 줄이려면 점의 개수를 100배(10²배)로 늘려야 해요 — 이런 걸 "1/√n 법칙"이라고 해요. 소수점 6자리까지 정확한 π를 얻으려면 점을 수십억 개는 뿌려야 할 정도예요.</p>
+      <p style="margin:0 0 10px;">앞서 특별한 수 페이지에서 봤던 "원의 둘레 ÷ 지름"이나 라이프니츠의 급수 같은 방법들은 훨씬 빠르게 정확한 π에 다가가요. 그럼에도 몬테카를로 방법이 중요한 이유는, <b>복잡한 도형이나 고차원 공간</b>처럼 정확한 공식을 세우기 어려운 문제에서는 이렇게 "무작위로 뿌려보고 비율을 세는" 방법이 사실상 유일한 해법일 때가 많기 때문이에요.</p>
+      <p style="margin:0;">실제로 몬테카를로 방법은 원자로 설계, 금융 상품 가격 계산, 일기예보, 신약 개발 시뮬레이션 등 아주 다양한 분야에서 쓰이고 있어요. π 추정은 이 강력한 방법을 가장 쉽게 체험해볼 수 있는 예제인 셈이에요.</p>
+    </div>
+  </div>
+
+  <!-- ===== 퀴즈 ===== -->
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 몬테카를로 원주율 퀴즈</h2>
+      <div class="progress-badge">문제 <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · 정답 <b id="scoreNum">0</b>개</div>
+    </div>
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextQuizBtn">➡ 다음 문제</button>
+  </div>
+
+<footer>몬테카를로 방법은 1940년대 스타니스와프 울람과 존 폰 노이만이 핵무기 개발 계산 과정에서 만들었어요. 이름은 무작위성을 상징하는 모나코의 도박 도시 몬테카를로에서 따왔어요.</footer>
+</div>
+
+<script>
+function randInt(min,max){ return min + Math.floor(Math.random()*(max-min+1)); }
+
+// ============================================================
+// 점 뿌리기
+// ============================================================
+const svgScatter = document.getElementById('svgScatter');
+const statTotal = document.getElementById('statTotal');
+const statInside = document.getElementById('statInside');
+const statPi = document.getElementById('statPi');
+const scatterExpr = document.getElementById('scatterExpr');
+const scatterCheck = document.getElementById('scatterCheck');
+const scatterFact = document.getElementById('scatterFact');
+const svgConverge = document.getElementById('svgConverge');
+const convergeFact = document.getElementById('convergeFact');
+
+let points = []; // {x,y,inside} in [-1,1]x[-1,1]
+let history = []; // {total, piEstimate} snapshots for the convergence chart
+const MAX_DRAWN_POINTS = 3000;
+
+function renderScatterBase(){
+  const CX=200, CY=200, R=190;
+  let html = '';
+  html += `<rect x="${CX-R}" y="${CY-R}" width="${R*2}" height="${R*2}" fill="var(--paper)" stroke="var(--paper-line)" stroke-width="2"></rect>`;
+  html += `<circle cx="${CX}" cy="${CY}" r="${R}" fill="none" stroke="var(--violet-ink)" stroke-width="2.5"></circle>`;
+  return html;
+}
+
+function addPoints(n){
+  let insideAdded = 0;
+  for(let i=0;i<n;i++){
+    const x = Math.random()*2-1, y = Math.random()*2-1;
+    const inside = x*x+y*y <= 1;
+    if(inside) insideAdded++;
+    if(points.length < MAX_DRAWN_POINTS) points.push({x,y,inside});
+    else { /* still count it even if not drawn */ points._extraTotal = (points._extraTotal||0)+1; if(inside) points._extraInside=(points._extraInside||0)+1; }
+  }
+  const totalSoFar = getTotal();
+  const insideSoFar = getInside();
+  history.push({total: totalSoFar, pi: 4*insideSoFar/totalSoFar});
+  if(history.length>500) history = history.filter((_,i)=>i%2===0); // keep chart light
+  renderScatter();
+  renderConverge();
+}
+function getTotal(){ return points.length + (points._extraTotal||0); }
+function getInside(){ return points.filter(p=>p.inside).length + (points._extraInside||0); }
+
+function renderScatter(){
+  const CX=200, CY=200, R=190;
+  let html = renderScatterBase();
+  points.forEach(p=>{
+    const px = CX+p.x*R, py = CY-p.y*R;
+    html += `<circle cx="${px}" cy="${py}" r="2" fill="${p.inside?'var(--violet-ink)':'var(--ink-soft)'}" opacity="${p.inside?0.85:0.55}"></circle>`;
+  });
+  svgScatter.innerHTML = html;
+
+  const total = getTotal(), inside = getInside();
+  statTotal.textContent = total.toLocaleString();
+  statInside.textContent = inside.toLocaleString();
+  const piEst = total>0 ? 4*inside/total : null;
+  statPi.textContent = piEst!==null ? piEst.toFixed(5) : '-';
+
+  if(total===0){
+    scatterExpr.innerHTML = `아직 점을 뿌리지 않았어요`;
+    scatterCheck.innerHTML = `버튼을 눌러 시작해보세요.`;
+    scatterFact.innerHTML = `정사각형 안에 점을 뿌리고 원 안에 몇 개나 떨어지는지 세어볼 거예요.`;
+  } else {
+    const err = Math.abs(piEst-Math.PI);
+    scatterExpr.innerHTML = `π ≈ 4 × ${inside.toLocaleString()} ÷ ${total.toLocaleString()} = <span class="unknown">${piEst.toFixed(5)}</span>`;
+    scatterCheck.innerHTML = `실제 π = 3.14159... 오차 = ${err.toFixed(5)}`;
+    scatterFact.innerHTML = total<500
+      ? `아직 점이 적어서 추정값이 꽤 들쭉날쭉해요. 점을 더 뿌려서 값이 점점 안정되는 걸 확인해보세요.`
+      : `점이 <b>${total.toLocaleString()}개</b>나 모이니 추정값이 <b>${piEst.toFixed(5)}</b>로 실제 π(3.14159...)에 꽤 가까워졌어요. 오차는 ${err.toFixed(5)}예요.`;
+  }
+}
+
+function renderConverge(){
+  if(history.length===0){
+    convergeFact.textContent = '아직 점을 뿌리지 않았어요. 위에서 점을 뿌려보세요!';
+    svgConverge.innerHTML = '';
+    return;
+  }
+  const CX0=40, CX1=440, CY0=180, CY1=20;
+  const maxTotal = history[history.length-1].total;
+  const minPi = Math.min(2.6, ...history.map(h=>h.pi));
+  const maxPi = Math.max(3.7, ...history.map(h=>h.pi));
+  function xOf(total){ return CX0 + (CX1-CX0) * (Math.log(Math.max(total,1))/Math.log(Math.max(maxTotal,10))); }
+  function yOf(pi){ return CY0 - (CY0-CY1) * ((pi-minPi)/(maxPi-minPi)); }
+  const piY = yOf(Math.PI);
+
+  let html = '';
+  html += `<line x1="${CX0}" y1="${piY}" x2="${CX1}" y2="${piY}" stroke="var(--green-ink)" stroke-width="2" stroke-dasharray="5 4"></line>`;
+  html += `<text x="${CX1}" y="${piY-8}" text-anchor="end" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--green-ink)">π = 3.14159...</text>`;
+  html += `<line x1="${CX0}" y1="${CY0}" x2="${CX1}" y2="${CY0}" stroke="var(--paper-line)" stroke-width="2"></line>`;
+
+  let path = '';
+  history.forEach((h,i)=>{
+    const x = xOf(h.total), y = yOf(h.pi);
+    path += (i===0?'M':'L') + `${x},${y} `;
+  });
+  html += `<path d="${path}" fill="none" stroke="var(--violet-ink)" stroke-width="2"></path>`;
+  const last = history[history.length-1];
+  const [lx,ly] = [xOf(last.total), yOf(last.pi)];
+  html += `<circle cx="${lx}" cy="${ly}" r="5" fill="var(--violet-ink)"></circle>`;
+  html += `<text x="230" y="205" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">가로축: 점 개수(로그 눈금) — 오른쪽으로 갈수록 점이 많아져요</text>`;
+  svgConverge.innerHTML = html;
+
+  const err = Math.abs(last.pi-Math.PI);
+  convergeFact.innerHTML = `점이 늘어날수록 보라색 선이 초록 점선(실제 π)에 가까워지지만, <b>일직선으로 부드럽게</b> 다가가지는 않아요 — 무작위성 때문에 위아래로 흔들리면서 점점 좁은 범위로 수렴해요. 지금까지 ${last.total.toLocaleString()}개를 뿌려서 오차가 <b>${err.toFixed(5)}</b>까지 줄었어요.`;
+}
+
+document.getElementById('addBtn100').addEventListener('click', ()=>addPoints(100));
+document.getElementById('addBtn1000').addEventListener('click', ()=>addPoints(1000));
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  points = []; points._extraTotal=0; points._extraInside=0; history = [];
+  renderScatter(); renderConverge();
+});
+renderScatter();
+renderConverge();
+
+// ============================================================
+// 퀴즈
+// ============================================================
+const quizQ = document.getElementById('quizQ');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextQuizBtn = document.getElementById('nextQuizBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+const TOTAL_QUESTIONS = 10;
+let score=0, answered=false, quizAnswer=null, questionIndex=0, quizFinished=false;
+let usedQuestions = [];
+
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
+
+const TRUE_FALSE = [
+  {s:'몬테카를로 방법은 점을 많이 뿌릴수록 π 추정값이 더 정확해지는 경향이 있다', a:'참'},
+  {s:'점의 개수를 2배로 늘리면 오차도 항상 정확히 절반이 된다', a:'거짓'},
+  {s:'몬테카를로 방법은 라이프니츠 급수 같은 방법보다 수렴 속도가 빠르다', a:'거짓'},
+  {s:'몬테카를로 방법은 원자로 설계나 금융 계산에도 실제로 쓰인다', a:'참'},
+  {s:'점이 원 안에 떨어질 이론적 확률은 π/4이다', a:'참'},
+  {s:'몬테카를로라는 이름은 수학자의 이름에서 따왔다', a:'거짓'},
+];
+
+function buildQuizCandidate(){
+  const type = Math.random();
+
+  if(type < 0.4){
+    const total = [100,400,1000,2500][randInt(0,3)];
+    const inside = Math.round(total*(Math.PI/4) + (Math.random()*20-10));
+    const piEst = (4*inside/total).toFixed(3);
+    const text = `점 ${total}개 중 ${inside}개가 원 안에 떨어졌다면, 추정한 π는 얼마일까요? (4×${inside}÷${total})`;
+    const opts = new Set([piEst]);
+    while(opts.size<4){
+      const delta = (Math.random()*0.6-0.3).toFixed(3);
+      const cand = (parseFloat(piEst)+parseFloat(delta)).toFixed(3);
+      if(cand!==piEst && parseFloat(cand)>0) opts.add(cand);
+    }
+    return { text, answer: piEst, opts: [...opts].sort((a,b)=>parseFloat(a)-parseFloat(b)), formatter: v=>v };
+  } else {
+    const item = TRUE_FALSE[randInt(0,TRUE_FALSE.length-1)];
+    const text = `"${item.s}" — 참일까요, 거짓일까요?`;
+    return { text, answer: item.a, opts: ['참','거짓'], formatter: v=>v };
+  }
+}
+
+function newQuizQuestion(){
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
+  answered=false;
+  quizFeedback.textContent='';
+  qIdxNumEl.textContent = questionIndex;
+  nextQuizBtn.textContent = questionIndex >= TOTAL_QUESTIONS ? '🏁 결과 보기' : '➡ 다음 문제';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildQuizCandidate();
+    attempts++;
+  } while(usedQuestions.includes(candidate.text) && attempts < 30);
+  usedQuestions.push(candidate.text);
+
+  quizAnswer = candidate.answer;
+  quizQ.innerHTML = candidate.text;
+  renderOpts(candidate.opts, candidate.formatter);
+}
+
+function renderOpts(opts, formatter){
+  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${formatter(o)}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered=true;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      const chosen = btn.dataset.o;
+      const isCorrect = chosen===quizAnswer;
+      if(isCorrect){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 맞았어요!`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `아쉬워요! 정답은 ${quizAnswer}였어요.`;
+      }
+      scoreNumEl.textContent = score;
+    });
+  });
+}
+
+function showQuizResult(){
+  quizFinished = true;
+  quizQ.style.display = 'none';
+  quizOpts.style.display = 'none';
+  nextQuizBtn.textContent = '🔄 다시 풀기';
+  quizFeedback.innerHTML = `🏁 퀴즈 완료! ${TOTAL_QUESTIONS}문제 중 <b>${score}</b>개 맞혔어요.`;
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  quizQ.style.display = '';
+  quizOpts.style.display = '';
+  newQuizQuestion();
+}
+
+nextQuizBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newQuizQuestion(); }
+});
+newQuizQuestion();
+</script>
+</body>
+</html>
