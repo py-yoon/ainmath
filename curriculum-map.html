@@ -151,6 +151,25 @@ footer a:hover{color:var(--ink);text-decoration:underline;}
 @media (max-width:600px){
   .unit-row{flex-direction:column;align-items:flex-start;}
 }
+@media (max-width:768px){
+  .app-shell{display:block;}
+  .sidebar-inner{
+    position:sticky;top:0;z-index:30;height:auto;
+    flex-direction:row;align-items:center;
+    padding:10px 12px;gap:0;
+    overflow-x:auto;-webkit-overflow-scrolling:touch;
+    border-right:none;border-bottom:1px solid var(--paper-line);
+  }
+  .sidebar-logo{margin:0 12px 0 2px;flex:none;}
+  .sidebar-nav{flex-direction:row;gap:2px;flex:none;}
+  .sidebar-link{padding:8px 12px;white-space:nowrap;}
+  .main-col{padding:22px 16px 60px;}
+  h1{font-size:clamp(24px,6vw,32px);}
+  .sub{font-size:15px;}
+  .jumpnav{position:sticky;top:56px;z-index:20;}
+  .grade-section{padding-left:16px;padding-right:16px;scroll-margin-top:120px;}
+  .explore-section{scroll-margin-top:120px;}
+}
 </style>
 </head>
 <body>
