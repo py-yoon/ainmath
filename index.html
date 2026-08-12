@@ -42,8 +42,33 @@
     color:var(--ink);
     font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
     min-height:100vh;
-    padding: 40px 20px 90px;
   }
+
+  /* app shell: sidebar + main column */
+  .app-shell{display:grid;grid-template-columns:220px 1fr;min-height:100vh;}
+  .sidebar-inner{
+    position:sticky;top:0;height:100vh;
+    background:var(--card);border-right:1px solid var(--paper-line);
+    padding:28px 16px;display:flex;flex-direction:column;gap:4px;
+  }
+  .sidebar-logo{
+    display:flex;align-items:center;gap:8px;
+    font-family:'Do Hyeon',sans-serif;font-size:19px;color:var(--ink);
+    text-decoration:none;margin:0 8px 22px;
+  }
+  .sidebar-logo span{color:var(--coral-ink);}
+  .sidebar-nav{display:flex;flex-direction:column;gap:2px;}
+  .sidebar-link{
+    display:flex;align-items:center;gap:10px;
+    font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);
+    text-decoration:none;padding:11px 14px;border-radius:14px;
+    transition:background .15s ease,color .15s ease;
+  }
+  .sidebar-link .si{font-size:17px;width:20px;text-align:center;}
+  .sidebar-link:hover{background:var(--paper);color:var(--ink);}
+  .sidebar-link.active{background:var(--violet-soft);color:var(--violet-ink);}
+  .main-col{min-width:0;padding:40px 20px 90px;}
+
   .wrap{max-width:1080px;margin:0 auto;}
 
   .eyebrow{
@@ -71,60 +96,70 @@
     margin:0 0 30px;
   }
 
-  /* toolbar (search + filter + jump nav) */
-  .toolbar{
-    position:sticky;top:12px;z-index:20;
-    background:var(--card);border-radius:20px;box-shadow:var(--shadow);
-    padding:16px 18px;margin-bottom:34px;
-    display:flex;flex-direction:column;gap:12px;
+  /* home search */
+  .home-search{
+    position:relative;
+    margin-bottom:22px;
   }
-  .search-row{position:relative;}
-  .search-row .icon{
+  .home-search .icon{
     position:absolute;left:16px;top:50%;transform:translateY(-50%);
     font-size:15px;pointer-events:none;opacity:0.6;
   }
-  .search-row input{
-    width:100%;padding:12px 16px 12px 42px;
-    border-radius:14px;border:2px solid var(--paper-line);
-    background:var(--paper);color:var(--ink);
-    font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:15px;
+  .home-search input{
+    width:100%;padding:16px 18px 16px 44px;
+    border-radius:16px;border:2px solid var(--paper-line);
+    background:var(--card);color:var(--ink);box-shadow:var(--shadow);
+    font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:16px;
     outline:none;transition:border-color .15s ease;
   }
-  .search-row input:focus-visible{border-color:var(--violet-ink);}
-  .search-row .clear-btn{
-    position:absolute;right:10px;top:50%;transform:translateY(-50%);
-    background:none;border:none;color:var(--ink-soft);font-size:16px;
-    cursor:pointer;padding:4px 8px;display:none;
-  }
-  .search-row .clear-btn.show{display:block;}
-  .result-count{font-size:13.5px;color:var(--ink-soft);padding-left:4px;min-height:1.4em;}
+  .home-search input:focus-visible{border-color:var(--violet-ink);}
 
-  .filter-bar{display:flex;flex-wrap:wrap;gap:8px;}
-  .filter-btn{
-    font-family:'Do Hyeon',sans-serif;font-size:14px;
-    background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);
-    border-radius:999px;padding:8px 16px;cursor:pointer;
-    transition:all .15s ease;
+  /* grade quick links */
+  .section-label{
+    font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);
+    margin:0 0 12px;
   }
-  .filter-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
-  .filter-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
-  .filter-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+  .grade-links{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
+    margin-bottom:16px;
+  }
+  .grade-link{
+    display:flex;flex-direction:column;gap:6px;
+    background:var(--card);border:2px solid var(--paper-line);border-radius:18px;
+    padding:18px 18px;text-decoration:none;color:var(--ink);
+    transition:transform .15s ease, border-color .15s ease;box-shadow:var(--shadow);
+  }
+  .grade-link:hover{transform:translateY(-3px);border-color:var(--gl-accent, var(--violet));}
+  .grade-link .gl-emoji{font-size:20px;}
+  .grade-link .gl-title{font-family:'Do Hyeon',sans-serif;font-size:16px;}
+  .grade-link .gl-sub{font-size:13px;color:var(--ink-soft);}
+  .explore-all-link{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:'Do Hyeon',sans-serif;font-size:14.5px;color:var(--ink-soft);
+    text-decoration:none;margin:0 0 30px;
+  }
+  .explore-all-link:hover{color:var(--violet-ink);}
 
-  .jumpnav{display:flex;flex-wrap:wrap;gap:8px;padding-top:10px;border-top:1px solid var(--paper-line);}
-  .jump-btn{
-    font-family:'Do Hyeon',sans-serif;font-size:14px;
-    border:none;border-radius:999px;padding:7px 14px;cursor:pointer;
-    display:inline-flex;align-items:center;gap:6px;transition:filter .15s ease;
+  /* category preview (3 cards per category) */
+  .category-preview{
+    margin-bottom:28px;
+    background:var(--cat-bg, var(--paper));
+    border-radius:26px;
+    padding:26px clamp(16px,3vw,28px) 30px;
   }
-  .jump-btn:hover{filter:brightness(0.95);}
-  .jump-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
-  .jump-btn .jn-count{opacity:0.7;font-family:'Gowun Dodum',sans-serif;}
-
-  .no-results{
-    text-align:center;color:var(--ink-soft);font-size:14.5px;
-    padding:40px 20px;background:var(--card);border-radius:20px;
-    box-shadow:var(--shadow);
+  .category-head{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+  .category-dot{width:14px;height:14px;border-radius:5px;flex:none;}
+  .category-title{font-family:'Do Hyeon',sans-serif;font-size:22px;color:var(--ink);}
+  .category-count{
+    font-size:14px;color:var(--ink-soft);
+    background:var(--card);border:1px solid var(--paper-line);
+    border-radius:999px;padding:3px 10px;
   }
+  .category-more{
+    margin-left:auto;font-family:'Do Hyeon',sans-serif;font-size:14px;
+    color:var(--ink-soft);text-decoration:none;
+  }
+  .category-more:hover{color:var(--violet-ink);}
 
   .curriculum-banner{
     display:inline-flex;align-items:center;gap:8px;
@@ -135,7 +170,7 @@
   }
   .curriculum-banner:hover{border-color:var(--violet-ink);transform:translateY(-2px);}
 
-  /* recommended starter section */
+  /* recommended / recent section */
   .recommended-section{
     margin-bottom:30px;
     background:#FFF8E6;
@@ -147,29 +182,7 @@
   .recommended-title{font-family:'Do Hyeon',sans-serif;font-size:19px;color:#B45309;}
   .recommended-sub{font-size:13.5px;color:var(--ink-soft);}
   #recommended{grid-template-columns:repeat(3,1fr);}
-  @media (max-width:680px){ #recommended{grid-template-columns:1fr;} }
   #recentGrid{grid-template-columns:repeat(auto-fill, minmax(140px,1fr));gap:10px;}
-
-  /* category sections */
-  .category{
-    margin-bottom:28px;
-    background:var(--cat-bg, var(--paper));
-    border-radius:26px;
-    padding:26px clamp(16px,3vw,28px) 30px;
-    scroll-margin-top:150px;
-  }
-  .category-head{
-    display:flex;align-items:center;gap:12px;margin-bottom:18px;
-  }
-  .category-dot{width:14px;height:14px;border-radius:5px;flex:none;}
-  .category-title{
-    font-family:'Do Hyeon',sans-serif;font-size:22px;color:var(--ink);
-  }
-  .category-count{
-    font-size:14px;color:var(--ink-soft);
-    background:var(--card);border:1px solid var(--paper-line);
-    border-radius:999px;padding:3px 10px;
-  }
 
   .grid{
     display:grid;
@@ -255,54 +268,61 @@
 </style>
 </head>
 <body>
-<div class="wrap">
-  <span class="eyebrow">🧮 아인매스</span>
-  <h1>숫자를 <span>직접 만져보며</span><br>이해하는 수학</h1>
-  <p class="sub">슬라이더를 움직이고 값을 바꿔보면서 개념이 왜 그런지 눈으로 확인하는 사이트예요. 학년 필터로 우리 수준에 맞는 주제를 찾아보세요.</p>
-
-  <a href="curriculum-map.html" class="curriculum-banner">🗂️ 우리 학년 교과과정에서 찾아보기 →</a>
-
-  <div class="recommended-section" id="recentSection" style="display:none;background:#F0F4FF;border-color:#DCE5FB;">
-    <div class="recommended-head">
-      <span class="recommended-title" style="color:var(--blue-ink);">🕘 최근 본 항목</span>
-      <span class="recommended-sub">최근에 열어본 체험이에요 (이 기기에만 저장돼요)</span>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+      <a href="index.html" class="sidebar-logo">📐 <span>아인매스</span></a>
+      <nav class="sidebar-nav">
+        <a href="index.html" class="sidebar-link active"><span class="si">🏠</span> <span>홈</span></a>
+        <a href="explore.html" class="sidebar-link"><span class="si">🔎</span> <span>탐구하기</span></a>
+        <a href="curriculum-map.html" class="sidebar-link"><span class="si">🗂️</span> <span>교과과정 지도</span></a>
+      </nav>
     </div>
-    <div class="grid" id="recentGrid"></div>
+  </aside>
+
+  <div class="main-col">
+    <div class="wrap">
+      <span class="eyebrow">📐 아인매스</span>
+      <h1>숫자를 <span>직접 만져보며</span><br>이해하는 수학</h1>
+      <p class="sub">슬라이더를 움직이고 값을 바꿔보면서 개념이 왜 그런지 눈으로 확인하는 사이트예요. 학년을 골라 우리 수준에 맞는 주제를 찾아보세요.</p>
+
+      <form class="home-search" action="explore.html" method="get">
+        <span class="icon">🔍</span>
+        <input type="text" name="q" aria-label="주제 검색" placeholder="찾고 싶은 주제를 검색해보세요 (예: 분수, 원, 확률...)">
+      </form>
+
+      <p class="section-label">학년으로 찾기</p>
+      <div class="grade-links" id="gradeLinks"></div>
+      <a href="explore.html" class="explore-all-link">전체 목록 둘러보기 →</a>
+
+      <a href="curriculum-map.html" class="curriculum-banner">🗂️ 우리 학년 교과과정에서 찾아보기 →</a>
+
+      <div class="recommended-section" id="recentSection" style="display:none;background:#F0F4FF;border-color:#DCE5FB;">
+        <div class="recommended-head">
+          <span class="recommended-title" style="color:var(--blue-ink);">🕘 최근 본 항목</span>
+          <span class="recommended-sub">최근에 열어본 체험이에요 (이 기기에만 저장돼요)</span>
+        </div>
+        <div class="grid" id="recentGrid"></div>
+      </div>
+
+      <div class="recommended-section" id="recommendedSection">
+        <div class="recommended-head">
+          <span class="recommended-title">🌟 오늘의 추천</span>
+          <span class="recommended-sub">매일 바뀌는 체험 3가지예요</span>
+        </div>
+        <div class="grid" id="recommended"></div>
+      </div>
+
+      <p class="section-label">카테고리로 둘러보기</p>
+      <div id="categoryPreviews"></div>
+
+      <footer>
+        <nav class="footer-nav">
+          <a href="explore.html">탐구하기</a>·<a href="curriculum-map.html">교과과정 지도</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a>
+        </nav>
+      </footer>
+    </div>
   </div>
-
-  <div class="recommended-section" id="recommendedSection">
-    <div class="recommended-head">
-      <span class="recommended-title">🌟 오늘의 추천</span>
-      <span class="recommended-sub">매일 바뀌는 체험 3가지예요</span>
-    </div>
-    <div class="grid" id="recommended"></div>
-  </div>
-
-  <div class="toolbar">
-    <div class="search-row">
-      <span class="icon">🔍</span>
-      <input type="text" id="searchInput" aria-label="주제 검색" placeholder="찾고 싶은 주제를 검색해보세요 (예: 분수, 원, 확률...)">
-      <button class="clear-btn" id="clearSearch" aria-label="검색어 지우기">✕</button>
-    </div>
-    <div class="result-count" id="resultCount" aria-live="polite"></div>
-    <div class="filter-bar" id="filterBar">
-      <button class="filter-btn active" data-grade="all">전체</button>
-      <button class="filter-btn" data-grade="low">초등 저학년 (1~3학년)</button>
-      <button class="filter-btn" data-grade="high">초등 고학년 (4~6학년)</button>
-      <button class="filter-btn" data-grade="mid">중학생</button>
-      <button class="filter-btn" data-grade="hs">고등학생</button>
-    </div>
-    <div class="jumpnav" id="jumpNav"></div>
-  </div>
-
-  <div id="categories"></div>
-  <div class="no-results" id="noResults" aria-live="polite" style="display:none;">검색 결과가 없어요. 다른 낱말로 찾아보세요.</div>
-
-  <footer>
-    <nav class="footer-nav">
-      <a href="curriculum-map.html">교과과정 지도</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a>
-    </nav>
-  </footer>
 </div>
 
 <script>
@@ -474,9 +494,9 @@
   ];
 
   const gradeNames = { low:'초등 저학년', high:'초등 고학년', mid:'중학생', hs:'고등학생' };
-  const gradeRank = { low:0, high:1, mid:2, hs:3 };
-
-  const container = document.getElementById('categories');
+  const gradeEmoji = { low:'🧸', high:'📘', mid:'📗', hs:'📕' };
+  const gradeAccent = { low:'#B45309', high:'var(--green-ink)', mid:'var(--violet-ink)', hs:'var(--amber-ink)' };
+  const gradeSubLabel = { low:'1~3학년', high:'4~6학년', mid:'중학생', hs:'고등학생' };
 
   const itemsByHref = {};
   CATEGORIES.forEach(cat => cat.items.forEach(item => { itemsByHref[item.href] = {item, cat}; }));
@@ -528,7 +548,7 @@
     return a;
   }
 
-  // 오늘의 추천 4개 — 카테고리 5개 중 4개를 골라 각각 하나씩, 날짜가 바뀔 때마다 다시 뽑혀요.
+  // 오늘의 추천 3개 — 카테고리 5개 중 3개를 골라 각각 하나씩, 날짜가 바뀔 때마다 다시 뽑혀요.
   function getDailyRecommended(){
     const rand = mulberry32(todaySeed());
     const pickedCats = shuffleSeeded(CATEGORIES, rand).slice(0, 3);
@@ -537,17 +557,6 @@
       const item = liveItems[Math.floor(rand()*liveItems.length)];
       return { item, cat };
     });
-  }
-
-  function sortedItems(items){
-    return items.map((item, i) => ({item, i}))
-      .sort((a, b) => {
-        const rankA = Math.min(...a.item.grades.map(g => gradeRank[g]));
-        const rankB = Math.min(...b.item.grades.map(g => gradeRank[g]));
-        if(rankA !== rankB) return rankA - rankB;
-        return a.i - b.i;
-      })
-      .map(x => x.item);
   }
 
   function cardHtml(item, accentColor, textColor, variant){
@@ -563,14 +572,13 @@
     if(item.article){
       actions.push(`<a class="card-action" href="${item.article}">📖 설명 글 읽기</a>`);
     }
-    const searchText = (item.title + ' ' + item.desc).toLowerCase();
     const linkAttrs = hasAnyLink ? `data-href="${primaryHref}" tabindex="0" role="link"` : '';
     const badges = [];
     if(item.isNew) badges.push(`<span class="badge-new">NEW</span>`);
     if(item.isBest) badges.push(`<span class="badge-best">BEST</span>`);
     if(!isLive) badges.push(`<span class="status soon">준비 중</span>`);
     return `
-      <div class="card ${hasAnyLink ? 'live' : 'disabled'}${variant ? ' '+variant : ''}" style="--card-accent:${accentColor};--card-accent-ink:${textColor}" data-grade="${gradeAttr}" data-search="${searchText.replace(/"/g,'&quot;')}" ${linkAttrs}>
+      <div class="card ${hasAnyLink ? 'live' : 'disabled'}${variant ? ' '+variant : ''}" style="--card-accent:${accentColor};--card-accent-ink:${textColor}" data-grade="${gradeAttr}" ${linkAttrs}>
         <div class="card-top">
           <div class="card-icon" style="background:${accentColor}22;color:${textColor}">${item.icon}</div>
           ${badges.length ? `<div class="card-badges">${badges.join('')}</div>` : ''}
@@ -581,21 +589,6 @@
         ${actions.length ? `<div class="card-actions">${actions.join('')}</div>` : ''}
       </div>
     `;
-  }
-
-  function renderCategories(){
-    container.innerHTML = CATEGORIES.map(cat => `
-      <div class="category" id="cat-${cat.key}" data-cat="${cat.key}" style="--cat-bg:${cat.bg}">
-        <div class="category-head">
-          <span class="category-dot" style="background:${cat.color}"></span>
-          <span class="category-title">${cat.title}</span>
-          <span class="category-count">${cat.items.length}개</span>
-        </div>
-        <div class="grid">
-          ${sortedItems(cat.items).map(item => cardHtml(item, cat.color, cat.textColor)).join('')}
-        </div>
-      </div>
-    `).join('');
   }
 
   function renderRecommended(){
@@ -621,87 +614,54 @@
       window.location.href = card.dataset.href;
     });
   }
-  attachCardNav(container);
 
-  function renderJumpNav(){
-    document.getElementById('jumpNav').innerHTML = CATEGORIES.map(cat => `
-      <button class="jump-btn" style="background:${cat.bg};color:${cat.textColor}" data-target="cat-${cat.key}">
-        <span>${cat.title}</span><span class="jn-count">${cat.items.length}</span>
-      </button>
+  function pickPreviewItems(cat){
+    const items = cat.items
+      .map((item, i) => ({ item, i, score: (item.isBest?2:0) + (item.isNew?1:0) }))
+      .filter(x => x.item.status === 'live');
+    items.sort((a, b) => b.score - a.score || a.i - b.i);
+    return items.slice(0, 3).map(x => x.item);
+  }
+
+  function renderCategoryPreviews(){
+    document.getElementById('categoryPreviews').innerHTML = CATEGORIES.map(cat => `
+      <div class="category-preview" style="--cat-bg:${cat.bg}">
+        <div class="category-head">
+          <span class="category-dot" style="background:${cat.color}"></span>
+          <span class="category-title">${cat.title}</span>
+          <span class="category-count">${cat.items.length}개</span>
+          <a class="category-more" href="explore.html#cat-${cat.key}">전체 보기 →</a>
+        </div>
+        <div class="grid">
+          ${pickPreviewItems(cat).map(item => cardHtml(item, cat.color, cat.textColor)).join('')}
+        </div>
+      </div>
+    `).join('');
+    attachCardNav(document.getElementById('categoryPreviews'));
+  }
+
+  function renderGradeLinks(){
+    const counts = { low:0, high:0, mid:0, hs:0 };
+    CATEGORIES.forEach(cat => cat.items.forEach(item => {
+      item.grades.forEach(g => { if(counts[g] !== undefined) counts[g]++; });
+    }));
+    document.getElementById('gradeLinks').innerHTML = ['low','high','mid','hs'].map(g => `
+      <a class="grade-link" style="--gl-accent:${gradeAccent[g]}" href="explore.html?grade=${g}">
+        <span class="gl-emoji">${gradeEmoji[g]}</span>
+        <span class="gl-title">${gradeNames[g]}</span>
+        <span class="gl-sub">${gradeSubLabel[g]} · ${counts[g]}개 체험</span>
+      </a>
     `).join('');
   }
-
-  let currentGrade = 'all';
-  let currentSearch = '';
-
-  const resultCountEl = document.getElementById('resultCount');
-  const recommendedSectionEl = document.getElementById('recommendedSection');
-  const recentSectionEl = document.getElementById('recentSection');
-  const totalCardCount = CATEGORIES.reduce((sum, cat) => sum + cat.items.length, 0);
-
-  function applyFilter(){
-    let anyVisible = false;
-    let visibleCount = 0;
-    document.querySelectorAll('#categories .card').forEach(card=>{
-      const grades = card.dataset.grade.split(' ');
-      const gradeMatch = currentGrade === 'all' || grades.includes(currentGrade);
-      const searchMatch = !currentSearch || card.dataset.search.includes(currentSearch);
-      const show = gradeMatch && searchMatch;
-      card.style.display = show ? '' : 'none';
-      if(show){ anyVisible = true; visibleCount++; }
-    });
-    document.querySelectorAll('.category').forEach(cat=>{
-      const visibleCards = cat.querySelectorAll('.card:not([style*="display: none"])');
-      cat.style.display = visibleCards.length ? '' : 'none';
-    });
-    document.getElementById('noResults').style.display = anyVisible ? 'none' : '';
-
-    const isFiltering = currentGrade !== 'all' || !!currentSearch;
-    resultCountEl.textContent = isFiltering ? `${visibleCount}개 결과` : `총 ${totalCardCount}개 체험`;
-    if(recommendedSectionEl) recommendedSectionEl.style.display = isFiltering ? 'none' : '';
-    if(recentSectionEl) recentSectionEl.style.display = isFiltering ? 'none' : (getRecentEntries().length ? '' : 'none');
-  }
-
-  document.getElementById('filterBar').addEventListener('click', (e)=>{
-    const btn = e.target.closest('.filter-btn');
-    if(!btn) return;
-    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    currentGrade = btn.dataset.grade;
-    applyFilter();
-  });
-
-  const searchInput = document.getElementById('searchInput');
-  const clearSearchBtn = document.getElementById('clearSearch');
-  searchInput.addEventListener('input', ()=>{
-    currentSearch = searchInput.value.trim().toLowerCase();
-    clearSearchBtn.classList.toggle('show', currentSearch.length > 0);
-    applyFilter();
-  });
-  clearSearchBtn.addEventListener('click', ()=>{
-    searchInput.value = '';
-    currentSearch = '';
-    clearSearchBtn.classList.remove('show');
-    applyFilter();
-    searchInput.focus();
-  });
-
-  document.getElementById('jumpNav').addEventListener('click', (e)=>{
-    const btn = e.target.closest('.jump-btn');
-    if(!btn) return;
-    const target = document.getElementById(btn.dataset.target);
-    if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
-  });
 
   const recommendedGrid = document.getElementById('recommended');
   attachCardNav(recommendedGrid);
   attachCardNav(document.getElementById('recentGrid'));
 
-  renderCategories();
-  renderJumpNav();
+  renderGradeLinks();
   renderRecommended();
   renderRecent();
-  applyFilter();
+  renderCategoryPreviews();
 </script>
 </body>
 </html>
