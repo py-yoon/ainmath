@@ -25,8 +25,33 @@ html,body{margin:0;padding:0;}
 body{
   background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
   color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
-  min-height:100vh; padding: 32px 20px 90px;
+  min-height:100vh;
 }
+
+.app-shell{display:grid;grid-template-columns:220px 1fr;min-height:100vh;}
+.sidebar-inner{
+  position:sticky;top:0;height:100vh;
+  background:var(--card);border-right:1px solid var(--paper-line);
+  padding:28px 16px;display:flex;flex-direction:column;gap:4px;
+}
+.sidebar-logo{
+  display:flex;align-items:center;gap:8px;
+  font-family:'Do Hyeon',sans-serif;font-size:19px;color:var(--ink);
+  text-decoration:none;margin:0 8px 22px;
+}
+.sidebar-logo span{color:var(--coral-ink);}
+.sidebar-nav{display:flex;flex-direction:column;gap:2px;}
+.sidebar-link{
+  display:flex;align-items:center;gap:10px;
+  font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);
+  text-decoration:none;padding:11px 14px;border-radius:14px;
+  transition:background .15s ease,color .15s ease;
+}
+.sidebar-link .si{font-size:17px;width:20px;text-align:center;}
+.sidebar-link:hover{background:var(--paper);color:var(--ink);}
+.sidebar-link.active{background:var(--violet-soft);color:var(--violet-ink);}
+.main-col{min-width:0;padding:32px 20px 90px;}
+
 .wrap{max-width:900px;margin:0 auto;}
 .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
 .back-link:hover{color:var(--ink);}
@@ -122,7 +147,20 @@ footer a:hover{color:var(--ink);text-decoration:underline;}
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+      <a href="index.html" class="sidebar-logo">📐 <span>아인매스</span></a>
+      <nav class="sidebar-nav">
+        <a href="index.html" class="sidebar-link"><span class="si">🏠</span> <span>홈</span></a>
+        <a href="explore.html" class="sidebar-link"><span class="si">🔎</span> <span>탐구하기</span></a>
+        <a href="curriculum-map.html" class="sidebar-link active"><span class="si">🗂️</span> <span>교과과정 지도</span></a>
+      </nav>
+    </div>
+  </aside>
+
+  <div class="main-col">
+  <div class="wrap">
   <a class="back-link" href="explore.html">← 전체 목록으로</a>
   <span class="eyebrow">🗂️ 교과과정 지도</span>
   <h1>우리 학년 교과서에서<br><span>지금 배우는 단원</span>을 찾아보세요</h1>
@@ -145,6 +183,8 @@ footer a:hover{color:var(--ink);text-decoration:underline;}
     <p>참고: 국가교육과정정보센터(NCIC) 고시 2022 개정 교육과정 수학과 성취기준을 바탕으로 정리했어요.</p>
     <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
   </footer>
+  </div>
+  </div>
 </div>
 
 <script>
