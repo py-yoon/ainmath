@@ -16,6 +16,19 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>탐구하기 · 아인매스</title>
 <meta name="description" content="도형·기하, 수와 연산, 확률과 통계, 함수와 그래프, 재미있는 패턴까지 — 학년 필터와 검색으로 원하는 수학 체험을 찾아보세요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="탐구하기 · 아인매스">
+<meta property="og:description" content="도형·기하, 수와 연산, 확률과 통계, 함수와 그래프, 재미있는 패턴까지 — 학년 필터와 검색으로 원하는 수학 체험을 찾아보세요.">
+<meta property="og:url" content="https://ainmath.com/explore.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="탐구하기 · 아인매스">
+<meta name="twitter:description" content="도형·기하, 수와 연산, 확률과 통계, 함수와 그래프, 재미있는 패턴까지 — 학년 필터와 검색으로 원하는 수학 체험을 찾아보세요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
@@ -129,6 +142,17 @@
   }
   .search-row .clear-btn.show{display:block;}
   .result-count{font-size:13.5px;color:var(--ink-soft);padding-left:4px;min-height:1.4em;}
+
+  .chip-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding-left:4px;}
+  .chip-row .chip-label{font-size:13px;color:var(--ink-soft);margin-right:2px;}
+  .chip-btn{
+    font-family:'Do Hyeon',sans-serif;font-size:13.5px;
+    background:var(--violet-soft);border:none;color:var(--violet-ink);
+    border-radius:999px;padding:6px 14px;cursor:pointer;
+    transition:all .15s ease;
+  }
+  .chip-btn:hover{background:var(--violet-ink);color:#fff;}
+  .chip-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
 
   .filter-bar{display:flex;flex-wrap:wrap;gap:8px;}
   .filter-btn{
@@ -300,6 +324,17 @@
           <input type="text" id="searchInput" aria-label="주제 검색" placeholder="찾고 싶은 주제를 검색해보세요 (예: 분수, 원, 확률...)">
           <button class="clear-btn" id="clearSearch" aria-label="검색어 지우기">✕</button>
         </div>
+        <div class="chip-row" id="chipRow">
+          <span class="chip-label">인기 검색어</span>
+          <button class="chip-btn" data-topic="피타고라스">#피타고라스</button>
+          <button class="chip-btn" data-topic="분수">#분수</button>
+          <button class="chip-btn" data-topic="확률">#확률</button>
+          <button class="chip-btn" data-topic="원">#원</button>
+          <button class="chip-btn" data-topic="미분">#미분</button>
+          <button class="chip-btn" data-topic="소수">#소수</button>
+          <button class="chip-btn" data-topic="도형">#도형</button>
+          <button class="chip-btn" data-topic="통계">#통계</button>
+        </div>
         <div class="result-count" id="resultCount" aria-live="polite"></div>
         <div class="filter-bar" id="filterBar">
           <button class="filter-btn active" data-grade="all">전체</button>
@@ -419,6 +454,7 @@
         { title:'분류하기', desc:'색깔별로, 모양별로, 크기별로! 같은 물건도 기준을 바꾸면 다르게 나뉘는 걸 확인해요.', grades:['low'], status:'live', href:'classify-objects.html', article:'article-classify-objects.html', icon:'🟢' },
         { title:'원그래프로 나타내기', desc:'항목별 인원수를 슬라이더로 바꿔보며 원그래프의 부채꼴 크기(백분율·중심각)가 어떻게 달라지는지 확인해요.', grades:['high'], status:'live', href:'pie-chart.html', article:'article-pie-chart.html', icon:'🥧' },
         { title:'도수분포표 실험실', desc:'계급의 크기를 조절하며 원자료가 도수분포표와 히스토그램으로 정리되는 과정을 확인해요.', grades:['mid'], status:'live', href:'frequency-table.html', article:'article-frequency-table.html', icon:'📶' },
+        { title:'상대도수 실험실', desc:'전체 도수가 다른 두 반을 비교하며, 도수 대신 상대도수로 비교해야 하는 이유를 확인해요.', grades:['mid'], status:'live', isNew:true, href:'relative-frequency.html', article:'article-relative-frequency.html', icon:'➗' },
         { title:'산포도 (상자그림·산점도)', desc:'자료를 상자그림으로 정리해 흩어진 정도를 확인하고, 산점도에서 두 변량 사이의 관계를 읽어봐요.', grades:['mid'], status:'live', href:'boxplot-scatter.html', article:'article-boxplot-scatter.html', icon:'📦' },
         { title:'표준편차와 분산 실험실', desc:'평균이 같아도 퍼진 정도는 다를 수 있어요. 편차를 제곱해 평균 낸 분산과 그 제곱근인 표준편차가 왜 필요한지 슬라이더로 확인해요.', grades:['mid'], status:'live', isNew:true, href:'standard-deviation.html', article:'article-standard-deviation.html', icon:'📏' },
         { title:'상관계수와 회귀직선 실험실', desc:'산점도가 흩어진 정도로 상관계수 r의 의미를 확인하고, 데이터에 가장 잘 맞는 회귀직선을 직접 맞춰보며 최소제곱법을 알아봐요.', grades:['mid','hs'], status:'live', isNew:true, href:'correlation-regression.html', article:'article-correlation-regression.html', icon:'📈' },
@@ -430,6 +466,7 @@
         { title:'일차함수 그래프', desc:'기울기와 y절편을 슬라이더로 조절하면 직선이 실시간으로 움직여요.', grades:['mid','hs'], status:'live', href:'linear-function-graph.html', article:'article-linear-function.html', icon:'📈' },
         { title:'비례와 반비례', desc:'상수 k를 바꾸면 그래프 모양이 어떻게 달라지는지 관찰해요.', grades:['high','mid'], status:'live', href:'proportion-inverse.html', article:'article-proportion-inverse.html', icon:'⇄' },
         { title:'좌표평면 위 도형 이동', desc:'점을 클릭하거나 좌표를 입력해 대칭·평행이동·회전을 확인해요.', grades:['mid','hs'], status:'live', href:'coordinate-transform.html', article:'article-coordinate-transform.html', icon:'⊹' },
+        { title:'직선의 방정식 실험실', desc:'두 점을 움직이며 기울기와 직선의 방정식이 실시간으로 바뀌는 걸 확인하고, 평행선·수직선의 조건도 알아봐요.', grades:['hs'], status:'live', isNew:true, href:'line-equation.html', article:'article-line-equation.html', icon:'📉' },
         { title:'이차함수 그래프', desc:'a, b, c를 슬라이더로 조절하면 포물선과 꼭짓점이 실시간으로 움직여요.', grades:['mid','hs'], status:'live', href:'quadratic-function-graph.html', article:'article-quadratic-function.html', icon:'⋃' },
         { title:'방정식 저울 실험실', desc:'저울 양쪽에 같은 조작을 하며 일차방정식을 단계별로 풀어봐요.', grades:['mid'], status:'live', href:'equation-balance.html', article:'article-equation-balance.html', icon:'⚖️' },
         { title:'대응 관계', desc:'두 양이 짝을 지어 함께 변하는 대응 관계를 표와 그래프로 확인해요.', grades:['high'], status:'live', href:'corresponding-quantities.html', article:'article-corresponding-quantities.html', icon:'🔗' },
@@ -650,6 +687,16 @@
     clearSearchBtn.classList.remove('show');
     applyFilter();
     searchInput.focus();
+  });
+
+  document.getElementById('chipRow').addEventListener('click', (e)=>{
+    const chip = e.target.closest('.chip-btn');
+    if(!chip) return;
+    searchInput.value = chip.dataset.topic;
+    currentSearch = chip.dataset.topic.toLowerCase();
+    clearSearchBtn.classList.toggle('show', currentSearch.length > 0);
+    applyFilter();
+    document.getElementById('categories').scrollIntoView({behavior:'smooth', block:'start'});
   });
 
   document.getElementById('jumpNav').addEventListener('click', (e)=>{
