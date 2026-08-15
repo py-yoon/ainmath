@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>카탈랑 수 실험실</title>
+<meta name="description" content="괄호를 짝 맞추는 방법의 수, 다각형을 삼각형으로 나누는 방법의 수 — 전혀 달라 보이는 문제들이 왜 똑같은 카탈랑 수가 되는지 직접 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.5vw,42px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--violet-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.section-title{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink);margin:0 0 6px;}
+.section-sub{color:var(--ink-soft);font-size:14.5px;line-height:1.7;margin:0 0 18px;max-width:62ch;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.15fr 0.85fr;gap:32px;align-items:start;margin-bottom:24px;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+.canvas-area{display:flex;flex-direction:column;align-items:center;gap:18px;}
+svg{width:100%;max-width:420px;height:auto;overflow:visible;user-select:none;}
+.mode-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.mode-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;}
+.mode-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.mode-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+.action-row{display:flex;gap:8px;flex-wrap:wrap;width:100%;max-width:380px;justify-content:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:12px;padding:9px 16px;cursor:pointer;transition:all .15s ease;}
+.action-btn:hover:not(:disabled){border-color:var(--violet-ink);color:var(--violet-ink);}
+.action-btn:disabled{opacity:0.4;cursor:not-allowed;}
+.action-btn.primary{background:var(--violet-ink);border-color:var(--violet-ink);color:#fff;}
+.action-btn.primary:hover{background:var(--violet);border-color:var(--violet);}
+.panel{display:flex;flex-direction:column;gap:16px;}
+.count-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.count-card{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:14px 8px;text-align:center;}
+.count-card .label{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);}
+.count-card .value{font-family:'Do Hyeon',sans-serif;font-size:24px;color:var(--violet-ink);margin-top:2px;}
+.fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--violet-ink);}
+.howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--violet-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+.solo-fact{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
+
+.paren-grid{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:400px;margin:0 auto;}
+.paren-chip{font-family:'JetBrains Mono','Do Hyeon',monospace;font-size:15px;background:var(--paper);border:2px solid var(--paper-line);border-radius:10px;padding:8px 12px;color:var(--violet-ink);}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--violet-ink);}
+.quiz-q{font-size:15.5px;line-height:1.7;text-align:center;background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:20px;margin-bottom:16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.quiz-stage .action-btn{display:block;margin:14px auto 0;padding:11px 18px;}
+.quiz-done{text-align:center;padding:20px;}
+.quiz-done .big{font-family:'Do Hyeon',sans-serif;font-size:22px;color:var(--violet-ink);margin-bottom:8px;}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="explore.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-catalan-numbers-lab.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🔢 카탈랑 수 실험실</span>
+  <h1>전혀 달라 보이는 문제들이<br>왜 <span>똑같은 수</span>가 될까?</h1>
+  <p class="sub">괄호를 짝 맞추는 방법의 수와, 다각형을 대각선으로 삼각형들로 나누는 방법의 수는 언뜻 아무 관계도 없어 보여요. 그런데 놀랍게도 둘 다 정확히 같은 수열(1, 1, 2, 5, 14, 42...)이 돼요. 이 신기한 수를 카탈랑 수라고 해요.</p>
+
+  <div class="howto">
+    <p>카탈랑 수는 C<sub>n</sub> = (2n)! / ((n+1)! × n!) 이라는 공식으로 구해요. n=0부터 1, 1, 2, 5, 14, 42, 132...로 이어져요. 아래에서 n을 바꿔가며 값을 확인하고, 왜 괄호 짝 맞추기와 다각형 삼각분할이 똑같은 개수가 되는지 직접 나열해서 확인해봐요.</p>
+  </div>
+
+  <!-- ===== 카탈랑 수란 ===== -->
+  <div class="stage">
+    <div class="canvas-area">
+      <svg id="svgValue" viewBox="0 0 420 220"></svg>
+      <div class="mode-row" id="valueModeRow"></div>
+    </div>
+    <div class="panel">
+      <div class="section-title">🔢 카탈랑 수란?</div>
+      <p class="section-sub">n을 골라서 카탈랑 수를 계산하는 과정을 직접 확인해보세요.</p>
+      <div class="count-grid">
+        <div class="count-card"><div class="label">n</div><div class="value" id="valueN">0</div></div>
+        <div class="count-card"><div class="label">Cₙ</div><div class="value" id="valueC">1</div></div>
+      </div>
+      <div class="fact" id="valueFact"></div>
+    </div>
+  </div>
+
+  <!-- ===== 괄호 짝 맞추기 ===== -->
+  <div class="stage">
+    <div class="canvas-area">
+      <div id="parenGridWrap"></div>
+      <div class="mode-row" id="parenModeRow"></div>
+    </div>
+    <div class="panel">
+      <div class="section-title">( ) 괄호 짝 맞추기</div>
+      <p class="section-sub">여는 괄호와 닫는 괄호를 n쌍씩 써서, 짝이 정확히 맞는(어느 지점에서도 닫는 괄호가 여는 괄호보다 많아지지 않는) 모든 배열을 나열해봐요.</p>
+      <div class="count-grid">
+        <div class="count-card"><div class="label">괄호 쌍 n</div><div class="value" id="parenN">1</div></div>
+        <div class="count-card"><div class="label">가능한 배열 수</div><div class="value" id="parenCount">1</div></div>
+      </div>
+      <div class="fact" id="parenFact"></div>
+    </div>
+  </div>
+
+  <!-- ===== 다각형 삼각분할 ===== -->
+  <div class="stage">
+    <div class="canvas-area">
+      <svg id="svgPolygon" viewBox="0 0 300 300"></svg>
+      <div class="mode-row" id="polygonModeRow"></div>
+      <div class="action-row">
+        <button class="action-btn primary" id="polyPrevBtn">◀ 이전 방법</button>
+        <button class="action-btn primary" id="polyNextBtn">다음 방법 ▶</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="section-title">🔺 다각형 삼각분할</div>
+      <p class="section-sub">(n+2)각형을 대각선으로 나눠서 전부 삼각형이 되게 하는 방법이 몇 가지인지, 하나씩 넘겨보며 확인해보세요.</p>
+      <div class="count-grid">
+        <div class="count-card"><div class="label">변의 개수</div><div class="value" id="polySides">3</div></div>
+        <div class="count-card"><div class="label">지금 보는 방법</div><div class="value" id="polyIdx">1/1</div></div>
+      </div>
+      <div class="fact" id="polyFact"></div>
+    </div>
+  </div>
+
+  <div class="solo-fact">
+    <div class="section-title">🌳 이진트리로도 나온다? (보너스)</div>
+    <div class="fact" style="max-width:66ch;">
+      <p style="margin:0 0 10px;">노드가 n개인 <b>이진트리</b>(각 노드가 왼쪽·오른쪽 자식을 최대 하나씩 가지는 나무 구조)의 서로 다른 모양의 개수도 정확히 카탈랑 수 C<sub>n</sub>이에요. 괄호 하나를 노드 하나로, 괄호가 감싸는 구조를 트리의 가지로 바꿔서 생각하면, 사실 세 문제(괄호·다각형·이진트리)가 전부 <b>같은 구조를 다른 옷을 입혀서 보고 있는 것</b>이라는 게 밝혀져요.</p>
+      <p style="margin:0;">이렇게 겉모습은 완전히 다른데 개수가 똑같은 문제들을 수학자들은 "전단사(bijection)가 있다"고 표현해요. 카탈랑 수는 지금까지 알려진 것만 200가지가 넘는 서로 다른 조합론 문제에서 등장해요.</p>
+    </div>
+  </div>
+
+  <!-- ===== 퀴즈 ===== -->
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 카탈랑 수 퀴즈</h2>
+      <div class="progress-badge"><b id="quizPos">1</b> / 10 문제 · 정답 <b id="scoreNum">0</b></div>
+    </div>
+    <div id="quizBody"></div>
+  </div>
+
+<footer>카탈랑 수는 벨기에 수학자 외젠 카탈랑의 이름을 땄지만, 실은 그보다 앞서 스위스의 레온하르트 오일러와 몽골의 밍안투가 각자 독립적으로 연구했던 수예요.</footer>
+</div>
+
+<script>
+function randInt(min,max){ return min + Math.floor(Math.random()*(max-min+1)); }
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+function factorial(n){ let r=1n; for(let i=2n;i<=BigInt(n);i++) r*=i; return r; }
+function catalan(n){
+  return Number(factorial(2*n) / (factorial(n+1) * factorial(n)));
+}
+
+// ============================================================
+// 카탈랑 수란
+// ============================================================
+const VALUE_NS = [0,1,2,3,4,5,6];
+let valueIdx = 3;
+const valueModeRow = document.getElementById('valueModeRow');
+const svgValue = document.getElementById('svgValue');
+const valueN = document.getElementById('valueN');
+const valueC = document.getElementById('valueC');
+const valueFact = document.getElementById('valueFact');
+
+function buildValueModes(){
+  valueModeRow.innerHTML = VALUE_NS.map((n,i)=>`<button class="mode-btn" data-i="${i}">n=${n}</button>`).join('');
+  valueModeRow.querySelectorAll('.mode-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ valueIdx=parseInt(btn.dataset.i); renderValue(); });
+  });
+}
+
+function renderValue(){
+  valueModeRow.querySelectorAll('.mode-btn').forEach((b,i)=>b.classList.toggle('active', i===valueIdx));
+  const n = VALUE_NS[valueIdx];
+  const c = catalan(n);
+  valueN.textContent = n;
+  valueC.textContent = c.toLocaleString();
+  valueFact.innerHTML = `C<sub>${n}</sub> = (2×${n})! / ((${n}+1)! × ${n}!) = ${(2*n)}! / (${n+1}! × ${n}!) = <b>${c.toLocaleString()}</b>`;
+
+  const CX0=30, CX1=400, CY0=180, CY1=20;
+  const maxC = catalan(VALUE_NS[VALUE_NS.length-1]);
+  let html = '';
+  VALUE_NS.forEach((n2,i)=>{
+    const c2 = catalan(n2);
+    const h = (Math.log(c2+1)/Math.log(maxC+1))*(CY0-CY1);
+    const cx = CX0 + i*((CX1-CX0)/VALUE_NS.length) + ((CX1-CX0)/VALUE_NS.length)/2;
+    const barW = 36;
+    const active = i===valueIdx;
+    html += `<rect x="${cx-barW/2}" y="${CY0-h}" width="${barW}" height="${h}" rx="6" fill="${active?'var(--violet-ink)':'var(--violet-soft)'}"></rect>`;
+    html += `<text x="${cx}" y="${CY0-h-8}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">${c2.toLocaleString()}</text>`;
+    html += `<text x="${cx}" y="${CY0+18}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="${active?'var(--violet-ink)':'var(--ink-soft)'}">n=${n2}</text>`;
+  });
+  html += `<line x1="${CX0}" y1="${CY0}" x2="${CX1}" y2="${CY0}" stroke="var(--paper-line)" stroke-width="2"></line>`;
+  svgValue.innerHTML = html;
+}
+buildValueModes();
+renderValue();
+
+// ============================================================
+// 괄호 짝 맞추기
+// ============================================================
+function genParens(n){
+  const res=[];
+  function bt(s,openC,closeC){
+    if(s.length===2*n){ res.push(s); return; }
+    if(openC<n) bt(s+'(',openC+1,closeC);
+    if(closeC<openC) bt(s+')',openC,closeC+1);
+  }
+  bt('',0,0);
+  return res;
+}
+
+const PAREN_NS = [1,2,3,4];
+let parenIdx = 1;
+const parenModeRow = document.getElementById('parenModeRow');
+const parenGridWrap = document.getElementById('parenGridWrap');
+const parenN = document.getElementById('parenN');
+const parenCount = document.getElementById('parenCount');
+const parenFact = document.getElementById('parenFact');
+
+function buildParenModes(){
+  parenModeRow.innerHTML = PAREN_NS.map((n,i)=>`<button class="mode-btn" data-i="${i}">n=${n}</button>`).join('');
+  parenModeRow.querySelectorAll('.mode-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ parenIdx=parseInt(btn.dataset.i); renderParen(); });
+  });
+}
+
+function renderParen(){
+  parenModeRow.querySelectorAll('.mode-btn').forEach((b,i)=>b.classList.toggle('active', i===parenIdx));
+  const n = PAREN_NS[parenIdx];
+  const ps = genParens(n);
+  parenN.textContent = n;
+  parenCount.textContent = ps.length;
+  parenFact.innerHTML = `n=${n}쌍일 때 가능한 배열은 <b>${ps.length}가지</b>예요. 카탈랑 수 C<sub>${n}</sub> = ${catalan(n)}와 정확히 같아요.`;
+  parenGridWrap.innerHTML = `<div class="paren-grid">${ps.map(p=>`<span class="paren-chip">${p}</span>`).join('')}</div>`;
+}
+buildParenModes();
+renderParen();
+
+// ============================================================
+// 다각형 삼각분할
+// ============================================================
+function enumerateTriangulations(vertices){
+  if(vertices.length<3) return [[]];
+  if(vertices.length===3) return [[]];
+  let results=[];
+  const i=vertices[0], j=vertices[vertices.length-1];
+  for(let kIdx=1;kIdx<vertices.length-1;kIdx++){
+    const k=vertices[kIdx];
+    const left=vertices.slice(0,kIdx+1);
+    const right=vertices.slice(kIdx);
+    const leftTris=enumerateTriangulations(left);
+    const rightTris=enumerateTriangulations(right);
+    for(const lt of leftTris){
+      for(const rt of rightTris){
+        const diags=new Set([...lt.map(d=>d.join(',')), ...rt.map(d=>d.join(','))]);
+        if(left.length>2) diags.add([Math.min(i,k),Math.max(i,k)].join(','));
+        if(right.length>2) diags.add([Math.min(k,j),Math.max(k,j)].join(','));
+        results.push([...diags].sort().map(s=>s.split(',').map(Number)));
+      }
+    }
+  }
+  const seen=new Set(); const uniq=[];
+  for(const r of results){
+    const key=JSON.stringify(r);
+    if(!seen.has(key)){ seen.add(key); uniq.push(r); }
+  }
+  return uniq;
+}
+
+const POLYGON_NS = [1,2,3,4];
+let polygonIdx = 2;
+let polyTriIdx = 0;
+const polygonModeRow = document.getElementById('polygonModeRow');
+const svgPolygon = document.getElementById('svgPolygon');
+const polySides = document.getElementById('polySides');
+const polyIdxEl = document.getElementById('polyIdx');
+const polyFact = document.getElementById('polyFact');
+
+function buildPolygonModes(){
+  polygonModeRow.innerHTML = POLYGON_NS.map((n,i)=>`<button class="mode-btn" data-i="${i}">${n+2}각형</button>`).join('');
+  polygonModeRow.querySelectorAll('.mode-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ polygonIdx=parseInt(btn.dataset.i); polyTriIdx=0; renderPolygon(); });
+  });
+}
+
+function renderPolygon(){
+  polygonModeRow.querySelectorAll('.mode-btn').forEach((b,i)=>b.classList.toggle('active', i===polygonIdx));
+  const n = POLYGON_NS[polygonIdx];
+  const m = n+2;
+  const verts = Array.from({length:m},(_,i)=>i);
+  const tris = enumerateTriangulations(verts);
+  const total = tris.length;
+  if(polyTriIdx>=total) polyTriIdx = 0;
+  const diagonals = tris[polyTriIdx];
+
+  polySides.textContent = m;
+  polyIdxEl.textContent = `${polyTriIdx+1}/${total}`;
+  polyFact.innerHTML = `${m}각형(n=${n})을 삼각형들로 나누는 방법은 총 <b>${total}가지</b>예요. 카탈랑 수 C<sub>${n}</sub> = ${catalan(n)}와 정확히 같아요. 화살표 버튼으로 다른 방법도 확인해보세요.`;
+
+  const CX=150, CY=150, R=120;
+  const pts = verts.map((v,i)=>{
+    const ang = -Math.PI/2 + i*(2*Math.PI/m);
+    return [CX+R*Math.cos(ang), CY+R*Math.sin(ang)];
+  });
+  let html = '';
+  for(let i=0;i<m;i++){
+    const [x1,y1]=pts[i], [x2,y2]=pts[(i+1)%m];
+    html += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--ink)" stroke-width="3"></line>`;
+  }
+  diagonals.forEach(([a,b])=>{
+    const [x1,y1]=pts[a], [x2,y2]=pts[b];
+    html += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--violet-ink)" stroke-width="2.5" stroke-dasharray="6 4"></line>`;
+  });
+  pts.forEach(([x,y])=>{
+    html += `<circle cx="${x}" cy="${y}" r="6" fill="var(--ink)"></circle>`;
+  });
+  svgPolygon.innerHTML = html;
+}
+document.getElementById('polyPrevBtn').addEventListener('click', ()=>{
+  const n = POLYGON_NS[polygonIdx]; const m=n+2;
+  const total = enumerateTriangulations(Array.from({length:m},(_,i)=>i)).length;
+  polyTriIdx = (polyTriIdx-1+total)%total;
+  renderPolygon();
+});
+document.getElementById('polyNextBtn').addEventListener('click', ()=>{
+  const n = POLYGON_NS[polygonIdx]; const m=n+2;
+  const total = enumerateTriangulations(Array.from({length:m},(_,i)=>i)).length;
+  polyTriIdx = (polyTriIdx+1)%total;
+  renderPolygon();
+});
+buildPolygonModes();
+renderPolygon();
+
+// ============================================================
+// 퀴즈 — 19개의 고유한 문제 중 10개를 뽑아 중복 없이 출제
+// ============================================================
+function buildQuestionBank(){
+  const bank = [];
+  [0,1,2,3,4,5].forEach(n=>{
+    const c = catalan(n);
+    bank.push({
+      q: `n=${n}일 때 카탈랑 수 Cₙ은 얼마일까요?`,
+      answer: c,
+      makeOpts: ()=>{
+        const opts = new Set([c]);
+        while(opts.size<4){
+          const d = randInt(-Math.max(2,Math.round(c*0.3)), Math.max(2,Math.round(c*0.3)));
+          if(d!==0 && c+d>0) opts.add(c+d);
+        }
+        return shuffle([...opts]).map(v=>({label:`${v}`, value:v}));
+      },
+    });
+  });
+  [1,2,3,4].forEach(n=>{
+    const count = genParens(n).length;
+    bank.push({
+      q: `괄호 ${n}쌍으로 만들 수 있는 올바른 배열은 몇 가지일까요?`,
+      answer: count,
+      makeOpts: ()=>{
+        const opts = new Set([count]);
+        while(opts.size<4){
+          const d = randInt(-3,3);
+          if(d!==0 && count+d>0) opts.add(count+d);
+        }
+        return shuffle([...opts]).map(v=>({label:`${v}가지`, value:v}));
+      },
+    });
+  });
+  [1,2,3,4].forEach(n=>{
+    const m = n+2;
+    const total = enumerateTriangulations(Array.from({length:m},(_,i)=>i)).length;
+    bank.push({
+      q: `${m}각형을 삼각형들로 나누는 방법은 몇 가지일까요?`,
+      answer: total,
+      makeOpts: ()=>{
+        const opts = new Set([total]);
+        while(opts.size<4){
+          const d = randInt(-Math.max(2,Math.round(total*0.3)), Math.max(2,Math.round(total*0.3)));
+          if(d!==0 && total+d>0) opts.add(total+d);
+        }
+        return shuffle([...opts]).map(v=>({label:`${v}가지`, value:v}));
+      },
+    });
+  });
+  const TF = [
+    {s:'카탈랑 수는 항상 홀수이다', a:'거짓'},
+    {s:'괄호 짝 맞추기 문제와 다각형 삼각분할 문제는 답의 개수가 항상 같다', a:'참'},
+    {s:'C₀ = 1이다', a:'참'},
+    {s:'n이 커질수록 카탈랑 수는 점점 작아진다', a:'거짓'},
+    {s:'이진트리 모양의 개수도 카탈랑 수를 따른다', a:'참'},
+  ];
+  TF.forEach(item=>{
+    bank.push({
+      q: `"${item.s}" — 참일까요, 거짓일까요?`,
+      answer: item.a,
+      makeOpts: ()=> shuffle(['참','거짓']).map(v=>({label:v, value:v})),
+    });
+  });
+  return bank;
+}
+
+const QUESTION_BANK = buildQuestionBank();
+let quizSet = [];
+let quizIndex = 0;
+let score = 0;
+let answered = false;
+
+const quizPos = document.getElementById('quizPos');
+const scoreNumEl = document.getElementById('scoreNum');
+const quizBody = document.getElementById('quizBody');
+
+function startQuizSession(){
+  quizSet = shuffle(QUESTION_BANK).slice(0, 10);
+  quizIndex = 0;
+  score = 0;
+  scoreNumEl.textContent = score;
+  renderQuizBodyShell();
+  showQuestion();
+}
+
+function renderQuizBodyShell(){
+  quizBody.innerHTML = `
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn primary" id="nextQuizBtn">➡ 다음 문제</button>
+  `;
+  document.getElementById('nextQuizBtn').addEventListener('click', ()=>{
+    if (!answered) return;
+    quizIndex++;
+    if (quizIndex >= quizSet.length){
+      showDone();
+    } else {
+      showQuestion();
+    }
+  });
+}
+
+function showQuestion(){
+  answered = false;
+  quizPos.textContent = quizIndex+1;
+  const item = quizSet[quizIndex];
+  const opts = item.makeOpts();
+
+  document.getElementById('quizQ').innerHTML = item.q;
+  document.getElementById('quizFeedback').textContent = '';
+  const optsEl = document.getElementById('quizOpts');
+  optsEl.innerHTML = opts.map(o=>`<button class="opt-btn" data-v="${o.value}">${o.label}</button>`).join('');
+  optsEl.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if (answered) return;
+      answered = true;
+      optsEl.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      const chosen = btn.dataset.v;
+      const isCorrect = String(chosen)===String(item.answer);
+      const feedback = document.getElementById('quizFeedback');
+      if (isCorrect){
+        score++;
+        btn.classList.add('correct');
+        feedback.innerHTML = `🎉 맞았어요! (정답 ${score} / ${quizIndex+1}문제 중)`;
+      } else {
+        btn.classList.add('wrong');
+        optsEl.querySelector(`[data-v="${item.answer}"]`)?.classList.add('correct');
+        feedback.innerHTML = `아쉬워요! 정답은 ${item.answer}였어요. (정답 ${score} / ${quizIndex+1}문제 중)`;
+      }
+      scoreNumEl.textContent = score;
+    });
+  });
+}
+
+function showDone(){
+  quizBody.innerHTML = `
+    <div class="quiz-done">
+      <div class="big">🎉 10문제를 모두 풀었어요!</div>
+      <p style="color:var(--ink-soft);font-size:14.5px;margin:0 0 16px;">${score} / 10 문제를 맞혔어요.</p>
+      <button class="action-btn primary" id="restartQuizBtn">🔀 새로운 10문제로 다시 풀기</button>
+    </div>
+  `;
+  document.getElementById('restartQuizBtn').addEventListener('click', startQuizSession);
+}
+
+startQuizSession();
+</script>
+</body>
+</html>

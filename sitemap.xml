@@ -769,6 +769,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/catalan-numbers-lab.html</loc>
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/circle-roll-locus.html</loc>
     <lastmod>2026-08-11</lastmod>
     <changefreq>monthly</changefreq>
@@ -799,6 +805,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ainmath.com/game-of-life-lab.html</loc>
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ainmath.com/huge-numbers-infinity-lab.html</loc>
     <lastmod>2026-08-10</lastmod>
     <changefreq>monthly</changefreq>
@@ -807,6 +819,12 @@
   <url>
     <loc>https://ainmath.com/imaginary-complex-numbers-lab.html</loc>
     <lastmod>2026-08-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/konigsberg-bridges-lab.html</loc>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -837,6 +855,12 @@
   <url>
     <loc>https://ainmath.com/rsa-encryption-lab.html</loc>
     <lastmod>2026-08-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainmath.com/simpsons-paradox-lab.html</loc>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

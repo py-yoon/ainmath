@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>심슨의 역설 실험실</title>
+<meta name="description" content="그룹별로는 A가 항상 나은데, 전체로 합치면 오히려 B가 나아 보이는 통계의 함정, 심슨의 역설을 실제 데이터와 인터랙티브 슬라이더로 확인해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.5vw,42px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--violet-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.section-title{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink);margin:0 0 6px;}
+.section-sub{color:var(--ink-soft);font-size:14.5px;line-height:1.7;margin:0 0 18px;max-width:62ch;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.15fr 0.85fr;gap:32px;align-items:start;margin-bottom:24px;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+.canvas-area{display:flex;flex-direction:column;align-items:center;gap:18px;}
+svg{width:100%;max-width:420px;height:auto;overflow:visible;user-select:none;}
+.mode-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.mode-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;}
+.mode-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.mode-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+.slider-row{display:flex;align-items:center;gap:12px;width:100%;max-width:380px;}
+.slider-row label{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);min-width:120px;}
+.slider-row input[type=range]{flex:1;-webkit-appearance:none;height:8px;border-radius:999px;background:var(--violet-soft);outline:none;}
+.slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--violet-ink);border:4px solid #fff;box-shadow:0 2px 8px rgba(104,71,247,0.4);cursor:pointer;}
+.slider-row input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--violet-ink);border:4px solid #fff;box-shadow:0 2px 8px rgba(104,71,247,0.4);cursor:pointer;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--violet-ink);min-width:44px;text-align:right;}
+.action-row{display:flex;gap:8px;flex-wrap:wrap;width:100%;max-width:380px;justify-content:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:12px;padding:9px 16px;cursor:pointer;transition:all .15s ease;}
+.action-btn:hover:not(:disabled){border-color:var(--violet-ink);color:var(--violet-ink);}
+.action-btn.primary{background:var(--violet-ink);border-color:var(--violet-ink);color:#fff;}
+.action-btn.primary:hover{background:var(--violet);border-color:var(--violet);}
+.panel{display:flex;flex-direction:column;gap:16px;}
+.count-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.count-card{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:14px 8px;text-align:center;}
+.count-card .label{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);}
+.count-card .value{font-family:'Do Hyeon',sans-serif;font-size:22px;color:var(--violet-ink);margin-top:2px;}
+.badge{display:inline-block;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:5px 14px;border-radius:999px;margin-top:4px;}
+.badge.yes{background:var(--coral-soft);color:var(--coral-ink);}
+.badge.no{background:var(--green-soft);color:var(--green-ink);}
+.fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--violet-ink);}
+.howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--violet-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+.solo-fact{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--violet-ink);}
+.quiz-q{font-size:15.5px;line-height:1.7;text-align:center;background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:20px;margin-bottom:16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.quiz-stage .action-btn{display:block;margin:14px auto 0;padding:11px 18px;}
+.quiz-done{text-align:center;padding:20px;}
+.quiz-done .big{font-family:'Do Hyeon',sans-serif;font-size:22px;color:var(--violet-ink);margin-bottom:8px;}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="explore.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-simpsons-paradox-lab.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">📊 심슨의 역설 실험실</span>
+  <h1>부분에서는 A가 이겼는데,<br>전체로 합치면 <span>왜 B가 이길까?</span></h1>
+  <p class="sub">치료법 A가 경증 환자에서도, 중증 환자에서도 치료법 B보다 성공률이 높아요. 그런데 두 그룹을 합쳐서 전체로 보면, 오히려 B의 성공률이 더 높게 나와요. 말이 안 되는 것 같지만 실제로 벌어지는 일이에요 — 이게 바로 심슨의 역설이에요.</p>
+
+  <div class="howto">
+    <p>아래 데이터는 실제 신장결석 치료법 비교 연구(1986년, 영국)에서 나온 유명한 사례예요. 경증·중증 환자를 나눠 보면 치료법 A(개복 수술)가 항상 더 낫지만, 두 그룹의 <b>환자 수 비율이 서로 달라서</b> 전체를 합치면 결과가 뒤집혀요. 왜 이런 일이 생기는지 직접 데이터를 뜯어보며 확인해봐요.</p>
+  </div>
+
+  <!-- ===== 심슨의 역설이란 ===== -->
+  <div class="stage">
+    <div class="canvas-area">
+      <svg id="svgOverview" viewBox="0 0 420 240"></svg>
+      <div class="mode-row" id="overviewModeRow"></div>
+    </div>
+    <div class="panel">
+      <div class="section-title">📊 심슨의 역설이란?</div>
+      <p class="section-sub">경증만, 중증만, 전체 합산 — 세 가지 관점을 버튼으로 바꿔가며 치료법 A와 B의 성공률을 비교해보세요.</p>
+      <div class="count-grid">
+        <div class="count-card"><div class="label">치료법 A</div><div class="value" id="overviewA">-</div></div>
+        <div class="count-card"><div class="label">치료법 B</div><div class="value" id="overviewB">-</div></div>
+      </div>
+      <div class="fact" id="overviewFact"></div>
+    </div>
+  </div>
+
+  <!-- ===== 그룹 비율을 바꾸면 ===== -->
+  <div class="stage">
+    <div class="canvas-area">
+      <svg id="svgSlider" viewBox="0 0 420 240"></svg>
+      <div class="slider-row">
+        <label>A가 맡은 중증 환자 비율</label>
+        <input id="mixSlider" type="range" min="0" max="100" value="75" step="1">
+        <span class="val" id="mixVal">75%</span>
+      </div>
+      <div class="action-row">
+        <button class="action-btn primary" id="mixRealBtn">🔬 실제 데이터로</button>
+        <button class="action-btn" id="mixBalancedBtn">⚖️ 균형 잡힌 경우로</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="section-title">🔍 그룹 비율을 바꾸면 역설이 사라질까?</div>
+      <p class="section-sub">치료법 A를 받은 환자 중 중증 환자 비율을 슬라이더로 바꿔보세요. 각 그룹의 성공률은 그대로인데, 비율만 바뀌어도 전체 순위가 뒤집혀요.</p>
+      <div class="count-grid">
+        <div class="count-card"><div class="label">A 전체 성공률</div><div class="value" id="mixOverallA">-</div></div>
+        <div class="count-card"><div class="label">B 전체 성공률</div><div class="value" id="mixOverallB">-</div></div>
+      </div>
+      <div id="mixBadgeWrap"></div>
+      <div class="fact" id="mixFact"></div>
+    </div>
+  </div>
+
+  <div class="solo-fact">
+    <div class="section-title">📈 왜 이런 일이 생길까?</div>
+    <div class="fact" style="max-width:66ch;">
+      <p style="margin:0 0 10px;">전체 성공률은 단순히 두 그룹의 성공률을 평균 낸 게 아니라, <b>환자 수만큼 가중치를 준 평균</b>이에요. 치료법 A는 성공률이 낮은 중증 환자를 훨씬 많이(263명 중 75%) 맡았고, 치료법 B는 성공률이 높은 경증 환자를 훨씬 많이(270명, 77%) 맡았어요. 그래서 A의 전체 평균은 중증 환자의 낮은 성공률 쪽으로 크게 끌려 내려가고, B의 전체 평균은 경증 환자의 높은 성공률 쪽으로 끌려 올라가요.</p>
+      <p style="margin:0;">즉, A와 B의 실력 차이가 아니라 <b>"누구를 더 많이 치료했는가"라는 표본 구성의 차이</b>가 전체 순위를 뒤집은 거예요. 이걸 통계학에서는 "교란 변수(confounding variable)"의 영향이라고 불러요 — 여기서는 "환자의 중증도"가 숨은 교란 변수예요.</p>
+    </div>
+  </div>
+
+  <div class="solo-fact">
+    <div class="section-title">🌍 실생활 사례</div>
+    <div class="fact" style="max-width:66ch;">
+      <p style="margin:0 0 10px;">1973년 미국 버클리 대학교 대학원 입학 데이터에서도 비슷한 일이 있었어요. 전체 합격률만 보면 남성 지원자가 여성 지원자보다 합격률이 높아서 성차별 의혹이 제기됐어요. 그런데 학과별로 나눠보니, 대부분의 학과에서 오히려 여성의 합격률이 비슷하거나 더 높았어요. 여성 지원자들이 원래 경쟁이 치열해서 합격률이 낮은 인기 학과에 더 많이 지원했다는 게 원인이었어요.</p>
+      <p style="margin:0;">이런 사례들 때문에, 통계를 볼 때는 전체 숫자만 보지 않고 <b>어떤 하위 그룹으로 나눠서 봐야 하는지</b>를 항상 의심해보는 습관이 중요해요.</p>
+    </div>
+  </div>
+
+  <!-- ===== 퀴즈 ===== -->
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 심슨의 역설 퀴즈</h2>
+      <div class="progress-badge"><b id="quizPos">1</b> / 10 문제 · 정답 <b id="scoreNum">0</b></div>
+    </div>
+    <div id="quizBody"></div>
+  </div>
+
+<footer>심슨의 역설은 1951년 통계학자 에드워드 심슨의 논문에서 이름을 땄지만, 실은 1899년 칼 피어슨이 먼저 비슷한 현상을 언급했어요. 데이터를 다루는 모든 분야 — 의학, 교육, 스포츠 통계, 정책 평가 — 에서 지금도 주의해야 할 함정으로 꼽혀요.</footer>
+</div>
+
+<script>
+function randInt(min,max){ return min + Math.floor(Math.random()*(max-min+1)); }
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+const DATA = {
+  mild:   { A:{s:81, n:87},  B:{s:234, n:270} },
+  severe: { A:{s:192,n:263}, B:{s:55,  n:80}  },
+};
+function rate(x){ return x.s/x.n*100; }
+function combine(a,b){ return {s:a.s+b.s, n:a.n+b.n}; }
+const overall = { A: combine(DATA.mild.A, DATA.severe.A), B: combine(DATA.mild.B, DATA.severe.B) };
+
+const OVERVIEW_MODES = [
+  {key:'mild', label:'경증 환자만'},
+  {key:'severe', label:'중증 환자만'},
+  {key:'overall', label:'전체 합산'},
+];
+let overviewIdx = 0;
+const overviewModeRow = document.getElementById('overviewModeRow');
+const svgOverview = document.getElementById('svgOverview');
+const overviewA = document.getElementById('overviewA');
+const overviewB = document.getElementById('overviewB');
+const overviewFact = document.getElementById('overviewFact');
+
+function buildOverviewModes(){
+  overviewModeRow.innerHTML = OVERVIEW_MODES.map((m,i)=>`<button class="mode-btn" data-i="${i}">${m.label}</button>`).join('');
+  overviewModeRow.querySelectorAll('.mode-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ overviewIdx=parseInt(btn.dataset.i); renderOverview(); });
+  });
+}
+
+function renderOverview(){
+  overviewModeRow.querySelectorAll('.mode-btn').forEach((b,i)=>b.classList.toggle('active', i===overviewIdx));
+  const mode = OVERVIEW_MODES[overviewIdx];
+  const d = mode.key==='overall' ? overall : DATA[mode.key];
+  const rA = rate(d.A), rB = rate(d.B);
+
+  overviewA.textContent = `${rA.toFixed(1)}% (${d.A.s}/${d.A.n})`;
+  overviewB.textContent = `${rB.toFixed(1)}% (${d.B.s}/${d.B.n})`;
+
+  if (mode.key==='overall'){
+    overviewFact.innerHTML = `전체로 합치면 <b>B가 ${rB.toFixed(1)}%로 A(${rA.toFixed(1)}%)보다 높아요</b>! 경증·중증 각각에서는 A가 이겼는데, 합치니 결과가 뒤집혔어요 — 이게 심슨의 역설이에요.`;
+  } else {
+    overviewFact.innerHTML = `${mode.label} 그룹에서는 <b>A(${rA.toFixed(1)}%)가 B(${rB.toFixed(1)}%)보다 성공률이 높아요</b>.`;
+  }
+
+  const CX0=40, CX1=400, CY0=190, CY1=20;
+  const barW=70;
+  const hA = (rA/100)*(CY0-CY1), hB = (rB/100)*(CY0-CY1);
+  let html = '';
+  html += `<rect x="${CX0}" y="${CY0-hA}" width="${barW}" height="${hA}" rx="8" fill="var(--violet-ink)"></rect>`;
+  html += `<text x="${CX0+barW/2}" y="${CY0-hA-10}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--violet-ink)">${rA.toFixed(1)}%</text>`;
+  html += `<text x="${CX0+barW/2}" y="${CY0+20}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink-soft)">치료법 A</text>`;
+
+  const bx = CX1-barW-40;
+  html += `<rect x="${bx}" y="${CY0-hB}" width="${barW}" height="${hB}" rx="8" fill="var(--coral)"></rect>`;
+  html += `<text x="${bx+barW/2}" y="${CY0-hB-10}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--coral-ink)">${rB.toFixed(1)}%</text>`;
+  html += `<text x="${bx+barW/2}" y="${CY0+20}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink-soft)">치료법 B</text>`;
+
+  html += `<line x1="${CX0-10}" y1="${CY0}" x2="${CX1}" y2="${CY0}" stroke="var(--paper-line)" stroke-width="2"></line>`;
+  svgOverview.innerHTML = html;
+}
+buildOverviewModes();
+renderOverview();
+
+const mildA = rate(DATA.mild.A), sevA = rate(DATA.severe.A);
+const mildB = rate(DATA.mild.B), sevB = rate(DATA.severe.B);
+const overallB_fixed = rate(overall.B);
+
+const mixSlider = document.getElementById('mixSlider');
+const mixVal = document.getElementById('mixVal');
+const svgSlider = document.getElementById('svgSlider');
+const mixOverallA = document.getElementById('mixOverallA');
+const mixOverallB = document.getElementById('mixOverallB');
+const mixBadgeWrap = document.getElementById('mixBadgeWrap');
+const mixFact = document.getElementById('mixFact');
+
+function renderMix(){
+  const x = parseInt(mixSlider.value,10)/100;
+  mixVal.textContent = `${Math.round(x*100)}%`;
+  const overallA_val = x*sevA + (1-x)*mildA;
+
+  mixOverallA.textContent = `${overallA_val.toFixed(1)}%`;
+  mixOverallB.textContent = `${overallB_fixed.toFixed(1)}%`;
+
+  const paradox = overallA_val < overallB_fixed;
+  mixBadgeWrap.innerHTML = paradox
+    ? `<span class="badge yes">역설 발생 — B가 전체는 더 높아요</span>`
+    : `<span class="badge no">역설 없음 — A가 전체도 더 높아요</span>`;
+  mixFact.innerHTML = paradox
+    ? `A가 중증 환자를 ${Math.round(x*100)}%나 맡다 보니, 성공률이 낮은 중증 케이스에 A의 평균이 끌려 내려가서 전체 순위가 뒤집혔어요. 실제 데이터는 A가 중증 환자의 <b>75%</b>를 맡아서 역설이 나타났어요.`
+    : `이 비율에서는 A가 중증 환자를 상대적으로 적게 맡아서, 전체 평균이 여전히 A가 더 높아요 — 역설이 나타나지 않아요.`;
+
+  const CX0=40, CX1=400, CY0=190, CY1=20;
+  const barW=70;
+  const hA = (overallA_val/100)*(CY0-CY1), hB=(overallB_fixed/100)*(CY0-CY1);
+  let html = '';
+  const threshY = CY0-(overallB_fixed/100)*(CY0-CY1);
+  html += `<line x1="${CX0-10}" y1="${threshY}" x2="${CX1}" y2="${threshY}" stroke="var(--ink-soft)" stroke-width="1.5" stroke-dasharray="4 3"></line>`;
+  html += `<text x="${CX1}" y="${threshY-6}" text-anchor="end" font-family="'Do Hyeon',sans-serif" font-size="10" fill="var(--ink-soft)">B 기준선 (${overallB_fixed.toFixed(1)}%)</text>`;
+
+  html += `<rect x="${CX0}" y="${CY0-hA}" width="${barW}" height="${hA}" rx="8" fill="${paradox?'var(--coral)':'var(--violet-ink)'}"></rect>`;
+  html += `<text x="${CX0+barW/2}" y="${CY0-hA-10}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="${paradox?'var(--coral-ink)':'var(--violet-ink)'}">${overallA_val.toFixed(1)}%</text>`;
+  html += `<text x="${CX0+barW/2}" y="${CY0+20}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink-soft)">치료법 A (전체)</text>`;
+
+  const bx = CX1-barW-40;
+  html += `<rect x="${bx}" y="${CY0-hB}" width="${barW}" height="${hB}" rx="8" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2"></rect>`;
+  html += `<text x="${bx+barW/2}" y="${CY0-hB-10}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--violet-ink)">${overallB_fixed.toFixed(1)}%</text>`;
+  html += `<text x="${bx+barW/2}" y="${CY0+20}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink-soft)">치료법 B (전체, 고정)</text>`;
+
+  html += `<line x1="${CX0-10}" y1="${CY0}" x2="${CX1}" y2="${CY0}" stroke="var(--paper-line)" stroke-width="2"></line>`;
+  svgSlider.innerHTML = html;
+}
+mixSlider.addEventListener('input', renderMix);
+document.getElementById('mixRealBtn').addEventListener('click', ()=>{ mixSlider.value=75; renderMix(); });
+document.getElementById('mixBalancedBtn').addEventListener('click', ()=>{ mixSlider.value=50; renderMix(); });
+renderMix();
+
+function buildQuestionBank(){
+  const bank = [];
+  bank.push({ q:'경증 환자 그룹에서는 치료법 A와 B 중 어느 쪽 성공률이 더 높을까요?', answer:'A', makeOpts:()=>shuffle(['A','B']).map(v=>({label:`치료법 ${v}`,value:v})) });
+  bank.push({ q:'중증 환자 그룹에서는 치료법 A와 B 중 어느 쪽 성공률이 더 높을까요?', answer:'A', makeOpts:()=>shuffle(['A','B']).map(v=>({label:`치료법 ${v}`,value:v})) });
+  bank.push({ q:'경증·중증을 모두 합친 전체에서는 치료법 A와 B 중 어느 쪽 성공률이 더 높을까요?', answer:'B', makeOpts:()=>shuffle(['A','B']).map(v=>({label:`치료법 ${v}`,value:v})) });
+  bank.push({ q:`경증 환자 그룹에서 치료법 A의 성공률은 약 몇 %일까요? (${DATA.mild.A.s}/${DATA.mild.A.n})`, answer: Math.round(mildA), makeOpts:()=>{
+    const c=Math.round(mildA); const opts=new Set([c]); while(opts.size<4){ const d=randInt(-8,8); if(d!==0&&c+d>0&&c+d<=100) opts.add(c+d);} return shuffle([...opts]).map(v=>({label:`${v}%`,value:v}));
+  }});
+  bank.push({ q:`중증 환자 그룹에서 치료법 B의 성공률은 약 몇 %일까요? (${DATA.severe.B.s}/${DATA.severe.B.n})`, answer: Math.round(sevB), makeOpts:()=>{
+    const c=Math.round(sevB); const opts=new Set([c]); while(opts.size<4){ const d=randInt(-8,8); if(d!==0&&c+d>0&&c+d<=100) opts.add(c+d);} return shuffle([...opts]).map(v=>({label:`${v}%`,value:v}));
+  }});
+  bank.push({ q:'심슨의 역설이 생기는 근본 원인은 무엇일까요?', answer:'그룹별 표본 크기(비중)의 차이', makeOpts:()=>shuffle(['그룹별 표본 크기(비중)의 차이','측정 오류','우연한 확률적 변동','치료법 자체의 오류']).map(v=>({label:v,value:v})) });
+  const TF = [
+    {s:'심슨의 역설은 각 하위 그룹의 결과가 전체 결과와 정반대로 나타날 수 있음을 보여준다', a:'참'},
+    {s:'전체 통계만 보면 하위 그룹에 숨겨진 패턴을 놓칠 수 있다', a:'참'},
+    {s:'심슨의 역설이 나타나려면 반드시 계산에 오류가 있어야 한다', a:'거짓'},
+    {s:'버클리 대학교 입학 사례는 학과별 지원 경향 차이가 원인이었다', a:'참'},
+    {s:'그룹의 표본 크기(가중치)가 같으면 심슨의 역설이 발생할 가능성이 줄어든다', a:'참'},
+    {s:'심슨의 역설이라는 이름은 이 현상을 처음 발견한 사람의 이름을 땄다', a:'거짓'},
+  ];
+  TF.forEach(item=>{
+    bank.push({ q:`"${item.s}" — 참일까요, 거짓일까요?`, answer:item.a, makeOpts:()=>shuffle(['참','거짓']).map(v=>({label:v,value:v})) });
+  });
+  return bank;
+}
+
+const QUESTION_BANK = buildQuestionBank();
+let quizSet = [];
+let quizIndex = 0;
+let score = 0;
+let answered = false;
+
+const quizPos = document.getElementById('quizPos');
+const scoreNumEl = document.getElementById('scoreNum');
+const quizBody = document.getElementById('quizBody');
+
+function startQuizSession(){
+  quizSet = shuffle(QUESTION_BANK).slice(0, 10);
+  quizIndex = 0;
+  score = 0;
+  scoreNumEl.textContent = score;
+  renderQuizBodyShell();
+  showQuestion();
+}
+
+function renderQuizBodyShell(){
+  quizBody.innerHTML = `
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn primary" id="nextQuizBtn">➡ 다음 문제</button>
+  `;
+  document.getElementById('nextQuizBtn').addEventListener('click', ()=>{
+    if (!answered) return;
+    quizIndex++;
+    if (quizIndex >= quizSet.length){
+      showDone();
+    } else {
+      showQuestion();
+    }
+  });
+}
+
+function showQuestion(){
+  answered = false;
+  quizPos.textContent = quizIndex+1;
+  const item = quizSet[quizIndex];
+  const opts = item.makeOpts();
+
+  document.getElementById('quizQ').innerHTML = item.q;
+  document.getElementById('quizFeedback').textContent = '';
+  const optsEl = document.getElementById('quizOpts');
+  optsEl.innerHTML = opts.map(o=>`<button class="opt-btn" data-v="${o.value}">${o.label}</button>`).join('');
+  optsEl.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if (answered) return;
+      answered = true;
+      optsEl.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      const chosen = btn.dataset.v;
+      const isCorrect = String(chosen)===String(item.answer);
+      const feedback = document.getElementById('quizFeedback');
+      if (isCorrect){
+        score++;
+        btn.classList.add('correct');
+        feedback.innerHTML = `🎉 맞았어요! (정답 ${score} / ${quizIndex+1}문제 중)`;
+      } else {
+        btn.classList.add('wrong');
+        optsEl.querySelector(`[data-v="${item.answer}"]`)?.classList.add('correct');
+        feedback.innerHTML = `아쉬워요! 정답은 ${item.answer}였어요. (정답 ${score} / ${quizIndex+1}문제 중)`;
+      }
+      scoreNumEl.textContent = score;
+    });
+  });
+}
+
+function showDone(){
+  quizBody.innerHTML = `
+    <div class="quiz-done">
+      <div class="big">🎉 10문제를 모두 풀었어요!</div>
+      <p style="color:var(--ink-soft);font-size:14.5px;margin:0 0 16px;">${score} / 10 문제를 맞혔어요.</p>
+      <button class="action-btn primary" id="restartQuizBtn">🔀 새로운 10문제로 다시 풀기</button>
+    </div>
+  `;
+  document.getElementById('restartQuizBtn').addEventListener('click', startQuizSession);
+}
+
+startQuizSession();
+</script>
+</body>
+</html>

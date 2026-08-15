@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>콘웨이의 생명 게임 실험실</title>
+<meta name="description" content="규칙은 딱 4줄인데 글라이더처럼 스스로 움직이는 패턴이 생겨나는 콘웨이의 생명 게임을 직접 그리고 재생해보며 체험해요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--green-ink);background:var(--green-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.howto{background:var(--green-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--green-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.3vw,42px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--green-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.section-title{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink);margin:0 0 16px;display:flex;align-items:center;gap:8px;}
+.section-sub{color:var(--ink-soft);font-size:14.5px;line-height:1.7;margin:-8px 0 18px;max-width:62ch;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
+
+svg{width:100%;max-width:460px;height:auto;overflow:visible;display:block;margin:0 auto 18px;user-select:none;}
+
+.rule-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px;}
+@media (max-width:560px){ .rule-cards{grid-template-columns:1fr;} }
+.rule-card{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:12px 14px;font-size:13px;line-height:1.6;color:var(--ink);}
+.rule-card b{font-family:'Do Hyeon',sans-serif;color:var(--green-ink);display:block;margin-bottom:4px;font-size:13.5px;}
+
+.preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;justify-content:center;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;}
+.preset-btn:hover{border-color:var(--green-ink);color:var(--green-ink);}
+.preset-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+.equation-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:24px;text-align:center;margin-bottom:16px;}
+.equation-box .expr{font-family:'Do Hyeon',sans-serif;font-size:clamp(16px,3.2vw,22px);color:var(--ink);word-break:break-word;}
+.equation-box .expr .unknown{color:var(--green-ink);}
+.equation-box .check{font-size:14.5px;color:var(--ink-soft);margin-top:12px;}
+.equation-box .check b{color:var(--green-ink);}
+
+.fact{background:var(--green-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--green-ink);}
+
+.stat-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:16px;}
+.stat-chip{font-family:'Do Hyeon',sans-serif;font-size:13.5px;background:var(--paper);border:2px solid var(--paper-line);border-radius:12px;padding:8px 14px;color:var(--ink-soft);}
+.stat-chip b{color:var(--green-ink);font-size:15px;}
+
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin:0 0 14px;transition:background .2s ease;}
+.action-btn:hover:not(:disabled){background:var(--green-ink);}
+.action-btn:disabled{opacity:0.4;cursor:not-allowed;}
+.action-btn.secondary{background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.action-btn.secondary:hover:not(:disabled){background:var(--paper);color:var(--green-ink);border-color:var(--green-ink);}
+.btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--green-ink);}
+.quiz-q{font-size:15.5px;line-height:1.7;text-align:center;background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:20px;margin-bottom:16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.quiz-stage .action-btn{display:block;margin:14px auto 0;}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="explore.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a>
+    <a href="article-game-of-life-lab.html" style="color:#fff;background:var(--green-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🧬 콘웨이의 생명 게임 실험실</span>
+  <h1>규칙은 딱 4줄인데<br>왜 <span>스스로 움직이는</span> 패턴이 생길까?</h1>
+  <p class="sub">격자 위의 칸(세포)은 살아있거나 죽어있어요. 다음 순간 살지 죽을지는 오직 <b>주변 8칸 중 살아있는 이웃이 몇 개인지</b>로만 정해져요. 규칙은 이게 전부인데, 이 단순한 규칙에서 스스로 기어다니는 "글라이더" 같은 패턴이 저절로 나타나요.</p>
+
+  <div class="howto">
+    <p>이 세계엔 딱 4가지 규칙만 있어요. <b>①</b> 살아있는 세포는 이웃이 2개보다 적으면 외로워서 죽어요(과소). <b>②</b> 살아있는 세포는 이웃이 2개나 3개면 그대로 살아남아요. <b>③</b> 살아있는 세포는 이웃이 4개 이상이면 붐벼서 죽어요(과밀). <b>④</b> 죽은 세포는 이웃이 정확히 3개면 새로 태어나요(탄생). 이 규칙을 격자 전체에 동시에 적용하는 게 한 세대예요.</p>
+  </div>
+
+  <!-- ===== 생명 게임의 규칙 ===== -->
+  <div class="stage">
+    <div class="section-title">🧬 생명 게임의 규칙 — 이웃 세어보기</div>
+    <p class="section-sub">가운데 굵은 테두리 세포가 우리가 살펴볼 대상이에요. 주변 칸들을 클릭해서 살아있는 이웃을 만들어보고, 가운데 세포도 클릭해서 살아있는지/죽어있는지 바꿔보며 다음 세대에 어떻게 되는지 확인해보세요.</p>
+    <svg id="svgRule" viewBox="0 0 260 260"></svg>
+    <div class="rule-cards">
+      <div class="rule-card"><b>① 과소(외로움)</b>이웃 0~1개 → 죽음</div>
+      <div class="rule-card"><b>② 생존</b>이웃 2~3개(살아있었다면) → 그대로 삶</div>
+      <div class="rule-card"><b>③ 과밀</b>이웃 4개 이상 → 죽음</div>
+      <div class="rule-card"><b>④ 탄생</b>이웃 정확히 3개(죽어있었다면) → 태어남</div>
+    </div>
+    <div class="equation-box">
+      <div class="expr" id="ruleExpr"></div>
+      <div class="check" id="ruleCheck"></div>
+    </div>
+    <div class="fact" id="ruleFact"></div>
+  </div>
+
+  <!-- ===== 시뮬레이터 ===== -->
+  <div class="stage">
+    <div class="section-title">▶️ 시뮬레이터 — 패턴 재생하기</div>
+    <p class="section-sub">패턴을 골라서 재생해보세요. 일시정지 중엔 칸을 클릭해서 직접 세포를 그릴 수도 있어요.</p>
+    <div class="preset-row" id="patternPresetRow"></div>
+    <svg id="svgGrid" viewBox="0 0 440 320"></svg>
+    <div class="stat-row">
+      <span class="stat-chip">세대 <b id="genCount">0</b></span>
+      <span class="stat-chip">살아있는 세포 <b id="aliveCount">0</b>개</span>
+    </div>
+    <div class="btn-row">
+      <button class="action-btn" id="playBtn">▶ 재생</button>
+      <button class="action-btn secondary" id="stepBtn">⏭ 한 칸씩</button>
+      <button class="action-btn secondary" id="clearBtn">🧹 전체 지우기</button>
+    </div>
+    <div class="fact" id="simFact">패턴을 고르거나, 빈 칸을 클릭해서 직접 세포를 그려보세요.</div>
+  </div>
+
+  <div class="stage">
+    <div class="section-title">🌍 실생활·과학에서의 의미</div>
+    <div class="fact" style="max-width:66ch;">
+      <p style="margin:0 0 10px;">생명 게임은 <b>튜링 완전</b>하다는 게 증명됐어요 — 이 단순한 규칙만으로 이론적으로 어떤 계산이든 할 수 있는 컴퓨터를 만들 수 있다는 뜻이에요. 실제로 애호가들은 생명 게임 안에 논리 게이트, 심지어 계산기까지 만들어냈어요.</p>
+      <p style="margin:0;">이런 "단순한 규칙 → 복잡한 패턴"의 원리는 <b>인공생명(artificial life)</b>, 복잡계 과학, 도시 성장이나 산불 확산 같은 자연 현상을 흉내 내는 시뮬레이션(셀룰러 오토마톤) 연구의 뿌리가 됐어요.</p>
+    </div>
+  </div>
+
+  <!-- ===== 퀴즈 ===== -->
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 생명 게임 퀴즈</h2>
+      <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+    </div>
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextQuizBtn">➡ 다음 문제</button>
+  </div>
+
+<footer>생명 게임은 1970년 수학자 존 콘웨이가 만들었어요. 컴퓨터가 지금처럼 흔하지 않던 시절, 종이와 바둑판만으로도 즐길 수 있는 게임으로 소개되며 큰 화제를 모았어요.</footer>
+</div>
+
+<script>
+function randInt(min,max){ return min + Math.floor(Math.random()*(max-min+1)); }
+function nextCellState(alive, n){
+  if (alive) return (n===2 || n===3);
+  return n===3;
+}
+
+// ============================================================
+// 규칙 — 이웃 세어보기 (3x3 mini demo)
+// ============================================================
+const svgRule = document.getElementById('svgRule');
+const ruleExpr = document.getElementById('ruleExpr');
+const ruleCheck = document.getElementById('ruleCheck');
+const ruleFact = document.getElementById('ruleFact');
+let ruleGrid = [[0,0,0],[0,0,0],[0,0,0]]; // 3x3, center is [1][1]
+
+function renderRule(){
+  const cell = 78, gap=6;
+  let html = '';
+  for(let r=0;r<3;r++){
+    for(let c=0;c<3;c++){
+      const x = c*(cell+gap)+10, y = r*(cell+gap)+10;
+      const isCenter = r===1 && c===1;
+      const alive = ruleGrid[r][c]===1;
+      const fill = alive ? (isCenter?'var(--coral-ink)':'var(--green-ink)') : 'var(--paper)';
+      html += `<rect x="${x}" y="${y}" width="${cell}" height="${cell}" rx="10" fill="${fill}" stroke="${isCenter?'var(--coral-ink)':'var(--paper-line)'}" stroke-width="${isCenter?4:2}" style="cursor:pointer;" data-r="${r}" data-c="${c}"></rect>`;
+    }
+  }
+  svgRule.innerHTML = html;
+  svgRule.querySelectorAll('rect').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const r = parseInt(el.dataset.r), c = parseInt(el.dataset.c);
+      ruleGrid[r][c] = ruleGrid[r][c] ? 0 : 1;
+      renderRule();
+      updateRuleText();
+    });
+  });
+  updateRuleText();
+}
+
+function updateRuleText(){
+  let neighborCount = 0;
+  for(let r=0;r<3;r++) for(let c=0;c<3;c++){
+    if(r===1 && c===1) continue;
+    if(ruleGrid[r][c]===1) neighborCount++;
+  }
+  const centerAlive = ruleGrid[1][1]===1;
+  const willBeAlive = nextCellState(centerAlive, neighborCount);
+
+  ruleExpr.innerHTML = `살아있는 이웃 = <span class="unknown">${neighborCount}개</span>, 가운데 세포는 지금 <span class="unknown">${centerAlive?'살아있음':'죽어있음'}</span>`;
+  ruleCheck.innerHTML = `다음 세대엔 → <b>${willBeAlive?'살아있음 😀':'죽음 💀'}</b>`;
+
+  let reason;
+  if (centerAlive){
+    if (neighborCount<2) reason = '이웃이 너무 적어서(과소) 죽어요.';
+    else if (neighborCount<=3) reason = '이웃이 딱 알맞아서(2~3개) 그대로 살아남아요.';
+    else reason = '이웃이 너무 많아서(과밀) 죽어요.';
+  } else {
+    reason = neighborCount===3 ? '죽어있었지만 이웃이 정확히 3개라서 새로 태어나요.' : '이웃이 3개가 아니라서 계속 죽은 채로 있어요.';
+  }
+  ruleFact.innerHTML = reason;
+}
+renderRule();
+
+// ============================================================
+// 시뮬레이터
+// ============================================================
+const COLS=20, ROWS=14, CELL=20, MARGIN=20;
+const svgGrid = document.getElementById('svgGrid');
+const genCount = document.getElementById('genCount');
+const aliveCount = document.getElementById('aliveCount');
+const playBtn = document.getElementById('playBtn');
+const stepBtn = document.getElementById('stepBtn');
+const clearBtn = document.getElementById('clearBtn');
+const simFact = document.getElementById('simFact');
+const patternPresetRow = document.getElementById('patternPresetRow');
+
+let grid = makeEmptyGrid();
+let generation = 0;
+let playing = false;
+let timer = null;
+
+function makeEmptyGrid(){
+  return Array.from({length:ROWS}, ()=>Array.from({length:COLS}, ()=>0));
+}
+
+const PATTERNS = [
+  {key:'blinker', label:'블링커', cells:[[0,0],[1,0],[2,0]]},
+  {key:'toad', label:'토드', cells:[[1,0],[2,0],[3,0],[0,1],[1,1],[2,1]]},
+  {key:'glider', label:'글라이더', cells:[[1,0],[2,1],[0,2],[1,2],[2,2]]},
+  {key:'block', label:'블록(정지 패턴)', cells:[[0,0],[1,0],[0,1],[1,1]]},
+];
+
+function buildPatternPresets(){
+  patternPresetRow.innerHTML = PATTERNS.map((p,i)=>`<button class="preset-btn" data-i="${i}">${p.label}</button>`).join('');
+  patternPresetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      patternPresetRow.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      loadPattern(PATTERNS[parseInt(btn.dataset.i)]);
+    });
+  });
+}
+
+function loadPattern(p){
+  stopPlaying();
+  grid = makeEmptyGrid();
+  generation = 0;
+  const anchorC = Math.floor(COLS/2)-2, anchorR = Math.floor(ROWS/2)-2;
+  p.cells.forEach(([dc,dr])=>{
+    const rr=anchorR+dr, cc=anchorC+dc;
+    if(rr>=0 && rr<ROWS && cc>=0 && cc<COLS) grid[rr][cc]=1;
+  });
+  simFact.innerHTML = patternDescription(p.key);
+  renderGrid();
+}
+
+function patternDescription(key){
+  const descs = {
+    blinker: `블링커는 가로 3칸 ↔ 세로 3칸을 계속 반복하는 가장 간단한 진동 패턴이에요(주기 2).`,
+    toad: `토드는 2줄짜리 패턴이 좌우로 흔들리며 반복돼요(주기 2). 두꺼비가 팔짝 뛰는 모습 같다고 붙여진 이름이에요.`,
+    glider: `글라이더는 모양을 유지한 채 대각선으로 스스로 기어가는 패턴이에요(주기 4마다 한 칸씩 이동). 생명 게임에서 가장 유명한 패턴이에요.`,
+    block: `블록은 아무리 세대가 지나도 절대 변하지 않는 정지 패턴이에요 — 네 세포 모두 이웃이 정확히 3개라 그대로 살아남거든요.`,
+  };
+  return descs[key] || '';
+}
+
+function countNeighbors(g, r, c){
+  let n=0;
+  for(let dr=-1;dr<=1;dr++) for(let dc=-1;dc<=1;dc++){
+    if(dr===0 && dc===0) continue;
+    const rr=r+dr, cc=c+dc;
+    if(rr>=0 && rr<ROWS && cc>=0 && cc<COLS && g[rr][cc]===1) n++;
+  }
+  return n;
+}
+
+function stepGeneration(){
+  const next = makeEmptyGrid();
+  for(let r=0;r<ROWS;r++) for(let c=0;c<COLS;c++){
+    const n = countNeighbors(grid, r, c);
+    next[r][c] = nextCellState(grid[r][c]===1, n) ? 1 : 0;
+  }
+  grid = next;
+  generation++;
+  renderGrid();
+}
+
+function renderGrid(){
+  let html = '';
+  for(let r=0;r<ROWS;r++){
+    for(let c=0;c<COLS;c++){
+      const x = MARGIN+c*CELL, y = MARGIN+r*CELL;
+      const alive = grid[r][c]===1;
+      html += `<rect x="${x}" y="${y}" width="${CELL-1.5}" height="${CELL-1.5}" rx="3" fill="${alive?'var(--green-ink)':'var(--paper)'}" stroke="var(--paper-line)" stroke-width="1" style="cursor:pointer;" data-r="${r}" data-c="${c}"></rect>`;
+    }
+  }
+  svgGrid.innerHTML = html;
+  svgGrid.querySelectorAll('rect').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      if(playing) return;
+      const r=parseInt(el.dataset.r), c=parseInt(el.dataset.c);
+      grid[r][c] = grid[r][c] ? 0 : 1;
+      renderGrid();
+    });
+  });
+
+  genCount.textContent = generation;
+  let alive=0;
+  grid.forEach(row=>row.forEach(v=>{ if(v===1) alive++; }));
+  aliveCount.textContent = alive;
+}
+
+function startPlaying(){
+  playing = true;
+  playBtn.textContent = '⏸ 일시정지';
+  stepBtn.disabled = true;
+  timer = setInterval(stepGeneration, 350);
+}
+function stopPlaying(){
+  playing = false;
+  playBtn.textContent = '▶ 재생';
+  stepBtn.disabled = false;
+  if(timer){ clearInterval(timer); timer=null; }
+}
+
+playBtn.addEventListener('click', ()=>{ playing ? stopPlaying() : startPlaying(); });
+stepBtn.addEventListener('click', ()=>{ if(!playing) stepGeneration(); });
+clearBtn.addEventListener('click', ()=>{
+  stopPlaying();
+  patternPresetRow.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('active'));
+  grid = makeEmptyGrid();
+  generation = 0;
+  simFact.innerHTML = '빈 칸을 클릭해서 직접 세포를 그려보세요. 재생 버튼을 누르면 규칙대로 진화해요.';
+  renderGrid();
+});
+
+buildPatternPresets();
+renderGrid();
+
+// ============================================================
+// 퀴즈
+// ============================================================
+const quizQ = document.getElementById('quizQ');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextQuizBtn = document.getElementById('nextQuizBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+const triesNumEl = document.getElementById('triesNum');
+let score=0, tries=0, answered=false, quizAnswer=null;
+
+const TRUE_FALSE = [
+  {s:'살아있는 세포는 이웃이 1개면 다음 세대에 죽는다', a:'참'},
+  {s:'죽어있는 세포는 이웃이 몇 개든 상관없이 계속 죽어있다', a:'거짓'},
+  {s:'블록 패턴은 세대가 지나도 절대 변하지 않는다', a:'참'},
+  {s:'글라이더는 모양을 유지한 채 대각선으로 이동한다', a:'참'},
+  {s:'생명 게임은 이론적으로 어떤 계산이든 할 수 있다는 것(튜링 완전성)이 증명됐다', a:'참'},
+  {s:'살아있는 세포는 이웃이 4개면 그대로 산다', a:'거짓'},
+];
+
+function newQuizQuestion(){
+  answered=false;
+  quizFeedback.textContent='';
+  const type = Math.random();
+
+  if(type < 0.5){
+    const alive = Math.random()<0.5;
+    const n = randInt(0,6);
+    quizAnswer = nextCellState(alive, n) ? '살아있음' : '죽음';
+    quizQ.innerHTML = `지금 ${alive?'살아있는':'죽어있는'} 세포의 이웃이 ${n}개라면, 다음 세대엔 어떻게 될까요?`;
+    renderOpts(['살아있음','죽음'], v=>v);
+  } else {
+    const item = TRUE_FALSE[randInt(0,TRUE_FALSE.length-1)];
+    quizAnswer = item.a;
+    quizQ.innerHTML = `"${item.s}" — 참일까요, 거짓일까요?`;
+    renderOpts(['참','거짓'], v=>v);
+  }
+}
+
+function renderOpts(opts, formatter){
+  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${formatter(o)}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered=true;
+      tries++;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      const chosen = btn.dataset.o;
+      const isCorrect = chosen===quizAnswer;
+      if(isCorrect){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 맞았어요! (정답 ${score} / 시도 ${tries})`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `아쉬워요! 정답은 ${quizAnswer}였어요. (정답 ${score} / 시도 ${tries})`;
+      }
+      scoreNumEl.textContent = score;
+      triesNumEl.textContent = tries;
+    });
+  });
+}
+nextQuizBtn.addEventListener('click', newQuizQuestion);
+newQuizQuestion();
+</script>
+</body>
+</html>
