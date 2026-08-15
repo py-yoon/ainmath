@@ -13,6 +13,19 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>입체도형의 모양 찾기</title>
 <meta name="description" content="상자 모양, 기둥 모양, 공 모양! 우리 주변 물건들이 어떤 입체도형 모양 가족인지 맞혀보아요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="입체도형의 모양 찾기">
+<meta property="og:description" content="상자 모양, 기둥 모양, 공 모양! 우리 주변 물건들이 어떤 입체도형 모양 가족인지 맞혀보아요.">
+<meta property="og:url" content="https://ainmath.com/solid-shape-families.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="입체도형의 모양 찾기">
+<meta name="twitter:description" content="상자 모양, 기둥 모양, 공 모양! 우리 주변 물건들이 어떤 입체도형 모양 가족인지 맞혀보아요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
@@ -60,6 +73,8 @@ h1 span{color:var(--coral-ink);}
 .panel{display:flex;flex-direction:column;gap:16px;}
 .score-badge{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:8px 16px;text-align:center;}
 .score-badge b{color:var(--violet-ink);}
+.quiz-record{font-size:13px;color:var(--ink-soft);margin:-4px 0 16px;}
+.quiz-record b{color:var(--violet-ink);}
 .feedback-box{background:var(--violet-soft);border-radius:18px;padding:20px;min-height:80px;font-family:'Do Hyeon',sans-serif;font-size:18px;color:var(--ink);text-align:center;display:flex;align-items:center;justify-content:center;}
 .fact-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
 .fact-box b{color:var(--violet-ink);}
@@ -98,6 +113,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
 
     <div class="panel">
       <div class="score-badge">맞힌 개수 <b id="scoreNum">0</b> / <b id="triesNum">0</b>번 시도</div>
+<div class="quiz-record" id="quizRecord"></div>
       <div class="feedback-box" id="feedbackBox">물건을 보고 모양 가족을 골라보세요!</div>
       <div class="fact-box" id="factBox"></div>
     </div>
@@ -175,6 +191,38 @@ const objName = document.getElementById('objName');
 const familyPicker = document.getElementById('familyPicker');
 const scoreNumEl = document.getElementById('scoreNum');
 const triesNumEl = document.getElementById('triesNum');
+
+// ---------- 학습 기록 저장 (localStorage) ----------
+const QUIZ_KEY = 'ainmath_quiz_v1';
+const QUIZ_ID = 'solid-shape-families';
+const quizRecordEl = document.getElementById('quizRecord');
+
+function loadQuizRecord(){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    return all[QUIZ_ID] || null;
+  }catch(e){ return null; }
+}
+
+function saveQuizRecord(curScore, curTries){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    const prev = all[QUIZ_ID] || { bestScore:0, bestTries:0 };
+    if(curScore > (prev.bestScore||0)){
+      all[QUIZ_ID] = { bestScore: curScore, bestTries: curTries, updatedAt: Date.now() };
+      localStorage.setItem(QUIZ_KEY, JSON.stringify(all));
+    }
+  }catch(e){}
+}
+
+function renderQuizRecord(){
+  if(!quizRecordEl) return;
+  const rec = loadQuizRecord();
+  quizRecordEl.textContent = rec
+    ? `📌 한 번에 최고 ${rec.bestScore}개 맞혔어요 (그때 ${rec.bestTries}번 시도)`
+    : '';
+}
+renderQuizRecord();
 const feedbackBox = document.getElementById('feedbackBox');
 const factBox = document.getElementById('factBox');
 const readBtn = document.getElementById('readBtn');
@@ -209,6 +257,8 @@ function buildPicker(){
       factBox.innerHTML = FAMILIES[item.family].fact;
       scoreNumEl.textContent = score;
       triesNumEl.textContent = tries;
+      saveQuizRecord(score, tries);
+      renderQuizRecord();
       setTimeout(nextObject, 1600);
     });
   });

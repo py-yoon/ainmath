@@ -13,6 +13,19 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>10 만들기 실험실</title>
 <meta name="description" content="열 칸 표의 빨간 점을 보고, 10을 만드는 짝꿍 수를 맞혀봐요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="10 만들기 실험실">
+<meta property="og:description" content="열 칸 표의 빨간 점을 보고, 10을 만드는 짝꿍 수를 맞혀봐요.">
+<meta property="og:url" content="https://ainmath.com/make-ten.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="10 만들기 실험실">
+<meta name="twitter:description" content="열 칸 표의 빨간 점을 보고, 10을 만드는 짝꿍 수를 맞혀봐요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
@@ -47,6 +60,8 @@ h1 span{color:var(--violet-ink);}
 .canvas-area{display:flex;flex-direction:column;align-items:center;gap:18px;}
 .progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
 .progress-badge b{color:var(--coral-ink);}
+.quiz-record{font-size:13px;color:var(--ink-soft);margin:-4px 0 16px;}
+.quiz-record b{color:var(--violet-ink);}
 .tenframe{display:grid;grid-template-columns:repeat(5,64px);grid-template-rows:repeat(2,64px);gap:8px;background:var(--paper);border:3px solid var(--paper-line);border-radius:16px;padding:10px;}
 .cell{border-radius:12px;background:#fff;border:2px solid var(--paper-line);display:flex;align-items:center;justify-content:center;transition:all .3s ease;}
 .cell .dot{width:36px;height:36px;border-radius:50%;transition:all .3s ease;transform:scale(0);}
@@ -94,6 +109,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <div class="stage">
     <div class="canvas-area">
       <div class="progress-badge">문제 <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · 정답 <b id="scoreNum">0</b>개</div>
+<div class="quiz-record" id="quizRecord"></div>
       <div class="tenframe" id="tenframe"></div>
       <div class="big-question" id="bigQuestion">빨간 점은 <b>4</b>개예요. 10을 만들려면 몇 개가 더 필요할까요?</div>
       <button class="read-btn" id="readBtn" type="button">🔊 문제 읽어주기</button>
@@ -157,6 +173,42 @@ const filledNum = document.getElementById('filledNum');
 const guessNum = document.getElementById('guessNum');
 const feedback = document.getElementById('feedback');
 const scoreNumEl = document.getElementById('scoreNum');
+
+// ---------- 학습 기록 저장 (localStorage) ----------
+const QUIZ_KEY = 'ainmath_quiz_v1';
+const QUIZ_ID = 'make-ten';
+const quizRecordEl = document.getElementById('quizRecord');
+
+function loadQuizRecord(){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    return all[QUIZ_ID] || null;
+  }catch(e){ return null; }
+}
+
+function saveQuizRecord(finalScore){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    const prev = all[QUIZ_ID] || { best:0, plays:0 };
+    all[QUIZ_ID] = {
+      best: Math.max(prev.best||0, finalScore),
+      total: TOTAL_QUESTIONS,
+      plays: (prev.plays||0) + 1,
+      last: finalScore,
+      updatedAt: Date.now()
+    };
+    localStorage.setItem(QUIZ_KEY, JSON.stringify(all));
+  }catch(e){}
+}
+
+function renderQuizRecord(){
+  if(!quizRecordEl) return;
+  const rec = loadQuizRecord();
+  quizRecordEl.textContent = rec
+    ? `📌 최고 기록 ${rec.best}/${rec.total}개 · 지금까지 ${rec.plays}번 풀었어요`
+    : '';
+}
+renderQuizRecord();
 const qIdxNumEl = document.getElementById('qIdxNum');
 const qTotalNumEl = document.getElementById('qTotalNum');
 const TOTAL_QUESTIONS = 10;
@@ -251,6 +303,8 @@ function newProblem(){
 
 function showQuizResult(){
   quizFinished = true;
+  saveQuizRecord(score);
+  renderQuizRecord();
   tenframe.style.display = 'none';
   quizOpts.innerHTML = '';
   nextBtn.textContent = '🔄 다시 풀기';

@@ -13,6 +13,19 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>정육면체 전개도 실험실</title>
 <meta name="description" content="정사각형 6개를 어떻게 배치해야 접었을 때 정육면체가 될까요? 3D 뷰어로 직접 접어보고, 실제로 가능한 11가지 전개도를 모두 확인해요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="정육면체 전개도 실험실">
+<meta property="og:description" content="정사각형 6개를 어떻게 배치해야 접었을 때 정육면체가 될까요? 3D 뷰어로 직접 접어보고, 실제로 가능한 11가지 전개도를 모두 확인해요.">
+<meta property="og:url" content="https://ainmath.com/cube-net-lab.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="정육면체 전개도 실험실">
+<meta name="twitter:description" content="정사각형 6개를 어떻게 배치해야 접었을 때 정육면체가 될까요? 3D 뷰어로 직접 접어보고, 실제로 가능한 11가지 전개도를 모두 확인해요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
@@ -77,6 +90,8 @@ h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(19px,2.6vw,
 .quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px;}
 .progress-badge{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
 .progress-badge b{color:var(--violet-ink);}
+.quiz-record{font-size:13px;color:var(--ink-soft);margin:-4px 0 16px;}
+.quiz-record b{color:var(--violet-ink);}
 .quiz-body{display:flex;gap:26px;flex-wrap:wrap;align-items:center;}
 #quizPreview{flex:none;}
 .quiz-opts{display:flex;gap:10px;flex-wrap:wrap;flex:1;min-width:220px;}
@@ -141,6 +156,7 @@ footer{max-width:1080px;margin:28px auto 0;color:var(--ink-soft);font-size:13px;
       <p class="card-sub" style="margin:0;">전개도 그림을 보고 정육면체가 되는지 안 되는지 맞혀보세요.</p>
       <div class="progress-badge">문제 <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · 정답 <b id="scoreNum">0</b>개</div>
     </div>
+<div class="quiz-record" id="quizRecord"></div>
     <div class="quiz-body">
       <div id="quizPreview"></div>
       <div class="quiz-opts" id="quizOpts">
@@ -463,6 +479,42 @@ const quizNo=document.getElementById('quizNo');
 const quizFeedback=document.getElementById('quizFeedback');
 const nextQuizBtn=document.getElementById('nextQuizBtn');
 const scoreNumEl=document.getElementById('scoreNum');
+
+// ---------- 학습 기록 저장 (localStorage) ----------
+const QUIZ_KEY = 'ainmath_quiz_v1';
+const QUIZ_ID = 'cube-net-lab';
+const quizRecordEl = document.getElementById('quizRecord');
+
+function loadQuizRecord(){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    return all[QUIZ_ID] || null;
+  }catch(e){ return null; }
+}
+
+function saveQuizRecord(finalScore){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    const prev = all[QUIZ_ID] || { best:0, plays:0 };
+    all[QUIZ_ID] = {
+      best: Math.max(prev.best||0, finalScore),
+      total: TOTAL_QUESTIONS,
+      plays: (prev.plays||0) + 1,
+      last: finalScore,
+      updatedAt: Date.now()
+    };
+    localStorage.setItem(QUIZ_KEY, JSON.stringify(all));
+  }catch(e){}
+}
+
+function renderQuizRecord(){
+  if(!quizRecordEl) return;
+  const rec = loadQuizRecord();
+  quizRecordEl.textContent = rec
+    ? `📌 최고 기록 ${rec.best}/${rec.total}개 · 지금까지 ${rec.plays}번 풀었어요`
+    : '';
+}
+renderQuizRecord();
 const qIdxNumEl=document.getElementById('qIdxNum');
 const qTotalNumEl=document.getElementById('qTotalNum');
 
@@ -511,6 +563,8 @@ function answerQuiz(userSaysValid){
 }
 function showQuizResult(){
   quizFinished=true;
+  saveQuizRecord(score);
+  renderQuizRecord();
   quizPreview.style.display='none';
   quizOpts.style.display='none';
   nextQuizBtn.textContent='🔄 다시 풀기';

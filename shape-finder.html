@@ -13,6 +13,19 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>평면도형 모양 찾기</title>
 <meta name="description" content="도형을 고르면 변과 꼭짓점을 하나씩 세어주고, 이름 맞히기 퀴즈도 풀어봐요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="평면도형 모양 찾기">
+<meta property="og:description" content="도형을 고르면 변과 꼭짓점을 하나씩 세어주고, 이름 맞히기 퀴즈도 풀어봐요.">
+<meta property="og:url" content="https://ainmath.com/shape-finder.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="평면도형 모양 찾기">
+<meta name="twitter:description" content="도형을 고르면 변과 꼭짓점을 하나씩 세어주고, 이름 맞히기 퀴즈도 풀어봐요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
@@ -59,6 +72,8 @@ svg{width:100%;max-width:340px;height:auto;overflow:visible;}
 .quiz-box{background:var(--violet-soft);border-radius:18px;padding:20px;}
 .progress-badge{display:block;text-align:center;font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:#fff;border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;margin:0 auto 14px;width:fit-content;}
 .progress-badge b{color:var(--violet-ink);}
+.quiz-record{font-size:13px;color:var(--ink-soft);margin:-4px 0 16px;}
+.quiz-record b{color:var(--violet-ink);}
 .quiz-q{font-family:'Do Hyeon',sans-serif;font-size:19px;color:var(--ink);margin-bottom:14px;text-align:center;}
 .quiz-opts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
 .quiz-btn{font-family:'Do Hyeon',sans-serif;font-size:22px;width:60px;height:60px;border-radius:16px;background:#fff;border:3px solid var(--paper-line);color:var(--ink);cursor:pointer;transition:all .15s ease;}
@@ -106,6 +121,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
       </div>
       <div class="quiz-box">
         <div class="progress-badge">문제 <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · 정답 <b id="scoreNum">0</b>개</div>
+<div class="quiz-record" id="quizRecord"></div>
         <div class="quiz-q" id="quizQ">이 도형은 변이 몇 개일까요?</div>
         <button class="read-btn" id="readBtn" type="button">🔊 문제 읽어주기</button>
         <div class="quiz-opts" id="quizOpts"></div>
@@ -164,6 +180,42 @@ const quizFeedback = document.getElementById('quizFeedback');
 const readBtn = document.getElementById('readBtn');
 readBtn.addEventListener('click', ()=> speakText(quizQ.textContent));
 const scoreNumEl = document.getElementById('scoreNum');
+
+// ---------- 학습 기록 저장 (localStorage) ----------
+const QUIZ_KEY = 'ainmath_quiz_v1';
+const QUIZ_ID = 'shape-finder';
+const quizRecordEl = document.getElementById('quizRecord');
+
+function loadQuizRecord(){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    return all[QUIZ_ID] || null;
+  }catch(e){ return null; }
+}
+
+function saveQuizRecord(finalScore){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    const prev = all[QUIZ_ID] || { best:0, plays:0 };
+    all[QUIZ_ID] = {
+      best: Math.max(prev.best||0, finalScore),
+      total: TOTAL_QUESTIONS,
+      plays: (prev.plays||0) + 1,
+      last: finalScore,
+      updatedAt: Date.now()
+    };
+    localStorage.setItem(QUIZ_KEY, JSON.stringify(all));
+  }catch(e){}
+}
+
+function renderQuizRecord(){
+  if(!quizRecordEl) return;
+  const rec = loadQuizRecord();
+  quizRecordEl.textContent = rec
+    ? `📌 최고 기록 ${rec.best}/${rec.total}개 · 지금까지 ${rec.plays}번 풀었어요`
+    : '';
+}
+renderQuizRecord();
 const qIdxNumEl = document.getElementById('qIdxNum');
 const qTotalNumEl = document.getElementById('qTotalNum');
 const quizRetryBtn = document.getElementById('quizRetryBtn');
@@ -322,6 +374,8 @@ function renderQuizOpts(opts, correct){
 
 function showQuizResult(){
   quizFinished = true;
+  saveQuizRecord(score);
+  renderQuizRecord();
   quizQ.textContent = `🏁 퀴즈 완료! ${TOTAL_QUESTIONS}문제 중 ${score}개 맞혔어요.`;
   quizOpts.innerHTML = '';
   quizFeedback.textContent = '';

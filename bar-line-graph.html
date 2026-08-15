@@ -13,6 +13,19 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>막대그래프·꺾은선그래프 실험실</title>
 <meta name="description" content="슬라이더로 값을 바꾸며 막대그래프와 꺾은선그래프가 어떻게 그려지는지 확인하고, 그래프 읽기 퀴즈를 풀어봐요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="막대그래프·꺾은선그래프 실험실">
+<meta property="og:description" content="슬라이더로 값을 바꾸며 막대그래프와 꺾은선그래프가 어떻게 그려지는지 확인하고, 그래프 읽기 퀴즈를 풀어봐요.">
+<meta property="og:url" content="https://ainmath.com/bar-line-graph.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="막대그래프·꺾은선그래프 실험실">
+<meta name="twitter:description" content="슬라이더로 값을 바꾸며 막대그래프와 꺾은선그래프가 어떻게 그려지는지 확인하고, 그래프 읽기 퀴즈를 풀어봐요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
@@ -69,6 +82,8 @@ svg#quizSvg{max-width:460px;}
 .opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
 .opt-btn:disabled{cursor:not-allowed;}
 .quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.quiz-record{font-size:13px;color:var(--ink-soft);margin:-4px 0 16px;}
+.quiz-record b{color:var(--violet-ink);}
 .action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
 .action-btn:hover{background:var(--green-ink);}
 
@@ -113,6 +128,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
       <h2>🧩 그래프 읽기 퀴즈</h2>
       <div class="progress-badge">문제 <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · 정답 <b id="scoreNum">0</b>개</div>
     </div>
+    <div class="quiz-record" id="quizRecord"></div>
     <div class="quiz-q" id="quizQ"></div>
     <svg id="quizSvg" viewBox="0 0 420 280"></svg>
     <div class="quiz-opts" id="quizOpts"></div>
@@ -289,6 +305,41 @@ let usedQuestions = [];
 
 qTotalNumEl.textContent = TOTAL_QUESTIONS;
 
+// ---------- 학습 기록 저장 (localStorage) ----------
+const QUIZ_KEY = 'ainmath_quiz_v1';
+const QUIZ_ID = 'bar-line-graph';
+const quizRecordEl = document.getElementById('quizRecord');
+
+function loadQuizRecord(){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    return all[QUIZ_ID] || null;
+  }catch(e){ return null; }
+}
+
+function saveQuizRecord(finalScore){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    const prev = all[QUIZ_ID] || { best:0, plays:0 };
+    all[QUIZ_ID] = {
+      best: Math.max(prev.best||0, finalScore),
+      total: TOTAL_QUESTIONS,
+      plays: (prev.plays||0) + 1,
+      last: finalScore,
+      updatedAt: Date.now()
+    };
+    localStorage.setItem(QUIZ_KEY, JSON.stringify(all));
+  }catch(e){}
+}
+
+function renderQuizRecord(){
+  const rec = loadQuizRecord();
+  quizRecordEl.textContent = rec
+    ? `📌 최고 기록 ${rec.best}/${rec.total}개 · 지금까지 ${rec.plays}번 풀었어요`
+    : '';
+}
+renderQuizRecord();
+
 function buildQuizCandidate(){
   const g = GRAPHS[graphKey];
   const vals = g.categories.map(()=> graphKey==='bar' ? randInt(1,g.sliderMax) : randInt(0,g.sliderMax));
@@ -356,7 +407,11 @@ function showQuizResult(){
   quizSvg.style.display = 'none';
   quizOpts.style.display = 'none';
   nextQuizBtn.textContent = '🔄 다시 풀기';
-  quizFeedback.innerHTML = `🏁 퀴즈 완료! ${TOTAL_QUESTIONS}문제 중 <b>${score}</b>개 맞혔어요.`;
+  saveQuizRecord(score);
+  const rec = loadQuizRecord();
+  const newBest = rec && rec.best===score && rec.plays>1 ? ' 🎉 최고 기록 경신!' : '';
+  quizFeedback.innerHTML = `🏁 퀴즈 완료! ${TOTAL_QUESTIONS}문제 중 <b>${score}</b>개 맞혔어요.${newBest}`;
+  renderQuizRecord();
 }
 
 function resetQuiz(){

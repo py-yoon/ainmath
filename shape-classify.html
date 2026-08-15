@@ -13,6 +13,19 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>원·삼각형·사각형 분류 실험실</title>
 <meta name="description" content="평면도형을 곡선 도형(원)과 다각형(삼각형·사각형)으로 나눠보고, 원의 반지름·지름 구조를 확인한 다음 여러 도형의 이름을 맞혀보는 퀴즈예요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="원·삼각형·사각형 분류 실험실">
+<meta property="og:description" content="평면도형을 곡선 도형(원)과 다각형(삼각형·사각형)으로 나눠보고, 원의 반지름·지름 구조를 확인한 다음 여러 도형의 이름을 맞혀보는 퀴즈예요.">
+<meta property="og:url" content="https://ainmath.com/shape-classify.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="원·삼각형·사각형 분류 실험실">
+<meta name="twitter:description" content="평면도형을 곡선 도형(원)과 다각형(삼각형·사각형)으로 나눠보고, 원의 반지름·지름 구조를 확인한 다음 여러 도형의 이름을 맞혀보는 퀴즈예요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
@@ -61,6 +74,8 @@ svg{width:100%;max-width:340px;height:auto;display:block;margin:0 auto;}
 .quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
 .progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
 .progress-badge b{color:var(--blue-ink);}
+.quiz-record{font-size:13px;color:var(--ink-soft);margin:-4px 0 16px;}
+.quiz-record b{color:var(--violet-ink);}
 .quiz-body{display:flex;gap:28px;flex-wrap:wrap;align-items:center;}
 #quizSvg{width:200px;max-width:200px;flex:none;}
 .quiz-opts{display:flex;gap:10px;flex-wrap:wrap;flex:1;min-width:220px;}
@@ -118,6 +133,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
       <h2>🧩 ② 도형 이름 맞히기 — 원일까요, 다각형일까요?</h2>
       <div class="progress-badge">문제 <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · 정답 <b id="scoreNum">0</b>개</div>
     </div>
+<div class="quiz-record" id="quizRecord"></div>
     <div class="quiz-body">
       <svg id="quizSvg" viewBox="0 0 200 200"></svg>
       <div class="quiz-opts" id="quizOpts"></div>
@@ -253,6 +269,42 @@ const quizOpts = document.getElementById('quizOpts');
 const quizFeedback = document.getElementById('quizFeedback');
 const nextBtn = document.getElementById('nextBtn');
 const scoreNumEl = document.getElementById('scoreNum');
+
+// ---------- 학습 기록 저장 (localStorage) ----------
+const QUIZ_KEY = 'ainmath_quiz_v1';
+const QUIZ_ID = 'shape-classify';
+const quizRecordEl = document.getElementById('quizRecord');
+
+function loadQuizRecord(){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    return all[QUIZ_ID] || null;
+  }catch(e){ return null; }
+}
+
+function saveQuizRecord(finalScore){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    const prev = all[QUIZ_ID] || { best:0, plays:0 };
+    all[QUIZ_ID] = {
+      best: Math.max(prev.best||0, finalScore),
+      total: TOTAL_QUESTIONS,
+      plays: (prev.plays||0) + 1,
+      last: finalScore,
+      updatedAt: Date.now()
+    };
+    localStorage.setItem(QUIZ_KEY, JSON.stringify(all));
+  }catch(e){}
+}
+
+function renderQuizRecord(){
+  if(!quizRecordEl) return;
+  const rec = loadQuizRecord();
+  quizRecordEl.textContent = rec
+    ? `📌 최고 기록 ${rec.best}/${rec.total}개 · 지금까지 ${rec.plays}번 풀었어요`
+    : '';
+}
+renderQuizRecord();
 const qIdxNumEl = document.getElementById('qIdxNum');
 const qTotalNumEl = document.getElementById('qTotalNum');
 const TOTAL_QUESTIONS = 10;
@@ -338,6 +390,8 @@ function newQuizQuestion(){
 
 function showQuizResult(){
   quizFinished = true;
+  saveQuizRecord(score);
+  renderQuizRecord();
   quizSvg.style.display = 'none';
   quizOpts.style.display = 'none';
   nextBtn.textContent = '🔄 다시 풀기';

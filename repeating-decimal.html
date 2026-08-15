@@ -13,6 +13,19 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>유리수와 순환소수 실험실</title>
 <meta name="description" content="분수를 소수로 바꾸면 딱 떨어질지, 계속 반복될지 먼저 예상해보고 나눗셈 과정으로 확인해요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="유리수와 순환소수 실험실">
+<meta property="og:description" content="분수를 소수로 바꾸면 딱 떨어질지, 계속 반복될지 먼저 예상해보고 나눗셈 과정으로 확인해요.">
+<meta property="og:url" content="https://ainmath.com/repeating-decimal.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="유리수와 순환소수 실험실">
+<meta name="twitter:description" content="분수를 소수로 바꾸면 딱 떨어질지, 계속 반복될지 먼저 예상해보고 나눗셈 과정으로 확인해요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
@@ -79,6 +92,8 @@ h1 span{color:var(--coral-ink);}
 .fact b{color:var(--coral-ink);}
 .progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;align-self:center;}
 .progress-badge b{color:var(--coral-ink);}
+.quiz-record{font-size:13px;color:var(--ink-soft);margin:-4px 0 16px;}
+.quiz-record b{color:var(--violet-ink);}
 footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
 </style>
 </head>
@@ -101,6 +116,7 @@ footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;
   <div class="stage">
     <div class="canvas-area">
       <div class="progress-badge">정답 <b id="scoreNum">0</b> / 시도 <b id="triesNum">0</b></div>
+<div class="quiz-record" id="quizRecord"></div>
       <div class="frac-box"><span class="num" id="numEl">5</span><span class="den" id="denEl">6</span></div>
       <div class="guess-row" id="guessRow">
         <button class="guess-btn" data-g="term">🔵 유한소수 (딱 떨어져요)</button>
@@ -145,6 +161,38 @@ const factorBox = document.getElementById('factorBox');
 const stepList = document.getElementById('stepList');
 const scoreNumEl = document.getElementById('scoreNum');
 const triesNumEl = document.getElementById('triesNum');
+
+// ---------- 학습 기록 저장 (localStorage) ----------
+const QUIZ_KEY = 'ainmath_quiz_v1';
+const QUIZ_ID = 'repeating-decimal';
+const quizRecordEl = document.getElementById('quizRecord');
+
+function loadQuizRecord(){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    return all[QUIZ_ID] || null;
+  }catch(e){ return null; }
+}
+
+function saveQuizRecord(curScore, curTries){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    const prev = all[QUIZ_ID] || { bestScore:0, bestTries:0 };
+    if(curScore > (prev.bestScore||0)){
+      all[QUIZ_ID] = { bestScore: curScore, bestTries: curTries, updatedAt: Date.now() };
+      localStorage.setItem(QUIZ_KEY, JSON.stringify(all));
+    }
+  }catch(e){}
+}
+
+function renderQuizRecord(){
+  if(!quizRecordEl) return;
+  const rec = loadQuizRecord();
+  quizRecordEl.textContent = rec
+    ? `📌 한 번에 최고 ${rec.bestScore}개 맞혔어요 (그때 ${rec.bestTries}번 시도)`
+    : '';
+}
+renderQuizRecord();
 
 const PRESETS = [
   [1,2],[3,4],[7,8],[1,20],[3,5],   // 유한소수
@@ -260,6 +308,8 @@ guessRow.addEventListener('click', (e)=>{
     feedback.innerHTML = `아쉬워요! ${num}/${den}은 ${result.terminates ? '유한소수' : '순환소수'}예요. (정답 ${score} / 시도 ${tries})`;
     feedback.className = 'feedback wrong';
   }
+  saveQuizRecord(score, tries);
+  renderQuizRecord();
   showResult();
 });
 
