@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>상대도수, 학생 수가 달라도 공평하게 비교하는 법 | 아인매스</title>
+<meta name="description" content="도수만 비교하면 왜 불공평해지는지, 상대도수가 그 문제를 어떻게 해결하는지 알아봐요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="상대도수, 학생 수가 달라도 공평하게 비교하는 법 | 아인매스">
+<meta property="og:description" content="도수만 비교하면 왜 불공평해지는지, 상대도수가 그 문제를 어떻게 해결하는지 알아봐요.">
+<meta property="og:url" content="https://ainmath.com/article-relative-frequency.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="상대도수, 학생 수가 달라도 공평하게 비교하는 법 | 아인매스">
+<meta name="twitter:description" content="도수만 비교하면 왜 불공평해지는지, 상대도수가 그 문제를 어떻게 해결하는지 알아봐요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;}
+  th,td{border:1px solid var(--paper-line);padding:7px 8px;text-align:center;}
+  th{background:#fff;color:var(--ink-soft);font-family:'Do Hyeon',sans-serif;font-weight:400;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#6847F7;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="explore.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#357A63;background:#E3F5EE">📊 확률과 통계</span>
+  <h1>상대도수, 학생 수가 달라도 공평하게 비교하는 법</h1>
+  <p class="meta">중학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>우리 반은 24명, 옆 반은 16명이 시험을 봤어요. 두 반 모두 "90점 이상"인 학생이 6명이라면, 어느 반이 더 시험을 잘 본 걸까요? 도수(인원수)만 보면 둘 다 6명으로 같아 보이지만, 실제로는 전혀 다른 이야기예요. 우리 반은 24명 중 6명(25%)이고, 옆 반은 16명 중 6명(37.5%)이니까요. 옆 반이 90점 이상인 비율이 훨씬 높은 거예요.</p>
+      <p>이렇게 <b>전체 도수에서 어떤 계급의 도수가 차지하는 비율</b>을 <b>상대도수</b>라고 해요. 계산은 간단해요.</p>
+      <div class="illo" style="text-align:center;font-family:'Do Hyeon',sans-serif;font-size:17px;">
+        상대도수 = (그 계급의 도수) ÷ (도수의 총합)
+      </div>
+      <p>방금 예시를 다시 계산해볼까요? 우리 반의 "90점 이상" 상대도수는 6 ÷ 24 = 0.25, 옆 반은 6 ÷ 16 = 0.375예요. 도수는 똑같이 6명이었지만 상대도수로 바꾸니 두 반의 차이가 선명하게 드러나요.</p>
+      <div class="illo">
+        <table>
+          <tr><th>계급</th><th>우리 반(24명) 도수</th><th>우리 반 상대도수</th><th>옆 반(16명) 도수</th><th>옆 반 상대도수</th></tr>
+          <tr><td>90점 이상</td><td>6</td><td>0.25 (25%)</td><td>6</td><td>0.375 (37.5%)</td></tr>
+        </table>
+        <div class="illo-caption">도수는 같아도 상대도수는 이렇게 달라질 수 있어요</div>
+      </div>
+      <p>상대도수에는 재미있는 성질이 하나 있어요. 한 집단의 모든 계급의 상대도수를 다 더하면 항상 <b>1(=100%)</b>이 된다는 거예요. 왜냐하면 모든 계급의 도수를 다 더하면 결국 전체 도수와 같아지기 때문이에요. 그래서 상대도수의 합이 1이 아니라면, 어딘가 계산이 잘못됐다는 걸 바로 알아챌 수 있어요 — 검산에도 유용한 성질이에요.</p>
+      <p>상대도수는 특히 <b>집단의 크기(전체 도수)가 서로 다를 때</b> 진가를 발휘해요. 우리 학교와 다른 학교의 지각률을 비교하거나, 우리나라와 인구가 다른 나라의 어떤 비율을 비교할 때, 원래 숫자(도수) 그대로는 비교가 불공평해요. 인원이 많은 쪽이 웬만하면 도수도 크게 나오니까요. 상대도수로 바꾸면 "전체 중 몇 %"라는 공통 잣대가 생겨서, 크기가 다른 집단도 공평하게 비교할 수 있어요.</p>
+      <p>저희 체험 페이지에서는 학생 수가 다른 두 반의 성적을 직접 만들어보고, "도수로 비교"와 "상대도수로 비교" 버튼을 눌러가며 두 그래프가 얼마나 다르게 보이는지 확인할 수 있어요. 도수 그래프에서는 학생이 많은 반이 대체로 막대가 더 크게 보이지만, 상대도수 그래프로 바꾸면 진짜 비율 차이가 드러나요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="relative-frequency.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
