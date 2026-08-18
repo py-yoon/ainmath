@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Finding Divisors Lab</title>
+<meta name="description" content="Enter a number and see every divisor revealed as a rectangular grid.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Finding Divisors Lab">
+<meta property="og:description" content="Enter a number and see every divisor revealed as a rectangular grid.">
+<meta property="og:url" content="https://ainmath.com/en/divisor-finder.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Finding Divisors Lab">
+<meta name="twitter:description" content="Enter a number and see every divisor revealed as a rectangular grid.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--violet-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.2fr 0.8fr;gap:32px;align-items:start;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+.control-row{width:100%;max-width:420px;display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--coral-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--violet);outline-offset:2px;}
+.rect-list{display:flex;flex-direction:column;gap:14px;max-height:420px;overflow-y:auto;padding-right:6px;}
+.rect-row{display:flex;align-items:center;gap:12px;}
+.rect-label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);min-width:88px;}
+.dot-grid{display:grid;gap:3px;}
+.dot{width:11px;height:11px;border-radius:3px;background:var(--violet);}
+.panel{display:flex;flex-direction:column;gap:18px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px 20px;text-align:center;}
+.equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(17px,2.6vw,20px);color:var(--ink-soft);}
+.equation .result{font-family:'Do Hyeon',sans-serif;font-size:clamp(40px,6.5vw,54px);color:var(--coral);margin-top:6px;line-height:1;}
+.equation .result span{font-size:0.4em;color:var(--ink-soft);}
+.chip-row{display:flex;flex-wrap:wrap;gap:6px;}
+.chip{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--violet-soft);color:var(--violet-ink);border-radius:8px;padding:5px 10px;}
+.fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+.fact b{color:var(--coral-ink);}
+.badge-win{display:none;background:#FFF3E0;color:#B45309;font-family:'Do Hyeon',sans-serif;font-size:14px;border-radius:10px;padding:10px 12px;text-align:center;}
+.badge-win.show{display:block;}
+.howto{background:var(--coral-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--coral-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="grade-5-6.html" style="color:var(--ink-soft);text-decoration:none;">← Back to all activities</a><a href="../divisor-finder.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+    <a href="article-divisors.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 Read the article</a>
+  </div>
+  <span class="eyebrow">▦ Finding Divisors Lab</span>
+  <h1>How many ways can a number<br>fill a <span>rectangle</span>?</h1>
+  <p class="sub">Pick a number, and we'll show every width × height rectangle grid it can exactly fill. The side lengths of those rectangles are exactly its <b>divisors</b>.</p>
+
+  <div class="howto">
+    <p>Why draw rectangles to find divisors? The reason is simple — if an n-square grid can be exactly filled with a rows and b columns, that means a×b=n, so both a and b are divisors of n. So "finding every rectangle that fits exactly" and "finding every divisor" turn out to be the same problem.</p>
+    <p>The fun part is that these rectangles always come in pairs — as the width shrinks, the height grows to match. So you only need to check widths up to √n, and the rest come along automatically. If there's ever a moment where the width and height are equal, that number is a perfect square.</p>
+    <p>Prime numbers are special here. They only have 2 divisors (1 and themselves), so the only rectangle you can make is 1×n. Move the slider and watch the rectangle list suddenly get short near a prime number.</p>
+  </div>
+
+  <div class="stage">
+    <div>
+      <div class="control-row">
+        <div class="control-label"><span>Number (n)</span><b id="nLabel">24</b></div>
+        <input id="sliderN" type="range" min="1" max="60" value="24" step="1" aria-label="Adjust the number">
+      </div>
+      <div class="rect-list" id="rectList"></div>
+    </div>
+
+    <div class="panel">
+      <div class="equation">
+        <div class="formula">Number of divisors</div>
+        <div class="result" id="resultNum">8</div>
+      </div>
+      <div class="badge-win" id="winBadge">🎉 It's a perfect square! It can also be filled as an exact square.</div>
+      <div class="chip-row" id="divisorChips"></div>
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="Go to another activity" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="gcd-lcm.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ Previous activity</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">GCD &amp; LCM Lab</span>
+    </a>
+    <a href="water-jug-puzzle.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">Next activity ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Water Jug Puzzle</span>
+    </a>
+  </nav>
+<footer>If a grid with a rows and b columns exactly fills n squares, then a×b=n, and a and b are both divisors of n. You can even predict the number of divisors from prime factorization — add 1 to each prime's exponent and multiply them together. For example, 24=2³×3¹ gives (3+1)×(1+1)=8, matching what you counted by hand.</footer>
+</div>
+
+<script>
+const sliderN = document.getElementById('sliderN');
+const nLabel = document.getElementById('nLabel');
+const rectList = document.getElementById('rectList');
+const resultNum = document.getElementById('resultNum');
+const divisorChips = document.getElementById('divisorChips');
+const factBox = document.getElementById('fact');
+const winBadge = document.getElementById('winBadge');
+
+function divisorPairs(n){
+  const pairs=[];
+  for(let i=1;i*i<=n;i++){
+    if(n%i===0){ pairs.push([i, n/i]); }
+  }
+  return pairs;
+}
+
+function render(){
+  const n = parseInt(sliderN.value);
+  nLabel.textContent = n;
+  const pairs = divisorPairs(n);
+  const allDivisors = [];
+  pairs.forEach(([a,b])=>{ allDivisors.push(a); if(b!==a) allDivisors.push(b); });
+  allDivisors.sort((x,y)=>x-y);
+
+  resultNum.innerHTML = `${allDivisors.length}`;
+  divisorChips.innerHTML = allDivisors.map(d=>`<span class="chip">${d}</span>`).join('');
+
+  const isSquare = pairs.some(([a,b])=>a===b);
+  winBadge.classList.toggle('show', isSquare);
+
+  const maxCols = 30;
+  rectList.innerHTML = pairs.map(([a,b])=>{
+    const rows=a, cols=b;
+    const showCols = Math.min(cols, maxCols);
+    let dots='';
+    for(let i=0;i<rows*showCols;i++){ dots += `<div class="dot"></div>`; }
+    return `<div class="rect-row">
+      <div class="rect-label">${rows} × ${cols}</div>
+      <div class="dot-grid" style="grid-template-columns:repeat(${showCols},11px)">${dots}</div>
+    </div>`;
+  }).join('');
+
+  const isPrime = allDivisors.length===2;
+  let extra = '';
+  if(n===1){
+    extra = ` 1 is a very special number — its only divisor is itself. It's neither prime nor composite.`;
+  } else if(isSquare){
+    extra = ` It can also be filled as a square (equal width and height), so ${n} is a perfect square.`;
+  } else if(isPrime){
+    extra = ` Its only divisors are 1 and itself, so ${n} is prime — meaning the only rectangle it can form is 1×${n}.`;
+  }
+
+  factBox.innerHTML = `${n} has <b>${allDivisors.length}</b> divisors: ${allDivisors.join(', ')}. Each divisor pair (a, n/a) gives you one exactly-fitting rectangle grid.${extra}`;
+}
+
+sliderN.addEventListener('input', render);
+render();
+</script>
+</body>
+</html>

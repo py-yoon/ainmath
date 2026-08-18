@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Mirror It or Spin It — Congruence &amp; Symmetry | AINMATH</title>
+<meta name="description" content="Shapes that match their original form when folded in half, or when spun 180 degrees. Learn how to tell these two kinds of symmetry apart.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Mirror It or Spin It — Congruence & Symmetry | AINMATH">
+<meta property="og:description" content="Shapes that match their original form when folded in half, or when spun 180 degrees. Learn how to tell these two kinds of symmetry apart.">
+<meta property="og:url" content="https://ainmath.com/en/article-symmetry-shapes.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mirror It or Spin It — Congruence & Symmetry | AINMATH">
+<meta name="twitter:description" content="Shapes that match their original form when folded in half, or when spun 180 degrees. Learn how to tell these two kinds of symmetry apart.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:760px;margin:0 auto;}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-soft);text-decoration:none;margin-bottom:18px;}
+.back-link:hover{color:var(--violet-ink);}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,40px);line-height:1.3;margin:0 0 14px;}
+h1 span{color:var(--violet-ink);}
+.sub{color:var(--ink-soft);font-size:16.5px;line-height:1.75;margin:0 0 30px;}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;}
+.cta{font-family:'Do Hyeon',sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:999px;transition:all .15s ease;}
+.cta.primary{background:var(--violet-ink);color:#fff;}
+.cta.primary:hover{filter:brightness(1.06);}
+.cta.secondary{background:var(--card);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.cta.secondary:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+article{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:clamp(24px,5vw,44px);}
+h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:22px;color:var(--ink);margin:34px 0 14px;}
+h2:first-child{margin-top:0;}
+h2 .num{color:var(--violet-ink);margin-right:8px;}
+p{font-size:15.5px;line-height:1.85;color:var(--ink);margin:0 0 16px;}
+p:last-child{margin-bottom:0;}
+.callout{background:var(--violet-soft);border-radius:16px;padding:18px 20px;margin:18px 0;font-size:14.5px;line-height:1.75;color:var(--ink);}
+.callout b{color:var(--violet-ink);}
+.tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
+.tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.tip-list b{color:var(--violet-ink);}
+.illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:18px 0;text-align:center;}
+.illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+.illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+.footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
+.footer-nav a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="grade-5-6.html">← Back to all activities</a><a href="../article-symmetry-shapes.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+  <span class="eyebrow" style="color:#6847F7;background:#EEE8FF">📐 Shape &amp; Geometry</span>
+  <h1>When it matches,<br>it's <span>congruent and symmetric</span></h1>
+  <p class="sub">Some shapes end up looking exactly the same as before when folded in half, or spun 180°. Shapes with this special property are called symmetric shapes.</p>
+
+  <div class="cta-row">
+    <a class="cta primary" href="symmetry-shapes.html">🎮 Try Symmetry &amp; Congruence Lab</a>
+    <a class="cta secondary" href="grade-5-6.html">📚 See other topics</a>
+  </div>
+
+  <article>
+    <h2><span class="num">1</span>Congruent means "exactly the same shape and size"</h2>
+    <p>If two shapes overlap perfectly when placed on top of each other, those two shapes are <b>congruent</b>. The mirrored or rotated image used to make a symmetric shape is always congruent to the original.</p>
+
+    <h2><span class="num">2</span>A line-symmetric shape matches "its reflection in a mirror"</h2>
+    <p>Draw a line through the middle of a shape and fold along it — if both halves match perfectly, it's <b>line symmetric</b>. That line is called the <b>axis of symmetry</b>. Neat shapes like a square are the classic example.</p>
+
+    <h2><span class="num">3</span>A point-symmetric shape matches "itself rotated 180°"</h2>
+    <p>Mark a point at the center of a shape and spin it 180° around that point — if it matches the original shape perfectly, it's <b>point symmetric</b>. That marked point is called the <b>center of symmetry</b>. A parallelogram is the classic example.</p>
+
+    <h2><span class="num">4</span>Line symmetry and point symmetry are different properties</h2>
+    <p>Some shapes have both line and point symmetry (a square), some have line symmetry but not point symmetry (an isosceles trapezoid), and some are the reverse (a parallelogram). Some shapes have neither.</p>
+    <div class="illo">
+      <svg viewBox="0 0 300 100">
+        <polygon points="60,15 90,40 90,80 30,80 30,40" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2.5"></polygon>
+        <line x1="60" y1="8" x2="60" y2="88" stroke="var(--coral-ink)" stroke-width="2" stroke-dasharray="5 4"></line>
+        <text x="60" y="98" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--violet-ink)">Line symmetry (axis)</text>
+
+        <polygon points="170,80 230,80 250,40 190,40" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2.5"></polygon>
+        <circle cx="210" cy="60" r="4" fill="var(--coral-ink)"></circle>
+        <path d="M 210 40 A 20 20 0 1 1 190 60" fill="none" stroke="var(--coral-ink)" stroke-width="2" marker-end="url(#arrowhead)"></path>
+        <defs>
+          <marker id="arrowhead" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+            <polygon points="0,0 7,3.5 0,7" fill="var(--coral-ink)"></polygon>
+          </marker>
+        </defs>
+        <text x="210" y="98" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--violet-ink)">Point symmetry (center)</text>
+      </svg>
+      <div class="illo-caption">The left shape matches when folded; the right shape matches when spun 180° around the center point</div>
+    </div>
+    <div class="callout">
+      <b>Checking with your own eyes whether it matches is the most reliable way.</b><br>
+      Don't decide just from the feeling that something "looks neat" — get in the habit of actually mirroring or rotating it to check whether it matches perfectly, and you won't get confused.
+    </div>
+
+    <h2><span class="num">5</span>Try this</h2>
+    <ul class="tip-list">
+      <li><b>Try both modes on each shape, one at a time.</b> See how the same shape can give different results for line symmetry versus point symmetry.</li>
+      <li><b>Guess before you check.</b> Before clicking the button, decide for yourself whether "this shape will match," then compare with the actual result.</li>
+      <li><b>Meet all four cases in the quiz.</b> Practice telling apart: line symmetric only, point symmetric only, both, and neither.</li>
+    </ul>
+  </article>
+
+  <footer>
+    <p>Go back to Symmetry &amp; Congruence Lab and flip and rotate shapes yourself.</p>
+    <nav class="footer-nav">
+      <a href="grade-5-6.html">All activities</a>·<a href="symmetry-shapes.html">Symmetry &amp; Congruence Lab</a>·<a href="../about.html">About</a>·<a href="../contact.html">Contact</a>
+    </nav>
+  </footer>
+</div>
+</body>
+</html>

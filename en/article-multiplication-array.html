@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>What Is Multiplication? — Groups Make It Click | AINMATH</title>
+<meta name="description" content="3 × 4 = 12 actually starts as a simple picture: 3 groups of 4. Before playing with the multiplication table, let's see what multiplication really means.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="What Is Multiplication? — Groups Make It Click | AINMATH">
+<meta property="og:description" content="3 × 4 = 12 actually starts as a simple picture: 3 groups of 4. Before playing with the multiplication table, let's see what multiplication really means.">
+<meta property="og:url" content="https://ainmath.com/en/article-multiplication-array.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="What Is Multiplication? — Groups Make It Click | AINMATH">
+<meta name="twitter:description" content="3 × 4 = 12 actually starts as a simple picture: 3 groups of 4. Before playing with the multiplication table, let's see what multiplication really means.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:760px;margin:0 auto;}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-soft);text-decoration:none;margin-bottom:18px;}
+.back-link:hover{color:var(--coral-ink);}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,40px);line-height:1.3;margin:0 0 14px;}
+h1 span{color:var(--coral-ink);}
+.meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 8px;}
+.sub{color:var(--ink-soft);font-size:16.5px;line-height:1.75;margin:0 0 30px;}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;}
+.cta{font-family:'Do Hyeon',sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:999px;transition:all .15s ease;}
+.cta.primary{background:var(--coral-ink);color:#fff;}
+.cta.primary:hover{filter:brightness(1.06);}
+.cta.secondary{background:var(--card);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.cta.secondary:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
+article{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:clamp(24px,5vw,44px);}
+h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:22px;color:var(--ink);margin:34px 0 14px;}
+h2:first-child{margin-top:0;}
+h2 .num{color:var(--coral-ink);margin-right:8px;}
+p{font-size:17px;line-height:1.95;color:var(--ink);margin:0 0 16px;}
+p:last-child{margin-bottom:0;}
+.example{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px 20px;margin:18px 0;}
+.example .eq{font-family:'Do Hyeon',sans-serif;font-size:22px;text-align:center;margin-bottom:10px;}
+.example .eq .a{color:var(--coral-ink);}
+.example .eq .b{color:var(--green-ink);}
+.example .eq .r{color:var(--violet-ink);}
+.example p{font-size:14.5px;color:var(--ink-soft);margin:0;text-align:center;}
+.callout{background:var(--coral-soft);border-radius:16px;padding:18px 20px;margin:18px 0;font-size:14.5px;line-height:1.75;color:var(--ink);}
+.callout b{color:var(--coral-ink);}
+.tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
+.tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.tip-list b{color:var(--coral-ink);}
+.illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:18px 0;text-align:center;}
+.illo svg{width:100%;max-width:260px;height:auto;display:block;margin:0 auto;}
+.illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+.footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
+.footer-nav a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="elementary.html">← Back to all activities</a><a href="../article-multiplication-array.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+  <span class="eyebrow" style="color:#D90500;background:#FFEAE8">🔢 Number & operations</span>
+  <h1>What Is Multiplication?<br>Understanding it through <span>groups</span></h1>
+  <p class="meta">Early elementary · About 3 min read</p>
+  <p class="sub">"3 × 4 = 12" actually starts as a very simple picture: "3 groups of 4." Before playing with the multiplication table, let's see what multiplication really means.</p>
+
+  <div class="cta-row">
+    <a class="cta primary" href="multiplication-array.html">🎮 Try the Multiplication Arrays activity</a>
+    <a class="cta secondary" href="elementary.html">📚 See other topics</a>
+  </div>
+
+  <div class="callout" style="background:var(--coral-soft);margin-bottom:20px;">🧑‍🤝‍🧑 <b>Read this together with a grown-up.</b> Some words may still be tricky to read alone. Reading it out loud together makes it easier to understand.</div>
+
+  <article>
+    <h2><span class="num">1</span>Multiplication is "adding the same number over and over"</h2>
+    <p>Imagine a bag has 4 candies in it. If there are 3 of these bags, how many candies are there in all? You add 4, then 4, then 4: 4 + 4 + 4 = 12.</p>
+    <p>Multiplication is simply a <b>short way of writing "adding the same number over and over."</b></p>
+    <div class="example">
+      <div class="eq"><span class="a">4</span> + <span class="a">4</span> + <span class="a">4</span> = <span class="r">12</span> &nbsp;→&nbsp; <span class="a">3</span> × <span class="a">4</span> = <span class="r">12</span></div>
+      <p>Adding 4 three times gives the same answer as 3 × 4.</p>
+    </div>
+
+    <h2><span class="num">2</span>Group pictures make it easier</h2>
+    <p>On the Multiplication Arrays activity, we use circles instead of candy bags. If there are 3 groups, with 4 circles in each group, you don't have to count every circle — you can just calculate 3 × 4. Move the sliders to change the number of groups and the number in each group, and watch the circles grow or shrink right before your eyes.</p>
+    <div class="illo">
+      <svg viewBox="0 0 260 130">
+        <g fill="none" stroke="var(--paper-line)" stroke-width="2">
+          <rect x="10" y="10" width="180" height="34" rx="10"></rect>
+          <rect x="10" y="50" width="180" height="34" rx="10"></rect>
+          <rect x="10" y="90" width="180" height="34" rx="10"></rect>
+        </g>
+        <g fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="2">
+          <circle cx="30" cy="27" r="12"></circle><circle cx="70" cy="27" r="12"></circle><circle cx="110" cy="27" r="12"></circle><circle cx="150" cy="27" r="12"></circle>
+          <circle cx="30" cy="67" r="12"></circle><circle cx="70" cy="67" r="12"></circle><circle cx="110" cy="67" r="12"></circle><circle cx="150" cy="67" r="12"></circle>
+          <circle cx="30" cy="107" r="12"></circle><circle cx="70" cy="107" r="12"></circle><circle cx="110" cy="107" r="12"></circle><circle cx="150" cy="107" r="12"></circle>
+        </g>
+        <text x="225" y="72" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="26" fill="var(--violet-ink)">12</text>
+      </svg>
+      <div class="illo-caption">3 groups of 4 — you don't even need to count, it's 3 × 4 = 12</div>
+    </div>
+    <div class="callout">
+      <b>Number of groups × items in each group = total count</b><br>
+      Remember just this one sentence, and you can draw a picture for any multiplication problem.
+    </div>
+
+    <h2><span class="num">3</span>The order doesn't change the answer</h2>
+    <p>3 groups of 4 looks different from 4 groups of 3, but the total is the same either way: 12. That's why 3 × 4 = 4 × 3.</p>
+    <p>This is called the <b>commutative property</b>, but you don't need to know the fancy name. Just remember: "swapping the order gives the same answer." Try pressing the "swap groups and items" button on the activity to see it for yourself.</p>
+
+    <h2><span class="num">4</span>The multiplication table is a map of multiplication</h2>
+    <p>In a multiplication table, the box where a row and column meet holds the answer to multiplying those two numbers. For example, where row 3 meets row 4, you'll find 12. The more you look at the table, the more familiar you become with roughly where each answer lives, even before you calculate it.</p>
+    <ul class="tip-list">
+      <li><b>Start with the 2s.</b> 2, 4, 6, 8 — the pattern of adding 2 each time is easy to spot, which makes it the simplest place to start.</li>
+      <li><b>The 5s are easy to count on your fingers.</b> 5, 10, 15 — growing by 5 each time, just like the numbers on a clock face.</li>
+      <li><b>The 9s have a finger trick.</b> Fold down the finger that matches the number you're multiplying by, and the digits on either side of the folded finger give you the answer.</li>
+      <li><b>Don't try to memorize it all at once.</b> Practicing one or two rows a day, playfully and repeatedly, is the way to remember it for good.</li>
+    </ul>
+
+    <h2><span class="num">5</span>Try playing like this</h2>
+    <p>Move the sliders to any two numbers, then ask yourself: "how many groups, and how many in each group?" Try answering first, then count the circles to check. You can also use the preset buttons (2×3, 5×5, 7×8, 9×9) to quickly explore different combinations.</p>
+  </article>
+
+  <footer>
+    <p>Head back to Multiplication Arrays and try moving the sliders yourself.</p>
+    <nav class="footer-nav">
+      <a href="elementary.html">All activities</a>·<a href="multiplication-array.html">Multiplication Arrays</a>·<a href="../about.html">About</a>·<a href="../contact.html">Contact</a>
+    </nav>
+  </footer>
+</div>
+</body>
+</html>

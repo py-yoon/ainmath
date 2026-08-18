@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Pi &amp; Circumference Lab</title>
+<meta name="description" content="Roll a circle and see for yourself how many times its diameter it travels.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Pi & Circumference Lab">
+<meta property="og:description" content="Roll a circle and see for yourself how many times its diameter it travels.">
+<meta property="og:url" content="https://ainmath.com/en/pi-circumference.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pi & Circumference Lab">
+<meta name="twitter:description" content="Roll a circle and see for yourself how many times its diameter it travels.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9;
+    --paper-line:#E9E1CF;
+    --ink:#22283A;
+    --ink-soft:#5B6178;
+    --violet:#6C4CF7;
+    --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+    --coral:#FF5B57;--coral-ink:#D90500;
+    --teal:#2EC4C6;--teal-ink:#1D7C7E;
+    --card:#FFFFFF;
+    --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px,
+      var(--paper);
+    color:var(--ink);
+    font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh;
+    padding: 32px 20px 80px;
+  }
+  .wrap{max-width:960px;margin:0 auto;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Do Hyeon',sans-serif;
+    color:var(--teal-ink);
+    background:#E4FAF9;
+    padding:6px 14px;border-radius:999px;
+    font-size:14px;letter-spacing:0.02em;
+    margin-bottom:14px;
+  }
+  h1{
+    font-family:'Do Hyeon',sans-serif;
+    font-weight:400;
+    font-size:clamp(28px,4.5vw,44px);
+    line-height:1.25;
+    margin:0 0 10px;
+  }
+  h1 span{color:var(--coral-ink);}
+  .sub{
+    color:var(--ink-soft);
+    font-size:16px;
+    line-height:1.7;
+    max-width:60ch;
+    margin:0 0 28px;
+  }
+  .stage{
+    background:var(--card);
+    border-radius:24px;
+    box-shadow:var(--shadow);
+    padding:28px clamp(16px,4vw,40px) 32px;
+  }
+  svg{width:100%;height:auto;display:block;overflow:visible;}
+
+  .controls{
+    display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end;
+    margin-top:8px;margin-bottom:6px;
+  }
+  .control-row{flex:1;min-width:220px;display:flex;flex-direction:column;gap:8px;}
+  .control-label{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-family:'Do Hyeon',sans-serif;
+    font-size:15px;color:var(--ink-soft);
+  }
+  .control-label b{font-size:22px;color:var(--ink);}
+  input[type=range]{
+    -webkit-appearance:none;width:100%;height:8px;border-radius:999px;
+    background:var(--violet-soft);outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;width:26px;height:26px;border-radius:50%;
+    background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);
+    cursor:pointer;
+  }
+  input[type=range]::-moz-range-thumb{
+    width:26px;height:26px;border-radius:50%;
+    background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);
+    cursor:pointer;
+  }
+  input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+
+  .roll-btn{
+    font-family:'Do Hyeon',sans-serif;font-size:16px;
+    background:var(--ink);color:#fff;border:none;border-radius:14px;
+    padding:14px 22px;cursor:pointer;white-space:nowrap;
+    transition:transform .15s ease, background .2s ease;
+  }
+  .roll-btn:hover{background:var(--violet-ink);}
+  .roll-btn:active{transform:scale(0.97);}
+  .roll-btn:disabled{opacity:0.5;cursor:default;}
+  .roll-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+
+  .bottom-grid{
+    display:grid;grid-template-columns:1.1fr 0.9fr;gap:24px;
+    margin-top:26px;
+  }
+  @media (max-width:720px){ .bottom-grid{grid-template-columns:1fr;} }
+
+  .equation{
+    background:var(--paper);border:2px solid var(--paper-line);
+    border-radius:18px;padding:20px 22px;text-align:center;
+  }
+  .equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(17px,2.6vw,20px);color:var(--ink-soft);}
+  .equation .formula b{color:var(--ink);}
+  .equation .result{
+    font-family:'Do Hyeon',sans-serif;font-size:clamp(38px,6vw,52px);
+    color:var(--coral);margin-top:6px;line-height:1;
+  }
+  .equation .result span{font-size:0.42em;color:var(--ink-soft);}
+
+  .fact{
+    background:var(--violet-soft);border-radius:16px;padding:16px 18px;
+    font-size:14.5px;line-height:1.65;color:var(--ink);
+  }
+  .fact b{color:var(--violet-ink);}
+
+  .howto{background:#E4FAF9;border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+  .howto b{color:var(--teal-ink);}
+  .howto p{margin:0 0 10px;}
+  .howto p:last-child{margin-bottom:0;}
+
+  .tick-label{font-family:'Do Hyeon',sans-serif;font-size:14px;fill:var(--ink-soft);text-anchor:middle;}
+  .tick-label.rem{fill:var(--coral);}
+
+  footer{max-width:960px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+
+  @media (prefers-reduced-motion: reduce){
+    #rollGroup{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="grade-5-6.html" style="color:var(--ink-soft);text-decoration:none;">← Back to all activities</a><a href="../pi-circumference.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+    <a href="article-pi-circumference.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 Read the article</a>
+  </div>
+  <span class="eyebrow">⚪ Pi Lab</span>
+  <h1>Roll a circle once around —<br>how many <span>diameters</span> does it travel?</h1>
+  <p class="sub">Try rolling the circle with different diameters. Watch the tick marks and see for yourself that the length the circle travels in one turn (the circumference) is always about <b>3.14 times</b> the diameter. That value, 3.14…, is <b>pi (π)</b>.</p>
+
+  <div class="howto">
+    <p>Pi is a circle's circumference divided by its diameter. Amazingly, this value always comes out to <b>3.14159…</b>, no matter how big or small the circle is. Whether it's a coin or a giant circle drawn on a playground, dividing the circumference by the diameter always gives the same number.</p>
+    <p>Pi keeps going forever past 3.14 without ever repeating — a number like this is called irrational. The ancient Greek mathematician Archimedes, without a calculator or a computer, narrowed down the value of pi more and more precisely by drawing polygons inside and outside a circle and increasing the number of sides.</p>
+    <p>Change the diameter with the slider and roll the circle. Watch the tick marks and see for yourself how many "times" the diameter — not how many full turns — the circle travels.</p>
+  </div>
+
+  <div class="stage">
+    <svg id="svg" viewBox="0 0 680 300"></svg>
+
+    <div class="controls">
+      <div class="control-row">
+        <div class="control-label"><span>Circle diameter</span><b id="dLabel">4</b><span>cm</span></div>
+        <input id="slider" type="range" min="2" max="8" value="4" step="0.5" aria-label="Adjust diameter (cm)">
+      </div>
+      <button class="roll-btn" id="rollBtn">▶ Roll the circle</button>
+    </div>
+
+    <div class="bottom-grid">
+      <div class="equation">
+        <div class="formula">Circumference ÷ diameter(<b id="dInFormula">4</b>cm)</div>
+        <div class="result" id="resultNum">3.14<span>×</span></div>
+      </div>
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+            <!-- prev-next-nav -->
+  <nav aria-label="Go to another activity" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="triangle-base-height.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ Previous activity</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Triangle Base &amp; Height Lab</span>
+    </a>
+    <a href="circle-area.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">Next activity ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Circle Area Lab</span>
+    </a>
+  </nav>
+<footer>Whether the diameter gets bigger or smaller, dividing the circumference by the diameter always gives about the same value, 3.14159… That value is called pi, written as the symbol π.</footer>
+</div>
+
+<script>
+  const svg = document.getElementById('svg');
+  const slider = document.getElementById('slider');
+  const dLabel = document.getElementById('dLabel');
+  const dInFormula = document.getElementById('dInFormula');
+  const resultNum = document.getElementById('resultNum');
+  const rollBtn = document.getElementById('rollBtn');
+  const factBox = document.getElementById('fact');
+
+  const PX_PER_CM = 20;
+  const baseY = 210;
+  const startX = 100;
+
+  function render(d, animate){
+    const rPx = (d*PX_PER_CM)/2;
+    const circumPx = Math.PI * d * PX_PER_CM;
+    const cx0 = startX;
+    const cy0 = baseY - rPx;
+
+    dLabel.textContent = d;
+    dInFormula.textContent = d;
+    const circumCm = Math.PI * d;
+    resultNum.innerHTML = `3.14<span>× (${circumCm.toFixed(1)}cm)</span>`;
+
+    const fullTurns = Math.floor(Math.PI);
+    const remainder = (Math.PI - fullTurns).toFixed(2);
+    factBox.innerHTML = `A circle with a diameter of <b>${d}cm</b> has a circumference of <b>${circumCm.toFixed(2)}cm</b>. That length is the diameter (${d}cm) fitting in <b>${fullTurns} whole times</b>, with <b>${remainder}×</b> left over.`;
+
+    let html = '';
+
+    html += `<line x1="${startX-rPx-20}" y1="${baseY}" x2="${startX+circumPx+40}" y2="${baseY}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+
+    let tickX = startX;
+    let tickCount = 0;
+    while(tickX <= startX + circumPx + 0.5){
+      const isLast = (startX+circumPx - tickX) < 1 && tickCount>0;
+      html += `<line x1="${tickX}" y1="${baseY-10}" x2="${tickX}" y2="${baseY+10}" stroke="var(--violet)" stroke-width="2"></line>`;
+      if(tickCount>0){
+        html += `<text class="tick-label" x="${tickX - (d*PX_PER_CM)/2}" y="${baseY+30}">${tickCount} diameter${tickCount>1?'s':''}</text>`;
+      } else {
+        html += `<text class="tick-label" x="${tickX}" y="${baseY+30}">0</text>`;
+      }
+      tickX += d*PX_PER_CM;
+      tickCount++;
+    }
+    const remStart = startX + (tickCount-1)*d*PX_PER_CM;
+    const remEnd = startX + circumPx;
+    if(remEnd > remStart + 4){
+      html += `<line x1="${remStart}" y1="${baseY}" x2="${remEnd}" y2="${baseY}" stroke="var(--coral)" stroke-width="4"></line>`;
+      html += `<text class="tick-label rem" x="${(remStart+remEnd)/2}" y="${baseY+30}">+${remainder}</text>`;
+    }
+    html += `<line x1="${remEnd}" y1="${baseY-10}" x2="${remEnd}" y2="${baseY+10}" stroke="var(--coral)" stroke-width="2"></line>`;
+
+    html += `<g id="rollGroup" style="transform-box:view-box;transform-origin:0 0;transform:translate(${cx0}px,${cy0}px) rotate(0deg);">
+        <circle cx="0" cy="0" r="${rPx}" fill="#fff" stroke="var(--ink)" stroke-width="3"></circle>
+        <line x1="0" y1="0" x2="0" y2="${rPx}" stroke="var(--coral)" stroke-width="3" stroke-linecap="round"></line>
+        <circle cx="0" cy="${rPx}" r="6" fill="var(--coral)"></circle>
+      </g>`;
+
+    svg.innerHTML = html;
+
+    const g = document.getElementById('rollGroup');
+    g.dataset.cx0 = cx0; g.dataset.cy0 = cy0; g.dataset.r = rPx; g.dataset.circum = circumPx;
+  }
+
+  function roll(){
+    const g = document.getElementById('rollGroup');
+    if(!g) return;
+    const cx0 = parseFloat(g.dataset.cx0), cy0 = parseFloat(g.dataset.cy0);
+    const circum = parseFloat(g.dataset.circum), r = parseFloat(g.dataset.r);
+    const rotDeg = (circum / r) * (180/Math.PI);
+    rollBtn.disabled = true;
+
+    g.style.transition = 'none';
+    g.style.transform = `translate(${cx0}px,${cy0}px) rotate(0deg)`;
+    g.getBoundingClientRect();
+
+    requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>{
+        g.style.transition = 'transform 2.8s cubic-bezier(.4,0,.2,1)';
+        g.style.transform = `translate(${cx0+circum}px,${cy0}px) rotate(${rotDeg}deg)`;
+      });
+    });
+
+    setTimeout(()=>{ rollBtn.disabled = false; }, 2900);
+  }
+
+  slider.addEventListener('input', (e)=> render(parseFloat(e.target.value), false));
+  rollBtn.addEventListener('click', roll);
+
+  render(4, false);
+</script>
+</body>
+</html>

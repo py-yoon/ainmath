@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Cylinders, Cones &amp; Spheres Lab</title>
+<meta name="description" content="Switch between a cylinder, cone, and sphere and see the names of parts like base, lateral surface, and slant height, plus their nets.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Cylinders, Cones & Spheres Lab">
+<meta property="og:description" content="Switch between a cylinder, cone, and sphere and see the names of parts like base, lateral surface, and slant height, plus their nets.">
+<meta property="og:url" content="https://ainmath.com/en/cylinder-cone-sphere.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cylinders, Cones & Spheres Lab">
+<meta name="twitter:description" content="Switch between a cylinder, cone, and sphere and see the names of parts like base, lateral surface, and slant height, plus their nets.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--violet-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.15fr 0.85fr;gap:32px;align-items:start;margin-bottom:24px;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+.canvas-area{display:flex;flex-direction:column;align-items:center;gap:16px;}
+svg{width:100%;max-width:340px;height:auto;overflow:visible;}
+.tab-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:9px 16px;cursor:pointer;transition:all .15s ease;}
+.tab-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.tab-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+.view-row{display:flex;gap:8px;}
+.view-btn{font-family:'Do Hyeon',sans-serif;font-size:14.5px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:7px 14px;cursor:pointer;transition:all .15s ease;}
+.view-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.view-btn.active{background:var(--violet-ink);border-color:var(--violet-ink);color:#fff;}
+.panel{display:flex;flex-direction:column;gap:16px;}
+.part-list{display:flex;flex-direction:column;gap:10px;}
+.part-item{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:12px 16px;font-size:14.5px;line-height:1.6;}
+.part-item b{color:var(--violet-ink);}
+.fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--violet-ink);}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--violet-ink);}
+.quiz-record{font-size:13px;color:var(--ink-soft);margin:-4px 0 16px;}
+.quiz-record b{color:var(--violet-ink);}
+.quiz-q{font-size:15.5px;line-height:1.7;text-align:center;background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:20px;margin-bottom:16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
+.action-btn:hover{background:var(--violet-ink);}
+
+.howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--violet-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="grade-5-6.html" style="color:var(--ink-soft);text-decoration:none;">← Back to all activities</a><a href="../cylinder-cone-sphere.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+    <a href="article-cylinder-cone-sphere.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 Read the article</a>
+  </div>
+  <span class="eyebrow">🥫 Cylinders, Cones &amp; Spheres Lab</span>
+  <h1>Round solids —<br>let's compare <span>all three</span></h1>
+  <p class="sub">Cylinders, cones, and spheres are all round solids, but they differ in how many bases they have and what shape those bases are.</p>
+
+  <div class="howto">
+    <p>Cylinders, cones, and spheres all have a round part, but counting their bases tells them apart for sure. A cylinder has <b>2</b> circular bases of the same size, top and bottom, wrapped by a curved side face. Cans and rolls of paper towels are classic cylinder shapes.</p>
+    <p>A cone has only <b>1</b> base, with its side face coming to a single pointed apex — just picture a party hat. A sphere has <b>0</b> flat faces at all — it's a perfectly round shape where the distance from the center to the surface is always the same, no matter the direction.</p>
+    <p>Click the net button and the differences become even clearer. A cylinder's side face unfolds into a rectangle, and a cone's side face unfolds into a sector (a pie-slice shape) — but no matter how you cut a sphere, it can never be flattened out.</p>
+  </div>
+
+  <div class="stage">
+    <div class="canvas-area">
+      <div class="tab-row" id="tabRow"></div>
+      <svg id="svg" viewBox="0 0 300 300"></svg>
+      <div class="view-row" id="viewRow"></div>
+    </div>
+
+    <div class="panel">
+      <div class="part-list" id="partList"></div>
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 Shape Guessing Quiz</h2>
+      <div class="progress-badge">Question <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · Correct <b id="scoreNum">0</b></div>
+    </div>
+<div class="quiz-record" id="quizRecord"></div>
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextQuizBtn">➡ Next question</button>
+  </div>
+
+            <!-- prev-next-nav -->
+  <nav aria-label="Go to another activity" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="prism-pyramid.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ Previous activity</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Prisms &amp; Pyramids Lab</span>
+    </a>
+    <a href="unit-cube-count.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">Next activity ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Counting Unit Cubes</span>
+    </a>
+  </nav>
+<footer>A sphere has no flat faces at all, so unlike other solids, there's no way to cut and unfold paper into a net for one — it's a special kind of solid.</footer>
+</div>
+
+<script>
+const svg = document.getElementById('svg');
+const tabRow = document.getElementById('tabRow');
+const viewRow = document.getElementById('viewRow');
+const partList = document.getElementById('partList');
+const factBox = document.getElementById('fact');
+
+const SHAPES = {
+  cylinder: {
+    label:'Cylinder', icon:'🥫',
+    parts:[
+      {name:'Base', desc:'2 congruent circles, top and bottom'},
+      {name:'Lateral surface', desc:'1 curved surface wrapping around the side'},
+      {name:'Height', desc:'The distance between the two bases'},
+    ],
+    fact:'A cylinder has 2 bases and 1 curved lateral surface. Unfolded, the lateral surface becomes a rectangle.'
+  },
+  cone: {
+    label:'Cone', icon:'🍦',
+    parts:[
+      {name:'Base', desc:'1 circle at the bottom'},
+      {name:'Lateral surface', desc:'1 curved surface wrapping around the side'},
+      {name:'Slant height', desc:'The segment from the apex to the edge of the base'},
+      {name:'Height', desc:'The distance from the apex straight down to the base'},
+    ],
+    fact:"A cone has only 1 base, with its side face coming together at a pointed apex. Unfolded, the lateral surface becomes a sector."
+  },
+  sphere: {
+    label:'Sphere', icon:'⚽',
+    parts:[
+      {name:'Center', desc:'The single point at the middle of the sphere'},
+      {name:'Radius', desc:'The distance from the center to the surface'},
+    ],
+    fact:'A sphere is a perfectly round solid with no flat faces at all. No matter which direction you slice it, the cross-section is always a circle.'
+  }
+};
+
+let shapeKey = 'cylinder';
+let view = '3d';
+
+function buildTabs(){
+  tabRow.innerHTML = Object.keys(SHAPES).map(k=>`<button class="tab-btn" data-k="${k}">${SHAPES[k].icon} ${SHAPES[k].label}</button>`).join('');
+  tabRow.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ shapeKey = btn.dataset.k; view='3d'; render(); });
+  });
+}
+function buildViewToggle(){
+  viewRow.innerHTML = `
+    <button class="view-btn" data-v="3d">🧊 3D view</button>
+    <button class="view-btn" data-v="net">📐 Net view</button>
+  `;
+  viewRow.querySelectorAll('.view-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ view = btn.dataset.v; render(); });
+  });
+}
+
+function draw3D(key){
+  const cx=150;
+  if(key==='cylinder'){
+    const rx=80, ry=22, topY=90, botY=210;
+    return `
+      <ellipse cx="${cx}" cy="${botY}" rx="${rx}" ry="${ry}" fill="var(--violet)" fill-opacity="0.5" stroke="var(--violet)" stroke-width="2"></ellipse>
+      <path d="M ${cx-rx} ${botY} A ${rx} ${ry} 0 0 1 ${cx+rx} ${botY} L ${cx+rx} ${topY} A ${rx} ${ry} 0 0 0 ${cx-rx} ${topY} Z" fill="var(--violet)" fill-opacity="0.55" stroke="var(--violet)" stroke-width="2"></path>
+      <ellipse cx="${cx}" cy="${topY}" rx="${rx}" ry="${ry}" fill="var(--violet-soft)" stroke="var(--violet)" stroke-width="2.5"></ellipse>
+      <line x1="${cx+rx+26}" y1="${topY}" x2="${cx+rx+26}" y2="${botY}" stroke="var(--ink-soft)" stroke-width="1.5" stroke-dasharray="3,3"></line>
+      <text x="${cx+rx+34}" y="${(topY+botY)/2+5}" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink-soft)">Height</text>
+    `;
+  }
+  if(key==='cone'){
+    const rx=80, ry=22, botY=220, apex=[cx,50];
+    return `
+      <line x1="${apex[0]}" y1="${apex[1]}" x2="${cx-rx}" y2="${botY}" stroke="var(--violet)" stroke-width="2.5"></line>
+      <line x1="${apex[0]}" y1="${apex[1]}" x2="${cx+rx}" y2="${botY}" stroke="var(--violet)" stroke-width="2.5"></line>
+      <ellipse cx="${cx}" cy="${botY}" rx="${rx}" ry="${ry}" fill="var(--violet-soft)" stroke="var(--violet)" stroke-width="2.5"></ellipse>
+      <line x1="${cx}" y1="${apex[1]}" x2="${cx}" y2="${botY}" stroke="var(--ink-soft)" stroke-width="1.5" stroke-dasharray="3,3"></line>
+      <circle cx="${apex[0]}" cy="${apex[1]}" r="4" fill="var(--coral)"></circle>
+      <text x="${(apex[0]+cx+rx)/2+14}" y="${(apex[1]+botY)/2-4}" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral)">Slant height</text>
+    `;
+  }
+  const r=90;
+  return `
+    <circle cx="${cx}" cy="150" r="${r}" fill="var(--violet-soft)" stroke="var(--violet)" stroke-width="2.5"></circle>
+    <ellipse cx="${cx}" cy="150" rx="${r}" ry="${r*0.3}" fill="none" stroke="var(--violet)" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.7"></ellipse>
+    <line x1="${cx}" y1="150" x2="${cx+r}" y2="150" stroke="var(--coral)" stroke-width="2"></line>
+    <circle cx="${cx}" cy="150" r="4" fill="var(--coral)"></circle>
+    <text x="${cx+r/2-10}" y="142" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral)">Radius</text>
+  `;
+}
+
+function drawNet(key){
+  const cx=150;
+  if(key==='cylinder'){
+    const rectW=170, rectH=80, r=27;
+    const rx0=cx-rectW/2, ry0=90;
+    return `
+      <rect x="${rx0}" y="${ry0}" width="${rectW}" height="${rectH}" fill="var(--violet-soft)" stroke="var(--violet)" stroke-width="2.5" rx="4"></rect>
+      <text x="${cx}" y="${ry0+rectH/2+5}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--violet)">Lateral surface (rectangle)</text>
+      <circle cx="${cx}" cy="${ry0-r-6}" r="${r}" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2.5"></circle>
+      <text x="${cx}" y="${ry0-r-2}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--blue)">Base</text>
+      <circle cx="${cx}" cy="${ry0+rectH+r+6}" r="${r}" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2.5"></circle>
+      <text x="${cx}" y="${ry0+rectH+r+10}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--blue)">Base</text>
+    `;
+  }
+  if(key==='cone'){
+    const R=110, cyc=110;
+    return `
+      <path d="M ${cx} ${cyc} L ${cx} ${cyc-R} A ${R} ${R} 0 0 1 ${cx+R*Math.sin(2.0)} ${cyc-R*Math.cos(2.0)} Z" fill="var(--violet-soft)" stroke="var(--violet)" stroke-width="2.5"></path>
+      <text x="${cx+20}" y="${cyc-30}" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--violet)">Lateral surface (sector)</text>
+      <circle cx="${cx}" cy="${cyc+70}" r="30" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2.5"></circle>
+      <text x="${cx}" y="${cyc+75}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--blue)">Base</text>
+    `;
+  }
+  return `<text x="150" y="150" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--ink-soft)">A sphere has no net</text>`;
+}
+
+function render(){
+  tabRow.querySelectorAll('.tab-btn').forEach(btn=>btn.classList.toggle('active', btn.dataset.k===shapeKey));
+  const netAvailable = shapeKey!=='sphere';
+  viewRow.querySelectorAll('.view-btn').forEach(btn=>{
+    btn.classList.toggle('active', btn.dataset.v===view);
+  });
+
+  svg.innerHTML = view==='3d' ? draw3D(shapeKey) : drawNet(shapeKey);
+
+  const s = SHAPES[shapeKey];
+  partList.innerHTML = s.parts.map(p=>`<div class="part-item"><b>${p.name}</b> — ${p.desc}</div>`).join('');
+  factBox.innerHTML = view==='net' && !netAvailable
+    ? `<b>A sphere has no net.</b> Since it has no flat faces at all, there's no way to fold paper into a net for it in the first place.`
+    : s.fact;
+}
+
+buildTabs();
+buildViewToggle();
+render();
+
+// ---------- Quiz ----------
+const QUIZ_POOL = [
+  { q:'Which shape has 2 bases and a curved side face?', a:'Cylinder' },
+  { q:'Which shape has 1 base and a pointed apex?', a:'Cone' },
+  { q:'Which shape has no flat faces at all?', a:'Sphere' },
+  { q:'Which shape unfolds into a rectangle for its side face?', a:'Cylinder' },
+  { q:'Which shape unfolds into a sector for its side face?', a:'Cone' },
+  { q:'Which shape always has a circular cross-section, no matter which way you slice it?', a:'Sphere' },
+  { q:'Which shape has a slant height, a segment connecting the apex to the edge of the base?', a:'Cone' },
+];
+
+const quizQ = document.getElementById('quizQ');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextQuizBtn = document.getElementById('nextQuizBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+
+const QUIZ_KEY = 'ainmath_quiz_v1';
+const QUIZ_ID = 'cylinder-cone-sphere';
+const quizRecordEl = document.getElementById('quizRecord');
+
+function loadQuizRecord(){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    return all[QUIZ_ID] || null;
+  }catch(e){ return null; }
+}
+
+function saveQuizRecord(finalScore){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    const prev = all[QUIZ_ID] || { best:0, plays:0 };
+    all[QUIZ_ID] = {
+      best: Math.max(prev.best||0, finalScore),
+      total: TOTAL_QUESTIONS,
+      plays: (prev.plays||0) + 1,
+      last: finalScore,
+      updatedAt: Date.now()
+    };
+    localStorage.setItem(QUIZ_KEY, JSON.stringify(all));
+  }catch(e){}
+}
+
+function renderQuizRecord(){
+  if(!quizRecordEl) return;
+  const rec = loadQuizRecord();
+  quizRecordEl.textContent = rec
+    ? `📌 Best score: ${rec.best}/${rec.total} · played ${rec.plays} time(s)`
+    : '';
+}
+renderQuizRecord();
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+const TOTAL_QUESTIONS = 10;
+let score = 0, answered = false, quizAnswer = '', questionIndex = 0, quizFinished = false;
+let usedQuestions = [];
+
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
+
+function buildQuizCandidate(){
+  const item = QUIZ_POOL[Math.floor(Math.random()*QUIZ_POOL.length)];
+  const opts = ['Cylinder','Cone','Sphere'].sort(()=>Math.random()-0.5);
+  return { text: item.q, answer: item.a, opts };
+}
+
+function newQuizQuestion(){
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
+  answered = false;
+  quizFeedback.textContent = '';
+  qIdxNumEl.textContent = questionIndex;
+  nextQuizBtn.textContent = questionIndex >= TOTAL_QUESTIONS ? '🏁 See results' : '➡ Next question';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildQuizCandidate();
+    attempts++;
+  } while(usedQuestions.includes(candidate.text) && attempts < 30);
+  usedQuestions.push(candidate.text);
+
+  quizAnswer = candidate.answer;
+  quizQ.textContent = candidate.text;
+  renderOpts(candidate.opts);
+}
+
+function renderOpts(opts){
+  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${o}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered = true;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      if(btn.dataset.o===quizAnswer){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 Correct!`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `Not quite! The answer was "${quizAnswer}".`;
+      }
+      scoreNumEl.textContent = score;
+    });
+  });
+}
+
+function showQuizResult(){
+  quizFinished = true;
+  saveQuizRecord(score);
+  renderQuizRecord();
+  quizQ.style.display = 'none';
+  quizOpts.style.display = 'none';
+  nextQuizBtn.textContent = '🔄 Play again';
+  quizFeedback.innerHTML = `🏁 Quiz complete! You got <b>${score}</b> out of ${TOTAL_QUESTIONS} correct.`;
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  quizQ.style.display = '';
+  quizOpts.style.display = '';
+  newQuizQuestion();
+}
+
+nextQuizBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newQuizQuestion(); }
+});
+newQuizQuestion();
+</script>
+</body>
+</html>

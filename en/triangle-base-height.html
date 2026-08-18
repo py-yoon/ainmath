@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Triangle Base &amp; Height Lab</title>
+<meta name="description" content="Move the apex to make acute, right, and obtuse triangles — as long as the base and height stay the same, the area always stays the same. Verify it two ways.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Triangle Base & Height Lab">
+<meta property="og:description" content="Move the apex to make acute, right, and obtuse triangles — as long as the base and height stay the same, the area always stays the same. Verify it two ways.">
+<meta property="og:url" content="https://ainmath.com/en/triangle-base-height.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Triangle Base & Height Lab">
+<meta name="twitter:description" content="Move the apex to make acute, right, and obtuse triangles — as long as the base and height stay the same, the area always stays the same. Verify it two ways.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+  --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1040px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:66ch;margin:0 0 28px;}
+.howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 22px;}
+.howto b{color:var(--violet-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.2fr 0.8fr;gap:32px;align-items:start;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+.canvas-area{display:flex;flex-direction:column;align-items:center;gap:16px;}
+svg{width:100%;max-width:480px;height:auto;overflow:visible;}
+.legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-size:12.5px;color:var(--ink-soft);}
+.legend span{display:inline-flex;align-items:center;gap:6px;}
+.swatch{width:12px;height:12px;border-radius:3px;display:inline-block;}
+.swatch.dashed{background:transparent;border:2px dashed var(--ink-soft);}
+.preset-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;width:100%;max-width:420px;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:13.5px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:10px;padding:8px 12px;cursor:pointer;transition:all .15s ease;flex:1;min-width:100px;}
+.preset-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.preset-btn.active{background:var(--violet-ink);border-color:var(--violet-ink);color:#fff;}
+.control-row{width:100%;max-width:420px;display:flex;flex-direction:column;gap:8px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:20px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--violet-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+.panel{display:flex;flex-direction:column;gap:16px;}
+.class-badge{font-family:'Do Hyeon',sans-serif;font-size:18px;text-align:center;padding:10px;border-radius:14px;transition:all .2s ease;}
+.class-badge.acute{background:var(--green-soft);color:var(--green-ink);}
+.class-badge.right{background:var(--blue-soft);color:var(--blue-ink);}
+.class-badge.obtuse{background:var(--coral-soft);color:var(--coral-ink);}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:18px 20px;text-align:center;}
+.equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(14px,2.2vw,16px);color:var(--ink-soft);margin-bottom:4px;}
+.equation .result{font-family:'Do Hyeon',sans-serif;font-size:clamp(22px,3.6vw,28px);color:var(--coral-ink);}
+.equation .divider{margin:10px 0;border-top:1px dashed var(--paper-line);}
+.fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--violet-ink);}
+footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="grade-5-6.html" style="color:var(--ink-soft);text-decoration:none;">← Back to all activities</a><a href="../triangle-base-height.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+    <a href="article-triangle-base-height.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 Read the article</a>
+  </div>
+  <span class="eyebrow">📐 Triangle Base &amp; Height Lab</span>
+  <h1>The shape changes completely,<br>but <span>the area stays the same</span></h1>
+  <p class="sub">Drag the slider to move vertex C sideways. The shape completely changes across acute, right, and obtuse triangles, but as long as base AB and height h stay the same, the area never changes.</p>
+
+  <div class="howto">
+    <p>Ever wonder why the triangle area formula is (base×height)÷2? Draw a parallelogram with the same base and height, and its area turns out to be exactly double the triangle's. That's because flipping a congruent copy of the triangle upside down and attaching it makes exactly a parallelogram.</p>
+    <p><b>Why does that work?</b> The triangle area formula is (base × height) ÷ 2. No matter where C sits on the dashed line parallel to the base, its perpendicular distance from base AB (the height) is always the same. Since neither number that goes into the formula (base, height) changes, the area doesn't change either.</p>
+    <p>Move vertex C with the slider and watch the triangle completely change shape between acute, right, and obtuse — while checking whether the number representing the area stays exactly the same.</p>
+  </div>
+
+  <div class="stage">
+    <div class="canvas-area">
+      <svg id="svg" viewBox="0 0 480 260"></svg>
+      <div class="legend">
+        <span><i class="swatch" style="background:var(--violet)"></i>Triangle ABC</span>
+        <span><i class="swatch dashed"></i>Height (perpendicular distance)</span>
+        <span><i class="swatch" style="background:var(--blue)"></i>Copy rotated 180° and attached</span>
+      </div>
+      <div class="preset-row" id="presetRow"></div>
+      <div class="preset-row" style="margin-top:-6px;">
+        <button class="preset-btn active" id="toggleParaBtn" style="flex:none;min-width:220px;">🔲 Show half as a parallelogram</button>
+      </div>
+      <div class="control-row">
+        <div class="control-label"><span>Position of vertex C</span><b id="cxLabel">3.0</b></div>
+        <input id="sliderCx" type="range" min="-5" max="11" value="3" step="0.1">
+      </div>
+    </div>
+    <div class="panel">
+      <div class="class-badge" id="classBadge"></div>
+      <div class="equation">
+        <div class="formula">Method 1: (base × height) ÷ 2</div>
+        <div class="result" id="result1"></div>
+        <div class="divider"></div>
+        <div class="formula">Method 2: computed from coordinates (shoelace formula)</div>
+        <div class="result" id="result2"></div>
+        <div class="divider"></div>
+        <div class="formula">Method 3: parallelogram area ÷ 2</div>
+        <div class="result" id="result3"></div>
+      </div>
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+      <!-- prev-next-nav -->
+  <nav aria-label="Go to another activity" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="geoboard-area.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ Previous activity</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Geoboard Area Puzzle</span>
+    </a>
+    <a href="pi-circumference.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">Next activity ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Pi &amp; Circumference Lab</span>
+    </a>
+  </nav>
+<footer>This principle keeps coming up later when you use a triangle's area to derive area formulas for other shapes (trapezoids, polygons). Also remember: if two triangles share the same base and height, their areas must be equal no matter how different their side lengths or angles are — a shortcut that comes in handy on many problems.</footer>
+</div>
+
+<script>
+const svg = document.getElementById('svg');
+const sliderCx = document.getElementById('sliderCx');
+const cxLabel = document.getElementById('cxLabel');
+const classBadge = document.getElementById('classBadge');
+const result1 = document.getElementById('result1');
+const result2 = document.getElementById('result2');
+const result3 = document.getElementById('result3');
+const factBox = document.getElementById('fact');
+const presetRow = document.getElementById('presetRow');
+const toggleParaBtn = document.getElementById('toggleParaBtn');
+let showPara = true;
+
+const A = {x:0, y:0}, B = {x:6, y:0};
+const H = 4;
+const BASE = 6;
+
+const PRESETS = [
+  {label:'Acute triangle', cx:3},
+  {label:'Right triangle', cx:0},
+  {label:'Obtuse triangle', cx:-3},
+];
+
+function buildPresets(){
+  presetRow.innerHTML = PRESETS.map(p=>`<button class="preset-btn" data-cx="${p.cx}">${p.label}</button>`).join('');
+  presetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      sliderCx.value = btn.dataset.cx;
+      render();
+    });
+  });
+}
+
+function fmt(v){ return (Math.round(v*100)/100).toString(); }
+
+function angleAt(P, Q, R){
+  const v1 = {x:Q.x-P.x, y:Q.y-P.y};
+  const v2 = {x:R.x-P.x, y:R.y-P.y};
+  const dot = v1.x*v2.x + v1.y*v2.y;
+  const m1 = Math.hypot(v1.x,v1.y), m2 = Math.hypot(v2.x,v2.y);
+  return Math.acos(Math.max(-1,Math.min(1,dot/(m1*m2))))*180/Math.PI;
+}
+
+const SCALE = 22, ORIGIN_X = 190, ORIGIN_Y = 210;
+function toSvg(x,y){ return {x: ORIGIN_X + x*SCALE, y: ORIGIN_Y - y*SCALE}; }
+
+function render(){
+  const cx = parseFloat(sliderCx.value);
+  cxLabel.textContent = fmt(cx);
+  const C = {x:cx, y:H};
+
+  const a1 = angleAt(A,B,C), a2 = angleAt(B,A,C), a3 = 180-a1-a2;
+  const maxAngle = Math.max(a1,a2,a3);
+  let cls, clsLabel, clsEmoji;
+  if(Math.abs(maxAngle-90) < 0.5){ cls='right'; clsLabel='right triangle'; clsEmoji='📐'; }
+  else if(maxAngle > 90){ cls='obtuse'; clsLabel='obtuse triangle'; clsEmoji='📏'; }
+  else { cls='acute'; clsLabel='acute triangle'; clsEmoji='🔺'; }
+  classBadge.className = 'class-badge ' + cls;
+  classBadge.textContent = `${clsEmoji} This is now an ${clsLabel}`;
+
+  const sA = toSvg(A.x,A.y), sB = toSvg(B.x,B.y), sC = toSvg(C.x,C.y);
+  const footX = toSvg(cx, 0);
+
+  let html = '';
+  html += `<line x1="${toSvg(-5,0).x}" y1="${sA.y}" x2="${toSvg(11,0).x}" y2="${sA.y}" stroke="var(--paper-line)" stroke-width="1.5"></line>`;
+  html += `<line x1="${toSvg(-5,H).x}" y1="${sC.y}" x2="${toSvg(11,H).x}" y2="${sC.y}" stroke="var(--paper-line)" stroke-width="1.5" stroke-dasharray="4 4"></line>`;
+
+  html += `<line x1="${sC.x}" y1="${sC.y}" x2="${footX.x}" y2="${footX.y}" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="6 4"></line>`;
+  const outsideBase = cx < 0 || cx > BASE;
+  if(outsideBase){
+    html += `<circle cx="${footX.x}" cy="${footX.y}" r="4" fill="var(--coral-ink)"></circle>`;
+  } else {
+    const size=9;
+    html += `<polyline points="${footX.x-size},${footX.y} ${footX.x-size},${footX.y-size} ${footX.x},${footX.y-size}" fill="none" stroke="var(--ink-soft)" stroke-width="1.5"></polyline>`;
+  }
+
+  const Ap = {x: B.x+C.x-A.x, y: B.y+C.y-A.y};
+  const sAp = toSvg(Ap.x, Ap.y);
+  if(showPara){
+    html += `<polygon points="${sAp.x},${sAp.y} ${sC.x},${sC.y} ${sB.x},${sB.y}" fill="var(--blue)" fill-opacity="0.22" stroke="var(--blue-ink)" stroke-width="2" stroke-dasharray="5 4"></polygon>`;
+    html += `<line x1="${sB.x}" y1="${sB.y}" x2="${sAp.x}" y2="${sAp.y}" stroke="var(--blue-ink)" stroke-width="2" stroke-dasharray="5 4"></line>`;
+    html += `<line x1="${sC.x}" y1="${sC.y}" x2="${sAp.x}" y2="${sAp.y}" stroke="var(--blue-ink)" stroke-width="2" stroke-dasharray="5 4"></line>`;
+    html += `<circle cx="${sAp.x}" cy="${sAp.y}" r="4" fill="var(--blue-ink)"></circle>`;
+    html += `<text x="${sAp.x}" y="${sAp.y + (Ap.y>=H?-10:20)}" text-anchor="middle" font-family="Do Hyeon" font-size="13" fill="var(--blue-ink)">A'</text>`;
+  }
+
+  html += `<polygon points="${sA.x},${sA.y} ${sB.x},${sB.y} ${sC.x},${sC.y}" fill="var(--violet)" fill-opacity="0.28" stroke="var(--violet-ink)" stroke-width="2.5"></polygon>`;
+
+  [[sA,'A'],[sB,'B'],[sC,'C']].forEach(([p,label])=>{
+    html += `<circle cx="${p.x}" cy="${p.y}" r="5" fill="var(--ink)"></circle>`;
+    const dy = label==='C' ? -12 : 18;
+    html += `<text x="${p.x}" y="${p.y+dy}" text-anchor="middle" font-family="Do Hyeon" font-size="15" fill="var(--ink)">${label}</text>`;
+  });
+
+  html += `<text x="${(sA.x+sB.x)/2}" y="${sA.y+34}" text-anchor="middle" font-family="Do Hyeon" font-size="13" fill="var(--ink-soft)">base = ${BASE}</text>`;
+  html += `<text x="${footX.x+14}" y="${(sC.y+footX.y)/2}" text-anchor="start" font-family="Do Hyeon" font-size="13" fill="var(--ink-soft)">height = ${H}</text>`;
+
+  svg.innerHTML = html;
+
+  const area1 = BASE*H/2;
+  const area2 = Math.abs(A.x*(B.y-C.y) + B.x*(C.y-A.y) + C.x*(A.y-B.y))/2;
+  const paraArea = BASE*H;
+
+  result1.innerHTML = `${BASE} × ${H} ÷ 2 = <b>${fmt(area1)}</b>`;
+  result2.innerHTML = `= <b>${fmt(area2)}</b>`;
+  result3.innerHTML = `${paraArea} ÷ 2 = <b>${fmt(paraArea/2)}</b>`;
+
+  const footNote = outsideBase
+    ? `Right now C sits <b>outside</b> segment AB, so the foot of the height (the red dot) has moved past the base segment. But the perpendicular distance from C to the line through the base is still exactly ${H} — this is the part that trips people up with obtuse triangles.`
+    : `Right now the foot of the height sits inside segment AB.`;
+
+  const paraNote = showPara
+    ? ` Rotating triangle ABC 180° around the midpoint of side BC and attaching it on the other side (blue dashed) creates a <b>parallelogram</b> with base ${BASE} and height ${H}. That parallelogram's area is simply base×height=${paraArea}, and the original triangle is exactly <b>half</b> of it — that's why the triangle area formula has a ÷2.`
+    : '';
+
+  factBox.innerHTML = `Even though it's now an ${clsLabel}, both methods give the same area of <b>${fmt(area1)}</b>. ${footNote}${paraNote}`;
+}
+toggleParaBtn.addEventListener('click', ()=>{
+  showPara = !showPara;
+  toggleParaBtn.classList.toggle('active', showPara);
+  render();
+});
+sliderCx.addEventListener('input', render);
+buildPresets();
+render();
+</script>
+</body>
+</html>

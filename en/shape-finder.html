@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Shape Finder</title>
+<meta name="description" content="Pick a shape and count its sides and vertices one by one, then try a name-guessing quiz.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Shape Finder">
+<meta property="og:description" content="Pick a shape and count its sides and vertices one by one, then try a name-guessing quiz.">
+<meta property="og:url" content="https://ainmath.com/en/shape-finder.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Shape Finder">
+<meta name="twitter:description" content="Pick a shape and count its sides and vertices one by one, then try a name-guessing quiz.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:17px;line-height:1.8;max-width:64ch;margin:0 0 28px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.15fr 0.85fr;gap:32px;align-items:start;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+.canvas-area{display:flex;flex-direction:column;align-items:center;gap:18px;}
+svg{width:100%;max-width:340px;height:auto;overflow:visible;}
+.shape-picker{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;max-width:420px;}
+.shape-btn{font-family:'Do Hyeon',sans-serif;font-size:20px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:16px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.shape-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.shape-btn.active{background:var(--violet-ink);border-color:var(--violet-ink);color:#fff;}
+.shape-btn:focus-visible{outline:4px solid var(--coral);outline-offset:2px;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:20px;background:var(--ink);color:#fff;border:none;border-radius:16px;padding:14px 20px;cursor:pointer;width:100%;max-width:420px;transition:transform .15s ease, background .2s ease;}
+.action-btn:hover{background:var(--violet-ink);}
+.action-btn:active{transform:scale(0.97);}
+.action-btn:focus-visible{outline:4px solid var(--coral);outline-offset:2px;}
+.vertex-label{font-family:'Do Hyeon',sans-serif;font-size:20px;fill:#fff;text-anchor:middle;dominant-baseline:middle;}
+.panel{display:flex;flex-direction:column;gap:18px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:22px 20px;text-align:center;}
+.equation .big{font-family:'Do Hyeon',sans-serif;font-size:clamp(30px,5vw,40px);color:var(--violet);line-height:1.4;}
+.equation .big b{color:var(--coral-ink);}
+.quiz-box{background:var(--violet-soft);border-radius:18px;padding:20px;}
+.progress-badge{display:block;text-align:center;font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:#fff;border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;margin:0 auto 14px;width:fit-content;}
+.progress-badge b{color:var(--violet-ink);}
+.quiz-record{font-size:13px;color:var(--ink-soft);margin:-4px 0 16px;}
+.quiz-record b{color:var(--violet-ink);}
+.quiz-q{font-family:'Do Hyeon',sans-serif;font-size:19px;color:var(--ink);margin-bottom:14px;text-align:center;}
+.quiz-opts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.quiz-btn{font-family:'Do Hyeon',sans-serif;font-size:22px;width:60px;height:60px;border-radius:16px;background:#fff;border:3px solid var(--paper-line);color:var(--ink);cursor:pointer;transition:all .15s ease;}
+.quiz-btn:hover{border-color:var(--violet-ink);}
+.quiz-btn.correct{background:var(--green-ink);border-color:var(--green-ink);color:#fff;}
+.quiz-btn.wrong{background:var(--coral-ink);border-color:var(--coral-ink);color:#fff;}
+.quiz-btn:focus-visible{outline:4px solid var(--coral);outline-offset:2px;}
+.quiz-feedback{margin-top:14px;text-align:center;font-family:'Do Hyeon',sans-serif;font-size:18px;color:var(--ink-soft);min-height:26px;}
+.read-btn{display:block;margin:0 auto 14px;font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--blue-soft);color:var(--blue-ink);border:2px solid transparent;border-radius:999px;padding:7px 14px;cursor:pointer;transition:all .15s ease;}
+.read-btn:hover{filter:brightness(0.96);}
+.read-btn:focus-visible{outline:3px solid var(--violet);outline-offset:2px;}
+.howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--violet-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="elementary.html" style="color:var(--ink-soft);text-decoration:none;">← Back to all activities</a>
+    <a href="article-shape-finder.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:6px 12px;border-radius:999px;">📖 Read the article</a>
+    <a href="../shape-finder.html" style="color:var(--ink-soft);text-decoration:none;font-size:12.5px;background:var(--violet-soft);padding:4px 10px;border-radius:999px;">한국어 →</a>
+  </div>
+  <span class="eyebrow">◈ Shape Finder</span>
+  <h1>How many sides?<br>Tap a shape and <span>count them!</span></h1>
+  <p class="sub">Tap a shape button to pick a shape. Press "Count the sides!" and we'll count the sides and vertices one by one. Once you're done counting, try the quiz!</p>
+
+  <div class="howto">
+    <p>Why is a triangle called a "triangle"? The answer is simple — it has 3 straight lines (sides), and 3 sharp points (vertices) where those sides meet. A square has 4 sides and 4 vertices. For shapes like triangles, squares, pentagons, and hexagons, the number of sides always matches the number of vertices.</p>
+    <p>A circle is a bit special. It has no straight sides and no sharp vertices — it's made of just one smooth curve from start to end. That's why a circle is classified differently from a triangle or square. Interestingly, the more sides a shape has, the rounder it starts to look, more and more like a circle.</p>
+    <p>Tap a shape and press "Count the sides!" to count the sides and vertices one by one, and see for yourself whether the counts always match.</p>
+  </div>
+
+  <div class="stage">
+    <div class="canvas-area">
+      <div class="shape-picker" id="shapePicker"></div>
+      <svg id="svg" viewBox="0 0 320 320"></svg>
+      <button class="action-btn" id="countBtn">🔍 Count the sides!</button>
+    </div>
+
+    <div class="panel">
+      <div class="equation">
+        <div class="big" id="resultLine">Pick a shape</div>
+      </div>
+      <div class="quiz-box">
+        <div class="progress-badge">Question <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · Correct <b id="scoreNum">0</b></div>
+<div class="quiz-record" id="quizRecord"></div>
+        <div class="quiz-q" id="quizQ">How many sides does this shape have?</div>
+        <button class="read-btn" id="readBtn" type="button">🔊 Read the question aloud</button>
+        <div class="quiz-opts" id="quizOpts"></div>
+        <div class="quiz-feedback" id="quizFeedback"></div>
+        <button class="action-btn" id="quizRetryBtn" type="button" style="display:none;margin-top:14px;">🔄 Play again</button>
+      </div>
+    </div>
+  </div>
+
+            <!-- prev-next-nav -->
+  <nav aria-label="Go to another activity" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="pattern-finder.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ Previous activity</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Pattern Finder</span>
+    </a>
+    <a href="solid-shape-families.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">Next activity ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Solid Shape Families</span>
+    </a>
+  </nav>
+<footer>A triangle has 3 sides, a square has 4 sides, and a circle has no straight sides at all. Counting the sides is an easy way to tell what a shape is called.</footer>
+</div>
+
+<script>
+function beep(freq, dur, type){
+  try{
+    const ctx = beep.ctx || (beep.ctx = new (window.AudioContext||window.webkitAudioContext)());
+    const osc = ctx.createOscillator(); const gain = ctx.createGain();
+    osc.type = type||'sine'; osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+dur);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(); osc.stop(ctx.currentTime+dur);
+  }catch(e){}
+}
+function playCorrect(){ beep(660,0.12); setTimeout(()=>beep(880,0.18),120); }
+function playWrong(){ beep(220,0.25,'sawtooth'); }
+function speakText(text){
+  try{
+    if(!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US'; u.rate = 0.9;
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+const svg = document.getElementById('svg');
+const shapePicker = document.getElementById('shapePicker');
+const countBtn = document.getElementById('countBtn');
+const resultLine = document.getElementById('resultLine');
+const quizQ = document.getElementById('quizQ');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const readBtn = document.getElementById('readBtn');
+readBtn.addEventListener('click', ()=> speakText(quizQ.textContent));
+const scoreNumEl = document.getElementById('scoreNum');
+
+const QUIZ_KEY = 'ainmath_quiz_v1';
+const QUIZ_ID = 'shape-finder';
+const quizRecordEl = document.getElementById('quizRecord');
+
+function loadQuizRecord(){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    return all[QUIZ_ID] || null;
+  }catch(e){ return null; }
+}
+
+function saveQuizRecord(finalScore){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    const prev = all[QUIZ_ID] || { best:0, plays:0 };
+    all[QUIZ_ID] = {
+      best: Math.max(prev.best||0, finalScore),
+      total: TOTAL_QUESTIONS,
+      plays: (prev.plays||0) + 1,
+      last: finalScore,
+      updatedAt: Date.now()
+    };
+    localStorage.setItem(QUIZ_KEY, JSON.stringify(all));
+  }catch(e){}
+}
+
+function renderQuizRecord(){
+  if(!quizRecordEl) return;
+  const rec = loadQuizRecord();
+  quizRecordEl.textContent = rec
+    ? `📌 Best score: ${rec.best}/${rec.total} · played ${rec.plays} time(s)`
+    : '';
+}
+renderQuizRecord();
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+const quizRetryBtn = document.getElementById('quizRetryBtn');
+const TOTAL_QUESTIONS = 10;
+
+const SHAPES = [
+  {n:0, name:'circle', icon:'⚪'},
+  {n:3, name:'triangle', icon:'△'},
+  {n:4, name:'square', icon:'□'},
+  {n:5, name:'pentagon', icon:'⬠'},
+  {n:6, name:'hexagon', icon:'⬡'},
+];
+let currentIdx = 1;
+let counting = false;
+let score = 0, questionIndex = 0, quizFinished = false;
+let usedQuestions = [];
+
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
+
+function buildPicker(){
+  shapePicker.innerHTML = SHAPES.map((s,i)=>`<button class="shape-btn${i===currentIdx?' active':''}" data-i="${i}">${s.icon} ${s.name}</button>`).join('');
+  shapePicker.querySelectorAll('.shape-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(quizFinished) return;
+      buildQuiz(parseInt(btn.dataset.i));
+    });
+  });
+}
+
+function polyLocalPoints(n, L){
+  if(n===0) return [];
+  const interior = (n-2)*180/n;
+  const exterior = 180 - interior;
+  let angle = 90, x=0, y=0;
+  const pts = [[x,y]];
+  for(let i=0;i<n-1;i++){
+    x += L*Math.cos(angle*Math.PI/180);
+    y += L*Math.sin(angle*Math.PI/180);
+    pts.push([x,y]);
+    angle += exterior;
+  }
+  return pts;
+}
+
+function drawShape(basic){
+  const s = SHAPES[currentIdx];
+  const CX=160, CY=170;
+  let html = '';
+  if(s.n===0){
+    html += `<circle cx="${CX}" cy="${CY}" r="90" fill="var(--violet)" fill-opacity="0.25" stroke="var(--violet)" stroke-width="5"></circle>`;
+  } else {
+    const L = s.n<=4 ? 130 : 95;
+    const pts = polyLocalPoints(s.n, L);
+    const avgX = pts.reduce((a,p)=>a+p[0],0)/pts.length;
+    const avgY = pts.reduce((a,p)=>a+p[1],0)/pts.length;
+    const worldPts = pts.map(([x,y])=>[CX+(x-avgX), CY-(y-avgY)]);
+    html += `<polygon points="${worldPts.map(p=>p.join(',')).join(' ')}" fill="var(--violet)" fill-opacity="0.25" stroke="var(--violet)" stroke-width="5"></polygon>`;
+    if(basic && basic.showVerts){
+      worldPts.forEach((p,i)=>{
+        html += `<circle cx="${p[0]}" cy="${p[1]}" r="16" fill="var(--coral)" class="vpt" data-i="${i}" opacity="0"></circle>`;
+        html += `<text class="vertex-label" x="${p[0]}" y="${p[1]}" data-i="${i}" opacity="0">${i+1}</text>`;
+      });
+    }
+  }
+  svg.innerHTML = html;
+  resultLine.textContent = `You picked ${s.icon} ${s.name}`;
+}
+
+function countShape(){
+  if(counting) return;
+  const s = SHAPES[currentIdx];
+  if(s.n===0){
+    resultLine.innerHTML = `⚪ A circle has <b>0 straight sides</b>! It's just one smooth round curve.`;
+    return;
+  }
+  counting = true;
+  drawShape({showVerts:true});
+  const verts = svg.querySelectorAll('.vpt');
+  const labels = svg.querySelectorAll('.vertex-label');
+  verts.forEach((v,i)=>{
+    setTimeout(()=>{
+      v.setAttribute('opacity','1');
+      labels[i].setAttribute('opacity','1');
+      resultLine.innerHTML = `Counting... <b>${i+1}</b>`;
+      if(i===verts.length-1){
+        setTimeout(()=>{
+          resultLine.innerHTML = `${s.icon} A ${s.name} has <b>${s.n} sides</b> and <b>${s.n} vertices</b>!`;
+          counting = false;
+        }, 500);
+      }
+    }, i*450);
+  });
+}
+
+function buildQuiz(forceIdx){
+  if(quizFinished) return;
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
+  qIdxNumEl.textContent = questionIndex;
+
+  let idx = forceIdx;
+  if(idx===undefined){
+    let attempts = 0;
+    do {
+      idx = Math.floor(Math.random()*SHAPES.length);
+      attempts++;
+    } while(usedQuestions.includes(SHAPES[idx].name) && attempts < 30);
+  }
+  currentIdx = idx;
+  usedQuestions.push(SHAPES[currentIdx].name);
+  buildPicker();
+  drawShape();
+
+  const s = SHAPES[currentIdx];
+  quizFeedback.textContent = '';
+  if(s.n===0){
+    quizQ.textContent = 'How many straight sides does a circle have?';
+    const opts = [0,1,2,3];
+    renderQuizOpts(opts, 0);
+  } else {
+    quizQ.textContent = `How many sides does a ${s.name} have?`;
+    const correct = s.n;
+    const pool = new Set([correct]);
+    while(pool.size<4){ pool.add(2+Math.floor(Math.random()*7)); }
+    const opts = Array.from(pool).sort(()=>Math.random()-0.5);
+    renderQuizOpts(opts, correct);
+  }
+}
+
+function renderQuizOpts(opts, correct){
+  quizOpts.innerHTML = opts.map(o=>`<button class="quiz-btn" data-v="${o}">${o}</button>`).join('');
+  quizOpts.querySelectorAll('.quiz-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const val = parseInt(btn.dataset.v);
+      quizOpts.querySelectorAll('.quiz-btn').forEach(b=>b.disabled=true);
+      if(val===correct){
+        score++;
+        scoreNumEl.textContent = score;
+        btn.classList.add('correct');
+        quizFeedback.textContent = '🎉 Correct! Great job!';
+        playCorrect();
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-v="${correct}"]`).classList.add('correct');
+        quizFeedback.textContent = `Not quite! The answer was ${correct}.`;
+        playWrong();
+      }
+      setTimeout(()=>{
+        quizOpts.querySelectorAll('.quiz-btn').forEach(b=>b.disabled=false);
+        buildQuiz();
+      }, 1400);
+    });
+  });
+}
+
+function showQuizResult(){
+  quizFinished = true;
+  saveQuizRecord(score);
+  renderQuizRecord();
+  quizQ.textContent = `🏁 Quiz complete! You got ${score} out of ${TOTAL_QUESTIONS} correct.`;
+  quizOpts.innerHTML = '';
+  quizFeedback.textContent = '';
+  quizRetryBtn.style.display = 'block';
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  quizRetryBtn.style.display = 'none';
+  buildQuiz();
+}
+
+quizRetryBtn.addEventListener('click', resetQuiz);
+countBtn.addEventListener('click', countShape);
+buildPicker();
+drawShape();
+buildQuiz();
+</script>
+</body>
+</html>

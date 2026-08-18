@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>You Can Compare Without Numbers — Comparing Things | AINMATH</title>
+<meta name="description" content="Length, weight, area, and volume can all be compared just by looking. Let's build a sense for comparing before learning units of measurement.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="You Can Compare Without Numbers — Comparing Things | AINMATH">
+<meta property="og:description" content="Length, weight, area, and volume can all be compared just by looking. Let's build a sense for comparing before learning units of measurement.">
+<meta property="og:url" content="https://ainmath.com/en/article-comparison-basics.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="You Can Compare Without Numbers — Comparing Things | AINMATH">
+<meta name="twitter:description" content="Length, weight, area, and volume can all be compared just by looking. Let's build a sense for comparing before learning units of measurement.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:760px;margin:0 auto;}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-soft);text-decoration:none;margin-bottom:18px;}
+.back-link:hover{color:var(--coral-ink);}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,40px);line-height:1.3;margin:0 0 14px;}
+h1 span{color:var(--coral-ink);}
+.meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 8px;}
+.sub{color:var(--ink-soft);font-size:16.5px;line-height:1.75;margin:0 0 30px;}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;}
+.cta{font-family:'Do Hyeon',sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:999px;transition:all .15s ease;}
+.cta.primary{background:var(--coral-ink);color:#fff;}
+.cta.primary:hover{filter:brightness(1.06);}
+.cta.secondary{background:var(--card);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.cta.secondary:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
+article{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:clamp(24px,5vw,44px);}
+h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:22px;color:var(--ink);margin:34px 0 14px;}
+h2:first-child{margin-top:0;}
+h2 .num{color:var(--coral-ink);margin-right:8px;}
+p{font-size:17px;line-height:1.95;color:var(--ink);margin:0 0 16px;}
+p:last-child{margin-bottom:0;}
+.grid4{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0;}
+.grid4 .box{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.6;}
+.grid4 .box b{display:block;font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--coral-ink);margin-bottom:4px;}
+.callout{background:var(--coral-soft);border-radius:16px;padding:18px 20px;margin:18px 0;font-size:14.5px;line-height:1.75;color:var(--ink);}
+.callout b{color:var(--coral-ink);}
+.tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
+.tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.tip-list b{color:var(--coral-ink);}
+.illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:18px 0;text-align:center;}
+.illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+.illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+.footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
+.footer-nav a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="elementary.html">← Back to all activities</a><a href="../article-comparison-basics.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+  <span class="eyebrow" style="color:#6847F7;background:#EEE8FF">📐 Shape & geometry</span>
+  <h1>You don't need numbers<br>to <span>compare things</span></h1>
+  <p class="meta">Early elementary · About 3 min read</p>
+  <p class="sub">You don't even need a ruler — line up two objects and you can tell right away which one is longer. Comparing is the very first step of measuring.</p>
+
+  <div class="cta-row">
+    <a class="cta primary" href="comparison-basics.html">🎮 Try the Comparing Things activity</a>
+    <a class="cta secondary" href="elementary.html">📚 See other topics</a>
+  </div>
+
+  <div class="callout" style="background:var(--coral-soft);margin-bottom:20px;">🧑‍🤝‍🧑 <b>Read this together with a grown-up.</b> Some words may still be tricky to read alone. Reading it out loud together makes it easier to understand.</div>
+
+  <article>
+    <h2><span class="num">1</span>Line up one end to compare length</h2>
+    <p>To compare the length of two objects, it's important to line up one end of each. Then you can see right away which one sticks out further at the other end, and know which one is longer.</p>
+    <div class="illo">
+      <svg viewBox="0 0 280 90">
+        <line x1="20" y1="10" x2="20" y2="80" stroke="var(--ink-soft)" stroke-width="1.5" stroke-dasharray="3 3"></line>
+        <rect x="20" y="20" width="240" height="20" rx="6" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="2"></rect>
+        <rect x="20" y="55" width="150" height="20" rx="6" fill="var(--paper)" stroke="var(--ink-soft)" stroke-width="2"></rect>
+      </svg>
+      <div class="illo-caption">With one end lined up (dashed line), the bar that reaches further — the top one — is longer</div>
+    </div>
+
+    <h2><span class="num">2</span>Compare weight by holding, or with a scale</h2>
+    <p>Hold one object in each hand and you can feel which one is heavier. Tools that tip toward the heavier side, like a seesaw or a balance scale, let you compare even more precisely.</p>
+    <div class="grid4">
+      <div class="box"><b>Length</b>line up one end and compare</div>
+      <div class="box"><b>Weight</b>hold in your hands or use a scale</div>
+    </div>
+
+    <h2><span class="num">3</span>Compare area by overlapping or counting squares</h2>
+    <p>Overlap two shapes, and whichever one completely covers the other is the bigger one. When they're hard to overlap, divide them into equal-sized squares and count how many squares each one fills.</p>
+
+    <h2><span class="num">4</span>Compare volume by pouring into the same container</h2>
+    <p>Volume is how much a container can hold inside it. To compare the volume of two differently-shaped containers accurately, pour the contents of each into identical cups and compare the height.</p>
+    <div class="grid4">
+      <div class="box"><b>Area</b>overlap or count squares</div>
+      <div class="box"><b>Volume</b>pour into the same container</div>
+    </div>
+
+    <h2><span class="num">5</span>Comparing is the first step of measuring</h2>
+    <div class="callout">
+      <b>For now, it's enough to know "bigger" or "smaller."</b><br>
+      Units like cm and kg come later. Right now, what matters far more is building a sense for looking at two things and judging which one is bigger.
+    </div>
+
+    <h2><span class="num">6</span>Try playing like this</h2>
+    <ul class="tip-list">
+      <li><b>Try it yourself with the sliders.</b> Change the size of A and B and see how the result sentence changes.</li>
+      <li><b>Go through all four tabs.</b> Compare how length, weight, area, and volume are each shown as a picture.</li>
+      <li><b>Compare things at home too.</b> Pick two objects and try holding them or lining them up side by side.</li>
+    </ul>
+  </article>
+
+  <footer>
+    <p>Head back to Comparing Things and try moving the sliders yourself.</p>
+    <nav class="footer-nav">
+      <a href="elementary.html">All activities</a>·<a href="comparison-basics.html">Comparing Things</a>·<a href="../about.html">About</a>·<a href="../contact.html">Contact</a>
+    </nav>
+  </footer>
+</div>
+</body>
+</html>

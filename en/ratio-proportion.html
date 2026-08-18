@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Ratio &amp; Proportion Lab</title>
+<meta name="description" content="From map scale to sugar-water concentration to photo enlargement — see how the ratio between two quantities stays constant across three real situations.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Ratio & Proportion Lab">
+<meta property="og:description" content="From map scale to sugar-water concentration to photo enlargement — see how the ratio between two quantities stays constant across three real situations.">
+<meta property="og:url" content="https://ainmath.com/en/ratio-proportion.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ratio & Proportion Lab">
+<meta name="twitter:description" content="From map scale to sugar-water concentration to photo enlargement — see how the ratio between two quantities stays constant across three real situations.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--violet-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.15fr 0.85fr;gap:32px;align-items:start;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+.howto{background:var(--coral-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--coral-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+.tabs{display:flex;gap:10px;max-width:420px;margin-bottom:20px;}
+.tab-btn{flex:1;font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:11px;cursor:pointer;transition:all .15s ease;}
+.tab-btn.active{background:var(--coral-ink);border-color:var(--coral-ink);color:#fff;}
+.tab-btn:focus-visible{outline:3px solid var(--violet);outline-offset:2px;}
+.panel-mode{display:none;}
+.panel-mode.active{display:block;}
+.control-row{width:100%;max-width:420px;display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:20px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--coral-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--violet);outline-offset:2px;}
+.presets{display:flex;gap:8px;flex-wrap:wrap;max-width:420px;margin-bottom:18px;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:14.5px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:12px;padding:8px 11px;cursor:pointer;transition:all .15s ease;}
+.preset-btn:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
+.preset-btn.active{background:var(--coral-ink);border-color:var(--coral-ink);color:#fff;}
+.map-visual{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:18px;margin-bottom:16px;}
+.map-bar{height:14px;background:var(--violet);border-radius:8px;margin-bottom:8px;transition:width .3s ease;}
+.map-bar-label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);margin-bottom:14px;}
+.jar{width:120px;height:150px;margin:0 auto 14px;border:3px solid var(--ink-soft);border-top:none;border-radius:0 0 16px 16px;position:relative;overflow:hidden;background:#fff;}
+.jar-water{position:absolute;bottom:0;left:0;right:0;background:var(--blue);opacity:0.55;transition:height .3s ease;}
+.jar-dot{position:absolute;width:7px;height:7px;border-radius:50%;background:#fff;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--ink);color:#fff;border:none;border-radius:12px;padding:10px 16px;cursor:pointer;max-width:420px;width:100%;}
+.action-btn:hover{background:var(--coral-ink);}
+.panel{display:flex;flex-direction:column;gap:18px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px 20px;text-align:center;}
+.equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(15px,2.4vw,17px);color:var(--ink-soft);}
+.equation .result{font-family:'Do Hyeon',sans-serif;font-size:clamp(32px,5.5vw,44px);color:var(--violet);margin-top:6px;line-height:1;}
+.equation .result span{font-size:0.4em;color:var(--ink-soft);}
+.fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+.fact b{color:var(--coral-ink);}
+.ratio-table-label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);margin-bottom:6px;}
+.ratio-table{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:14px 16px;}
+.ratio-table table{width:100%;border-collapse:collapse;font-family:'Do Hyeon',sans-serif;}
+.ratio-table th,.ratio-table td{padding:7px 4px;text-align:center;font-size:14px;color:var(--ink);border-bottom:1px solid var(--paper-line);}
+.ratio-table th{font-size:12.5px;color:var(--ink-soft);font-weight:400;}
+.ratio-table tr:last-child td{border-bottom:none;}
+.ratio-table td:first-child,.ratio-table th:first-child{text-align:left;color:var(--ink-soft);font-size:13px;}
+.photo-row{display:flex;gap:18px;justify-content:center;align-items:flex-end;margin:14px 0 4px;flex-wrap:wrap;}
+.photo-box{display:flex;flex-direction:column;align-items:center;gap:8px;}
+.photo-box svg{background:var(--card);border:2px solid var(--paper-line);border-radius:10px;width:150px;height:150px;}
+.photo-box span{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="grade-5-6.html" style="color:var(--ink-soft);text-decoration:none;">← Back to all activities</a><a href="../ratio-proportion.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+    <a href="article-ratio-proportion.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 Read the article</a>
+  </div>
+  <span class="eyebrow">⚖️ Ratio &amp; Proportion Lab</span>
+  <h1>Maps, sugar water, photos —<br>they're all about the <span>same ratio</span></h1>
+  <p class="sub">Map scale, sugar-water concentration, photo enlargement — all three follow the same idea: "the ratio between two quantities stays constant." Click a tab to see how ratios show up in three different situations.</p>
+
+  <div class="stage">
+    <div>
+      <div class="howto">
+        <p>Ratios are hidden all around us. A map's scale is the ratio between real-world distance and distance on the map, and enlarging or shrinking a photo has to keep the width-to-height ratio the same or the shape gets distorted. Getting the sugar-water concentration right in cooking is also about keeping the ratio of sugar to water.</p>
+        <p>A <b>ratio</b> compares two quantities by division (e.g. sugar:water = 1:4). Thanks to the property that <b>multiplying or dividing both numbers by the same number doesn't change the ratio</b>, a map keeps its real-world shape no matter how much you shrink it, and adding more water lets you make a bigger batch while keeping "the same concentration."</p>
+        <p>An equation stating that two ratios are equal is called a <b>proportion</b> (a:b = c:d). The product of the two outer numbers (the extremes) always equals the product of the two inner numbers (the means) — a×d = b×c. This property makes it easy to find an unknown value.</p>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" data-mode="map">🗺️ Map Scale</button>
+        <button class="tab-btn" data-mode="syrup">🧂 Sugar Water</button>
+        <button class="tab-btn" data-mode="photo">🖼️ Photo Ratio</button>
+      </div>
+
+      <div class="panel-mode active" id="mapPanel">
+        <div class="presets" id="scalePresets"></div>
+        <div class="control-row">
+          <div class="control-label"><span>Distance on map</span><b id="mapDistLabel">4</b><span>cm</span></div>
+          <input id="sliderMapDist" type="range" min="1" max="20" value="4" step="1">
+        </div>
+        <div class="map-visual">
+          <div class="map-bar" id="mapBarVisual" style="width:40px"></div>
+          <div class="map-bar-label">Distance on the map (not shown at true real-world scale)</div>
+        </div>
+      </div>
+
+      <div class="panel-mode" id="syrupPanel">
+        <div class="control-row">
+          <div class="control-label"><span>Sugar</span><b id="sugarLabel">20</b><span>g</span></div>
+          <input id="sliderSugar" type="range" min="5" max="80" value="20" step="5">
+        </div>
+        <div class="control-row">
+          <div class="control-label"><span>Water</span><b id="waterLabel">180</b><span>g</span></div>
+          <input id="sliderWater" type="range" min="50" max="400" value="180" step="10">
+        </div>
+        <div class="jar" id="jar"><div class="jar-water" id="jarWater"></div></div>
+        <button class="action-btn" id="doubleBtn">🔁 Double both sugar and water</button>
+      </div>
+
+      <div class="panel-mode" id="photoPanel">
+        <div class="control-row">
+          <div class="control-label"><span>Zoom</span><b id="photoScaleLabel">150</b><span>%</span></div>
+          <input id="sliderPhotoScale" type="range" min="100" max="250" value="150" step="10">
+        </div>
+        <div class="photo-row">
+          <div class="photo-box">
+            <svg id="photoCorrect" viewBox="0 0 150 150"></svg>
+            <span>✅ Enlarged keeping the ratio</span>
+          </div>
+          <div class="photo-box">
+            <svg id="photoWrong" viewBox="0 0 150 150"></svg>
+            <span>❌ Only width stretched</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="equation">
+        <div class="formula" id="formula">Scale 1 : 25,000</div>
+        <div class="result" id="resultNum">1km<span></span></div>
+      </div>
+      <div class="fact" id="fact"></div>
+      <div>
+        <div class="ratio-table-label">🔁 Scaling up while keeping the same ratio</div>
+        <div class="ratio-table"><table id="ratioTable"></table></div>
+      </div>
+    </div>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="Go to another activity" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="corresponding-quantities.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ Previous activity</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Corresponding Quantities Lab</span>
+    </a>
+    <a href="proportion-equation.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">Next activity ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Proportional Equations</span>
+    </a>
+  </nav>
+<footer>Thanks to the properties of ratios, maps with different scales can still represent the same real-world distances, and adding more water while keeping the sugar:water ratio constant lets you make more sugar water that tastes exactly the same.</footer>
+</div>
+
+<script>
+const tabs = document.querySelectorAll('.tab-btn');
+const mapPanel = document.getElementById('mapPanel');
+const syrupPanel = document.getElementById('syrupPanel');
+const photoPanel = document.getElementById('photoPanel');
+const formula = document.getElementById('formula');
+const resultNum = document.getElementById('resultNum');
+const factBox = document.getElementById('fact');
+const ratioTable = document.getElementById('ratioTable');
+
+let mode = 'map';
+
+function gcd(a,b){ return b===0?a:gcd(b,a%b); }
+
+function renderRatioTable(a, b, labelA, labelB){
+  const ra = Math.round(a), rb = Math.round(b);
+  const g = gcd(ra, rb) || 1;
+  const sa = ra/g, sb = rb/g;
+  const mults = [1,2,3];
+  let html = '<tr><th></th>' + mults.map(m=>`<th>×${m}</th>`).join('') + '</tr>';
+  html += `<tr><td>${labelA}</td>` + mults.map(m=>`<td>${(sa*m).toLocaleString()}</td>`).join('') + '</tr>';
+  html += `<tr><td>${labelB}</td>` + mults.map(m=>`<td>${(sb*m).toLocaleString()}</td>`).join('') + '</tr>';
+  ratioTable.innerHTML = html;
+}
+
+// --- Map scale ---
+const sliderMapDist = document.getElementById('sliderMapDist');
+const mapDistLabel = document.getElementById('mapDistLabel');
+const mapBarVisual = document.getElementById('mapBarVisual');
+const scalePresets = document.getElementById('scalePresets');
+const SCALES = [10000, 25000, 50000, 100000];
+let currentScale = 25000;
+
+function buildScalePresets(){
+  scalePresets.innerHTML = SCALES.map(s=>`<button class="preset-btn${s===currentScale?' active':''}" data-s="${s}">1:${s.toLocaleString()}</button>`).join('');
+  scalePresets.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      currentScale = parseInt(btn.dataset.s);
+      buildScalePresets();
+      renderMap();
+    });
+  });
+}
+
+function renderMap(){
+  const mapDist = parseFloat(sliderMapDist.value);
+  mapDistLabel.textContent = mapDist;
+  mapBarVisual.style.width = (mapDist*10) + 'px';
+
+  const realCm = mapDist * currentScale;
+  const realM = realCm / 100;
+  const realKm = realM / 1000;
+
+  formula.innerHTML = `Scale 1 : ${currentScale.toLocaleString()}`;
+  resultNum.innerHTML = realKm>=1 ? `${(Math.round(realKm*100)/100)}<span>km</span>` : `${Math.round(realM)}<span>m</span>`;
+
+  factBox.innerHTML = `${mapDist}cm on the map is <b>${realKm>=1? (Math.round(realKm*100)/100)+'km' : Math.round(realM)+'m'}</b> in real life. A scale of 1:${currentScale.toLocaleString()} means "1cm on the map represents ${(currentScale/100000).toFixed(2)}km (${(currentScale/100)}m) in reality." The bigger the scale's second number, the wider an area a single map can cover — but the finer details get blurrier.`;
+  renderRatioTable(1, currentScale, 'Map (cm)', 'Real (cm)');
+}
+
+// --- Sugar water ---
+const sliderSugar = document.getElementById('sliderSugar');
+const sliderWater = document.getElementById('sliderWater');
+const sugarLabel = document.getElementById('sugarLabel');
+const waterLabel = document.getElementById('waterLabel');
+const jarWater = document.getElementById('jarWater');
+const jar = document.getElementById('jar');
+const doubleBtn = document.getElementById('doubleBtn');
+
+function renderSyrup(){
+  const sugar = parseInt(sliderSugar.value);
+  const water = parseInt(sliderWater.value);
+  sugarLabel.textContent = sugar;
+  waterLabel.textContent = water;
+
+  const total = sugar + water;
+  const conc = (sugar/total*100);
+  const g = gcd(sugar, water);
+
+  jarWater.style.height = '85%';
+  jar.querySelectorAll('.jar-dot').forEach(d=>d.remove());
+  const dotCount = Math.min(30, Math.round(sugar/2));
+  for(let i=0;i<dotCount;i++){
+    const dot = document.createElement('div');
+    dot.className = 'jar-dot';
+    dot.style.left = (Math.random()*90+5) + '%';
+    dot.style.bottom = (Math.random()*75+5) + '%';
+    jar.appendChild(dot);
+  }
+
+  formula.innerHTML = `Sugar : Water = ${sugar} : ${water} = ${sugar/g} : ${water/g}`;
+  resultNum.innerHTML = `${conc.toFixed(1)}<span>%</span>`;
+
+  factBox.innerHTML = `Mixing ${sugar}g of sugar with ${water}g of water gives a concentration (sugar's share of the total) of <b>${conc.toFixed(1)}%</b>. In simplest form, this ratio is <b>${sugar/g} : ${water/g}</b>. Click "Double both" to make more, and check whether the concentration stays the same.`;
+  renderRatioTable(sugar, water, 'Sugar (g)', 'Water (g)');
+}
+
+doubleBtn.addEventListener('click', ()=>{
+  const newSugar = Math.min(80, parseInt(sliderSugar.value)*2);
+  const newWater = Math.min(400, parseInt(sliderWater.value)*2);
+  sliderSugar.value = Math.min(80, newSugar);
+  sliderWater.value = Math.min(400, newWater);
+  renderSyrup();
+});
+
+// --- Photo ratio ---
+const sliderPhotoScale = document.getElementById('sliderPhotoScale');
+const photoScaleLabel = document.getElementById('photoScaleLabel');
+const photoCorrect = document.getElementById('photoCorrect');
+const photoWrong = document.getElementById('photoWrong');
+const PHOTO_W = 36, PHOTO_H = 54, PHOTO_R = 13;
+
+function drawPhotoBox(svg, w, h, rx, ry){
+  const cx = 75, cy = 75;
+  const x0 = cx - w/2, y0 = cy - h/2;
+  svg.innerHTML = `<rect x="${x0.toFixed(1)}" y="${y0.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" rx="8" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2"></rect>` +
+    `<ellipse cx="${cx}" cy="${cy}" rx="${rx.toFixed(1)}" ry="${ry.toFixed(1)}" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="2"></ellipse>`;
+}
+
+function renderPhoto(){
+  const scale = parseInt(sliderPhotoScale.value);
+  photoScaleLabel.textContent = scale;
+  const s = scale/100;
+
+  drawPhotoBox(photoCorrect, PHOTO_W*s, PHOTO_H*s, PHOTO_R*s, PHOTO_R*s);
+  drawPhotoBox(photoWrong, PHOTO_W*s, PHOTO_H, PHOTO_R*s, PHOTO_R);
+
+  formula.innerHTML = `Width : Height = ${PHOTO_W} : ${PHOTO_H}`;
+  resultNum.innerHTML = `${scale}<span>%</span>`;
+  factBox.innerHTML = `The original photo's width-to-height ratio is <b>${PHOTO_W} : ${PHOTO_H}</b>. Enlarging width and height <b>by the same ratio</b>, like on the left, keeps the circle looking round, but stretching only the width, like on the right, squashes it into a <b>long oval</b>. That's exactly why you need to keep the ratio when zooming a photo or screen.`;
+  renderRatioTable(PHOTO_W, PHOTO_H, 'Width', 'Height');
+}
+
+tabs.forEach(t=>t.addEventListener('click', ()=>{
+  mode = t.dataset.mode;
+  tabs.forEach(x=>x.classList.toggle('active', x===t));
+  mapPanel.classList.toggle('active', mode==='map');
+  syrupPanel.classList.toggle('active', mode==='syrup');
+  photoPanel.classList.toggle('active', mode==='photo');
+  if(mode==='map') renderMap();
+  else if(mode==='syrup') renderSyrup();
+  else renderPhoto();
+}));
+
+sliderMapDist.addEventListener('input', renderMap);
+sliderSugar.addEventListener('input', renderSyrup);
+sliderWater.addEventListener('input', renderSyrup);
+sliderPhotoScale.addEventListener('input', renderPhoto);
+
+buildScalePresets();
+renderMap();
+</script>
+</body>
+</html>

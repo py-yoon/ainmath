@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>The Number of Sides Decides the Name — A Polygon Tale | AINMATH</title>
+<meta name="description" content="3 sides is a triangle, 4 sides is a quadrilateral. A polygon's name is decided by its number of sides, while convex and concave are a whole different measure.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="The Number of Sides Decides the Name — A Polygon Tale | AINMATH">
+<meta property="og:description" content="3 sides is a triangle, 4 sides is a quadrilateral. A polygon's name is decided by its number of sides, while convex and concave are a whole different measure.">
+<meta property="og:url" content="https://ainmath.com/en/article-polygon-name-quiz.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Number of Sides Decides the Name — A Polygon Tale | AINMATH">
+<meta name="twitter:description" content="3 sides is a triangle, 4 sides is a quadrilateral. A polygon's name is decided by its number of sides, while convex and concave are a whole different measure.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:760px;margin:0 auto;}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-soft);text-decoration:none;margin-bottom:18px;}
+.back-link:hover{color:var(--violet-ink);}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,40px);line-height:1.3;margin:0 0 14px;}
+h1 span{color:var(--violet-ink);}
+.meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 8px;}
+.sub{color:var(--ink-soft);font-size:16.5px;line-height:1.75;margin:0 0 30px;}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;}
+.cta{font-family:'Do Hyeon',sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:999px;transition:all .15s ease;}
+.cta.primary{background:var(--violet-ink);color:#fff;}
+.cta.primary:hover{filter:brightness(1.06);}
+.cta.secondary{background:var(--card);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.cta.secondary:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+article{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:clamp(24px,5vw,44px);}
+h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:22px;color:var(--ink);margin:34px 0 14px;}
+h2:first-child{margin-top:0;}
+h2 .num{color:var(--violet-ink);margin-right:8px;}
+p{font-size:15.5px;line-height:1.85;color:var(--ink);margin:0 0 16px;}
+p:last-child{margin-bottom:0;}
+.example{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px 20px;margin:18px 0;text-align:center;}
+.example .eq{font-family:'Do Hyeon',sans-serif;font-size:18px;margin-bottom:8px;}
+.example p{font-size:14.5px;color:var(--ink-soft);margin:8px 0 0;}
+.illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+.illo svg{width:100%;max-width:180px;height:auto;display:block;margin:0 auto;}
+.illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0;}
+.grid4 .box{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:10px 8px;font-size:14.5px;line-height:1.5;text-align:center;}
+.grid4 .box b{display:block;font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--violet-ink);margin-bottom:4px;}
+.callout{background:var(--violet-soft);border-radius:16px;padding:18px 20px;margin:18px 0;font-size:14.5px;line-height:1.75;color:var(--ink);}
+.callout b{color:var(--violet-ink);}
+.tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
+.tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.tip-list b{color:var(--violet-ink);}
+footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+.footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
+.footer-nav a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="grade-3-4.html">← Back to all activities</a><a href="../article-polygon-name-quiz.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+  <span class="eyebrow" style="color:#6847F7;background:#EEE8FF">📐 Shape & geometry</span>
+  <h1>The number of sides<br><span>decides the name</span></h1>
+  <p class="meta">Upper elementary · About 3 min read</p>
+  <p class="sub">Triangle, quadrilateral, pentagon... a polygon's name is really decided by one very simple rule: counting how many sides it has.</p>
+
+  <div class="cta-row">
+    <a class="cta primary" href="polygon-name-quiz.html">🎮 Try the Name the Polygon activity</a>
+    <a class="cta secondary" href="grade-3-4.html">📚 See other topics</a>
+  </div>
+
+  <article>
+    <h2><span class="num">1</span>n sides means an n-gon</h2>
+    <p>A polygon is a shape surrounded by straight line segments. Its name simply follows the number of sides. 5 sides is a pentagon, 6 sides a hexagon, and so on. And the number of sides always matches the number of corners.</p>
+    <div class="illo">
+      <svg viewBox="0 0 160 150">
+        <polygon points="80,20 137.06,61.46 115.28,128.54 44.72,128.54 22.94,61.46" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2.5"></polygon>
+        <circle cx="80" cy="20" r="4" fill="var(--coral-ink)"></circle>
+        <circle cx="137.06" cy="61.46" r="4" fill="var(--coral-ink)"></circle>
+        <circle cx="115.28" cy="128.54" r="4" fill="var(--coral-ink)"></circle>
+        <circle cx="44.72" cy="128.54" r="4" fill="var(--coral-ink)"></circle>
+        <circle cx="22.94" cy="61.46" r="4" fill="var(--coral-ink)"></circle>
+      </svg>
+      <div class="illo-caption">5 sides means 5 corners too, so it's a pentagon</div>
+    </div>
+    <div class="grid4">
+      <div class="box"><b>3</b>Triangle</div>
+      <div class="box"><b>4</b>Quadrilateral</div>
+      <div class="box"><b>5</b>Pentagon</div>
+      <div class="box"><b>6</b>Hexagon</div>
+      <div class="box"><b>7</b>Heptagon</div>
+      <div class="box"><b>8</b>Octagon</div>
+      <div class="box"><b>9</b>Nonagon</div>
+      <div class="box"><b>10</b>Decagon</div>
+    </div>
+
+    <h2><span class="num">2</span>A regular polygon has equal sides and equal angles</h2>
+    <p>A polygon where every side is the same length and every angle is the same size is called a <b>regular polygon</b> — like an equilateral triangle or a square. The shape you build on the activity page by changing the number of sides is exactly this kind of regular polygon.</p>
+
+    <h2><span class="num">3</span>Convex and concave are a whole different measure</h2>
+    <p>Regardless of how many sides it has, a polygon can also be sorted into <b>convex</b> and <b>concave</b>. If there's no spot that caves inward in any direction, it's a convex polygon; if even one spot caves inward like an arrow, it's a concave polygon.</p>
+    <div class="example">
+      <div class="eq">Convex polygon vs. concave polygon</div>
+      <p>Every regular polygon is convex. But a concave polygon can never be regular.</p>
+    </div>
+    <div class="callout">
+      <b>Here's a way to check.</b><br>
+      Pick any two points on the polygon and draw a line between them. If that line ever steps outside the shape, it's concave; if it always stays inside, it's convex.
+    </div>
+
+    <h2><span class="num">4</span>Try playing like this</h2>
+    <ul class="tip-list">
+      <li><b>Increase the number of sides one at a time.</b> Watch how a regular polygon's shape gets closer and closer to a circle as the sides increase.</li>
+      <li><b>Try the name-that-shape quiz.</b> Practice naming a shape the instant you see it, without having to count the sides.</li>
+      <li><b>Practice telling convex from concave.</b> Decide by imagining whether a line between two points would ever step outside the shape.</li>
+    </ul>
+  </article>
+
+  <footer>
+    <p>Head back to Name the Polygon and try the slider and quiz yourself.</p>
+    <nav class="footer-nav">
+      <a href="grade-3-4.html">All activities</a>·<a href="polygon-name-quiz.html">Name the Polygon</a>·<a href="../about.html">About</a>·<a href="../contact.html">Contact</a>
+    </nav>
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>GCD &amp; LCM Lab</title>
+<meta name="description" content="Enter two numbers and visually find where their multiple lists overlap.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="GCD & LCM Lab">
+<meta property="og:description" content="Enter two numbers and visually find where their multiple lists overlap.">
+<meta property="og:url" content="https://ainmath.com/en/gcd-lcm.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GCD & LCM Lab">
+<meta name="twitter:description" content="Enter two numbers and visually find where their multiple lists overlap.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--violet-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.15fr 0.85fr;gap:32px;align-items:start;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+.control-row{width:100%;display:flex;flex-direction:column;gap:8px;margin-bottom:18px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--coral-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--violet);outline-offset:2px;}
+.row-title{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);margin:18px 0 8px;display:flex;align-items:center;gap:8px;}
+.row-title .dot{width:10px;height:10px;border-radius:3px;}
+.chip-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px;}
+.chip{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:8px;padding:5px 9px;transition:all .3s ease;}
+.chip.common{background:var(--violet-ink);border-color:var(--violet-ink);color:#fff;}
+.chip.dim{background:none;border:none;color:var(--ink-soft);padding:5px 2px;}
+.howto{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14px;line-height:1.7;color:var(--ink);margin-bottom:20px;}
+.howto b{color:var(--violet-ink);}
+.howto ol{margin:8px 0 0;padding-left:20px;}
+.howto li{margin-bottom:4px;}
+.panel{display:flex;flex-direction:column;gap:18px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px 20px;text-align:center;}
+.eq-pair{display:flex;gap:14px;justify-content:center;}
+.eq-box{flex:1;}
+.eq-box .label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);}
+.eq-box .val{font-family:'Do Hyeon',sans-serif;font-size:clamp(30px,5vw,42px);color:var(--violet);line-height:1;margin-top:4px;}
+.factor-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:18px 20px;}
+.factor-box .ftitle{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);margin-bottom:10px;}
+.factor-row{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;margin-bottom:6px;}
+.factor-row .fval{color:var(--ink);}
+.factor-row.result{flex-direction:column;align-items:flex-start;gap:4px;border-top:2px dashed var(--paper-line);margin-top:8px;padding-top:10px;}
+.factor-row.result .fval{color:var(--violet-ink);font-size:18px;}
+.fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+.fact b{color:var(--coral-ink);}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="grade-5-6.html" style="color:var(--ink-soft);text-decoration:none;">← Back to all activities</a><a href="../gcd-lcm.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+    <a href="article-gcd-lcm.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 Read the article</a>
+  </div>
+  <span class="eyebrow">🔗 GCD &amp; LCM Lab</span>
+  <h1>Divisors and multiples of two numbers —<br>let's find <span>where they overlap</span></h1>
+  <p class="sub">Change the two numbers with the sliders (1–50). The largest number that appears in both numbers' divisor lists is called the <b>greatest common divisor (GCD)</b>. The smallest number that appears in both numbers' multiple lists is called the <b>least common multiple (LCM)</b>. Try finding both, two different ways, below.</p>
+
+  <div class="stage">
+    <div>
+      <div class="howto">
+        <b>How it works</b>
+        <ol>
+          <li>Write out every divisor (a number that divides evenly) of A and B. The <b>largest</b> number that appears in both lists is the GCD.</li>
+          <li>Write out the multiples of A and B (1×, 2×, 3×…) in increasing order. The <b>smallest</b> number that appears in both lists is the LCM.</li>
+          <li>There's a faster way too. Prime factorization means writing a number as a product of primes (e.g. 12 = 2×2×3). The small number written above and to the right showing how many times the same prime is multiplied is called the <b>exponent</b> (2×2 = 2², "2 has exponent 2"). Multiply the primes common to both numbers using the <b>smaller</b> exponent to get the GCD; multiply every prime that appears in either number using the <b>larger</b> exponent to get the LCM.</li>
+          <li>Interestingly, GCD × LCM always equals A × B. Both methods give the same answer, so try changing the sliders and comparing them.</li>
+        </ol>
+      </div>
+      <div class="control-row">
+        <div class="control-label"><span>Number A</span><b id="aLabel">12</b></div>
+        <input id="sliderA" type="range" min="1" max="50" value="12" step="1" aria-label="Adjust number A">
+      </div>
+      <div class="control-row">
+        <div class="control-label"><span>Number B</span><b id="bLabel">18</b></div>
+        <input id="sliderB" type="range" min="1" max="50" value="18" step="1" aria-label="Adjust number B">
+      </div>
+
+      <div class="row-title"><span class="dot" style="background:var(--ink-soft)"></span>Method 1 — listing divisors (purple = divisor of both numbers)</div>
+      <div class="chip-row" id="divA"></div>
+      <div class="chip-row" id="divB"></div>
+
+      <div class="row-title"><span class="dot" style="background:var(--ink-soft)"></span>Method 1 — listing multiples (purple = multiple of both numbers)</div>
+      <div class="chip-row" id="mulA"></div>
+      <div class="chip-row" id="mulB"></div>
+    </div>
+
+    <div class="panel">
+      <div class="equation">
+        <div class="eq-pair">
+          <div class="eq-box"><div class="label">GCD</div><div class="val" id="gcdVal">6</div></div>
+          <div class="eq-box"><div class="label">LCM</div><div class="val" id="lcmVal">36</div></div>
+        </div>
+      </div>
+      <div class="factor-box">
+        <div class="ftitle">Method 2 — via prime factorization</div>
+        <div style="font-size:12.5px;color:var(--ink-soft);font-family:'Gowun Dodum','Noto Sans KR',sans-serif;line-height:1.6;margin:-4px 0 12px;">💡 What's an exponent? The small number written up top shows how many times the same number is multiplied. 2² = 2×2 = 4.</div>
+        <div class="factor-row"><span>A = </span><span class="fval" id="aFactor">2² × 3</span></div>
+        <div class="factor-row"><span>B = </span><span class="fval" id="bFactor">2 × 3²</span></div>
+        <div class="factor-row result"><span>Common primes (smaller exponent) → GCD</span><span class="fval" id="gcdFactor">2 × 3 = 6</span></div>
+        <div class="factor-row result"><span>All primes (larger exponent) → LCM</span><span class="fval" id="lcmFactor">2² × 3² = 36</span></div>
+      </div>
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="Go to another activity" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="number-range-rounding.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ Previous activity</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Number Ranges &amp; Rounding</span>
+    </a>
+    <a href="divisor-finder.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">Next activity ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Finding Divisors</span>
+    </a>
+  </nav>
+<footer>Fun fact: GCD × LCM always equals the product of the two numbers (A × B). Also, if two numbers are coprime (their only common divisor is 1), the GCD is 1 and the LCM simply equals A×B.</footer>
+</div>
+
+<script>
+const sliderA = document.getElementById('sliderA');
+const sliderB = document.getElementById('sliderB');
+const aLabel = document.getElementById('aLabel');
+const bLabel = document.getElementById('bLabel');
+const divA = document.getElementById('divA');
+const divB = document.getElementById('divB');
+const mulA = document.getElementById('mulA');
+const mulB = document.getElementById('mulB');
+const gcdVal = document.getElementById('gcdVal');
+const lcmVal = document.getElementById('lcmVal');
+const aFactor = document.getElementById('aFactor');
+const bFactor = document.getElementById('bFactor');
+const gcdFactor = document.getElementById('gcdFactor');
+const lcmFactor = document.getElementById('lcmFactor');
+const factBox = document.getElementById('fact');
+
+function divisors(n){
+  const out=[];
+  for(let i=1;i<=n;i++){ if(n%i===0) out.push(i); }
+  return out;
+}
+function gcd(a,b){ return b===0?a:gcd(b,a%b); }
+
+function primeFactorize(n){
+  const factors=[];
+  let x=n;
+  for(let p=2; p*p<=x; p++){
+    let e=0;
+    while(x%p===0){ x/=p; e++; }
+    if(e>0) factors.push([p,e]);
+  }
+  if(x>1) factors.push([x,1]);
+  return factors;
+}
+
+function factorsToHtml(factors){
+  if(factors.length===0) return '1 <span style="color:var(--ink-soft)">(no prime factors)</span>';
+  return factors.map(([p,e])=> e>1 ? `${p}<sup>${e}</sup>` : `${p}`).join(' × ');
+}
+
+function buildMultChips(step, limit, highlightVal){
+  const all=[];
+  for(let k=step;k<=limit;k+=step) all.push(k);
+  const maxShow = 14;
+  let shown = all;
+  let clipped = false;
+  if(all.length > maxShow){
+    shown = all.slice(0, maxShow-1);
+    clipped = true;
+  }
+  let html = shown.map(m=>`<span class="chip${m===highlightVal?' common':''}">${m}</span>`).join('');
+  if(clipped){
+    html += `<span class="chip dim">…</span>`;
+    html += `<span class="chip common">${highlightVal}</span>`;
+  }
+  const afterCount = 3;
+  for(let i=1;i<=afterCount;i++){
+    html += `<span class="chip">${limit+step*i}</span>`;
+  }
+  html += `<span class="chip dim">…</span>`;
+  return html;
+}
+
+function render(){
+  const a = parseInt(sliderA.value), b = parseInt(sliderB.value);
+  aLabel.textContent=a; bLabel.textContent=b;
+
+  const dA = divisors(a), dB = divisors(b);
+  const g = gcd(a,b);
+  const l = (a*b)/g;
+
+  divA.innerHTML = `A(${a})'s divisors: ` + dA.map(d=>`<span class="chip${dB.includes(d)?' common':''}">${d}</span>`).join('');
+  divB.innerHTML = `B(${b})'s divisors: ` + dB.map(d=>`<span class="chip${dA.includes(d)?' common':''}">${d}</span>`).join('');
+
+  mulA.innerHTML = `A(${a})'s multiples: ` + buildMultChips(a, l, l);
+  mulB.innerHTML = `B(${b})'s multiples: ` + buildMultChips(b, l, l);
+
+  gcdVal.textContent = g;
+  lcmVal.textContent = l;
+
+  const fA = primeFactorize(a);
+  const fB = primeFactorize(b);
+  aFactor.innerHTML = `${a} = ${factorsToHtml(fA)}`;
+  bFactor.innerHTML = `${b} = ${factorsToHtml(fB)}`;
+
+  const mapA = Object.fromEntries(fA);
+  const mapB = Object.fromEntries(fB);
+  const allPrimes = Array.from(new Set([...Object.keys(mapA), ...Object.keys(mapB)])).map(Number).sort((x,y)=>x-y);
+
+  const commonParts = [];
+  const unionParts = [];
+  allPrimes.forEach(p=>{
+    const eA = mapA[p]||0, eB = mapB[p]||0;
+    const minE = Math.min(eA,eB), maxE = Math.max(eA,eB);
+    if(minE>0) commonParts.push(minE>1?`${p}<sup>${minE}</sup>`:`${p}`);
+    unionParts.push(maxE>1?`${p}<sup>${maxE}</sup>`:`${p}`);
+  });
+  gcdFactor.innerHTML = commonParts.length ? `${commonParts.join(' × ')} = ${g}` : `No common primes → ${g}`;
+  lcmFactor.innerHTML = unionParts.length ? `${unionParts.join(' × ')} = ${l}` : `1 = ${l}`;
+
+  const isCoprime = g===1;
+  let extra = '';
+  if(a===1 || b===1){
+    extra = ` When ${a===1?'A':'B'} is 1, its only divisor is 1, so the GCD is always 1 and the LCM always equals the product of the two numbers.`;
+  } else if(isCoprime){
+    extra = ` ${a} and ${b} share no common prime factors, so they're <b>coprime</b>. That's why the GCD is 1 and the LCM is simply ${a}×${b}=${l}.`;
+  }
+
+  factBox.innerHTML = `The largest number shared by ${a} and ${b}'s divisors is <b>${g}</b>, and the smallest number shared by their multiples is <b>${l}</b>. Prime factorization gives the same answer: multiplying only the shared primes with the smaller exponent gives ${g}, and multiplying every prime with the larger exponent gives ${l}. Check it: ${g} × ${l} = ${g*l}, and ${a} × ${b} = ${a*b} — exactly the same!${extra}`;
+}
+
+sliderA.addEventListener('input', render);
+sliderB.addEventListener('input', render);
+render();
+</script>
+</body>
+</html>

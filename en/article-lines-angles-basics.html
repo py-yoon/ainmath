@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Meeting, or Never Meeting — A Tale of Two Lines | AINMATH</title>
+<meta name="description" content="Draw two lines, and they're always either parallel, perpendicular, or just meeting. Learn what separates these three cases.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Meeting, or Never Meeting — A Tale of Two Lines | AINMATH">
+<meta property="og:description" content="Draw two lines, and they're always either parallel, perpendicular, or just meeting. Learn what separates these three cases.">
+<meta property="og:url" content="https://ainmath.com/en/article-lines-angles-basics.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Meeting, or Never Meeting — A Tale of Two Lines | AINMATH">
+<meta name="twitter:description" content="Draw two lines, and they're always either parallel, perpendicular, or just meeting. Learn what separates these three cases.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:760px;margin:0 auto;}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-soft);text-decoration:none;margin-bottom:18px;}
+.back-link:hover{color:var(--violet-ink);}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,40px);line-height:1.3;margin:0 0 14px;}
+h1 span{color:var(--violet-ink);}
+.meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 8px;}
+.sub{color:var(--ink-soft);font-size:16.5px;line-height:1.75;margin:0 0 30px;}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;}
+.cta{font-family:'Do Hyeon',sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:999px;transition:all .15s ease;}
+.cta.primary{background:var(--violet-ink);color:#fff;}
+.cta.primary:hover{filter:brightness(1.06);}
+.cta.secondary{background:var(--card);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.cta.secondary:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+article{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:clamp(24px,5vw,44px);}
+h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:22px;color:var(--ink);margin:34px 0 14px;}
+h2:first-child{margin-top:0;}
+h2 .num{color:var(--violet-ink);margin-right:8px;}
+p{font-size:15.5px;line-height:1.85;color:var(--ink);margin:0 0 16px;}
+p:last-child{margin-bottom:0;}
+.example{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px 20px;margin:18px 0;text-align:center;}
+.example .eq{font-family:'Do Hyeon',sans-serif;font-size:18px;margin-bottom:8px;}
+.example p{font-size:14.5px;color:var(--ink-soft);margin:8px 0 0;}
+.grid4{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0;}
+.grid4 .box{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.6;text-align:center;}
+.grid4 .box b{display:block;font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--violet-ink);margin-bottom:4px;}
+.callout{background:var(--violet-soft);border-radius:16px;padding:18px 20px;margin:18px 0;font-size:14.5px;line-height:1.75;color:var(--ink);}
+.callout b{color:var(--violet-ink);}
+.illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+.illo svg{width:100%;max-width:260px;height:auto;display:block;margin:0 auto;}
+.illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+.tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
+.tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.tip-list b{color:var(--violet-ink);}
+footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+.footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
+.footer-nav a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="grade-3-4.html">← Back to all activities</a><a href="../article-lines-angles-basics.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+  <span class="eyebrow" style="color:#6847F7;background:#EEE8FF">📐 Shape & geometry</span>
+  <h1>Draw two lines, and you always get<br><span>one of three relationships</span></h1>
+  <p class="meta">Upper elementary · About 3 min read</p>
+  <p class="sub">The corners of a desk, a window frame, the horizontal and vertical lines on a road — every pair of lines around us is always either parallel, perpendicular, or just meeting.</p>
+
+  <div class="cta-row">
+    <a class="cta primary" href="lines-angles-basics.html">🎮 Try the Lines & Angles Basics activity</a>
+    <a class="cta secondary" href="grade-3-4.html">📚 See other topics</a>
+  </div>
+
+  <article>
+    <h2><span class="num">1</span>Parallel means "never meeting"</h2>
+    <p>If two lines never meet at any point, no matter how far you extend them, those lines are <b>parallel</b>. Since the gap between them stays exactly the same from start to finish, there's simply no way for them to meet.</p>
+
+    <h2><span class="num">2</span>Perpendicular means "meeting at a right angle"</h2>
+    <p>When the angle formed where two lines meet is exactly 90° (a right angle), the two lines are called <b>perpendicular</b>. Unlike parallel lines, perpendicular lines really do meet at a point — it's just that they meet in a perfectly square way.</p>
+    <div class="example">
+      <div class="eq">Angle = 90° → Perpendicular</div>
+      <p>On the activity page, set the slider to exactly 90° and watch the shape formed by the two lines change dramatically.</p>
+    </div>
+
+    <h2><span class="num">3</span>Any other case is just called "meeting"</h2>
+    <p>If the angle isn't 90° and the lines aren't parallel, there's no special name for it — we just say "the two lines meet." Only two relationships between lines get a special name: parallel and perpendicular.</p>
+    <div class="grid4">
+      <div class="box"><b>Parallel</b>never meets</div>
+      <div class="box"><b>Perpendicular</b>meets at 90°</div>
+      <div class="box"><b>Anything else</b>just meets, no name</div>
+    </div>
+    <div class="illo">
+      <svg viewBox="0 0 220 90">
+        <line x1="10" y1="25" x2="60" y2="15" stroke="var(--violet-ink)" stroke-width="2"></line>
+        <line x1="10" y1="65" x2="60" y2="55" stroke="var(--violet-ink)" stroke-width="2"></line>
+        <text x="35" y="82" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--violet-ink)">Parallel</text>
+        <line x1="85" y1="50" x2="145" y2="50" stroke="var(--ink)" stroke-width="2"></line>
+        <line x1="115" y1="20" x2="115" y2="80" stroke="var(--ink)" stroke-width="2"></line>
+        <rect x="115" y="42" width="8" height="8" fill="none" stroke="var(--coral-ink)" stroke-width="1.5"></rect>
+        <text x="115" y="82" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--coral-ink)">Perpendicular</text>
+        <line x1="165" y1="30" x2="215" y2="70" stroke="var(--ink)" stroke-width="2"></line>
+        <line x1="165" y1="70" x2="215" y2="20" stroke="var(--ink)" stroke-width="2"></line>
+        <text x="190" y="82" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">Other</text>
+      </svg>
+      <div class="illo-caption">Parallel lines never meet, perpendicular lines meet at 90°, and other lines meet at some other angle</div>
+    </div>
+
+    <h2><span class="num">4</span>The only thing that matters is the "angle"</h2>
+    <p>The only thing that decides the relationship between two lines is the angle where they meet. An angle of 0° (or 180°) means parallel, 90° means perpendicular, and anything in between is just "meeting."</p>
+    <div class="callout">
+      <b>Look for these around you.</b><br>
+      The horizontal and vertical lines of a book, the rungs and side rails of a ladder, a traffic light pole and the road — they're all either parallel or perpendicular.
+    </div>
+
+    <h2><span class="num">5</span>Try playing like this</h2>
+    <ul class="tip-list">
+      <li><b>Move the slider very slowly.</b> Watch exactly when the relationship label changes as the angle gets close to 90° and moves away from it.</li>
+      <li><b>Try to make the lines parallel.</b> Find the angle where the two lines never meet.</li>
+      <li><b>Try the relationship-guessing quiz.</b> Practice telling parallel, perpendicular, and "other" apart just by looking at the angle.</li>
+    </ul>
+  </article>
+
+  <footer>
+    <p>Head back to Lines & Angles Basics and try moving the slider yourself.</p>
+    <nav class="footer-nav">
+      <a href="grade-3-4.html">All activities</a>·<a href="lines-angles-basics.html">Lines & Angles Basics</a>·<a href="../about.html">About</a>·<a href="../contact.html">Contact</a>
+    </nav>
+  </footer>
+</div>
+</body>
+</html>

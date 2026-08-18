@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Moving Shapes on a Coordinate Grid</title>
+<meta name="description" content="Click points or enter coordinates to explore reflection, translation, and rotation.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Moving Shapes on a Coordinate Grid">
+<meta property="og:description" content="Click points or enter coordinates to explore reflection, translation, and rotation.">
+<meta property="og:url" content="https://ainmath.com/en/coordinate-transform.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Moving Shapes on a Coordinate Grid">
+<meta name="twitter:description" content="Click points or enter coordinates to explore reflection, translation, and rotation.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1040px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue-ink);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.2fr 0.8fr;gap:32px;align-items:start;}
+@media (max-width:860px){ .stage{grid-template-columns:1fr;} }
+.canvas-area{display:flex;flex-direction:column;align-items:center;gap:16px;}
+svg{width:100%;max-width:460px;height:auto;overflow:visible;}
+.group-title{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);width:100%;max-width:420px;margin-top:6px;}
+.btn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;width:100%;max-width:420px;}
+.op-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:12px;padding:9px;cursor:pointer;transition:all .15s ease;}
+.op-btn:hover{border-color:var(--blue-ink);color:var(--blue-ink);}
+.op-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+.control-row{width:100%;max-width:420px;display:flex;flex-direction:column;gap:6px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);}
+.control-label b{font-size:18px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--blue-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
+.reset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--ink);color:#fff;border:none;border-radius:12px;padding:10px;cursor:pointer;width:100%;max-width:420px;}
+.reset-btn:hover{background:var(--coral-ink);}
+.panel{display:flex;flex-direction:column;gap:18px;}
+.coord-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:16px 18px;font-size:14px;}
+.coord-box .row{display:flex;justify-content:space-between;margin-bottom:4px;font-family:'Do Hyeon',sans-serif;}
+.coord-box .row .orig{color:var(--ink-soft);}
+.coord-box .row .now{color:var(--blue-ink);}
+.fact{background:var(--blue-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+.fact b{color:var(--blue-ink);}
+.howto{background:var(--blue-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--blue-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+.vlabel{font-family:'Do Hyeon',sans-serif;font-size:14px;}
+footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="grade-3-4.html" style="color:var(--ink-soft);text-decoration:none;">← Back to all activities</a>
+    <a href="article-coordinate-transform.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:6px 12px;border-radius:999px;">📖 Read the article</a>
+    <a href="../coordinate-transform.html" style="color:var(--ink-soft);text-decoration:none;font-size:12.5px;background:var(--violet-soft);padding:4px 10px;border-radius:999px;">한국어 →</a>
+  </div>
+  <span class="eyebrow">⊹ Moving Shapes on a Coordinate Grid</span>
+  <h1>Reflect, slide, or rotate a triangle —<br>how do the coordinates <span>change</span>?</h1>
+  <p class="sub">Press a button to move the triangle. The dashed shape is the original triangle; the solid shape is the moved triangle. See exactly what rule the coordinates follow for each kind of move.</p>
+
+  <div class="howto">
+    <p><b>Reflection</b> is easiest to picture as a mirror image. Flip across the x-axis (using it as the mirror) and only up-and-down flips, so only the y-coordinate's sign changes. Flip across the y-axis and only left-and-right flips, so only the x-coordinate's sign changes. Reflecting through the origin is like applying both mirrors at once, so both x and y flip sign — which, it turns out, gives exactly the same result as a 180° rotation.</p>
+    <p><b>Translation</b> is simply picking the whole shape up and setting it down somewhere else. The shape and orientation never change at all — only the position shifts by dx and dy.</p>
+    <p><b>Rotation</b> spins the shape counterclockwise around the origin. Every 90° turn swaps x and y with each other, flipping one sign each time — a rule that repeats itself. Press the 90°, 180°, and 270° buttons in order and watch how this rule keeps repeating.</p>
+  </div>
+
+  <div class="stage">
+    <div class="canvas-area">
+      <svg id="svg" viewBox="0 0 460 460"></svg>
+
+      <div class="group-title">Reflection</div>
+      <div class="btn-grid">
+        <button class="op-btn" data-op="flipX">Reflect over x-axis</button>
+        <button class="op-btn" data-op="flipY">Reflect over y-axis</button>
+        <button class="op-btn" data-op="flipO">Reflect through origin</button>
+      </div>
+
+      <div class="group-title">Rotation (around the origin)</div>
+      <div class="btn-grid">
+        <button class="op-btn" data-op="rot90">Rotate 90°</button>
+        <button class="op-btn" data-op="rot180">Rotate 180°</button>
+        <button class="op-btn" data-op="rot270">Rotate 270°</button>
+      </div>
+
+      <div class="group-title">Translation</div>
+      <div class="control-row">
+        <div class="control-label"><span>dx</span><b id="dxLabel">0</b></div>
+        <input id="sliderDx" type="range" min="-6" max="6" value="0" step="1">
+      </div>
+      <div class="control-row">
+        <div class="control-label"><span>dy</span><b id="dyLabel">0</b></div>
+        <input id="sliderDy" type="range" min="-6" max="6" value="0" step="1">
+      </div>
+
+      <button class="reset-btn" id="resetBtn">↺ Reset</button>
+    </div>
+
+    <div class="panel">
+      <div class="coord-box" id="coordBox"></div>
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+      <!-- prev-next-nav -->
+  <nav aria-label="Go to another activity" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="polygon-name-quiz.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ Previous activity</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Name the Polygon</span>
+    </a>
+    <a href="time-calculator.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">Next activity ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Time Calculator</span>
+    </a>
+  </nav>
+<footer>Reflecting over the x-axis flips only y's sign: (x,y)→(x,-y). Reflecting over the y-axis flips only x's sign: (x,y)→(-x,y). Reflecting through the origin flips both: (x,y)→(-x,-y), the same result as a 180° rotation. Rotation applies (x,y)→(-y,x) repeatedly, once per 90° — do it 4 times (360°) and you're back where you started.</footer>
+</div>
+
+<script>
+const svg = document.getElementById('svg');
+const coordBox = document.getElementById('coordBox');
+const factBox = document.getElementById('fact');
+const sliderDx = document.getElementById('sliderDx');
+const sliderDy = document.getElementById('sliderDy');
+const dxLabel = document.getElementById('dxLabel');
+const dyLabel = document.getElementById('dyLabel');
+
+const orig = { A:[1,1], B:[4,1], C:[1,3] };
+let current = { A:[1,1], B:[4,1], C:[1,3] };
+let translate = {dx:0, dy:0};
+
+const RANGE = 6;
+const SIZE = 460;
+const CX = SIZE/2, CY = SIZE/2;
+const SCALE = (SIZE/2 - 30) / RANGE;
+
+function toSvg(x,y){ return [CX + x*SCALE, CY - y*SCALE]; }
+
+function applyOp(op){
+  const next = {};
+  for(const k of ['A','B','C']){
+    let [x,y] = current[k];
+    switch(op){
+      case 'flipX': y = -y; break;
+      case 'flipY': x = -x; break;
+      case 'flipO': x=-x; y=-y; break;
+      case 'rot90': { const nx=-y, ny=x; x=nx; y=ny; break; }
+      case 'rot180': x=-x; y=-y; break;
+      case 'rot270': { const nx=y, ny=-x; x=nx; y=ny; break; }
+    }
+    next[k]=[x,y];
+  }
+  current = next;
+  describeOp(op);
+  render();
+}
+
+function describeOp(op){
+  const names = {
+    flipX:'Reflect over x-axis — (x, y) → (x, -y)',
+    flipY:'Reflect over y-axis — (x, y) → (-x, y)',
+    flipO:'Reflect through origin — (x, y) → (-x, -y)',
+    rot90:'Rotate 90° around origin — (x, y) → (-y, x)',
+    rot180:'Rotate 180° around origin — (x, y) → (-x, -y)',
+    rot270:'Rotate 270° around origin — (x, y) → (y, -x)',
+  };
+  factBox.innerHTML = `Move just applied: <b>${names[op]}</b>. Compare with the original values in the coordinate list below.`;
+}
+
+function polyPoints(pts){
+  return ['A','B','C'].map(k=>toSvg(...pts[k]).join(',')).join(' ');
+}
+
+function render(){
+  const dx = parseInt(sliderDx.value), dy = parseInt(sliderDy.value);
+  dxLabel.textContent = dx; dyLabel.textContent = dy;
+  translate = {dx,dy};
+
+  const translated = {};
+  for(const k of ['A','B','C']){
+    translated[k] = [current[k][0]+dx, current[k][1]+dy];
+  }
+
+  let html = '';
+  for(let i=-RANGE;i<=RANGE;i++){
+    const [gx1,gy1]=toSvg(i,-RANGE), [gx2,gy2]=toSvg(i,RANGE);
+    html += `<line x1="${gx1}" y1="${gy1}" x2="${gx2}" y2="${gy2}" stroke="var(--paper-line)" stroke-width="1"></line>`;
+    const [hx1,hy1]=toSvg(-RANGE,i), [hx2,hy2]=toSvg(RANGE,i);
+    html += `<line x1="${hx1}" y1="${hy1}" x2="${hx2}" y2="${hy2}" stroke="var(--paper-line)" stroke-width="1"></line>`;
+  }
+  const [ax1,ay1]=toSvg(-RANGE,0), [ax2,ay2]=toSvg(RANGE,0);
+  const [oy1x,oy1y]=toSvg(0,-RANGE), [oy2x,oy2y]=toSvg(0,RANGE);
+  html += `<line x1="${ax1}" y1="${ay1}" x2="${ax2}" y2="${ay2}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+  html += `<line x1="${oy1x}" y1="${oy1y}" x2="${oy2x}" y2="${oy2y}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+
+  html += `<polygon points="${polyPoints(orig)}" fill="none" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="6 5"></polygon>`;
+  if(JSON.stringify(current)!==JSON.stringify(orig)){
+    html += `<polygon points="${polyPoints(current)}" fill="var(--violet)" fill-opacity="0.12" stroke="var(--violet)" stroke-width="2" stroke-dasharray="3 4"></polygon>`;
+  }
+  html += `<polygon points="${polyPoints(translated)}" fill="var(--blue)" fill-opacity="0.22" stroke="var(--blue)" stroke-width="3"></polygon>`;
+
+  ['A','B','C'].forEach(k=>{
+    const [px,py] = toSvg(...translated[k]);
+    html += `<circle cx="${px}" cy="${py}" r="5" fill="var(--blue)"></circle>`;
+    html += `<text class="vlabel" x="${px+8}" y="${py-8}" fill="var(--blue)">${k}'</text>`;
+    const [ox,oy] = toSvg(...orig[k]);
+    html += `<circle cx="${ox}" cy="${oy}" r="4" fill="var(--ink-soft)"></circle>`;
+    html += `<text class="vlabel" x="${ox-14}" y="${oy+16}" fill="var(--ink-soft)">${k}</text>`;
+  });
+
+  svg.innerHTML = html;
+
+  coordBox.innerHTML = ['A','B','C'].map(k=>`
+    <div class="row"><span class="orig">${k}(${orig[k][0]}, ${orig[k][1]})</span><span class="now">→ ${k}'(${translated[k][0]}, ${translated[k][1]})</span></div>
+  `).join('');
+}
+
+document.querySelectorAll('.op-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=> applyOp(btn.dataset.op));
+});
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  current = { A:[...orig.A], B:[...orig.B], C:[...orig.C] };
+  sliderDx.value=0; sliderDy.value=0;
+  factBox.innerHTML = 'Press a button to reflect, translate, or rotate the triangle.';
+  render();
+});
+sliderDx.addEventListener('input', render);
+sliderDy.addEventListener('input', render);
+
+render();
+</script>
+</body>
+</html>

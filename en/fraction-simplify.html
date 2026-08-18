@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Simplifying &amp; Comparing Fractions</title>
+<meta name="description" content="Change fractions with sliders and watch bar diagrams show how simplifying and finding a common denominator actually work.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Simplifying & Comparing Fractions">
+<meta property="og:description" content="Change fractions with sliders and watch bar diagrams show how simplifying and finding a common denominator actually work.">
+<meta property="og:url" content="https://ainmath.com/en/fraction-simplify.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Simplifying & Comparing Fractions">
+<meta name="twitter:description" content="Change fractions with sliders and watch bar diagrams show how simplifying and finding a common denominator actually work.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.howto{background:var(--coral-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--coral-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.section-title{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink);margin:0 0 16px;display:flex;align-items:center;gap:8px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
+
+.slider-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.slider-row label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);min-width:90px;}
+.slider-row input[type=range]{flex:1;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--coral-ink);min-width:40px;text-align:right;}
+
+.bar-row{display:flex;align-items:center;gap:16px;margin:14px 0;flex-wrap:wrap;}
+.bar-frac{font-family:'Do Hyeon',sans-serif;font-size:22px;text-align:center;min-width:56px;}
+.bar-frac .num{border-bottom:2px solid var(--ink);padding:0 6px 3px;}
+.bar-frac .den{padding:3px 6px 0;}
+.bar{flex:1;min-width:180px;display:flex;height:38px;border-radius:8px;overflow:hidden;border:2px solid var(--paper-line);}
+.bar .seg{flex:1;border-right:1px solid var(--paper-line);}
+.bar .seg:last-child{border-right:none;}
+.bar .seg.filled{background:var(--coral);}
+.bar .seg.filled.b{background:var(--blue);}
+
+.arrow-eq{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink-soft);text-align:center;}
+
+.fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);margin-top:16px;}
+.fact b{color:var(--coral-ink);}
+
+.preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;}
+.preset-btn:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
+.preset-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--coral-ink);}
+.quiz-record{font-size:13px;color:var(--ink-soft);margin:-4px 0 16px;}
+.quiz-record b{color:var(--violet-ink);}
+.quiz-q{font-family:'Do Hyeon',sans-serif;font-size:19px;text-align:center;background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:20px;margin-bottom:16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
+.action-btn:hover{background:var(--coral-ink);}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="grade-5-6.html" style="color:var(--ink-soft);text-decoration:none;">← Back to all activities</a><a href="../fraction-simplify.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+    <a href="article-fraction-simplify.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 Read the article</a>
+  </div>
+  <span class="eyebrow">🍰 Simplifying &amp; Comparing Fractions</span>
+  <h1>Make a fraction <span>simpler,</span><br>or match its <span>denominator</span></h1>
+  <p class="sub">Simplifying a fraction makes the numbers smaller while keeping the same value, and finding a common denominator makes fractions with different denominators share the same one.</p>
+
+  <div class="howto">
+    <p>8/12 and 2/3 look completely different, but they're actually equal in value. Dividing the numerator and denominator by the same number makes the numbers smaller without changing the value the fraction represents at all — this is called <b>simplifying</b>. Dividing both 8 and 12 by 4 gives 2/3, and dividing by their greatest common divisor all at once gets you straight to the simplest form that can't be divided any further.</p>
+    <p>Fractions with different denominators are hard to compare directly. So we multiply the numerator and denominator by the same number to make the denominators match — this process is called finding a <b>common denominator</b>. Watch the bar diagrams and see for yourself that the shaded proportion stays exactly the same before and after simplifying or finding a common denominator.</p>
+  </div>
+
+  <div class="stage">
+    <div class="section-title">✂️ Simplifying — Making a Fraction Simpler</div>
+    <div class="slider-row">
+      <label>Numerator</label>
+      <input type="range" id="numSlider" min="1" max="24" value="8">
+      <span class="val" id="numVal">8</span>
+    </div>
+    <div class="slider-row">
+      <label>Denominator</label>
+      <input type="range" id="denSlider" min="2" max="24" value="12">
+      <span class="val" id="denVal">12</span>
+    </div>
+    <div class="bar-row">
+      <div class="bar-frac"><div class="num" id="origNum">8</div><div class="den" id="origDen">12</div></div>
+      <div class="bar" id="origBar"></div>
+    </div>
+    <div class="arrow-eq" id="gcdNote">↓ Divide by the GCD</div>
+    <div class="bar-row">
+      <div class="bar-frac"><div class="num" id="redNum">2</div><div class="den" id="redDen">3</div></div>
+      <div class="bar" id="redBar"></div>
+    </div>
+    <div class="fact" id="simplifyFact"></div>
+  </div>
+
+  <div class="stage">
+    <div class="section-title">🔗 Common Denominator — Matching the Denominators</div>
+    <div class="preset-row" id="presetRow"></div>
+    <div class="bar-row">
+      <div class="bar-frac"><div class="num" id="frac1Num">1</div><div class="den" id="frac1Den">3</div></div>
+      <div class="bar" id="frac1Bar"></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-frac"><div class="num" id="frac2Num">1</div><div class="den" id="frac2Den">4</div></div>
+      <div class="bar" id="frac2Bar"></div>
+    </div>
+    <div class="arrow-eq">↓ Match the common denominator (LCM)</div>
+    <div class="bar-row">
+      <div class="bar-frac"><div class="num" id="conv1Num">4</div><div class="den" id="conv1Den">12</div></div>
+      <div class="bar" id="conv1Bar"></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-frac"><div class="num" id="conv2Num">3</div><div class="den" id="conv2Den">12</div></div>
+      <div class="bar" id="conv2Bar"></div>
+    </div>
+    <div class="fact" id="commonFact"></div>
+  </div>
+
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 Simplify &amp; Common Denominator Quiz</h2>
+      <div class="progress-badge">Question <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · Correct <b id="scoreNum">0</b></div>
+    </div>
+<div class="quiz-record" id="quizRecord"></div>
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextQuizBtn">➡ Next question</button>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="Go to another activity" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="water-jug-puzzle.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ Previous activity</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Water Jug Puzzle</span>
+    </a>
+    <a href="corresponding-quantities.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">Next activity ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Corresponding Quantities</span>
+    </a>
+  </nav>
+<footer>Dividing by the same number simplifies a fraction; multiplying by the same number to match denominators is finding a common denominator. Either way, the fraction's value never changes.</footer>
+</div>
+
+<script>
+function gcd(a,b){ return b===0 ? a : gcd(b, a%b); }
+function lcm(a,b){ return (a*b)/gcd(a,b); }
+
+function barHtml(total, filled, cls){
+  let html = '';
+  for(let i=0;i<total;i++){
+    html += `<div class="seg ${i<filled?'filled '+(cls||''):''}"></div>`;
+  }
+  return html;
+}
+
+// ---------- Simplify ----------
+const numSlider = document.getElementById('numSlider');
+const denSlider = document.getElementById('denSlider');
+const numVal = document.getElementById('numVal');
+const denVal = document.getElementById('denVal');
+const origNum = document.getElementById('origNum');
+const origDen = document.getElementById('origDen');
+const origBar = document.getElementById('origBar');
+const redNum = document.getElementById('redNum');
+const redDen = document.getElementById('redDen');
+const redBar = document.getElementById('redBar');
+const gcdNote = document.getElementById('gcdNote');
+const simplifyFact = document.getElementById('simplifyFact');
+
+function renderSimplify(){
+  let n = parseInt(numSlider.value);
+  let d = parseInt(denSlider.value);
+  numVal.textContent = n; denVal.textContent = d;
+
+  const g = gcd(n,d);
+  const rn = n/g, rd = d/g;
+
+  origNum.textContent = n; origDen.textContent = d;
+  origBar.innerHTML = barHtml(d, Math.min(n,d), '');
+  redNum.textContent = rn; redDen.textContent = rd;
+  redBar.innerHTML = barHtml(rd, Math.min(rn,rd), '');
+
+  if(g===1){
+    gcdNote.textContent = "This fraction can't be simplified any further (GCD is 1)";
+    simplifyFact.innerHTML = `<b>${n}/${d}</b> is already in simplest form because the GCD of the numerator and denominator is 1.`;
+  } else {
+    gcdNote.textContent = `↓ Divide by the GCD, ${g}`;
+    simplifyFact.innerHTML = `The GCD of ${n} and ${d} is <b>${g}</b>. Dividing both the numerator and denominator by ${g} gives <b>${rn}/${rd}</b>. See how the shaded proportion of both bars is exactly the same?`;
+  }
+}
+numSlider.addEventListener('input', renderSimplify);
+denSlider.addEventListener('input', renderSimplify);
+renderSimplify();
+
+// ---------- Common denominator ----------
+const FRAC_PRESETS = [
+  {a:[1,3], b:[1,4]},
+  {a:[2,5], b:[1,2]},
+  {a:[3,4], b:[5,6]},
+  {a:[1,2], b:[1,3]},
+  {a:[2,3], b:[3,4]},
+];
+let presetIdx = 0;
+const presetRow = document.getElementById('presetRow');
+const frac1Num = document.getElementById('frac1Num'), frac1Den = document.getElementById('frac1Den'), frac1Bar = document.getElementById('frac1Bar');
+const frac2Num = document.getElementById('frac2Num'), frac2Den = document.getElementById('frac2Den'), frac2Bar = document.getElementById('frac2Bar');
+const conv1Num = document.getElementById('conv1Num'), conv1Den = document.getElementById('conv1Den'), conv1Bar = document.getElementById('conv1Bar');
+const conv2Num = document.getElementById('conv2Num'), conv2Den = document.getElementById('conv2Den'), conv2Bar = document.getElementById('conv2Bar');
+const commonFact = document.getElementById('commonFact');
+
+function buildPresets(){
+  presetRow.innerHTML = FRAC_PRESETS.map((p,i)=>`<button class="preset-btn" data-i="${i}">${p.a[0]}/${p.a[1]} , ${p.b[0]}/${p.b[1]}</button>`).join('');
+  presetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      presetIdx = parseInt(btn.dataset.i);
+      renderCommon();
+    });
+  });
+}
+
+function renderCommon(){
+  presetRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===presetIdx));
+  const p = FRAC_PRESETS[presetIdx];
+  const [n1,d1] = p.a, [n2,d2] = p.b;
+  const L = lcm(d1,d2);
+  const c1n = n1*(L/d1), c2n = n2*(L/d2);
+
+  frac1Num.textContent = n1; frac1Den.textContent = d1; frac1Bar.innerHTML = barHtml(d1, n1, 'a');
+  frac2Num.textContent = n2; frac2Den.textContent = d2; frac2Bar.innerHTML = barHtml(d2, n2, 'b');
+  conv1Num.textContent = c1n; conv1Den.textContent = L; conv1Bar.innerHTML = barHtml(L, c1n, 'a');
+  conv2Num.textContent = c2n; conv2Den.textContent = L; conv2Bar.innerHTML = barHtml(L, c2n, 'b');
+
+  commonFact.innerHTML = `The LCM of ${d1} and ${d2} is <b>${L}</b>. So ${n1}/${d1} becomes ${c1n}/${L}, and ${n2}/${d2} becomes ${c2n}/${L}. Now that the denominators match, you can compare the two fractions directly.`;
+}
+buildPresets();
+renderCommon();
+
+// ---------- Quiz ----------
+const quizQ = document.getElementById('quizQ');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextQuizBtn = document.getElementById('nextQuizBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+
+const QUIZ_KEY = 'ainmath_quiz_v1';
+const QUIZ_ID = 'fraction-simplify';
+const quizRecordEl = document.getElementById('quizRecord');
+
+function loadQuizRecord(){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    return all[QUIZ_ID] || null;
+  }catch(e){ return null; }
+}
+
+function saveQuizRecord(finalScore){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    const prev = all[QUIZ_ID] || { best:0, plays:0 };
+    all[QUIZ_ID] = {
+      best: Math.max(prev.best||0, finalScore),
+      total: TOTAL_QUESTIONS,
+      plays: (prev.plays||0) + 1,
+      last: finalScore,
+      updatedAt: Date.now()
+    };
+    localStorage.setItem(QUIZ_KEY, JSON.stringify(all));
+  }catch(e){}
+}
+
+function renderQuizRecord(){
+  if(!quizRecordEl) return;
+  const rec = loadQuizRecord();
+  quizRecordEl.textContent = rec
+    ? `📌 Best score: ${rec.best}/${rec.total} · played ${rec.plays} time(s)`
+    : '';
+}
+renderQuizRecord();
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+const TOTAL_QUESTIONS = 10;
+let score = 0, answered = false, quizAnswer = '', questionIndex = 0, quizFinished = false;
+let usedQuestions = [];
+
+function randInt(min,max){ return min + Math.floor(Math.random()*(max-min+1)); }
+
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
+
+function buildQuizCandidate(){
+  const isSimplify = Math.random() < 0.5;
+
+  if(isSimplify){
+    const COMPOSITE_DENOMS = [4,6,8,9,10,12,14,15,16,18,20];
+    let d = COMPOSITE_DENOMS[randInt(0,COMPOSITE_DENOMS.length-1)];
+    let n, g;
+    do { n = randInt(2,d-1); g = gcd(n,d); } while(g===1);
+    const rn = n/g, rd = d/g;
+    const answer = `${rn}/${rd}`;
+    const text = `Simplify ${n}/${d}.`;
+    const wrong1 = `${n}/${d}`;
+    const wrong2 = `${rn+1}/${rd}`;
+    const opts = [answer, wrong1, wrong2].filter((v,i,a)=>a.indexOf(v)===i);
+    while(opts.length<3) opts.push(`${randInt(1,9)}/${randInt(2,10)}`);
+    return { text, answer, opts: opts.sort(()=>Math.random()-0.5) };
+  } else {
+    const p = FRAC_PRESETS[randInt(0,FRAC_PRESETS.length-1)];
+    const [,d1] = p.a, [,d2] = p.b;
+    const L = lcm(d1,d2);
+    const answer = `${L}`;
+    const text = `What's the common denominator when matching ${p.a[0]}/${d1} and ${p.b[0]}/${d2}?`;
+    const opts = [`${L}`, `${d1*d2}`, `${Math.max(d1,d2)}`].filter((v,i,a)=>a.indexOf(v)===i);
+    while(opts.length<3) opts.push(`${L+randInt(1,4)}`);
+    return { text, answer, opts: opts.sort(()=>Math.random()-0.5) };
+  }
+}
+
+function newQuizQuestion(){
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
+  answered = false;
+  quizFeedback.textContent = '';
+  qIdxNumEl.textContent = questionIndex;
+  nextQuizBtn.textContent = questionIndex >= TOTAL_QUESTIONS ? '🏁 See results' : '➡ Next question';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildQuizCandidate();
+    attempts++;
+  } while(usedQuestions.includes(candidate.text) && attempts < 30);
+  usedQuestions.push(candidate.text);
+
+  quizAnswer = candidate.answer;
+  quizQ.textContent = candidate.text;
+  renderOpts(candidate.opts);
+}
+
+function renderOpts(opts){
+  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${o}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered = true;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      if(btn.dataset.o===quizAnswer){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 Correct!`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `Not quite! The answer was "${quizAnswer}".`;
+      }
+      scoreNumEl.textContent = score;
+    });
+  });
+}
+
+function showQuizResult(){
+  quizFinished = true;
+  saveQuizRecord(score);
+  renderQuizRecord();
+  quizQ.style.display = 'none';
+  quizOpts.style.display = 'none';
+  nextQuizBtn.textContent = '🔄 Play again';
+  quizFeedback.innerHTML = `🏁 Quiz complete! You got <b>${score}</b> out of ${TOTAL_QUESTIONS} correct.`;
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  quizQ.style.display = '';
+  quizOpts.style.display = '';
+  newQuizQuestion();
+}
+
+nextQuizBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newQuizQuestion(); }
+});
+newQuizQuestion();
+</script>
+</body>
+</html>

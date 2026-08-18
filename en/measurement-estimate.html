@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Estimating Length, Volume &amp; Weight Lab</title>
+<meta name="description" content="Move the slider to switch units, and take on a quiz that estimates about how big everyday objects are.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Estimating Length, Volume &amp; Weight Lab">
+<meta property="og:description" content="Move the slider to switch units, and take on a quiz that estimates about how big everyday objects are.">
+<meta property="og:url" content="https://ainmath.com/en/measurement-estimate.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Estimating Length, Volume &amp; Weight Lab">
+<meta name="twitter:description" content="Move the slider to switch units, and take on a quiz that estimates about how big everyday objects are.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--green-ink);background:var(--green-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.tab-picker{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:10px 16px;cursor:pointer;transition:all .15s ease;}
+.tab-btn:hover{border-color:var(--green-ink);color:var(--green-ink);}
+.tab-btn.active{background:var(--green-ink);border-color:var(--green-ink);color:#fff;}
+
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
+.slider-row{display:flex;align-items:center;gap:12px;margin:16px 0 22px;}
+.slider-row input[type=range]{flex:1;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--green-ink);min-width:90px;text-align:right;}
+.convert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;}
+.convert-card{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:14px;text-align:center;}
+.convert-card .unit{font-size:14px;color:var(--ink-soft);}
+.convert-card .num{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--green-ink);margin-top:4px;}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:8px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--green-ink);}
+.quiz-record{font-size:13px;color:var(--ink-soft);margin:-4px 0 16px;}
+.quiz-record b{color:var(--violet-ink);}
+.quiz-question{font-family:'Do Hyeon',sans-serif;font-size:17px;margin:10px 0 16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:14.5px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:11px 16px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;}
+.action-btn:hover{background:var(--green-ink);}
+
+.howto{background:var(--green-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--green-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="grade-3-4.html" style="color:var(--ink-soft);text-decoration:none;">← Back to all activities</a>
+    <a href="article-measurement-estimate.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:6px 12px;border-radius:999px;">📖 Read the article</a>
+    <a href="../measurement-estimate.html" style="color:var(--ink-soft);text-decoration:none;font-size:12.5px;background:var(--violet-soft);padding:4px 10px;border-radius:999px;">한국어 →</a>
+  </div>
+  <span class="eyebrow">📏 Estimating Length, Volume &amp; Weight Lab</span>
+  <h1>Switch units and<br><span>estimate</span> how big things are</h1>
+  <p class="sub">Move the slider to see how units convert into each other, then take on a quiz that estimates about how big everyday objects are.</p>
+
+  <div class="howto">
+    <p>Guessing "about this much" without a ruler or a scale is called <b>estimating</b>. The same length can be written in mm, cm, m, or km depending on its size — different units, same real size. They convert by fixed multiples, like 1cm = 10mm, 1m = 100cm, and 1L = 1000mL.</p>
+    <p>The trick to estimating well is using something familiar as a reference. Once you know a carton of milk is 200mL, you can guess right away that a 2L bottle holds "about 10 milk cartons' worth." Estimating doesn't have one single right answer — if your guess is close to the real value, you estimated well.</p>
+    <p>Move the slider and watch how the units change together, guess about how many cm, mL, or g an everyday object is, then check yourself with the quiz.</p>
+  </div>
+
+  <div class="tab-picker" id="tabPicker"></div>
+
+  <div class="stage">
+    <div class="slider-row">
+      <span id="sliderLabel" style="font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);">Value</span>
+      <input type="range" id="valueSlider" min="1" max="500" value="100" step="1">
+      <span class="val" id="sliderVal"></span>
+    </div>
+    <div class="convert-grid" id="convertGrid"></div>
+  </div>
+
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 Estimation Quiz</h2>
+      <div class="progress-badge">Question <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · Correct <b id="scoreNum">0</b></div>
+    </div>
+<div class="quiz-record" id="quizRecord"></div>
+    <div class="quiz-question" id="quizQuestion"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextBtn">➡ Next question</button>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="Go to another activity" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="time-calculator.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ Previous activity</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Time Calculator</span>
+    </a>
+    <a href="protractor-measure.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">Next activity ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Angle Measuring</span>
+    </a>
+  </nav>
+<footer>A good sense for estimating units comes from real experience measuring things. Once you know a carton of milk is 200mL, it's easy to guess that a 2L bottle is 10 times that.</footer>
+</div>
+
+<script>
+const CATEGORIES = {
+  length: {
+    name:'Length', color:'green', sliderLabel:'Length (cm)', sliderMax:500, sliderDefault:100,
+    convert:(cm)=>[
+      {unit:'mm', val:(cm*10).toLocaleString()},
+      {unit:'cm', val:cm.toLocaleString()},
+      {unit:'m', val:(cm/100).toFixed(2)},
+      {unit:'km', val:(cm/100000).toFixed(4)},
+    ],
+    items:[
+      {name:'a pencil', correct:'about 15cm', options:['about 15mm','about 15cm','about 15m','about 15km']},
+      {name:'the width of a soccer goal', correct:'about 7m', options:['about 7mm','about 7cm','about 7m','about 7km']},
+      {name:'the length of your pinky finger', correct:'about 5cm', options:['about 5mm','about 5cm','about 5m','about 5km']},
+      {name:'the distance between Seoul and Busan', correct:'about 400km', options:['about 400cm','about 400m','about 400km','about 4km']},
+      {name:'the long side of a classroom whiteboard', correct:'about 3m', options:['about 3mm','about 3cm','about 3m','about 3km']},
+    ]
+  },
+  volume: {
+    name:'Volume', color:'blue', sliderLabel:'Volume (mL)', sliderMax:3000, sliderDefault:500,
+    convert:(ml)=>[
+      {unit:'mL', val:ml.toLocaleString()},
+      {unit:'L', val:(ml/1000).toFixed(2)},
+    ],
+    items:[
+      {name:'a carton of milk', correct:'about 200mL', options:['about 2mL','about 200mL','about 20L','about 2L']},
+      {name:'a bottle of water', correct:'about 500mL', options:['about 5mL','about 500mL','about 50L','about 5L']},
+      {name:'a bathtub filled with water', correct:'about 200L', options:['about 200mL','about 2L','about 20L','about 200L']},
+      {name:'a paper cup of water', correct:'about 180mL', options:['about 18mL','about 180mL','about 1.8L','about 18L']},
+    ]
+  },
+  weight: {
+    name:'Weight', color:'coral', sliderLabel:'Weight (g)', sliderMax:3000, sliderDefault:300,
+    convert:(g)=>[
+      {unit:'g', val:g.toLocaleString()},
+      {unit:'kg', val:(g/1000).toFixed(2)},
+    ],
+    items:[
+      {name:'an apple', correct:'about 200g', options:['about 2g','about 20g','about 200g','about 2kg']},
+      {name:'an elementary school student', correct:'about 30kg', options:['about 3kg','about 30kg','about 300kg','about 30g']},
+      {name:'a math textbook', correct:'about 400g', options:['about 4g','about 40g','about 400g','about 4kg']},
+      {name:'a small dog', correct:'about 5kg', options:['about 500g','about 5kg','about 50kg','about 5g']},
+    ]
+  },
+};
+
+let activeCat = 'length';
+const TOTAL_QUESTIONS = 10;
+let score=0, answered=false, quizAnswer=null, questionIndex=0, quizFinished=false;
+let usedQuestions = [];
+
+const tabPicker = document.getElementById('tabPicker');
+const sliderLabel = document.getElementById('sliderLabel');
+const valueSlider = document.getElementById('valueSlider');
+const sliderVal = document.getElementById('sliderVal');
+const convertGrid = document.getElementById('convertGrid');
+const quizQuestion = document.getElementById('quizQuestion');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextBtn = document.getElementById('nextBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+
+// ---------- best-score record (localStorage) ----------
+const QUIZ_KEY = 'ainmath_quiz_v1';
+const QUIZ_ID = 'measurement-estimate';
+const quizRecordEl = document.getElementById('quizRecord');
+
+function loadQuizRecord(){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    return all[QUIZ_ID] || null;
+  }catch(e){ return null; }
+}
+
+function saveQuizRecord(finalScore){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    const prev = all[QUIZ_ID] || { best:0, plays:0 };
+    all[QUIZ_ID] = {
+      best: Math.max(prev.best||0, finalScore),
+      total: TOTAL_QUESTIONS,
+      plays: (prev.plays||0) + 1,
+      last: finalScore,
+      updatedAt: Date.now()
+    };
+    localStorage.setItem(QUIZ_KEY, JSON.stringify(all));
+  }catch(e){}
+}
+
+function renderQuizRecord(){
+  if(!quizRecordEl) return;
+  const rec = loadQuizRecord();
+  quizRecordEl.textContent = rec
+    ? `📌 Best score: ${rec.best}/${rec.total} · played ${rec.plays} time(s)`
+    : '';
+}
+renderQuizRecord();
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
+
+function buildTabs(){
+  tabPicker.innerHTML = Object.entries(CATEGORIES).map(([key,c])=>
+    `<button class="tab-btn${key===activeCat?' active':''}" data-k="${key}">${c.name}</button>`
+  ).join('');
+  tabPicker.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(btn.dataset.k===activeCat) return;
+      activeCat = btn.dataset.k;
+      buildTabs();
+      setupSlider();
+      newQuizQuestion();
+    });
+  });
+}
+
+function setupSlider(){
+  const c = CATEGORIES[activeCat];
+  sliderLabel.textContent = c.sliderLabel;
+  valueSlider.max = c.sliderMax;
+  valueSlider.value = c.sliderDefault;
+  renderConvert();
+}
+
+function renderConvert(){
+  const c = CATEGORIES[activeCat];
+  const v = parseInt(valueSlider.value);
+  sliderVal.textContent = v.toLocaleString();
+  const rows = c.convert(v);
+  convertGrid.innerHTML = rows.map(r=>`
+    <div class="convert-card">
+      <div class="num">${r.val}</div>
+      <div class="unit">${r.unit}</div>
+    </div>
+  `).join('');
+}
+valueSlider.addEventListener('input', renderConvert);
+
+function buildQuizCandidate(){
+  const c = CATEGORIES[activeCat];
+  const item = c.items[Math.floor(Math.random()*c.items.length)];
+  const qWord = { 'Length':'long', 'Volume':'much', 'Weight':'heavy' }[c.name] || 'big';
+  const text = `About how ${qWord} is ${item.name}?`;
+  const answer = item.correct;
+  const opts = [...item.options].sort(()=>Math.random()-0.5);
+  return { text, answer, opts };
+}
+
+function newQuizQuestion(){
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
+  answered = false;
+  quizFeedback.textContent = '';
+  qIdxNumEl.textContent = questionIndex;
+  nextBtn.textContent = questionIndex >= TOTAL_QUESTIONS ? '🏁 See results' : '➡ Next question';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildQuizCandidate();
+    attempts++;
+  } while(usedQuestions.includes(candidate.text) && attempts < 30);
+  usedQuestions.push(candidate.text);
+
+  quizAnswer = candidate.answer;
+  quizQuestion.textContent = candidate.text;
+  renderOpts(candidate.opts);
+}
+
+function renderOpts(opts){
+  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${o}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered = true;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      if(btn.dataset.o===quizAnswer){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 Correct!`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `Not quite! The answer was "${quizAnswer}".`;
+      }
+      scoreNumEl.textContent = score;
+    });
+  });
+}
+
+function showQuizResult(){
+  quizFinished = true;
+  saveQuizRecord(score);
+  renderQuizRecord();
+  quizQuestion.style.display = 'none';
+  quizOpts.style.display = 'none';
+  nextBtn.textContent = '🔄 Play again';
+  quizFeedback.innerHTML = `🏁 Quiz complete! You got <b>${score}</b> out of ${TOTAL_QUESTIONS} correct.`;
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  quizQuestion.style.display = '';
+  quizOpts.style.display = '';
+  newQuizQuestion();
+}
+
+nextBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newQuizQuestion(); }
+});
+
+buildTabs();
+setupSlider();
+newQuizQuestion();
+</script>
+</body>
+</html>

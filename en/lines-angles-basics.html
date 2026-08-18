@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Lines & Angles Basics</title>
+<meta name="description" content="Move the angle between two lines with a slider to see parallel and perpendicular relationships, and try the relationship-guessing quiz.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Lines & Angles Basics">
+<meta property="og:description" content="Move the angle between two lines with a slider to see parallel and perpendicular relationships, and try the relationship-guessing quiz.">
+<meta property="og:url" content="https://ainmath.com/en/lines-angles-basics.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lines & Angles Basics">
+<meta name="twitter:description" content="Move the angle between two lines with a slider to see parallel and perpendicular relationships, and try the relationship-guessing quiz.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+.howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--violet-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.15fr 0.85fr;gap:32px;align-items:start;margin-bottom:24px;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+svg{width:100%;max-width:420px;height:auto;display:block;margin:0 auto;}
+.slider-row{display:flex;align-items:center;gap:12px;margin-top:16px;}
+.slider-row input[type=range]{flex:1;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--violet-ink);min-width:52px;text-align:right;}
+
+.panel{display:flex;flex-direction:column;gap:16px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px;text-align:center;}
+.equation .formula{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.equation .result{font-family:'Do Hyeon',sans-serif;font-size:clamp(26px,4.4vw,34px);margin-top:6px;color:var(--violet);}
+.fact{background:var(--green-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+.fact b{color:var(--green-ink);}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--violet-ink);}
+.quiz-record{font-size:13px;color:var(--ink-soft);margin:-4px 0 16px;}
+.quiz-record b{color:var(--violet-ink);}
+.quiz-body{display:flex;gap:28px;flex-wrap:wrap;align-items:center;}
+#quizSvg{width:220px;max-width:220px;flex:none;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;flex:1;min-width:200px;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;}
+.action-btn:hover{background:var(--violet-ink);}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="grade-3-4.html" style="color:var(--ink-soft);text-decoration:none;">← Back to all activities</a>
+    <a href="article-lines-angles-basics.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:6px 12px;border-radius:999px;">📖 Read the article</a>
+    <a href="../lines-angles-basics.html" style="color:var(--ink-soft);text-decoration:none;font-size:12.5px;background:var(--violet-soft);padding:4px 10px;border-radius:999px;">한국어 →</a>
+  </div>
+  <span class="eyebrow">📏 Lines & Angles Basics</span>
+  <h1>Move two lines to<br>see <span>parallel & perpendicular</span> for yourself</h1>
+  <p class="sub">Keep one line fixed, and rotate the other with a slider. Watch how the angle where the two lines meet decides whether they're parallel or perpendicular.</p>
+
+  <div class="howto">
+    <p>Two <b>parallel</b> lines never meet, no matter how far you extend them. <b>Perpendicular</b> means the angle where two lines meet is exactly 90° (a right angle). Any other case is just called "meeting" or "intersecting."</p>
+    <p>You can spot these all around you — the two side rails of a ladder, or the two rails of a train track, are <b>parallel</b>. The horizontal and vertical edges of a book or a window frame are <b>perpendicular</b>. The two hands of a clock pointing to 3 and 12 are exactly perpendicular too.</p>
+    <p>Move the angle slider bit by bit, and find the exact moment the two lines become parallel, and the exact moment they become perpendicular. As the angle gets close to 0° or 180°, the two lines look almost like one line. As it gets close to 90°, you'll see a neat cross shape form.</p>
+  </div>
+
+  <div class="stage">
+    <div>
+      <svg id="mainSvg" viewBox="0 0 400 400"></svg>
+      <div class="slider-row">
+        <span style="font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);">Angle</span>
+        <input type="range" id="angleSlider" min="0" max="180" value="45" step="1">
+        <span class="val" id="angleVal">45°</span>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="equation">
+        <div class="formula">Relationship between the two lines</div>
+        <div class="result" id="relationResult">Just meeting</div>
+      </div>
+      <div class="fact" id="fact">Move the slider to change the angle!</div>
+    </div>
+  </div>
+
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 Guess the relationship quiz</h2>
+      <div class="progress-badge">Question <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · Correct <b id="scoreNum">0</b></div>
+    </div>
+<div class="quiz-record" id="quizRecord"></div>
+    <div class="quiz-body">
+      <svg id="quizSvg" viewBox="0 0 220 220"></svg>
+      <div class="quiz-opts" id="quizOpts"></div>
+    </div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextBtn">➡ Next question</button>
+  </div>
+
+            <!-- prev-next-nav -->
+  <nav aria-label="Go to another activity" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="equal-sign-balance.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ Previous activity</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">The Equals Sign & Balance</span>
+    </a>
+    <a href="shape-classify.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">Next activity ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Circle, Triangle, Rectangle Sort</span>
+    </a>
+  </nav>
+<footer>Perpendicular and parallel lines are everywhere around you — the corners of a desk, a window frame, the horizontal and vertical lines of a road all form perpendicular and parallel relationships.</footer>
+</div>
+
+<script>
+const mainSvg = document.getElementById('mainSvg');
+const angleSlider = document.getElementById('angleSlider');
+const angleVal = document.getElementById('angleVal');
+const relationResult = document.getElementById('relationResult');
+const factBox = document.getElementById('fact');
+
+const quizSvg = document.getElementById('quizSvg');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextBtn = document.getElementById('nextBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+
+const QUIZ_KEY = 'ainmath_quiz_v1';
+const QUIZ_ID = 'lines-angles-basics';
+const quizRecordEl = document.getElementById('quizRecord');
+
+function loadQuizRecord(){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    return all[QUIZ_ID] || null;
+  }catch(e){ return null; }
+}
+
+function saveQuizRecord(finalScore){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    const prev = all[QUIZ_ID] || { best:0, plays:0 };
+    all[QUIZ_ID] = {
+      best: Math.max(prev.best||0, finalScore),
+      total: TOTAL_QUESTIONS,
+      plays: (prev.plays||0) + 1,
+      last: finalScore,
+      updatedAt: Date.now()
+    };
+    localStorage.setItem(QUIZ_KEY, JSON.stringify(all));
+  }catch(e){}
+}
+
+function renderQuizRecord(){
+  if(!quizRecordEl) return;
+  const rec = loadQuizRecord();
+  quizRecordEl.textContent = rec
+    ? `📌 Best score: ${rec.best}/${rec.total} · played ${rec.plays} time(s)`
+    : '';
+}
+renderQuizRecord();
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+
+function lineSvg(angleDeg, size, cx, cy, len){
+  const rad = angleDeg*Math.PI/180;
+  const x1 = cx - len*Math.cos(rad), y1 = cy + len*Math.sin(rad);
+  const x2 = cx + len*Math.cos(rad), y2 = cy - len*Math.sin(rad);
+  let html = `
+    <line x1="${cx-len}" y1="${cy}" x2="${cx+len}" y2="${cy}" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"></line>
+    <line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--violet)" stroke-width="4" stroke-linecap="round"></line>
+    <circle cx="${cx}" cy="${cy}" r="5" fill="var(--coral)"></circle>
+  `;
+  return html;
+}
+
+function classify(angleDeg){
+  if(angleDeg<=3 || angleDeg>=177) return 'parallel';
+  if(Math.abs(angleDeg-90)<=3) return 'perp';
+  return 'meet';
+}
+
+function relationLabel(type){
+  if(type==='parallel') return 'Parallel';
+  if(type==='perp') return 'Perpendicular';
+  return 'Just meeting';
+}
+
+function render(){
+  const angle = parseInt(angleSlider.value);
+  angleVal.textContent = angle+'°';
+  const type = classify(angle);
+
+  let html;
+  if(type==='parallel'){
+    html = `
+      <line x1="40" y1="170" x2="360" y2="170" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"></line>
+      <line x1="40" y1="230" x2="360" y2="230" stroke="var(--violet)" stroke-width="4" stroke-linecap="round"></line>
+      <text x="200" y="205" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink-soft)">They never meet, no matter how far they extend</text>
+    `;
+  } else {
+    html = lineSvg(angle, 400, 200, 200, 160);
+    if(type==='perp'){
+      html += `<rect x="200" y="180" width="20" height="20" fill="none" stroke="var(--coral)" stroke-width="2"></rect>`;
+    }
+  }
+  mainSvg.innerHTML = html;
+
+  relationResult.textContent = relationLabel(type);
+  relationResult.style.color = type==='parallel' ? 'var(--blue)' : (type==='perp' ? 'var(--coral)' : 'var(--violet)');
+
+  if(type==='parallel'){
+    factBox.innerHTML = `The two lines are <b>parallel</b>. In this state, no matter how far you extend the lines, they will never meet.`;
+  } else if(type==='perp'){
+    factBox.innerHTML = `The angle formed where the two lines meet is exactly <b>90° (a right angle)</b>. This relationship is called <b>perpendicular</b>.`;
+  } else {
+    factBox.innerHTML = `Right now, the angle where the two lines meet is <b>${angle}°</b>. Since it's not 90°, they're not perpendicular, and since they point in different directions, they're not parallel either.`;
+  }
+}
+
+angleSlider.addEventListener('input', render);
+
+// ---------- Quiz ----------
+const TOTAL_QUESTIONS = 10;
+let score = 0, answered = false, questionIndex = 0, quizFinished = false;
+let quizAngle = 0, quizType = '';
+let usedQuestions = [];
+
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
+
+function buildQuizCandidate(){
+  const roll = Math.random();
+  let angle, type;
+  if(roll < 0.33){ angle = Math.floor(Math.random()*3); type='parallel'; }
+  else if(roll < 0.66){ angle = 90; type='perp'; }
+  else { angle = 20 + Math.floor(Math.random()*50); if(angle===90) angle=100; type='meet'; }
+
+  let html;
+  if(type==='parallel'){
+    html = `
+      <line x1="20" y1="80" x2="200" y2="80" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"></line>
+      <line x1="20" y1="140" x2="200" y2="140" stroke="var(--violet)" stroke-width="4" stroke-linecap="round"></line>
+    `;
+  } else {
+    html = lineSvg(angle, 220, 110, 110, 85);
+  }
+
+  const options = [
+    {key:'parallel', label:'Parallel'},
+    {key:'perp', label:'Perpendicular'},
+    {key:'meet', label:'Neither'},
+  ].sort(()=>Math.random()-0.5);
+
+  return { key: `${type}-${angle}`, angle, type, svgHtml: html, options };
+}
+
+function newQuizQuestion(){
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
+  answered = false;
+  quizFeedback.textContent = '';
+  qIdxNumEl.textContent = questionIndex;
+  nextBtn.textContent = questionIndex >= TOTAL_QUESTIONS ? '🏁 See results' : '➡ Next question';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildQuizCandidate();
+    attempts++;
+  } while(usedQuestions.includes(candidate.key) && attempts < 30);
+  usedQuestions.push(candidate.key);
+
+  quizAngle = candidate.angle;
+  quizType = candidate.type;
+  quizSvg.innerHTML = candidate.svgHtml;
+  renderOpts(candidate.options);
+}
+
+function renderOpts(options){
+  quizOpts.innerHTML = options.map(o=>`<button class="opt-btn" data-k="${o.key}">${o.label}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered = true;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      if(btn.dataset.k===quizType){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 Correct!`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-k="${quizType}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `Not quite! The answer was "${options.find(o=>o.key===quizType).label}".`;
+      }
+      scoreNumEl.textContent = score;
+    });
+  });
+}
+
+function showQuizResult(){
+  quizFinished = true;
+  saveQuizRecord(score);
+  renderQuizRecord();
+  quizSvg.style.display = 'none';
+  quizOpts.style.display = 'none';
+  nextBtn.textContent = '🔄 Play again';
+  quizFeedback.innerHTML = `🏁 Quiz complete! You got <b>${score}</b> out of ${TOTAL_QUESTIONS} correct.`;
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  quizSvg.style.display = '';
+  quizOpts.style.display = '';
+  newQuizQuestion();
+}
+
+nextBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newQuizQuestion(); }
+});
+
+render();
+newQuizQuestion();
+</script>
+</body>
+</html>

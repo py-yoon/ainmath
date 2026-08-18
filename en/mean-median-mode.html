@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Mean, Median &amp; Mode Lab</title>
+<meta name="description" content="Type values into 12 number cards and see how the mean, median, and mode change.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Mean, Median & Mode Lab">
+<meta property="og:description" content="Type values into 12 number cards and see how the mean, median, and mode change.">
+<meta property="og:url" content="https://ainmath.com/en/mean-median-mode.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mean, Median & Mode Lab">
+<meta name="twitter:description" content="Type values into 12 number cards and see how the mean, median, and mode change.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1040px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--green-ink);background:var(--green-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.25fr 0.75fr;gap:32px;align-items:start;}
+@media (max-width:860px){ .stage{grid-template-columns:1fr;} }
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(66px,1fr));gap:10px;margin-bottom:20px;}
+.num-card{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:10px 4px;text-align:center;transition:border-color .15s ease;}
+.num-card:focus-within{border-color:var(--green-ink);}
+.num-card input{width:100%;border:none;background:transparent;font-family:'Do Hyeon',sans-serif;font-size:24px;color:var(--ink);text-align:center;outline:none;-moz-appearance:textfield;}
+.num-card input::-webkit-outer-spin-button,.num-card input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+.num-card input:focus{color:var(--green-ink);}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:12px 18px;cursor:pointer;flex:1;min-width:130px;transition:transform .15s ease, background .2s ease;}
+.action-btn:hover{background:var(--green-ink);}
+.action-btn:active{transform:scale(0.97);}
+.action-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+.plot{position:relative;height:170px;border-bottom:2px solid var(--paper-line);margin-bottom:10px;}
+.dot-pt{position:absolute;bottom:0;width:22px;height:22px;border-radius:50%;background:var(--green-ink);color:#fff;font-family:'Do Hyeon',sans-serif;font-size:13px;display:flex;align-items:center;justify-content:center;transform:translateX(-50%);transition:left .3s ease;}
+.marker{position:absolute;bottom:-2px;width:2px;height:170px;transition:left .3s ease;}
+.marker-label{position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-family:'Do Hyeon',sans-serif;font-size:13px;white-space:nowrap;}
+.panel{display:flex;flex-direction:column;gap:16px;}
+.stat-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:14px 16px;display:flex;justify-content:space-between;align-items:baseline;}
+.stat-box .label{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.stat-box .val{font-family:'Do Hyeon',sans-serif;font-size:26px;color:var(--ink);}
+.fact{background:var(--green-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+.fact b{color:var(--green-ink);}
+.howto{background:var(--green-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--green-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+footer{max-width:1040px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="grade-5-6.html" style="color:var(--ink-soft);text-decoration:none;">← Back to all activities</a><a href="../mean-median-mode.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+    <a href="article-mean-median-mode.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 Read the article</a>
+  </div>
+  <span class="eyebrow">📊 Mean, Median &amp; Mode Lab</span>
+  <h1>12 numbers, three ways<br>to find a <span>representative value</span></h1>
+  <p class="sub">Type numbers directly into the cards to change all 12 values. Compare the mean (sum divided by count), median (the middle value when sorted by size), and mode (the value that appears most often) with dashed markers.</p>
+
+  <div class="howto">
+    <p>Why do we need three different representative values? Because which one best represents the real picture depends on the situation.</p>
+    <p>The most commonly used one, the <b>mean</b>, has the advantage of accounting for every value, but it can swing a lot from a single extremely large or small value (an outlier). For example, if a company has 9 employees earning 3 million won a month and the owner alone earns 30 million, the "average salary" comes out far higher than what most employees actually make. In cases like this, the <b>median</b> is a much more realistic representative value — since it only looks at the value in the middle of the order, it's not easily swayed by extreme values.</p>
+    <p>The <b>mode</b> plays a somewhat different role. Since it's "the value that appears most," it's more useful for categories (like the best-selling shoe size) than for numbers in general. But if every value is different, there may be no mode at all.</p>
+    <p>Try picking just one card and changing it to a huge number. You'll see for yourself that the mean jumps way up while the median barely moves.</p>
+  </div>
+
+  <div class="stage">
+    <div>
+      <div class="card-grid" id="cardGrid"></div>
+      <div class="btn-row">
+        <button class="action-btn" id="shuffleBtn">🎲 Shuffle randomly</button>
+      </div>
+      <div class="plot" id="plot"></div>
+    </div>
+
+    <div class="panel">
+      <div class="stat-box"><span class="label">Mean</span><span class="val" id="meanVal" style="color:var(--violet)">0</span></div>
+      <div class="stat-box"><span class="label">Median</span><span class="val" id="medianVal" style="color:var(--coral)">0</span></div>
+      <div class="stat-box"><span class="label">Mode</span><span class="val" id="modeVal" style="color:var(--green)">0</span></div>
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="Go to another activity" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="cube-net-lab.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ Previous activity</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Cube Net Lab</span>
+    </a>
+    <a href="coin-dice-simulator.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">Next activity ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Coin &amp; Dice Simulator</span>
+    </a>
+  </nav>
+<footer>Mixing in one extremely large or small value (an outlier) swings the mean a lot, but the median barely moves. That's why the news often shows "median income" alongside "average income" — a few very high incomes can distort the average. Try extreme changes yourself and see.</footer>
+</div>
+
+<script>
+const N = 12;
+const cardGridEl = document.getElementById('cardGrid');
+const plot = document.getElementById('plot');
+const meanVal = document.getElementById('meanVal');
+const medianVal = document.getElementById('medianVal');
+const modeVal = document.getElementById('modeVal');
+const factBox = document.getElementById('fact');
+const shuffleBtn = document.getElementById('shuffleBtn');
+
+let values = [4, 7, 7, 7, 9, 11, 12, 13, 15, 18, 20, 28];
+
+function buildCards(){
+  cardGridEl.innerHTML = values.map((v,i)=>`
+    <div class="num-card">
+      <input type="number" inputmode="numeric" id="v${i}" min="1" max="99" value="${v}" aria-label="Value ${i+1}">
+    </div>
+  `).join('');
+  values.forEach((v,i)=>{
+    const inp = document.getElementById(`v${i}`);
+    inp.addEventListener('input', ()=>{
+      const n = parseInt(inp.value);
+      if(!isNaN(n) && n>0){ values[i] = n; render(); }
+    });
+    inp.addEventListener('blur', ()=>{
+      let n = parseInt(inp.value);
+      if(isNaN(n) || n<1) n = values[i];
+      n = Math.min(99, n);
+      values[i] = n;
+      inp.value = n;
+      render();
+    });
+  });
+}
+
+function computeMode(arr){
+  const freq = {};
+  arr.forEach(v=> freq[v]=(freq[v]||0)+1);
+  let maxF = 0;
+  Object.values(freq).forEach(f=>{ if(f>maxF) maxF=f; });
+  if(maxF===1) return null;
+  return Object.keys(freq).filter(k=>freq[k]===maxF).map(Number);
+}
+
+function render(){
+  const minX = 0, maxX = Math.max(30, ...values);
+  const mean = values.reduce((a,b)=>a+b,0)/values.length;
+  const sorted = [...values].sort((a,b)=>a-b);
+  const mid = Math.floor(sorted.length/2);
+  const median = sorted.length%2===0 ? (sorted[mid-1]+sorted[mid])/2 : sorted[mid];
+  const modes = computeMode(values);
+
+  meanVal.textContent = mean.toFixed(2);
+  medianVal.textContent = median.toFixed(2);
+  modeVal.textContent = modes ? modes.join(', ') : 'None';
+
+  const toPct = v => ((v-minX)/(maxX-minX))*100;
+
+  let html = '';
+  values.forEach((v,i)=>{
+    html += `<div class="dot-pt" style="left:${toPct(v)}%;bottom:${(i%4)*26}px;">${v}</div>`;
+  });
+  html += `<div class="marker" style="left:${toPct(mean)}%;background:var(--violet);"><span class="marker-label" style="color:var(--violet)">Mean ${mean.toFixed(1)}</span></div>`;
+  html += `<div class="marker" style="left:${toPct(median)}%;background:var(--coral);"><span class="marker-label" style="color:var(--coral);top:-38px;">Median ${median.toFixed(1)}</span></div>`;
+  if(modes){
+    modes.forEach(m=>{
+      html += `<div class="marker" style="left:${toPct(m)}%;background:var(--green);"></div>`;
+    });
+  }
+  plot.innerHTML = html;
+
+  const sortedText = sorted.join(', ');
+  const gap = Math.abs(mean-median);
+  let skewComment = '';
+  if(gap >= 3){
+    const which = mean>median ? 'The mean is much higher than the median' : 'The mean is much lower than the median';
+    skewComment = ` ${which} — a sign that an extremely large or small value is pulling the mean. In cases like this, the median may be the more reliable representative value.`;
+  }
+  const medianExplain = sorted.length%2===0
+    ? `There are ${sorted.length} values (an even count), so the median is the mean of the two middle values (${sorted[mid-1]}, ${sorted[mid]}): <b>${median.toFixed(2)}</b>.`
+    : `There are ${sorted.length} values (an odd count), so the median is exactly the middle value: <b>${median.toFixed(2)}</b>.`;
+  factBox.innerHTML = `Sorted by size: <b>${sortedText}</b>. ${medianExplain} ${modes ? `The most frequent value is <b>${modes.join(', ')}</b>.` : 'Every value is different, so there is no mode.'}${skewComment}`;
+}
+
+shuffleBtn.addEventListener('click', ()=>{
+  values = values.map(()=> 1+Math.floor(Math.random()*30));
+  buildCards();
+  render();
+});
+
+buildCards();
+render();
+</script>
+</body>
+</html>

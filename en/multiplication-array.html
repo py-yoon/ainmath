@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Multiplication Arrays</title>
+<meta name="description" content="Change the number of groups and the items per group with sliders, and see why multiplication gives that answer using an array picture.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Multiplication Arrays">
+<meta property="og:description" content="Change the number of groups and the items per group with sliders, and see why multiplication gives that answer using an array picture.">
+<meta property="og:url" content="https://ainmath.com/en/multiplication-array.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Multiplication Arrays">
+<meta name="twitter:description" content="Change the number of groups and the items per group with sliders, and see why multiplication gives that answer using an array picture.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.5vw,42px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.1fr 0.9fr;gap:32px;align-items:start;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+.canvas-area{display:flex;flex-direction:column;align-items:center;gap:18px;}
+svg{width:100%;max-width:420px;height:auto;overflow:hidden;}
+.control-row{width:100%;max-width:380px;display:flex;flex-direction:column;gap:8px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--coral-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--violet);outline-offset:2px;}
+.action-row{display:flex;gap:8px;flex-wrap:wrap;width:100%;max-width:380px;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:12px;padding:8px 14px;cursor:pointer;transition:all .15s ease;}
+.action-btn:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
+.action-btn:focus-visible{outline:3px solid var(--violet);outline-offset:2px;}
+.action-btn.swap{background:var(--coral-ink);border-color:var(--coral-ink);color:#fff;}
+.action-btn.swap:hover{filter:brightness(1.05);color:#fff;}
+.presets{display:flex;gap:8px;flex-wrap:wrap;width:100%;max-width:380px;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:12px;padding:7px 10px;cursor:pointer;transition:all .15s ease;}
+.preset-btn:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
+.preset-btn:focus-visible{outline:3px solid var(--violet);outline-offset:2px;}
+.panel{display:flex;flex-direction:column;gap:18px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:22px 20px;text-align:center;}
+.equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(26px,5vw,34px);color:var(--ink);}
+.equation .formula .a{color:var(--coral-ink);}
+.equation .formula .b{color:var(--green-ink);}
+.equation .formula .r{color:var(--violet-ink);}
+.equation .addline{margin-top:14px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--ink-soft);}
+.equation .addline b{color:var(--ink);}
+.fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--coral-ink);}
+.read-btn{align-self:flex-start;font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--violet-soft);color:var(--violet-ink);border:2px solid transparent;border-radius:999px;padding:7px 14px;cursor:pointer;transition:all .15s ease;}
+.read-btn:hover{filter:brightness(0.96);}
+.read-btn:focus-visible{outline:3px solid var(--violet);outline-offset:2px;}
+.table-wrap{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:14px;}
+.table-title{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);margin:0 0 10px;text-align:center;}
+table.gugu{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed;}
+table.gugu th, table.gugu td{text-align:center;padding:4px 0;color:var(--ink-soft);}
+table.gugu th{font-family:'Do Hyeon',sans-serif;color:var(--ink);}
+table.gugu td.cell{border-radius:6px;font-family:'Do Hyeon',sans-serif;color:var(--ink-soft);}
+table.gugu td.cell.hit{background:var(--coral-ink);color:#fff;}
+table.gugu td.cell.rowhi{background:var(--coral-soft);}
+table.gugu td.cell.colhi{background:var(--coral-soft);}
+.howto{background:var(--coral-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--coral-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="elementary.html" style="color:var(--ink-soft);text-decoration:none;">← Back to all activities</a>
+    <a href="article-multiplication-array.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:6px 12px;border-radius:999px;">📖 Read the article</a>
+    <a href="../multiplication-array.html" style="color:var(--ink-soft);text-decoration:none;font-size:12.5px;background:var(--violet-soft);padding:4px 10px;border-radius:999px;">한국어 →</a>
+  </div>
+  <span class="eyebrow">✖️ Multiplication Arrays</span>
+  <h1>How many in all,<br>when groups of the <span>same size</span> come together?</h1>
+  <p class="sub">Change the number of groups and how many are in each group with sliders, and see in a picture why multiplication gives that answer.</p>
+
+  <div class="howto">
+    <p>Multiplication is really just a short way of writing "add the same number over and over." If there are 3 bags of candy with 4 candies each, that's 4+4+4=12, which we can write simply as <b>3×4=12</b>. When you line circles up in groups, you don't have to count them one by one — knowing the number of groups and the size of each group tells you the total right away.</p>
+    <p>Here's the interesting part: 3 groups of 4 and 4 groups of 3 look different, but the total is the same 12. That's why <b>3×4</b> and <b>4×3</b> always give the same answer.</p>
+    <p>Move the sliders to change the number of groups and the amount in each group, and watch how the circles grow — and check for yourself whether the answer stays the same when you swap the order of the two numbers.</p>
+  </div>
+
+  <div class="stage">
+    <div class="canvas-area">
+      <svg id="svg" viewBox="0 0 420 420"></svg>
+      <div class="control-row">
+        <div class="control-label"><span>Number of groups</span><b id="aLabel">3</b></div>
+        <input id="sliderA" type="range" min="1" max="9" value="3" step="1" aria-label="Adjust number of groups">
+      </div>
+      <div class="control-row">
+        <div class="control-label"><span>Items per group</span><b id="bLabel">4</b></div>
+        <input id="sliderB" type="range" min="1" max="9" value="4" step="1" aria-label="Adjust items per group">
+      </div>
+      <div class="action-row">
+        <button class="action-btn swap" id="swapBtn">🔄 Swap groups and items</button>
+      </div>
+      <div class="presets" id="presetRow"></div>
+    </div>
+
+    <div class="panel">
+      <div class="equation">
+        <div class="formula"><span class="a" id="aInFormula">3</span> × <span class="b" id="bInFormula">4</span> = <span class="r" id="rInFormula">12</span></div>
+        <div class="addline" id="addLine"></div>
+      </div>
+      <div class="fact" id="fact"></div>
+      <button class="read-btn" id="readBtn" type="button">🔊 Read aloud</button>
+      <div class="table-wrap">
+        <p class="table-title">Find it on the multiplication table</p>
+        <table class="gugu" id="guguTable"></table>
+      </div>
+    </div>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="Go to another activity" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="make-ten.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ Previous activity</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Make Ten</span>
+    </a>
+    <a href="pattern-finder.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">Next activity ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Pattern Finder</span>
+    </a>
+  </nav>
+<footer>The answer stays the same even if you swap the number of groups and the items per group — just like 3×4 and 4×3 are both 12.</footer>
+</div>
+
+<script>
+function speakText(text){
+  try{
+    if(!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US'; u.rate = 0.9;
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+const svg = document.getElementById('svg');
+const sliderA = document.getElementById('sliderA');
+const sliderB = document.getElementById('sliderB');
+const aLabel = document.getElementById('aLabel');
+const bLabel = document.getElementById('bLabel');
+const aInFormula = document.getElementById('aInFormula');
+const bInFormula = document.getElementById('bInFormula');
+const rInFormula = document.getElementById('rInFormula');
+const addLine = document.getElementById('addLine');
+const factBox = document.getElementById('fact');
+const presetRow = document.getElementById('presetRow');
+const swapBtn = document.getElementById('swapBtn');
+const guguTable = document.getElementById('guguTable');
+const readBtn = document.getElementById('readBtn');
+readBtn.addEventListener('click', ()=> speakText(factBox.textContent));
+
+const PRESETS = [
+  {a:2, b:3, label:'2 groups × 3'},
+  {a:5, b:5, label:'5 groups × 5'},
+  {a:7, b:8, label:'7 groups × 8'},
+  {a:9, b:9, label:'9 groups × 9'},
+];
+
+const SIZE = 420;
+const LABEL_W = 46;
+const PAD = 16;
+
+function buildPresets(){
+  presetRow.innerHTML = PRESETS.map((p,i)=>`<button class="preset-btn" data-i="${i}">${p.label}</button>`).join('');
+  presetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const p = PRESETS[parseInt(btn.dataset.i)];
+      sliderA.value=p.a; sliderB.value=p.b;
+      render();
+    });
+  });
+}
+
+function buildGuguTable(){
+  let html = '<tr><th></th>';
+  for(let j=1;j<=9;j++) html += `<th>${j}</th>`;
+  html += '</tr>';
+  for(let i=1;i<=9;i++){
+    html += `<tr><th>${i}</th>`;
+    for(let j=1;j<=9;j++){
+      html += `<td class="cell" data-row="${i}" data-col="${j}">${i*j}</td>`;
+    }
+    html += '</tr>';
+  }
+  guguTable.innerHTML = html;
+}
+
+function render(){
+  const a = parseInt(sliderA.value);
+  const b = parseInt(sliderB.value);
+  const result = a*b;
+  aLabel.textContent = a; bLabel.textContent = b;
+  aInFormula.textContent = a; bInFormula.textContent = b; rInFormula.textContent = result;
+  addLine.innerHTML = `${Array(a).fill(b).join(' + ')} = <b>${result}</b>`;
+
+  const usableW = SIZE - LABEL_W - PAD*2;
+  const usableH = SIZE - PAD*2;
+  const cell = Math.min(usableW / b, usableH / a, 46);
+  const dotR = cell * 0.32;
+  const gridW = cell * b;
+  const gridH = cell * a;
+  const startX = LABEL_W + (usableW - gridW)/2 + PAD;
+  const startY = PAD + (usableH - gridH)/2;
+  const groupPad = cell * 0.12;
+
+  let html = '';
+  for(let i=0;i<a;i++){
+    const rowY = startY + i*cell;
+    html += `<rect x="${startX - groupPad}" y="${rowY + groupPad}" width="${gridW + groupPad*2}" height="${cell - groupPad*2}" rx="10" fill="var(--coral-soft)" stroke="var(--coral)" stroke-width="1.5" opacity="0.7"></rect>`;
+    html += `<text x="${LABEL_W - 10}" y="${rowY + cell/2 + 5}" text-anchor="end" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)">Group ${i+1}</text>`;
+    for(let j=0;j<b;j++){
+      const cx = startX + j*cell + cell/2;
+      const cy = rowY + cell/2;
+      html += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${dotR.toFixed(1)}" fill="var(--coral)"></circle>`;
+    }
+  }
+  svg.innerHTML = html;
+
+  factBox.innerHTML = `There are <b>${a} groups</b> of <b>${b}</b>, so adding them all together gives <b>${result}</b>. That's why we write ${a} × ${b} = ${result}.`;
+
+  guguTable.querySelectorAll('.cell').forEach(td=>{
+    const row = parseInt(td.dataset.row), col = parseInt(td.dataset.col);
+    td.classList.remove('hit','rowhi','colhi');
+    if(row===a && col===b){ td.classList.add('hit'); }
+    else if(row===a || col===b){ td.classList.add(row===a?'rowhi':'colhi'); }
+  });
+}
+
+swapBtn.addEventListener('click', ()=>{
+  const a = sliderA.value, b = sliderB.value;
+  sliderA.value = b; sliderB.value = a;
+  render();
+});
+
+sliderA.addEventListener('input', render);
+sliderB.addEventListener('input', render);
+buildPresets();
+buildGuguTable();
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Pie Chart Lab</title>
+<meta name="description" content="Change the number of people per category with sliders and see how a pie chart's slices (percentages and central angles) change.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Pie Chart Lab">
+<meta property="og:description" content="Change the number of people per category with sliders and see how a pie chart's slices (percentages and central angles) change.">
+<meta property="og:url" content="https://ainmath.com/en/pie-chart.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pie Chart Lab">
+<meta name="twitter:description" content="Change the number of people per category with sliders and see how a pie chart's slices (percentages and central angles) change.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--green-ink);background:var(--green-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.5vw,42px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--green-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+
+.presets{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 16px;cursor:pointer;box-shadow:var(--shadow);transition:all .15s ease;}
+.preset-btn:hover{border-color:var(--green-ink);color:var(--green-ink);}
+.preset-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+.preset-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1fr 1fr;gap:32px;align-items:start;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+
+svg{width:100%;max-width:360px;height:auto;display:block;margin:0 auto;}
+
+.controls{display:flex;flex-direction:column;gap:16px;}
+.slider-row{display:flex;flex-direction:column;gap:6px;}
+.slider-label{display:flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.slider-label .swatch{width:14px;height:14px;border-radius:4px;flex:none;}
+.slider-label b{margin-left:auto;font-size:20px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;outline:none;background:var(--green-soft);}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--cat-color,var(--green));border:4px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.2);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--cat-color,var(--green));border:4px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.2);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+
+table.legend{width:100%;border-collapse:collapse;margin-top:6px;}
+table.legend th, table.legend td{text-align:center;padding:8px 4px;font-size:14.5px;}
+table.legend th{font-family:'Do Hyeon',sans-serif;color:var(--ink-soft);font-weight:400;border-bottom:2px solid var(--paper-line);}
+table.legend td{border-bottom:1px solid var(--paper-line);}
+table.legend .name-cell{display:flex;align-items:center;gap:6px;font-family:'Do Hyeon',sans-serif;}
+table.legend .dot{width:12px;height:12px;border-radius:4px;flex:none;}
+
+.fact{background:var(--green-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);margin-top:16px;}
+.fact b{color:var(--green-ink);}
+.howto{background:var(--green-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--green-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="grade-5-6.html" style="color:var(--ink-soft);text-decoration:none;">← Back to all activities</a><a href="../pie-chart.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+    <a href="article-pie-chart.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 Read the article</a>
+  </div>
+  <span class="eyebrow">🥧 Pie Chart Lab</span>
+  <h1>See the whole as <span>100%</span><br>and split it into slices</h1>
+  <p class="sub">Change the number of people per category with sliders and see how a pie chart's slices (percentage and central angle) change.</p>
+
+  <div class="howto">
+    <p>A pie chart treats an entire set of survey data as one circle and slices it into wedges sized to how much each category takes up — like sharing a pizza in proportion to how much everyone likes it. The whole circle is always 100%, and one full turn is 360°, so the central angle grows by 3.6° for every 1%.</p>
+    <p>For example, if 8 out of 20 people like summer, that's <b>8÷20×100=40%</b>, and the central angle is <b>40×3.6=144°</b>. No matter how many categories there are, the percentages always add up to 100% and the central angles always add up to 360° — that never changes.</p>
+    <p>Change each category's count with the sliders and see for yourself how the slice size, percentage, and central angle all grow and shrink together.</p>
+  </div>
+
+  <div class="presets" id="presetRow"></div>
+
+  <div class="stage">
+    <svg id="svg" viewBox="0 0 300 300"></svg>
+    <div class="controls">
+      <div id="sliders"></div>
+      <table class="legend" id="legendTable"></table>
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="Go to another activity" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="coin-dice-simulator.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ Previous activity</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Coin &amp; Dice Simulator</span>
+    </a>
+    <span style="flex:1;min-width:150px;"></span>
+  </nav>
+<footer>A pie chart shows the whole (100%, 360°) split into wedges sized by each category's share.</footer>
+</div>
+
+<script>
+const PRESETS = [
+  { title:'Favorite season', items:[
+    {name:'Spring', icon:'🌸', color:'var(--coral)', count:5},
+    {name:'Summer', icon:'☀️', color:'var(--blue)', count:8},
+    {name:'Fall', icon:'🍁', color:'var(--violet)', count:4},
+    {name:'Winter', icon:'❄️', color:'var(--green)', count:3},
+  ]},
+  { title:'Favorite sport', items:[
+    {name:'Soccer', icon:'⚽', color:'var(--coral)', count:7},
+    {name:'Basketball', icon:'🏀', color:'var(--blue)', count:5},
+    {name:'Baseball', icon:'⚾', color:'var(--violet)', count:6},
+    {name:'Other', icon:'🏸', color:'var(--green)', count:2},
+  ]},
+  { title:'Our class blood types', items:[
+    {name:'Type A', icon:'🅰️', color:'var(--coral)', count:9},
+    {name:'Type B', icon:'🅱️', color:'var(--blue)', count:6},
+    {name:'Type O', icon:'🅾️', color:'var(--violet)', count:8},
+    {name:'Type AB', icon:'🆎', color:'var(--green)', count:2},
+  ]},
+];
+
+let current = JSON.parse(JSON.stringify(PRESETS[0]));
+
+const presetRow = document.getElementById('presetRow');
+const slidersEl = document.getElementById('sliders');
+const svg = document.getElementById('svg');
+const legendTable = document.getElementById('legendTable');
+const factBox = document.getElementById('fact');
+
+function buildPresets(){
+  presetRow.innerHTML = PRESETS.map((p,i)=>`<button class="preset-btn ${i===0?'active':''}" data-i="${i}">${p.title}</button>`).join('');
+  presetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      presetRow.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      current = JSON.parse(JSON.stringify(PRESETS[parseInt(btn.dataset.i)]));
+      buildSliders();
+      render();
+    });
+  });
+}
+
+function buildSliders(){
+  slidersEl.innerHTML = current.items.map((it,i)=>`
+    <div class="slider-row">
+      <div class="slider-label" style="--cat-color:${it.color}">
+        <span class="swatch" style="background:${it.color}"></span>
+        <span>${it.icon} ${it.name}</span>
+        <b id="cnt-${i}">${it.count}</b>
+      </div>
+      <input type="range" min="0" max="20" step="1" value="${it.count}" data-i="${i}" style="--cat-color:${it.color}" aria-label="Adjust ${it.name} count">
+    </div>
+  `).join('');
+  slidersEl.querySelectorAll('input[type=range]').forEach(inp=>{
+    inp.addEventListener('input', ()=>{
+      current.items[parseInt(inp.dataset.i)].count = parseInt(inp.value);
+      render();
+    });
+  });
+}
+
+function polarToXY(cx,cy,r,angleDeg){
+  const rad = (angleDeg-90) * Math.PI/180;
+  return [cx + r*Math.cos(rad), cy + r*Math.sin(rad)];
+}
+
+function render(){
+  const total = current.items.reduce((s,it)=>s+it.count, 0);
+  const cx=150, cy=150, r=120;
+
+  current.items.forEach((it,i)=>{
+    const lbl = document.getElementById(`cnt-${i}`);
+    if(lbl) lbl.textContent = it.count;
+  });
+
+  if(total===0){
+    svg.innerHTML = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="var(--paper)" stroke="var(--paper-line)" stroke-width="2"></circle>
+      <text x="${cx}" y="${cy}" text-anchor="middle" font-family="'Gowun Dodum',sans-serif" font-size="14" fill="var(--ink-soft)">There are 0 people</text>`;
+    legendTable.innerHTML = '';
+    factBox.innerHTML = `At least one category needs people in it to draw a pie chart.`;
+    return;
+  }
+
+  let html = '';
+  let startAngle = 0;
+  const rows = [];
+  current.items.forEach(it=>{
+    const pct = it.count/total*100;
+    const angle = pct*3.6;
+    const endAngle = startAngle + angle;
+    if(it.count > 0){
+      const [x1,y1] = polarToXY(cx,cy,r,startAngle);
+      const [x2,y2] = polarToXY(cx,cy,r,endAngle);
+      const largeArc = angle > 180 ? 1 : 0;
+      html += `<path d="M${cx},${cy} L${x1.toFixed(2)},${y1.toFixed(2)} A${r},${r} 0 ${largeArc} 1 ${x2.toFixed(2)},${y2.toFixed(2)} Z" fill="${it.color}" stroke="var(--card)" stroke-width="2"></path>`;
+      if(angle > 18){
+        const midAngle = startAngle + angle/2;
+        const [lx,ly] = polarToXY(cx,cy,r*0.65,midAngle);
+        html += `<text x="${lx.toFixed(2)}" y="${ly.toFixed(2)}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="#fff">${Math.round(pct)}%</text>`;
+      }
+    }
+    rows.push({...it, pct, angle});
+    startAngle = endAngle;
+  });
+  html += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--card)" stroke-width="3"></circle>`;
+  svg.innerHTML = html;
+
+  legendTable.innerHTML = '<tr><th>Category</th><th>People</th><th>Percentage</th><th>Central angle</th></tr>' +
+    rows.map(r=>`<tr>
+      <td><div class="name-cell"><span class="dot" style="background:${r.color}"></span>${r.icon} ${r.name}</div></td>
+      <td>${r.count}</td>
+      <td>${r.pct.toFixed(1)}%</td>
+      <td>${r.angle.toFixed(1)}°</td>
+    </tr>`).join('');
+
+  const biggest = rows.reduce((a,b)=> b.count>a.count ? b : a, rows[0]);
+  factBox.innerHTML = `Out of ${total} people total, <b>${biggest.name}</b> has the most with ${biggest.count} (${biggest.pct.toFixed(1)}%). A slice's central angle is found as <b>percentage × 3.6°</b> (since 100% = 360°).`;
+}
+
+buildPresets();
+buildSliders();
+render();
+</script>
+</body>
+</html>

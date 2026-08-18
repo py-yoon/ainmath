@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>You Don't Need to Measure to Know — The Story of Estimating | AINMATH</title>
+<meta name="description" content="Once you know a milk carton is 200mL, you can guess right away how many times bigger a 2L bottle is. Build a sense for estimating length, volume, and weight.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="You Don't Need to Measure to Know — The Story of Estimating | AINMATH">
+<meta property="og:description" content="Once you know a milk carton is 200mL, you can guess right away how many times bigger a 2L bottle is. Build a sense for estimating length, volume, and weight.">
+<meta property="og:url" content="https://ainmath.com/en/article-measurement-estimate.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="You Don't Need to Measure to Know — The Story of Estimating | AINMATH">
+<meta name="twitter:description" content="Once you know a milk carton is 200mL, you can guess right away how many times bigger a 2L bottle is. Build a sense for estimating length, volume, and weight.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:760px;margin:0 auto;}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-soft);text-decoration:none;margin-bottom:18px;}
+.back-link:hover{color:var(--violet-ink);}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,40px);line-height:1.3;margin:0 0 14px;}
+h1 span{color:var(--violet-ink);}
+.meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 8px;}
+.sub{color:var(--ink-soft);font-size:16.5px;line-height:1.75;margin:0 0 30px;}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;}
+.cta{font-family:'Do Hyeon',sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:999px;transition:all .15s ease;}
+.cta.primary{background:var(--violet-ink);color:#fff;}
+.cta.primary:hover{filter:brightness(1.06);}
+.cta.secondary{background:var(--card);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.cta.secondary:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+article{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:clamp(24px,5vw,44px);}
+h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:22px;color:var(--ink);margin:34px 0 14px;}
+h2:first-child{margin-top:0;}
+h2 .num{color:var(--violet-ink);margin-right:8px;}
+p{font-size:15.5px;line-height:1.85;color:var(--ink);margin:0 0 16px;}
+p:last-child{margin-bottom:0;}
+.example{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px 20px;margin:18px 0;text-align:center;}
+.example .eq{font-family:'Do Hyeon',sans-serif;font-size:18px;margin-bottom:8px;}
+.example p{font-size:14.5px;color:var(--ink-soft);margin:8px 0 0;}
+.illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+.illo svg{width:100%;max-width:220px;height:auto;display:block;margin:0 auto;}
+.illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+.grid4{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0;}
+.grid4 .box{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.6;}
+.grid4 .box b{display:block;font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--violet-ink);margin-bottom:4px;}
+.callout{background:var(--violet-soft);border-radius:16px;padding:18px 20px;margin:18px 0;font-size:14.5px;line-height:1.75;color:var(--ink);}
+.callout b{color:var(--violet-ink);}
+.tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
+.tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.tip-list b{color:var(--violet-ink);}
+footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+.footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
+.footer-nav a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="grade-3-4.html">← Back to all activities</a><a href="../article-measurement-estimate.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+  <span class="eyebrow" style="color:#6847F7;background:#EEE8FF">📐 Shape &amp; geometry</span>
+  <h1>You don't have to measure<br>to have a <span>pretty good idea</span></h1>
+  <p class="meta">Upper elementary · About 4 min read</p>
+  <p class="sub">The length of a pencil, how much milk is in a carton, the weight of an apple — guessing "about this much" without a ruler or scale is called estimating.</p>
+
+  <div class="cta-row">
+    <a class="cta primary" href="measurement-estimate.html">🎮 Try the Length, Volume &amp; Weight Estimating activity</a>
+    <a class="cta secondary" href="grade-3-4.html">📚 See other topics</a>
+  </div>
+
+  <article>
+    <h2><span class="num">1</span>Units get different names for different sizes</h2>
+    <p>The same length can be written in mm, cm, m, or km depending on the situation. It's just much more convenient to use mm for something tiny, and m or km for something as big as a room or a playing field.</p>
+    <div class="grid4">
+      <div class="box"><b>Length</b>mm, cm, m, km</div>
+      <div class="box"><b>Volume</b>mL, L</div>
+    </div>
+    <p>Weight works the same way. Small objects are measured in g, and people or heavy loads are measured in kg.</p>
+
+    <h2><span class="num">2</span>Units convert by fixed multiples</h2>
+    <p>Changing units doesn't change the real size — only the number you use to count it changes.</p>
+    <div class="example">
+      <div class="eq">1cm = 10mm, 1m = 100cm, 1km = 1000m</div>
+      <p>1L = 1000mL and 1kg = 1000g work the same way.</p>
+    </div>
+    <p>On the activity page, moving the slider changes the values of all four units at once. Watch how the number changes, but the actual size it points to always stays the same.</p>
+
+    <h2><span class="num">3</span>Estimating starts with a "reference object"</h2>
+    <p>Once you know a carton of milk is 200mL, you can guess right away that a 2L bottle is "about 10 milk cartons' worth." Using one familiar object as a reference makes it much easier to estimate the size of something you've never seen before.</p>
+    <div class="illo">
+      <svg viewBox="0 0 200 140">
+        <rect x="25" y="90" width="26" height="38" rx="2" fill="var(--violet-soft)" stroke="var(--ink)" stroke-width="2"></rect>
+        <text x="38" y="115" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--violet-ink)">200mL</text>
+        <rect x="115" y="18" width="55" height="110" rx="4" fill="var(--violet-soft)" stroke="var(--ink)" stroke-width="2"></rect>
+        <text x="142" y="76" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--violet-ink)">2L</text>
+        <text x="80" y="60" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink)">× 10</text>
+        <text x="38" y="138" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">milk carton</text>
+        <text x="142" y="138" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">bottle</text>
+      </svg>
+      <div class="illo-caption">Ten milk cartons' worth of volume fills one 2L bottle</div>
+    </div>
+    <div class="callout">
+      <b>Build your own reference points.</b><br>
+      How many cm long is your pinky finger? How many mL is the water bottle you drink from every day? Knowing a few of these makes estimating easy anywhere.
+    </div>
+
+    <h2><span class="num">4</span>Estimating is a sense, not an exact calculation</h2>
+    <p>There isn't just one "correct answer" for an estimate. If your guess falls in a range close to the real value, you estimated well. That's why the estimating quiz asks you to pick "about this size" rather than an exact number.</p>
+
+    <h2><span class="num">5</span>Try playing like this</h2>
+    <ul class="tip-list">
+      <li><b>Switch tabs and compare.</b> Move between the length, volume, and weight tabs and see how the same slider move shows up differently for each unit.</li>
+      <li><b>Guess using things around you.</b> Before checking the quiz answer, guess for yourself first, then see if you were right.</li>
+      <li><b>Build a list of reference objects.</b> Picking one object you know well for length, volume, and weight will help a lot the next time you estimate.</li>
+    </ul>
+  </article>
+
+  <footer>
+    <p>Head back to Length, Volume &amp; Weight Estimating and try the slider and quiz yourself.</p>
+    <nav class="footer-nav">
+      <a href="grade-3-4.html">All activities</a>·<a href="measurement-estimate.html">Length, Volume &amp; Weight Estimating</a>·<a href="../about.html">About</a>·<a href="../contact.html">Contact</a>
+    </nav>
+  </footer>
+</div>
+</body>
+</html>

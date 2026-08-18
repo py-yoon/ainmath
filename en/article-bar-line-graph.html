@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Compare, or See the Flow? — The Story of Bar &amp; Line Graphs | AINMATH</title>
+<meta name="description" content="Bar graphs are great for comparing sizes between categories, and line graphs are great for seeing change over time. Learn when to use which graph.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Compare, or See the Flow? — The Story of Bar &amp; Line Graphs | AINMATH">
+<meta property="og:description" content="Bar graphs are great for comparing sizes between categories, and line graphs are great for seeing change over time. Learn when to use which graph.">
+<meta property="og:url" content="https://ainmath.com/en/article-bar-line-graph.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Compare, or See the Flow? — The Story of Bar &amp; Line Graphs | AINMATH">
+<meta name="twitter:description" content="Bar graphs are great for comparing sizes between categories, and line graphs are great for seeing change over time. Learn when to use which graph.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:760px;margin:0 auto;}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-soft);text-decoration:none;margin-bottom:18px;}
+.back-link:hover{color:var(--green-ink);}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--green-ink);background:var(--green-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,40px);line-height:1.3;margin:0 0 14px;}
+h1 span{color:var(--green-ink);}
+.meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 8px;}
+.sub{color:var(--ink-soft);font-size:16.5px;line-height:1.75;margin:0 0 30px;}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;}
+.cta{font-family:'Do Hyeon',sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:999px;transition:all .15s ease;}
+.cta.primary{background:var(--green-ink);color:#fff;}
+.cta.primary:hover{filter:brightness(1.06);}
+.cta.secondary{background:var(--card);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.cta.secondary:hover{border-color:var(--green-ink);color:var(--green-ink);}
+article{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:clamp(24px,5vw,44px);}
+h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:22px;color:var(--ink);margin:34px 0 14px;}
+h2:first-child{margin-top:0;}
+h2 .num{color:var(--green-ink);margin-right:8px;}
+p{font-size:15.5px;line-height:1.85;color:var(--ink);margin:0 0 16px;}
+p:last-child{margin-bottom:0;}
+.grid4{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0;}
+.grid4 .box{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.6;}
+.grid4 .box b{display:block;font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--green-ink);margin-bottom:4px;}
+.callout{background:var(--green-soft);border-radius:16px;padding:18px 20px;margin:18px 0;font-size:14.5px;line-height:1.75;color:var(--ink);}
+.callout b{color:var(--green-ink);}
+.tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
+.tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.tip-list b{color:var(--green-ink);}
+.illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:18px 0;text-align:center;}
+.illo svg{width:100%;max-width:320px;height:auto;display:block;margin:0 auto;}
+.illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+.footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
+.footer-nav a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="grade-3-4.html">← Back to all activities</a><a href="../article-bar-line-graph.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+  <span class="eyebrow" style="color:#357A63;background:#E3F5EE">📊 Probability &amp; statistics</span>
+  <h1>Compare with a bar,<br><span>see the flow</span> with a line</h1>
+  <p class="meta">Lower to upper elementary · About 3 min read</p>
+  <p class="sub">Even with the same data, the graph that fits best depends on what you want to show.</p>
+
+  <div class="cta-row">
+    <a class="cta primary" href="bar-line-graph.html">🎮 Try the Bar &amp; Line Graph activity</a>
+    <a class="cta secondary" href="grade-3-4.html">📚 See other topics</a>
+  </div>
+
+  <div class="callout" style="background:var(--green-soft);margin-bottom:20px;">🧑‍🤝‍🧑 <b>Read this together with a grown-up.</b> Some words may still be tricky to read alone. Reading it out loud together makes it easier to understand.</div>
+
+  <article>
+    <h2><span class="num">1</span>Bar graphs are great for "who's bigger"</h2>
+    <p>A bar graph uses the height of each bar to show a value. It's useful when you want to line up several categories side by side and see at a glance which is bigger or smaller.</p>
+    <div class="grid4">
+      <div class="box"><b>Bar graph</b>compares sizes between categories</div>
+      <div class="box"><b>Line graph</b>shows change over time</div>
+    </div>
+
+    <h2><span class="num">2</span>Line graphs are great for "how it's changing"</h2>
+    <p>A line graph connects points with a line, showing the flow of a value rising and falling over time. It's great for data that changes continuously, like daily temperatures.</p>
+    <div class="illo">
+      <svg viewBox="0 0 300 120">
+        <g>
+          <line x1="10" y1="95" x2="130" y2="95" stroke="var(--ink-soft)" stroke-width="1.5"></line>
+          <rect x="18" y="55" width="18" height="40" fill="var(--green-soft)" stroke="var(--green-ink)" stroke-width="2"></rect>
+          <rect x="46" y="35" width="18" height="60" fill="var(--green-soft)" stroke="var(--green-ink)" stroke-width="2"></rect>
+          <rect x="74" y="65" width="18" height="30" fill="var(--green-soft)" stroke="var(--green-ink)" stroke-width="2"></rect>
+          <rect x="102" y="20" width="18" height="75" fill="var(--green-soft)" stroke="var(--green-ink)" stroke-width="2"></rect>
+          <text x="70" y="112" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--green-ink)">Bar graph</text>
+        </g>
+        <g>
+          <line x1="170" y1="95" x2="290" y2="95" stroke="var(--ink-soft)" stroke-width="1.5"></line>
+          <polyline points="180,70 210,40 240,55 270,25" fill="none" stroke="var(--green-ink)" stroke-width="2.5"></polyline>
+          <circle cx="180" cy="70" r="4" fill="var(--green-ink)"></circle>
+          <circle cx="210" cy="40" r="4" fill="var(--green-ink)"></circle>
+          <circle cx="240" cy="55" r="4" fill="var(--green-ink)"></circle>
+          <circle cx="270" cy="25" r="4" fill="var(--green-ink)"></circle>
+          <text x="230" y="112" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--green-ink)">Line graph</text>
+        </g>
+      </svg>
+      <div class="illo-caption">A bar compares categories by height, and a line connects points to show the flow</div>
+    </div>
+
+    <h2><span class="num">3</span>A steep line means a big change</h2>
+    <p>On a line graph, a steep rise or fall means the value changed a lot in that stretch. A flat line, on the other hand, means barely any change.</p>
+
+    <h2><span class="num">4</span>The data decides which graph to use</h2>
+    <div class="callout">
+      <b>Let the data pick the answer.</b><br>
+      For comparing independent categories, like "how many students like each season," a bar graph fits better. For data with a time order, like "temperature by day of the week," a line graph fits better.
+    </div>
+
+    <h2><span class="num">5</span>Try playing like this</h2>
+    <ul class="tip-list">
+      <li><b>Change values with the slider and watch.</b> On the bar graph, raise one category's slider and see how that bar changes.</li>
+      <li><b>Compare both graphs side by side.</b> Switch between the bar-graph tab and the line-graph tab, and notice how the same information looks different.</li>
+      <li><b>Answer the quiz from the graph alone.</b> Without re-counting the numbers, find the biggest or smallest category just by looking at the graph's height.</li>
+    </ul>
+  </article>
+
+  <footer>
+    <p>Head back to Bar &amp; Line Graphs and try moving the sliders yourself.</p>
+    <nav class="footer-nav">
+      <a href="grade-3-4.html">All activities</a>·<a href="bar-line-graph.html">Bar &amp; Line Graphs</a>·<a href="../about.html">About</a>·<a href="../contact.html">Contact</a>
+    </nav>
+  </footer>
+</div>
+</body>
+</html>

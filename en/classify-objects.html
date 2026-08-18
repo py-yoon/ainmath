@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Sorting Things Lab</title>
+<meta name="description" content="By color, by shape, by size! See how the same objects sort into different groups depending on the rule.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Sorting Things Lab">
+<meta property="og:description" content="By color, by shape, by size! See how the same objects sort into different groups depending on the rule.">
+<meta property="og:url" content="https://ainmath.com/en/classify-objects.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sorting Things Lab">
+<meta name="twitter:description" content="By color, by shape, by size! See how the same objects sort into different groups depending on the rule.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.topnav{max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-size:14px;flex-wrap:wrap;gap:8px;}
+.topnav a{color:var(--ink-soft);text-decoration:none;}
+.topnav .art{color:#fff;background:var(--green-ink);font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--green-ink);background:var(--green-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin:14px 0;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--green-ink);}
+.sub{color:var(--ink-soft);font-size:17px;line-height:1.8;max-width:64ch;margin:0 0 28px;}
+
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
+.criteria-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.criteria-btn{font-family:'Do Hyeon',sans-serif;font-size:16px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:16px;padding:11px 18px;cursor:pointer;transition:all .15s ease;}
+.criteria-btn:hover{border-color:var(--green-ink);color:var(--green-ink);}
+.criteria-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+.groups{display:flex;gap:16px;flex-wrap:wrap;}
+.group-box{background:var(--paper);border:2px dashed var(--paper-line);border-radius:16px;padding:14px;flex:1;min-width:140px;}
+.group-label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);margin-bottom:10px;text-align:center;min-height:18px;}
+.group-items{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.shape-circle{border-radius:50%;}
+.shape-triangle{width:0;height:0;background:transparent !important;}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--green-ink);}
+.quiz-record{font-size:13px;color:var(--ink-soft);margin:-4px 0 16px;}
+.quiz-record b{color:var(--violet-ink);}
+.quiz-q{font-family:'Do Hyeon',sans-serif;font-size:19px;text-align:center;margin-bottom:16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:16px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:16px;padding:12px 20px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.correct{background:var(--green-ink);border-color:var(--green-ink);color:#fff;}
+.opt-btn.wrong{background:var(--coral-ink);border-color:var(--coral-ink);color:#fff;}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
+.action-btn:hover{background:var(--green-ink);}
+.read-btn{display:block;margin:0 auto 16px;font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--blue-soft);color:var(--blue-ink);border:2px solid transparent;border-radius:999px;padding:7px 14px;cursor:pointer;transition:all .15s ease;}
+.read-btn:hover{filter:brightness(0.96);}
+.read-btn:focus-visible{outline:3px solid var(--violet);outline-offset:2px;}
+
+.howto{background:var(--green-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--green-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topnav">
+    <a href="elementary.html">← Back to all activities</a>
+    <a href="article-classify-objects.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:6px 12px;border-radius:999px;">📖 Read the article</a>
+    <a href="../classify-objects.html" style="font-size:12.5px;background:var(--violet-soft);padding:4px 10px;border-radius:999px;">한국어 →</a>
+  </div>
+  <span class="eyebrow">🟢 Sorting Things Lab</span>
+  <h1>The same objects<br>sort <span>differently</span> depending on the rule</h1>
+  <p class="sub">Whether you sort by color, shape, or size, the very same objects end up in different groups. Press the buttons and see for yourself.</p>
+
+  <div class="howto">
+    <p>Sorting means grouping objects together based on some rule. The same objects can be sorted by color, by shape, or by size — and the groups end up completely different depending on which rule you pick. It's not that "sorting by color is right and sorting by shape is wrong" — both are valid ways to sort.</p>
+    <p>But when you sort, you shouldn't mix rules together, like "color and shape at the same time" — use only <b>one rule</b> at a time. That way every object clearly belongs to exactly one group. This kind of sorting and counting practice is the foundation for graphs and tables you'll learn later.</p>
+    <p>Press the buttons to switch between sorting by color, shape, and size, and see how the same objects group differently each time.</p>
+  </div>
+
+  <div class="stage">
+    <div class="criteria-row" id="criteriaRow" role="tablist"></div>
+    <div class="groups" id="groups"></div>
+  </div>
+
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 Guess the sorting rule quiz</h2>
+      <div class="progress-badge">Question <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · Correct <b id="scoreNum">0</b></div>
+    </div>
+<div class="quiz-record" id="quizRecord"></div>
+    <div class="quiz-q" id="quizQ">What rule were these grouped by?</div>
+    <button class="read-btn" id="readBtn" type="button">🔊 Read the question aloud</button>
+    <div class="groups" id="quizGroups" style="margin-bottom:16px;"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextQuizBtn">➡ Next question</button>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="Go to another activity" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="clock-reading.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ Previous activity</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Clock Reading</span>
+    </a>
+    <a href="pictogram-graph.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">Next activity ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Picture Graphs</span>
+    </a>
+  </nav>
+<footer>There isn't just one right sorting rule. The same objects can be grouped differently by rules like color, shape, or size.</footer>
+</div>
+
+<script>
+function beep(freq, dur, type){
+  try{
+    const ctx = beep.ctx || (beep.ctx = new (window.AudioContext||window.webkitAudioContext)());
+    const osc = ctx.createOscillator(); const gain = ctx.createGain();
+    osc.type = type||'sine'; osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+dur);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(); osc.stop(ctx.currentTime+dur);
+  }catch(e){}
+}
+function playCorrect(){ beep(660,0.12); setTimeout(()=>beep(880,0.18),120); }
+function playWrong(){ beep(220,0.25,'sawtooth'); }
+function speakText(text){
+  try{
+    if(!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US'; u.rate = 0.9;
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+const COLORS = { coral:'#FF5B57', blue:'#4C8BF5', green:'#4CAF8E' };
+const COLOR_NAMES = { coral:'Red', blue:'Blue', green:'Green' };
+const SHAPE_NAMES = { circle:'Circle', square:'Square', triangle:'Triangle' };
+const SIZE_NAMES = { big:'Big', small:'Small' };
+const SIZE_PX = { big:44, small:28 };
+
+const ITEMS = [
+  {shape:'circle',   color:'coral', size:'big'},
+  {shape:'square',   color:'coral', size:'small'},
+  {shape:'triangle', color:'coral', size:'small'},
+  {shape:'circle',   color:'blue',  size:'small'},
+  {shape:'square',   color:'blue',  size:'big'},
+  {shape:'triangle', color:'blue',  size:'small'},
+  {shape:'circle',   color:'green', size:'small'},
+  {shape:'square',   color:'green', size:'small'},
+  {shape:'triangle', color:'green', size:'big'},
+];
+
+const CRITERIA = [
+  { key:'color', label:'🎨 By color', groupOf:item=>item.color, groupName:k=>COLOR_NAMES[k] },
+  { key:'shape', label:'🔺 By shape', groupOf:item=>item.shape, groupName:k=>SHAPE_NAMES[k] },
+  { key:'size',  label:'📏 By size',  groupOf:item=>item.size,  groupName:k=>SIZE_NAMES[k] },
+];
+
+function itemHtml(item){
+  const px = SIZE_PX[item.size];
+  if(item.shape==='triangle'){
+    const half = px*0.58;
+    return `<div class="shape-triangle" style="border-left:${half}px solid transparent;border-right:${half}px solid transparent;border-bottom:${px}px solid ${COLORS[item.color]};"></div>`;
+  }
+  const shapeClass = item.shape==='circle' ? 'shape-circle' : '';
+  return `<div class="${shapeClass}" style="width:${px}px;height:${px}px;background:${COLORS[item.color]};"></div>`;
+}
+
+function groupBy(criterion){
+  const keys = [...new Set(ITEMS.map(criterion.groupOf))];
+  return keys.map(k=>({ key:k, items: ITEMS.filter(it=>criterion.groupOf(it)===k) }));
+}
+
+let activeCriterion = CRITERIA[0];
+const criteriaRow = document.getElementById('criteriaRow');
+const groupsEl = document.getElementById('groups');
+
+function buildCriteriaRow(){
+  criteriaRow.innerHTML = CRITERIA.map(c=>`<button class="criteria-btn" data-k="${c.key}" role="tab" aria-selected="false">${c.label}</button>`).join('');
+  criteriaRow.querySelectorAll('.criteria-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      activeCriterion = CRITERIA.find(c=>c.key===btn.dataset.k);
+      renderGroups();
+    });
+  });
+}
+
+function renderGroups(){
+  criteriaRow.querySelectorAll('.criteria-btn').forEach(b=>{
+    const isActive = b.dataset.k===activeCriterion.key;
+    b.classList.toggle('active', isActive);
+    b.setAttribute('aria-selected', isActive ? 'true' : 'false');
+  });
+  const groups = groupBy(activeCriterion);
+  groupsEl.innerHTML = groups.map(g=>`
+    <div class="group-box">
+      <div class="group-label">${activeCriterion.groupName(g.key)} (${g.items.length})</div>
+      <div class="group-items">${g.items.map(itemHtml).join('')}</div>
+    </div>
+  `).join('');
+}
+
+buildCriteriaRow();
+renderGroups();
+
+const quizGroups = document.getElementById('quizGroups');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextQuizBtn = document.getElementById('nextQuizBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+
+const QUIZ_KEY = 'ainmath_quiz_v1';
+const QUIZ_ID = 'classify-objects';
+const quizRecordEl = document.getElementById('quizRecord');
+
+function loadQuizRecord(){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    return all[QUIZ_ID] || null;
+  }catch(e){ return null; }
+}
+
+function saveQuizRecord(finalScore){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    const prev = all[QUIZ_ID] || { best:0, plays:0 };
+    all[QUIZ_ID] = {
+      best: Math.max(prev.best||0, finalScore),
+      total: TOTAL_QUESTIONS,
+      plays: (prev.plays||0) + 1,
+      last: finalScore,
+      updatedAt: Date.now()
+    };
+    localStorage.setItem(QUIZ_KEY, JSON.stringify(all));
+  }catch(e){}
+}
+
+function renderQuizRecord(){
+  if(!quizRecordEl) return;
+  const rec = loadQuizRecord();
+  quizRecordEl.textContent = rec
+    ? `📌 Best score: ${rec.best}/${rec.total} · played ${rec.plays} time(s)`
+    : '';
+}
+renderQuizRecord();
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+const readBtn = document.getElementById('readBtn');
+readBtn.addEventListener('click', ()=> speakText(document.getElementById('quizQ').textContent));
+const TOTAL_QUESTIONS = 10;
+let score = 0, answered = false, quizAnswer = '', questionIndex = 0, quizFinished = false;
+let usedQuestions = [];
+
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
+
+function buildQuizCandidate(){
+  const criterion = CRITERIA[Math.floor(Math.random()*CRITERIA.length)];
+  const answer = criterion.key;
+  const groups = groupBy(criterion);
+  const opts = [...CRITERIA].sort(()=>Math.random()-0.5);
+  return { text: criterion.key, answer, groups, opts };
+}
+
+function newQuizQuestion(){
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
+  answered = false;
+  quizFeedback.textContent = '';
+  qIdxNumEl.textContent = questionIndex;
+  nextQuizBtn.textContent = questionIndex >= TOTAL_QUESTIONS ? '🏁 See results' : '➡ Next question';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildQuizCandidate();
+    attempts++;
+  } while(usedQuestions.includes(candidate.text) && attempts < 30);
+  usedQuestions.push(candidate.text);
+
+  quizAnswer = candidate.answer;
+  quizGroups.innerHTML = candidate.groups.map(g=>`
+    <div class="group-box">
+      <div class="group-label">&nbsp;</div>
+      <div class="group-items">${g.items.map(itemHtml).join('')}</div>
+    </div>
+  `).join('');
+
+  quizOpts.innerHTML = candidate.opts.map(c=>`<button class="opt-btn" data-k="${c.key}">${c.label}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered = true;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      if(btn.dataset.k===quizAnswer){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 Correct!`;
+        playCorrect();
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-k="${quizAnswer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `Not quite! The answer was "${CRITERIA.find(c=>c.key===quizAnswer).label}".`;
+        playWrong();
+      }
+      scoreNumEl.textContent = score;
+    });
+  });
+}
+
+function showQuizResult(){
+  quizFinished = true;
+  saveQuizRecord(score);
+  renderQuizRecord();
+  quizGroups.style.display = 'none';
+  quizOpts.style.display = 'none';
+  nextQuizBtn.textContent = '🔄 Play again';
+  quizFeedback.innerHTML = `🏁 Quiz complete! You got <b>${score}</b> out of ${TOTAL_QUESTIONS} correct.`;
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  quizGroups.style.display = '';
+  quizOpts.style.display = '';
+  newQuizQuestion();
+}
+
+nextQuizBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newQuizQuestion(); }
+});
+newQuizQuestion();
+</script>
+</body>
+</html>

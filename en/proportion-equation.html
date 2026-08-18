@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Proportions &amp; Proportional Division Lab</title>
+<meta name="description" content="Set up a proportion to find an unknown value, and see proportional division — splitting a whole by a fixed ratio — with sliders.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Proportions & Proportional Division Lab">
+<meta property="og:description" content="Set up a proportion to find an unknown value, and see proportional division — splitting a whole by a fixed ratio — with sliders.">
+<meta property="og:url" content="https://ainmath.com/en/proportion-equation.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Proportions & Proportional Division Lab">
+<meta name="twitter:description" content="Set up a proportion to find an unknown value, and see proportional division — splitting a whole by a fixed ratio — with sliders.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.howto{background:var(--coral-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--coral-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.section-title{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink);margin:0 0 16px;display:flex;align-items:center;gap:8px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
+
+.preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;}
+.preset-btn:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
+.preset-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+.slider-row{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+.slider-row label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);min-width:90px;}
+.slider-row input[type=range]{flex:1;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--coral-ink);min-width:56px;text-align:right;}
+
+.equation-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:24px;text-align:center;margin-bottom:16px;}
+.equation-box .expr{font-family:'Do Hyeon',sans-serif;font-size:clamp(22px,4.5vw,30px);color:var(--ink);}
+.equation-box .expr .unknown{color:var(--coral-ink);}
+.equation-box .check{font-size:14.5px;color:var(--ink-soft);margin-top:12px;}
+.equation-box .check b{color:var(--green-ink);}
+
+.fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--coral-ink);}
+
+.bar-total{display:flex;height:44px;border-radius:10px;overflow:hidden;border:2px solid var(--paper-line);margin:18px 0 10px;}
+.bar-total .part1{background:var(--coral-ink);display:flex;align-items:center;justify-content:center;font-family:'Do Hyeon',sans-serif;color:#fff;font-size:14px;}
+.bar-total .part2{background:var(--blue-ink);display:flex;align-items:center;justify-content:center;font-family:'Do Hyeon',sans-serif;color:#fff;font-size:14px;}
+.total-label{text-align:center;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);margin-bottom:14px;}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--coral-ink);}
+.quiz-record{font-size:13px;color:var(--ink-soft);margin:-4px 0 16px;}
+.quiz-record b{color:var(--violet-ink);}
+.quiz-q{font-size:15.5px;line-height:1.7;text-align:center;background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:20px;margin-bottom:16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
+.action-btn:hover{background:var(--coral-ink);}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="grade-5-6.html" style="color:var(--ink-soft);text-decoration:none;">← Back to all activities</a><a href="../proportion-equation.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+    <a href="article-proportion-equation.html" style="color:#fff;background:#6847F7;text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 Read the article</a>
+  </div>
+  <span class="eyebrow">⚖️ Proportions &amp; Proportional Division Lab</span>
+  <h1>Keep the <span>same ratio</span><br>and <span>find the unknown</span></h1>
+  <p class="sub">A proportion is an equation that uses two equal ratios to find an unknown value, while proportional division splits a whole into parts using a fixed ratio.</p>
+
+  <div class="howto">
+    <p>An equation stating that two ratios are equal is called a proportion. For example, 2:3 and 4:6 have different numbers but represent the same ratio, so we can write 2:3 = 4:6. The two outer numbers (2 and 6) are called the extremes, and the two inner numbers (3 and 4) are called the means. Whenever a proportion holds, <b>the product of the extremes always equals the product of the means</b> (2×6 = 3×4 = 12). This property lets you find an unknown value quickly with just multiplication, even when one value is missing.</p>
+    <p>Proportional division works a bit differently. It splits a whole according to a ratio you've already decided on. For example, splitting 20 candies in a 3:2 ratio means treating the whole as 5 equal groups (3+2) and first figuring out how many candies are in one group. Change the ratio and the total with the sliders, and check whether the two resulting shares really do keep the original ratio.</p>
+  </div>
+
+  <div class="stage">
+    <div class="section-title">🧮 Proportions — Finding an Unknown Value</div>
+    <div class="preset-row" id="ratioPresetRow"></div>
+    <div class="slider-row">
+      <label>Scale factor (k)</label>
+      <input type="range" id="kSlider" min="1" max="8" value="3" step="1">
+      <span class="val" id="kVal">3</span>
+    </div>
+    <div class="equation-box">
+      <div class="expr" id="propExpr"></div>
+      <div class="check" id="propCheck"></div>
+    </div>
+    <div class="fact" id="propFact"></div>
+  </div>
+
+  <div class="stage">
+    <div class="section-title">🍬 Proportional Division — Splitting by a Fixed Ratio</div>
+    <div class="preset-row" id="splitPresetRow"></div>
+    <div class="slider-row">
+      <label>Total amount</label>
+      <input type="range" id="totalSlider" min="5" max="50" value="20" step="5">
+      <span class="val" id="totalVal">20</span>
+    </div>
+    <div class="total-label" id="totalLabel"></div>
+    <div class="bar-total" id="splitBar"></div>
+    <div class="fact" id="splitFact"></div>
+  </div>
+
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 Proportions &amp; Proportional Division Quiz</h2>
+      <div class="progress-badge">Question <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · Correct <b id="scoreNum">0</b></div>
+    </div>
+<div class="quiz-record" id="quizRecord"></div>
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextQuizBtn">➡ Next question</button>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="Go to another activity" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="ratio-proportion.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ Previous activity</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Ratio &amp; Proportion Lab</span>
+    </a>
+    <a href="symmetry-shapes.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">Next activity ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Symmetry &amp; Congruent Shapes</span>
+    </a>
+  </nav>
+<footer>In a proportion, "the product of the two outer numbers" always equals "the product of the two inner numbers." This is called the equality of the products of the extremes and means.</footer>
+</div>
+
+<script>
+function gcd(a,b){ return b===0 ? a : gcd(b, a%b); }
+
+// ---------- Proportions ----------
+const RATIO_PRESETS = [ [2,3], [3,4], [5,2], [1,4], [4,5], [3,5] ];
+let ratioIdx = 0;
+const ratioPresetRow = document.getElementById('ratioPresetRow');
+const kSlider = document.getElementById('kSlider');
+const kVal = document.getElementById('kVal');
+const propExpr = document.getElementById('propExpr');
+const propCheck = document.getElementById('propCheck');
+const propFact = document.getElementById('propFact');
+
+function buildRatioPresets(){
+  ratioPresetRow.innerHTML = RATIO_PRESETS.map((p,i)=>`<button class="preset-btn" data-i="${i}">${p[0]} : ${p[1]}</button>`).join('');
+  ratioPresetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      ratioIdx = parseInt(btn.dataset.i);
+      renderProportion();
+    });
+  });
+}
+
+function renderProportion(){
+  ratioPresetRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===ratioIdx));
+  const [a,b] = RATIO_PRESETS[ratioIdx];
+  const k = parseInt(kSlider.value);
+  kVal.textContent = k;
+  const c = a*k, d = b*k;
+
+  propExpr.innerHTML = `${a} : ${b} = ${c} : <span class="unknown">${d}</span>`;
+  propCheck.innerHTML = `Extremes' product ${a}×${d} = <b>${a*d}</b> &nbsp;=&nbsp; Means' product ${b}×${c} = <b>${b*c}</b>`;
+  propFact.innerHTML = `Scaling ${a} : ${b} by <b>${k}×</b> gives ${c} : ${d}. Since the ratio stays the same, the product of the extremes (${a}, ${d}) always equals the product of the means (${b}, ${c}).`;
+}
+
+kSlider.addEventListener('input', renderProportion);
+buildRatioPresets();
+renderProportion();
+
+// ---------- Proportional division ----------
+const SPLIT_PRESETS = [ [2,3], [1,4], [3,5], [1,1], [3,2] ];
+let splitIdx = 0;
+const splitPresetRow = document.getElementById('splitPresetRow');
+const totalSlider = document.getElementById('totalSlider');
+const totalVal = document.getElementById('totalVal');
+const totalLabel = document.getElementById('totalLabel');
+const splitBar = document.getElementById('splitBar');
+const splitFact = document.getElementById('splitFact');
+
+function buildSplitPresets(){
+  splitPresetRow.innerHTML = SPLIT_PRESETS.map((p,i)=>`<button class="preset-btn" data-i="${i}">${p[0]} : ${p[1]}</button>`).join('');
+  splitPresetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      splitIdx = parseInt(btn.dataset.i);
+      setupTotalSlider();
+      renderSplit();
+    });
+  });
+}
+
+function setupTotalSlider(){
+  const [m,n] = SPLIT_PRESETS[splitIdx];
+  const step = m+n;
+  totalSlider.min = step;
+  totalSlider.max = step*10;
+  totalSlider.step = step;
+  totalSlider.value = step*4;
+}
+
+function renderSplit(){
+  splitPresetRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===splitIdx));
+  const [m,n] = SPLIT_PRESETS[splitIdx];
+  const total = parseInt(totalSlider.value);
+  totalVal.textContent = total;
+  const share1 = total*m/(m+n), share2 = total*n/(m+n);
+
+  totalLabel.textContent = `Splitting ${total} items in a ${m} : ${n} ratio`;
+  const pct1 = m/(m+n)*100;
+  splitBar.innerHTML = `
+    <div class="part1" style="width:${pct1}%">${share1}</div>
+    <div class="part2" style="width:${100-pct1}%">${share2}</div>
+  `;
+  splitFact.innerHTML = `Thinking of the whole as ${m}+${n} = <b>${m+n} groups</b>, one group is ${total}÷${m+n} = ${total/(m+n)}. So ${m} groups make ${share1}, and ${n} groups make ${share2}.`;
+}
+
+totalSlider.addEventListener('input', renderSplit);
+buildSplitPresets();
+setupTotalSlider();
+renderSplit();
+
+// ---------- Quiz ----------
+const quizQ = document.getElementById('quizQ');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextQuizBtn = document.getElementById('nextQuizBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+
+const QUIZ_KEY = 'ainmath_quiz_v1';
+const QUIZ_ID = 'proportion-equation';
+const quizRecordEl = document.getElementById('quizRecord');
+
+function loadQuizRecord(){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    return all[QUIZ_ID] || null;
+  }catch(e){ return null; }
+}
+
+function saveQuizRecord(finalScore){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    const prev = all[QUIZ_ID] || { best:0, plays:0 };
+    all[QUIZ_ID] = {
+      best: Math.max(prev.best||0, finalScore),
+      total: TOTAL_QUESTIONS,
+      plays: (prev.plays||0) + 1,
+      last: finalScore,
+      updatedAt: Date.now()
+    };
+    localStorage.setItem(QUIZ_KEY, JSON.stringify(all));
+  }catch(e){}
+}
+
+function renderQuizRecord(){
+  if(!quizRecordEl) return;
+  const rec = loadQuizRecord();
+  quizRecordEl.textContent = rec
+    ? `📌 Best score: ${rec.best}/${rec.total} · played ${rec.plays} time(s)`
+    : '';
+}
+renderQuizRecord();
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+const TOTAL_QUESTIONS = 10;
+let score = 0, answered = false, quizAnswer = 0, questionIndex = 0, quizFinished = false;
+let usedQuestions = [];
+
+function randInt(min,max){ return min + Math.floor(Math.random()*(max-min+1)); }
+
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
+
+function distractors(answer, count){
+  const opts = new Set([answer]);
+  let guard = 0;
+  while(opts.size < count+1 && guard < 200){
+    guard++;
+    const delta = randInt(-4,4);
+    if(delta!==0 && answer+delta>0) opts.add(answer+delta);
+  }
+  let extra = 1;
+  while(opts.size < count+1){ opts.add(answer+extra); extra++; }
+  return [...opts];
+}
+
+function buildQuizCandidate(){
+  const isProportion = Math.random() < 0.5;
+
+  if(isProportion){
+    const [a,b] = RATIO_PRESETS[randInt(0,RATIO_PRESETS.length-1)];
+    const k = randInt(2,6);
+    const c = a*k, d = b*k;
+    const text = `In ${a} : ${b} = ${c} : ▢, what number goes in ▢?`;
+    return { text, answer: d, opts: distractors(d,3).sort(()=>Math.random()-0.5), formatter: v=>`${v}` };
+  } else {
+    const [m,n] = SPLIT_PRESETS[randInt(0,SPLIT_PRESETS.length-1)];
+    const mult = randInt(2,8);
+    const total = mult*(m+n);
+    const askFirst = Math.random()<0.5;
+    const answer = askFirst ? mult*m : mult*n;
+    const text = `Splitting ${total} items in a ${m} : ${n} ratio, how many are in the ${askFirst?'first':'second'} share?`;
+    return { text, answer, opts: distractors(answer,3).sort(()=>Math.random()-0.5), formatter: v=>`${v}` };
+  }
+}
+
+function newQuizQuestion(){
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
+  answered = false;
+  quizFeedback.textContent = '';
+  qIdxNumEl.textContent = questionIndex;
+  nextQuizBtn.textContent = questionIndex >= TOTAL_QUESTIONS ? '🏁 See results' : '➡ Next question';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildQuizCandidate();
+    attempts++;
+  } while(usedQuestions.includes(candidate.text) && attempts < 30);
+  usedQuestions.push(candidate.text);
+
+  quizAnswer = candidate.answer;
+  quizQ.innerHTML = candidate.text;
+  renderOpts(candidate.opts, candidate.formatter);
+}
+
+function renderOpts(opts, formatter){
+  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${formatter(o)}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered = true;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      if(parseInt(btn.dataset.o)===quizAnswer){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 Correct!`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `Not quite! The answer was ${quizAnswer}.`;
+      }
+      scoreNumEl.textContent = score;
+    });
+  });
+}
+
+function showQuizResult(){
+  quizFinished = true;
+  saveQuizRecord(score);
+  renderQuizRecord();
+  quizQ.style.display = 'none';
+  quizOpts.style.display = 'none';
+  nextQuizBtn.textContent = '🔄 Play again';
+  quizFeedback.innerHTML = `🏁 Quiz complete! You got <b>${score}</b> out of ${TOTAL_QUESTIONS} correct.`;
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  quizQ.style.display = '';
+  quizOpts.style.display = '';
+  newQuizQuestion();
+}
+
+nextQuizBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newQuizQuestion(); }
+});
+newQuizQuestion();
+</script>
+</body>
+</html>

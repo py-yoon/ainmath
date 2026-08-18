@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Included or Not? — Number Ranges and Rounding | AINMATH</title>
+<meta name="description" content="What's the difference between 'at least 12' and 'more than 12'? Let's find out together why rounding 1234 to the tens place gives 1230.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Included or Not? — Number Ranges and Rounding | AINMATH">
+<meta property="og:description" content="What's the difference between 'at least 12' and 'more than 12'? Let's find out together why rounding 1234 to the tens place gives 1230.">
+<meta property="og:url" content="https://ainmath.com/en/article-number-range-rounding.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Included or Not? — Number Ranges and Rounding | AINMATH">
+<meta name="twitter:description" content="What's the difference between 'at least 12' and 'more than 12'? Let's find out together why rounding 1234 to the tens place gives 1230.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:760px;margin:0 auto;}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-soft);text-decoration:none;margin-bottom:18px;}
+.back-link:hover{color:var(--coral-ink);}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,40px);line-height:1.3;margin:0 0 14px;}
+h1 span{color:var(--coral-ink);}
+.meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 8px;}
+.sub{color:var(--ink-soft);font-size:16.5px;line-height:1.75;margin:0 0 30px;}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;}
+.cta{font-family:'Do Hyeon',sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:999px;transition:all .15s ease;}
+.cta.primary{background:var(--coral-ink);color:#fff;}
+.cta.primary:hover{filter:brightness(1.06);}
+.cta.secondary{background:var(--card);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.cta.secondary:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
+article{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:clamp(24px,5vw,44px);}
+h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:22px;color:var(--ink);margin:34px 0 14px;}
+h2:first-child{margin-top:0;}
+h2 .num{color:var(--coral-ink);margin-right:8px;}
+p{font-size:15.5px;line-height:1.85;color:var(--ink);margin:0 0 16px;}
+p:last-child{margin-bottom:0;}
+.example{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px 20px;margin:18px 0;text-align:center;}
+.example .eq{font-family:'Do Hyeon',sans-serif;font-size:18px;margin-bottom:8px;}
+.example p{font-size:14.5px;color:var(--ink-soft);margin:8px 0 0;}
+.grid4{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0;}
+.grid4 .box{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.6;}
+.grid4 .box b{display:block;font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--coral-ink);margin-bottom:4px;}
+.callout{background:var(--coral-soft);border-radius:16px;padding:18px 20px;margin:18px 0;font-size:14.5px;line-height:1.75;color:var(--ink);}
+.callout b{color:var(--coral-ink);}
+.tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
+.tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.tip-list b{color:var(--coral-ink);}
+.illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:18px 0;text-align:center;}
+.illo svg{width:100%;max-width:280px;height:auto;display:block;margin:0 auto;}
+.illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+.footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
+.footer-nav a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="grade-5-6.html">← Back to all activities</a><a href="../article-number-range-rounding.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+  <span class="eyebrow" style="color:#D90500;background:#FFEAE8">🔢 Number &amp; Operations</span>
+  <h1>Included, <span>or not?</span><br>And which way does it round?</h1>
+  <p class="meta">Upper elementary · About 4 min read</p>
+  <p class="sub">What's the difference between "at least 12" and "more than 12"? And why does rounding 1234 to the tens place give 1230?</p>
+
+  <div class="cta-row">
+    <a class="cta primary" href="number-range-rounding.html">🎮 Try Number Ranges &amp; Rounding</a>
+    <a class="cta secondary" href="grade-5-6.html">📚 See other topics</a>
+  </div>
+
+  <article>
+    <h2><span class="num">1</span>The key question: is the reference number included?</h2>
+    <p>There are four expressions for describing a number range. All four boil down to just two questions: <b>does it include the reference number</b>, and <b>is it the bigger side or the smaller side</b>?</p>
+    <div class="grid4">
+      <div class="box"><b>At least</b>Includes the reference, bigger side<br>e.g. at least 12 → 12, 13, 14…</div>
+      <div class="box"><b>At most</b>Includes the reference, smaller side<br>e.g. at most 12 → 12, 11, 10…</div>
+      <div class="box"><b>More than</b>Excludes the reference, bigger side<br>e.g. more than 12 → 13, 14, 15…</div>
+      <div class="box"><b>Less than</b>Excludes the reference, smaller side<br>e.g. less than 12 → 11, 10, 9…</div>
+    </div>
+    <p>On the activity page's number line, a filled dot (●) means the reference number is included, and an empty dot (○) means it isn't.</p>
+
+    <h2><span class="num">2</span>Rounding up always goes to the bigger side</h2>
+    <p>If the digits below the place you're rounding to aren't all zero, rounding up always makes that place 1 bigger and turns everything below it to zero. Even a tiny bit over pushes it up to the next step.</p>
+    <div class="example">
+      <div class="eq">Round 1234 up to the tens place → 1240</div>
+      <p>Since 1234 is bigger than 1230, it always rounds up to the next ten, 1240.</p>
+    </div>
+
+    <h2><span class="num">3</span>Rounding down always goes to the smaller side</h2>
+    <p>Rounding down turns every digit below the place you're rounding to into zero and drops it. No matter how large the remaining part is, it just gets cut off.</p>
+    <div class="example">
+      <div class="eq">Round 1234 down to the tens place → 1230</div>
+      <p>The remaining 4 simply disappears, leaving 1230.</p>
+    </div>
+
+    <h2><span class="num">4</span>Rounding to the nearest picks based on the halfway point</h2>
+    <p>Rounding to the nearest picks <b>whichever of the two values is closer</b>. If it's exactly halfway (5) or more, it goes to the bigger side; if it's less than halfway, it goes to the smaller side.</p>
+    <div class="example">
+      <div class="eq">Round 1234 to the nearest tens place → 1230</div>
+      <p>Between 1230 and 1240, 1234 is closer to 1230 (since 4 is less than the halfway point, 5).</p>
+    </div>
+    <div class="illo">
+      <svg viewBox="0 0 280 90">
+        <line x1="20" y1="45" x2="260" y2="45" stroke="var(--ink-soft)" stroke-width="2"></line>
+        <line x1="20" y1="35" x2="20" y2="55" stroke="var(--ink)" stroke-width="2"></line>
+        <line x1="260" y1="35" x2="260" y2="55" stroke="var(--ink)" stroke-width="2"></line>
+        <line x1="140" y1="30" x2="140" y2="60" stroke="var(--coral-ink)" stroke-width="1.5" stroke-dasharray="4 3"></line>
+        <text x="20" y="72" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink)">1230</text>
+        <text x="260" y="72" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink)">1240</text>
+        <text x="140" y="20" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--coral-ink)">Halfway point 1235</text>
+        <circle cx="116" cy="45" r="6" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="2.5"></circle>
+        <text x="116" y="72" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral-ink)">1234</text>
+      </svg>
+      <div class="illo-caption">1234 sits left of the halfway point (1235), so it rounds to the closer value, 1230</div>
+    </div>
+    <div class="callout">
+      <b>The halfway point is the deciding line.</b><br>
+      The dashed line on the activity page is exactly that halfway point. If the red dot sits left of it, it rounds down; if it sits right of it, it rounds up.
+    </div>
+
+    <h2><span class="num">5</span>Try this</h2>
+    <ul class="tip-list">
+      <li><b>Round the same number to different places.</b> Compare how the result changes when you round to the tens place versus the hundreds place.</li>
+      <li><b>Find a number that lands exactly on the halfway point.</b> Check which way it rounds when the remainder is exactly half the place value (e.g. a remainder of 5 for the tens place).</li>
+      <li><b>Practice not mixing up "at least" and "more than."</b> Keep the reference number the same and click through the four buttons in turn to see the difference between filled and empty dots.</li>
+    </ul>
+  </article>
+
+  <footer>
+    <p>Go back to Number Ranges &amp; Rounding and try moving the sliders yourself.</p>
+    <nav class="footer-nav">
+      <a href="grade-5-6.html">All activities</a>·<a href="number-range-rounding.html">Number Ranges &amp; Rounding</a>·<a href="../about.html">About</a>·<a href="../contact.html">Contact</a>
+    </nav>
+  </footer>
+</div>
+</body>
+</html>

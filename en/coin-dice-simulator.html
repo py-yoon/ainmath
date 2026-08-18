@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Coin &amp; Dice Simulator Lab</title>
+<meta name="description" content="Watch a graph show how results get closer to the theoretical probability as the number of trials increases.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Coin & Dice Simulator Lab">
+<meta property="og:description" content="Watch a graph show how results get closer to the theoretical probability as the number of trials increases.">
+<meta property="og:url" content="https://ainmath.com/en/coin-dice-simulator.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Coin & Dice Simulator Lab">
+<meta name="twitter:description" content="Watch a graph show how results get closer to the theoretical probability as the number of trials increases.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--green-ink);background:var(--green-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.2fr 0.8fr;gap:32px;align-items:start;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+.tabs{display:flex;gap:10px;margin-bottom:18px;}
+.tab-btn{flex:1;font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px;cursor:pointer;transition:all .15s ease;}
+.tab-btn.active{background:var(--green-ink);border-color:var(--green-ink);color:#fff;}
+.tab-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:12px 18px;cursor:pointer;flex:1;min-width:110px;transition:transform .15s ease, background .2s ease;}
+.action-btn:hover{background:var(--green-ink);}
+.action-btn:active{transform:scale(0.97);}
+.action-btn.secondary{background:var(--paper);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.action-btn.secondary:hover{border-color:var(--green-ink);color:var(--green-ink);background:var(--card);}
+.action-btn:focus-visible{outline:3px solid var(--coral);outline-offset:2px;}
+.chart{display:flex;align-items:flex-end;gap:14px;height:220px;padding:0 4px;border-bottom:2px solid var(--paper-line);}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;position:relative;}
+.bar-fill{width:70%;background:var(--green);border-radius:8px 8px 0 0;transition:height .4s ease;}
+.expect-line{position:absolute;left:6px;right:6px;border-top:2px dashed var(--coral);z-index:2;}
+.bar-label{margin-top:8px;font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);}
+.bar-pct{position:absolute;top:-22px;left:0;right:0;text-align:center;font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);}
+.panel{display:flex;flex-direction:column;gap:18px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px 20px;text-align:center;}
+.equation .formula{font-family:'Do Hyeon',sans-serif;font-size:clamp(15px,2.4vw,17px);color:var(--ink-soft);}
+.equation .result{font-family:'Do Hyeon',sans-serif;font-size:clamp(36px,6vw,48px);color:var(--coral);margin-top:6px;line-height:1;}
+.equation .result span{font-size:0.4em;color:var(--ink-soft);}
+.fact{background:var(--green-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+.fact b{color:var(--green-ink);}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:14px;color:var(--ink-soft);}
+.legend span{display:inline-flex;align-items:center;gap:6px;}
+.swatch{width:12px;height:3px;display:inline-block;}
+.howto{background:var(--green-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--green-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="grade-5-6.html" style="color:var(--ink-soft);text-decoration:none;">← Back to all activities</a><a href="../coin-dice-simulator.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+    <a href="article-coin-dice-probability.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 Read the article</a>
+  </div>
+  <span class="eyebrow">🎲 Coin &amp; Dice Simulator</span>
+  <h1>As the number of trials grows,<br>do results get closer to <span>theoretical probability</span>?</h1>
+  <p class="sub">Flip a coin or roll a dice many times. The red dashed line is the theoretically expected probability. Watch whether the bar heights get closer to the dashed line as the number of trials increases (this is called the <b>law of large numbers</b>).</p>
+
+  <div class="howto">
+    <p>If you flip a coin once and get heads, you can't say "this coin always lands heads," right? Even 7 heads out of 10 flips could still easily be chance. When the number of trials is small like this, the result can stray from the theoretical probability by quite a lot.</p>
+    <p>But increase the number of flips to hundreds or thousands, and the story changes. The random ups and downs start to cancel each other out, and the proportion of each outcome (the relative frequency) gets closer and closer to the theoretical probability. This is called the <b>law of large numbers</b>.</p>
+    <p>Click the 1, 10, and 100 buttons in turn and watch how the bar heights approach the red dashed line. You'll see for yourself how it starts out jumpy and gradually settles down.</p>
+  </div>
+
+  <div class="stage">
+    <div>
+      <div class="tabs" role="tablist">
+        <button class="tab-btn active" data-mode="coin" role="tab" aria-selected="true">🪙 Coin (heads/tails)</button>
+        <button class="tab-btn" data-mode="dice" role="tab" aria-selected="false">🎲 Dice (1–6)</button>
+      </div>
+      <div class="btn-row">
+        <button class="action-btn" id="once">Flip once</button>
+        <button class="action-btn" id="ten">Flip 10 times</button>
+        <button class="action-btn" id="hundred">Flip 100 times</button>
+        <button class="action-btn secondary" id="reset">↺ Reset</button>
+      </div>
+      <div class="chart" id="chart"></div>
+      <div class="legend" style="margin-top:10px;"><span><i class="swatch" style="background:var(--coral)"></i>Theoretical probability</span><span><i class="swatch" style="background:var(--green)"></i>Actual relative frequency</span></div>
+    </div>
+
+    <div class="panel">
+      <div class="equation">
+        <div class="formula">Total trials</div>
+        <div class="result" id="totalNum">0</div>
+      </div>
+      <div class="fact" id="fact">Click a button to start flipping!</div>
+    </div>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="Go to another activity" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="mean-median-mode.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ Previous activity</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Mean, Median &amp; Mode Lab</span>
+    </a>
+    <a href="pie-chart.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">Next activity ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Pie Chart Lab</span>
+    </a>
+  </nav>
+<footer>When the number of trials is small, results are all over the place, but repeat it hundreds of times or more and the relative frequency of each outcome gets closer and closer to the theoretical probability (1/2 for a coin, 1/6 for dice). Note that the "law of large numbers" doesn't mean past results affect the next one — even after 5 heads in a row, the probability of tails on the next flip is still exactly 1/2.</footer>
+</div>
+
+<script>
+const chart = document.getElementById('chart');
+const totalNum = document.getElementById('totalNum');
+const factBox = document.getElementById('fact');
+const tabs = document.querySelectorAll('.tab-btn');
+
+let mode = 'coin';
+let counts = [0,0];
+let total = 0;
+
+function outcomes(){ return mode==='coin' ? ['Heads','Tails'] : ['1','2','3','4','5','6']; }
+function labelOf(idx){ return outcomes()[idx]; }
+function expectedProb(){ return mode==='coin' ? 0.5 : (1/6); }
+
+function switchMode(m){
+  mode = m;
+  tabs.forEach(t=>{
+    const isActive = t.dataset.mode===m;
+    t.classList.toggle('active', isActive);
+    t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+  });
+  resetAll();
+}
+
+function resetAll(){
+  const n = mode==='coin' ? 2 : 6;
+  counts = new Array(n).fill(0);
+  total = 0;
+  render();
+  factBox.innerHTML = 'Click a button to start flipping!';
+}
+
+function flipOnce(){
+  const n = counts.length;
+  const idx = Math.floor(Math.random()*n);
+  counts[idx]++;
+  total++;
+}
+
+function flipMany(k){
+  for(let i=0;i<k;i++) flipOnce();
+  render();
+  const last = mode==='coin' ? 'the coin' : 'the dice';
+  const expectPct = expectedProb()*100;
+  const maxDevIdx = counts.reduce((best,c,i)=>{
+    const dev = Math.abs((c/total*100) - expectPct);
+    return dev > best.dev ? {dev, i} : best;
+  }, {dev:-1, i:0});
+  const devPct = maxDevIdx.dev;
+
+  let comment;
+  if(total < 20){
+    comment = `The number of trials is still small, so results are jumpy. It's too early to judge the probability yet.`;
+  } else if(devPct < 2){
+    comment = `Barely any difference from the theoretical probability (${expectPct.toFixed(1)}%)! With enough trials piling up, the law of large numbers is starting to kick in.`;
+  } else if(devPct < 6){
+    comment = `Pretty close to the theoretical probability (${expectPct.toFixed(1)}%) now. Flip more and the gap will shrink further.`;
+  } else {
+    comment = `Still about ${devPct.toFixed(1)} percentage points off from the theoretical probability (${expectPct.toFixed(1)}%). It's just leaning one way by chance — keep flipping and watch it balance out.`;
+  }
+
+  factBox.innerHTML = `You flipped ${last} a total of <b>${total} times</b>. ${comment}`;
+}
+
+function render(){
+  totalNum.innerHTML = `${total}`;
+  const n = counts.length;
+  const expectPct = expectedProb()*100;
+  chart.innerHTML = counts.map((c,i)=>{
+    const pct = total>0 ? (c/total*100) : 0;
+    const heightPct = Math.min(pct, 100);
+    const expectHeightPct = Math.min(expectPct,100);
+    return `<div class="bar-col">
+      <div class="bar-pct">${total>0?pct.toFixed(1)+'%':''}</div>
+      <div class="expect-line" style="bottom:${expectHeightPct}%"></div>
+      <div class="bar-fill" style="height:${heightPct}%;"></div>
+      <div class="bar-label">${labelOf(i)}</div>
+    </div>`;
+  }).join('');
+}
+
+tabs.forEach(t=> t.addEventListener('click', ()=> switchMode(t.dataset.mode)));
+document.getElementById('once').addEventListener('click', ()=> flipMany(1));
+document.getElementById('ten').addEventListener('click', ()=> flipMany(10));
+document.getElementById('hundred').addEventListener('click', ()=> flipMany(100));
+document.getElementById('reset').addEventListener('click', resetAll);
+
+resetAll();
+</script>
+</body>
+</html>

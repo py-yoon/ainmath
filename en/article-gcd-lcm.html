@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>GCD and LCM Stop Being Confusing Once You Know the Direction | AINMATH</title>
+<meta name="description" content="If you've ever simplified a fraction or found a common denominator, you've probably heard the words GCD and LCM more times than you can count. These two ideas...">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="GCD and LCM Stop Being Confusing Once You Know the Direction | AINMATH">
+<meta property="og:description" content="If you've ever simplified a fraction or found a common denominator, you've probably heard the words GCD and LCM more times than you can count. These two ideas...">
+<meta property="og:url" content="https://ainmath.com/en/article-gcd-lcm.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GCD and LCM Stop Being Confusing Once You Know the Direction | AINMATH">
+<meta name="twitter:description" content="If you've ever simplified a fraction or found a common denominator, you've probably heard the words GCD and LCM more times than you can count. These two ideas...">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{
+    display:inline-flex;align-items:center;gap:6px;
+    color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;
+  }
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;
+    padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;
+  }
+  h1{
+    font-family:'Do Hyeon',sans-serif;font-weight:400;
+    font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;
+  }
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{
+    background:var(--card);border-radius:22px;box-shadow:var(--shadow);
+    padding:clamp(20px,4vw,40px);
+  }
+  .article-body p{
+    font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;
+  }
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:260px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;
+    background:#FF5B57;text-decoration:none;
+    padding:14px 22px;border-radius:14px;
+    transition:transform .15s ease;
+  }
+  .cta-btn:hover{transform:translateY(-2px);}
+  .cta-soon{font-size:14px;color:var(--ink-soft);margin:0;}
+  .cta-soon a{color:#D90500;}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="grade-5-6.html">← Back to all activities</a><a href="../article-gcd-lcm.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+  <span class="eyebrow" style="color:#D90500;background:#FFEAE8">🔢 Number &amp; Operations</span>
+  <h1>GCD and LCM Stop Being Confusing Once You Know the Direction</h1>
+  <p class="meta">Upper elementary · About 4 min read</p>
+  <div class="card">
+    <div class="article-body">
+      <p>If you've ever simplified a fraction or found a common denominator, you've probably heard the words GCD (greatest common divisor) and LCM (least common multiple) more times than you can count. These two ideas sound intimidating, but once you understand how they work, they're simpler than you'd think.</p>
+      <p>The GCD is the largest number that divides two numbers at the same time. For example, list out the divisors of 12 and 18: 12 has 1, 2, 3, 4, 6, 12, and 18 has 1, 2, 3, 6, 9, 18 — the largest number common to both lists is 6. The LCM, on the other hand, is the smallest number that shows up in both numbers' lists of multiples. List the multiples of 12 and 18, and you'll see they first overlap at 36.</p>
+      <div class="illo">
+        <svg viewBox="0 0 200 150">
+          <circle cx="75" cy="70" r="55" fill="var(--blue-soft)" opacity="0.7" stroke="var(--blue-ink)" stroke-width="2"></circle>
+          <circle cx="125" cy="70" r="55" fill="var(--coral-soft)" opacity="0.7" stroke="var(--coral-ink)" stroke-width="2"></circle>
+          <text x="35" y="30" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--blue-ink)">12</text>
+          <text x="150" y="30" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--coral-ink)">18</text>
+          <text x="48" y="75" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--ink)">2</text>
+          <text x="100" y="75" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--violet-ink)">2, 3</text>
+          <text x="152" y="75" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--ink)">3</text>
+          <text x="100" y="128" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--violet-ink)">Overlap (2×3=6) = GCD</text>
+          <text x="100" y="145" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">Multiply everything (2×2×3×3=36) = LCM</text>
+        </svg>
+        <div class="illo-caption">12=2×2×3, 18=2×3×3 — the overlapping primes give the GCD, and multiplying all of them gives the LCM</div>
+      </div>
+      <p>Plenty of students mix these two up. Here's how I like to explain it: the GCD is about "dividing down," so it's always less than or equal to the original numbers, while the LCM is about "combining up," so it's always greater than or equal to them. Remembering this direction lets you sanity-check yourself whenever an answer looks off.</p>
+      <p>Real-life examples help a lot too. Say you have two traffic lights, one turning green every 12 seconds and the other every 18 seconds. To find the moment they both turn green at the same time, you'd find the LCM. On the other hand, if you want to cut a 12cm by 18cm sheet of paper into the largest possible square tiles with nothing left over, you'd need the GCD.</p>
+      <p>There's also a faster way to find the GCD and LCM using prime factorization. Break both numbers into products of primes, then multiply the shared primes using the smaller exponent to get the GCD, and multiply using the larger exponent to get the LCM. For example, breaking down 12=2²×3 and 18=2×3² gives a GCD of 2¹×3¹=6 and an LCM of 2²×3²=36 — exactly matching what we found by listing them out earlier. And here's another fun fact: multiplying a pair of numbers' GCD and LCM together always equals the product of the original two numbers. With 12 and 18, that's 6×36=216, and 12×18 is also exactly 216. Knowing this relationship lets you find the LCM with a single division once you already have the GCD, which is a handy trick for saving time on a test.</p>
+      <p>Visually, a great way to learn this is to line up two numbers' multiples in a table side by side and shade in the overlapping cells. Seeing exactly where they first overlap, and how often, makes the concept much clearer. On our activity page, changing the two numbers with sliders automatically shows their multiple and divisor lists side by side, with the overlapping parts highlighted automatically. Try changing the numbers into different combinations and watching how the overlap position shifts — the GCD and LCM, which might have just been memorized formulas, will start to feel like something you can really grasp. Get into the habit of guessing "will the GCD or the LCM be bigger this time?" before checking, every time you change the numbers, and you'll remember the direction of these two ideas for much longer. Pick a few number pairs ahead of time — like 12 and 30, or 8 and 20 — and practice finding the GCD and LCM back and forth for each; by the time you learn common denominators and simplifying fractions later on, you'll be able to reach for these two ideas far more naturally.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="gcd-lcm.html">🎮 Try this concept yourself →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>AINMATH · Learn math by checking it yourself with sliders</p>
+  <nav><a href="index.html">Home</a>·<a href="../about.html">About</a>·<a href="../terms.html">Terms</a>·<a href="../privacy-policy.html">Privacy Policy</a>·<a href="../contact.html">Contact</a></nav>
+</footer>
+</body>
+</html>

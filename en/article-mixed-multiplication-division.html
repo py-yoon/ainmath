@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Breaking It Apart Makes Math Easier — Multiplication & Division | AINMATH</title>
+<meta name="description" content="Two-digit multiplication gets easier when you break it apart by place value, and division makes sense once you see how many equal groups you get, and what's left over.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Breaking It Apart Makes Math Easier — Multiplication & Division | AINMATH">
+<meta property="og:description" content="Two-digit multiplication gets easier when you break it apart by place value, and division makes sense once you see how many equal groups you get, and what's left over.">
+<meta property="og:url" content="https://ainmath.com/en/article-mixed-multiplication-division.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Breaking It Apart Makes Math Easier — Multiplication & Division | AINMATH">
+<meta name="twitter:description" content="Two-digit multiplication gets easier when you break it apart by place value, and division makes sense once you see how many equal groups you get, and what's left over.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:760px;margin:0 auto;}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-soft);text-decoration:none;margin-bottom:18px;}
+.back-link:hover{color:var(--coral-ink);}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,40px);line-height:1.3;margin:0 0 14px;}
+h1 span{color:var(--coral-ink);}
+.meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 8px;}
+.sub{color:var(--ink-soft);font-size:16.5px;line-height:1.75;margin:0 0 30px;}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;}
+.cta{font-family:'Do Hyeon',sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:999px;transition:all .15s ease;}
+.cta.primary{background:var(--coral-ink);color:#fff;}
+.cta.primary:hover{filter:brightness(1.06);}
+.cta.secondary{background:var(--card);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.cta.secondary:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
+article{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:clamp(24px,5vw,44px);}
+h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:22px;color:var(--ink);margin:34px 0 14px;}
+h2:first-child{margin-top:0;}
+h2 .num{color:var(--coral-ink);margin-right:8px;}
+p{font-size:15.5px;line-height:1.85;color:var(--ink);margin:0 0 16px;}
+p:last-child{margin-bottom:0;}
+.example{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px 20px;margin:18px 0;text-align:center;}
+.example .eq{font-family:'Do Hyeon',sans-serif;font-size:17px;margin-bottom:8px;}
+.example p{font-size:14.5px;color:var(--ink-soft);margin:8px 0 0;}
+.callout{background:var(--coral-soft);border-radius:16px;padding:18px 20px;margin:18px 0;font-size:14.5px;line-height:1.75;color:var(--ink);}
+.callout b{color:var(--coral-ink);}
+.tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
+.tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.tip-list b{color:var(--coral-ink);}
+.illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:18px 0;text-align:center;}
+.illo svg{width:100%;max-width:240px;height:auto;display:block;margin:0 auto;}
+.illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+.footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
+.footer-nav a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="grade-3-4.html">← Back to all activities</a><a href="../article-mixed-multiplication-division.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+  <span class="eyebrow" style="color:#D90500;background:#FFEAE8">🔢 Number & operations</span>
+  <h1>Big numbers get easy<br>when you <span>break them apart</span></h1>
+  <p class="meta">Upper elementary · About 3 min read</p>
+  <p class="sub">If a two-digit multiplication like 34 × 6 feels hard, split 34 into 30 and 4, calculate each part, then add them together. It gets much easier.</p>
+
+  <div class="cta-row">
+    <a class="cta primary" href="mixed-multiplication-division.html">🎮 Try the Multiplication & Division activity</a>
+    <a class="cta secondary" href="grade-3-4.html">📚 See other topics</a>
+  </div>
+
+  <div class="callout" style="background:var(--coral-soft);margin-bottom:20px;">🧑‍🤝‍🧑 <b>Read this together with a grown-up.</b> Some words may still be tricky to read alone. Reading it out loud together makes it easier to understand.</div>
+
+  <article>
+    <h2><span class="num">1</span>A two-digit number can be split apart by place value</h2>
+    <p>34 is really just 30 plus 4 added together. Splitting a number by place value like this lets you turn one big multiplication into two smaller ones.</p>
+    <div class="example">
+      <div class="eq">34 × 6 = (30 × 6) + (4 × 6) = 180 + 24 = 204</div>
+      <p>30×6 and 4×6 are both multiplications you can do easily with the times table.</p>
+    </div>
+
+    <h2><span class="num">2</span>The same trick works for two-digit × two-digit</h2>
+    <p>If the multiplier is also a two-digit number, split that one apart by place value too, multiply each part, then add them together. This is exactly why, in column multiplication, you "multiply one row at a time, then add."</p>
+    <div class="example">
+      <div class="eq">34 × 27 = (34 × 7) + (34 × 20) = 238 + 680 = 918</div>
+      <p>First multiply by the ones digit of the multiplier, then by the tens digit, and add the two results.</p>
+    </div>
+
+    <h2><span class="num">3</span>Division means finding "how many groups"</h2>
+    <p>38 ÷ 7 asks: "If I split 38 items into groups of 7, how many groups do I get, and how many are left over?" Making groups of 7 gives you 5 groups (35 items), with 3 left over.</p>
+    <div class="illo">
+      <svg viewBox="0 0 210 105">
+        <rect x="7" y="7" width="106" height="80" rx="8" fill="none" stroke="var(--violet-ink)" stroke-width="1.5" stroke-dasharray="4 3"></rect>
+        <circle cx="15" cy="15" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="30" cy="15" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="45" cy="15" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="60" cy="15" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="75" cy="15" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="90" cy="15" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="105" cy="15" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="15" cy="31" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="30" cy="31" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="45" cy="31" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="60" cy="31" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="75" cy="31" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="90" cy="31" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="105" cy="31" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="15" cy="47" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="30" cy="47" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="45" cy="47" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="60" cy="47" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="75" cy="47" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="90" cy="47" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="105" cy="47" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="15" cy="63" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="30" cy="63" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="45" cy="63" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="60" cy="63" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="75" cy="63" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="90" cy="63" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="105" cy="63" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="15" cy="79" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="30" cy="79" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="45" cy="79" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="60" cy="79" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="75" cy="79" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="90" cy="79" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+          <circle cx="105" cy="79" r="5" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="1.5"></circle>
+        <circle cx="135" cy="35" r="5" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="1.5"></circle>
+        <circle cx="150" cy="35" r="5" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="1.5"></circle>
+        <circle cx="135" cy="50" r="5" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="1.5"></circle>
+        <text x="60" y="98" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--violet-ink)">5 groups of 7</text>
+        <text x="143" y="98" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral-ink)">3 left over</text>
+      </svg>
+      <div class="illo-caption">Splitting 38 items into groups of 7 makes 5 groups, with 3 left over</div>
+    </div>
+    <div class="example">
+      <div class="eq">38 ÷ 7 = 5 remainder 3</div>
+      <p>The quotient is 5, and the remainder is 3.</p>
+    </div>
+
+    <h2><span class="num">4</span>You can check your answer</h2>
+    <div class="callout">
+      <b>Quotient × divisor + remainder = dividend</b><br>
+      If 38 ÷ 7 = 5 remainder 3 is correct, then 7 × 5 + 3 = 38 must also be true. Working backward like this lets you check whether your answer is right.
+    </div>
+
+    <h2><span class="num">5</span>Try playing like this</h2>
+    <ul class="tip-list">
+      <li><b>Make different numbers with the sliders.</b> Change the two-digit number and the multiplier and watch how the partial products change.</li>
+      <li><b>Count the division grid.</b> Count the purple squares to see how many groups there are, count the orange squares (the remainder), and compare with the answer shown on screen.</li>
+      <li><b>Work out the check equation yourself.</b> Find the quotient and remainder, then check that the equation gives back the original number.</li>
+    </ul>
+  </article>
+
+  <footer>
+    <p>Head back to Multiplication & Division and try moving the sliders yourself.</p>
+    <nav class="footer-nav">
+      <a href="grade-3-4.html">All activities</a>·<a href="mixed-multiplication-division.html">Multiplication & Division</a>·<a href="../about.html">About</a>·<a href="../contact.html">Contact</a>
+    </nav>
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Box, Cylinder, or Ball? — Solid Shape Families | AINMATH</title>
+<meta name="description" content="Every object around us belongs to one of three shape families: box-shaped, cylinder-shaped, or ball-shaped. Let's learn how to tell them apart.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Box, Cylinder, or Ball? — Solid Shape Families | AINMATH">
+<meta property="og:description" content="Every object around us belongs to one of three shape families: box-shaped, cylinder-shaped, or ball-shaped. Let's learn how to tell them apart.">
+<meta property="og:url" content="https://ainmath.com/en/article-solid-shape-families.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Box, Cylinder, or Ball? — Solid Shape Families | AINMATH">
+<meta name="twitter:description" content="Every object around us belongs to one of three shape families: box-shaped, cylinder-shaped, or ball-shaped. Let's learn how to tell them apart.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:760px;margin:0 auto;}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-soft);text-decoration:none;margin-bottom:18px;}
+.back-link:hover{color:var(--violet-ink);}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,40px);line-height:1.3;margin:0 0 14px;}
+h1 span{color:var(--violet-ink);}
+.meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 8px;}
+.sub{color:var(--ink-soft);font-size:16.5px;line-height:1.75;margin:0 0 30px;}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;}
+.cta{font-family:'Do Hyeon',sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:999px;transition:all .15s ease;}
+.cta.primary{background:var(--violet-ink);color:#fff;}
+.cta.primary:hover{filter:brightness(1.06);}
+.cta.secondary{background:var(--card);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.cta.secondary:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+article{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:clamp(24px,5vw,44px);}
+h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:22px;color:var(--ink);margin:34px 0 14px;}
+h2:first-child{margin-top:0;}
+h2 .num{color:var(--violet-ink);margin-right:8px;}
+p{font-size:17px;line-height:1.95;color:var(--ink);margin:0 0 16px;}
+p:last-child{margin-bottom:0;}
+.grid4{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0;}
+.grid4 .box{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:14px;font-size:14px;line-height:1.6;text-align:center;}
+.grid4 .box b{display:block;font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--violet-ink);margin-bottom:4px;}
+.callout{background:var(--violet-soft);border-radius:16px;padding:18px 20px;margin:18px 0;font-size:14.5px;line-height:1.75;color:var(--ink);}
+.callout b{color:var(--violet-ink);}
+.tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
+.tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.tip-list b{color:var(--violet-ink);}
+.illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:18px 0;text-align:center;}
+.illo svg{width:100%;max-width:340px;height:auto;display:block;margin:0 auto;}
+.illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+.footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
+.footer-nav a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="elementary.html">← Back to all activities</a><a href="../article-solid-shape-families.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+  <span class="eyebrow" style="color:#6847F7;background:#EEE8FF">📐 Shape & geometry</span>
+  <h1>Look at an object,<br>and you'll see its <span>shape family</span></h1>
+  <p class="meta">Early elementary · About 3 min read</p>
+  <p class="sub">A shipping box, a soup can, a soccer ball — they all look different, but every one of them belongs to one of three shape families.</p>
+
+  <div class="cta-row">
+    <a class="cta primary" href="solid-shape-families.html">🎮 Try the Solid Shape Families activity</a>
+    <a class="cta secondary" href="elementary.html">📚 See other topics</a>
+  </div>
+
+  <div class="callout" style="background:var(--violet-soft);margin-bottom:20px;">🧑‍🤝‍🧑 <b>Read this together with a grown-up.</b> Some words may still be tricky to read alone. Reading it out loud together makes it easier to understand.</div>
+
+  <article>
+    <h2><span class="num">1</span>There are three shape families</h2>
+    <div class="grid4">
+      <div class="box"><b>📦 Box-shaped</b>has flat faces</div>
+      <div class="box"><b>🥫 Cylinder-shaped</b>has both curved and flat faces</div>
+      <div class="box"><b>⚽ Ball-shaped</b>has no flat faces at all</div>
+    </div>
+    <p>You'll learn these three families again later at school under their formal names: rectangular prism, cylinder, and sphere.</p>
+    <div class="illo">
+      <svg viewBox="0 0 340 140">
+        <g fill="none" stroke="var(--violet-ink)" stroke-width="2">
+          <polygon points="20,60 70,60 70,110 20,110"></polygon>
+          <polygon points="35,45 85,45 85,95 35,95"></polygon>
+          <line x1="20" y1="60" x2="35" y2="45"></line>
+          <line x1="70" y1="60" x2="85" y2="45"></line>
+          <line x1="70" y1="110" x2="85" y2="95"></line>
+          <line x1="20" y1="110" x2="35" y2="95"></line>
+        </g>
+        <g fill="none" stroke="var(--violet-ink)" stroke-width="2">
+          <ellipse cx="170" cy="45" rx="30" ry="12"></ellipse>
+          <path d="M 140 45 L 140 105 A 30 12 0 0 0 200 105 L 200 45"></path>
+        </g>
+        <g fill="none" stroke="var(--violet-ink)" stroke-width="2">
+          <circle cx="290" cy="75" r="38"></circle>
+          <ellipse cx="290" cy="75" rx="38" ry="13" stroke-dasharray="3 3"></ellipse>
+        </g>
+        <g font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink-soft)" text-anchor="middle">
+          <text x="55" y="132">box-shaped</text>
+          <text x="170" y="132">cylinder-shaped</text>
+          <text x="290" y="132">ball-shaped</text>
+        </g>
+      </svg>
+      <div class="illo-caption">Tell them apart by checking: any flat faces? curved and flat together? or no flat faces at all?</div>
+    </div>
+
+    <h2><span class="num">2</span>Check whether it has a flat face</h2>
+    <p>If touching an object with your hand finds a flat part, it belongs to the box-shaped family — think books, bricks, or dice. Flat faces let it stack up steadily on top of other things.</p>
+
+    <h2><span class="num">3</span>Curved and flat together means cylinder-shaped</h2>
+    <p>A soup can or a roll of paper towels is curved on the side but flat on the top and bottom — that's the cylinder-shaped family. Lie it on its side and it rolls; stand it up and it stacks steadily.</p>
+
+    <h2><span class="num">4</span>No flat face anywhere means ball-shaped</h2>
+    <p>A soccer ball or an orange feels curved no matter where you touch it — that's the ball-shaped family. With no flat part anywhere, it rolls smoothly in any direction.</p>
+    <div class="callout">
+      <b>You can also tell them apart by how well they roll.</b><br>
+      Box-shaped objects barely roll at all, cylinder-shaped objects roll only when lying on their side, and ball-shaped objects roll easily in any direction.
+    </div>
+
+    <h2><span class="num">5</span>Try playing like this</h2>
+    <ul class="tip-list">
+      <li><b>Sort objects around your house into shape families.</b> Try classifying things like a fridge, a cup, or a piece of candy into one of the three families.</li>
+      <li><b>Explain why, while touching the object.</b> Try saying the reason out loud, like "because it has a flat face" or "because it's round all over."</li>
+      <li><b>Test yourself quickly with the quiz.</b> Practice recognizing the shape family right away just from an object's name and picture.</li>
+    </ul>
+  </article>
+
+  <footer>
+    <p>Head back to Solid Shape Families and guess the shape family of different objects.</p>
+    <nav class="footer-nav">
+      <a href="elementary.html">All activities</a>·<a href="solid-shape-families.html">Solid Shape Families</a>·<a href="../about.html">About</a>·<a href="../contact.html">Contact</a>
+    </nav>
+  </footer>
+</div>
+</body>
+</html>

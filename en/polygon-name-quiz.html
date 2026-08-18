@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Name the Polygon</title>
+<meta name="description" content="Change the number of sides to learn regular polygon names, and try a quiz telling convex and concave polygons apart.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Name the Polygon">
+<meta property="og:description" content="Change the number of sides to learn regular polygon names, and try a quiz telling convex and concave polygons apart.">
+<meta property="og:url" content="https://ainmath.com/en/polygon-name-quiz.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Name the Polygon">
+<meta name="twitter:description" content="Change the number of sides to learn regular polygon names, and try a quiz telling convex and concave polygons apart.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --teal:#2EC4C6; --teal-soft:#E4FAF9;--teal-ink:#1D7C7E;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--teal-ink);background:var(--teal-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+.howto{background:var(--teal-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--teal-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.15fr 0.85fr;gap:32px;align-items:start;margin-bottom:24px;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+svg{width:100%;max-width:320px;height:auto;display:block;margin:0 auto;}
+.slider-row{display:flex;align-items:center;gap:12px;margin-top:16px;}
+.slider-row input[type=range]{flex:1;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--teal-ink);min-width:60px;text-align:right;}
+.panel{display:flex;flex-direction:column;gap:16px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px;text-align:center;}
+.equation .formula{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.equation .result{font-family:'Do Hyeon',sans-serif;font-size:clamp(26px,4.4vw,34px);margin-top:6px;color:var(--teal);}
+.fact{background:var(--green-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+.fact b{color:var(--green-ink);}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:8px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--teal-ink);}
+.quiz-record{font-size:13px;color:var(--ink-soft);margin:-4px 0 16px;}
+.quiz-record b{color:var(--violet-ink);}
+.quiz-question{font-family:'Do Hyeon',sans-serif;font-size:16px;margin:8px 0 16px;}
+.quiz-body{display:flex;gap:28px;flex-wrap:wrap;align-items:center;}
+#quizSvg{width:200px;max-width:200px;flex:none;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;flex:1;min-width:220px;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:14.5px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:11px 16px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--teal-ink);color:var(--teal-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;}
+.action-btn:hover{background:var(--teal-ink);}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="grade-3-4.html" style="color:var(--ink-soft);text-decoration:none;">← Back to all activities</a>
+    <a href="article-polygon-name-quiz.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:6px 12px;border-radius:999px;">📖 Read the article</a>
+    <a href="../polygon-name-quiz.html" style="color:var(--ink-soft);text-decoration:none;font-size:12.5px;background:var(--violet-soft);padding:4px 10px;border-radius:999px;">한국어 →</a>
+  </div>
+  <span class="eyebrow">🔺 Name the Polygon</span>
+  <h1>Change the number of sides to<br>learn <span>polygon names</span></h1>
+  <p class="sub">Move the slider to change the number of sides and build a regular polygon, then try naming different polygons and telling convex from concave in the quiz below.</p>
+
+  <div class="howto">
+    <p>A polygon's name is really decided by one very simple rule: <b>counting how many sides it has</b>. 3 sides means a triangle, 5 sides a pentagon, 8 sides an octagon, and so on. As long as a shape is surrounded only by straight line segments, the number of sides and the number of corners are always exactly the same.</p>
+    <p>A polygon where every side is the same length and every angle is the same size gets its own name: a regular polygon. Polygons are also split into convex and concave — if there's no spot that caves inward in any direction, it's convex; if even one spot caves inward like an arrow, it's concave. Every regular polygon is convex, but a concave polygon can never be regular. Move the slider to change the number of sides and see the shape's name and whether it's convex or concave for yourself.</p>
+  </div>
+
+  <div class="stage">
+    <div>
+      <svg id="polySvg" viewBox="0 0 300 300"></svg>
+      <div class="slider-row">
+        <span style="font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);">Number of sides</span>
+        <input type="range" id="sidesSlider" min="3" max="10" value="5" step="1">
+        <span class="val" id="sidesVal">5</span>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="equation">
+        <div class="formula">This shape's name</div>
+        <div class="result" id="polyName">Pentagon</div>
+      </div>
+      <div class="fact" id="polyFact">5 sides, and 5 corners too.</div>
+    </div>
+  </div>
+
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 Polygon quiz</h2>
+      <div class="progress-badge">Question <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · Correct <b id="scoreNum">0</b></div>
+    </div>
+<div class="quiz-record" id="quizRecord"></div>
+    <div class="quiz-question" id="quizQuestion"></div>
+    <div class="quiz-body">
+      <svg id="quizSvg" viewBox="0 0 200 200"></svg>
+      <div class="quiz-opts" id="quizOpts"></div>
+    </div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextBtn">➡ Next question</button>
+  </div>
+
+            <!-- prev-next-nav -->
+  <nav aria-label="Go to another activity" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="shape-classify.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ Previous activity</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Circle, Triangle, Rectangle Sort</span>
+    </a>
+    <a href="coordinate-transform.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">Next activity ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Moving Shapes on a Coordinate Grid</span>
+    </a>
+  </nav>
+<footer>A polygon with a side that caves inward is called a "concave polygon," and one with no caved-in spots in any direction is called a "convex polygon." Every regular polygon is a convex polygon.</footer>
+</div>
+
+<script>
+const POLY_NAMES = {3:'Triangle',4:'Quadrilateral',5:'Pentagon',6:'Hexagon',7:'Heptagon',8:'Octagon',9:'Nonagon',10:'Decagon'};
+
+function regularPolygonPoints(n, R){
+  const pts = [];
+  for(let i=0;i<n;i++){
+    const ang = (-90 + i*360/n)*Math.PI/180;
+    pts.push([R*Math.cos(ang), R*Math.sin(ang)]);
+  }
+  return pts;
+}
+
+function transformPoints(pts, rotDeg, scale, cx, cy){
+  const rad = rotDeg*Math.PI/180;
+  return pts.map(([x,y])=>{
+    const sx=x*scale, sy=y*scale;
+    const rx = sx*Math.cos(rad) - sy*Math.sin(rad);
+    const ry = sx*Math.sin(rad) + sy*Math.cos(rad);
+    return [cx+rx, cy+ry];
+  });
+}
+
+const CONCAVE_SHAPE = [[0,-70],[25,-10],[70,-10],[35,20],[50,70],[0,35],[-50,70],[-35,20],[-70,-10],[-25,-10]];
+
+const polySvg = document.getElementById('polySvg');
+const sidesSlider = document.getElementById('sidesSlider');
+const sidesVal = document.getElementById('sidesVal');
+const polyName = document.getElementById('polyName');
+const polyFact = document.getElementById('polyFact');
+
+function renderPoly(){
+  const n = parseInt(sidesSlider.value);
+  sidesVal.textContent = n;
+  const pts = transformPoints(regularPolygonPoints(n,110), 0, 1, 150, 150);
+  polySvg.innerHTML = `<polygon points="${pts.map(p=>p.join(',')).join(' ')}" fill="var(--teal-soft)" stroke="var(--teal)" stroke-width="3"></polygon>` +
+    pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="var(--ink)"></circle>`).join('');
+  polyName.textContent = POLY_NAMES[n];
+  polyFact.innerHTML = `${n} sides, and <b>${n}</b> corners too. The number of sides decides the name — 3 sides is a triangle, 4 sides a quadrilateral.`;
+}
+sidesSlider.addEventListener('input', renderPoly);
+renderPoly();
+
+// ---------- Quiz ----------
+const quizSvg = document.getElementById('quizSvg');
+const quizOpts = document.getElementById('quizOpts');
+const quizQuestion = document.getElementById('quizQuestion');
+const quizFeedback = document.getElementById('quizFeedback');
+const quizBody = document.querySelector('.quiz-body');
+const nextBtn = document.getElementById('nextBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+
+const QUIZ_KEY = 'ainmath_quiz_v1';
+const QUIZ_ID = 'polygon-name-quiz';
+const quizRecordEl = document.getElementById('quizRecord');
+
+function loadQuizRecord(){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    return all[QUIZ_ID] || null;
+  }catch(e){ return null; }
+}
+
+function saveQuizRecord(finalScore){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    const prev = all[QUIZ_ID] || { best:0, plays:0 };
+    all[QUIZ_ID] = {
+      best: Math.max(prev.best||0, finalScore),
+      total: TOTAL_QUESTIONS,
+      plays: (prev.plays||0) + 1,
+      last: finalScore,
+      updatedAt: Date.now()
+    };
+    localStorage.setItem(QUIZ_KEY, JSON.stringify(all));
+  }catch(e){}
+}
+
+function renderQuizRecord(){
+  if(!quizRecordEl) return;
+  const rec = loadQuizRecord();
+  quizRecordEl.textContent = rec
+    ? `📌 Best score: ${rec.best}/${rec.total} · played ${rec.plays} time(s)`
+    : '';
+}
+renderQuizRecord();
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+const TOTAL_QUESTIONS = 10;
+
+let score=0, answered=false, questionIndex=0, quizFinished=false;
+let quizType='', correctAnswer='';
+let usedQuestions = [];
+
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
+
+function buildQuizCandidate(){
+  const type = Math.random()<0.7 ? 'name' : 'convex';
+
+  if(type==='name'){
+    const questionText = 'What is this shape called?';
+    const n = 3 + Math.floor(Math.random()*8); // 3~10
+    const answer = String(n);
+    const rot = Math.floor(Math.random()*360);
+    const pts = transformPoints(regularPolygonPoints(n,80), rot, 1, 100, 100);
+    const svgHTML = `<polygon points="${pts.map(p=>p.join(',')).join(' ')}" fill="var(--teal-soft)" stroke="var(--teal)" stroke-width="3"></polygon>`;
+
+    const nums = Object.keys(POLY_NAMES).map(Number);
+    let distractors = nums.filter(x=>x!==n).sort(()=>Math.random()-0.5).slice(0,3);
+    const options = [n, ...distractors].sort(()=>Math.random()-0.5).map(x=>({key:String(x), label:POLY_NAMES[x]}));
+    return { dedupeKey:`name:${answer}`, quizType:type, questionText, svgHTML, options, answer };
+  } else {
+    const questionText = 'Is this shape convex or concave?';
+    const isConvex = Math.random()<0.5;
+    const answer = isConvex ? 'convex' : 'concave';
+    const rot = Math.floor(Math.random()*360);
+    let pts;
+    if(isConvex){
+      const n = 5 + Math.floor(Math.random()*4);
+      pts = transformPoints(regularPolygonPoints(n,80), rot, 1, 100, 100);
+    } else {
+      pts = transformPoints(CONCAVE_SHAPE, rot, 0.85, 100, 100);
+    }
+    const svgHTML = `<polygon points="${pts.map(p=>p.join(',')).join(' ')}" fill="var(--coral-soft)" stroke="var(--coral)" stroke-width="3"></polygon>`;
+
+    const options = [
+      {key:'convex', label:'Convex'},
+      {key:'concave', label:'Concave'},
+    ].sort(()=>Math.random()-0.5);
+    return { dedupeKey:`convex:${answer}`, quizType:type, questionText, svgHTML, options, answer };
+  }
+}
+
+function newQuizQuestion(){
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
+  answered = false;
+  quizFeedback.textContent = '';
+  qIdxNumEl.textContent = questionIndex;
+  nextBtn.textContent = questionIndex >= TOTAL_QUESTIONS ? '🏁 See results' : '➡ Next question';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildQuizCandidate();
+    attempts++;
+  } while(usedQuestions.includes(candidate.dedupeKey) && attempts < 30);
+  usedQuestions.push(candidate.dedupeKey);
+
+  quizType = candidate.quizType;
+  correctAnswer = candidate.answer;
+  quizQuestion.textContent = candidate.questionText;
+  quizSvg.innerHTML = candidate.svgHTML;
+  quizOpts.innerHTML = candidate.options.map(o=>`<button class="opt-btn" data-k="${o.key}">${o.label}</button>`).join('');
+
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered = true;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      const labelOf = k => quizType==='name' ? POLY_NAMES[parseInt(k)] : (k==='convex'?'Convex':'Concave');
+      if(btn.dataset.k===correctAnswer){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 Correct!`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-k="${correctAnswer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `Not quite! The answer was "${labelOf(correctAnswer)}".`;
+      }
+      scoreNumEl.textContent = score;
+    });
+  });
+}
+
+function showQuizResult(){
+  quizFinished = true;
+  saveQuizRecord(score);
+  renderQuizRecord();
+  quizQuestion.style.display = 'none';
+  quizBody.style.display = 'none';
+  nextBtn.textContent = '🔄 Play again';
+  quizFeedback.innerHTML = `🏁 Quiz complete! You got <b>${score}</b> out of ${TOTAL_QUESTIONS} correct.`;
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  quizQuestion.style.display = '';
+  quizBody.style.display = '';
+  newQuizQuestion();
+}
+
+nextBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newQuizQuestion(); }
+});
+newQuizQuestion();
+</script>
+</body>
+</html>

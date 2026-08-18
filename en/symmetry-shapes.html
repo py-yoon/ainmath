@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Symmetry &amp; Congruence Lab</title>
+<meta name="description" content="Flip a shape like a mirror or spin it 180 degrees, and see for yourself what line symmetry and point symmetry really mean.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Symmetry & Congruence Lab">
+<meta property="og:description" content="Flip a shape like a mirror or spin it 180 degrees, and see for yourself what line symmetry and point symmetry really mean.">
+<meta property="og:url" content="https://ainmath.com/en/symmetry-shapes.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Symmetry & Congruence Lab">
+<meta name="twitter:description" content="Flip a shape like a mirror or spin it 180 degrees, and see for yourself what line symmetry and point symmetry really mean.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--violet-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.15fr 0.85fr;gap:32px;align-items:start;margin-bottom:24px;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+svg{width:100%;max-width:400px;height:auto;display:block;margin:0 auto;}
+
+.preset-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:16px;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 14px;cursor:pointer;transition:all .15s ease;}
+.preset-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.preset-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+.mode-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:12px;}
+.mode-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 14px;cursor:pointer;transition:all .15s ease;}
+.mode-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.mode-btn.active{background:var(--violet-ink);border-color:var(--violet-ink);color:#fff;}
+
+.panel{display:flex;flex-direction:column;gap:16px;}
+.result-card{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px;text-align:center;}
+.result-card .label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);margin-bottom:4px;}
+.result-card .value{font-family:'Do Hyeon',sans-serif;font-size:clamp(20px,4vw,26px);color:var(--violet);}
+.fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--violet-ink);}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--violet-ink);}
+.quiz-record{font-size:13px;color:var(--ink-soft);margin:-4px 0 16px;}
+.quiz-record b{color:var(--violet-ink);}
+.quiz-body{display:flex;gap:28px;flex-wrap:wrap;align-items:center;justify-content:center;}
+#quizSvg{width:180px;max-width:180px;flex:none;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;flex:1;min-width:200px;justify-content:center;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:14.5px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:11px 16px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
+.action-btn:hover{background:var(--violet-ink);}
+
+.howto{background:var(--violet-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--violet-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="grade-5-6.html" style="color:var(--ink-soft);text-decoration:none;">← Back to all activities</a><a href="../symmetry-shapes.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+    <a href="article-symmetry-shapes.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 Read the article</a>
+  </div>
+  <span class="eyebrow">🔷 Symmetry &amp; Congruence Lab</span>
+  <h1>Flip it like a mirror,<br>or <span>spin it 180°</span> to reveal it</h1>
+  <p class="sub">If a shape matches itself perfectly when folded in half, it has line symmetry; if it looks exactly the same after a 180° turn, it has point symmetry. Two shapes that overlap perfectly are congruent.</p>
+
+  <div class="howto">
+    <p>If two shapes overlap perfectly when placed on top of each other, they're <b>congruent</b>. If drawing a line through the middle of a shape and folding along it makes both halves match perfectly, the shape has <b>line symmetry</b>, and that line is called the axis of symmetry. Neat shapes like a square are classic examples.</p>
+    <p>On the other hand, if you mark a point at the center of a shape and spinning it 180° around that point makes it match the original, the shape has <b>point symmetry</b>. Interestingly, some shapes have both line and point symmetry (a square), while others have line symmetry but not point symmetry (an isosceles trapezoid).</p>
+    <p>Don't just go by whether a shape "looks neat" — click the buttons and see for yourself whether folding or spinning it actually makes it match.</p>
+  </div>
+
+  <div class="stage">
+    <div>
+      <svg id="mainSvg" viewBox="0 0 400 400"></svg>
+      <div class="mode-row" id="modeRow"></div>
+    </div>
+    <div class="panel">
+      <div class="preset-row" id="presetRow" style="justify-content:flex-start;"></div>
+      <div class="result-card">
+        <div class="label">Does it overlap?</div>
+        <div class="value" id="matchResult">-</div>
+      </div>
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 Symmetry Quiz</h2>
+      <div class="progress-badge">Question <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · Correct <b id="scoreNum">0</b></div>
+    </div>
+<div class="quiz-record" id="quizRecord"></div>
+    <div class="quiz-body">
+      <svg id="quizSvg" viewBox="0 0 200 200"></svg>
+      <div class="quiz-opts" id="quizOpts"></div>
+    </div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextQuizBtn">➡ Next question</button>
+  </div>
+
+            <!-- prev-next-nav -->
+  <nav aria-label="Go to another activity" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="proportion-equation.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ Previous activity</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Proportions &amp; Proportional Division Lab</span>
+    </a>
+    <a href="cuboid-parts.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">Next activity ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Rectangular Prism Parts</span>
+    </a>
+  </nav>
+<footer>Line symmetry is "reflect it like a mirror (flip)," point symmetry is "spin it 180°." If it matches the original, it's symmetric; if it doesn't line up, it isn't.</footer>
+</div>
+
+<script>
+const CX = 200, CY = 200;
+
+const SHAPES = [
+  { key:'square', label:'Square', pts:[[-50,-50],[50,-50],[50,50],[-50,50]], lineSym:true, pointSym:true },
+  { key:'trapezoid', label:'Isosceles trapezoid', pts:[[-30,-45],[30,-45],[55,45],[-55,45]], lineSym:true, pointSym:false },
+  { key:'parallelogram', label:'Parallelogram', pts:[[-55,25],[15,25],[55,-25],[-15,-25]], lineSym:false, pointSym:true },
+  { key:'lshape', label:'L-shape (asymmetric)', pts:[[-50,-50],[10,-50],[10,10],[50,10],[50,50],[-50,50]], lineSym:false, pointSym:false },
+];
+
+let shapeIdx = 0;
+let mode = 'none'; // none | line | point
+
+function toCanvas(pts){ return pts.map(p=>[p[0]+CX, p[1]+CY]); }
+function reflectX(pts){ return pts.map(p=>[-p[0], p[1]]); }
+function rotate180(pts){ return pts.map(p=>[-p[0], -p[1]]); }
+function pointsAttr(pts){ return pts.map(p=>p.join(',')).join(' '); }
+
+const mainSvg = document.getElementById('mainSvg');
+const modeRow = document.getElementById('modeRow');
+const presetRow = document.getElementById('presetRow');
+const matchResult = document.getElementById('matchResult');
+const factBox = document.getElementById('fact');
+
+function buildPresets(){
+  presetRow.innerHTML = SHAPES.map((s,i)=>`<button class="preset-btn" data-i="${i}">${s.label}</button>`).join('');
+  presetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      shapeIdx = parseInt(btn.dataset.i);
+      render();
+    });
+  });
+}
+function buildModes(){
+  const modes = [ {k:'none',l:'Shape only'}, {k:'line',l:'🪞 Check line symmetry'}, {k:'point',l:'🔄 Check point symmetry'} ];
+  modeRow.innerHTML = modes.map(m=>`<button class="mode-btn" data-m="${m.k}">${m.l}</button>`).join('');
+  modeRow.querySelectorAll('.mode-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      mode = btn.dataset.m;
+      render();
+    });
+  });
+}
+
+function render(){
+  presetRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===shapeIdx));
+  modeRow.querySelectorAll('.mode-btn').forEach(b=>b.classList.toggle('active', b.dataset.m===mode));
+
+  const s = SHAPES[shapeIdx];
+  let html = '';
+
+  if(mode==='line'){
+    html += `<line x1="${CX}" y1="20" x2="${CX}" y2="380" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="6,4"></line>`;
+    const reflected = toCanvas(reflectX(s.pts));
+    html += `<polygon points="${pointsAttr(reflected)}" fill="none" stroke="var(--blue)" stroke-width="3" stroke-dasharray="7,5"></polygon>`;
+  }
+  if(mode==='point'){
+    const rotated = toCanvas(rotate180(s.pts));
+    html += `<polygon points="${pointsAttr(rotated)}" fill="none" stroke="var(--coral)" stroke-width="3" stroke-dasharray="7,5"></polygon>`;
+    html += `<circle cx="${CX}" cy="${CY}" r="5" fill="var(--coral)"></circle>`;
+  }
+  html += `<polygon points="${pointsAttr(toCanvas(s.pts))}" fill="var(--violet-soft)" stroke="var(--violet)" stroke-width="3"></polygon>`;
+
+  mainSvg.innerHTML = html;
+
+  if(mode==='none'){
+    matchResult.textContent = 'Pick a mode';
+    factBox.innerHTML = `You picked <b>${s.label}</b>. Click "Check line symmetry" or "Check point symmetry" to see the mirrored or 180°-rotated version.`;
+  } else if(mode==='line'){
+    matchResult.textContent = s.lineSym ? 'A perfect match! ✅' : "They don't line up ❌";
+    factBox.innerHTML = s.lineSym
+      ? `The dashed shape (mirrored) <b>matches perfectly</b> with the original. Shapes like this have <b>line symmetry</b>.`
+      : `The dashed shape (mirrored) <b>doesn't line up</b> with the original. This shape isn't line-symmetric along this axis.`;
+  } else {
+    matchResult.textContent = s.pointSym ? 'A perfect match! ✅' : "They don't line up ❌";
+    factBox.innerHTML = s.pointSym
+      ? `The dashed shape (rotated 180°) <b>matches perfectly</b> with the original. Shapes like this have <b>point symmetry</b>.`
+      : `The dashed shape (rotated 180°) <b>doesn't line up</b> with the original. This shape doesn't have point symmetry.`;
+  }
+}
+
+buildPresets();
+buildModes();
+render();
+
+// ---------- Quiz ----------
+const quizSvg = document.getElementById('quizSvg');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextQuizBtn = document.getElementById('nextQuizBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+
+const QUIZ_KEY = 'ainmath_quiz_v1';
+const QUIZ_ID = 'symmetry-shapes';
+const quizRecordEl = document.getElementById('quizRecord');
+
+function loadQuizRecord(){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    return all[QUIZ_ID] || null;
+  }catch(e){ return null; }
+}
+
+function saveQuizRecord(finalScore){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    const prev = all[QUIZ_ID] || { best:0, plays:0 };
+    all[QUIZ_ID] = {
+      best: Math.max(prev.best||0, finalScore),
+      total: TOTAL_QUESTIONS,
+      plays: (prev.plays||0) + 1,
+      last: finalScore,
+      updatedAt: Date.now()
+    };
+    localStorage.setItem(QUIZ_KEY, JSON.stringify(all));
+  }catch(e){}
+}
+
+function renderQuizRecord(){
+  if(!quizRecordEl) return;
+  const rec = loadQuizRecord();
+  quizRecordEl.textContent = rec
+    ? `📌 Best score: ${rec.best}/${rec.total} · played ${rec.plays} time(s)`
+    : '';
+}
+renderQuizRecord();
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+const TOTAL_QUESTIONS = 10;
+let score = 0, answered = false, questionIndex = 0, quizFinished = false;
+let usedQuestions = [];
+let quizShape = null, quizAnswer = '';
+
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
+
+function classifyLabel(s){
+  if(s.lineSym && s.pointSym) return 'Both line and point symmetric';
+  if(s.lineSym) return 'Line symmetric only';
+  if(s.pointSym) return 'Point symmetric only';
+  return 'Neither';
+}
+
+function buildQuizCandidate(){
+  const shape = SHAPES[Math.floor(Math.random()*SHAPES.length)];
+  const answer = classifyLabel(shape);
+  const options = ['Line symmetric only','Point symmetric only','Both line and point symmetric','Neither'].sort(()=>Math.random()-0.5);
+  return { text: shape.key, shape, answer, options };
+}
+
+function newQuizQuestion(){
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
+  answered = false;
+  quizFeedback.textContent = '';
+  qIdxNumEl.textContent = questionIndex;
+  nextQuizBtn.textContent = questionIndex >= TOTAL_QUESTIONS ? '🏁 See results' : '➡ Next question';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildQuizCandidate();
+    attempts++;
+  } while(usedQuestions.includes(candidate.text) && attempts < 30);
+  usedQuestions.push(candidate.text);
+
+  quizShape = candidate.shape;
+  quizAnswer = candidate.answer;
+  const scale = 0.5;
+  const pts = quizShape.pts.map(p=>[p[0]*scale+100, p[1]*scale+100]);
+  quizSvg.innerHTML = `<polygon points="${pointsAttr(pts)}" fill="var(--violet-soft)" stroke="var(--violet)" stroke-width="3"></polygon>`;
+
+  quizOpts.innerHTML = candidate.options.map(o=>`<button class="opt-btn" data-o="${o}">${o}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered = true;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      if(btn.dataset.o===quizAnswer){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 Correct!`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `Not quite! "${quizShape.label}" is "${quizAnswer}".`;
+      }
+      scoreNumEl.textContent = score;
+    });
+  });
+}
+
+function showQuizResult(){
+  quizFinished = true;
+  saveQuizRecord(score);
+  renderQuizRecord();
+  quizSvg.style.display = 'none';
+  quizOpts.style.display = 'none';
+  nextQuizBtn.textContent = '🔄 Play again';
+  quizFeedback.innerHTML = `🏁 Quiz complete! You got <b>${score}</b> out of ${TOTAL_QUESTIONS} correct.`;
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  quizSvg.style.display = '';
+  quizOpts.style.display = '';
+  newQuizQuestion();
+}
+
+nextQuizBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newQuizQuestion(); }
+});
+newQuizQuestion();
+</script>
+</body>
+</html>

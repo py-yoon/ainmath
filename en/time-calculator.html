@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Time Calculator Lab</title>
+<meta name="description" content="Move the clock hands to check the time, then practice a quiz that calculates elapsed time.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Time Calculator Lab">
+<meta property="og:description" content="Move the clock hands to check the time, then practice a quiz that calculates elapsed time.">
+<meta property="og:url" content="https://ainmath.com/en/time-calculator.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Time Calculator Lab">
+<meta name="twitter:description" content="Move the clock hands to check the time, then practice a quiz that calculates elapsed time.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue-ink);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.1fr 0.9fr;gap:32px;align-items:start;margin-bottom:24px;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+svg{width:100%;max-width:280px;height:auto;display:block;margin:0 auto;}
+.slider-block{margin-top:8px;}
+.slider-row{display:flex;align-items:center;gap:12px;margin-top:10px;}
+.slider-row label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);width:56px;}
+.slider-row input[type=range]{flex:1;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--blue-ink);min-width:40px;text-align:right;}
+.digital{font-family:'Do Hyeon',sans-serif;font-size:28px;text-align:center;color:var(--blue-ink);margin-top:10px;}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:8px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--blue-ink);}
+.quiz-record{font-size:13px;color:var(--ink-soft);margin:-4px 0 16px;}
+.quiz-record b{color:var(--violet-ink);}
+.quiz-question{font-family:'Do Hyeon',sans-serif;font-size:17px;margin:10px 0 16px;line-height:1.6;}
+.quiz-question b{color:var(--blue-ink);}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:14.5px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:11px 16px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--blue-ink);color:var(--blue-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;}
+.action-btn:hover{background:var(--blue-ink);}
+
+.howto{background:var(--blue-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--blue-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="grade-3-4.html" style="color:var(--ink-soft);text-decoration:none;">← Back to all activities</a>
+    <a href="article-time-calculator.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:6px 12px;border-radius:999px;">📖 Read the article</a>
+    <a href="../time-calculator.html" style="color:var(--ink-soft);text-decoration:none;font-size:12.5px;background:var(--violet-soft);padding:4px 10px;border-radius:999px;">한국어 →</a>
+  </div>
+  <span class="eyebrow">🕐 Time Calculator Lab</span>
+  <h1>Move the clock hands<br>and calculate <span>elapsed time</span></h1>
+  <p class="sub">Change the hours, minutes, and seconds with the sliders to see how the clock hands move, then work out how much time has passed in the quiz below.</p>
+
+  <div class="howto">
+    <p>Unlike the numbers we're used to, where the next place starts every 10, the world of time rolls over every <b>60</b>. 60 seconds make 1 minute, and 60 minutes make 1 hour. That's why the second hand goes all the way around every 60 seconds, the minute hand every 60 minutes, and the hour hand every 12 hours.</p>
+    <p>We use this rule of 60 to find the difference between two times, too. For example, from 3:40 to 4:15, 20 minutes pass to reach 4:00, and then 15 more minutes pass — so a total of 35 minutes went by. If the "minutes" of the later time are smaller than the "minutes" of the earlier time, you can borrow 60 minutes from the hour to make the subtraction work.</p>
+    <p>Move the hour, minute, and second sliders and watch how the minute hand jumps the moment the seconds reach 60, and how the hour hand jumps the moment the minutes reach 60.</p>
+  </div>
+
+  <div class="stage">
+    <div>
+      <svg id="clockSvg" viewBox="0 0 220 220"></svg>
+      <div class="digital" id="digitalClock">3:00:00</div>
+    </div>
+    <div class="slider-block">
+      <div class="slider-row"><label>Hour</label><input type="range" id="hSlider" min="0" max="11" value="3"><span class="val" id="hVal">3</span></div>
+      <div class="slider-row"><label>Minute</label><input type="range" id="mSlider" min="0" max="59" value="0"><span class="val" id="mVal">0</span></div>
+      <div class="slider-row"><label>Second</label><input type="range" id="sSlider" min="0" max="59" value="0"><span class="val" id="sVal">0</span></div>
+    </div>
+  </div>
+
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 Elapsed Time Quiz</h2>
+      <div class="progress-badge">Question <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · Correct <b id="scoreNum">0</b></div>
+    </div>
+<div class="quiz-record" id="quizRecord"></div>
+    <div class="quiz-question" id="quizQuestion"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextBtn">➡ Next question</button>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="Go to another activity" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="coordinate-transform.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ Previous activity</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Moving Shapes on a Coordinate Grid</span>
+    </a>
+    <a href="measurement-estimate.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">Next activity ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Estimating Length, Volume &amp; Weight</span>
+    </a>
+  </nav>
+<footer>1 minute is 60 seconds, and 1 hour is 60 minutes. Just remember: when seconds go past 60, carry 1 to the minutes, and when minutes go past 60, carry 1 to the hours — and elapsed-time problems get much easier.</footer>
+</div>
+
+<script>
+const clockSvg = document.getElementById('clockSvg');
+const digitalClock = document.getElementById('digitalClock');
+const hSlider = document.getElementById('hSlider');
+const mSlider = document.getElementById('mSlider');
+const sSlider = document.getElementById('sSlider');
+const hVal = document.getElementById('hVal');
+const mVal = document.getElementById('mVal');
+const sVal = document.getElementById('sVal');
+
+function renderClock(){
+  const h = parseInt(hSlider.value), m = parseInt(mSlider.value), s = parseInt(sSlider.value);
+  hVal.textContent = h; mVal.textContent = m; sVal.textContent = s;
+  const dispH = h===0?12:h;
+  digitalClock.textContent = `${dispH}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+
+  const cx=110, cy=110, R=95;
+  let html = `<circle cx="${cx}" cy="${cy}" r="${R}" fill="#fff" stroke="var(--ink)" stroke-width="3"></circle>`;
+  for(let i=0;i<12;i++){
+    const ang = i*30*Math.PI/180;
+    const x1=cx+(R-10)*Math.sin(ang), y1=cy-(R-10)*Math.cos(ang);
+    const x2=cx+(R-2)*Math.sin(ang), y2=cy-(R-2)*Math.cos(ang);
+    html += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+  }
+  const hourAngle = ((h%12)*30 + m*0.5) * Math.PI/180;
+  const minAngle = (m*6 + s*0.1) * Math.PI/180;
+  const secAngle = (s*6) * Math.PI/180;
+  html += `<line x1="${cx}" y1="${cy}" x2="${cx+50*Math.sin(hourAngle)}" y2="${cy-50*Math.cos(hourAngle)}" stroke="var(--ink)" stroke-width="6" stroke-linecap="round"></line>`;
+  html += `<line x1="${cx}" y1="${cy}" x2="${cx+72*Math.sin(minAngle)}" y2="${cy-72*Math.cos(minAngle)}" stroke="var(--blue)" stroke-width="4" stroke-linecap="round"></line>`;
+  html += `<line x1="${cx}" y1="${cy}" x2="${cx+80*Math.sin(secAngle)}" y2="${cy-80*Math.cos(secAngle)}" stroke="var(--coral)" stroke-width="2" stroke-linecap="round"></line>`;
+  html += `<circle cx="${cx}" cy="${cy}" r="5" fill="var(--ink)"></circle>`;
+  clockSvg.innerHTML = html;
+}
+[hSlider,mSlider,sSlider].forEach(el=>el.addEventListener('input', renderClock));
+renderClock();
+
+// ---------- quiz ----------
+const quizQuestion = document.getElementById('quizQuestion');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextBtn = document.getElementById('nextBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+
+// ---------- best-score record (localStorage) ----------
+const QUIZ_KEY = 'ainmath_quiz_v1';
+const QUIZ_ID = 'time-calculator';
+const quizRecordEl = document.getElementById('quizRecord');
+
+function loadQuizRecord(){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    return all[QUIZ_ID] || null;
+  }catch(e){ return null; }
+}
+
+function saveQuizRecord(finalScore){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    const prev = all[QUIZ_ID] || { best:0, plays:0 };
+    all[QUIZ_ID] = {
+      best: Math.max(prev.best||0, finalScore),
+      total: TOTAL_QUESTIONS,
+      plays: (prev.plays||0) + 1,
+      last: finalScore,
+      updatedAt: Date.now()
+    };
+    localStorage.setItem(QUIZ_KEY, JSON.stringify(all));
+  }catch(e){}
+}
+
+function renderQuizRecord(){
+  if(!quizRecordEl) return;
+  const rec = loadQuizRecord();
+  quizRecordEl.textContent = rec
+    ? `📌 Best score: ${rec.best}/${rec.total} · played ${rec.plays} time(s)`
+    : '';
+}
+renderQuizRecord();
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+const TOTAL_QUESTIONS = 10;
+let score = 0, answered = false, questionIndex = 0, quizFinished = false;
+let usedQuestions = [];
+let correctKey = 0, correctFmt = '';
+
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
+
+function toHMS(totalSec){
+  const wrapped = ((totalSec % 43200) + 43200) % 43200; // 12 hours = 43200 seconds
+  let hh = Math.floor(wrapped/3600);
+  const mm = Math.floor((wrapped%3600)/60);
+  const ss = wrapped%60;
+  if(hh===0) hh=12;
+  return {h:hh, m:mm, s:ss, key:wrapped};
+}
+function fmt(t){ return `${t.h}:${String(t.m).padStart(2,'0')}:${String(t.s).padStart(2,'0')}`; }
+
+function buildQuizCandidate(){
+  const startH = 1+Math.floor(Math.random()*11);
+  const startM = Math.floor(Math.random()*60);
+  const startS = Math.floor(Math.random()*60);
+  const addM = 1+Math.floor(Math.random()*40);
+  const addS = Math.floor(Math.random()*60);
+
+  const startSec = (startH%12)*3600+startM*60+startS;
+  const addSec = addM*60+addS;
+  const correct = toHMS(startSec+addSec);
+
+  const text = `It's now ${startH}:${String(startM).padStart(2,'0')}:${String(startS).padStart(2,'0')}. If ${addM} min ${addS} sec pass, what time will it be?`;
+  const html = `It's now <b>${startH}:${String(startM).padStart(2,'0')}:${String(startS).padStart(2,'0')}</b>. If <b>${addM} min ${addS} sec</b> pass, what time will it be?`;
+
+  const perturbs = [60,-60,600,-600,10,-10,3600,-3600];
+  const candSet = new Map();
+  candSet.set(correct.key, correct);
+  perturbs.forEach(p=>{
+    const t = toHMS(correct.key+p);
+    if(t.key!==correct.key && !candSet.has(t.key)) candSet.set(t.key, t);
+  });
+  let candidates = [...candSet.values()];
+  const wrongOnes = candidates.filter(c=>c.key!==correct.key).sort(()=>Math.random()-0.5).slice(0,3);
+  const options = [correct, ...wrongOnes].sort(()=>Math.random()-0.5);
+
+  return { text, html, correct, options };
+}
+
+function newQuizQuestion(){
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
+  answered = false;
+  quizFeedback.textContent = '';
+  qIdxNumEl.textContent = questionIndex;
+  nextBtn.textContent = questionIndex >= TOTAL_QUESTIONS ? '🏁 See results' : '➡ Next question';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildQuizCandidate();
+    attempts++;
+  } while(usedQuestions.includes(candidate.text) && attempts < 30);
+  usedQuestions.push(candidate.text);
+
+  correctKey = candidate.correct.key;
+  correctFmt = fmt(candidate.correct);
+  quizQuestion.innerHTML = candidate.html;
+
+  quizOpts.innerHTML = candidate.options.map(o=>`<button class="opt-btn" data-k="${o.key}">${fmt(o)}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered = true;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      if(parseInt(btn.dataset.k)===correctKey){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 Correct!`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-k="${correctKey}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `Not quite! The answer was "${correctFmt}".`;
+      }
+      scoreNumEl.textContent = score;
+    });
+  });
+}
+
+function showQuizResult(){
+  quizFinished = true;
+  saveQuizRecord(score);
+  renderQuizRecord();
+  quizQuestion.style.display = 'none';
+  quizOpts.style.display = 'none';
+  nextBtn.textContent = '🔄 Play again';
+  quizFeedback.innerHTML = `🏁 Quiz complete! You got <b>${score}</b> out of ${TOTAL_QUESTIONS} correct.`;
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  quizQuestion.style.display = '';
+  quizOpts.style.display = '';
+  newQuizQuestion();
+}
+
+nextBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newQuizQuestion(); }
+});
+newQuizQuestion();
+</script>
+</body>
+</html>

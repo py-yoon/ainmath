@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Bar &amp; Line Graph Lab</title>
+<meta name="description" content="Move the slider to change values and watch bar graphs and line graphs get drawn, then take on a graph-reading quiz.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Bar &amp; Line Graph Lab">
+<meta property="og:description" content="Move the slider to change values and watch bar graphs and line graphs get drawn, then take on a graph-reading quiz.">
+<meta property="og:url" content="https://ainmath.com/en/bar-line-graph.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Bar &amp; Line Graph Lab">
+<meta name="twitter:description" content="Move the slider to change values and watch bar graphs and line graphs get drawn, then take on a graph-reading quiz.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--green-ink);background:var(--green-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--green-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.tab-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:16px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:16px;padding:11px 18px;cursor:pointer;transition:all .15s ease;}
+.tab-btn:hover{border-color:var(--green-ink);color:var(--green-ink);}
+.tab-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;
+  display:grid;grid-template-columns:1.2fr 0.8fr;gap:32px;align-items:start;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+svg{width:100%;max-width:460px;height:auto;display:block;margin:0 auto;overflow:visible;}
+.slider-list{display:flex;flex-direction:column;gap:10px;}
+.slider-row{display:flex;align-items:center;gap:10px;}
+.slider-row label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);min-width:44px;}
+.slider-row input[type=range]{flex:1;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--green-ink);min-width:34px;text-align:right;}
+.fact{background:var(--green-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);margin-top:16px;}
+.fact b{color:var(--green-ink);}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--green-ink);}
+.quiz-q{font-family:'Do Hyeon',sans-serif;font-size:19px;text-align:center;margin-bottom:16px;}
+svg#quizSvg{max-width:460px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:16px;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.correct{background:var(--green-ink);border-color:var(--green-ink);color:#fff;}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.quiz-record{font-size:13px;color:var(--ink-soft);margin:-4px 0 16px;}
+.quiz-record b{color:var(--violet-ink);}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
+.action-btn:hover{background:var(--green-ink);}
+
+.howto{background:var(--green-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--green-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="grade-3-4.html" style="color:var(--ink-soft);text-decoration:none;">← Back to all activities</a>
+    <a href="article-bar-line-graph.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:6px 12px;border-radius:999px;">📖 Read the article</a>
+    <a href="../bar-line-graph.html" style="color:var(--ink-soft);text-decoration:none;font-size:12.5px;background:var(--violet-soft);padding:4px 10px;border-radius:999px;">한국어 →</a>
+  </div>
+  <span class="eyebrow">📊 Bar &amp; Line Graph Lab</span>
+  <h1>See data <span>at a glance</span><br>with a graph</h1>
+  <p class="sub">Bar graphs are great for comparing sizes between categories, and line graphs are great for seeing how something changes over time.</p>
+
+  <div class="howto">
+    <p>Even with the same data, the graph that fits best depends on what you want to show. A bar graph uses the height of each bar to show a value, so it's great for comparing several categories at a glance to see which is bigger or smaller. A line graph connects points with a line, showing the flow of how a value rises and falls over time.</p>
+    <p>On a line graph, a steep rise or fall means the value changed a lot in that stretch, and a flat line means barely any change. Data with a time order, like daily temperatures, suits a line graph — data comparing separate categories, like student counts by season, suits a bar graph better.</p>
+    <p>Click the tabs to switch between bar and line graphs, and move the sliders to see how each graph's shape changes.</p>
+  </div>
+
+  <div class="tab-row" id="tabRow" role="tablist"></div>
+
+  <div class="stage">
+    <div>
+      <svg id="mainSvg" viewBox="0 0 420 280"></svg>
+    </div>
+    <div>
+      <div class="slider-list" id="sliderList"></div>
+      <div class="fact" id="fact"></div>
+    </div>
+  </div>
+
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 Graph Reading Quiz</h2>
+      <div class="progress-badge">Question <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · Correct <b id="scoreNum">0</b></div>
+    </div>
+    <div class="quiz-record" id="quizRecord"></div>
+    <div class="quiz-q" id="quizQ"></div>
+    <svg id="quizSvg" viewBox="0 0 420 280"></svg>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextQuizBtn">➡ Next question</button>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="Go to another activity" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="protractor-measure.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ Previous activity</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Angle Measuring</span>
+    </a>
+    <span style="flex:1;min-width:150px;"></span>
+  </nav>
+<footer>Read a bar graph by the height of the bars, and a line graph by how the connected line rises and falls.</footer>
+</div>
+
+<script>
+// sound feedback — browser built-ins only, no external files
+function beep(freq, dur, type){
+  try{
+    const ctx = beep.ctx || (beep.ctx = new (window.AudioContext||window.webkitAudioContext)());
+    const osc = ctx.createOscillator(); const gain = ctx.createGain();
+    osc.type = type||'sine'; osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+dur);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(); osc.stop(ctx.currentTime+dur);
+  }catch(e){}
+}
+function playCorrect(){ beep(660,0.12); setTimeout(()=>beep(880,0.18),120); }
+function playWrong(){ beep(220,0.25,'sawtooth'); }
+
+function randInt(min,max){ return min + Math.floor(Math.random()*(max-min+1)); }
+
+const GRAPHS = {
+  bar: {
+    label:'📊 Bar graph',
+    categories:['Spring','Summer','Fall','Winter'],
+    unit:' students',
+    sliderMax:12,
+    defaultVals:[5,9,4,7],
+    quizQ:(labels,vals,mode)=> mode==='max'
+      ? 'Which season do the most students like?'
+      : 'Which season do the fewest students like?',
+  },
+  line: {
+    label:'📈 Line graph',
+    categories:['Mon','Tue','Wed','Thu','Fri'],
+    unit:'°C',
+    sliderMax:30,
+    defaultVals:[12,15,10,18,20],
+    quizQ:(labels,vals,mode)=> mode==='max'
+      ? 'Which day was the temperature highest?'
+      : 'Which day was the temperature lowest?',
+  }
+};
+let graphKey = 'bar';
+
+const tabRow = document.getElementById('tabRow');
+const mainSvg = document.getElementById('mainSvg');
+const sliderList = document.getElementById('sliderList');
+const factBox = document.getElementById('fact');
+
+function buildTabs(){
+  tabRow.innerHTML = Object.entries(GRAPHS).map(([k,g])=>`<button class="tab-btn" data-k="${k}" role="tab" aria-selected="false">${g.label}</button>`).join('');
+  tabRow.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ graphKey = btn.dataset.k; buildSliders(); render(); if(!quizFinished){ renderQuizQuestion(); } });
+  });
+}
+
+function currentVals(){
+  return Array.from(sliderList.querySelectorAll('input[type=range]')).map(s=>parseInt(s.value));
+}
+
+function buildSliders(){
+  const g = GRAPHS[graphKey];
+  sliderList.innerHTML = g.categories.map((c,i)=>`
+    <div class="slider-row">
+      <label>${c}</label>
+      <input type="range" min="0" max="${g.sliderMax}" value="${g.defaultVals[i]}" data-i="${i}">
+      <span class="val" id="sv-${i}">${g.defaultVals[i]}</span>
+    </div>
+  `).join('');
+  sliderList.querySelectorAll('input[type=range]').forEach(s=>{
+    s.addEventListener('input', ()=>{
+      document.getElementById(`sv-${s.dataset.i}`).textContent = s.value;
+      render();
+    });
+  });
+}
+
+function drawBar(labels, vals, unit, svgEl){
+  const w=420, h=280, padL=40, padB=40, padT=20, padR=20;
+  const plotW = w-padL-padR, plotH = h-padT-padB;
+  const maxV = Math.max(...vals, 1);
+  const barW = plotW/labels.length*0.6;
+  const gap = plotW/labels.length;
+  let html = `<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${h-padB}" stroke="var(--ink-soft)" stroke-width="1.5"></line>`;
+  html += `<line x1="${padL}" y1="${h-padB}" x2="${w-padR}" y2="${h-padB}" stroke="var(--ink-soft)" stroke-width="1.5"></line>`;
+  labels.forEach((label,i)=>{
+    const v = vals[i];
+    const barH = (v/maxV)*plotH;
+    const x = padL + gap*i + (gap-barW)/2;
+    const y = h-padB-barH;
+    html += `<rect x="${x}" y="${y}" width="${barW}" height="${barH}" fill="var(--green)" rx="4"></rect>`;
+    html += `<text x="${x+barW/2}" y="${y-8}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink)">${v}${unit}</text>`;
+    html += `<text x="${x+barW/2}" y="${h-padB+20}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)">${label}</text>`;
+  });
+  svgEl.innerHTML = html;
+}
+
+function drawLine(labels, vals, unit, svgEl){
+  const w=420, h=280, padL=40, padB=40, padT=20, padR=20;
+  const plotW = w-padL-padR, plotH = h-padT-padB;
+  const maxV = Math.max(...vals, 1);
+  const gap = plotW/(labels.length-1||1);
+  let html = `<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${h-padB}" stroke="var(--ink-soft)" stroke-width="1.5"></line>`;
+  html += `<line x1="${padL}" y1="${h-padB}" x2="${w-padR}" y2="${h-padB}" stroke="var(--ink-soft)" stroke-width="1.5"></line>`;
+  const pts = vals.map((v,i)=>[padL+gap*i, h-padB-(v/maxV)*plotH]);
+  html += `<polyline points="${pts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="var(--blue)" stroke-width="3"></polyline>`;
+  pts.forEach(([x,y],i)=>{
+    html += `<circle cx="${x}" cy="${y}" r="5" fill="var(--blue)"></circle>`;
+    html += `<text x="${x}" y="${y-12}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink)">${vals[i]}${unit}</text>`;
+    html += `<text x="${x}" y="${h-padB+20}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)">${labels[i]}</text>`;
+  });
+  svgEl.innerHTML = html;
+}
+
+function drawGraph(key, labels, vals, unit, svgEl){
+  if(key==='bar') drawBar(labels, vals, unit, svgEl); else drawLine(labels, vals, unit, svgEl);
+}
+
+function render(){
+  tabRow.querySelectorAll('.tab-btn').forEach(b=>{
+    const isActive = b.dataset.k===graphKey;
+    b.classList.toggle('active', isActive);
+    b.setAttribute('aria-selected', isActive ? 'true' : 'false');
+  });
+  const g = GRAPHS[graphKey];
+  const vals = currentVals();
+  drawGraph(graphKey, g.categories, vals, g.unit, mainSvg);
+
+  const maxIdx = vals.indexOf(Math.max(...vals));
+  const minIdx = vals.indexOf(Math.min(...vals));
+  if(graphKey==='bar'){
+    factBox.innerHTML = `The tallest bar is <b>${g.categories[maxIdx]} (${vals[maxIdx]}${g.unit})</b>, and the shortest bar is <b>${g.categories[minIdx]} (${vals[minIdx]}${g.unit})</b>.`;
+  } else {
+    factBox.innerHTML = `The line rises highest on <b>${g.categories[maxIdx]} (${vals[maxIdx]}${g.unit})</b>, and dips lowest on <b>${g.categories[minIdx]} (${vals[minIdx]}${g.unit})</b>.`;
+  }
+}
+
+buildTabs();
+tabRow.querySelector('[data-k="bar"]').classList.add('active');
+buildSliders();
+render();
+
+// ---------- quiz ----------
+const quizQ = document.getElementById('quizQ');
+const quizSvg = document.getElementById('quizSvg');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextQuizBtn = document.getElementById('nextQuizBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+const TOTAL_QUESTIONS = 10;
+let score = 0, answered = false, quizAnswer = '', questionIndex = 0, quizFinished = false;
+let usedQuestions = [];
+
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
+
+// ---------- best-score record (localStorage) ----------
+const QUIZ_KEY = 'ainmath_quiz_v1';
+const QUIZ_ID = 'bar-line-graph';
+const quizRecordEl = document.getElementById('quizRecord');
+
+function loadQuizRecord(){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    return all[QUIZ_ID] || null;
+  }catch(e){ return null; }
+}
+
+function saveQuizRecord(finalScore){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    const prev = all[QUIZ_ID] || { best:0, plays:0 };
+    all[QUIZ_ID] = {
+      best: Math.max(prev.best||0, finalScore),
+      total: TOTAL_QUESTIONS,
+      plays: (prev.plays||0) + 1,
+      last: finalScore,
+      updatedAt: Date.now()
+    };
+    localStorage.setItem(QUIZ_KEY, JSON.stringify(all));
+  }catch(e){}
+}
+
+function renderQuizRecord(){
+  const rec = loadQuizRecord();
+  quizRecordEl.textContent = rec
+    ? `📌 Best score: ${rec.best}/${rec.total} · played ${rec.plays} time(s)`
+    : '';
+}
+renderQuizRecord();
+
+function buildQuizCandidate(){
+  const g = GRAPHS[graphKey];
+  const vals = g.categories.map(()=> graphKey==='bar' ? randInt(1,g.sliderMax) : randInt(0,g.sliderMax));
+  const mode = Math.random()<0.5 ? 'max' : 'min';
+  const idx = mode==='max' ? vals.indexOf(Math.max(...vals)) : vals.indexOf(Math.min(...vals));
+  const answer = g.categories[idx];
+  const text = g.quizQ(g.categories, vals, mode);
+  const key = `${graphKey}|${mode}|${vals.join(',')}`;
+  const opts = [...g.categories].sort(()=>Math.random()-0.5);
+  return { text, answer, opts, vals, key };
+}
+
+function renderQuizQuestion(){
+  answered = false;
+  quizFeedback.textContent = '';
+  qIdxNumEl.textContent = questionIndex;
+  nextQuizBtn.textContent = questionIndex >= TOTAL_QUESTIONS ? '🏁 See results' : '➡ Next question';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildQuizCandidate();
+    attempts++;
+  } while(usedQuestions.includes(candidate.key) && attempts < 30);
+  usedQuestions.push(candidate.key);
+
+  quizAnswer = candidate.answer;
+  quizQ.textContent = candidate.text;
+  const g = GRAPHS[graphKey];
+  drawGraph(graphKey, g.categories, candidate.vals, g.unit, quizSvg);
+  renderOpts(candidate.opts);
+}
+
+function newQuizQuestion(){
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
+  renderQuizQuestion();
+}
+
+function renderOpts(opts){
+  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${o}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered = true;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      if(btn.dataset.o===quizAnswer){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 Correct!`;
+        playCorrect();
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `Not quite! The answer was "${quizAnswer}".`;
+        playWrong();
+      }
+      scoreNumEl.textContent = score;
+    });
+  });
+}
+
+function showQuizResult(){
+  quizFinished = true;
+  quizQ.style.display = 'none';
+  quizSvg.style.display = 'none';
+  quizOpts.style.display = 'none';
+  nextQuizBtn.textContent = '🔄 Play again';
+  saveQuizRecord(score);
+  const rec = loadQuizRecord();
+  const newBest = rec && rec.best===score && rec.plays>1 ? ' 🎉 New best score!' : '';
+  quizFeedback.innerHTML = `🏁 Quiz complete! You got <b>${score}</b> out of ${TOTAL_QUESTIONS} correct.${newBest}`;
+  renderQuizRecord();
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  quizQ.style.display = '';
+  quizSvg.style.display = '';
+  quizOpts.style.display = '';
+  newQuizQuestion();
+}
+
+nextQuizBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newQuizQuestion(); }
+});
+newQuizQuestion();
+</script>
+</body>
+</html>

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Multiplication & Division</title>
+<meta name="description" content="See how breaking two-digit multiplication apart by place value works, and watch the quotient and remainder of division with a remainder, right before your eyes.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Multiplication & Division">
+<meta property="og:description" content="See how breaking two-digit multiplication apart by place value works, and watch the quotient and remainder of division with a remainder, right before your eyes.">
+<meta property="og:url" content="https://ainmath.com/en/mixed-multiplication-division.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Multiplication & Division">
+<meta name="twitter:description" content="See how breaking two-digit multiplication apart by place value works, and watch the quotient and remainder of division with a remainder, right before your eyes.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --amber:#D97706; --amber-soft:#FEF0D9;--amber-ink:#A55A05;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+
+.section-title{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink);margin:0 0 16px;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;margin-bottom:24px;}
+.howto{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 20px;}
+.howto b{color:var(--coral-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+.area-svg{width:100%;max-width:360px;height:auto;display:block;margin:18px auto 4px;}
+.div-note{font-size:13.5px;color:var(--ink-soft);text-align:center;margin:6px 0 0;line-height:1.6;}
+
+.mode-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.mode-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;}
+.mode-btn:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
+.mode-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+.slider-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.slider-row label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);min-width:110px;}
+.slider-row input[type=range]{flex:1;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:17px;color:var(--coral-ink);min-width:40px;text-align:right;}
+
+.equation-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:22px;text-align:center;margin:16px 0;}
+.equation-box .line{font-family:'Do Hyeon',sans-serif;font-size:clamp(18px,3.6vw,23px);color:var(--ink);margin:6px 0;}
+.equation-box .line .a{color:var(--violet-ink);}
+.equation-box .line .b{color:var(--blue-ink);}
+.equation-box .line .total{color:var(--green-ink);}
+
+.fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--coral-ink);}
+
+.division-grid{display:grid;gap:9px 4px;max-width:360px;margin:16px auto;justify-content:center;}
+.division-grid .cell{width:22px;height:22px;border-radius:5px;}
+.division-grid .cell.group{background:var(--violet);}
+.division-grid .cell.rest{background:var(--amber);}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--coral-ink);}
+.quiz-record{font-size:13px;color:var(--ink-soft);margin:-4px 0 16px;}
+.quiz-record b{color:var(--violet-ink);}
+.quiz-q{font-size:17px;line-height:1.7;text-align:center;background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:20px;margin-bottom:16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
+.action-btn:hover{background:var(--coral-ink);}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="grade-3-4.html" style="color:var(--ink-soft);text-decoration:none;">← Back to all activities</a>
+    <a href="article-mixed-multiplication-division.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:6px 12px;border-radius:999px;">📖 Read the article</a>
+    <a href="../mixed-multiplication-division.html" style="color:var(--ink-soft);text-decoration:none;font-size:12.5px;background:var(--violet-soft);padding:4px 10px;border-radius:999px;">한국어 →</a>
+  </div>
+  <span class="eyebrow">✖️ Multiplication & Division</span>
+  <h1>Bigger multiplication and division —<br><span>break it apart</span> to make it easy</h1>
+  <p class="sub">Two-digit multiplication gets easier when you break it apart by place value. Division makes sense once you see how many equal groups you get, and what's left over.</p>
+
+  <div class="howto">
+    <p>Multiplying two-digit numbers all at once can get confusing fast. But for something like 34 × 6, split the two-digit number into its tens (30) and ones (4), multiply each separately, then add the results (30×6=180, 4×6=24, 180+24=204) — and it becomes much easier. This works thanks to a property called the distributive property of multiplication.</p>
+    <p>Division is the opposite situation: sharing objects out into equal groups. If you pack 38 items into groups of 4, how many groups do you get, and how many are left over? That's exactly the quotient and the remainder. It's a calculation you use all the time — packing items into boxes at a store, or sharing snacks equally among friends.</p>
+    <p>Move the sliders to change the numbers, and watch how multiplication combines two rectangle areas, and how division changes the groups and what's left over.</p>
+  </div>
+
+  <div class="stage">
+    <div class="section-title">✖️ Multiplication — break it apart by place value</div>
+    <div class="howto">Multiplying a two-digit number all at once can get confusing. <b>Split it into tens and ones</b>, multiply each part separately, then add the two results — it's much easier. The two colored boxes below are exactly those two parts.</div>
+    <div class="mode-row" id="multModeRow"></div>
+    <div class="slider-row">
+      <label id="multLabelA">Two-digit number</label>
+      <input type="range" id="multSliderA" min="10" max="99" value="34">
+      <span class="val" id="multValA">34</span>
+    </div>
+    <div class="slider-row">
+      <label id="multLabelB">Multiplier</label>
+      <input type="range" id="multSliderB" min="2" max="9" value="6">
+      <span class="val" id="multValB">6</span>
+    </div>
+    <svg class="area-svg" id="multAreaSvg" viewBox="0 0 340 170"></svg>
+    <div class="equation-box" id="multEquationBox"></div>
+    <div class="fact" id="multFact"></div>
+  </div>
+
+  <div class="stage">
+    <div class="section-title">➗ Division — quotient and remainder</div>
+    <div class="howto">Division is just like sharing objects out into groups of <b>the same size</b>. The number of groups you get is the <b>quotient</b>, and whatever is left over that can't be shared evenly is the <b>remainder</b>. In the picture below, purple is one group, and orange is what's left over.</div>
+    <div class="slider-row">
+      <label>Dividend</label>
+      <input type="range" id="divSliderA" min="10" max="99" value="38">
+      <span class="val" id="divValA">38</span>
+    </div>
+    <div class="slider-row">
+      <label>Divisor</label>
+      <input type="range" id="divSliderB" min="2" max="9" value="7">
+      <span class="val" id="divValB">7</span>
+    </div>
+    <div class="division-grid" id="divGrid"></div>
+    <div class="div-note" id="divNote"></div>
+    <div class="equation-box" id="divEquationBox"></div>
+    <div class="fact" id="divFact"></div>
+  </div>
+
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 Multiplication & division quiz</h2>
+      <div class="progress-badge">Question <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · Correct <b id="scoreNum">0</b></div>
+    </div>
+<div class="quiz-record" id="quizRecord"></div>
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextQuizBtn">➡ Next question</button>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="Go to another activity" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="place-value-blocks.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ Previous activity</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Place Value Blocks</span>
+    </a>
+    <a href="fraction-compare.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">Next activity ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Comparing Fractions</span>
+    </a>
+  </nav>
+<footer>Quotient × divisor + remainder = dividend. You can always use this equation to check whether your division is correct.</footer>
+</div>
+
+<script>
+function randInt(min,max){ return min + Math.floor(Math.random()*(max-min+1)); }
+function distractors(answer, count){
+  const opts = new Set([answer]);
+  let guard = 0;
+  while(opts.size < count+1 && guard < 200){
+    guard++;
+    const delta = randInt(-30,30);
+    if(delta!==0 && answer+delta>0) opts.add(answer+delta);
+  }
+  let extra = 1;
+  while(opts.size < count+1){ opts.add(answer+extra); extra++; }
+  return [...opts];
+}
+
+// ---------- Multiplication ----------
+let multMode = 'oneDigit'; // oneDigit | twoDigit
+const multModeRow = document.getElementById('multModeRow');
+const multLabelA = document.getElementById('multLabelA');
+const multLabelB = document.getElementById('multLabelB');
+const multSliderA = document.getElementById('multSliderA');
+const multSliderB = document.getElementById('multSliderB');
+const multValA = document.getElementById('multValA');
+const multValB = document.getElementById('multValB');
+const multAreaSvg = document.getElementById('multAreaSvg');
+const multEquationBox = document.getElementById('multEquationBox');
+const multFact = document.getElementById('multFact');
+
+function areaModelSvg(partA, partB, multiplier){
+  const x0=10, y0=36, h=88, availW=320;
+  let html = '';
+  if(partB===0){
+    html += `<rect x="${x0}" y="${y0}" width="${availW}" height="${h}" rx="12" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2.5"></rect>`;
+    html += `<text x="${x0+availW/2}" y="${y0-12}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--violet-ink)">${partA}</text>`;
+    html += `<text x="${x0+availW/2}" y="${y0+h/2+7}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="19" fill="var(--violet-ink)">${partA*multiplier}</text>`;
+  } else {
+    const gap = 8, total = partA+partB;
+    const w1 = Math.max(availW*0.22, Math.round((partA/total)*(availW-gap)));
+    const w2 = (availW-gap) - w1;
+    html += `<rect x="${x0}" y="${y0}" width="${w1}" height="${h}" rx="12" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2.5"></rect>`;
+    html += `<text x="${x0+w1/2}" y="${y0-12}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--violet-ink)">${partA}</text>`;
+    html += `<text x="${x0+w1/2}" y="${y0+h/2+7}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="19" fill="var(--violet-ink)">${partA*multiplier}</text>`;
+
+    const x2 = x0+w1+gap;
+    html += `<rect x="${x2}" y="${y0}" width="${w2}" height="${h}" rx="12" fill="var(--blue-soft)" stroke="var(--blue-ink)" stroke-width="2.5"></rect>`;
+    html += `<text x="${x2+w2/2}" y="${y0-12}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="var(--blue-ink)">${partB}</text>`;
+    html += `<text x="${x2+w2/2}" y="${y0+h/2+7}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="19" fill="var(--blue-ink)">${partB*multiplier}</text>`;
+  }
+  html += `<text x="${x0}" y="${y0+h+24}" text-anchor="start" font-family="'Gowun Dodum','Noto Sans KR',sans-serif" font-size="13.5" fill="var(--ink-soft)">Both boxes have the same height: ×${multiplier}</text>`;
+  return html;
+}
+
+function buildMultModes(){
+  multModeRow.innerHTML = `
+    <button class="mode-btn" data-m="oneDigit">2-digit × 1-digit</button>
+    <button class="mode-btn" data-m="twoDigit">2-digit × 2-digit</button>
+  `;
+  multModeRow.querySelectorAll('.mode-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      multMode = btn.dataset.m;
+      if(multMode==='twoDigit'){ multSliderB.min=10; multSliderB.max=99; if(multSliderB.value<10) multSliderB.value=24; }
+      else { multSliderB.min=2; multSliderB.max=9; if(multSliderB.value>9) multSliderB.value=6; }
+      renderMult();
+    });
+  });
+}
+
+function renderMult(){
+  multModeRow.querySelectorAll('.mode-btn').forEach(b=>b.classList.toggle('active', b.dataset.m===multMode));
+  const AB = parseInt(multSliderA.value);
+  const other = parseInt(multSliderB.value);
+  multValA.textContent = AB; multValB.textContent = other;
+  multLabelA.textContent = 'Two-digit number';
+  multLabelB.textContent = multMode==='oneDigit' ? 'One-digit multiplier' : 'Two-digit multiplier';
+
+  if(multMode==='oneDigit'){
+    const tens = Math.floor(AB/10)*10, ones = AB%10, C = other;
+    const p1 = tens*C, p2 = ones*C, total = p1+p2;
+    multAreaSvg.innerHTML = areaModelSvg(tens, ones, C);
+    multEquationBox.innerHTML = `
+      <div class="line">${AB} × ${C} = (<span class="a">${tens}</span> × ${C}) + (<span class="b">${ones}</span> × ${C})</div>
+      <div class="line">= <span class="a">${p1}</span> + <span class="b">${p2}</span></div>
+      <div class="line total">= ${total}</div>
+    `;
+    multFact.innerHTML = `Split ${AB} into <b>${tens}</b> and <b>${ones}</b>, multiply each by ${C}, then add them together to get ${total}.`;
+  } else {
+    const CD = other;
+    const cTens = Math.floor(CD/10)*10, dOnes = CD%10;
+    const p1 = AB*dOnes, p2 = AB*cTens, total = p1+p2;
+    multAreaSvg.innerHTML = areaModelSvg(dOnes, cTens, AB);
+    multEquationBox.innerHTML = `
+      <div class="line">${AB} × ${CD} = (${AB} × <span class="a">${dOnes}</span>) + (${AB} × <span class="b">${cTens}</span>)</div>
+      <div class="line">= <span class="a">${p1}</span> + <span class="b">${p2}</span></div>
+      <div class="line total">= ${total}</div>
+    `;
+    multFact.innerHTML = `Split ${CD} into <b>${cTens}</b> and <b>${dOnes}</b>, multiply each by ${AB}, then add them together to get ${total}.`;
+  }
+}
+
+multSliderA.addEventListener('input', renderMult);
+multSliderB.addEventListener('input', renderMult);
+buildMultModes();
+multModeRow.querySelector('[data-m="oneDigit"]').classList.add('active');
+renderMult();
+
+// ---------- Division ----------
+const divSliderA = document.getElementById('divSliderA');
+const divSliderB = document.getElementById('divSliderB');
+const divValA = document.getElementById('divValA');
+const divValB = document.getElementById('divValB');
+const divGrid = document.getElementById('divGrid');
+const divNote = document.getElementById('divNote');
+const divEquationBox = document.getElementById('divEquationBox');
+const divFact = document.getElementById('divFact');
+
+const DIV_MAX_ROWS = 10; // keep the picture from getting too long — draw at most this many groups
+
+function renderDiv(){
+  const dividend = parseInt(divSliderA.value);
+  const divisor = parseInt(divSliderB.value);
+  divValA.textContent = dividend; divValB.textContent = divisor;
+
+  const quotient = Math.floor(dividend/divisor);
+  const remainder = dividend % divisor;
+  const truncated = quotient > DIV_MAX_ROWS;
+  const visualQuotient = Math.min(quotient, DIV_MAX_ROWS);
+
+  divGrid.style.gridTemplateColumns = `repeat(${divisor}, 22px)`;
+  let cells = '';
+  for(let i=0;i<visualQuotient*divisor;i++) cells += `<div class="cell group"></div>`;
+  if(!truncated){
+    for(let i=0;i<remainder;i++) cells += `<div class="cell rest"></div>`;
+  }
+  divGrid.innerHTML = cells;
+  divNote.textContent = truncated
+    ? `The picture only shows up to ${DIV_MAX_ROWS} groups — in reality there are ${quotient} groups with ${remainder} left over.`
+    : 'Each purple row is one group; orange is what\'s left over.';
+
+  divEquationBox.innerHTML = `
+    <div class="line">${dividend} ÷ ${divisor} = <span class="a">${quotient}</span> remainder <span class="b">${remainder}</span></div>
+    <div class="line total">${divisor} × ${quotient} + ${remainder} = ${divisor*quotient+remainder}</div>
+  `;
+  divFact.innerHTML = remainder===0
+    ? `${dividend} divides evenly by ${divisor}. The quotient is <b>${quotient}</b> with no remainder.`
+    : `Making groups of ${divisor} gives you <b>${quotient} groups</b>, with <b>${remainder}</b> left over.`;
+}
+
+divSliderA.addEventListener('input', renderDiv);
+divSliderB.addEventListener('input', renderDiv);
+renderDiv();
+
+// ---------- Quiz ----------
+const quizQ = document.getElementById('quizQ');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextQuizBtn = document.getElementById('nextQuizBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+
+const QUIZ_KEY = 'ainmath_quiz_v1';
+const QUIZ_ID = 'mixed-multiplication-division';
+const quizRecordEl = document.getElementById('quizRecord');
+
+function loadQuizRecord(){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    return all[QUIZ_ID] || null;
+  }catch(e){ return null; }
+}
+
+function saveQuizRecord(finalScore){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    const prev = all[QUIZ_ID] || { best:0, plays:0 };
+    all[QUIZ_ID] = {
+      best: Math.max(prev.best||0, finalScore),
+      total: TOTAL_QUESTIONS,
+      plays: (prev.plays||0) + 1,
+      last: finalScore,
+      updatedAt: Date.now()
+    };
+    localStorage.setItem(QUIZ_KEY, JSON.stringify(all));
+  }catch(e){}
+}
+
+function renderQuizRecord(){
+  if(!quizRecordEl) return;
+  const rec = loadQuizRecord();
+  quizRecordEl.textContent = rec
+    ? `📌 Best score: ${rec.best}/${rec.total} · played ${rec.plays} time(s)`
+    : '';
+}
+renderQuizRecord();
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+const TOTAL_QUESTIONS = 10;
+let score = 0, answered = false, quizAnswer = 0, questionIndex = 0, quizFinished = false;
+let usedQuestions = [];
+
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
+
+function buildQuizCandidate(){
+  const isMult = Math.random() < 0.5;
+
+  if(isMult){
+    const AB = randInt(11,98);
+    const C = randInt(2,9);
+    const tens = Math.floor(AB/10)*10, ones = AB%10;
+    const total = AB*C;
+    const text = `${AB} × ${C} = (${tens} × ${C}) + (${ones} × ${C})<br>What does this equation equal?`;
+    const opts = distractors(total,3).sort(()=>Math.random()-0.5);
+    return { text, answer: total, opts };
+  } else {
+    const divisor = randInt(2,9);
+    const quotient = randInt(2,12);
+    const remainder = randInt(0,divisor-1);
+    const dividend = divisor*quotient+remainder;
+    const answer = `${quotient}...${remainder}`;
+    const text = `What are the quotient and remainder of ${dividend} ÷ ${divisor}?`;
+    const wrongOpts = new Set([answer]);
+    while(wrongOpts.size<4){
+      const wq = Math.max(0, quotient + randInt(-2,2));
+      const wr = randInt(0, divisor-1);
+      const cand = `${wq}...${wr}`;
+      if(cand!==answer) wrongOpts.add(cand);
+    }
+    const opts = [...wrongOpts].sort(()=>Math.random()-0.5).map(o=>o.replace('...',' r '));
+    return { text, answer: answer.replace('...',' r '), opts };
+  }
+}
+
+function newQuizQuestion(){
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
+  answered = false;
+  quizFeedback.textContent = '';
+  qIdxNumEl.textContent = questionIndex;
+  nextQuizBtn.textContent = questionIndex >= TOTAL_QUESTIONS ? '🏁 See results' : '➡ Next question';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildQuizCandidate();
+    attempts++;
+  } while(usedQuestions.includes(candidate.text) && attempts < 30);
+  usedQuestions.push(candidate.text);
+
+  quizAnswer = candidate.answer;
+  quizQ.innerHTML = candidate.text;
+  renderOpts(candidate.opts);
+}
+
+function renderOpts(opts){
+  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${o}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered = true;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      if(btn.dataset.o==String(quizAnswer)){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 Correct!`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${quizAnswer}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `Not quite! The answer was ${quizAnswer}.`;
+      }
+      scoreNumEl.textContent = score;
+    });
+  });
+}
+
+function showQuizResult(){
+  quizFinished = true;
+  saveQuizRecord(score);
+  renderQuizRecord();
+  quizQ.style.display = 'none';
+  quizOpts.style.display = 'none';
+  nextQuizBtn.textContent = '🔄 Play again';
+  quizFeedback.innerHTML = `🏁 Quiz complete! You got <b>${score}</b> out of ${TOTAL_QUESTIONS} correct.`;
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  quizQ.style.display = '';
+  quizOpts.style.display = '';
+  newQuizQuestion();
+}
+
+nextQuizBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newQuizQuestion(); }
+});
+newQuizQuestion();
+</script>
+</body>
+</html>

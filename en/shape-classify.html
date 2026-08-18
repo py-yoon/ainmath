@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Circle, Triangle, Rectangle Sort</title>
+<meta name="description" content="Sort flat shapes into curved shapes (circles) and polygons (triangles, rectangles), explore a circle's radius and diameter, then try naming different shapes in a quiz.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Circle, Triangle, Rectangle Sort">
+<meta property="og:description" content="Sort flat shapes into curved shapes (circles) and polygons (triangles, rectangles), explore a circle's radius and diameter, then try naming different shapes in a quiz.">
+<meta property="og:url" content="https://ainmath.com/en/shape-classify.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Circle, Triangle, Rectangle Sort">
+<meta name="twitter:description" content="Sort flat shapes into curved shapes (circles) and polygons (triangles, rectangles), explore a circle's radius and diameter, then try naming different shapes in a quiz.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue-ink);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.75;max-width:64ch;margin:0 0 28px;}
+.howto{background:var(--blue-soft);border-radius:16px;padding:18px 20px;font-size:14.5px;line-height:1.75;color:var(--ink);margin:0 0 26px;}
+.howto b{color:var(--blue-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;
+  display:grid;grid-template-columns: 1.15fr 0.85fr;gap:32px;align-items:start;margin-bottom:24px;}
+@media (max-width:820px){ .stage{grid-template-columns:1fr;} }
+svg{width:100%;max-width:340px;height:auto;display:block;margin:0 auto;}
+.slider-row{display:flex;align-items:center;gap:12px;margin-top:16px;}
+.slider-row input[type=range]{flex:1;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--blue-ink);min-width:52px;text-align:right;}
+.panel{display:flex;flex-direction:column;gap:16px;}
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:20px;text-align:center;}
+.equation .formula{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.equation .result{font-family:'Do Hyeon',sans-serif;font-size:clamp(22px,3.8vw,28px);margin-top:6px;color:var(--blue);}
+.fact{background:var(--green-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);}
+.fact b{color:var(--green-ink);}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--blue-ink);}
+.quiz-record{font-size:13px;color:var(--ink-soft);margin:-4px 0 16px;}
+.quiz-record b{color:var(--violet-ink);}
+.quiz-body{display:flex;gap:28px;flex-wrap:wrap;align-items:center;}
+#quizSvg{width:200px;max-width:200px;flex:none;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;flex:1;min-width:220px;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:14.5px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:11px 16px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--blue-ink);color:var(--blue-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;}
+.action-btn:hover{background:var(--blue-ink);}
+.legend-note{margin-top:10px;font-size:14px;color:var(--ink-soft);display:flex;align-items:center;gap:6px;}
+.legend-note svg{width:34px;max-width:34px;flex:none;}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1000px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="grade-3-4.html" style="color:var(--ink-soft);text-decoration:none;">← Back to all activities</a>
+    <a href="article-shape-classify.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:13px;padding:6px 12px;border-radius:999px;">📖 Read the article</a>
+    <a href="../shape-classify.html" style="color:var(--ink-soft);text-decoration:none;font-size:12.5px;background:var(--violet-soft);padding:4px 10px;border-radius:999px;">한국어 →</a>
+  </div>
+  <span class="eyebrow">⭕ Circle, Triangle, Rectangle Sort</span>
+  <h1>Flat shapes split into<br><span>curved shapes</span> and polygons</h1>
+  <p class="sub">Flat shapes fall into two big groups — <b>polygons</b> (triangles, rectangles, and more) surrounded by straight sides, and <b>circles</b>, which curve smoothly around with no sides or corners at all. First explore the structure of a circle, then try a quiz mixing circles and polygons together and naming each one.</p>
+
+  <div class="howto">
+    <p>Flat shapes split into two big groups. Shapes surrounded by straight line segments (sides), like triangles and rectangles, are called <b>polygons</b>, and their name changes based on the number of sides (3 sides = triangle, 4 sides = quadrilateral...). A <b>circle</b> is completely different from these polygons — it has no sides and no corners at all, just a smooth curve made of every point that's the same distance from one center point.</p>
+    <p>The surest way to tell shapes apart is to count the sides. No sides at all means a circle; if there are sides, the number of them decides whether it's a triangle, a quadrilateral, a pentagon, and so on. Know this one rule, and you can name any shape, no matter how oddly it's drawn.</p>
+    <p>First explore how a circle is drawn using the radius slider, then in the quiz, look at different shapes, count their sides, and try naming them.</p>
+  </div>
+
+  <div class="stage">
+    <div>
+      <div style="font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--blue-ink);margin-bottom:10px;">① Circle — a shape with no sides or corners</div>
+      <svg id="circleSvg" viewBox="0 0 300 300"></svg>
+      <div class="slider-row">
+        <span style="font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);">Radius</span>
+        <input type="range" id="radiusSlider" min="20" max="120" value="70" step="1">
+        <span class="val" id="radiusVal">70</span>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="equation">
+        <div class="formula">Diameter = radius × 2</div>
+        <div class="result" id="diameterResult">140</div>
+      </div>
+      <div class="fact" id="circleFact">The radius is the distance from the circle's center to its edge; the diameter is the distance straight across, connecting two opposite ends.</div>
+    </div>
+  </div>
+
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 ② Name that shape — circle or polygon?</h2>
+      <div class="progress-badge">Question <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · Correct <b id="scoreNum">0</b></div>
+    </div>
+<div class="quiz-record" id="quizRecord"></div>
+    <div class="quiz-body">
+      <svg id="quizSvg" viewBox="0 0 200 200"></svg>
+      <div class="quiz-opts" id="quizOpts"></div>
+    </div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextBtn">➡ Next question</button>
+    <div class="legend-note">
+      <svg viewBox="0 0 40 20"><line x1="14" y1="4" x2="20" y2="16" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round"></line></svg>
+      Sides with the same number of tick marks are the same length (1 mark matches 1 mark, 2 marks match 2 marks)
+    </div>
+    <div class="legend-note">
+      <svg viewBox="0 0 40 20"><polyline points="14,16 14,6 24,6" fill="none" stroke="var(--ink)" stroke-width="2.5"></polyline></svg>
+      A small square mark (⌐) at a corner means that angle is a right angle (90°)
+    </div>
+  </div>
+
+            <!-- prev-next-nav -->
+  <nav aria-label="Go to another activity" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="lines-angles-basics.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ Previous activity</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Lines & Angles Basics</span>
+    </a>
+    <a href="polygon-name-quiz.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">Next activity ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">Name the Polygon</span>
+    </a>
+  </nav>
+<footer>Having no sides at all is what fully separates a circle from every polygon. Among polygons, triangles get their name from side length or angle size, and quadrilaterals get theirs from how many sides are parallel or how long they are. Even if a shape looks a little crooked, its name stays the same as long as the rule holds.</footer>
+</div>
+
+<script>
+const circleSvg = document.getElementById('circleSvg');
+const radiusSlider = document.getElementById('radiusSlider');
+const radiusVal = document.getElementById('radiusVal');
+const diameterResult = document.getElementById('diameterResult');
+const circleFact = document.getElementById('circleFact');
+
+function renderCircle(){
+  const r = parseInt(radiusSlider.value);
+  radiusVal.textContent = r;
+  diameterResult.textContent = r*2;
+  const cx=150, cy=150;
+  circleSvg.innerHTML = `
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="3"></circle>
+    <line x1="${cx-r}" y1="${cy}" x2="${cx+r}" y2="${cy}" stroke="var(--coral)" stroke-width="3"></line>
+    <line x1="${cx}" y1="${cy}" x2="${cx+r}" y2="${cy}" stroke="var(--ink)" stroke-width="4"></line>
+    <circle cx="${cx}" cy="${cy}" r="4" fill="var(--ink)"></circle>
+    <text x="${cx+r/2}" y="${cy-10}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink)">radius ${r}</text>
+    <text x="${cx}" y="${cy+r+20}" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral)">diameter ${r*2}</text>
+  `;
+  circleFact.innerHTML = `Unlike a triangle or rectangle, a circle has no straight sides at all. Instead, a circle is defined by the fact that the distance from its center to its edge (the radius) is always the same — <b>${r}</b> — no matter which direction you measure. The diameter is <b>2 times</b> the radius, which is <b>${r*2}</b>.`;
+}
+radiusSlider.addEventListener('input', renderCircle);
+renderCircle();
+
+// ---------- Quiz ----------
+const TRIANGLE_SHAPES = {
+  equilateral: { label:'Equilateral triangle', pts:[[0,-58],[50,29],[-50,29]], ticks:[1,1,1], rightAngles:[] },
+  isosceles:   { label:'Isosceles triangle', pts:[[0,-60],[48,40],[-48,40]], ticks:[1,0,1], rightAngles:[] },
+  right:       { label:'Right triangle', pts:[[-50,45],[50,45],[-50,-45]], ticks:[0,0,0], rightAngles:[0] },
+  obtuse:      { label:'Obtuse triangle', pts:[[-55,30],[60,25],[-10,0]], ticks:[0,0,0], rightAngles:[] },
+};
+const QUAD_SHAPES = {
+  square:        { label:'Square', pts:[[-45,-45],[45,-45],[45,45],[-45,45]], ticks:[1,1,1,1], rightAngles:[0,1,2,3] },
+  rectangle:     { label:'Rectangle', pts:[[-62,-34],[62,-34],[62,34],[-62,34]], ticks:[1,2,1,2], rightAngles:[0,1,2,3] },
+  parallelogram: { label:'Parallelogram', pts:[[-55,-30],[35,-30],[55,30],[-35,30]], ticks:[1,2,1,2], rightAngles:[] },
+  rhombus:       { label:'Rhombus', pts:[[0,-58],[48,0],[0,58],[-48,0]], ticks:[1,1,1,1], rightAngles:[] },
+  trapezoid:     { label:'Trapezoid', pts:[[-30,-40],[30,-40],[58,38],[-58,38]], ticks:[0,1,0,1], rightAngles:[] },
+};
+const CIRCLE_SHAPES = {
+  circle: { label:'Circle', type:'circle' },
+};
+const ALL_SHAPES = {...CIRCLE_SHAPES, ...TRIANGLE_SHAPES, ...QUAD_SHAPES};
+
+function transformPoints(pts, rotDeg, scale, cx, cy){
+  const rad = rotDeg*Math.PI/180;
+  return pts.map(([x,y])=>{
+    const sx=x*scale, sy=y*scale;
+    const rx = sx*Math.cos(rad) - sy*Math.sin(rad);
+    const ry = sx*Math.sin(rad) + sy*Math.cos(rad);
+    return [cx+rx, cy+ry];
+  });
+}
+
+function tickMarksSVG(pix, tickCounts, color){
+  let svg = '';
+  const n = pix.length;
+  for(let i=0;i<n;i++){
+    const count = tickCounts[i];
+    if(!count) continue;
+    const [x1,y1] = pix[i], [x2,y2] = pix[(i+1)%n];
+    const mx=(x1+x2)/2, my=(y1+y2)/2;
+    const dx=x2-x1, dy=y2-y1;
+    const len=Math.sqrt(dx*dx+dy*dy) || 1;
+    const ux=dx/len, uy=dy/len;
+    const px=-uy, py=ux;
+    const tickLen=7, gap=6;
+    for(let t=0;t<count;t++){
+      const offset=(t-(count-1)/2)*gap;
+      const cx=mx+ux*offset, cy=my+uy*offset;
+      svg += `<line x1="${cx-px*tickLen}" y1="${cy-py*tickLen}" x2="${cx+px*tickLen}" y2="${cy+py*tickLen}" stroke="${color}" stroke-width="2.5" stroke-linecap="round"></line>`;
+    }
+  }
+  return svg;
+}
+
+function rightAngleMarksSVG(pix, indices, color, size){
+  let svg = '';
+  const n = pix.length;
+  indices.forEach(i=>{
+    const [cx,cy] = pix[i];
+    const [px1,py1] = pix[(i-1+n)%n];
+    const [nx1,ny1] = pix[(i+1)%n];
+    const d1x=px1-cx, d1y=py1-cy, len1=Math.sqrt(d1x*d1x+d1y*d1y)||1;
+    const d2x=nx1-cx, d2y=ny1-cy, len2=Math.sqrt(d2x*d2x+d2y*d2y)||1;
+    const u1x=d1x/len1*size, u1y=d1y/len1*size;
+    const u2x=d2x/len2*size, u2y=d2y/len2*size;
+    const p1x=cx+u1x, p1y=cy+u1y;
+    const cornerX=cx+u1x+u2x, cornerY=cy+u1y+u2y;
+    const p2x=cx+u2x, p2y=cy+u2y;
+    svg += `<polyline points="${p1x},${p1y} ${cornerX},${cornerY} ${p2x},${p2y}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linejoin="miter"></polyline>`;
+  });
+  return svg;
+}
+
+const quizSvg = document.getElementById('quizSvg');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextBtn = document.getElementById('nextBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+
+const QUIZ_KEY = 'ainmath_quiz_v1';
+const QUIZ_ID = 'shape-classify';
+const quizRecordEl = document.getElementById('quizRecord');
+
+function loadQuizRecord(){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    return all[QUIZ_ID] || null;
+  }catch(e){ return null; }
+}
+
+function saveQuizRecord(finalScore){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    const prev = all[QUIZ_ID] || { best:0, plays:0 };
+    all[QUIZ_ID] = {
+      best: Math.max(prev.best||0, finalScore),
+      total: TOTAL_QUESTIONS,
+      plays: (prev.plays||0) + 1,
+      last: finalScore,
+      updatedAt: Date.now()
+    };
+    localStorage.setItem(QUIZ_KEY, JSON.stringify(all));
+  }catch(e){}
+}
+
+function renderQuizRecord(){
+  if(!quizRecordEl) return;
+  const rec = loadQuizRecord();
+  quizRecordEl.textContent = rec
+    ? `📌 Best score: ${rec.best}/${rec.total} · played ${rec.plays} time(s)`
+    : '';
+}
+renderQuizRecord();
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+const TOTAL_QUESTIONS = 10;
+
+let score=0, answered=false, questionIndex=0, quizFinished=false;
+let correctKey='';
+let usedQuestions = [];
+
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function buildQuizCandidate(){
+  const allKeys = Object.keys(ALL_SHAPES);
+  const key = allKeys[Math.floor(Math.random()*allKeys.length)];
+  return { text: key, key };
+}
+
+function newQuizQuestion(){
+  if(questionIndex >= TOTAL_QUESTIONS){ showQuizResult(); return; }
+  questionIndex++;
+  answered = false;
+  quizFeedback.textContent = '';
+  qIdxNumEl.textContent = questionIndex;
+  nextBtn.textContent = questionIndex >= TOTAL_QUESTIONS ? '🏁 See results' : '➡ Next question';
+
+  let candidate, attempts = 0;
+  do {
+    candidate = buildQuizCandidate();
+    attempts++;
+  } while(usedQuestions.includes(candidate.text) && attempts < 30);
+  usedQuestions.push(candidate.text);
+
+  correctKey = candidate.key;
+  const allKeys = Object.keys(ALL_SHAPES);
+  const shape = ALL_SHAPES[correctKey];
+
+  if(shape.type==='circle'){
+    const r = 60 + Math.random()*20;
+    quizSvg.innerHTML = `<circle cx="100" cy="100" r="${r.toFixed(1)}" fill="var(--blue)" fill-opacity="0.35" stroke="var(--blue)" stroke-width="3"></circle>`;
+  } else {
+    const rot = Math.floor(Math.random()*360);
+    const scale = 0.85 + Math.random()*0.3;
+    const pix = transformPoints(shape.pts, rot, scale, 100, 100);
+    const color = TRIANGLE_SHAPES[correctKey] ? 'var(--coral)' : 'var(--violet)';
+    const ticksSvg = tickMarksSVG(pix, shape.ticks, 'var(--ink)');
+    const rightAngleSvg = rightAngleMarksSVG(pix, shape.rightAngles || [], 'var(--ink)', 12);
+    quizSvg.innerHTML = `<polygon points="${pix.map(p=>p.join(',')).join(' ')}" fill="${color}" fill-opacity="0.35" stroke="${color}" stroke-width="3"></polygon>${ticksSvg}${rightAngleSvg}`;
+  }
+
+  const distractorPool = allKeys.filter(k=>k!==correctKey);
+  const distractors = shuffle(distractorPool).slice(0,3);
+  const options = shuffle([correctKey, ...distractors]).map(k=>({key:k, label:ALL_SHAPES[k].label}));
+
+  quizOpts.innerHTML = options.map(o=>`<button class="opt-btn" data-k="${o.key}">${o.label}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered = true;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      if(btn.dataset.k===correctKey){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.innerHTML = `🎉 Correct!`;
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-k="${correctKey}"]`)?.classList.add('correct');
+        quizFeedback.innerHTML = `Not quite! The answer was "${ALL_SHAPES[correctKey].label}".`;
+      }
+      scoreNumEl.textContent = score;
+    });
+  });
+}
+
+function showQuizResult(){
+  quizFinished = true;
+  saveQuizRecord(score);
+  renderQuizRecord();
+  quizSvg.style.display = 'none';
+  quizOpts.style.display = 'none';
+  nextBtn.textContent = '🔄 Play again';
+  quizFeedback.innerHTML = `🏁 Quiz complete! You got <b>${score}</b> out of ${TOTAL_QUESTIONS} correct.`;
+}
+
+function resetQuiz(){
+  quizFinished = false;
+  questionIndex = 0;
+  score = 0;
+  usedQuestions = [];
+  scoreNumEl.textContent = '0';
+  quizSvg.style.display = '';
+  quizOpts.style.display = '';
+  newQuizQuestion();
+}
+
+nextBtn.addEventListener('click', ()=>{
+  if(quizFinished){ resetQuiz(); } else { newQuizQuestion(); }
+});
+newQuizQuestion();
+</script>
+</body>
+</html>
