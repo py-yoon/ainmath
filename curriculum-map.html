@@ -57,9 +57,12 @@ body{
 .sidebar-logo{
   display:flex;align-items:center;gap:8px;
   font-family:'Do Hyeon',sans-serif;font-size:19px;color:var(--ink);
-  text-decoration:none;margin:0 8px 22px;
+  text-decoration:none;margin:0;
 }
 .sidebar-logo span{color:var(--coral-ink);}
+.sidebar-logo-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 8px 22px;}
+.lang-switch{display:inline-flex;align-items:center;flex:none;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:12px;font-weight:700;color:var(--violet-ink);background:var(--violet-soft);text-decoration:none;padding:3px 9px;border-radius:999px;}
+.lang-switch:hover{filter:brightness(0.97);}
 .sidebar-nav{display:flex;flex-direction:column;gap:2px;}
 .sidebar-link{
   display:flex;align-items:center;gap:10px;
@@ -197,7 +200,7 @@ footer a:hover{color:var(--ink);text-decoration:underline;}
     overflow-x:auto;-webkit-overflow-scrolling:touch;
     border-right:none;border-bottom:1px solid var(--paper-line);
   }
-  .sidebar-logo{margin:0 12px 0 2px;flex:none;}
+  .sidebar-logo-row{margin:0 12px 0 2px;flex:none;}
   .sidebar-nav{flex-direction:row;gap:2px;flex:none;}
   .sidebar-link{padding:8px 12px;white-space:nowrap;}
   .sidebar-section-label,.sidebar-cats,.sidebar-footer{display:none;}
@@ -214,7 +217,10 @@ footer a:hover{color:var(--ink);text-decoration:underline;}
 <div class="app-shell">
   <aside class="sidebar">
     <div class="sidebar-inner">
-      <a href="index.html" class="sidebar-logo">📐 <span>아인매스</span></a>
+      <div class="sidebar-logo-row">
+        <a href="index.html" class="sidebar-logo">📐 <span>아인매스</span></a>
+        <a href="en/index.html" class="lang-switch">EN</a>
+      </div>
       <nav class="sidebar-nav">
         <a href="index.html" class="sidebar-link"><span class="si">🏠</span> <span>홈</span></a>
         <a href="explore.html" class="sidebar-link"><span class="si">🔎</span> <span>탐구하기</span></a>
@@ -241,7 +247,7 @@ footer a:hover{color:var(--ink);text-decoration:underline;}
 
   <div class="main-col">
   <div class="wrap">
-  <a class="back-link" href="explore.html">← 전체 목록으로</a><a href="en/index.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">EN</a>
+  <a class="back-link" href="explore.html">← 전체 목록으로</a>
   <span class="eyebrow">🗂️ 교과과정 지도</span>
   <h1>우리 학년 교과서에서<br><span>지금 배우는 단원</span>을 찾아보세요</h1>
   <p class="sub">2022 개정 교육과정을 기준으로 초등학교 1학년부터 고등학교 3학년까지 수학 단원을 학년별로 정리했어요. 아래 학년 버튼을 눌러 보고 싶은 학년만 볼 수 있어요. 보라색 테두리가 있는 단원은 아인매스에서 체험 페이지와 설명 글로 바로 확인할 수 있어요. 고등학교 과정은 아직 체험 페이지를 계속 채워나가는 중이에요.</p>
