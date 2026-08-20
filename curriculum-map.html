@@ -227,6 +227,7 @@ footer a:hover{color:var(--ink);text-decoration:underline;}
         <a href="index.html" class="sidebar-link"><span class="si">🏠</span> <span>홈</span></a>
         <a href="explore.html" class="sidebar-link"><span class="si">🔎</span> <span>탐구하기</span></a>
         <a href="curriculum-map.html" class="sidebar-link active"><span class="si">🗂️</span> <span>교과과정 지도</span></a>
+        <a href="holmes-detectives.html" class="sidebar-link"><span class="si">🔍</span> <span>홈즈 탐정단</span></a>
       </nav>
 
       <p class="sidebar-section-label">카테고리로 둘러보기</p>
@@ -234,7 +235,7 @@ footer a:hover{color:var(--ink);text-decoration:underline;}
         <a class="sidebar-cat-link" href="explore.html#cat-geometry"><span class="sidebar-cat-dot" style="background:var(--violet)"></span><span class="sidebar-cat-title">도형 · 기하</span><span class="sidebar-cat-count">41</span></a>
         <a class="sidebar-cat-link" href="explore.html#cat-number"><span class="sidebar-cat-dot" style="background:var(--coral)"></span><span class="sidebar-cat-title">수와 연산</span><span class="sidebar-cat-count">29</span></a>
         <a class="sidebar-cat-link" href="explore.html#cat-stats"><span class="sidebar-cat-dot" style="background:var(--green)"></span><span class="sidebar-cat-title">확률과 통계</span><span class="sidebar-cat-count">15</span></a>
-        <a class="sidebar-cat-link" href="explore.html#cat-function"><span class="sidebar-cat-dot" style="background:var(--blue)"></span><span class="sidebar-cat-title">함수와 그래프</span><span class="sidebar-cat-count">24</span></a>
+        <a class="sidebar-cat-link" href="explore.html#cat-function"><span class="sidebar-cat-dot" style="background:var(--blue)"></span><span class="sidebar-cat-title">함수와 그래프</span><span class="sidebar-cat-count">25</span></a>
         <a class="sidebar-cat-link" href="explore.html#cat-pattern"><span class="sidebar-cat-dot" style="background:var(--teal)"></span><span class="sidebar-cat-title">쉬는 시간 · 수학 탐구</span><span class="sidebar-cat-count">36</span></a>
       </nav>
 
@@ -436,7 +437,8 @@ const GRADES = [
       change: [
         { name:'복소수와 이차방정식', exp:[{label:'허수와 복소수 실험실', href:'imaginary-complex-numbers-lab.html'}], note:'극형식·오일러 공식 부분은 고1 범위를 넘는 심화 내용이에요' },
         { name:'이차방정식과 이차부등식', exp:[{label:'곱셈공식·인수분해', href:'factoring-quadratic.html'}], art:[{label:'설명 글', href:'article-factoring-quadratic.html'}], note:'이차부등식 부분은 아직 준비 중이에요' },
-        { name:'함수와 그래프', exp:[{label:'일차함수 그래프', href:'linear-function-graph.html'},{label:'이차함수 그래프', href:'quadratic-function-graph.html'}], art:[{label:'설명 글', href:'article-linear-function.html'},{label:'설명 글', href:'article-quadratic-function.html'}] },
+        { name:'함수와 그래프', exp:[{label:'일차함수 그래프', href:'linear-function-graph.html'},{label:'이차함수 그래프', href:'quadratic-function-graph.html'}], art:[{label:'설명 글', href:'article-linear-function.html'},{label:'설명 글', href:'article-quadratic-function.html'}], note:'유리함수·무리함수·합성함수·역함수는 아직 준비 중이에요' },
+        { name:'행렬', exp:[{label:'행렬 실험실', href:'matrix.html'}], art:[{label:'설명 글', href:'article-matrix.html'}] },
       ],
       shape: [
         { name:'도형의 방정식 (좌표평면·도형의 이동)', exp:[{label:'좌표평면 위 도형 이동', href:'coordinate-transform.html'},{label:'직선의 방정식 실험실', href:'line-equation.html'}], art:[{label:'설명 글', href:'article-coordinate-transform.html'},{label:'설명 글', href:'article-line-equation.html'}], note:'원의 방정식 부분은 아직 준비 중이에요' },

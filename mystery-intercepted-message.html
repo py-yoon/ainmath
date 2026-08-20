@@ -169,16 +169,19 @@ footer a:hover{color:var(--ink);text-decoration:underline;}
 <body>
 <div class="topnav">
   <a href="explore.html">← 전체 목록으로</a>
-  <a href="rsa-encryption-lab.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">🧪 실험실로 확인하기</a>
+  <span style="display:flex;gap:8px;flex-wrap:wrap;">
+    <a href="holmes-detectives.html" style="color:var(--ink-soft);text-decoration:none;">🔍 홈즈 탐정단 허브</a>
+    <a href="rsa-encryption-lab.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">🧪 실험실로 확인하기</a>
+  </span>
 </div>
 
 <div class="wrap">
   <div class="case-header">
     <div class="case-tab">CASE FILE</div>
     <div class="stamp-wrap"><div class="stamp" id="stamp">수사<br>중</div></div>
-    <div class="case-no">사건 파일 #02 · 국가정보분석팀 · 예상 소요 10분</div>
+    <div class="case-no">사건 파일 #02 · 베이커가 221B 홈즈 탐정사무소 · 예상 소요 10분</div>
     <h1 class="case-title">요원의 마지막 통신,<br>무사하다는 뜻일까?</h1>
-    <p class="case-sub">해외에서 활동하던 요원 '나비'와 연락이 끊겼어요. 마지막으로 가로챈 암호문 하나가 유일한 단서예요. 당신이 직접 암호를 풀어 요원의 안전을 확인해야 해요.</p>
+    <p class="case-sub">해외에서 활동하던 요원 '나비'와 연락이 끊겼어요. 마지막으로 가로챈 암호문 하나가 유일한 단서예요. 홈즈를 대신해 당신(왓슨)이 직접 암호를 풀어 요원의 안전을 확인해야 해요.</p>
   </div>
 
   <div class="progress" id="progress">
@@ -189,7 +192,7 @@ footer a:hover{color:var(--ink);text-decoration:underline;}
   </div>
 
   <div class="panel">
-    <div class="brief-quote">"어제 밤 11시, '나비'로부터 짧은 통신 하나가 도착한 걸 마지막으로 연락이 끊겼습니다. 신호는 잡았지만 내용은 암호화되어 있어요. 이 조직은 RSA라는 방식을 씁니다 — 다행히 아마추어들이라 <b>공개키가 짧아요</b>. 조사관님이라면 풀 수 있을 겁니다. 시간이 많지 않아요."</div>
+    <div class="brief-quote">"어제 밤 11시, '나비'로부터 짧은 통신 하나가 도착한 걸 마지막으로 연락이 끊겼습니다. 신호는 잡았지만 내용은 암호화되어 있어요. 이 조직은 RSA라는 방식을 씁니다 — 다행히 아마추어들이라 <b>공개키가 짧아요</b>. 베이커가의 홈즈 탐정님이라면 풀 수 있을 겁니다. 시간이 많지 않아요."</div>
     <p><b>RSA 암호</b>는 두 소수 p, q를 몰래 곱해서 만든 커다란 수 n을 공개키로 써요. n을 다시 p와 q로 쪼개는 게 사실상 불가능할 만큼 크면 안전하지만, n이 작으면 이야기가 달라져요.</p>
 
     <div class="step-label">1차 조사 · 가로챈 통신 기록</div>

@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>행렬 실험실</title>
+<meta name="description" content="행과 열에 숫자를 채워 행렬을 만들고, 덧셈·뺄셈·실수배·곱셈을 직접 조작하며 익혀요. 곱셈이 교환되지 않는다는 사실과, 인접행렬로 경로 수를 세는 실생활 활용까지 확인해요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="행렬 실험실">
+<meta property="og:description" content="행과 열에 숫자를 채워 행렬을 만들고, 덧셈·뺄셈·실수배·곱셈을 직접 조작하며 익혀요.">
+<meta property="og:url" content="https://ainmath.com/matrix.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="행렬 실험실">
+<meta name="twitter:description" content="행과 열에 숫자를 채워 행렬을 만들고, 덧셈·뺄셈·실수배·곱셈을 직접 조작하며 익혀요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.3;margin:0 0 10px;}
+h1 span{color:var(--violet-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:70ch;margin:0 0 24px;}
+
+.howto{background:var(--violet-soft);border-radius:16px;padding:16px 20px;font-size:14px;line-height:1.75;color:var(--ink);margin:0 0 24px;}
+.howto b{color:var(--violet-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:26px clamp(16px,4vw,38px) 30px;margin-bottom:22px;}
+.section-title{font-family:'Do Hyeon',sans-serif;font-size:19px;color:var(--ink);margin:0 0 8px;display:flex;align-items:center;gap:8px;}
+.section-sub{color:var(--ink-soft);font-size:14px;line-height:1.7;margin:0 0 16px;max-width:70ch;}
+
+.dim-row{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-bottom:16px;}
+.dim-ctrl{display:flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);}
+.dim-btn-row{display:flex;gap:4px;}
+.dim-btn{width:28px;height:28px;border-radius:8px;border:2px solid var(--paper-line);background:var(--paper);color:var(--ink-soft);font-family:'Do Hyeon',sans-serif;cursor:pointer;font-size:14px;}
+.dim-btn:hover:not(:disabled){border-color:var(--violet-ink);color:var(--violet-ink);}
+.dim-btn:disabled{opacity:0.35;cursor:not-allowed;}
+.dim-val{min-width:16px;text-align:center;color:var(--ink);font-size:16px;}
+
+.mat-area{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;margin-bottom:14px;}
+.mat-block{display:flex;flex-direction:column;align-items:center;gap:8px;}
+.mat-name{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);}
+.mat-grid{display:grid;gap:6px;padding:12px;background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;position:relative;}
+.mat-cell{width:48px;height:40px;border:1.5px solid var(--paper-line);border-radius:8px;background:#fff;text-align:center;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink);}
+.mat-cell:focus{outline:none;border-color:var(--violet-ink);background:var(--violet-soft);}
+.mat-cell.readonly{background:var(--paper);color:var(--ink-soft);}
+.mat-cell.hl{border-color:var(--green-ink);background:var(--green-soft);color:var(--green-ink);font-weight:bold;}
+.mat-size-label{font-size:12px;color:var(--ink-soft);text-align:center;}
+.mat-op{font-family:'Do Hyeon',sans-serif;font-size:24px;color:var(--ink-soft);align-self:center;padding-top:30px;}
+
+.fact{background:var(--violet-soft);border-radius:16px;padding:14px 18px;font-size:14px;line-height:1.7;color:var(--ink);}
+.fact b{color:var(--violet-ink);}
+.fact.warn{background:var(--coral-soft);}
+.fact.warn b{color:var(--coral-ink);}
+.fact.ok{background:var(--green-soft);}
+.fact.ok b{color:var(--green-ink);}
+
+.preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:13.5px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:999px;padding:7px 14px;cursor:pointer;transition:all .15s ease;}
+.preset-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.preset-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+.slider-row{display:flex;align-items:center;gap:12px;margin-bottom:16px;max-width:360px;}
+.slider-row label{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);min-width:70px;}
+input[type=range]{-webkit-appearance:none;flex:1;height:8px;border-radius:999px;background:var(--violet-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--violet-ink);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,71,247,0.4);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--violet-ink);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,71,247,0.4);cursor:pointer;}
+.slider-row .val{font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--violet-ink);min-width:34px;text-align:right;}
+
+.step-toggle{font-family:'Do Hyeon',sans-serif;font-size:13.5px;background:var(--ink);color:#fff;border:none;border-radius:10px;padding:8px 14px;cursor:pointer;margin-bottom:12px;}
+.step-toggle:hover{background:var(--violet-ink);}
+.step-detail{display:none;background:var(--paper);border:2px dashed var(--paper-line);border-radius:12px;padding:12px 16px;font-size:13.5px;line-height:1.7;color:var(--ink-soft);margin-bottom:14px;}
+.step-detail.show{display:block;}
+.step-detail b{color:var(--ink);}
+
+.graph-wrap{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;}
+svg.mini{width:220px;height:220px;flex-shrink:0;}
+.edge-toggles{display:flex;flex-direction:column;gap:6px;}
+.edge-btn{font-family:'Do Hyeon',sans-serif;font-size:13.5px;background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);border-radius:10px;padding:7px 12px;cursor:pointer;text-align:left;}
+.edge-btn.on{background:var(--violet-ink);border-color:var(--violet-ink);color:#fff;}
+
+.quiz-stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.quiz-head h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0;}
+.progress-badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--paper);border:2px solid var(--paper-line);border-radius:999px;padding:6px 14px;}
+.progress-badge b{color:var(--violet-ink);}
+.quiz-record{font-size:13px;color:var(--ink-soft);margin:-4px 0 16px;}
+.quiz-record b{color:var(--violet-ink);}
+.quiz-q{font-size:15.5px;line-height:1.7;text-align:center;background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:20px;margin-bottom:16px;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.opt-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);color:var(--ink-soft);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all .15s ease;}
+.opt-btn:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+.opt-btn.correct{background:var(--green-soft);border-color:var(--green-ink);color:var(--green-ink);}
+.opt-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);color:var(--coral-ink);}
+.opt-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;font-size:14.5px;color:var(--ink);min-height:22px;text-align:center;}
+.action-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:14px;padding:11px 18px;cursor:pointer;margin-top:14px;transition:background .2s ease;display:block;margin-left:auto;margin-right:auto;}
+.action-btn:hover{background:var(--violet-ink);}
+
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="explore.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a><a href="en/index.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">EN</a>
+    <a href="article-matrix.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🔢 행렬 실험실</span>
+  <h1>숫자를 <span>줄 세워</span> 놓았을 뿐인데,<br>새로운 연산이 생겨요</h1>
+  <p class="sub">행렬은 숫자를 직사각형 모양으로 늘어놓은 표예요. 표일 뿐인데 덧셈·뺄셈·곱셈 같은 연산을 정의할 수 있고, 신기하게도 곱셈은 순서를 바꾸면 결과가 달라져요. 직접 칸을 채워가며 확인해보세요.</p>
+
+  <div class="howto">
+    <p><b>행렬(matrix)</b>은 숫자를 가로줄(행, row)과 세로줄(열, column)로 정리한 표예요. 행이 m개, 열이 n개면 "m×n 행렬"이라고 부르고, i행 j열에 있는 숫자를 그 행렬의 (i,j) 성분이라고 해요.</p>
+    <p>행렬끼리 더하고 빼는 건 같은 위치의 숫자끼리 계산하면 되니까 직관적이에요. 하지만 <b>곱셈</b>은 다르게 정의돼요 — 그리고 이 곱셈은 일반적인 숫자 곱셈과 달리 <b>순서를 바꾸면 결과가 달라져요</b>(AB ≠ BA). 아래에서 하나씩 직접 만져보며 확인해보세요.</p>
+  </div>
+
+  <!-- ===== STAGE 1: 행렬이란? ===== -->
+  <div class="stage">
+    <div class="section-title">📋 행렬이란? — 행과 열에 숫자 채우기</div>
+    <p class="section-sub">아래 표의 행(가로줄)과 열(세로줄) 개수를 버튼으로 바꿔보고, 칸에 숫자를 직접 입력해보세요. 칸을 클릭하면 그 성분이 몇 행 몇 열인지 알려줘요.</p>
+    <div class="dim-row">
+      <div class="dim-ctrl">행(m) <div class="dim-btn-row"><button class="dim-btn" id="s1RowMinus">−</button><span class="dim-val" id="s1RowVal">2</span><button class="dim-btn" id="s1RowPlus">+</button></div></div>
+      <div class="dim-ctrl">열(n) <div class="dim-btn-row"><button class="dim-btn" id="s1ColMinus">−</button><span class="dim-val" id="s1ColVal">3</span><button class="dim-btn" id="s1ColPlus">+</button></div></div>
+    </div>
+    <div class="mat-area">
+      <div class="mat-block">
+        <div class="mat-name">행렬 A</div>
+        <div class="mat-grid" id="s1Grid"></div>
+        <div class="mat-size-label" id="s1SizeLabel"></div>
+      </div>
+    </div>
+    <div class="fact" id="s1Fact"></div>
+  </div>
+
+  <!-- ===== STAGE 2: 덧셈·뺄셈·실수배 ===== -->
+  <div class="stage">
+    <div class="section-title">➕ 덧셈·뺄셈·실수배</div>
+    <p class="section-sub">두 행렬 A, B는 크기가 같아야 더하거나 뺄 수 있어요(같은 위치끼리 계산). k 슬라이더로 A를 몇 배 할지도 정해보세요.</p>
+    <div class="dim-row">
+      <div class="dim-ctrl">행(m) <div class="dim-btn-row"><button class="dim-btn" id="s2RowMinus">−</button><span class="dim-val" id="s2RowVal">2</span><button class="dim-btn" id="s2RowPlus">+</button></div></div>
+      <div class="dim-ctrl">열(n) <div class="dim-btn-row"><button class="dim-btn" id="s2ColMinus">−</button><span class="dim-val" id="s2ColVal">2</span><button class="dim-btn" id="s2ColPlus">+</button></div></div>
+    </div>
+    <div class="mat-area">
+      <div class="mat-block"><div class="mat-name">A</div><div class="mat-grid" id="s2GridA"></div></div>
+      <div class="mat-op">+ / −</div>
+      <div class="mat-block"><div class="mat-name">B</div><div class="mat-grid" id="s2GridB"></div></div>
+      <div class="mat-op">=</div>
+      <div class="mat-block"><div class="mat-name" id="s2SumLabel">A+B</div><div class="mat-grid" id="s2GridSum"></div></div>
+      <div class="mat-block"><div class="mat-name" id="s2DiffLabel">A−B</div><div class="mat-grid" id="s2GridDiff"></div></div>
+    </div>
+    <div class="slider-row">
+      <label>배수 k</label>
+      <input id="s2KSlider" type="range" min="-5" max="5" value="2" step="1">
+      <span class="val" id="s2KVal">2</span>
+    </div>
+    <div class="mat-area">
+      <div class="mat-block"><div class="mat-name" id="s2ScaleLabel">kA</div><div class="mat-grid" id="s2GridScale"></div></div>
+    </div>
+    <div class="fact" id="s2Fact"></div>
+  </div>
+
+  <!-- ===== STAGE 3: 곱셈 ===== -->
+  <div class="stage">
+    <div class="section-title">✖️ 행렬의 곱셈 — 아무 크기끼리나 되진 않아요</div>
+    <p class="section-sub">A는 m×n, B는 p×q 행렬이에요. AB를 계산하려면 <b>A의 열의 수(n)와 B의 행의 수(p)가 같아야</b> 해요. 크기를 자유롭게 바꿔보면서 언제 곱셈이 정의되는지 확인해보세요.</p>
+    <div class="dim-row">
+      <div class="dim-ctrl">A: 행(m) <div class="dim-btn-row"><button class="dim-btn" id="s3ARowMinus">−</button><span class="dim-val" id="s3ARowVal">2</span><button class="dim-btn" id="s3ARowPlus">+</button></div></div>
+      <div class="dim-ctrl">A: 열(n) <div class="dim-btn-row"><button class="dim-btn" id="s3AColMinus">−</button><span class="dim-val" id="s3AColVal">3</span><button class="dim-btn" id="s3AColPlus">+</button></div></div>
+    </div>
+    <div class="dim-row">
+      <div class="dim-ctrl">B: 행(p) <div class="dim-btn-row"><button class="dim-btn" id="s3BRowMinus">−</button><span class="dim-val" id="s3BRowVal">3</span><button class="dim-btn" id="s3BRowPlus">+</button></div></div>
+      <div class="dim-ctrl">B: 열(q) <div class="dim-btn-row"><button class="dim-btn" id="s3BColMinus">−</button><span class="dim-val" id="s3BColVal">2</span><button class="dim-btn" id="s3BColPlus">+</button></div></div>
+    </div>
+    <div class="mat-area">
+      <div class="mat-block"><div class="mat-name">A</div><div class="mat-grid" id="s3GridA"></div></div>
+      <div class="mat-op">×</div>
+      <div class="mat-block"><div class="mat-name">B</div><div class="mat-grid" id="s3GridB"></div></div>
+      <div class="mat-op">=</div>
+      <div class="mat-block"><div class="mat-name" id="s3ResultLabel">AB</div><div class="mat-grid" id="s3GridResult"></div></div>
+    </div>
+    <button class="step-toggle" id="s3StepBtn">🔍 (1,1) 성분은 어떻게 계산되나요?</button>
+    <div class="step-detail" id="s3StepDetail"></div>
+    <div class="fact" id="s3Fact"></div>
+  </div>
+
+  <!-- ===== STAGE 4: 교환법칙 ===== -->
+  <div class="stage">
+    <div class="section-title">🔄 AB와 BA, 같을까요?</div>
+    <p class="section-sub">이번엔 두 정사각행렬(행과 열의 수가 같은 행렬) A, B로 AB와 BA를 나란히 비교해보세요. 숫자 곱셈은 순서를 바꿔도(3×5=5×3) 같지만, 행렬 곱셈은 보통 그렇지 않아요.</p>
+    <div class="preset-row" id="s4PresetRow"></div>
+    <div class="mat-area">
+      <div class="mat-block"><div class="mat-name">A</div><div class="mat-grid" id="s4GridA"></div></div>
+      <div class="mat-block"><div class="mat-name">B</div><div class="mat-grid" id="s4GridB"></div></div>
+      <div class="mat-block"><div class="mat-name">AB</div><div class="mat-grid" id="s4GridAB"></div></div>
+      <div class="mat-block"><div class="mat-name">BA</div><div class="mat-grid" id="s4GridBA"></div></div>
+    </div>
+    <div class="fact" id="s4Fact"></div>
+  </div>
+
+  <!-- ===== STAGE 5: 실생활 활용 ===== -->
+  <div class="stage">
+    <div class="section-title">🗺️ 실생활 활용 — 인접행렬로 경로 수 세기</div>
+    <p class="section-sub">세 도시 A, B, C 사이에 직항 노선이 있으면 1, 없으면 0으로 나타낸 행렬을 <b>인접행렬</b>이라고 해요. 아래 버튼으로 노선을 켜고 끄면서, 인접행렬 M을 스스로 곱한 M²이 무엇을 뜻하는지 확인해보세요.</p>
+    <div class="graph-wrap">
+      <svg class="mini" id="s5Svg" viewBox="0 0 220 220"></svg>
+      <div class="edge-toggles" id="s5Edges"></div>
+    </div>
+    <div class="mat-area" style="margin-top:14px;">
+      <div class="mat-block"><div class="mat-name">인접행렬 M</div><div class="mat-grid" id="s5GridM"></div></div>
+      <div class="mat-op">→ M×M →</div>
+      <div class="mat-block"><div class="mat-name">M²</div><div class="mat-grid" id="s5GridM2"></div></div>
+    </div>
+    <div class="fact" id="s5Fact"></div>
+  </div>
+
+  <!-- ===== 퀴즈 ===== -->
+  <div class="quiz-stage">
+    <div class="quiz-head">
+      <h2>🧩 행렬 퀴즈</h2>
+      <div class="progress-badge">문제 <b id="qIdxNum">1</b>/<b id="qTotalNum">10</b> · 정답 <b id="scoreNum">0</b>개</div>
+    </div>
+    <div class="quiz-record" id="quizRecord"></div>
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="action-btn" id="nextQuizBtn">➡ 다음 문제</button>
+  </div>
+
+    <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="counting-principle.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">경우의 수 실험실</span>
+    </a>
+    <a href="sets-propositions.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">집합과 명제 실험실</span>
+    </a>
+  </nav>
+<footer>행렬(matrix)이라는 이름은 "무언가가 만들어지는 모체"라는 뜻의 라틴어에서 왔어요. 오늘날 행렬은 그래픽 화면의 좌표 변환, SNS의 팔로우 관계 분석, 인공지능의 신경망 계산까지 컴퓨터가 다루는 거의 모든 데이터의 기본 언어로 쓰여요.</footer>
+</div>
+
+<script>
+// ============================================================
+// 공용 행렬 유틸
+// ============================================================
+function makeMatrix(rows, cols, fill){
+  const m = [];
+  for(let i=0;i<rows;i++){ m.push(new Array(cols).fill(0).map((_,j)=> (typeof fill==='function'? fill(i,j) : fill))); }
+  return m;
+}
+function resizeMatrix(mat, rows, cols, fill){
+  const out = makeMatrix(rows, cols, (i,j)=> (mat[i] && mat[i][j]!==undefined) ? mat[i][j] : (typeof fill==='function'?fill(i,j):fill));
+  return out;
+}
+function madd(A,B){ return A.map((row,i)=>row.map((v,j)=>v+B[i][j])); }
+function msub(A,B){ return A.map((row,i)=>row.map((v,j)=>v-B[i][j])); }
+function mscale(A,k){ return A.map(row=>row.map(v=>v*k)); }
+function mmul(A,B){
+  const m=A.length, n=A[0].length, p=B[0].length;
+  const out = makeMatrix(m,p,0);
+  for(let i=0;i<m;i++) for(let j=0;j<p;j++){
+    let s=0; for(let k=0;k<n;k++) s += A[i][k]*B[k][j];
+    out[i][j]=s;
+  }
+  return out;
+}
+function matEq(A,B){
+  if(A.length!==B.length || A[0].length!==B[0].length) return false;
+  for(let i=0;i<A.length;i++) for(let j=0;j<A[0].length;j++) if(A[i][j]!==B[i][j]) return false;
+  return true;
+}
+
+function renderEditableGrid(el, mat, onChange){
+  el.style.gridTemplateColumns = `repeat(${mat[0].length}, 48px)`;
+  el.innerHTML = '';
+  for(let i=0;i<mat.length;i++){
+    for(let j=0;j<mat[0].length;j++){
+      const inp = document.createElement('input');
+      inp.className = 'mat-cell';
+      inp.type = 'number';
+      inp.value = mat[i][j];
+      inp.dataset.i = i; inp.dataset.j = j;
+      inp.addEventListener('input', ()=>{
+        const v = parseInt(inp.value,10);
+        mat[i][j] = isNaN(v) ? 0 : v;
+        onChange && onChange(i,j);
+      });
+      el.appendChild(inp);
+    }
+  }
+}
+function renderReadonlyGrid(el, mat){
+  if(!mat){ el.innerHTML=''; el.style.gridTemplateColumns=''; return; }
+  el.style.gridTemplateColumns = `repeat(${mat[0].length}, 48px)`;
+  el.innerHTML = '';
+  for(let i=0;i<mat.length;i++){
+    for(let j=0;j<mat[0].length;j++){
+      const div = document.createElement('div');
+      div.className = 'mat-cell readonly';
+      div.style.display='flex'; div.style.alignItems='center'; div.style.justifyContent='center';
+      div.textContent = mat[i][j];
+      el.appendChild(div);
+    }
+  }
+}
+
+// ============================================================
+// STAGE 1: 행렬이란?
+// ============================================================
+let s1 = { rows:2, cols:3, mat: [[1,2,3],[4,5,6]] };
+const s1Grid = document.getElementById('s1Grid');
+const s1RowVal = document.getElementById('s1RowVal');
+const s1ColVal = document.getElementById('s1ColVal');
+const s1SizeLabel = document.getElementById('s1SizeLabel');
+const s1Fact = document.getElementById('s1Fact');
+
+function renderS1(){
+  s1RowVal.textContent = s1.rows;
+  s1ColVal.textContent = s1.cols;
+  document.getElementById('s1RowMinus').disabled = s1.rows<=1;
+  document.getElementById('s1RowPlus').disabled = s1.rows>=4;
+  document.getElementById('s1ColMinus').disabled = s1.cols<=1;
+  document.getElementById('s1ColPlus').disabled = s1.cols>=4;
+  renderEditableGrid(s1Grid, s1.mat, (i,j)=>{
+    s1SizeLabel.textContent = `A는 ${s1.rows}×${s1.cols} 행렬이에요`;
+    s1Fact.innerHTML = `방금 바꾼 칸은 <b>${i+1}행 ${j+1}열</b>이에요. 이 자리의 값을 a<sub>${i+1}${j+1}</sub>이라고 써요. 지금 이 행렬 전체는 <b>${s1.rows}행 ${s1.cols}열</b>, 줄여서 <b>${s1.rows}×${s1.cols} 행렬</b>이고, 성분은 모두 ${s1.rows*s1.cols}개예요.`;
+  });
+  s1SizeLabel.textContent = `A는 ${s1.rows}×${s1.cols} 행렬이에요`;
+  s1Fact.innerHTML = `행(가로줄)이 ${s1.rows}개, 열(세로줄)이 ${s1.cols}개예요. 아무 칸이나 클릭해서 숫자를 바꿔보고, 몇 행 몇 열인지 확인해보세요.`;
+}
+function changeS1(dr, dc){
+  const nr = Math.max(1, Math.min(4, s1.rows+dr));
+  const nc = Math.max(1, Math.min(4, s1.cols+dc));
+  s1.mat = resizeMatrix(s1.mat, nr, nc, (i,j)=> (i*nc+j+1));
+  s1.rows = nr; s1.cols = nc;
+  renderS1();
+}
+document.getElementById('s1RowMinus').addEventListener('click', ()=>changeS1(-1,0));
+document.getElementById('s1RowPlus').addEventListener('click', ()=>changeS1(1,0));
+document.getElementById('s1ColMinus').addEventListener('click', ()=>changeS1(0,-1));
+document.getElementById('s1ColPlus').addEventListener('click', ()=>changeS1(0,1));
+renderS1();
+
+// ============================================================
+// STAGE 2: 덧셈·뺄셈·실수배
+// ============================================================
+let s2 = { rows:2, cols:2, A:[[1,2],[3,4]], B:[[5,6],[7,8]], k:2 };
+const s2GridA = document.getElementById('s2GridA');
+const s2GridB = document.getElementById('s2GridB');
+const s2GridSum = document.getElementById('s2GridSum');
+const s2GridDiff = document.getElementById('s2GridDiff');
+const s2GridScale = document.getElementById('s2GridScale');
+const s2Fact = document.getElementById('s2Fact');
+const s2KSlider = document.getElementById('s2KSlider');
+const s2KVal = document.getElementById('s2KVal');
+
+function renderS2(){
+  document.getElementById('s2RowVal').textContent = s2.rows;
+  document.getElementById('s2ColVal').textContent = s2.cols;
+  document.getElementById('s2RowMinus').disabled = s2.rows<=1;
+  document.getElementById('s2RowPlus').disabled = s2.rows>=3;
+  document.getElementById('s2ColMinus').disabled = s2.cols<=1;
+  document.getElementById('s2ColPlus').disabled = s2.cols>=3;
+  renderEditableGrid(s2GridA, s2.A, updateS2Results);
+  renderEditableGrid(s2GridB, s2.B, updateS2Results);
+  document.getElementById('s2SumLabel').textContent = 'A+B';
+  document.getElementById('s2DiffLabel').textContent = 'A−B';
+  updateS2Results();
+}
+function updateS2Results(){
+  const sum = madd(s2.A, s2.B);
+  const diff = msub(s2.A, s2.B);
+  const scaled = mscale(s2.A, s2.k);
+  renderReadonlyGrid(s2GridSum, sum);
+  renderReadonlyGrid(s2GridDiff, diff);
+  renderReadonlyGrid(s2GridScale, scaled);
+  document.getElementById('s2ScaleLabel').textContent = `${s2.k}A`;
+  s2Fact.innerHTML = `A, B가 같은 크기(${s2.rows}×${s2.cols})라서 <b>같은 위치끼리</b> 더하고 뺄 수 있어요. kA는 A의 모든 성분에 k=${s2.k}를 곱한 거예요 — k가 음수면 부호가 바뀌는 것도 확인해보세요.`;
+}
+function changeS2(dr, dc){
+  const nr = Math.max(1, Math.min(3, s2.rows+dr));
+  const nc = Math.max(1, Math.min(3, s2.cols+dc));
+  s2.A = resizeMatrix(s2.A, nr, nc, (i,j)=> (i*nc+j+1));
+  s2.B = resizeMatrix(s2.B, nr, nc, (i,j)=> (i*nc+j+1)*2);
+  s2.rows = nr; s2.cols = nc;
+  renderS2();
+}
+document.getElementById('s2RowMinus').addEventListener('click', ()=>changeS2(-1,0));
+document.getElementById('s2RowPlus').addEventListener('click', ()=>changeS2(1,0));
+document.getElementById('s2ColMinus').addEventListener('click', ()=>changeS2(0,-1));
+document.getElementById('s2ColPlus').addEventListener('click', ()=>changeS2(0,1));
+s2KSlider.addEventListener('input', ()=>{ s2.k = parseInt(s2KSlider.value,10); s2KVal.textContent = s2.k; updateS2Results(); });
+renderS2();
+
+// ============================================================
+// STAGE 3: 곱셈
+// ============================================================
+let s3 = { Arows:2, Acols:3, Brows:3, Bcols:2, A:[[1,2,3],[4,5,6]], B:[[1,0],[0,1],[1,1]] };
+const s3GridA = document.getElementById('s3GridA');
+const s3GridB = document.getElementById('s3GridB');
+const s3GridResult = document.getElementById('s3GridResult');
+const s3Fact = document.getElementById('s3Fact');
+const s3StepBtn = document.getElementById('s3StepBtn');
+const s3StepDetail = document.getElementById('s3StepDetail');
+let s3StepOpen = false;
+
+function renderS3(){
+  document.getElementById('s3ARowVal').textContent = s3.Arows;
+  document.getElementById('s3AColVal').textContent = s3.Acols;
+  document.getElementById('s3BRowVal').textContent = s3.Brows;
+  document.getElementById('s3BColVal').textContent = s3.Bcols;
+  document.getElementById('s3ARowMinus').disabled = s3.Arows<=1;
+  document.getElementById('s3ARowPlus').disabled = s3.Arows>=4;
+  document.getElementById('s3AColMinus').disabled = s3.Acols<=1;
+  document.getElementById('s3AColPlus').disabled = s3.Acols>=4;
+  document.getElementById('s3BRowMinus').disabled = s3.Brows<=1;
+  document.getElementById('s3BRowPlus').disabled = s3.Brows>=4;
+  document.getElementById('s3BColMinus').disabled = s3.Bcols<=1;
+  document.getElementById('s3BColPlus').disabled = s3.Bcols>=4;
+  renderEditableGrid(s3GridA, s3.A, updateS3Result);
+  renderEditableGrid(s3GridB, s3.B, updateS3Result);
+  updateS3Result();
+}
+function updateS3Result(){
+  const defined = s3.Acols === s3.Brows;
+  document.getElementById('s3ResultLabel').textContent = 'AB';
+  if(defined){
+    const AB = mmul(s3.A, s3.B);
+    renderReadonlyGrid(s3GridResult, AB);
+    s3Fact.className = 'fact ok';
+    s3Fact.innerHTML = `A의 열의 수(${s3.Acols})와 B의 행의 수(${s3.Brows})가 같아서 곱셈이 정의돼요! 결과 AB는 <b>${s3.Arows}×${s3.Bcols} 행렬</b>이 돼요 — A의 행의 수, B의 열의 수를 그대로 가져와요.`;
+    if(s3StepOpen) renderS3Step(AB);
+  } else {
+    renderReadonlyGrid(s3GridResult, null);
+    s3GridResult.innerHTML = '<div style="padding:10px;color:var(--coral-ink);font-family:\'Do Hyeon\',sans-serif;font-size:13.5px;">정의되지 않음</div>';
+    s3Fact.className = 'fact warn';
+    s3Fact.innerHTML = `A의 열의 수(${s3.Acols})와 B의 행의 수(${s3.Brows})가 달라서 AB는 <b>정의되지 않아요</b>. 위쪽 버튼으로 두 수를 같게 맞춰보세요.`;
+    s3StepDetail.classList.remove('show');
+    s3StepOpen = false;
+  }
+}
+function renderS3Step(AB){
+  const n = s3.Acols;
+  const terms = [];
+  for(let k=0;k<n;k++) terms.push(`${s3.A[0][k]}×${s3.B[k][0]}`);
+  s3StepDetail.innerHTML = `AB의 <b>1행 1열</b> 성분은, A의 <b>1행</b>과 B의 <b>1열</b>을 순서대로 곱해서 모두 더한 값이에요.<br>(AB)<sub>11</sub> = ${terms.join(' + ')} = <b>${AB[0][0]}</b><br>같은 방식으로 AB의 다른 칸들도 "A의 i행" × "B의 j열"을 계산해서 채워요.`;
+  s3StepDetail.classList.add('show');
+}
+s3StepBtn.addEventListener('click', ()=>{
+  s3StepOpen = !s3StepOpen;
+  if(s3StepOpen && s3.Acols===s3.Brows){ renderS3Step(mmul(s3.A,s3.B)); }
+  else { s3StepDetail.classList.remove('show'); }
+});
+function changeS3(key, delta){
+  s3[key] = Math.max(1, Math.min(4, s3[key]+delta));
+  s3.A = resizeMatrix(s3.A, s3.Arows, s3.Acols, (i,j)=> (i*s3.Acols+j+1));
+  s3.B = resizeMatrix(s3.B, s3.Brows, s3.Bcols, (i,j)=> (i===j?1:0));
+  renderS3();
+}
+document.getElementById('s3ARowMinus').addEventListener('click', ()=>changeS3('Arows',-1));
+document.getElementById('s3ARowPlus').addEventListener('click', ()=>changeS3('Arows',1));
+document.getElementById('s3AColMinus').addEventListener('click', ()=>changeS3('Acols',-1));
+document.getElementById('s3AColPlus').addEventListener('click', ()=>changeS3('Acols',1));
+document.getElementById('s3BRowMinus').addEventListener('click', ()=>changeS3('Brows',-1));
+document.getElementById('s3BRowPlus').addEventListener('click', ()=>changeS3('Brows',1));
+document.getElementById('s3BColMinus').addEventListener('click', ()=>changeS3('Bcols',-1));
+document.getElementById('s3BColPlus').addEventListener('click', ()=>changeS3('Bcols',1));
+renderS3();
+
+// ============================================================
+// STAGE 4: 교환법칙
+// ============================================================
+const S4_PRESETS = [
+  { label:'일반적인 경우', A:[[1,2],[3,4]], B:[[5,6],[7,8]] },
+  { label:'특별한 경우 (단위행렬)', A:[[1,2],[3,4]], B:[[1,0],[0,1]] },
+];
+let s4Idx = 0;
+const s4GridA = document.getElementById('s4GridA');
+const s4GridB = document.getElementById('s4GridB');
+const s4GridAB = document.getElementById('s4GridAB');
+const s4GridBA = document.getElementById('s4GridBA');
+const s4Fact = document.getElementById('s4Fact');
+const s4PresetRow = document.getElementById('s4PresetRow');
+let s4A, s4B;
+
+function buildS4Presets(){
+  s4PresetRow.innerHTML = S4_PRESETS.map((p,i)=>`<button class="preset-btn" data-i="${i}">${p.label}</button>`).join('');
+  s4PresetRow.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      s4Idx = parseInt(btn.dataset.i);
+      s4A = S4_PRESETS[s4Idx].A.map(r=>r.slice());
+      s4B = S4_PRESETS[s4Idx].B.map(r=>r.slice());
+      renderS4();
+    });
+  });
+}
+function renderS4(){
+  s4PresetRow.querySelectorAll('.preset-btn').forEach((b,i)=>b.classList.toggle('active', i===s4Idx));
+  renderEditableGrid(s4GridA, s4A, updateS4Result);
+  renderEditableGrid(s4GridB, s4B, updateS4Result);
+  updateS4Result();
+}
+function updateS4Result(){
+  const AB = mmul(s4A, s4B);
+  const BA = mmul(s4B, s4A);
+  renderReadonlyGrid(s4GridAB, AB);
+  renderReadonlyGrid(s4GridBA, BA);
+  const same = matEq(AB, BA);
+  s4Fact.className = same ? 'fact ok' : 'fact warn';
+  s4Fact.innerHTML = same
+    ? `이번엔 AB = BA로 <b>같게</b> 나왔어요! 흔치 않은 특별한 경우예요 (예: 한쪽이 단위행렬이면 항상 교환돼요). 위의 칸을 직접 바꿔서 다시 다르게 만들어보세요.`
+    : `AB와 BA가 <b>서로 달라요!</b> 순서만 바꿨는데 결과가 달라지는 건, 일반 숫자의 곱셈(3×5=5×3)에는 없던 행렬만의 특징이에요.`;
+}
+buildS4Presets();
+s4A = S4_PRESETS[0].A.map(r=>r.slice());
+s4B = S4_PRESETS[0].B.map(r=>r.slice());
+renderS4();
+
+// ============================================================
+// STAGE 5: 실생활 활용 — 인접행렬
+// ============================================================
+const CITY_NAMES = ['A','B','C'];
+let s5Edges = { '0-1':1, '1-0':1, '0-2':1, '2-0':0, '1-2':0, '2-1':1 };
+const s5Svg = document.getElementById('s5Svg');
+const s5EdgesEl = document.getElementById('s5Edges');
+const s5GridM = document.getElementById('s5GridM');
+const s5GridM2 = document.getElementById('s5GridM2');
+const s5Fact = document.getElementById('s5Fact');
+
+const CITY_POS = [ [110,30], [30,180], [190,180] ];
+
+function buildS5Edges(){
+  const pairs = [['0','1'],['1','0'],['0','2'],['2','0'],['1','2'],['2','1']];
+  s5EdgesEl.innerHTML = '';
+  pairs.forEach(([a,b])=>{
+    const key = `${a}-${b}`;
+    const btn = document.createElement('button');
+    btn.className = 'edge-btn' + (s5Edges[key] ? ' on' : '');
+    btn.textContent = `${CITY_NAMES[a]} → ${CITY_NAMES[b]} ${s5Edges[key]?'✓ 있음':'✕ 없음'}`;
+    btn.addEventListener('click', ()=>{
+      s5Edges[key] = s5Edges[key] ? 0 : 1;
+      renderS5();
+    });
+    s5EdgesEl.appendChild(btn);
+  });
+}
+function getM(){
+  return [
+    [0, s5Edges['0-1'], s5Edges['0-2']],
+    [s5Edges['1-0'], 0, s5Edges['1-2']],
+    [s5Edges['2-0'], s5Edges['2-1'], 0],
+  ];
+}
+function renderS5Svg(){
+  let html = '';
+  const pairs = [['0','1'],['1','0'],['0','2'],['2','0'],['1','2'],['2','1']];
+  pairs.forEach(([a,b])=>{
+    if(!s5Edges[`${a}-${b}`]) return;
+    const [x1,y1] = CITY_POS[a], [x2,y2] = CITY_POS[b];
+    const mx = (x1+x2)/2 + (y1-y2)*0.08, my = (y1+y2)/2 + (x2-x1)*0.08;
+    html += `<path d="M${x1},${y1} Q${mx},${my} ${x2},${y2}" fill="none" stroke="var(--violet-ink)" stroke-width="2" marker-end="url(#arrow)"></path>`;
+  });
+  CITY_POS.forEach((p,i)=>{
+    html += `<circle cx="${p[0]}" cy="${p[1]}" r="20" fill="var(--card)" stroke="var(--ink)" stroke-width="2.5"></circle>`;
+    html += `<text x="${p[0]}" y="${p[1]+6}" text-anchor="middle" font-family="Do Hyeon" font-size="16" fill="var(--ink)">${CITY_NAMES[i]}</text>`;
+  });
+  s5Svg.innerHTML = `<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--violet-ink)"></path></marker></defs>` + html;
+}
+function renderS5(){
+  buildS5Edges();
+  renderS5Svg();
+  const M = getM();
+  const M2 = mmul(M,M);
+  renderReadonlyGrid(s5GridM, M);
+  renderReadonlyGrid(s5GridM2, M2);
+  const totalRoutes = M2.reduce((s,row)=>s+row.reduce((a,b)=>a+b,0),0);
+  s5Fact.innerHTML = `M²의 (i,j) 성분은 도시 i에서 도시 j까지 <b>정확히 한 번 경유해서</b> 갈 수 있는 방법의 수예요. 예를 들어 M²의 (A,C) 성분이 ${M2[0][2]}이면, A에서 다른 도시 하나를 거쳐 C로 가는 방법이 ${M2[0][2]}가지라는 뜻이에요. 지금 노선으로 가능한 "1번 경유" 경로는 전체 ${totalRoutes}가지예요.`;
+}
+renderS5();
+
+// ============================================================
+// 퀴즈
+// ============================================================
+const quizQ = document.getElementById('quizQ');
+const quizOpts = document.getElementById('quizOpts');
+const quizFeedback = document.getElementById('quizFeedback');
+const nextQuizBtn = document.getElementById('nextQuizBtn');
+const scoreNumEl = document.getElementById('scoreNum');
+const qIdxNumEl = document.getElementById('qIdxNum');
+const qTotalNumEl = document.getElementById('qTotalNum');
+const TOTAL_QUESTIONS = 10;
+
+const QUIZ_KEY = 'ainmath_quiz_v1';
+const QUIZ_ID = 'matrix';
+const quizRecordEl = document.getElementById('quizRecord');
+
+function loadQuizRecord(){
+  try{ const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {}; return all[QUIZ_ID] || null; }catch(e){ return null; }
+}
+function saveQuizRecord(finalScore){
+  try{
+    const all = JSON.parse(localStorage.getItem(QUIZ_KEY)) || {};
+    const prev = all[QUIZ_ID] || { best:0, plays:0 };
+    all[QUIZ_ID] = { best: Math.max(prev.best||0, finalScore), total: TOTAL_QUESTIONS, plays: (prev.plays||0)+1, last: finalScore, updatedAt: Date.now() };
+    localStorage.setItem(QUIZ_KEY, JSON.stringify(all));
+  }catch(e){}
+}
+function renderQuizRecord(){
+  const rec = loadQuizRecord();
+  quizRecordEl.textContent = rec ? `📌 최고 기록 ${rec.best}/${rec.total}개 · 지금까지 ${rec.plays}번 풀었어요` : '';
+}
+renderQuizRecord();
+qTotalNumEl.textContent = TOTAL_QUESTIONS;
+
+const QUIZ_BANK = [
+  { q:'3행 2열로 이루어진 행렬을 무엇이라고 부르나요?', a:'3×2 행렬', opts:['3×2 행렬','2×3 행렬','5×1 행렬','6×1 행렬'] },
+  { q:'2×4 행렬의 성분(칸)은 모두 몇 개인가요?', a:'8', opts:['6','8','10','12'] },
+  { q:'"행렬의 덧셈은 크기가 같은 두 행렬끼리만 할 수 있다" — 참일까요, 거짓일까요?', a:'참', opts:['참','거짓'] },
+  { q:'"행렬의 곱셈 AB는 A의 열의 수와 B의 행의 수가 같아야 정의된다" — 참일까요, 거짓일까요?', a:'참', opts:['참','거짓'] },
+  { q:'"행렬의 곱셈은 일반적으로 AB = BA가 성립한다" — 참일까요, 거짓일까요?', a:'거짓', opts:['참','거짓'] },
+  { q:'A = [[1,2],[3,4]], B = [[5,6],[7,8]]일 때, A+B의 1행 1열 성분은?', a:'6', opts:['6','8','11','13'] },
+  { q:'A = [[1,2],[3,4]]일 때, 2A의 2행 2열 성분은?', a:'8', opts:['4','6','8','16'] },
+  { q:'A = [[1,2],[3,4]], B = [[5,6],[7,8]]일 때, AB의 1행 1열 성분(1×5+2×7)은?', a:'19', opts:['17','19','21','23'] },
+  { q:'m×n 행렬과 n×p 행렬을 곱하면 결과는 몇 × 몇 행렬이 되나요?', a:'m×p', opts:['m×p','n×n','p×m','m×n'] },
+  { q:'"1×1 행렬은 사실상 하나의 실수와 같다고 볼 수 있다" — 참일까요, 거짓일까요?', a:'참', opts:['참','거짓'] },
+  { q:'인접행렬 M에서 M²의 (i,j) 성분이 뜻하는 것은?', a:'i에서 j까지 정확히 한 번 경유하는 경로의 수', opts:['i에서 j까지 정확히 한 번 경유하는 경로의 수','i와 j 사이에 직항이 있는지 여부','전체 도시의 개수','i에서 j로 가는 가장 빠른 방법'] },
+  { q:'"모든 정사각행렬 쌍은 곱셈의 교환법칙이 성립한다" — 참일까요, 거짓일까요?', a:'거짓', opts:['참','거짓'] },
+];
+
+function shuffle(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+let quizSet = [], quizIndex = 0, score = 0, answered = false;
+
+function startQuizSession(){
+  quizSet = shuffle(QUIZ_BANK).slice(0, TOTAL_QUESTIONS);
+  quizIndex = 0; score = 0;
+  scoreNumEl.textContent = score;
+  nextQuizBtn.textContent = '➡ 다음 문제';
+  nextQuizBtn.style.display = '';
+  quizQ.style.display = ''; quizOpts.style.display = '';
+  showQuestion();
+}
+function showQuestion(){
+  answered = false;
+  qIdxNumEl.textContent = quizIndex+1;
+  const item = quizSet[quizIndex];
+  quizQ.textContent = item.q;
+  quizFeedback.textContent = '';
+  const opts = shuffle(item.opts);
+  quizOpts.innerHTML = opts.map(o=>`<button class="opt-btn" data-o="${o}">${o}</button>`).join('');
+  quizOpts.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered = true;
+      quizOpts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      const chosen = btn.dataset.o;
+      if(chosen === item.a){
+        score++;
+        btn.classList.add('correct');
+        quizFeedback.textContent = '🎉 맞았어요!';
+      } else {
+        btn.classList.add('wrong');
+        quizOpts.querySelector(`[data-o="${item.a}"]`)?.classList.add('correct');
+        quizFeedback.textContent = `아쉬워요! 정답은 "${item.a}"였어요.`;
+      }
+      scoreNumEl.textContent = score;
+    });
+  });
+  nextQuizBtn.textContent = (quizIndex+1 >= TOTAL_QUESTIONS) ? '🏁 결과 보기' : '➡ 다음 문제';
+}
+function showResult(){
+  saveQuizRecord(score);
+  renderQuizRecord();
+  quizQ.style.display = 'none';
+  quizOpts.style.display = 'none';
+  quizFeedback.innerHTML = `🏁 퀴즈 완료! ${TOTAL_QUESTIONS}문제 중 <b>${score}</b>개 맞혔어요.`;
+  nextQuizBtn.textContent = '🔄 다시 풀기';
+}
+nextQuizBtn.addEventListener('click', ()=>{
+  if(!answered && quizOpts.style.display !== 'none'){ return; }
+  if(quizOpts.style.display === 'none'){ startQuizSession(); return; }
+  quizIndex++;
+  if(quizIndex >= TOTAL_QUESTIONS){ showResult(); } else { showQuestion(); }
+});
+startQuizSession();
+</script>
+</body>
+</html>
