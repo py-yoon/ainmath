@@ -119,6 +119,19 @@
 
   .wrap{max-width:1080px;margin:0 auto;}
 
+  .teacher-notice{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    background:var(--ink);color:#fff;
+    border-radius:14px;padding:11px 18px;margin:0 0 20px;
+    font-size:13.5px;line-height:1.6;
+  }
+  .teacher-notice .tn-text{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .teacher-notice .tn-badge{font-family:'Do Hyeon',sans-serif;font-size:11.5px;background:var(--coral-ink,#D90500);color:#fff;padding:2px 9px;border-radius:999px;flex-shrink:0;}
+  .teacher-notice a{color:#fff;text-decoration:underline;text-underline-offset:2px;}
+  .teacher-notice a:hover{color:var(--violet-soft);}
+  .teacher-notice .tn-close{background:none;border:none;color:rgba(255,255,255,0.65);font-size:16px;line-height:1;cursor:pointer;padding:2px 4px;flex-shrink:0;}
+  .teacher-notice .tn-close:hover{color:#fff;}
+
   .eyebrow{
     display:inline-flex;align-items:center;gap:8px;
     font-family:'Do Hyeon',sans-serif;
@@ -498,6 +511,25 @@
 
   <div class="main-col">
     <div class="wrap">
+      <div class="teacher-notice" id="teacherNotice" style="display:none;">
+        <span class="tn-text"><span class="tn-badge">NEW</span> 선생님이신가요? 수업에 바로 쓰는 인쇄용 활동지가 생겼어요 — <a href="worksheet-pythagorean-theorem.html">피타고라스 정리</a> · <a href="worksheet-permutations-combinations.html">순열과 조합</a></span>
+        <button class="tn-close" id="teacherNoticeClose" aria-label="공지 닫기">✕</button>
+      </div>
+      <script>
+        (function(){
+          try{
+            if(!localStorage.getItem('ainmath_notice_worksheet_v1_dismissed')){
+              document.getElementById('teacherNotice').style.display = 'flex';
+            }
+          }catch(e){
+            document.getElementById('teacherNotice').style.display = 'flex';
+          }
+          document.getElementById('teacherNoticeClose').addEventListener('click', function(){
+            document.getElementById('teacherNotice').style.display = 'none';
+            try{ localStorage.setItem('ainmath_notice_worksheet_v1_dismissed', '1'); }catch(e){}
+          });
+        })();
+      </script>
       <span class="eyebrow">📐 아인매스</span>
       <p class="hero-hook">공식을 달달 외워도 문제만 바뀌면 막막했나요?</p>
       <h1>숫자를 <span>직접 만져보며</span><br>이해하는 수학</h1>

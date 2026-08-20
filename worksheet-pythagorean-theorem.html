@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>피타고라스 정리 수업 활동지 | 아인매스</title>
+<meta name="description" content="아인매스 피타고라스 정리 실험실과 함께 쓰는 인쇄용 수업 활동지예요. 슬라이더로 값을 바꿔가며 표를 채우고, 개념 확인 문제까지 한 장으로 정리했어요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="피타고라스 정리 수업 활동지 | 아인매스">
+<meta property="og:description" content="아인매스 피타고라스 정리 실험실과 함께 쓰는 인쇄용 수업 활동지예요.">
+<meta property="og:url" content="https://ainmath.com/worksheet-pythagorean-theorem.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 28px 20px 80px;
+}
+.topbar{max-width:780px;margin:0 auto 14px;display:flex;justify-content:space-between;align-items:center;font-size:14px;flex-wrap:wrap;gap:10px;}
+.topbar a{color:var(--ink-soft);text-decoration:none;}
+.topbar a:hover{color:var(--ink);}
+.print-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--ink);color:#fff;border:none;text-decoration:none;padding:8px 16px;border-radius:999px;cursor:pointer;}
+.print-btn:hover{background:var(--violet-ink);}
+
+.sheet{max-width:780px;margin:0 auto;background:var(--card);border-radius:20px;box-shadow:var(--shadow);padding:clamp(20px,4vw,44px);}
+.sheet-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;border-bottom:3px solid var(--ink);padding-bottom:16px;margin-bottom:20px;flex-wrap:wrap;}
+.brand{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--violet-ink);}
+.sheet-title{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(22px,4vw,30px);margin:4px 0 8px;}
+.meta-row{display:flex;gap:8px;flex-wrap:wrap;}
+.meta-tag{font-family:'Do Hyeon',sans-serif;font-size:12.5px;background:var(--violet-soft);color:var(--violet-ink);padding:4px 11px;border-radius:999px;}
+.name-box{font-size:13.5px;color:var(--ink-soft);text-align:right;line-height:2.1;white-space:nowrap;}
+.name-box .line{border-bottom:1px solid var(--ink-soft);display:inline-block;min-width:90px;margin-left:6px;}
+
+.goal{background:var(--blue-soft);border-radius:14px;padding:14px 18px;font-size:14.5px;line-height:1.7;margin-bottom:22px;}
+.goal b{color:var(--blue-ink);}
+
+.access{background:var(--paper);border:2px dashed var(--paper-line);border-radius:14px;padding:14px 18px;margin-bottom:22px;font-size:14.5px;line-height:1.7;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
+.access b{font-family:'Do Hyeon',sans-serif;color:var(--ink);}
+.access .url{font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);}
+
+.sec{margin-bottom:24px;}
+.sec:last-child{margin-bottom:0;}
+.sec-title{font-family:'Do Hyeon',sans-serif;font-size:17px;display:flex;align-items:center;gap:8px;margin:0 0 10px;}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;font-size:13px;}
+.sec-desc{font-size:14px;color:var(--ink-soft);line-height:1.7;margin:0 0 12px;}
+
+table{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:6px;}
+th,td{border:1.5px solid var(--paper-line);padding:8px 6px;text-align:center;}
+th{background:var(--paper);font-family:'Do Hyeon',sans-serif;font-weight:400;color:var(--ink-soft);font-size:13px;}
+td.blank{height:30px;}
+
+.qa{margin:0 0 14px;}
+.qa:last-child{margin-bottom:0;}
+.qa .q{font-size:14.5px;line-height:1.7;margin-bottom:8px;}
+.qa .q b{font-family:'Do Hyeon',sans-serif;color:var(--ink);}
+.answer-line{border-bottom:1.3px solid var(--paper-line);height:26px;}
+
+.triples{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0;}
+.triple-chip{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--paper);border:2px solid var(--paper-line);border-radius:10px;padding:8px 14px;display:flex;align-items:center;gap:10px;}
+.triple-chip .ox{display:inline-block;width:34px;height:26px;border:1.3px solid var(--ink-soft);border-radius:6px;}
+
+.answer-key{margin-top:28px;background:var(--coral-soft);border:2px solid var(--coral-ink);border-radius:16px;padding:18px 20px;}
+.answer-key .ak-label{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--coral-ink);background:#fff;display:inline-block;padding:3px 12px;border-radius:999px;margin-bottom:10px;}
+.answer-key .ak-title{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--coral-ink);margin:0 0 10px;}
+.answer-key table{background:#fff;}
+.answer-key p{font-size:13.5px;line-height:1.75;margin:0 0 8px;}
+.answer-key p:last-child{margin-bottom:0;}
+.answer-key b{color:var(--coral-ink);}
+
+footer{max-width:780px;margin:20px auto 0;color:var(--ink-soft);font-size:13.5px;text-align:center;}
+
+@media print{
+  body{background:#fff;padding:0;}
+  .topbar{display:none;}
+  .sheet{box-shadow:none;border-radius:0;max-width:100%;padding:16px 6px;}
+  footer{display:none;}
+  .answer-key{break-inside:avoid;}
+  .sec{break-inside:avoid;}
+  a[href]::after{content:"";}
+}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a href="pythagorean-theorem.html">← 실험실로 돌아가기</a>
+  <button class="print-btn" onclick="window.print()">🖨️ 인쇄 / PDF로 저장</button>
+</div>
+
+<div class="sheet">
+  <div class="sheet-head">
+    <div>
+      <div class="brand">📐 아인매스 · 수업 활동지</div>
+      <h1 class="sheet-title">피타고라스 정리 — 정사각형 넓이로 확인하기</h1>
+      <div class="meta-row">
+        <span class="meta-tag">중학교 2학년 · 도형의 성질</span>
+        <span class="meta-tag">⏱ 15~20분</span>
+        <span class="meta-tag">개별 · 짝 활동</span>
+      </div>
+    </div>
+    <div class="name-box">
+      반<span class="line"></span><br>
+      번호<span class="line"></span><br>
+      이름<span class="line"></span>
+    </div>
+  </div>
+
+  <div class="goal">
+    <b>학습 목표</b> — 직각삼각형에서 직각을 낀 두 변과 빗변 사이의 관계(a²+b²=c²)를 인터랙티브 조작을 통해 스스로 확인하고, 주어진 세 변의 길이로 직각삼각형 여부(피타고라스 세 쌍)를 판별할 수 있다.
+  </div>
+
+  <div class="access">
+    <span>💻 태블릿·스마트폰으로 접속하세요 → <b class="url">ainmath.com/pythagorean-theorem.html</b></span>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title"><span class="sec-num">1</span>슬라이더로 a, b를 바꿔가며 표를 채우세요</div>
+    <p class="sec-desc">화면의 슬라이더로 변 a, b의 길이를 아래 표와 똑같이 맞춘 뒤, 정사각형 A·B·C의 넓이를 읽고 c 값을 계산하세요. 세 변이 모두 정수면 "피타고라스 세 쌍"이에요.</p>
+    <table>
+      <tr><th>a</th><th>b</th><th>a²</th><th>b²</th><th>a²+b²</th><th>c = √(a²+b²)</th><th>세 쌍인가요?</th></tr>
+      <tr><td>3</td><td>4</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+      <tr><td>6</td><td>8</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+      <tr><td>5</td><td>12</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+      <tr><td>5</td><td>7</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+      <tr><td>8</td><td>15</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+    </table>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title"><span class="sec-num">2</span>개념 확인 문제</div>
+    <div class="qa">
+      <div class="q"><b>Q1.</b> 슬라이더 값을 어떻게 바꿔도, 정사각형 A와 B의 넓이를 더한 값은 항상 정사각형 C의 넓이와 같았나요? 이 관계를 식으로 쓰세요.</div>
+      <div class="answer-line"></div>
+    </div>
+    <div class="qa">
+      <div class="q"><b>Q2.</b> 아래쪽 "배치 1 / 배치 2" 버튼을 눌러 두 가지 배치를 비교해보세요. 두 배치 모두 똑같은 직각삼각형 4개를 사용하는데, 왜 남는 넓이(c² 또는 a²+b²)가 항상 같을까요?</div>
+      <div class="answer-line"></div>
+      <div class="answer-line"></div>
+    </div>
+    <div class="qa">
+      <div class="q"><b>Q3.</b> 옛날 이집트 사람들은 밧줄에 매듭을 3:4:5 간격으로 묶어서 직각을 만들었어요. 이게 가능했던 이유를 오늘 배운 내용으로 설명하세요.</div>
+      <div class="answer-line"></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title"><span class="sec-num">3</span>생각 넓히기 — 직각삼각형을 찾아라</div>
+    <p class="sec-desc">아래 네 쌍의 세 변의 길이 중, 직각삼각형을 만들 수 있는 것에 O, 아닌 것에 X를 표시하세요. (계산으로 확인하세요!)</p>
+    <div class="triples">
+      <span class="triple-chip">5, 6, 7 <span class="ox"></span></span>
+      <span class="triple-chip">9, 12, 15 <span class="ox"></span></span>
+      <span class="triple-chip">10, 24, 26 <span class="ox"></span></span>
+      <span class="triple-chip">2, 3, 4 <span class="ox"></span></span>
+    </div>
+  </div>
+
+  <div class="answer-key">
+    <span class="ak-label">교사용 · 학생 배부 전 가려주세요</span>
+    <div class="ak-title">정답</div>
+    <p><b>활동 1</b></p>
+    <table>
+      <tr><th>a, b</th><th>a²</th><th>b²</th><th>a²+b²</th><th>c</th><th>세 쌍?</th></tr>
+      <tr><td>3, 4</td><td>9</td><td>16</td><td>25</td><td>5</td><td>O</td></tr>
+      <tr><td>6, 8</td><td>36</td><td>64</td><td>100</td><td>10</td><td>O</td></tr>
+      <tr><td>5, 12</td><td>25</td><td>144</td><td>169</td><td>13</td><td>O</td></tr>
+      <tr><td>5, 7</td><td>25</td><td>49</td><td>74</td><td>≈8.60</td><td>X (정수 아님)</td></tr>
+      <tr><td>8, 15</td><td>64</td><td>225</td><td>289</td><td>17</td><td>O</td></tr>
+    </table>
+    <p><b>활동 2</b> — Q1: a²+b²=c². Q2: 두 배치 모두 (a+b)×(a+b) 크기의 같은 정사각형에서, 넓이가 같은 직각삼각형 4개를 뺀 것이므로 남는 넓이는 배치와 무관하게 항상 같다(=c²=a²+b²의 증명). Q3: 3²+4²=5²(9+16=25)을 만족하므로, 매듭 3:4:5로 삼각형을 만들면 항상 직각삼각형이 되어 직각을 얻을 수 있다.</p>
+    <p><b>활동 3</b> — 5,6,7: X(25+36=61≠49) · 9,12,15: O(81+144=225=15², 3-4-5의 3배) · 10,24,26: O(100+576=676=26², 5-12-13의 2배) · 2,3,4: X(4+9=13≠16)</p>
+  </div>
+</div>
+
+<footer>아인매스(ainmath.com) · 슬라이더로 직접 확인하며 배우는 수학 · 이 활동지는 수업 목적으로 자유롭게 인쇄·배포하셔도 됩니다.</footer>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>순열과 조합 수업 활동지 | 아인매스</title>
+<meta name="description" content="아인매스 순열과 조합 실험실과 함께 쓰는 인쇄용 수업 활동지예요. 슬라이더로 값을 바꿔가며 표를 채우고, 순열·조합 판별 문제까지 한 장으로 정리했어요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="순열과 조합 수업 활동지 | 아인매스">
+<meta property="og:description" content="아인매스 순열과 조합 실험실과 함께 쓰는 인쇄용 수업 활동지예요.">
+<meta property="og:url" content="https://ainmath.com/worksheet-permutations-combinations.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 28px 20px 80px;
+}
+.topbar{max-width:780px;margin:0 auto 14px;display:flex;justify-content:space-between;align-items:center;font-size:14px;flex-wrap:wrap;gap:10px;}
+.topbar a{color:var(--ink-soft);text-decoration:none;}
+.topbar a:hover{color:var(--ink);}
+.print-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--ink);color:#fff;border:none;text-decoration:none;padding:8px 16px;border-radius:999px;cursor:pointer;}
+.print-btn:hover{background:var(--violet-ink);}
+
+.sheet{max-width:780px;margin:0 auto;background:var(--card);border-radius:20px;box-shadow:var(--shadow);padding:clamp(20px,4vw,44px);}
+.sheet-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;border-bottom:3px solid var(--ink);padding-bottom:16px;margin-bottom:20px;flex-wrap:wrap;}
+.brand{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--violet-ink);}
+.sheet-title{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(22px,4vw,30px);margin:4px 0 8px;}
+.meta-row{display:flex;gap:8px;flex-wrap:wrap;}
+.meta-tag{font-family:'Do Hyeon',sans-serif;font-size:12.5px;background:var(--violet-soft);color:var(--violet-ink);padding:4px 11px;border-radius:999px;}
+.name-box{font-size:13.5px;color:var(--ink-soft);text-align:right;line-height:2.1;white-space:nowrap;}
+.name-box .line{border-bottom:1px solid var(--ink-soft);display:inline-block;min-width:90px;margin-left:6px;}
+
+.goal{background:var(--blue-soft);border-radius:14px;padding:14px 18px;font-size:14.5px;line-height:1.7;margin-bottom:22px;}
+.goal b{color:var(--blue-ink);}
+
+.access{background:var(--paper);border:2px dashed var(--paper-line);border-radius:14px;padding:14px 18px;margin-bottom:22px;font-size:14.5px;line-height:1.7;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
+.access b{font-family:'Do Hyeon',sans-serif;color:var(--ink);}
+.access .url{font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);}
+
+.sec{margin-bottom:24px;}
+.sec:last-child{margin-bottom:0;}
+.sec-title{font-family:'Do Hyeon',sans-serif;font-size:17px;display:flex;align-items:center;gap:8px;margin:0 0 10px;}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;font-size:13px;}
+.sec-desc{font-size:14px;color:var(--ink-soft);line-height:1.7;margin:0 0 12px;}
+
+table{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:6px;}
+th,td{border:1.5px solid var(--paper-line);padding:8px 6px;text-align:center;}
+th{background:var(--paper);font-family:'Do Hyeon',sans-serif;font-weight:400;color:var(--ink-soft);font-size:13px;}
+td.blank{height:30px;}
+
+.qa{margin:0 0 14px;}
+.qa:last-child{margin-bottom:0;}
+.qa .q{font-size:14.5px;line-height:1.7;margin-bottom:8px;}
+.qa .q b{font-family:'Do Hyeon',sans-serif;color:var(--ink);}
+.answer-line{border-bottom:1.3px solid var(--paper-line);height:26px;}
+
+.situations{display:flex;flex-direction:column;gap:8px;margin:10px 0;}
+.situation{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--paper);border:2px solid var(--paper-line);border-radius:12px;padding:10px 14px;font-size:14px;}
+.situation .pick{display:flex;gap:6px;flex-shrink:0;}
+.pick span{display:inline-block;min-width:36px;text-align:center;font-family:'Do Hyeon',sans-serif;font-size:12.5px;color:var(--ink-soft);border:1.3px solid var(--ink-soft);border-radius:999px;padding:3px 8px;}
+
+.answer-key{margin-top:28px;background:var(--coral-soft);border:2px solid var(--coral-ink);border-radius:16px;padding:18px 20px;}
+.answer-key .ak-label{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--coral-ink);background:#fff;display:inline-block;padding:3px 12px;border-radius:999px;margin-bottom:10px;}
+.answer-key .ak-title{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--coral-ink);margin:0 0 10px;}
+.answer-key table{background:#fff;}
+.answer-key p{font-size:13.5px;line-height:1.75;margin:0 0 8px;}
+.answer-key p:last-child{margin-bottom:0;}
+.answer-key b{color:var(--coral-ink);}
+
+footer{max-width:780px;margin:20px auto 0;color:var(--ink-soft);font-size:13.5px;text-align:center;}
+
+@media print{
+  body{background:#fff;padding:0;}
+  .topbar{display:none;}
+  .sheet{box-shadow:none;border-radius:0;max-width:100%;padding:16px 6px;}
+  footer{display:none;}
+  .answer-key{break-inside:avoid;}
+  .sec{break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a href="permutations-combinations.html">← 실험실로 돌아가기</a>
+  <button class="print-btn" onclick="window.print()">🖨️ 인쇄 / PDF로 저장</button>
+</div>
+
+<div class="sheet">
+  <div class="sheet-head">
+    <div>
+      <div class="brand">🔀 아인매스 · 수업 활동지</div>
+      <h1 class="sheet-title">순열과 조합 — 순서를 따지느냐 마느냐</h1>
+      <div class="meta-row">
+        <span class="meta-tag">고등학교 · 확률과 통계</span>
+        <span class="meta-tag">⏱ 15~20분</span>
+        <span class="meta-tag">개별 · 짝 활동</span>
+      </div>
+    </div>
+    <div class="name-box">
+      반<span class="line"></span><br>
+      번호<span class="line"></span><br>
+      이름<span class="line"></span>
+    </div>
+  </div>
+
+  <div class="goal">
+    <b>학습 목표</b> — n명 중 r명을 뽑을 때 순서를 고려하는지에 따라 경우의 수가 어떻게 달라지는지 실험을 통해 이해하고, 실생활 상황을 순열 또는 조합으로 올바르게 판별할 수 있다.
+  </div>
+
+  <div class="access">
+    <span>💻 태블릿·스마트폰으로 접속하세요 → <b class="url">ainmath.com/permutations-combinations.html</b></span>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title"><span class="sec-num">1</span>슬라이더로 n, r을 바꿔가며 표를 채우세요</div>
+    <p class="sec-desc">전체 인원(n)과 뽑는 인원(r) 슬라이더를 아래 표와 똑같이 맞춘 뒤, "순열"·"조합" 탭을 각각 눌러 화면에 나온 값을 표에 적으세요.</p>
+    <table>
+      <tr><th>n</th><th>r</th><th>nPr (순열)</th><th>nCr (조합)</th><th>nPr ÷ nCr</th></tr>
+      <tr><td>5</td><td>2</td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+      <tr><td>5</td><td>3</td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+      <tr><td>6</td><td>2</td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+      <tr><td>6</td><td>4</td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+      <tr><td>8</td><td>3</td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+    </table>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title"><span class="sec-num">2</span>순열일까요, 조합일까요?</div>
+    <p class="sec-desc">아래 상황을 읽고 순열(순서 O)인지 조합(순서 X)인지 표시하세요.</p>
+    <div class="situations">
+      <div class="situation"><span>① 학급 회장, 부회장을 각각 1명씩 뽑는다</span><span class="pick"><span>순열</span><span>조합</span></span></div>
+      <div class="situation"><span>② 청소 당번 3명을 뽑는다 (역할 구분 없음)</span><span class="pick"><span>순열</span><span>조합</span></span></div>
+      <div class="situation"><span>③ 서로 다른 숫자로 4자리 자물쇠 비밀번호를 만든다</span><span class="pick"><span>순열</span><span>조합</span></span></div>
+      <div class="situation"><span>④ 조별 과제를 할 2명의 짝을 정한다 (역할 없음)</span><span class="pick"><span>순열</span><span>조합</span></span></div>
+      <div class="situation"><span>⑤ 달리기 시합에서 1등, 2등, 3등을 정한다</span><span class="pick"><span>순열</span><span>조합</span></span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title"><span class="sec-num">3</span>생각 넓히기</div>
+    <div class="qa">
+      <div class="q"><b>Q.</b> 1번 표에서 nPr ÷ nCr 값은 항상 어떤 수와 같았나요? 조합 하나마다 순서를 고려하면 몇 가지 순열이 나오는지 생각해서, 조합이 항상 순열보다 작거나 같은 이유를 설명하세요.</div>
+      <div class="answer-line"></div>
+      <div class="answer-line"></div>
+    </div>
+  </div>
+
+  <div class="answer-key">
+    <span class="ak-label">교사용 · 학생 배부 전 가려주세요</span>
+    <div class="ak-title">정답</div>
+    <p><b>활동 1</b></p>
+    <table>
+      <tr><th>n, r</th><th>nPr</th><th>nCr</th><th>÷</th></tr>
+      <tr><td>5, 2</td><td>20</td><td>10</td><td>2</td></tr>
+      <tr><td>5, 3</td><td>60</td><td>10</td><td>6</td></tr>
+      <tr><td>6, 2</td><td>30</td><td>15</td><td>2</td></tr>
+      <tr><td>6, 4</td><td>360</td><td>15</td><td>24</td></tr>
+      <tr><td>8, 3</td><td>336</td><td>56</td><td>6</td></tr>
+    </table>
+    <p><b>활동 2</b> — ① 순열(회장·부회장은 역할이 다름) · ② 조합 · ③ 순열(자리마다 의미가 다름) · ④ 조합 · ⑤ 순열</p>
+    <p><b>활동 3</b> — nPr ÷ nCr 값은 항상 r!(r의 계승)과 같다. 같은 r명을 뽑아도 순서를 구분하면 그 r명을 줄 세우는 방법의 수(r!)만큼 서로 다른 순열이 생기고, 순서를 구분하지 않으면 이 r!가지가 모두 하나의 조합으로 겹쳐진다. 즉 nPr = nCr × r!이므로, r!≥1인 이상 조합은 항상 순열보다 작거나 같다.</p>
+  </div>
+</div>
+
+<footer>아인매스(ainmath.com) · 슬라이더로 직접 확인하며 배우는 수학 · 이 활동지는 수업 목적으로 자유롭게 인쇄·배포하셔도 됩니다.</footer>
+</body>
+</html>
