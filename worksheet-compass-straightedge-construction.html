@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>자와 컴퍼스 작도 수업 활동지 | 아인매스</title>
+<meta name="description" content="아인매스 자와 컴퍼스 작도 실험실과 함께 쓰는 인쇄용 수업 활동지예요. 화면의 단계별 애니메이션을 보며 실제로 자와 컴퍼스를 들고 작도해봐요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="자와 컴퍼스 작도 수업 활동지 | 아인매스">
+<meta property="og:description" content="아인매스 자와 컴퍼스 작도 실험실과 함께 쓰는 인쇄용 수업 활동지예요.">
+<meta property="og:url" content="https://ainmath.com/worksheet-compass-straightedge-construction.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 28px 20px 80px;
+}
+.topbar{max-width:780px;margin:0 auto 14px;display:flex;justify-content:space-between;align-items:center;font-size:14px;flex-wrap:wrap;gap:10px;}
+.topbar a{color:var(--ink-soft);text-decoration:none;}
+.topbar a:hover{color:var(--ink);}
+.print-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--ink);color:#fff;border:none;text-decoration:none;padding:8px 16px;border-radius:999px;cursor:pointer;}
+.print-btn:hover{background:var(--violet-ink);}
+
+.sheet{max-width:780px;margin:0 auto;background:var(--card);border-radius:20px;box-shadow:var(--shadow);padding:clamp(20px,4vw,44px);}
+.sheet-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;border-bottom:3px solid var(--ink);padding-bottom:16px;margin-bottom:20px;flex-wrap:wrap;}
+.brand{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--violet-ink);}
+.sheet-title{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(22px,4vw,30px);margin:4px 0 8px;}
+.meta-row{display:flex;gap:8px;flex-wrap:wrap;}
+.meta-tag{font-family:'Do Hyeon',sans-serif;font-size:12.5px;background:var(--violet-soft);color:var(--violet-ink);padding:4px 11px;border-radius:999px;}
+.name-box{font-size:13.5px;color:var(--ink-soft);text-align:right;line-height:2.1;white-space:nowrap;}
+.name-box .line{border-bottom:1px solid var(--ink-soft);display:inline-block;min-width:90px;margin-left:6px;}
+
+.goal{background:var(--blue-soft);border-radius:14px;padding:14px 18px;font-size:14.5px;line-height:1.7;margin-bottom:22px;}
+.goal b{color:var(--blue-ink);}
+
+.access{background:var(--paper);border:2px dashed var(--paper-line);border-radius:14px;padding:14px 18px;margin-bottom:22px;font-size:14.5px;line-height:1.7;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
+.access b{font-family:'Do Hyeon',sans-serif;color:var(--ink);}
+.access .url{font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);}
+
+.prep{background:var(--coral-soft);border-radius:14px;padding:12px 18px;margin-bottom:22px;font-size:13.5px;line-height:1.7;color:var(--ink);}
+.prep b{color:var(--coral-ink);}
+
+.sec{margin-bottom:24px;}
+.sec:last-child{margin-bottom:0;}
+.sec-title{font-family:'Do Hyeon',sans-serif;font-size:17px;display:flex;align-items:center;gap:8px;margin:0 0 10px;}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;font-size:13px;}
+.sec-desc{font-size:14px;color:var(--ink-soft);line-height:1.7;margin:0 0 12px;}
+
+.construct-box{border:2px dashed var(--paper-line);border-radius:14px;height:150px;margin:0 0 12px;position:relative;background:repeating-linear-gradient(135deg, transparent, transparent 18px, rgba(34,40,58,0.03) 18px, rgba(34,40,58,0.03) 19px);}
+.construct-box .cb-label{position:absolute;bottom:8px;right:12px;font-size:12px;color:var(--ink-soft);}
+
+.steps{font-size:14px;line-height:1.85;margin:0 0 12px;padding-left:20px;}
+.steps li{margin-bottom:4px;}
+
+.qa{margin:0 0 14px;}
+.qa:last-child{margin-bottom:0;}
+.qa .q{font-size:14.5px;line-height:1.7;margin-bottom:8px;}
+.qa .q b{font-family:'Do Hyeon',sans-serif;color:var(--ink);}
+.answer-line{border-bottom:1.3px solid var(--paper-line);height:26px;}
+
+.answer-key{margin-top:28px;background:var(--coral-soft);border:2px solid var(--coral-ink);border-radius:16px;padding:18px 20px;}
+.answer-key .ak-label{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--coral-ink);background:#fff;display:inline-block;padding:3px 12px;border-radius:999px;margin-bottom:10px;}
+.answer-key .ak-title{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--coral-ink);margin:0 0 10px;}
+.answer-key p{font-size:13.5px;line-height:1.75;margin:0 0 8px;}
+.answer-key p:last-child{margin-bottom:0;}
+.answer-key b{color:var(--coral-ink);}
+.answer-key ul{margin:6px 0 10px;padding-left:20px;font-size:13.5px;line-height:1.7;}
+
+footer{max-width:780px;margin:20px auto 0;color:var(--ink-soft);font-size:13.5px;text-align:center;}
+
+@media print{
+  body{background:#fff;padding:0;}
+  .topbar{display:none;}
+  .sheet{box-shadow:none;border-radius:0;max-width:100%;padding:16px 6px;}
+  footer{display:none;}
+  .answer-key{break-inside:avoid;}
+  .sec{break-inside:avoid;}
+  .construct-box{background:none;}
+}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a href="compass-straightedge-construction.html">← 실험실로 돌아가기</a>
+  <button class="print-btn" onclick="window.print()">🖨️ 인쇄 / PDF로 저장</button>
+</div>
+
+<div class="sheet">
+  <div class="sheet-head">
+    <div>
+      <div class="brand">✏️ 아인매스 · 수업 활동지</div>
+      <h1 class="sheet-title">자와 컴퍼스 작도 — 화면으로 보고 손으로 그리기</h1>
+      <div class="meta-row">
+        <span class="meta-tag">중학교 1학년 · 기본 도형</span>
+        <span class="meta-tag">⏱ 20분</span>
+        <span class="meta-tag">개별 활동</span>
+      </div>
+    </div>
+    <div class="name-box">
+      반<span class="line"></span><br>
+      번호<span class="line"></span><br>
+      이름<span class="line"></span>
+    </div>
+  </div>
+
+  <div class="goal">
+    <b>학습 목표</b> — 눈금 없는 자와 컴퍼스만으로 수직이등분선, 각의 이등분선, 정삼각형을 작도하는 원리를 이해하고, 직접 손으로 작도할 수 있다.
+  </div>
+
+  <div class="access">
+    <span>💻 태블릿·스마트폰으로 접속하세요 → <b class="url">ainmath.com/compass-straightedge-construction.html</b></span>
+  </div>
+
+  <div class="prep">
+    <b>준비물</b> — 이 활동은 화면이 아니라 종이 위에서 직접 그리는 활동입니다. <b>자와 컴퍼스</b>를 미리 준비하세요. 화면에서는 "단계별 보기" 모드로 순서를 먼저 확인한 뒤, 아래 빈 상자에 똑같이 따라 그려보세요.
+  </div>
+
+  <div class="sec">
+    <div class="sec-title"><span class="sec-num">1</span>수직이등분선 작도하기</div>
+    <p class="sec-desc">먼저 자로 길이 6~8cm 정도의 선분 AB를 아래 상자에 직접 그으세요. 그다음 화면에서 "수직이등분선" 단계별 보기를 확인하고, 똑같은 순서로 컴퍼스를 이용해 수직이등분선을 작도하세요.</p>
+    <ol class="steps">
+      <li>선분 AB를 긋는다.</li>
+      <li>점 A를 중심으로, 반지름이 AB의 절반보다 큰 원을 그린다.</li>
+      <li>점 B를 중심으로, <b>똑같은 반지름</b>으로 원을 그린다.</li>
+      <li>두 원이 만나는 두 점을 직선으로 잇는다 — 이 직선이 수직이등분선이다.</li>
+    </ol>
+    <div class="construct-box"><span class="cb-label">여기에 작도하세요</span></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title"><span class="sec-num">2</span>각의 이등분선 작도하기</div>
+    <p class="sec-desc">자로 임의의 각 ∠AOB를 그리세요(변의 길이는 자유). 화면에서 "각의 이등분선" 단계별 보기를 확인하고 똑같이 작도하세요.</p>
+    <ol class="steps">
+      <li>꼭짓점 O를 중심으로 원을 그려 두 변과 만나는 점 P, Q를 찾는다.</li>
+      <li>점 P, Q를 각각 중심으로 <b>똑같은 반지름</b>의 원을 그려 교점 R을 찾는다.</li>
+      <li>O와 R을 잇는 반직선이 각의 이등분선이다.</li>
+    </ol>
+    <div class="construct-box"><span class="cb-label">여기에 작도하세요</span></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title"><span class="sec-num">3</span>정삼각형 작도하기</div>
+    <p class="sec-desc">자로 한 변의 길이가 되는 선분 AB를 그으세요. 화면에서 "정삼각형" 단계별 보기를 확인하고 똑같이 작도하세요.</p>
+    <ol class="steps">
+      <li>점 A를 중심으로, 반지름 AB인 원을 그린다.</li>
+      <li>점 B를 중심으로, <b>똑같은 반지름</b> AB인 원을 그린다.</li>
+      <li>두 원이 만나는 점 C를 찾아 A, B와 각각 잇는다 — 삼각형 ABC가 정삼각형이다.</li>
+    </ol>
+    <div class="construct-box"><span class="cb-label">여기에 작도하세요</span></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title"><span class="sec-num">4</span>개념 확인 문제</div>
+    <div class="qa">
+      <div class="q"><b>Q1.</b> 수직이등분선 작도에서, 두 원의 반지름을 <b>반드시 똑같이</b> 맞춰야 하는 이유는 무엇일까요? (두 원의 교점이 A, B로부터 어떤 위치에 있는지 생각해보세요.)</div>
+      <div class="answer-line"></div>
+    </div>
+    <div class="qa">
+      <div class="q"><b>Q2.</b> 정삼각형 작도에서, 컴퍼스로 그린 두 원의 반지름이 모두 AB와 같았어요. 그래서 세 변 CA, AB, BC의 길이가 모두 같다는 걸 알 수 있어요. 이걸 이용해 삼각형 ABC가 정삼각형임을 설명하세요.</div>
+      <div class="answer-line"></div>
+    </div>
+    <div class="qa">
+      <div class="q"><b>Q3.</b> 자유 작도 모드에서 도전해보세요! 정육각형은 반지름과 같은 길이로 원 둘레를 몇 번 나누어 그릴 수 있나요?</div>
+      <div class="answer-line"></div>
+    </div>
+  </div>
+
+  <div class="answer-key">
+    <span class="ak-label">교사용 · 학생 배부 전 가려주세요</span>
+    <div class="ak-title">정답 · 채점 체크리스트</div>
+    <p><b>활동 1~3 작도 확인 포인트</b></p>
+    <ul>
+      <li>수직이등분선: 두 원의 반지름이 같은가? 두 교점을 직선으로 이었는가? 자로 재보면 AB와 수직이고 정확히 중점을 지나는가?</li>
+      <li>각의 이등분선: O를 중심으로 한 원이 두 변과 만나는 점 P, Q를 정확히 잡았는가? P, Q에서 그린 두 원의 반지름이 같은가?</li>
+      <li>정삼각형: 두 원의 반지름이 모두 AB와 같은가? 세 변의 길이를 자로 재면 모두 같은가?</li>
+    </ul>
+    <p><b>Q1</b> — 반지름이 같아야 두 원의 교점이 A, B 양쪽에서 각각 같은 거리(반지름)에 있게 되고, 그래야 그 교점들이 A와 B로부터 같은 거리인 점들의 모임 위에 있게 되어 정확히 수직이등분선이 된다. 반지름이 다르면 교점이 중점을 지나지 않는다.</p>
+    <p><b>Q2</b> — CA = AB(A를 중심으로 그린 원의 반지름), CB = AB(B를 중심으로 그린 원의 반지름)이므로 CA = AB = CB. 세 변의 길이가 모두 같은 삼각형이므로 정삼각형이다.</p>
+    <p><b>Q3</b> — 6번. 정육각형은 반지름과 변의 길이가 같아서, 원 둘레를 반지름 길이로 6번 나누어 표시하면 여섯 꼭짓점을 얻을 수 있다.</p>
+  </div>
+</div>
+
+<footer>아인매스(ainmath.com) · 슬라이더로 직접 확인하며 배우는 수학 · 이 활동지는 수업 목적으로 자유롭게 인쇄·배포하셔도 됩니다.</footer>
+</body>
+</html>

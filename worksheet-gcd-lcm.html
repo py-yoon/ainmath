@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>최대공약수·최소공배수 수업 활동지 | 아인매스</title>
+<meta name="description" content="아인매스 최대공약수·최소공배수 실험실과 함께 쓰는 인쇄용 수업 활동지예요. 약수·배수 나열법과 소인수분해법을 표로 비교하며 익혀요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="최대공약수·최소공배수 수업 활동지 | 아인매스">
+<meta property="og:description" content="아인매스 최대공약수·최소공배수 실험실과 함께 쓰는 인쇄용 수업 활동지예요.">
+<meta property="og:url" content="https://ainmath.com/worksheet-gcd-lcm.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 28px 20px 80px;
+}
+.topbar{max-width:780px;margin:0 auto 14px;display:flex;justify-content:space-between;align-items:center;font-size:14px;flex-wrap:wrap;gap:10px;}
+.topbar a{color:var(--ink-soft);text-decoration:none;}
+.topbar a:hover{color:var(--ink);}
+.print-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--ink);color:#fff;border:none;text-decoration:none;padding:8px 16px;border-radius:999px;cursor:pointer;}
+.print-btn:hover{background:var(--violet-ink);}
+
+.sheet{max-width:780px;margin:0 auto;background:var(--card);border-radius:20px;box-shadow:var(--shadow);padding:clamp(20px,4vw,44px);}
+.sheet-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;border-bottom:3px solid var(--ink);padding-bottom:16px;margin-bottom:20px;flex-wrap:wrap;}
+.brand{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--violet-ink);}
+.sheet-title{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(22px,4vw,30px);margin:4px 0 8px;}
+.meta-row{display:flex;gap:8px;flex-wrap:wrap;}
+.meta-tag{font-family:'Do Hyeon',sans-serif;font-size:12.5px;background:var(--violet-soft);color:var(--violet-ink);padding:4px 11px;border-radius:999px;}
+.name-box{font-size:13.5px;color:var(--ink-soft);text-align:right;line-height:2.1;white-space:nowrap;}
+.name-box .line{border-bottom:1px solid var(--ink-soft);display:inline-block;min-width:90px;margin-left:6px;}
+
+.goal{background:var(--blue-soft);border-radius:14px;padding:14px 18px;font-size:14.5px;line-height:1.7;margin-bottom:22px;}
+.goal b{color:var(--blue-ink);}
+
+.access{background:var(--paper);border:2px dashed var(--paper-line);border-radius:14px;padding:14px 18px;margin-bottom:22px;font-size:14.5px;line-height:1.7;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
+.access b{font-family:'Do Hyeon',sans-serif;color:var(--ink);}
+.access .url{font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);}
+
+.sec{margin-bottom:24px;}
+.sec:last-child{margin-bottom:0;}
+.sec-title{font-family:'Do Hyeon',sans-serif;font-size:17px;display:flex;align-items:center;gap:8px;margin:0 0 10px;}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;font-size:13px;}
+.sec-desc{font-size:14px;color:var(--ink-soft);line-height:1.7;margin:0 0 12px;}
+
+table{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:6px;}
+th,td{border:1.5px solid var(--paper-line);padding:8px 6px;text-align:center;}
+th{background:var(--paper);font-family:'Do Hyeon',sans-serif;font-weight:400;color:var(--ink-soft);font-size:13px;}
+td.blank{height:30px;}
+
+.qa{margin:0 0 14px;}
+.qa:last-child{margin-bottom:0;}
+.qa .q{font-size:14.5px;line-height:1.7;margin-bottom:8px;}
+.qa .q b{font-family:'Do Hyeon',sans-serif;color:var(--ink);}
+.answer-line{border-bottom:1.3px solid var(--paper-line);height:26px;}
+
+.answer-key{margin-top:28px;background:var(--coral-soft);border:2px solid var(--coral-ink);border-radius:16px;padding:18px 20px;}
+.answer-key .ak-label{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--coral-ink);background:#fff;display:inline-block;padding:3px 12px;border-radius:999px;margin-bottom:10px;}
+.answer-key .ak-title{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--coral-ink);margin:0 0 10px;}
+.answer-key table{background:#fff;}
+.answer-key p{font-size:13.5px;line-height:1.75;margin:0 0 8px;}
+.answer-key p:last-child{margin-bottom:0;}
+.answer-key b{color:var(--coral-ink);}
+
+footer{max-width:780px;margin:20px auto 0;color:var(--ink-soft);font-size:13.5px;text-align:center;}
+
+@media print{
+  body{background:#fff;padding:0;}
+  .topbar{display:none;}
+  .sheet{box-shadow:none;border-radius:0;max-width:100%;padding:16px 6px;}
+  footer{display:none;}
+  .answer-key{break-inside:avoid;}
+  .sec{break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a href="gcd-lcm.html">← 실험실로 돌아가기</a>
+  <button class="print-btn" onclick="window.print()">🖨️ 인쇄 / PDF로 저장</button>
+</div>
+
+<div class="sheet">
+  <div class="sheet-head">
+    <div>
+      <div class="brand">🔗 아인매스 · 수업 활동지</div>
+      <h1 class="sheet-title">최대공약수·최소공배수 — 두 가지 방법 비교하기</h1>
+      <div class="meta-row">
+        <span class="meta-tag">초등 5~6학년 · 약수와 배수</span>
+        <span class="meta-tag">⏱ 15~20분</span>
+        <span class="meta-tag">개별 · 짝 활동</span>
+      </div>
+    </div>
+    <div class="name-box">
+      반<span class="line"></span><br>
+      번호<span class="line"></span><br>
+      이름<span class="line"></span>
+    </div>
+  </div>
+
+  <div class="goal">
+    <b>학습 목표</b> — 두 수의 약수·배수를 나열해 최대공약수·최소공배수를 구하는 방법과, 소인수분해를 이용해 구하는 방법을 인터랙티브 조작으로 비교하고, 두 방법의 결과가 항상 같음을 확인할 수 있다.
+  </div>
+
+  <div class="access">
+    <span>💻 태블릿·스마트폰으로 접속하세요 → <b class="url">ainmath.com/gcd-lcm.html</b></span>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title"><span class="sec-num">1</span>슬라이더로 A, B를 바꿔가며 표를 채우세요</div>
+    <p class="sec-desc">화면의 슬라이더로 수 A, B를 아래 표와 똑같이 맞춘 뒤, 화면에 나온 최대공약수(GCD)·최소공배수(LCM) 값을 표에 적으세요. 마지막 칸에는 GCD×LCM과 A×B가 같은지 확인해 적으세요.</p>
+    <table>
+      <tr><th>A</th><th>B</th><th>최대공약수</th><th>최소공배수</th><th>GCD×LCM = A×B ?</th></tr>
+      <tr><td>12</td><td>18</td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+      <tr><td>8</td><td>20</td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+      <tr><td>9</td><td>16</td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+      <tr><td>15</td><td>25</td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+      <tr><td>1</td><td>30</td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+    </table>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title"><span class="sec-num">2</span>개념 확인 문제</div>
+    <div class="qa">
+      <div class="q"><b>Q1.</b> 위 표에서 9와 16의 최대공약수는 1이 나왔어요. 이렇게 최대공약수가 1인 두 수를 무엇이라고 부르나요? 이때 최소공배수는 어떻게 계산할 수 있나요?</div>
+      <div class="answer-line"></div>
+    </div>
+    <div class="qa">
+      <div class="q"><b>Q2.</b> "방법 2 — 소인수분해로 구하기"를 눌러 12와 18을 소인수분해한 결과를 보세요. 공통 소인수를 <b>더 작은</b> 지수로 곱하면 무엇이 나오고, 그게 어떤 값과 같나요? 모든 소인수를 <b>더 큰</b> 지수로 곱하면 어떤 값과 같나요?</div>
+      <div class="answer-line"></div>
+      <div class="answer-line"></div>
+    </div>
+    <div class="qa">
+      <div class="q"><b>Q3.</b> A를 1로 맞춰보세요(표의 마지막 줄). 최대공약수와 최소공배수는 각각 어떻게 되나요? 왜 그런지 설명하세요.</div>
+      <div class="answer-line"></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title"><span class="sec-num">3</span>생각 넓히기 — 실생활 문제</div>
+    <p class="sec-desc">사탕 24개와 초콜릿 36개를 최대한 많은 학생에게 <b>남김없이 똑같이</b> 나눠주려고 해요. 몇 명에게 나눠줄 수 있고, 한 명당 사탕과 초콜릿을 각각 몇 개씩 받게 되나요? (실험실에서 24와 36을 직접 넣어 확인해보세요!)</div>
+    <div class="answer-line"></div>
+    <div class="answer-line"></div>
+  </div>
+
+  <div class="answer-key">
+    <span class="ak-label">교사용 · 학생 배부 전 가려주세요</span>
+    <div class="ak-title">정답</div>
+    <p><b>활동 1</b></p>
+    <table>
+      <tr><th>A, B</th><th>GCD</th><th>LCM</th><th>GCD×LCM = A×B</th></tr>
+      <tr><td>12, 18</td><td>6</td><td>36</td><td>216 = 216 (O)</td></tr>
+      <tr><td>8, 20</td><td>4</td><td>40</td><td>160 = 160 (O)</td></tr>
+      <tr><td>9, 16</td><td>1</td><td>144</td><td>144 = 144 (O)</td></tr>
+      <tr><td>15, 25</td><td>5</td><td>75</td><td>375 = 375 (O)</td></tr>
+      <tr><td>1, 30</td><td>1</td><td>30</td><td>30 = 30 (O)</td></tr>
+    </table>
+    <p><b>활동 2</b> — Q1: 서로소라고 부른다. 최대공약수가 1이면 최소공배수는 두 수를 그냥 곱한 값(9×16=144)과 같다. Q2: 12=2²×3, 18=2×3². 공통 소인수를 더 작은 지수로 곱하면 2×3=6=최대공약수. 모든 소인수를 더 큰 지수로 곱하면 2²×3²=36=최소공배수. Q3: 최대공약수는 항상 1, 최소공배수는 항상 그 다른 수(B) 자신이 된다 — 1의 약수는 1뿐이고, 1의 배수는 모든 자연수이기 때문.</p>
+    <p><b>활동 3</b> — 24와 36의 최대공약수는 12이므로 최대 12명에게 나눠줄 수 있다. 한 명당 사탕 24÷12=2개, 초콜릿 36÷12=3개씩 받는다.</p>
+  </div>
+</div>
+
+<footer>아인매스(ainmath.com) · 슬라이더로 직접 확인하며 배우는 수학 · 이 활동지는 수업 목적으로 자유롭게 인쇄·배포하셔도 됩니다.</footer>
+</body>
+</html>
