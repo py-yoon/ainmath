@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>사건 파일 #01 — 두 병원 미스터리 | 아인매스</title>
+<meta name="description" content="광고에는 다솜병원이 더 낫다는데... 실제 기록을 파헤쳐서 어느 병원이 진짜 실력이 좋은지 직접 조사해보는 심슨의 역설 미스터리예요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="사건 파일 #01 — 두 병원 미스터리 | 아인매스">
+<meta property="og:description" content="광고에는 다솜병원이 더 낫다는데... 실제 기록을 파헤쳐서 어느 병원이 진짜 실력이 좋은지 직접 조사해보는 심슨의 역설 미스터리예요.">
+<meta property="og:url" content="https://ainmath.com/mystery-two-hospitals.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="사건 파일 #01 — 두 병원 미스터리 | 아인매스">
+<meta name="twitter:description" content="광고에는 다솜병원이 더 낫다는데... 실제 기록을 파헤쳐서 어느 병원이 진짜 실력이 좋은지 직접 조사해보는 심슨의 역설 미스터리예요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  --folder:#F3E7C9; --folder-line:#DFC98C;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 90px;
+}
+.wrap{max-width:720px;margin:0 auto;}
+.topnav{max-width:720px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-size:14px;flex-wrap:wrap;gap:8px;}
+.topnav a{color:var(--ink-soft);text-decoration:none;}
+.topnav a:hover{color:var(--ink);}
+
+/* ---- case folder header ---- */
+.case-header{position:relative;background:var(--folder);border:2px solid var(--folder-line);border-radius:4px 18px 18px 18px;
+  padding:26px 26px 30px;margin:22px 0 28px;box-shadow:0 8px 24px rgba(34,40,58,0.10);}
+.case-tab{position:absolute;top:-16px;left:24px;background:var(--folder);border:2px solid var(--folder-line);border-bottom:none;
+  border-radius:8px 8px 0 0;padding:5px 16px 10px;font-family:'Do Hyeon',sans-serif;font-size:13px;color:#8A6D2F;letter-spacing:.04em;}
+.case-no{font-family:'Do Hyeon',sans-serif;font-size:14px;color:#8A6D2F;letter-spacing:.05em;margin-bottom:10px;}
+.case-title{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.5vw,36px);line-height:1.35;margin:0 0 12px;color:var(--ink);}
+.case-sub{color:#5B4B22;font-size:15.5px;line-height:1.75;max-width:58ch;margin:0;}
+
+/* rubber stamp */
+.stamp-wrap{position:absolute;top:14px;right:18px;width:104px;height:104px;pointer-events:none;}
+.stamp{width:100%;height:100%;display:flex;align-items:center;justify-content:center;text-align:center;
+  border:3.5px solid var(--coral-ink);border-radius:50%;color:var(--coral-ink);font-family:'Do Hyeon',sans-serif;
+  font-size:15px;line-height:1.25;transform:rotate(-16deg);opacity:0.9;
+  box-shadow:inset 0 0 0 2px var(--coral-ink);transition:all .5s cubic-bezier(.34,1.56,.64,1);}
+.stamp.solved{border-color:var(--teal-ink);color:var(--teal-ink);box-shadow:inset 0 0 0 2px var(--teal-ink);
+  transform:rotate(-10deg) scale(1.06);}
+@media (max-width:520px){
+  .stamp-wrap{width:72px;height:72px;top:10px;right:10px;}
+  .stamp{font-size:11px;border-width:3px;}
+  .case-header{padding-right:96px;}
+}
+
+/* ---- generic panel ---- */
+.panel{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:24px clamp(18px,4vw,34px) 28px;margin-bottom:22px;}
+.step-label{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:13.5px;color:var(--violet-ink);
+  background:var(--violet-soft);padding:5px 13px;border-radius:999px;margin-bottom:12px;}
+.panel h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:21px;margin:0 0 10px;}
+.panel p{font-size:15.5px;line-height:1.8;margin:0 0 14px;}
+.panel p:last-child{margin-bottom:0;}
+
+.tip-quote{background:var(--paper);border-left:4px solid var(--coral-ink);border-radius:0 14px 14px 0;padding:16px 20px;
+  font-size:15px;line-height:1.75;color:var(--ink);margin:0 0 18px;position:relative;}
+.tip-quote::before{content:'제보';position:absolute;top:-11px;left:14px;background:var(--coral-ink);color:#fff;
+  font-family:'Do Hyeon',sans-serif;font-size:11.5px;padding:2px 10px;border-radius:999px;}
+
+.hospital-row{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0;}
+.h-card{flex:1;min-width:200px;background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:16px 18px;text-align:center;}
+.h-card .name{font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);margin-bottom:6px;}
+.h-card .rate{font-family:'Do Hyeon',sans-serif;font-size:28px;color:var(--ink);}
+.h-card .frac{font-size:12.5px;color:var(--ink-soft);margin-top:2px;}
+.h-card.win{border-color:var(--teal-ink);background:var(--teal-soft);}
+.h-card.win .rate{color:var(--teal-ink);}
+
+.vote-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:18px 0 6px;}
+.vote-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:3px solid var(--paper-line);
+  color:var(--ink-soft);border-radius:14px;padding:13px 22px;cursor:pointer;transition:all .15s ease;}
+.vote-btn:hover:not(:disabled){border-color:var(--violet-ink);color:var(--violet-ink);}
+.vote-btn.chosen{background:var(--violet-ink);border-color:var(--violet-ink);color:#fff;}
+.vote-btn:disabled{cursor:not-allowed;}
+.vote-note{text-align:center;font-size:14px;color:var(--ink-soft);min-height:20px;margin-top:8px;}
+
+.reveal-btn-wrap{text-align:center;margin-top:6px;}
+.reveal-btn{font-family:'Do Hyeon',sans-serif;font-size:15.5px;background:var(--ink);color:#fff;border:none;
+  border-radius:14px;padding:14px 24px;cursor:pointer;transition:transform .15s ease;}
+.reveal-btn:hover{transform:translateY(-2px);}
+.reveal-btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+
+.breakdown{display:none;margin-top:20px;}
+.breakdown.show{display:block;animation:fadein .5s ease;}
+@keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.group-block{margin-bottom:18px;}
+.group-block .glabel{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);margin-bottom:8px;}
+
+.confuse-box{background:var(--coral-soft);border-radius:14px;padding:14px 18px;font-size:14.5px;line-height:1.7;
+  color:var(--coral-ink);margin-top:16px;display:none;}
+.confuse-box.show{display:block;animation:fadein .5s ease;}
+.confuse-box b{color:var(--coral-ink);}
+
+.report{display:none;}
+.report.show{display:block;animation:fadein .6s ease;}
+.report-fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:15px;line-height:1.8;color:var(--ink);margin:14px 0;}
+.report-fact b{color:var(--violet-ink);}
+
+.next-case{text-align:center;background:var(--paper);border:2px dashed var(--paper-line);border-radius:18px;padding:22px;color:var(--ink-soft);font-size:14.5px;}
+.next-case b{color:var(--ink);font-family:'Do Hyeon',sans-serif;}
+
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:15px;color:#fff;
+  text-decoration:none;padding:13px 20px;border-radius:14px;transition:transform .15s ease;}
+.cta-btn:hover{transform:translateY(-2px);}
+.cta-btn.primary{background:var(--violet-ink);}
+.cta-btn.secondary{background:var(--teal-ink);}
+
+footer{max-width:720px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="topnav">
+  <a href="explore.html">← 전체 목록으로</a>
+  <a href="simpsons-paradox-lab.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">🧪 실험실로 확인하기</a>
+</div>
+
+<div class="wrap">
+  <div class="case-header">
+    <div class="case-tab">CASE FILE</div>
+    <div class="stamp-wrap"><div class="stamp" id="stamp">수사<br>중</div></div>
+    <div class="case-no">사건 파일 #01 · 국민건강모니터링센터</div>
+    <h1 class="case-title">다솜병원이 더 낫다는 광고,<br>정말 사실일까?</h1>
+    <p class="case-sub">당신은 병원 광고의 통계를 검증하는 조사관이에요. 제보를 받고, 실제 수술 기록을 하나씩 파헤쳐서 진실을 밝혀내야 해요.</p>
+  </div>
+
+  <div class="panel">
+    <div class="tip-quote">"다솜병원이 신장결석 제거 수술 성공률 82.6%로, 가온병원(78.0%)보다 훨씬 낫다고 광고해요. 그런데 저희 어머니는 가온병원에서 수술받고 아무 문제 없이 나으셨는데... 이 광고, 진짜 믿어도 될까요?"</div>
+    <p>실제로 두 병원의 <b>전체 수술 기록</b>을 조회해봤어요. 광고에 나온 숫자가 맞는지부터 확인해볼게요.</p>
+
+    <div class="step-label">1차 조사 · 전체 기록</div>
+    <div class="hospital-row" id="overallRow">
+      <div class="h-card"><div class="name">가온병원</div><div class="rate">78.0%</div><div class="frac">273 / 350건 성공</div></div>
+      <div class="h-card win"><div class="name">다솜병원</div><div class="rate">82.6%</div><div class="frac">289 / 350건 성공</div></div>
+    </div>
+    <p style="text-align:center;color:var(--ink-soft);font-size:14.5px;">광고 내용이 숫자상으로는 맞아요. 다솜병원이 더 높네요.</p>
+
+    <div class="vote-row" id="vote1Row">
+      <button class="vote-btn" data-v="A">🏥 가온병원이 더 실력 있는 병원이다</button>
+      <button class="vote-btn" data-v="B">🏥 다솜병원이 더 실력 있는 병원이다</button>
+    </div>
+    <div class="vote-note" id="vote1Note"></div>
+  </div>
+
+  <div class="panel" id="panel2" style="display:none;">
+    <div class="step-label">2차 조사 · 세부 기록 공개</div>
+    <h2>잠깐, 환자 유형별로도 나눠볼까요?</h2>
+    <p>모든 환자를 뭉뚱그려 보지 말고, <b>경증 환자</b>와 <b>중증 환자</b>로 나눠서 각 병원의 성공률을 다시 조회해봤어요.</p>
+    <div class="reveal-btn-wrap">
+      <button class="reveal-btn" id="revealBtn">🔎 세부 기록 조회하기</button>
+    </div>
+
+    <div class="breakdown" id="breakdown">
+      <div class="group-block">
+        <div class="glabel">경증 환자 기록</div>
+        <div class="hospital-row">
+          <div class="h-card win"><div class="name">가온병원</div><div class="rate">93.1%</div><div class="frac">81 / 87건</div></div>
+          <div class="h-card"><div class="name">다솜병원</div><div class="rate">86.7%</div><div class="frac">234 / 270건</div></div>
+        </div>
+      </div>
+      <div class="group-block">
+        <div class="glabel">중증 환자 기록</div>
+        <div class="hospital-row">
+          <div class="h-card win"><div class="name">가온병원</div><div class="rate">73.0%</div><div class="frac">192 / 263건</div></div>
+          <div class="h-card"><div class="name">다솜병원</div><div class="rate">68.8%</div><div class="frac">55 / 80건</div></div>
+        </div>
+      </div>
+      <div class="confuse-box show">🤔 <b>이상해요.</b> 경증 환자에서도, 중증 환자에서도 <b>가온병원이 이겼는데</b>, 왜 전체 기록에서는 다솜병원이 이겼을까요?</div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel3" style="display:none;">
+    <div class="step-label">최종 판단</div>
+    <h2>세부 기록까지 봤어요. 최종 판단을 내려볼까요?</h2>
+    <p>처음 판단과 같을 수도, 바뀔 수도 있어요. 다시 골라보세요.</p>
+    <div class="vote-row" id="vote2Row">
+      <button class="vote-btn" data-v="A">🏥 가온병원이 더 실력 있는 병원이다</button>
+      <button class="vote-btn" data-v="B">🏥 다솜병원이 더 실력 있는 병원이다</button>
+    </div>
+    <div class="vote-note" id="vote2Note"></div>
+    <div class="reveal-btn-wrap" style="margin-top:18px;">
+      <button class="reveal-btn" id="solveBtn" disabled>📁 사건 종결하기</button>
+    </div>
+  </div>
+
+  <div class="panel report" id="reportPanel">
+    <div class="step-label" style="background:var(--teal-soft);color:var(--teal-ink);">사건 종결 리포트</div>
+    <h2>진짜 범인은 '환자 구성비'였어요</h2>
+    <p>가온병원은 경증·중증 <b>둘 다</b> 다솜병원보다 성공률이 높았어요. 그런데 가온병원은 전체 환자 350명 중 <b>263명(75%)이 중증</b> 환자였고, 다솜병원은 270명(77%)이 <b>경증</b> 환자였어요.</p>
+    <p>중증 환자는 원래 성공률이 낮을 수밖에 없어요. 그런 어려운 환자를 가온병원이 훨씬 많이 맡았기 때문에, 전체 평균이 아래로 끌려 내려간 거예요. 반대로 다솜병원은 상대적으로 쉬운 경증 환자를 많이 맡아서 전체 평균이 올라갔고요.</p>
+    <div class="report-fact">즉, 광고 속 숫자(82.6% vs 78.0%)는 거짓이 아니지만 <b>같은 조건에서 비교한 게 아니었어요</b>. 실력만 놓고 보면 가온병원이 두 환자군 모두에서 앞섰어요. 이런 통계의 함정을 <b>심슨의 역설</b>이라고 불러요.</div>
+    <p style="font-size:14px;color:var(--ink-soft);">🕵️ <b>수사 노트:</b> 다음에 어떤 통계를 볼 때는 "전체 숫자 뒤에 숨은 그룹이 있지 않을까?"를 한 번 더 의심해보세요.</p>
+
+    <div class="cta-row">
+      <a class="cta-btn primary" href="simpsons-paradox-lab.html">🧪 데이터 직접 조작해보기</a>
+      <a class="cta-btn secondary" href="article-simpsons-paradox-lab.html">📖 설명 글 읽기</a>
+    </div>
+  </div>
+
+  <div class="next-case" id="nextCase" style="display:none;">
+    🗂️ <b>다음 사건 파일이 도착했어요</b><br>
+    <a href="mystery-intercepted-message.html" style="display:inline-block;margin-top:10px;color:#fff;background:var(--ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:9px 18px;border-radius:999px;">🕵️ 사건 파일 #02 — 가로챈 암호문 풀러가기 →</a>
+    <div style="margin-top:10px;">지금까지 해결한 사건: <b id="solvedCount">1</b>개</div>
+  </div>
+</div>
+
+<footer>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</footer>
+
+<script>
+const stamp = document.getElementById('stamp');
+const vote1Row = document.getElementById('vote1Row');
+const vote1Note = document.getElementById('vote1Note');
+const panel2 = document.getElementById('panel2');
+const revealBtn = document.getElementById('revealBtn');
+const breakdown = document.getElementById('breakdown');
+const panel3 = document.getElementById('panel3');
+const vote2Row = document.getElementById('vote2Row');
+const vote2Note = document.getElementById('vote2Note');
+const solveBtn = document.getElementById('solveBtn');
+const reportPanel = document.getElementById('reportPanel');
+const nextCase = document.getElementById('nextCase');
+
+let firstVote = null;
+let secondVote = null;
+
+vote1Row.querySelectorAll('.vote-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    if (firstVote) return;
+    firstVote = btn.dataset.v;
+    vote1Row.querySelectorAll('.vote-btn').forEach(b=>{ b.disabled=true; b.classList.toggle('chosen', b===btn); });
+    vote1Note.textContent = '판단을 기록했어요. 이제 더 깊이 조사해볼게요.';
+    setTimeout(()=>{ panel2.style.display='block'; panel2.scrollIntoView({behavior:'smooth', block:'start'}); }, 400);
+  });
+});
+
+revealBtn.addEventListener('click', ()=>{
+  breakdown.classList.add('show');
+  revealBtn.disabled = true;
+  revealBtn.textContent = '✅ 세부 기록 확인 완료';
+  setTimeout(()=>{ panel3.style.display='block'; panel3.scrollIntoView({behavior:'smooth', block:'start'}); }, 900);
+});
+
+vote2Row.querySelectorAll('.vote-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    if (secondVote) return;
+    secondVote = btn.dataset.v;
+    vote2Row.querySelectorAll('.vote-btn').forEach(b=>{ b.disabled=true; b.classList.toggle('chosen', b===btn); });
+    if (firstVote && secondVote !== firstVote){
+      vote2Note.textContent = '처음 판단(' + (firstVote==='A'?'가온병원':'다솜병원') + ')에서 생각이 바뀌었네요. 왜 그런지 사건 종결 리포트에서 확인해보세요.';
+    } else {
+      vote2Note.textContent = '처음 판단을 그대로 유지했어요. 정말 그런지 사건 종결 리포트에서 확인해보세요.';
+    }
+    solveBtn.disabled = false;
+  });
+});
+
+solveBtn.addEventListener('click', ()=>{
+  stamp.classList.add('solved');
+  stamp.innerHTML = '사건<br>종결';
+  reportPanel.classList.add('show');
+  solveBtn.disabled = true;
+  solveBtn.textContent = '📁 사건 종결 완료';
+  saveSolved();
+  setTimeout(()=>{
+    reportPanel.scrollIntoView({behavior:'smooth', block:'start'});
+    nextCase.style.display = 'block';
+  }, 500);
+});
+
+function saveSolved(){
+  try{
+    const KEY = 'ainmath_mystery_v1';
+    const all = JSON.parse(localStorage.getItem(KEY)) || {};
+    all['two-hospitals'] = { solved:true, at:Date.now() };
+    localStorage.setItem(KEY, JSON.stringify(all));
+    document.getElementById('solvedCount').textContent = Object.keys(all).length;
+  }catch(e){}
+}
+</script>
+</body>
+</html>

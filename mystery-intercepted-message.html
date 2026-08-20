@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>사건 파일 #02 — 가로챈 암호문 | 아인매스</title>
+<meta name="description" content="실종된 요원의 마지막 통신을 가로챘어요. RSA 암호로 잠긴 이 메시지를 직접 소인수분해하고 개인키를 찾아 해독하는 코드브레이커 미스터리예요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="사건 파일 #02 — 가로챈 암호문 | 아인매스">
+<meta property="og:description" content="실종된 요원의 마지막 통신을 가로챘어요. RSA 암호로 잠긴 이 메시지를 직접 소인수분해하고 개인키를 찾아 해독하는 코드브레이커 미스터리예요.">
+<meta property="og:url" content="https://ainmath.com/mystery-intercepted-message.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="사건 파일 #02 — 가로챈 암호문 | 아인매스">
+<meta name="twitter:description" content="실종된 요원의 마지막 통신을 가로챘어요. RSA 암호로 잠긴 이 메시지를 직접 소인수분해하고 개인키를 찾아 해독하는 코드브레이커 미스터리예요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  --folder:#F3E7C9; --folder-line:#DFC98C;
+  --mono:'DM Mono','Consolas',monospace;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 90px;
+}
+.wrap{max-width:720px;margin:0 auto;}
+.topnav{max-width:720px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-size:14px;flex-wrap:wrap;gap:8px;}
+.topnav a{color:var(--ink-soft);text-decoration:none;}
+.topnav a:hover{color:var(--ink);}
+
+/* ---- case folder header ---- */
+.case-header{position:relative;background:var(--folder);border:2px solid var(--folder-line);border-radius:4px 18px 18px 18px;
+  padding:26px 26px 30px;margin:22px 0 28px;box-shadow:0 8px 24px rgba(34,40,58,0.10);}
+.case-tab{position:absolute;top:-16px;left:24px;background:var(--folder);border:2px solid var(--folder-line);border-bottom:none;
+  border-radius:8px 8px 0 0;padding:5px 16px 10px;font-family:'Do Hyeon',sans-serif;font-size:13px;color:#8A6D2F;letter-spacing:.04em;}
+.case-no{font-family:'Do Hyeon',sans-serif;font-size:14px;color:#8A6D2F;letter-spacing:.05em;margin-bottom:10px;}
+.case-title{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(24px,4.5vw,34px);line-height:1.35;margin:0 0 12px;color:var(--ink);}
+.case-sub{color:#5B4B22;font-size:15.5px;line-height:1.75;max-width:58ch;margin:0;}
+.case-header{padding-right:26px;}
+@media (min-width:521px){ .case-header{padding-right:130px;} }
+
+.stamp-wrap{position:absolute;top:14px;right:18px;width:104px;height:104px;pointer-events:none;}
+.stamp{width:100%;height:100%;display:flex;align-items:center;justify-content:center;text-align:center;
+  border:3.5px solid var(--coral-ink);border-radius:50%;color:var(--coral-ink);font-family:'Do Hyeon',sans-serif;
+  font-size:14px;line-height:1.25;transform:rotate(-16deg);opacity:0.9;
+  box-shadow:inset 0 0 0 2px var(--coral-ink);transition:all .5s cubic-bezier(.34,1.56,.64,1);}
+.stamp.solved{border-color:var(--teal-ink);color:var(--teal-ink);box-shadow:inset 0 0 0 2px var(--teal-ink);
+  transform:rotate(-10deg) scale(1.06);}
+@media (max-width:520px){
+  .stamp-wrap{position:static;width:100%;height:auto;display:flex;justify-content:flex-end;margin-bottom:12px;}
+  .stamp{width:72px;height:72px;font-size:11px;border-width:3px;position:static;}
+}
+
+/* progress rail */
+.progress{display:flex;gap:6px;margin:0 0 22px;}
+.progress .seg{flex:1;height:5px;border-radius:999px;background:var(--paper-line);transition:background .4s ease;}
+.progress .seg.done{background:var(--violet-ink);}
+.progress .seg.active{background:var(--violet);}
+
+.panel{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:24px clamp(18px,4vw,34px) 28px;margin-bottom:18px;}
+.step-label{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:13.5px;color:var(--violet-ink);
+  background:var(--violet-soft);padding:5px 13px;border-radius:999px;margin-bottom:12px;}
+.panel h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:20px;margin:0 0 10px;}
+.panel p{font-size:15.5px;line-height:1.8;margin:0 0 14px;}
+.panel p:last-child{margin-bottom:0;}
+
+.brief-quote{background:var(--paper);border-left:4px solid var(--violet-ink);border-radius:0 14px 14px 0;padding:16px 20px;
+  font-size:15px;line-height:1.75;color:var(--ink);margin:0 0 18px;position:relative;}
+.brief-quote::before{content:'임무 브리핑';position:absolute;top:-11px;left:14px;background:var(--violet-ink);color:#fff;
+  font-family:'Do Hyeon',sans-serif;font-size:11.5px;padding:2px 10px;border-radius:999px;}
+
+/* intercepted data terminal look */
+.terminal{background:var(--ink);color:#9FE8CF;border-radius:14px;padding:18px 20px;font-family:var(--mono),'Gowun Dodum',monospace;
+  font-size:14.5px;line-height:1.9;margin:14px 0;overflow-x:auto;}
+.terminal .k{color:#F4C77B;}
+.terminal .v{color:#fff;font-weight:600;}
+
+/* prime factor grid */
+.prime-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(56px,1fr));gap:8px;margin:16px 0;}
+.prime-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--paper);border:2px solid var(--paper-line);
+  color:var(--ink);border-radius:10px;padding:10px 4px;cursor:pointer;transition:all .15s ease;}
+.prime-btn:hover:not(:disabled){border-color:var(--violet-ink);}
+.prime-btn.tried-no{background:var(--paper-line);color:var(--ink-soft);cursor:default;opacity:.6;}
+.prime-btn.tried-yes{background:var(--teal-ink);border-color:var(--teal-ink);color:#fff;cursor:default;}
+.factor-status{text-align:center;font-size:14.5px;color:var(--ink-soft);margin-top:10px;min-height:20px;}
+.factor-success{display:none;background:var(--teal-soft);border-radius:14px;padding:14px 18px;margin-top:14px;text-align:center;
+  font-size:15px;color:var(--teal-ink);}
+.factor-success.show{display:block;animation:fadein .5s ease;}
+@keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+/* d candidate buttons */
+.cand-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:16px 0;}
+.cand-btn{font-family:'Do Hyeon',sans-serif;font-size:16px;background:var(--paper);border:2px solid var(--paper-line);
+  border-radius:14px;padding:14px 12px;cursor:pointer;text-align:center;transition:all .15s ease;}
+.cand-btn:hover:not(:disabled){border-color:var(--violet-ink);}
+.cand-btn .res{display:block;font-family:'Gowun Dodum',sans-serif;font-size:12.5px;margin-top:6px;color:var(--ink-soft);}
+.cand-btn.wrong{background:var(--coral-soft);border-color:var(--coral-ink);}
+.cand-btn.wrong .res{color:var(--coral-ink);}
+.cand-btn.right{background:var(--teal-soft);border-color:var(--teal-ink);cursor:default;}
+.cand-btn.right .res{color:var(--teal-ink);}
+
+/* decode table */
+.az-table{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:6px;margin:14px 0;font-size:12px;text-align:center;}
+.az-table .cell{background:var(--paper);border:1px solid var(--paper-line);border-radius:8px;padding:5px 2px;color:var(--ink-soft);}
+.decode-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:16px 0;}
+.decode-num{font-family:'Do Hyeon',sans-serif;font-size:20px;background:var(--paper);border:2px solid var(--paper-line);
+  border-radius:12px;padding:10px 16px;}
+.decode-input{flex:1;min-width:160px;font-family:'Do Hyeon',sans-serif;font-size:17px;letter-spacing:.1em;text-transform:uppercase;
+  border:2px solid var(--paper-line);border-radius:12px;padding:11px 14px;background:#fff;color:var(--ink);}
+.decode-input:focus{outline:none;border-color:var(--violet-ink);}
+.decode-check{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--ink);color:#fff;border:none;border-radius:12px;
+  padding:11px 18px;cursor:pointer;}
+.decode-msg{font-size:14.5px;margin-top:8px;min-height:20px;}
+.decode-msg.wrong{color:var(--coral-ink);}
+.decode-msg.right{color:var(--teal-ink);font-family:'Do Hyeon',sans-serif;}
+
+.reveal-btn-wrap{text-align:center;margin-top:6px;}
+.reveal-btn{font-family:'Do Hyeon',sans-serif;font-size:15.5px;background:var(--ink);color:#fff;border:none;
+  border-radius:14px;padding:14px 24px;cursor:pointer;transition:transform .15s ease;}
+.reveal-btn:hover:not(:disabled){transform:translateY(-2px);}
+.reveal-btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+
+.report{display:none;}
+.report.show{display:block;animation:fadein .6s ease;}
+.report-fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:15px;line-height:1.8;color:var(--ink);margin:14px 0;}
+.report-fact b{color:var(--violet-ink);}
+.big-reveal{text-align:center;background:var(--teal-soft);border-radius:16px;padding:22px;margin:16px 0;}
+.big-reveal .word{font-family:'Do Hyeon',sans-serif;font-size:34px;color:var(--teal-ink);letter-spacing:.15em;}
+.big-reveal .cap{font-size:14px;color:var(--ink-soft);margin-top:6px;}
+
+.next-case{text-align:center;background:var(--paper);border:2px dashed var(--paper-line);border-radius:18px;padding:22px;color:var(--ink-soft);font-size:14.5px;}
+.next-case b{color:var(--ink);font-family:'Do Hyeon',sans-serif;}
+
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:15px;color:#fff;
+  text-decoration:none;padding:13px 20px;border-radius:14px;transition:transform .15s ease;}
+.cta-btn:hover{transform:translateY(-2px);}
+.cta-btn.primary{background:var(--violet-ink);}
+.cta-btn.secondary{background:var(--teal-ink);}
+
+footer{max-width:720px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="topnav">
+  <a href="explore.html">← 전체 목록으로</a>
+  <a href="rsa-encryption-lab.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">🧪 실험실로 확인하기</a>
+</div>
+
+<div class="wrap">
+  <div class="case-header">
+    <div class="case-tab">CASE FILE</div>
+    <div class="stamp-wrap"><div class="stamp" id="stamp">수사<br>중</div></div>
+    <div class="case-no">사건 파일 #02 · 국가정보분석팀 · 예상 소요 10분</div>
+    <h1 class="case-title">요원의 마지막 통신,<br>무사하다는 뜻일까?</h1>
+    <p class="case-sub">해외에서 활동하던 요원 '나비'와 연락이 끊겼어요. 마지막으로 가로챈 암호문 하나가 유일한 단서예요. 당신이 직접 암호를 풀어 요원의 안전을 확인해야 해요.</p>
+  </div>
+
+  <div class="progress" id="progress">
+    <div class="seg active" data-i="0"></div>
+    <div class="seg" data-i="1"></div>
+    <div class="seg" data-i="2"></div>
+    <div class="seg" data-i="3"></div>
+  </div>
+
+  <div class="panel">
+    <div class="brief-quote">"어제 밤 11시, '나비'로부터 짧은 통신 하나가 도착한 걸 마지막으로 연락이 끊겼습니다. 신호는 잡았지만 내용은 암호화되어 있어요. 이 조직은 RSA라는 방식을 씁니다 — 다행히 아마추어들이라 <b>공개키가 짧아요</b>. 조사관님이라면 풀 수 있을 겁니다. 시간이 많지 않아요."</div>
+    <p><b>RSA 암호</b>는 두 소수 p, q를 몰래 곱해서 만든 커다란 수 n을 공개키로 써요. n을 다시 p와 q로 쪼개는 게 사실상 불가능할 만큼 크면 안전하지만, n이 작으면 이야기가 달라져요.</p>
+
+    <div class="step-label">1차 조사 · 가로챈 통신 기록</div>
+    <div class="terminal">
+      공개키 n = <span class="v">3233</span><br>
+      공개키 e = <span class="v">17</span><br>
+      암호문 블록 1 (C₁) = <span class="v">2560</span><br>
+      암호문 블록 2 (C₂) = <span class="v">2770</span>
+    </div>
+    <p>n = 3233이면 네 자리 수밖에 안 돼요. 이 정도면 <b>손으로도 소인수분해</b>가 가능할 수도 있어요. n = p × q가 되는 두 소수 p, q를 찾아볼까요?</p>
+    <div class="reveal-btn-wrap">
+      <button class="reveal-btn" id="startBtn">🔍 조사 시작하기</button>
+    </div>
+  </div>
+
+  <div class="panel" id="panel2" style="display:none;">
+    <div class="step-label">2차 조사 · n 소인수분해</div>
+    <h2>n = 3233을 두 소수의 곱으로 쪼개보세요</h2>
+    <p>√3233 ≈ 56.9예요. 그러니 56보다 작은 소수들로 하나씩 나눠보면 돼요. 아래 소수 버튼을 눌러서 3233이 나누어떨어지는지 확인해보세요.</p>
+    <div class="prime-grid" id="primeGrid"></div>
+    <div class="factor-status" id="factorStatus">아직 못 찾았어요. 다른 소수를 시도해보세요.</div>
+    <div class="factor-success" id="factorSuccess"></div>
+  </div>
+
+  <div class="panel" id="panel3" style="display:none;">
+    <div class="step-label">3차 조사 · 개인키 후보 검증</div>
+    <h2>가짜 열쇠 사이에서 진짜 개인키를 찾으세요</h2>
+    <p>p, q를 찾았으니 φ(n) = (p−1)×(q−1) = 60 × 52 = <b>3120</b>이에요. 개인키 d는 e × d를 φ(n)으로 나눈 나머지가 정확히 <b>1</b>이 되는 수예요. 감청 기록에서 후보 4개를 확보했어요 — 진짜는 딱 하나예요. 버튼을 눌러 하나씩 검증해보세요.</p>
+    <div class="cand-grid" id="candGrid"></div>
+  </div>
+
+  <div class="panel" id="panel4" style="display:none;">
+    <div class="step-label">4차 조사 · 메시지 복호화</div>
+    <h2>개인키를 찾았어요. 이제 메시지를 풀어봅시다</h2>
+    <p>개인키 d = <b>2753</b>을 확보했어요. 이제 이 열쇠로 감청 장비를 돌려서 암호문을 원래 숫자로 되돌릴 수 있어요.</p>
+    <div class="reveal-btn-wrap">
+      <button class="reveal-btn" id="decryptBtn">🔓 복호화 실행</button>
+    </div>
+    <div id="decryptResult" style="display:none;margin-top:18px;">
+      <div class="terminal">
+        해독된 숫자 1 = <span class="v" id="dNum1">1901</span><br>
+        해독된 숫자 2 = <span class="v" id="dNum2">0605</span>
+      </div>
+      <p>숫자를 두 자리씩 끊어서 알파벳으로 바꿔보세요 (A=01, B=02 ... Z=26). 예: 1901 → 19=S, 01=A → "SA"</p>
+      <div class="az-table" id="azTable"></div>
+      <div class="decode-row">
+        <div class="decode-num">1901 · 0605</div>
+        <input class="decode-input" id="decodeInput" placeholder="네 글자 단어 입력" maxlength="8">
+        <button class="decode-check" id="decodeCheckBtn">확인</button>
+      </div>
+      <div class="decode-msg" id="decodeMsg"></div>
+    </div>
+  </div>
+
+  <div class="panel report" id="reportPanel">
+    <div class="step-label" style="background:var(--teal-soft);color:var(--teal-ink);">사건 종결 리포트</div>
+    <div class="big-reveal">
+      <div class="word">S A F E</div>
+      <div class="cap">요원 '나비'는 무사해요.</div>
+    </div>
+    <h2>이 암호, 왜 이렇게 쉽게 풀렸을까요?</h2>
+    <p>당신이 몇 분 만에 이 암호를 푼 이유는 단 하나예요 — <b>n = 3233이 너무 작았기 때문</b>이에요. 네 자리 수는 56 이하의 소수 16개만 하나씩 시도해도 금방 인수분해가 돼요. 이 조직은 진짜 RSA 방식을 썼지만, 열쇠를 너무 짧게 만드는 치명적인 실수를 한 거예요.</p>
+    <div class="report-fact">실제로 지금 인터넷 뱅킹이나 로그인에 쓰이는 RSA는 n이 <b>600자리가 넘는 수</b>예요. 그런 n을 소인수분해하려면, 지금 있는 가장 빠른 슈퍼컴퓨터를 전부 동원해도 우주의 나이보다 오랜 시간이 걸릴 거라고 추정돼요. 오늘 당신이 클릭 몇 번으로 깬 이 암호가, 자릿수만 훨씬 커지면 사실상 절대 못 푸는 암호가 되는 거예요.</p>
+    <p style="font-size:14px;color:var(--ink-soft);">🕵️ <b>수사 노트:</b> 암호의 강도는 '방식'이 아니라 '열쇠의 크기'에서 나와요. 같은 RSA라도 열쇠가 짧으면 아마추어의 암호, 열쇠가 충분히 크면 은행도 믿고 쓰는 암호가 돼요.</p>
+
+    <div class="cta-row">
+      <a class="cta-btn primary" href="rsa-encryption-lab.html">🧪 실험실에서 직접 암호화해보기</a>
+      <a class="cta-btn secondary" href="article-rsa-encryption-lab.html">📖 설명 글 읽기</a>
+    </div>
+  </div>
+
+  <div class="next-case" id="nextCase" style="display:none;">
+    🗂️ <b>다음 사건 파일</b> — 곧 공개돼요. 지금까지 해결한 사건: <b id="solvedCount">1</b>개
+  </div>
+</div>
+
+<footer>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</footer>
+
+<script>
+const N = 3233, E = 17, PHI = 3120, D = 2753;
+const PRIMES = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53];
+const CANDS = [1873, 2003, 2753, 2513]; // shuffled fixed order, one correct
+
+const stamp = document.getElementById('stamp');
+const panel2 = document.getElementById('panel2');
+const panel3 = document.getElementById('panel3');
+const panel4 = document.getElementById('panel4');
+const reportPanel = document.getElementById('reportPanel');
+const nextCase = document.getElementById('nextCase');
+const segs = document.querySelectorAll('.progress .seg');
+
+function setProgress(i){
+  segs.forEach((s,idx)=>{
+    s.classList.toggle('done', idx < i);
+    s.classList.toggle('active', idx === i);
+  });
+}
+
+function reveal(panel, idx){
+  panel.style.display = 'block';
+  setProgress(idx);
+  setTimeout(()=> panel.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+}
+
+document.getElementById('startBtn').addEventListener('click', function(){
+  this.disabled = true;
+  this.textContent = '✅ 조사 시작됨';
+  reveal(panel2, 1);
+});
+
+// ---- Stage 2: prime factor grid ----
+const primeGrid = document.getElementById('primeGrid');
+const factorStatus = document.getElementById('factorStatus');
+const factorSuccess = document.getElementById('factorSuccess');
+let factorFound = false;
+
+PRIMES.forEach(p=>{
+  const btn = document.createElement('button');
+  btn.className = 'prime-btn';
+  btn.textContent = p;
+  btn.addEventListener('click', ()=>{
+    if (factorFound || btn.disabled) return;
+    if (N % p === 0){
+      btn.classList.add('tried-yes');
+      btn.disabled = true;
+      const q = N / p;
+      factorFound = true;
+      factorStatus.textContent = '';
+      factorSuccess.innerHTML = `🎉 <b>찾았어요!</b> n = ${p} × ${q} = 3233`;
+      factorSuccess.classList.add('show');
+      setTimeout(()=> reveal(panel3, 2), 900);
+    } else {
+      btn.classList.add('tried-no');
+      btn.disabled = true;
+      factorStatus.textContent = p + '(으)로는 안 나누어떨어져요. 다음 소수를 시도해보세요.';
+    }
+  });
+  primeGrid.appendChild(btn);
+});
+
+// ---- Stage 3: candidate d testing ----
+const candGrid = document.getElementById('candGrid');
+let dFound = false;
+
+CANDS.forEach(cand=>{
+  const btn = document.createElement('button');
+  btn.className = 'cand-btn';
+  btn.innerHTML = `d = ${cand}<span class="res">클릭해서 검증</span>`;
+  btn.addEventListener('click', ()=>{
+    if (dFound) return;
+    const rem = (E * cand) % PHI;
+    if (rem === 1){
+      btn.classList.add('right');
+      btn.querySelector('.res').textContent = `✅ 17 × ${cand} mod 3120 = 1 → 진짜 개인키!`;
+      dFound = true;
+      candGrid.querySelectorAll('.cand-btn').forEach(b=> b.disabled = true);
+      setTimeout(()=> reveal(panel4, 3), 900);
+    } else {
+      btn.classList.add('wrong');
+      btn.disabled = true;
+      btn.querySelector('.res').textContent = `❌ 17 × ${cand} mod 3120 = ${rem} (1이 아니에요)`;
+    }
+  });
+  candGrid.appendChild(btn);
+});
+
+// ---- Stage 4: decrypt + decode ----
+function modpow(base, exp, mod){
+  base = BigInt(base); exp = BigInt(exp); mod = BigInt(mod);
+  let result = 1n;
+  base = base % mod;
+  while (exp > 0n){
+    if (exp % 2n === 1n) result = (result * base) % mod;
+    exp = exp / 2n;
+    base = (base * base) % mod;
+  }
+  return result;
+}
+
+document.getElementById('decryptBtn').addEventListener('click', function(){
+  const c1 = 2560, c2 = 2770;
+  const m1 = Number(modpow(c1, D, N));
+  const m2 = Number(modpow(c2, D, N));
+  document.getElementById('dNum1').textContent = String(m1).padStart(4,'0');
+  document.getElementById('dNum2').textContent = String(m2).padStart(4,'0');
+  document.getElementById('decryptResult').style.display = 'block';
+  this.disabled = true;
+  this.textContent = '✅ 복호화 완료';
+
+  const azTable = document.getElementById('azTable');
+  for (let i=1; i<=26; i++){
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.textContent = String(i).padStart(2,'0') + '=' + String.fromCharCode(64+i);
+    azTable.appendChild(cell);
+  }
+});
+
+document.getElementById('decodeCheckBtn').addEventListener('click', ()=>{
+  const input = document.getElementById('decodeInput');
+  const msg = document.getElementById('decodeMsg');
+  const val = input.value.trim().toUpperCase().replace(/\s+/g,'');
+  if (val === 'SAFE'){
+    msg.textContent = '🎉 정답이에요! 메시지를 해독했어요.';
+    msg.className = 'decode-msg right';
+    input.disabled = true;
+    document.getElementById('decodeCheckBtn').disabled = true;
+    solveCase();
+  } else {
+    msg.textContent = '아직 아니에요. 1901 → 19,01 / 0605 → 06,05 순서로 다시 확인해보세요.';
+    msg.className = 'decode-msg wrong';
+  }
+});
+document.getElementById('decodeInput').addEventListener('keydown', (e)=>{
+  if (e.key === 'Enter') document.getElementById('decodeCheckBtn').click();
+});
+
+function solveCase(){
+  setProgress(4);
+  stamp.classList.add('solved');
+  stamp.innerHTML = '사건<br>종결';
+  reportPanel.classList.add('show');
+  saveSolved();
+  setTimeout(()=>{
+    reportPanel.scrollIntoView({behavior:'smooth', block:'start'});
+    nextCase.style.display = 'block';
+  }, 500);
+}
+
+function saveSolved(){
+  try{
+    const KEY = 'ainmath_mystery_v1';
+    const all = JSON.parse(localStorage.getItem(KEY)) || {};
+    all['intercepted-message'] = { solved:true, at:Date.now() };
+    localStorage.setItem(KEY, JSON.stringify(all));
+    document.getElementById('solvedCount').textContent = Object.keys(all).length;
+  }catch(e){}
+}
+</script>
+</body>
+</html>

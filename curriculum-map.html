@@ -172,6 +172,8 @@ h1 span{color:var(--coral-ink);}
 }
 .unit-link.exp{background:var(--ink);color:#fff;}
 .unit-link.exp:hover{background:var(--violet);}
+.unit-link.myst{background:var(--coral-ink);color:#fff;}
+.unit-link.myst:hover{background:var(--coral);}
 .unit-link.art{background:var(--paper);color:var(--ink-soft);border-color:var(--paper-line);}
 .unit-link.art:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
 .badge-soon{
@@ -517,19 +519,20 @@ const EXPLORE = [
   { icon:'♾️', name:'거대한 수와 무한 실험실', exp:[{label:'체험하기', href:'huge-numbers-infinity-lab.html'}] },
   { icon:'✨', name:'신기한 수의 성질 실험실', exp:[{label:'체험하기', href:'number-properties-lab.html'}] },
   { icon:'🔍', name:'소수의 미해결 문제 실험실', exp:[{label:'체험하기', href:'prime-mysteries-lab.html'}] },
-  { icon:'🔑', name:'RSA 암호 실험실', exp:[{label:'체험하기', href:'rsa-encryption-lab.html'}] },
+  { icon:'🔑', name:'RSA 암호 실험실', exp:[{label:'체험하기', href:'rsa-encryption-lab.html'}], art:[{label:'설명 글', href:'article-rsa-encryption-lab.html'}], myst:[{label:'미스터리', href:'mystery-intercepted-message.html'}] },
   { icon:'⭐', name:'특별한 수 실험실', exp:[{label:'체험하기', href:'special-numbers-lab.html'}] },
   { icon:'🐢', name:'제논의 역설 실험실', exp:[{label:'체험하기', href:'zeno-paradox-lab.html'}] },
   { icon:'🎯', name:'몬테카를로 원주율 실험실', exp:[{label:'체험하기', href:'monte-carlo-pi-lab.html'}] },
   { icon:'🔢', name:'카탈랑 수 실험실', exp:[{label:'체험하기', href:'catalan-numbers-lab.html'}] },
   { icon:'🧬', name:'콘웨이의 생명 게임 실험실', exp:[{label:'체험하기', href:'game-of-life-lab.html'}] },
   { icon:'🌉', name:'쾨니히스베르크 다리 문제 실험실', exp:[{label:'체험하기', href:'konigsberg-bridges-lab.html'}] },
-  { icon:'📊', name:'심슨의 역설 실험실', exp:[{label:'체험하기', href:'simpsons-paradox-lab.html'}] },
+  { icon:'📊', name:'심슨의 역설 실험실', exp:[{label:'체험하기', href:'simpsons-paradox-lab.html'}], art:[{label:'설명 글', href:'article-simpsons-paradox-lab.html'}], myst:[{label:'미스터리', href:'mystery-two-hospitals.html'}] },
 ];
 
 function unitRowHtml(u){
   const hasLink = (u.exp && u.exp.length) > 0;
   const links = (u.exp||[]).map(l=>`<a class="unit-link exp" href="${l.href}">🎮 ${l.label}</a>`).join('')
+    + (u.myst||[]).map(l=>`<a class="unit-link myst" href="${l.href}">🕵️ ${l.label}</a>`).join('')
     + (u.art||[]).map(l=>`<a class="unit-link art" href="${l.href}">📖 ${l.label}</a>`).join('');
   const iconPrefix = u.icon ? `<span style="margin-right:6px;">${u.icon}</span>` : '';
   return `

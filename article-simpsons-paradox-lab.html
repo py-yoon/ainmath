@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>부분은 다 A가 이겼는데 전체로 합치면 B가 이기는 심슨의 역설 | 아인매스</title>
+<meta name="description" content="그룹별로는 A가 이겼는데 전체로 합치면 B가 이기는 심슨의 역설을 데이터로 알아봐요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="부분은 다 A가 이겼는데 전체로 합치면 B가 이기는 심슨의 역설 | 아인매스">
+<meta property="og:description" content="그룹별로는 A가 이겼는데 전체로 합치면 B가 이기는 심슨의 역설을 데이터로 알아봐요.">
+<meta property="og:url" content="https://ainmath.com/article-simpsons-paradox-lab.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="부분은 다 A가 이겼는데 전체로 합치면 B가 이기는 심슨의 역설 | 아인매스">
+<meta name="twitter:description" content="그룹별로는 A가 이겼는데 전체로 합치면 B가 이기는 심슨의 역설을 데이터로 알아봐요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+    --blue:#4C8BF5; --blue-soft:#E7F0FF; --blue-ink:#0D62F1;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:320px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#1D7C7E;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="explore.html">← 전체 목록으로</a>
+  <span class="eyebrow" style="color:#1D7C7E;background:#E4FAF9">🎲 쉬는 시간·수학 탐구</span>
+  <h1>부분은 다 A가 이겼는데<br>전체로 합치면 B가 이기는 심슨의 역설</h1>
+  <p class="meta">중학생~고등학생 · 읽는 데 약 5분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>치료법 A가 경증 환자에서도, 중증 환자에서도 치료법 B보다 성공률이 높아요. 그런데 두 그룹을 합쳐서 전체로 보면, 오히려 B의 성공률이 더 높게 나와요. 말이 안 되는 것 같지만 실제로 벌어지는 일이에요 — 이게 바로 <b>심슨의 역설</b>이에요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 280 150" xmlns="http://www.w3.org/2000/svg">
+<text x="20" y="18" font-family="'Gowun Dodum',sans-serif" font-size="11" fill="var(--ink-soft)">경증</text>
+<rect x="20" y="26" width="22" height="40" fill="var(--teal)"/><text x="15" y="92" font-family="'Do Hyeon',sans-serif" font-size="10" fill="var(--teal-ink)">A 93%</text>
+<rect x="50" y="36" width="22" height="30" fill="var(--coral)"/><text x="45" y="105" font-family="'Do Hyeon',sans-serif" font-size="10" fill="var(--coral-ink)">B 87%</text>
+<text x="105" y="18" font-family="'Gowun Dodum',sans-serif" font-size="11" fill="var(--ink-soft)">중증</text>
+<rect x="105" y="41" width="22" height="25" fill="var(--teal)"/><text x="100" y="92" font-family="'Do Hyeon',sans-serif" font-size="10" fill="var(--teal-ink)">A 73%</text>
+<rect x="135" y="51" width="22" height="15" fill="var(--coral)"/><text x="130" y="105" font-family="'Do Hyeon',sans-serif" font-size="10" fill="var(--coral-ink)">B 69%</text>
+<text x="195" y="18" font-family="'Gowun Dodum',sans-serif" font-size="11" fill="var(--ink-soft)">전체</text>
+<rect x="195" y="51" width="22" height="15" fill="var(--coral)"/><text x="190" y="92" font-family="'Do Hyeon',sans-serif" font-size="10" fill="var(--coral-ink)">A 78%</text>
+<rect x="225" y="41" width="22" height="25" fill="var(--teal)"/><text x="220" y="105" font-family="'Do Hyeon',sans-serif" font-size="10" fill="var(--teal-ink)">B 83%</text>
+<line x1="10" y1="66" x2="255" y2="66" stroke="var(--paper-line)" stroke-width="1.5"/>
+        </svg>
+        <div class="illo-caption">경증·중증 각각은 A가 앞서지만, 전체를 합치면 B가 역전해요</div>
+      </div>
+      <p>아래 상황은 실제 신장결석 치료법 비교 연구(1986년, 영국)에서 나온 유명한 사례예요. 경증·중증 환자를 나눠 보면 치료법 A(개복 수술)가 항상 더 낫지만, 두 그룹의 <b>환자 수 비율이 서로 달라서</b> 전체를 합치면 결과가 뒤집혀요.</p>
+      <p>왜 이런 일이 생길까요? 전체 성공률은 단순히 두 그룹의 성공률을 평균 낸 게 아니라, <b>환자 수만큼 가중치를 준 평균</b>이에요. 치료법 A는 성공률이 낮은 중증 환자를 훨씬 많이 맡았고, 치료법 B는 성공률이 높은 경증 환자를 훨씬 많이 맡았어요. 그래서 A의 전체 평균은 중증 환자의 낮은 성공률 쪽으로 크게 끌려 내려가고, B의 전체 평균은 경증 환자의 높은 성공률 쪽으로 끌려 올라가요. 즉, A와 B의 실력 차이가 아니라 <b>'누구를 더 많이 치료했는가'라는 표본 구성의 차이</b>가 전체 순위를 뒤집은 거예요. 통계학에서는 이걸 '교란 변수(confounding variable)'의 영향이라고 부르는데, 여기서는 '환자의 중증도'가 숨은 교란 변수예요.</p>
+      <p>1973년 미국 버클리 대학교 대학원 입학 데이터에서도 비슷한 일이 있었어요. 전체 합격률만 보면 남성 지원자가 여성 지원자보다 합격률이 높아서 성차별 의혹이 제기됐어요. 그런데 학과별로 나눠보니, 대부분의 학과에서 오히려 여성의 합격률이 비슷하거나 더 높았어요. 여성 지원자들이 원래 경쟁이 치열해서 합격률이 낮은 인기 학과에 더 많이 지원했다는 게 원인이었어요.</p>
+      <p>심슨의 역설은 1951년 통계학자 에드워드 심슨의 논문에서 이름을 땄지만, 실은 1899년 칼 피어슨이 먼저 비슷한 현상을 언급했어요. 데이터를 다루는 모든 분야 — 의학, 교육, 스포츠 통계, 정책 평가 — 에서 지금도 주의해야 할 함정으로 꼽혀요. 그래서 통계를 볼 때는 전체 숫자만 보지 않고 어떤 하위 그룹으로 나눠서 봐야 하는지를 항상 의심해보는 습관이 중요해요. 저희 체험 페이지에서는 경증·중증·전체 관점을 버튼으로 바꿔가며 비교해보고, 그룹 비율을 슬라이더로 직접 바꿔보며 역설이 어떻게 나타나고 사라지는지 확인할 수 있어요.</p>
+    </div>
+    <div class="cta" style="display:flex;gap:10px;flex-wrap:wrap;">
+      <a class="cta-btn" href="simpsons-paradox-lab.html">🎮 이 개념 직접 체험해보기 →</a>
+      <a class="cta-btn" style="background:var(--coral-ink);" href="mystery-two-hospitals.html">🕵️ 미스터리로 풀어보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
