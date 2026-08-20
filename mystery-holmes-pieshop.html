@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>시즌1 사건 3 — 파이 가게의 조각 비교 | 아인매스</title>
+<meta name="description" content="파이 가게에서 어느 조각이 더 큰지 분수로 비교해요! 홈즈와 왓슨과 함께 세 번째 도전을 풀어요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="시즌1 사건 3 — 파이 가게의 조각 비교 | 아인매스">
+<meta property="og:description" content="파이 가게에서 어느 조각이 더 큰지 분수로 비교해요!">
+<meta property="og:url" content="https://ainmath.com/mystery-holmes-pieshop.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+  --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  --folder:#F3E7C9; --folder-line:#DFC98C;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 28px 16px 90px;
+}
+.wrap{max-width:600px;margin:0 auto;}
+.topnav{max-width:600px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-size:14px;flex-wrap:wrap;gap:8px;}
+.topnav a{color:var(--ink-soft);text-decoration:none;}
+.topnav a:hover{color:var(--ink);}
+
+.case-header{position:relative;background:var(--folder);border:2px solid var(--folder-line);border-radius:4px 20px 20px 20px;
+  padding:22px 22px 26px;margin:20px 0 22px;box-shadow:0 8px 24px rgba(34,40,58,0.10);}
+.case-tab{position:absolute;top:-15px;left:20px;background:var(--folder);border:2px solid var(--folder-line);border-bottom:none;
+  border-radius:8px 8px 0 0;padding:4px 14px 8px;font-family:'Do Hyeon',sans-serif;font-size:13px;color:#8A6D2F;}
+.case-no{font-family:'Do Hyeon',sans-serif;font-size:13px;color:#8A6D2F;margin-bottom:8px;}
+.case-title{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(22px,5.5vw,30px);line-height:1.35;margin:0 0 8px;}
+.case-sub{color:#5B4B22;font-size:15px;line-height:1.7;margin:0;}
+.progress-pill{position:absolute;top:14px;right:16px;background:#fff;border:2px solid var(--folder-line);border-radius:999px;
+  padding:4px 12px;font-family:'Do Hyeon',sans-serif;font-size:12.5px;color:#8A6D2F;}
+
+.panel{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:22px 20px 24px;margin-bottom:18px;}
+.speech-row{display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;}
+.speech-row:last-child{margin-bottom:0;}
+.avatar{font-size:32px;flex-shrink:0;width:46px;height:46px;display:flex;align-items:center;justify-content:center;
+  background:var(--violet-soft);border-radius:50%;}
+.avatar.watson{background:var(--teal-soft);}
+.avatar.rival{background:var(--coral-soft);}
+.bubble{background:var(--paper);border:2px solid var(--paper-line);border-radius:4px 16px 16px 16px;padding:12px 16px;
+  font-size:15px;line-height:1.75;color:var(--ink);flex:1;}
+.bubble b{color:var(--violet-ink);}
+.bubble .who{display:block;font-family:'Do Hyeon',sans-serif;font-size:12.5px;color:var(--ink-soft);margin-bottom:3px;}
+
+.big-btn{display:block;width:100%;text-align:center;font-family:'Do Hyeon',sans-serif;font-size:17px;color:#fff;
+  background:var(--violet-ink);text-decoration:none;padding:16px;border-radius:16px;margin-top:6px;border:none;cursor:pointer;
+  transition:transform .15s ease;}
+.big-btn:hover{transform:translateY(-2px);background:var(--violet);}
+.big-btn.secondary{background:var(--ink);}
+.big-btn:disabled{opacity:0.45;cursor:not-allowed;transform:none;}
+
+.reward{display:none;text-align:center;}
+.reward.show{display:block;animation:pop .5s ease;}
+@keyframes pop{from{opacity:0;transform:scale(.85);}to{opacity:1;transform:scale(1);}}
+.reward-icon{font-size:52px;margin-bottom:8px;}
+.reward-title{font-family:'Do Hyeon',sans-serif;font-size:19px;color:var(--violet-ink);margin-bottom:8px;}
+.reward-desc{font-size:14.5px;line-height:1.7;color:var(--ink-soft);margin-bottom:18px;}
+
+.check-block{display:none;}
+.check-block.show{display:block;}
+
+footer{max-width:600px;margin:20px auto 0;color:var(--ink-soft);font-size:13.5px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="topnav">
+  <a href="holmes-detectives.html">← 홈즈 탐정단 허브로</a>
+  <a href="explore.html">전체 목록</a>
+</div>
+
+<div class="wrap">
+  <div class="case-header">
+    <div class="case-tab">🔍 시즌1 · 사건 3</div>
+    <div class="progress-pill" id="progressPill">0/8 사건 해결</div>
+    <div class="case-no">모리아티 주니어의 도전장 · 세 번째 사건</div>
+    <h1 class="case-title">파이 가게의 조각 비교</h1>
+    <p class="case-sub">파이 가게에 다녀와서, 어느 조각이 진짜 더 큰지 알아내주세요.</p>
+  </div>
+
+  <div class="panel intro-block" id="introPanel">
+    <div class="speech-row">
+      <div class="avatar watson">👨‍⚕️</div>
+      <div class="bubble"><span class="who">왓슨</span>파이 가게에 조각난 파이가 잔뜩이야. 손님들이 서로 자기 조각이 더 크다고 다투고 있어! 분모랑 분자가 다르니 눈으로만 봐선 헷갈리나 봐.</div>
+    </div>
+    <div class="speech-row">
+      <div class="avatar rival">😼</div>
+      <div class="bubble"><span class="who">리틀 모리아티</span>세 번째 상자는 제일 큰 조각 안에 숨겨놨지. 분수를 비교할 줄 알아야 찾을 수 있을걸?</div>
+    </div>
+    <div class="speech-row">
+      <div class="avatar">🕵️</div>
+      <div class="bubble"><span class="who">홈즈</span>분수의 크기를 정확히 비교하면 금방 알 수 있어. 가보자.</div>
+    </div>
+    <a class="big-btn" href="fraction-compare.html" target="_blank" id="goLabBtn">🔍 함께 알아보러 가기!</a>
+  </div>
+
+  <div class="panel check-block" id="checkPanel">
+    <div class="speech-row">
+      <div class="avatar">🕵️</div>
+      <div class="bubble"><span class="who">홈즈</span>어느 분수가 더 큰지 잘 비교했어? 다 풀었다면 아래 버튼을 눌러줘!</div>
+    </div>
+    <button class="big-btn" id="solveBtn">✅ 다 풀었어요!</button>
+  </div>
+
+  <div class="panel reward" id="rewardPanel">
+    <div class="reward-icon">🥧</div>
+    <div class="reward-title">파이 한 조각을 찾았어요!</div>
+    <div class="reward-desc">가장 큰 조각 안에서 세 번째 상자를 찾았어요. 다음 상자로 가볼까요?</div>
+    <a class="big-btn secondary" href="mystery-holmes-toyshop.html">➡ 다음 사건: 장난감 가게의 저울 퍼즐</a>
+  </div>
+</div>
+
+<footer>아인매스 · 홈즈 탐정단과 함께 배우는 수학</footer>
+
+<script>
+const KEY = 'holmes-s1-pieshop';
+const STORAGE_KEY = 'ainmath_mystery_v1';
+const ALL_S1_KEYS = ['holmes-s1-fairgate','holmes-s1-market','holmes-s1-pieshop','holmes-s1-toyshop','holmes-s1-jeweler','holmes-s1-circus','holmes-s1-kitepark','holmes-s1-newsroom'];
+
+function loadAll(){
+  try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }catch(e){ return {}; }
+}
+function updateProgressPill(){
+  const all = loadAll();
+  const solved = ALL_S1_KEYS.filter(k => all[k] && all[k].solved).length;
+  document.getElementById('progressPill').textContent = `${solved}/8 사건 해결`;
+}
+updateProgressPill();
+
+document.getElementById('goLabBtn').addEventListener('click', ()=>{
+  setTimeout(()=>{
+    document.getElementById('introPanel').style.display = 'none';
+    document.getElementById('checkPanel').classList.add('show');
+    document.getElementById('checkPanel').scrollIntoView({behavior:'smooth', block:'start'});
+  }, 300);
+});
+
+document.getElementById('solveBtn').addEventListener('click', function(){
+  this.disabled = true;
+  this.textContent = '✅ 확인 완료!';
+  try{
+    const all = loadAll();
+    all[KEY] = { solved:true, at:Date.now() };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+  }catch(e){}
+  updateProgressPill();
+  document.getElementById('rewardPanel').classList.add('show');
+  setTimeout(()=> document.getElementById('rewardPanel').scrollIntoView({behavior:'smooth', block:'start'}), 300);
+});
+</script>
+</body>
+</html>

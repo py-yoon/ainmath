@@ -109,20 +109,22 @@ footer{max-width:900px;margin:24px auto 0;color:var(--ink-soft);font-size:14px;t
     <div class="case-grid" id="lowGrid"></div>
   </div>
 
-  <div class="season soon">
+  <div class="season" id="seasonS1">
     <div class="season-head">
       <div class="season-title">🎒 시즌1: 베이커가의 견습 탐정 <span style="font-size:14px;color:var(--ink-soft);font-family:'Gowun Dodum',sans-serif;">· 초등 3~4학년</span></div>
+      <div class="season-progress" id="s1Progress">0/8 사건 해결</div>
     </div>
-    <p class="season-desc">조금 더 어려운 사건들이 기다리고 있어요.</p>
-    <div class="case-grid"><div class="soon-card"><b>📖 준비 중이에요</b><br>곧 새로운 사건으로 찾아올게요!</div></div>
+    <p class="season-desc">리틀 모리아티가 런던 곳곳에 도전장을 남겼어요. 홈즈의 견습 탐정이 되어, 여덟 곳을 돌며 상자를 모두 열어보세요.</p>
+    <div class="case-grid" id="s1Grid"></div>
   </div>
 
-  <div class="season soon">
+  <div class="season" id="seasonS2">
     <div class="season-head">
       <div class="season-title">📓 시즌2: 베이커가 사건 수첩 심화편 <span style="font-size:14px;color:var(--ink-soft);font-family:'Gowun Dodum',sans-serif;">· 초등 5~6학년</span></div>
+      <div class="season-progress" id="s2Progress">0/8 사건 해결</div>
     </div>
-    <p class="season-desc">진짜 단서를 모아 추리하는 사건들이에요.</p>
-    <div class="case-grid"><div class="soon-card"><b>📖 준비 중이에요</b><br>곧 새로운 사건으로 찾아올게요!</div></div>
+    <p class="season-desc">왕립 박람회의 '퍼즐 다이아몬드'가 사라졌어요. 레스트레이드 경감의 정식 의뢰를 받은 홈즈와 함께, 진짜 단서를 모아 추리해보세요.</p>
+    <div class="case-grid" id="s2Grid"></div>
   </div>
 
   <div class="season">
@@ -160,13 +162,35 @@ const LOW_CASES = [
   { num:9, title:'마지막 사건의 진실', place:'221B 사건 마무리', key:'holmes-l-party', href:'mystery-holmes-party.html' },
 ];
 
+const S1_CASES = [
+  { num:1, title:'박람회장 매표소의 큰 숫자', place:'박람회장 매표소', key:'holmes-s1-fairgate', href:'mystery-holmes-fairgate.html' },
+  { num:2, title:'청과물 시장의 나머지', place:'코벤트가든 청과물 시장', key:'holmes-s1-market', href:'mystery-holmes-market.html' },
+  { num:3, title:'파이 가게의 조각 비교', place:'파이 가게', key:'holmes-s1-pieshop', href:'mystery-holmes-pieshop.html' },
+  { num:4, title:'장난감 가게의 저울 퍼즐', place:'장난감 가게', key:'holmes-s1-toyshop', href:'mystery-holmes-toyshop.html' },
+  { num:5, title:'보석 세공방의 다각형', place:'보석 세공사의 공방', key:'holmes-s1-jeweler', href:'mystery-holmes-jeweler.html' },
+  { num:6, title:'서커스 텐트의 소품들', place:'서커스 텐트', key:'holmes-s1-circus', href:'mystery-holmes-circus.html' },
+  { num:7, title:'연날리기 공원의 각도', place:'연날리기 공원', key:'holmes-s1-kitepark', href:'mystery-holmes-kitepark.html' },
+  { num:8, title:'모리아티의 진짜 마음', place:'런던 타임즈 신문사', key:'holmes-s1-newsroom', href:'mystery-holmes-newsroom.html' },
+];
+
+const S2_CASES = [
+  { num:1, title:'회계실의 뒤엉킨 계산', place:'왕립 박람회 회계실', key:'holmes-s2-ledger', href:'mystery-holmes-ledger.html' },
+  { num:2, title:'시계공방의 태엽 시계', place:'시계공방', key:'holmes-s2-clockshop', href:'mystery-holmes-clockshop.html' },
+  { num:3, title:'지도 제작실의 축척', place:'지도 제작실', key:'holmes-s2-mapmaker', href:'mystery-holmes-mapmaker.html' },
+  { num:4, title:'거울의 방', place:'박람회 마술쇼 거울의 방', key:'holmes-s2-mirrorroom', href:'mystery-holmes-mirrorroom.html' },
+  { num:5, title:'건축가의 설계실', place:'전시관 설계실', key:'holmes-s2-architect', href:'mystery-holmes-architect.html' },
+  { num:6, title:'포장 창고의 상자', place:'포장 창고', key:'holmes-s2-packing', href:'mystery-holmes-packing.html' },
+  { num:7, title:'박람회 게임 부스', place:'게임 부스', key:'holmes-s2-gamebooth', href:'mystery-holmes-gamebooth.html' },
+  { num:8, title:'진짜 범인의 정체', place:'신문 가판대', key:'holmes-s2-newsstand', href:'mystery-holmes-newsstand.html' },
+];
+
 function loadAll(){
   try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }catch(e){ return {}; }
 }
-function render(){
+function renderSeason(cases, gridId, progressId){
   const all = loadAll();
-  const grid = document.getElementById('lowGrid');
-  grid.innerHTML = LOW_CASES.map(c=>{
+  const grid = document.getElementById(gridId);
+  grid.innerHTML = cases.map(c=>{
     const done = all[c.key] && all[c.key].solved;
     return `<a class="case-card" href="${c.href}">
       ${done ? '<span class="badge-done">✅</span>' : ''}
@@ -175,8 +199,13 @@ function render(){
       <div class="cplace">📍 ${c.place}</div>
     </a>`;
   }).join('');
-  const solved = LOW_CASES.filter(c => all[c.key] && all[c.key].solved).length;
-  document.getElementById('lowProgress').textContent = `${solved}/${LOW_CASES.length} 사건 해결`;
+  const solved = cases.filter(c => all[c.key] && all[c.key].solved).length;
+  document.getElementById(progressId).textContent = `${solved}/${cases.length} 사건 해결`;
+}
+function render(){
+  renderSeason(LOW_CASES, 'lowGrid', 'lowProgress');
+  renderSeason(S1_CASES, 's1Grid', 's1Progress');
+  renderSeason(S2_CASES, 's2Grid', 's2Progress');
 }
 render();
 </script>
