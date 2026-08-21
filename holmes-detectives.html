@@ -61,18 +61,31 @@ h1 span{color:var(--violet-ink);}
 .season-progress{font-family:'Do Hyeon',sans-serif;font-size:13.5px;color:var(--violet-ink);background:var(--violet-soft);padding:5px 13px;border-radius:999px;}
 .season-desc{color:var(--ink-soft);font-size:14px;line-height:1.7;margin:0 0 16px;max-width:70ch;}
 
-.case-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;}
-.case-card{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:14px 14px 16px;text-decoration:none;color:var(--ink);
-  border:2px solid transparent;transition:transform .15s ease;position:relative;}
-.case-card:hover{transform:translateY(-2px);border-color:var(--violet-ink);}
-.case-card .cnum{font-family:'Do Hyeon',sans-serif;font-size:12px;color:var(--ink-soft);}
-.case-card .ctitle{font-family:'Do Hyeon',sans-serif;font-size:15px;margin:4px 0 2px;}
-.case-card .cplace{font-size:12.5px;color:var(--ink-soft);}
-.case-card .badge-done{position:absolute;top:10px;right:10px;font-size:16px;}
+.trail{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+.trail-dot{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-family:'Do Hyeon',sans-serif;font-size:13px;text-decoration:none;flex-shrink:0;}
+.trail-dot.done{background:var(--green-soft);color:var(--green-ink);border:2px solid var(--green-ink);}
+.trail-dot.current{background:var(--violet-ink);color:#fff;border:2px solid var(--violet-ink);box-shadow:0 0 0 4px var(--violet-soft);}
+.trail-dot.locked{background:var(--paper);color:var(--ink-soft);border:2px dashed var(--paper-line);cursor:default;}
 
-.season.soon .case-grid{opacity:.6;}
+.spotlight{background:var(--card);border-radius:4px 20px 20px 20px;box-shadow:var(--shadow);padding:20px 20px 22px;
+  border:2px solid var(--violet-ink);position:relative;text-decoration:none;color:var(--ink);display:block;}
+.spotlight .stag{font-family:'Do Hyeon',sans-serif;font-size:12.5px;color:var(--violet-ink);background:var(--violet-soft);
+  padding:3px 11px;border-radius:999px;display:inline-block;margin-bottom:10px;}
+.spotlight .ctitle{font-family:'Do Hyeon',sans-serif;font-size:19px;margin:0 0 4px;}
+.spotlight .cplace{font-size:13px;color:var(--ink-soft);margin-bottom:8px;}
+.spotlight .cblurb{font-size:14px;color:var(--ink-soft);line-height:1.7;margin:0 0 14px;}
+.spotlight .cta{display:inline-flex;align-items:center;gap:6px;background:var(--violet-ink);color:#fff;
+  font-family:'Do Hyeon',sans-serif;font-size:14.5px;padding:9px 18px;border-radius:999px;}
+.spotlight:hover .cta{background:var(--violet);}
+
+.season-complete{background:var(--green-soft);border:2px dashed var(--green-ink);border-radius:16px;padding:20px;
+  text-align:center;color:var(--green-ink);font-size:14px;line-height:1.7;}
+.season-complete b{display:block;font-family:'Do Hyeon',sans-serif;font-size:17px;margin-bottom:4px;}
+
+.season.soon .trail{opacity:.6;}
 .soon-card{background:var(--paper);border:2px dashed var(--paper-line);border-radius:16px;padding:18px;text-align:center;
-  color:var(--ink-soft);font-size:14px;grid-column:1/-1;}
+  color:var(--ink-soft);font-size:14px;}
 .soon-card b{color:var(--ink);font-family:'Do Hyeon',sans-serif;}
 
 .file-row{display:flex;gap:12px;flex-wrap:wrap;}
@@ -106,7 +119,8 @@ footer{max-width:900px;margin:24px auto 0;color:var(--ink-soft);font-size:14px;t
       <div class="season-progress" id="lowProgress">0/9 사건 해결</div>
     </div>
     <p class="season-desc">베이커가 여름 축제를 앞두고 마을 곳곳에서 작은 소동이 벌어져요. 왓슨과 함께 아홉 곳을 돌며 하나씩 해결해보세요.</p>
-    <div class="case-grid" id="lowGrid"></div>
+    <div class="trail" id="lowTrail"></div>
+    <div id="lowSpotlight"></div>
   </div>
 
   <div class="season" id="seasonS1">
@@ -115,7 +129,8 @@ footer{max-width:900px;margin:24px auto 0;color:var(--ink-soft);font-size:14px;t
       <div class="season-progress" id="s1Progress">0/8 사건 해결</div>
     </div>
     <p class="season-desc">리틀 모리아티가 런던 곳곳에 도전장을 남겼어요. 홈즈의 견습 탐정이 되어, 여덟 곳을 돌며 상자를 모두 열어보세요.</p>
-    <div class="case-grid" id="s1Grid"></div>
+    <div class="trail" id="s1Trail"></div>
+    <div id="s1Spotlight"></div>
   </div>
 
   <div class="season" id="seasonS2">
@@ -124,7 +139,8 @@ footer{max-width:900px;margin:24px auto 0;color:var(--ink-soft);font-size:14px;t
       <div class="season-progress" id="s2Progress">0/8 사건 해결</div>
     </div>
     <p class="season-desc">왕립 박람회의 '퍼즐 다이아몬드'가 사라졌어요. 레스트레이드 경감의 정식 의뢰를 받은 홈즈와 함께, 진짜 단서를 모아 추리해보세요.</p>
-    <div class="case-grid" id="s2Grid"></div>
+    <div class="trail" id="s2Trail"></div>
+    <div id="s2Spotlight"></div>
   </div>
 
   <div class="season">
@@ -151,61 +167,76 @@ footer{max-width:900px;margin:24px auto 0;color:var(--ink-soft);font-size:14px;t
 <script>
 const STORAGE_KEY = 'ainmath_mystery_v1';
 const LOW_CASES = [
-  { num:1, title:'사라진 쿠키 열 개', place:'베이커가 골목 빵집', key:'holmes-l-bakery', href:'mystery-holmes-bakery.html' },
-  { num:2, title:'사탕 상자의 비밀', place:'모퉁이 사탕가게', key:'holmes-l-candyshop', href:'mystery-holmes-candyshop.html' },
-  { num:3, title:'화단의 이상한 무늬', place:'허드슨 부인의 정원', key:'holmes-l-garden', href:'mystery-holmes-garden.html' },
-  { num:4, title:'지하 창고의 상자들', place:'221B 지하 창고', key:'holmes-l-cellar', href:'mystery-holmes-cellar.html' },
-  { num:5, title:'가장 무거운 자루', place:'시장의 저울집', key:'holmes-l-scale', href:'mystery-holmes-scale.html' },
-  { num:6, title:'박물관의 비밀 창문', place:'대영박물관', key:'holmes-l-museum', href:'mystery-holmes-museum.html' },
-  { num:7, title:'멈춰버린 종소리', place:'빅벤 시계탑', key:'holmes-l-clocktower', href:'mystery-holmes-clocktower.html' },
-  { num:8, title:'사라진 소포', place:'런던 우체국', key:'holmes-l-postoffice', href:'mystery-holmes-postoffice.html' },
-  { num:9, title:'마지막 사건의 진실', place:'221B 사건 마무리', key:'holmes-l-party', href:'mystery-holmes-party.html' },
+  { num:1, title:'사라진 쿠키 열 개', place:'베이커가 골목 빵집', blurb:'베이커가 골목 빵집에 다녀와서, 쿠키를 10개씩 딱 맞게 담아주세요.', key:'holmes-l-bakery', href:'mystery-holmes-bakery.html' },
+  { num:2, title:'사탕 상자의 비밀', place:'모퉁이 사탕가게', blurb:'모퉁이 사탕가게에 다녀와서, 사탕이 모두 몇 개인지 알아내주세요.', key:'holmes-l-candyshop', href:'mystery-holmes-candyshop.html' },
+  { num:3, title:'화단의 이상한 무늬', place:'허드슨 부인의 정원', blurb:'허드슨 부인의 정원에 다녀와서, 다음엔 어떤 꽃이 올지 알아내주세요.', key:'holmes-l-garden', href:'mystery-holmes-garden.html' },
+  { num:4, title:'지하 창고의 상자들', place:'221B 지하 창고', blurb:'221B 지하 창고에 다녀와서, 상자·기둥·공 모양 통을 정리해주세요.', key:'holmes-l-cellar', href:'mystery-holmes-cellar.html' },
+  { num:5, title:'가장 무거운 자루', place:'시장의 저울집', blurb:'시장의 저울집에 다녀와서, 어느 자루가 진짜 무거운지 알아내주세요.', key:'holmes-l-scale', href:'mystery-holmes-scale.html' },
+  { num:6, title:'박물관의 비밀 창문', place:'대영박물관', blurb:'대영박물관에 다녀와서, 스테인드글라스 창문 모양을 맞춰주세요.', key:'holmes-l-museum', href:'mystery-holmes-museum.html' },
+  { num:7, title:'멈춰버린 종소리', place:'빅벤 시계탑', blurb:'빅벤 시계탑에 다녀와서, 정확한 시각을 알아내주세요.', key:'holmes-l-clocktower', href:'mystery-holmes-clocktower.html' },
+  { num:8, title:'사라진 소포', place:'런던 우체국', blurb:'런던 우체국 분실물센터에 다녀와서, 물건들을 기준대로 분류해주세요.', key:'holmes-l-postoffice', href:'mystery-holmes-postoffice.html' },
+  { num:9, title:'마지막 사건의 진실', place:'221B 사건 마무리', blurb:'지금까지 모은 단서 8개를 확인하고, 마지막 단서를 찾아 사건을 마무리해요!', key:'holmes-l-party', href:'mystery-holmes-party.html' },
 ];
 
 const S1_CASES = [
-  { num:1, title:'박람회장 매표소의 큰 숫자', place:'박람회장 매표소', key:'holmes-s1-fairgate', href:'mystery-holmes-fairgate.html' },
-  { num:2, title:'청과물 시장의 나머지', place:'코벤트가든 청과물 시장', key:'holmes-s1-market', href:'mystery-holmes-market.html' },
-  { num:3, title:'파이 가게의 조각 비교', place:'파이 가게', key:'holmes-s1-pieshop', href:'mystery-holmes-pieshop.html' },
-  { num:4, title:'장난감 가게의 저울 퍼즐', place:'장난감 가게', key:'holmes-s1-toyshop', href:'mystery-holmes-toyshop.html' },
-  { num:5, title:'보석 세공방의 다각형', place:'보석 세공사의 공방', key:'holmes-s1-jeweler', href:'mystery-holmes-jeweler.html' },
-  { num:6, title:'서커스 텐트의 소품들', place:'서커스 텐트', key:'holmes-s1-circus', href:'mystery-holmes-circus.html' },
-  { num:7, title:'연날리기 공원의 각도', place:'연날리기 공원', key:'holmes-s1-kitepark', href:'mystery-holmes-kitepark.html' },
-  { num:8, title:'모리아티의 진짜 마음', place:'런던 타임즈 신문사', key:'holmes-s1-newsroom', href:'mystery-holmes-newsroom.html' },
+  { num:1, title:'박람회장 매표소의 큰 숫자', place:'박람회장 매표소', blurb:'런던 박람회장 매표소에 다녀와서, 자릿값을 정확히 읽어주세요.', key:'holmes-s1-fairgate', href:'mystery-holmes-fairgate.html' },
+  { num:2, title:'청과물 시장의 나머지', place:'코벤트가든 청과물 시장', blurb:'코벤트가든 청과물 시장에 다녀와서, 사과 상자를 정확히 나눠주세요.', key:'holmes-s1-market', href:'mystery-holmes-market.html' },
+  { num:3, title:'파이 가게의 조각 비교', place:'파이 가게', blurb:'파이 가게에 다녀와서, 어느 조각이 진짜 더 큰지 알아내주세요.', key:'holmes-s1-pieshop', href:'mystery-holmes-pieshop.html' },
+  { num:4, title:'장난감 가게의 저울 퍼즐', place:'장난감 가게', blurb:'장난감 가게에 다녀와서, 저울 퍼즐의 규칙을 찾아주세요.', key:'holmes-s1-toyshop', href:'mystery-holmes-toyshop.html' },
+  { num:5, title:'보석 세공방의 다각형', place:'보석 세공사의 공방', blurb:'보석 세공사의 공방에 다녀와서, 보석 모양의 이름을 알아내주세요.', key:'holmes-s1-jeweler', href:'mystery-holmes-jeweler.html' },
+  { num:6, title:'서커스 텐트의 소품들', place:'서커스 텐트', blurb:'서커스 텐트에 다녀와서, 소품들을 모양별로 분류해주세요.', key:'holmes-s1-circus', href:'mystery-holmes-circus.html' },
+  { num:7, title:'연날리기 공원의 각도', place:'연날리기 공원', blurb:'연날리기 공원에 다녀와서, 연이 날아가는 각도를 재주세요.', key:'holmes-s1-kitepark', href:'mystery-holmes-kitepark.html' },
+  { num:8, title:'모리아티의 진짜 마음', place:'런던 타임즈 신문사', blurb:'지금까지 모은 단서 7개를 확인하고, 마지막 도전을 완성해요!', key:'holmes-s1-newsroom', href:'mystery-holmes-newsroom.html' },
 ];
 
 const S2_CASES = [
-  { num:1, title:'회계실의 뒤엉킨 계산', place:'왕립 박람회 회계실', key:'holmes-s2-ledger', href:'mystery-holmes-ledger.html' },
-  { num:2, title:'시계공방의 태엽 시계', place:'시계공방', key:'holmes-s2-clockshop', href:'mystery-holmes-clockshop.html' },
-  { num:3, title:'지도 제작실의 축척', place:'지도 제작실', key:'holmes-s2-mapmaker', href:'mystery-holmes-mapmaker.html' },
-  { num:4, title:'거울의 방', place:'박람회 마술쇼 거울의 방', key:'holmes-s2-mirrorroom', href:'mystery-holmes-mirrorroom.html' },
-  { num:5, title:'건축가의 설계실', place:'전시관 설계실', key:'holmes-s2-architect', href:'mystery-holmes-architect.html' },
-  { num:6, title:'포장 창고의 상자', place:'포장 창고', key:'holmes-s2-packing', href:'mystery-holmes-packing.html' },
-  { num:7, title:'박람회 게임 부스', place:'게임 부스', key:'holmes-s2-gamebooth', href:'mystery-holmes-gamebooth.html' },
-  { num:8, title:'진짜 범인의 정체', place:'신문 가판대', key:'holmes-s2-newsstand', href:'mystery-holmes-newsstand.html' },
+  { num:1, title:'회계실의 뒤엉킨 계산', place:'왕립 박람회 회계실', blurb:'왕립 박람회 회계실에 다녀와서, 계산 순서를 바로잡아주세요.', key:'holmes-s2-ledger', href:'mystery-holmes-ledger.html' },
+  { num:2, title:'시계공방의 태엽 시계', place:'시계공방', blurb:'시계공방에 다녀와서, 두 시계가 언제 함께 울리는지 알아내주세요.', key:'holmes-s2-clockshop', href:'mystery-holmes-clockshop.html' },
+  { num:3, title:'지도 제작실의 축척', place:'지도 제작실', blurb:'지도 제작실에 다녀와서, 축척을 이용해 실제 거리를 알아내주세요.', key:'holmes-s2-mapmaker', href:'mystery-holmes-mapmaker.html' },
+  { num:4, title:'거울의 방', place:'박람회 마술쇼 거울의 방', blurb:'박람회 마술쇼 거울의 방에 다녀와서, 진짜 단서를 찾아주세요.', key:'holmes-s2-mirrorroom', href:'mystery-holmes-mirrorroom.html' },
+  { num:5, title:'건축가의 설계실', place:'전시관 설계실', blurb:'건축가의 설계실에 다녀와서, 진짜 전시관 설계도를 찾아주세요.', key:'holmes-s2-architect', href:'mystery-holmes-architect.html' },
+  { num:6, title:'포장 창고의 상자', place:'포장 창고', blurb:'포장 창고에 다녀와서, 다이아몬드에 딱 맞는 상자를 찾아주세요.', key:'holmes-s2-packing', href:'mystery-holmes-packing.html' },
+  { num:7, title:'박람회 게임 부스', place:'게임 부스', blurb:'박람회 게임 부스에 다녀와서, 동전과 주사위의 확률을 알아내주세요.', key:'holmes-s2-gamebooth', href:'mystery-holmes-gamebooth.html' },
+  { num:8, title:'진짜 범인의 정체', place:'신문 가판대', blurb:'지금까지 모은 단서 7개를 확인하고, 다이아몬드 사건을 완전히 해결해요!', key:'holmes-s2-newsstand', href:'mystery-holmes-newsstand.html' },
 ];
 
 function loadAll(){
   try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }catch(e){ return {}; }
 }
-function renderSeason(cases, gridId, progressId){
+function renderSeason(cases, trailId, spotlightId, progressId, seasonName){
   const all = loadAll();
-  const grid = document.getElementById(gridId);
-  grid.innerHTML = cases.map(c=>{
-    const done = all[c.key] && all[c.key].solved;
-    return `<a class="case-card" href="${c.href}">
-      ${done ? '<span class="badge-done">✅</span>' : ''}
-      <div class="cnum">사건 ${c.num}</div>
+  const isDone = c => !!(all[c.key] && all[c.key].solved);
+  const currentIdx = cases.findIndex(c => !isDone(c));
+
+  const trail = document.getElementById(trailId);
+  trail.innerHTML = cases.map((c,i)=>{
+    if(isDone(c)) return `<a class="trail-dot done" href="${c.href}" title="사건 ${c.num}. ${c.title} (해결됨)">✓</a>`;
+    if(i === currentIdx) return `<a class="trail-dot current" href="${c.href}" title="사건 ${c.num}. ${c.title}">${c.num}</a>`;
+    return `<span class="trail-dot locked" title="아직 열리지 않은 사건">🔒</span>`;
+  }).join('');
+
+  const spotlight = document.getElementById(spotlightId);
+  if(currentIdx === -1){
+    spotlight.innerHTML = `<div class="season-complete"><b>🎉 ${seasonName} 완료!</b>${cases.length}개 사건을 모두 해결했어요. 다음 시즌으로 넘어가 보세요.</div>`;
+  } else {
+    const c = cases[currentIdx];
+    const tag = currentIdx === 0 ? '첫 사건' : '다음 사건';
+    spotlight.innerHTML = `<a class="spotlight" href="${c.href}">
+      <span class="stag">${tag} · 사건 ${c.num}</span>
       <div class="ctitle">${c.title}</div>
       <div class="cplace">📍 ${c.place}</div>
+      <p class="cblurb">${c.blurb}</p>
+      <span class="cta">사건 파일 열기 →</span>
     </a>`;
-  }).join('');
-  const solved = cases.filter(c => all[c.key] && all[c.key].solved).length;
+  }
+
+  const solved = cases.filter(isDone).length;
   document.getElementById(progressId).textContent = `${solved}/${cases.length} 사건 해결`;
 }
 function render(){
-  renderSeason(LOW_CASES, 'lowGrid', 'lowProgress');
-  renderSeason(S1_CASES, 's1Grid', 's1Progress');
-  renderSeason(S2_CASES, 's2Grid', 's2Progress');
+  renderSeason(LOW_CASES, 'lowTrail', 'lowSpotlight', 'lowProgress', '첫 사건들');
+  renderSeason(S1_CASES, 's1Trail', 's1Spotlight', 's1Progress', '시즌1');
+  renderSeason(S2_CASES, 's2Trail', 's2Spotlight', 's2Progress', '시즌2');
 }
 render();
 </script>
