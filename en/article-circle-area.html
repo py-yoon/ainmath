@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>The Area of a Circle Makes Sense Once You Slice the Pizza | AINMATH</title>
+<meta name="description" content="Have you ever ordered a pizza and wondered just how much area that whole pie actually covers? The formula for the area of a circle, πr², grew out of a very practical question just like that one...">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="The Area of a Circle Makes Sense Once You Slice the Pizza | AINMATH">
+<meta property="og:description" content="Have you ever ordered a pizza and wondered just how much area that whole pie actually covers? The formula for the area of a circle, πr², grew out of a very practical question just like that one...">
+<meta property="og:url" content="https://ainmath.com/en/article-circle-area.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Area of a Circle Makes Sense Once You Slice the Pizza | AINMATH">
+<meta name="twitter:description" content="Have you ever ordered a pizza and wondered just how much area that whole pie actually covers? The formula for the area of a circle, πr², grew out of a very practical question just like that one...">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{
+    display:inline-flex;align-items:center;gap:6px;
+    color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;
+  }
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;
+    padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;
+  }
+  h1{
+    font-family:'Do Hyeon',sans-serif;font-weight:400;
+    font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;
+  }
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{
+    background:var(--card);border-radius:22px;box-shadow:var(--shadow);
+    padding:clamp(20px,4vw,40px);
+  }
+  .article-body p{
+    font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;
+  }
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:320px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;
+    background:#6C4CF7;text-decoration:none;
+    padding:14px 22px;border-radius:14px;
+    transition:transform .15s ease;
+  }
+  .cta-btn:hover{transform:translateY(-2px);}
+  .cta-soon{font-size:14px;color:var(--ink-soft);margin:0;}
+  .cta-soon a{color:#6847F7;}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="grade-5-6.html">← Back to all activities</a><a href="../article-circle-area.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+  <span class="eyebrow" style="color:#6847F7;background:#EEE8FF">📐 Shape &amp; Geometry</span>
+  <h1>The Area of a Circle Makes Sense Once You Slice the Pizza</h1>
+  <p class="meta">Upper elementary · About 4 min read</p>
+  <div class="card">
+    <div class="article-body">
+      <p>Have you ever ordered a pizza and wondered just how much area that whole pie actually covers? The formula for the area of a circle, πr², actually grew out of a very practical question just like that one.</p>
+      <p>Most students first meet this formula by simply memorizing it, but it's a lot more fun once you see where it actually comes from. Cut a circle into very thin pizza-slice wedges, then line them up alternating point-up and point-down, and the shape gradually starts to look like a rectangle. That rectangle's width turns out to be half the circle's circumference (πr), and its height is the radius (r). So the area is width × height, which gives you πr × r = πr².</p>
+      <div class="illo">
+        <svg viewBox="0 0 300 120">
+          <path d="M 50 60 L 50.0 15.0 A 45 45 0 0 1 81.8 28.2 Z" fill="var(--violet-soft)" stroke="var(--ink-soft)" stroke-width="1"></path>
+          <path d="M 50 60 L 81.8 28.2 A 45 45 0 0 1 95.0 60.0 Z" fill="var(--coral-soft)" stroke="var(--ink-soft)" stroke-width="1"></path>
+          <path d="M 50 60 L 95.0 60.0 A 45 45 0 0 1 81.8 91.8 Z" fill="var(--violet-soft)" stroke="var(--ink-soft)" stroke-width="1"></path>
+          <path d="M 50 60 L 81.8 91.8 A 45 45 0 0 1 50.0 105.0 Z" fill="var(--coral-soft)" stroke="var(--ink-soft)" stroke-width="1"></path>
+          <path d="M 50 60 L 50.0 105.0 A 45 45 0 0 1 18.2 91.8 Z" fill="var(--violet-soft)" stroke="var(--ink-soft)" stroke-width="1"></path>
+          <path d="M 50 60 L 18.2 91.8 A 45 45 0 0 1 5.0 60.0 Z" fill="var(--coral-soft)" stroke="var(--ink-soft)" stroke-width="1"></path>
+          <path d="M 50 60 L 5.0 60.0 A 45 45 0 0 1 18.2 28.2 Z" fill="var(--violet-soft)" stroke="var(--ink-soft)" stroke-width="1"></path>
+          <path d="M 50 60 L 18.2 28.2 A 45 45 0 0 1 50.0 15.0 Z" fill="var(--coral-soft)" stroke="var(--ink-soft)" stroke-width="1"></path>
+          <text x="115" y="65" font-family="'Do Hyeon',sans-serif" font-size="22" fill="var(--ink-soft)">→</text>
+          <g>
+            <rect x="140" y="25" width="15" height="70" fill="var(--violet-soft)" stroke="var(--ink-soft)" stroke-width="1"></rect>
+            <rect x="155" y="25" width="15" height="70" fill="var(--coral-soft)" stroke="var(--ink-soft)" stroke-width="1"></rect>
+            <rect x="170" y="25" width="15" height="70" fill="var(--violet-soft)" stroke="var(--ink-soft)" stroke-width="1"></rect>
+            <rect x="185" y="25" width="15" height="70" fill="var(--coral-soft)" stroke="var(--ink-soft)" stroke-width="1"></rect>
+            <rect x="200" y="25" width="15" height="70" fill="var(--violet-soft)" stroke="var(--ink-soft)" stroke-width="1"></rect>
+            <rect x="215" y="25" width="15" height="70" fill="var(--coral-soft)" stroke="var(--ink-soft)" stroke-width="1"></rect>
+            <rect x="230" y="25" width="15" height="70" fill="var(--violet-soft)" stroke="var(--ink-soft)" stroke-width="1"></rect>
+            <rect x="245" y="25" width="15" height="70" fill="var(--coral-soft)" stroke="var(--ink-soft)" stroke-width="1"></rect>
+          </g>
+          <line x1="140" y1="15" x2="260" y2="15" stroke="var(--violet-ink)" stroke-width="1.5"></line>
+          <text x="200" y="12" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--violet-ink)">πr (half the circumference)</text>
+          <line x1="130" y1="25" x2="130" y2="95" stroke="var(--coral-ink)" stroke-width="1.5"></line>
+          <text x="126" y="63" text-anchor="end" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--coral-ink)">r</text>
+        </svg>
+        <div class="illo-caption">Slice the circle finely and line the pieces up, and you get something close to a rectangle with width πr and height r — area = πr × r = πr²</div>
+      </div>
+      <p>This can sound a little tricky the first time you hear it, but it becomes much easier to grasp once you actually cut up a paper circle and rearrange the pieces yourself. You'll also notice that the more slices you cut, the closer the result gets to a neat, straight-edged rectangle.</p>
+      <p>The area of a circle shows up everywhere in daily life — slicing a round cake, figuring out the surface area of a well or a circular pool, even estimating how much ground a single security camera can cover. If you're comparing two pizzas by diameter alone to see which is the better deal, remember that the radius gets squared: double the diameter and the area doesn't just double, it quadruples. This is exactly where a lot of students trip up, so it's worth emphasizing.</p>
+      <p>Placing the area formula next to the circumference formula (2πr) reveals an interesting connection. Circumference grows in direct proportion to the radius, while area grows in proportion to the radius squared. So when the radius doubles, the circumference simply doubles too — but the area jumps to four times as much. A large pizza versus a medium pizza makes this really tangible: even when the diameters differ by only 1.5 times, the actual amount of pizza you get to eat differs by nearly 2.25 times. Working through that calculation together is a genuinely useful bit of math, since it often turns out the bigger pizza really is the better deal, even at a slightly higher price.</p>
+      <p>On our activity page, you can drag sliders for the radius and the number of slices, and watch an animation of the wedge-cut circle rearranging itself into a rectangle. The goal isn't to memorize a formula as numbers — it's to remember the idea by actually seeing it happen. Cutting an actual paper circle into wedges and rearranging them by hand alongside the animation makes the formula feel a lot more solid, once you see the two results match up. It also helps to compare the result with 8 slices side by side with the result using 32 slices — as the number of pieces grows, the bumpy edges of the rearranged shape smooth out into something closer and closer to a true rectangle, which gives you a first taste of why the idea of a limit matters so much in mathematics.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="circle-area.html">🎮 Try this concept yourself →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>AINMATH · Learn math by checking it yourself with sliders</p>
+  <nav><a href="index.html">Home</a>·<a href="../about.html">About</a>·<a href="../terms.html">Terms</a>·<a href="../privacy-policy.html">Privacy Policy</a>·<a href="../contact.html">Contact</a></nav>
+</footer>
+</body>
+</html>

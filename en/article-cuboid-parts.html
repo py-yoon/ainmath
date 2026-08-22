@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>It's There Even When You Can't See It — The Structure of a Rectangular Prism | AINMATH</title>
+<meta name="description" content="When you look at a box, you only see 3 faces — but it actually has 6 faces, 12 edges, and 8 vertices in total.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="It's There Even When You Can't See It — The Structure of a Rectangular Prism | AINMATH">
+<meta property="og:description" content="When you look at a box, you only see 3 faces — but it actually has 6 faces, 12 edges, and 8 vertices in total.">
+<meta property="og:url" content="https://ainmath.com/en/article-cuboid-parts.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="It's There Even When You Can't See It — The Structure of a Rectangular Prism | AINMATH">
+<meta name="twitter:description" content="When you look at a box, you only see 3 faces — but it actually has 6 faces, 12 edges, and 8 vertices in total.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:760px;margin:0 auto;}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-soft);text-decoration:none;margin-bottom:18px;}
+.back-link:hover{color:var(--violet-ink);}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,40px);line-height:1.3;margin:0 0 14px;}
+h1 span{color:var(--violet-ink);}
+.sub{color:var(--ink-soft);font-size:16.5px;line-height:1.75;margin:0 0 30px;}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;}
+.cta{font-family:'Do Hyeon',sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:999px;transition:all .15s ease;}
+.cta.primary{background:var(--violet-ink);color:#fff;}
+.cta.primary:hover{filter:brightness(1.06);}
+.cta.secondary{background:var(--card);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.cta.secondary:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+article{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:clamp(24px,5vw,44px);}
+h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:22px;color:var(--ink);margin:34px 0 14px;}
+h2:first-child{margin-top:0;}
+h2 .num{color:var(--violet-ink);margin-right:8px;}
+p{font-size:15.5px;line-height:1.85;color:var(--ink);margin:0 0 16px;}
+p:last-child{margin-bottom:0;}
+.grid4{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0;}
+.grid4 .box{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.6;text-align:center;}
+.grid4 .box b{display:block;font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--violet-ink);margin-bottom:4px;}
+.callout{background:var(--violet-soft);border-radius:16px;padding:18px 20px;margin:18px 0;font-size:14.5px;line-height:1.75;color:var(--ink);}
+.callout b{color:var(--violet-ink);}
+.tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
+.tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.tip-list b{color:var(--violet-ink);}
+.illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:18px 0;text-align:center;}
+.illo svg{width:100%;max-width:220px;height:auto;display:block;margin:0 auto;}
+.illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+.footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
+.footer-nav a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="grade-5-6.html">← Back to all activities</a><a href="../article-cuboid-parts.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+  <span class="eyebrow" style="color:#6847F7;background:#EEE8FF">📐 Shape &amp; Geometry</span>
+  <h1>What You Can See Is<br>Only <span>Half</span> the Story</h1>
+  <p class="sub">Look at a shipping box from the front and you'll only see about 3 faces and 9 edges. But even without flipping the box around, you can work out that the hidden side has just as much on it.</p>
+
+  <div class="cta-row">
+    <a class="cta primary" href="cuboid-parts.html">🎮 Try Rectangular Prism Parts Lab</a>
+    <a class="cta secondary" href="grade-5-6.html">📚 See other topics</a>
+  </div>
+
+  <article>
+    <h2><span class="num">1</span>The three parts of a rectangular prism</h2>
+    <p>A rectangular prism is made up of flat <b>faces</b>, straight <b>edges</b> where two faces meet, and pointed <b>vertices</b> where three edges meet.</p>
+    <div class="grid4">
+      <div class="box"><b>6</b>faces</div>
+      <div class="box"><b>12</b>edges</div>
+      <div class="box"><b>8</b>vertices</div>
+    </div>
+
+    <h2><span class="num">2</span>Opposite faces are always the same size</h2>
+    <p>A rectangular prism has three pairs of opposite faces: top-bottom, front-back, and side-side. Looking from one direction, you only see 3 faces, but there's a matching, same-size face on the opposite side of each one — 6 faces in total.</p>
+
+    <h2><span class="num">3</span>A cube is a special rectangular prism</h2>
+    <p>A rectangular prism whose length, width, and height are all equal is called a <b>cube</b>. A cube still has 6 faces, 12 edges, and 8 vertices — what makes it special is that all six of those faces are congruent squares.</p>
+
+    <h2><span class="num">4</span>You can count parts even when you can't see them</h2>
+    <div class="callout">
+      <b>There's a trick for finding the hidden parts.</b><br>
+      Any face, edge, or vertex you can't see from the front exists in exactly the same way on the far side. Add the number you can see from the front to the number that's hidden, and you get the exact total.
+    </div>
+    <div class="illo">
+      <svg viewBox="0 0 160 120">
+        <g stroke="var(--violet-ink)" stroke-width="2.5" fill="none">
+          <polygon points="30,100 110,100 110,40 30,40"></polygon>
+          <line x1="30" y1="40" x2="65" y2="15"></line>
+          <line x1="110" y1="40" x2="145" y2="15"></line>
+          <line x1="65" y1="15" x2="145" y2="15"></line>
+          <line x1="110" y1="100" x2="145" y2="75"></line>
+          <line x1="145" y1="75" x2="145" y2="15"></line>
+        </g>
+        <g stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="4 3" fill="none">
+          <line x1="30" y1="100" x2="65" y2="75"></line>
+          <line x1="65" y1="75" x2="65" y2="15"></line>
+          <line x1="65" y1="75" x2="145" y2="75"></line>
+        </g>
+      </svg>
+      <div class="illo-caption">Solid lines are edges you can see, dashed lines are edges hidden behind — add them together and you get 12</div>
+    </div>
+
+    <h2><span class="num">5</span>Try this</h2>
+    <ul class="tip-list">
+      <li><b>Press the face, edge, and vertex buttons one at a time.</b> Check where the dashed, hidden parts show up.</li>
+      <li><b>Adjust it into a cube.</b> Check whether the face, edge, and vertex counts stay the same once length, width, and height all match.</li>
+      <li><b>Check it with a real box.</b> Pick up a shipping box or tissue box at home and trace the faces, edges, and vertices with your finger.</li>
+    </ul>
+  </article>
+
+  <footer>
+    <p>Go back to Rectangular Prism Parts Lab and count the faces, edges, and vertices yourself.</p>
+    <nav class="footer-nav">
+      <a href="grade-5-6.html">All activities</a>·<a href="cuboid-parts.html">Rectangular Prism Parts Lab</a>·<a href="../about.html">About</a>·<a href="../contact.html">Contact</a>
+    </nav>
+  </footer>
+</div>
+</body>
+</html>

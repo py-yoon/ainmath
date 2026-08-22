@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>What You See When You Unfold a Box — Surface Area &amp; Volume of a Rectangular Prism | AINMATH</title>
+<meta name="description" content="Why do a box's surface area and volume change differently when you adjust its length, width, and height? Unfold it into a net, and the reason becomes visible.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="What You See When You Unfold a Box — Surface Area &amp; Volume of a Rectangular Prism | AINMATH">
+<meta property="og:description" content="Why do a box's surface area and volume change differently when you adjust its length, width, and height? Unfold it into a net, and the reason becomes visible.">
+<meta property="og:url" content="https://ainmath.com/en/article-cuboid-surface-volume.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="What You See When You Unfold a Box — Surface Area &amp; Volume of a Rectangular Prism | AINMATH">
+<meta name="twitter:description" content="Why do a box's surface area and volume change differently when you adjust its length, width, and height? Unfold it into a net, and the reason becomes visible.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:760px;margin:0 auto;}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-soft);text-decoration:none;margin-bottom:18px;}
+.back-link:hover{color:var(--violet-ink);}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,40px);line-height:1.3;margin:0 0 14px;}
+h1 span{color:var(--violet-ink);}
+.meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 8px;}
+.sub{color:var(--ink-soft);font-size:16.5px;line-height:1.75;margin:0 0 30px;}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;}
+.cta{font-family:'Do Hyeon',sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:999px;transition:all .15s ease;}
+.cta.primary{background:var(--violet-ink);color:#fff;}
+.cta.primary:hover{filter:brightness(1.06);}
+.cta.secondary{background:var(--card);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.cta.secondary:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+article{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:clamp(24px,5vw,44px);}
+h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:22px;color:var(--ink);margin:34px 0 14px;}
+h2:first-child{margin-top:0;}
+h2 .num{color:var(--violet-ink);margin-right:8px;}
+p{font-size:15.5px;line-height:1.85;color:var(--ink);margin:0 0 16px;}
+p:last-child{margin-bottom:0;}
+.example{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px 20px;margin:18px 0;text-align:center;}
+.example .eq{font-family:'Do Hyeon',sans-serif;font-size:18px;margin-bottom:8px;}
+.example p{font-size:14.5px;color:var(--ink-soft);margin:8px 0 0;}
+.grid4{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0;}
+.grid4 .box{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.6;text-align:center;}
+.grid4 .box b{display:block;font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--violet-ink);margin-bottom:4px;}
+.callout{background:var(--violet-soft);border-radius:16px;padding:18px 20px;margin:18px 0;font-size:14.5px;line-height:1.75;color:var(--ink);}
+.callout b{color:var(--violet-ink);}
+.tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
+.tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.tip-list b{color:var(--violet-ink);}
+.illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:18px 0;text-align:center;}
+.illo svg{width:100%;max-width:280px;height:auto;display:block;margin:0 auto;}
+.illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+.footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
+.footer-nav a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="grade-5-6.html">← Back to all activities</a><a href="../article-cuboid-surface-volume.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+  <span class="eyebrow" style="color:#6847F7;background:#EEE8FF">📐 Shape &amp; Geometry</span>
+  <h1>Unfold the Box and<br>See All <span>Six Faces</span></h1>
+  <p class="meta">Upper elementary · About 4 min read</p>
+  <p class="sub">How much paint would you need to cover the outside of a shipping box? And how much stuff can you actually fit inside it? Surface area and volume are answers to two different questions.</p>
+
+  <div class="cta-row">
+    <a class="cta primary" href="cuboid-surface-volume.html">🎮 Try Rectangular Prism Surface Area &amp; Volume Lab</a>
+    <a class="cta secondary" href="grade-5-6.html">📚 See other topics</a>
+  </div>
+
+  <article>
+    <h2><span class="num">1</span>A rectangular prism is always three pairs of faces</h2>
+    <p>The six faces that make up a box split into three pairs of opposite faces: top-bottom, front-back, and side-side. Each pair of opposite faces is exactly the same size and shape.</p>
+    <div class="grid4">
+      <div class="box"><b>Top &amp; bottom</b>Two faces, each length × width</div>
+      <div class="box"><b>Front &amp; back</b>Two faces, each length × height</div>
+      <div class="box"><b>Side &amp; side</b>Two faces, each width × height</div>
+    </div>
+    <p>So instead of adding up all six faces one by one, you only need to find three different areas and double them.</p>
+    <div class="illo">
+      <svg viewBox="0 0 220 145">
+        <rect x="74" y="38" width="48" height="36" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2"></rect>
+        <rect x="74" y="98" width="48" height="36" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2"></rect>
+        <rect x="38" y="74" width="36" height="24" fill="var(--green-soft)" stroke="var(--green-ink)" stroke-width="2"></rect>
+        <rect x="122" y="74" width="36" height="24" fill="var(--green-soft)" stroke="var(--green-ink)" stroke-width="2"></rect>
+        <rect x="74" y="74" width="48" height="24" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="2"></rect>
+        <rect x="158" y="74" width="48" height="24" fill="var(--coral-soft)" stroke="var(--coral-ink)" stroke-width="2"></rect>
+        <text x="98" y="59" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--violet-ink)">Top</text>
+        <text x="98" y="119" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--violet-ink)">Bottom</text>
+        <text x="56" y="89" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--green-ink)">Side</text>
+        <text x="140" y="89" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--green-ink)">Side</text>
+        <text x="98" y="89" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--coral-ink)">Front</text>
+        <text x="182" y="89" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--coral-ink)">Back</text>
+      </svg>
+      <div class="illo-caption">Unfold the box and you'll see three pairs of matching faces: top &amp; bottom, front &amp; back, side &amp; side</div>
+    </div>
+
+    <h2><span class="num">2</span>Surface area = the sum of all three pairs</h2>
+    <p>If length is a, width is b, and height is h, here's how you find the surface area.</p>
+    <div class="example">
+      <div class="eq">Surface area = 2 × (a×b + a×h + b×h)</div>
+      <p>For a box with length 4, width 3, and height 2: 2×(4×3 + 4×2 + 3×2) = 2×(12+8+6) = 52.</p>
+    </div>
+    <p>On the activity page, press "View as net" and watch the box unfold — you can count exactly how many of each of these three pairs there really are.</p>
+
+    <h2><span class="num">3</span>Volume = length × width × height</h2>
+    <p>Volume tells you how many cube-shaped blocks would fit inside the box. Think of laying down a length × width layer of blocks on the floor, then stacking that same layer up to the height.</p>
+    <div class="example">
+      <div class="eq">Volume = a × b × h</div>
+      <p>For length 4, width 3, and height 2: one floor layer holds 4×3=12 blocks, and there are 2 such layers, so 12×2 = 24.</p>
+    </div>
+
+    <h2><span class="num">4</span>Surface area and volume change differently</h2>
+    <p>Double the length, width, and height all together, and surface area grows by 4 times (squared), while volume grows by 8 times (cubed). That's because surface area measures a "face," which multiplies two lengths together, while volume fills "space," which multiplies three lengths together.</p>
+    <div class="callout">
+      <b>A cube is a special rectangular prism.</b><br>
+      When length, width, and height are all equal, you get a cube. In that case, surface area simplifies to 6×(side)², and volume simplifies to (side)³.
+    </div>
+
+    <h2><span class="num">5</span>Try this</h2>
+    <ul class="tip-list">
+      <li><b>Change just one side.</b> Double only the height and compare how much surface area and volume each grow by.</li>
+      <li><b>Turn it into a cube.</b> Make length, width, and height all equal and see how the surface area and volume formulas simplify.</li>
+      <li><b>Count the net.</b> Among the six unfolded faces, pair up the ones that match in size, and check that they line up with the formula's three pairs.</li>
+    </ul>
+  </article>
+
+  <footer>
+    <p>Go back to Rectangular Prism Surface Area &amp; Volume Lab and move the sliders and net yourself.</p>
+    <nav class="footer-nav">
+      <a href="grade-5-6.html">All activities</a>·<a href="cuboid-surface-volume.html">Rectangular Prism Surface Area &amp; Volume Lab</a>·<a href="../about.html">About</a>·<a href="../contact.html">Contact</a>
+    </nav>
+  </footer>
+</div>
+</body>
+</html>

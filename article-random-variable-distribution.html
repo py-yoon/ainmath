@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>왜 기댓값은 확률이라는 무게의 균형점일까 | 아인매스</title>
+<meta name="description" content="확률변수가 가질 수 있는 값을 확률의 크기만큼 무게를 실은 저울에 올려보고, 기댓값이 그 저울의 균형점이라는 걸 확인해요. 주사위 상금 게임으로 기댓값이 왜 '공정한 참가비'인지도 알아봐요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="왜 기댓값은 확률이라는 무게의 균형점일까 | 아인매스">
+<meta property="og:description" content="확률변수가 가질 수 있는 값을 확률의 크기만큼 무게를 실은 저울에 올려보고, 기댓값이 그 저울의 균형점이라는 걸 확인해요. 주사위 상금 게임으로 기댓값이 왜 '공정한 참가비'인지도 알아봐요.">
+<meta property="og:url" content="https://ainmath.com/article-random-variable-distribution.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="왜 기댓값은 확률이라는 무게의 균형점일까 | 아인매스">
+<meta name="twitter:description" content="확률변수가 가질 수 있는 값을 확률의 크기만큼 무게를 실은 저울에 올려보고, 기댓값이 그 저울의 균형점이라는 걸 확인해요. 주사위 상금 게임으로 기댓값이 왜 '공정한 참가비'인지도 알아봐요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#1D7C7E;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="explore.html">← 전체 목록으로</a><a href="en/index.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">EN</a>
+  <span class="eyebrow" style="color:#357A63;background:#E3F5EE">📊 확률과 통계</span>
+  <h1>왜 기댓값은 확률이라는 무게의 균형점일까</h1>
+  <p class="meta">고등학생 · 읽는 데 약 5분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>동전을 던지거나 주사위를 굴리는 것처럼, 결과가 무작위로 정해지는 실험을 시행이라고 해요. 이 시행의 결과를 숫자로 딱 정해서 나타낸 것이 바로 확률변수(random variable) X예요. 예를 들어 주사위를 한 번 굴렸을 때 나오는 눈의 수, 동전을 세 번 던졌을 때 나오는 앞면의 개수 같은 게 모두 확률변수예요.</p>
+      <p>확률변수 X가 가질 수 있는 값 하나하나에, 그 값이 나올 확률을 짝지어 놓은 표를 확률분포표라고 해요. 예를 들어 동전 하나를 던져 앞면이면 1, 뒷면이면 0이라는 확률변수를 생각하면, X=1일 확률과 X=0일 확률이 각각 1/2씩이죠. 확률분포표의 모든 확률을 더하면 언제나 1이 돼야 해요 — 일어날 수 있는 모든 경우를 빠짐없이 담고 있으니까요.</p>
+      <p>확률변수 X가 가질 수 있는 값이 x1, x2, ..., xn이고 각각의 확률이 p1, p2, ..., pn이라면, 기댓값 E(X)는 각 값에 그 확률을 곱해서 모두 더한 값이에요. <b>E(X) = x1p1 + x2p2 + ... + xnpn</b>. 이건 값을 단순히 더해서 개수로 나누는 '보통의 평균'이 아니라, 자주 일어날 값에는 더 큰 비중을, 드물게 일어날 값에는 더 작은 비중을 실어서 계산하는 가중평균이에요.</p>
+      <p>이걸 이해하는 가장 쉬운 방법은 저울이에요. 확률변수가 가질 수 있는 값들을 저울 위에 올려놓는데, 그 값이 나올 확률이 클수록 더 무거운 추를 올린다고 생각해보세요. 이 저울이 정확히 수평을 이루는 지점이 바로 기댓값이에요. 확률이 큰 쪽으로 저울이 기울려는 힘이 세기 때문에, 균형점은 항상 확률이 큰 값 쪽으로 더 가깝게 끌려가요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+          <text x="70" y="12" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)" text-anchor="middle">확률 5/6</text>
+          <text x="230" y="52" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)" text-anchor="middle">확률 1/6</text>
+          <line x1="30" y1="95" x2="270" y2="95" stroke="var(--ink)" stroke-width="3"></line>
+          <circle cx="70" cy="49.7" r="43.3" fill="var(--teal)" opacity="0.85"></circle>
+          <text x="70" y="54" font-family="'Do Hyeon',sans-serif" font-size="14" fill="#fff" text-anchor="middle">0원</text>
+          <circle cx="230" cy="76.3" r="16.7" fill="var(--coral)" opacity="0.85"></circle>
+          <text x="230" y="80" font-family="'Do Hyeon',sans-serif" font-size="11" fill="#fff" text-anchor="middle">600</text>
+          <polygon points="84.7,113 108.7,113 96.7,95" fill="var(--ink)"></polygon>
+          <text x="96.7" y="130" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink)" text-anchor="middle">E(X)=100원</text>
+        </svg>
+        <div class="illo-caption">상금 0원(확률 5/6)과 600원(확률 1/6)에 각각 확률만큼 무게를 실으면, 저울이 균형을 이루는 지점이 기댓값 100원 — 바로 공정한 참가비예요.</div>
+      </div>
+      <p>기댓값이 실제로 쓸모 있는 순간은 '공정한 게임'을 판단할 때예요. 주사위를 던져서 6이 나오면 상금을 받고 그 외에는 아무것도 받지 못하는 게임을 생각해봐요. 상금이 600원이라면 기댓값은 E(X) = 600×(1/6) + 0×(5/6) = 100원이에요. 참가비를 정확히 100원으로 정하면, 아주 여러 번 반복했을 때 딴 돈과 낸 돈이 평균적으로 같아지는 '공정한 참가비'가 되는 거예요.</p>
+      <p>참가비가 기댓값보다 낮으면 참가자에게 유리한 게임이고, 참가비가 기댓값보다 높으면 참가자에게 불리한 게임이 돼요. 카지노 게임이나 복권이 결국 운영자에게 이득이 되는 이유도, 참가비(또는 복권 가격)를 기댓값보다 살짝 높게 매겨두기 때문이에요. 한두 판은 운으로 이길 수 있어도, 아주 많은 사람이 아주 여러 번 반복하면 결국 기댓값에 가까운 결과로 수렴해요.</p>
+      <p>체험 페이지에서는 두 값 A, B와 각각의 확률을 슬라이더로 바꿔가며 저울의 균형점이 실시간으로 움직이는 걸 볼 수 있고, 주사위 상금 게임 탭에서는 상금과 참가비를 직접 조절하며 게임이 유리한지 불리한지 공정한지 확인할 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="random-variable-distribution.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

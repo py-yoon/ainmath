@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>받아올림·받아내림이 있는 덧셈과 뺄셈 실험실</title>
+<meta name="description" content="두 자리 수를 십의 자리·일의 자리 블록으로 나타내고, 슬라이더로 값을 바꿔가며 일의 자리 합이 10을 넘을 때 받아올림이, 뺄 수가 모자랄 때 받아내림이 어떻게 일어나는지 눈으로 확인해요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="받아올림·받아내림이 있는 덧셈과 뺄셈 실험실">
+<meta property="og:description" content="두 자리 수를 십의 자리·일의 자리 블록으로 나타내고, 슬라이더로 값을 바꿔가며 받아올림·받아내림이 어떻게 일어나는지 눈으로 확인해요.">
+<meta property="og:url" content="https://ainmath.com/addition-subtraction-carrying.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="받아올림·받아내림이 있는 덧셈과 뺄셈 실험실">
+<meta name="twitter:description" content="두 자리 수를 십의 자리·일의 자리 블록으로 나타내고, 슬라이더로 값을 바꿔가며 받아올림·받아내림이 어떻게 일어나는지 눈으로 확인해요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --amber:#D97706; --amber-soft:#FEF0D9;--amber-ink:#A55A05;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.tab-row{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);padding:9px 18px;border-radius:999px;cursor:pointer;transition:all .2s ease;}
+.tab-btn.active{background:var(--coral);border-color:var(--coral);color:#fff;}
+.howto{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14px;line-height:1.7;color:var(--ink);margin-bottom:20px;}
+.howto b{color:var(--coral-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.control-row{width:100%;display:flex;flex-direction:column;gap:8px;margin-bottom:18px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--coral-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--violet);outline-offset:2px;}
+
+.equation{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:22px 20px;margin-bottom:18px;}
+.equation .big{font-family:'Do Hyeon',sans-serif;font-size:clamp(22px,4.5vw,32px);color:var(--ink);text-align:center;}
+.equation .big .op{color:var(--ink-soft);margin:0 10px;}
+
+.num-block{margin:16px 0;}
+.num-block-head{display:flex;align-items:baseline;gap:8px;margin-bottom:8px;}
+.num-block-head .num{font-family:'Do Hyeon',sans-serif;font-size:22px;color:var(--ink);}
+.num-block-head .role{font-size:13px;color:var(--ink-soft);}
+.place-cols{display:flex;gap:18px;flex-wrap:wrap;}
+.place-col{flex:1;min-width:120px;background:var(--paper);border:2px dashed var(--paper-line);border-radius:14px;padding:10px 12px;}
+.place-col .place-title{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);margin-bottom:8px;display:flex;justify-content:space-between;}
+.place-col .place-title b{color:var(--ink);}
+.blocks-line{display:flex;flex-wrap:wrap;gap:5px;min-height:38px;align-items:flex-start;}
+.blk-hundred{width:44px;height:44px;border-radius:8px;background:var(--amber);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Do Hyeon',sans-serif;font-size:12px;flex:none;}
+.blk-ten{width:20px;height:40px;border-radius:6px;background:var(--coral);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Do Hyeon',sans-serif;font-size:10px;flex:none;writing-mode:vertical-rl;}
+.blk-one{width:18px;height:18px;border-radius:5px;background:var(--coral-soft);border:2px solid var(--coral);flex:none;}
+.blk-ten.borrowed,.blk-ten.new-carry,.blk-hundred.new-carry{outline:3px solid var(--violet);outline-offset:1px;animation:pop .5s ease;}
+.blk-one.new{outline:3px solid var(--violet);outline-offset:1px;animation:pop .5s ease;}
+@keyframes pop{0%{transform:scale(0.4);opacity:0;}100%{transform:scale(1);opacity:1;}}
+
+.carry-note{background:var(--violet-soft);border-radius:14px;padding:14px 16px;font-size:14px;line-height:1.7;color:var(--ink);margin:14px 0;display:flex;gap:10px;align-items:flex-start;}
+.carry-note .ico{font-size:18px;flex:none;}
+.carry-note b{color:var(--violet-ink);}
+.no-carry-note{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14px;line-height:1.7;color:var(--ink-soft);margin:14px 0;}
+
+.fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);margin-top:18px;}
+.fact b{color:var(--coral-ink);}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="explore.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a><a href="en/index.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">EN</a>
+    <a href="article-addition-subtraction-carrying.html" style="color:#fff;background:var(--coral-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🧮 받아올림·받아내림이 있는 덧셈과 뺄셈</span>
+  <h1>일의 자리가 10을 넘으면<br><span>받아올림</span>을 해요</h1>
+  <p class="sub">48과 36을 더하면 일의 자리끼리 더한 값(8+6=14)이 10을 넘어요. 이럴 땐 10개를 묶어서 십의 자리로 올려 보내요 — 이걸 받아올림이라고 해요. 뺄셈에서 반대로 일의 자리가 모자라면 십의 자리에서 10개를 빌려와요 — 이건 받아내림이에요. 슬라이더로 두 수를 직접 바꿔가며 블록이 어떻게 옮겨 다니는지 확인해보세요.</p>
+
+  <div class="tab-row" role="tablist" aria-label="탭 선택">
+    <button class="tab-btn active" data-tab="add" role="tab" aria-selected="true">➕ 덧셈 (받아올림)</button>
+    <button class="tab-btn" data-tab="sub" role="tab" aria-selected="false">➖ 뺄셈 (받아내림)</button>
+  </div>
+
+  <!-- 덧셈 -->
+  <div class="stage" id="addStage">
+    <div class="howto"><b>받아올림</b>: 일의 자리 블록끼리 먼저 더해봐요. 그 합이 10개가 넘으면, 10개를 하나로 묶어서 십의 자리로 올려 보내요. 슬라이더를 움직여서 두 수를 바꿔보세요.</div>
+    <div class="control-row">
+      <div class="control-label"><span>첫 번째 수</span><b id="addALabel">48</b></div>
+      <input id="sliderAddA" type="range" min="10" max="89" value="48" step="1" aria-label="첫 번째 수 조절">
+    </div>
+    <div class="control-row">
+      <div class="control-label"><span>두 번째 수</span><b id="addBLabel">36</b></div>
+      <input id="sliderAddB" type="range" min="10" max="89" value="36" step="1" aria-label="두 번째 수 조절">
+    </div>
+
+    <div class="equation">
+      <div class="big" id="addEqBig"></div>
+    </div>
+
+    <div class="num-block">
+      <div class="num-block-head"><span class="num" id="addANumLabel">48</span><span class="role">= 십의 자리 블록 + 일의 자리 블록</span></div>
+      <div class="place-cols" id="addABlocks"></div>
+    </div>
+    <div class="num-block">
+      <div class="num-block-head"><span class="num" id="addBNumLabel">36</span><span class="role">= 십의 자리 블록 + 일의 자리 블록</span></div>
+      <div class="place-cols" id="addBBlocks"></div>
+    </div>
+
+    <div id="addCarryNote"></div>
+
+    <div class="num-block">
+      <div class="num-block-head"><span class="num" id="addResultNumLabel">84</span><span class="role">최종 결과</span></div>
+      <div class="place-cols" id="addResultBlocks"></div>
+    </div>
+
+    <div class="fact" id="addFact"></div>
+  </div>
+
+  <!-- 뺄셈 -->
+  <div class="stage" id="subStage" style="display:none;">
+    <div class="howto"><b>받아내림</b>: 일의 자리에서 뺄 수가 모자라면, 십의 자리 블록 하나를 일의 자리 블록 10개로 바꿔서 빌려와요. 슬라이더를 움직여서 두 수를 바꿔보세요.</div>
+    <div class="control-row">
+      <div class="control-label"><span>큰 수</span><b id="subALabel">52</b></div>
+      <input id="sliderSubA" type="range" min="20" max="99" value="52" step="1" aria-label="큰 수 조절">
+    </div>
+    <div class="control-row">
+      <div class="control-label"><span>빼는 수</span><b id="subBLabel">27</b></div>
+      <input id="sliderSubB" type="range" min="1" max="52" value="27" step="1" aria-label="빼는 수 조절">
+    </div>
+
+    <div class="equation">
+      <div class="big" id="subEqBig"></div>
+    </div>
+
+    <div class="num-block">
+      <div class="num-block-head"><span class="num" id="subANumLabel">52</span><span class="role">= 십의 자리 블록 + 일의 자리 블록</span></div>
+      <div class="place-cols" id="subABlocks"></div>
+    </div>
+
+    <div id="subBorrowNote"></div>
+
+    <div class="num-block">
+      <div class="num-block-head"><span class="num" id="subResultNumLabel">25</span><span class="role">빼고 남은 결과</span></div>
+      <div class="place-cols" id="subResultBlocks"></div>
+    </div>
+
+    <div class="fact" id="subFact"></div>
+  </div>
+
+  <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="make-ten.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">10 만들기</span>
+    </a>
+    <a href="multiplication-array.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">곱셈구구 놀이</span>
+    </a>
+  </nav>
+<footer>받아올림·받아내림에 익숙해졌다면, "자릿값과 큰 수 읽기" 체험에서 더 큰 수의 자리값도 함께 확인해보세요.</footer>
+</div>
+
+<script>
+function digitsOf(n){
+  return { h: Math.floor(n/100), t: Math.floor(n/10)%10, o: n%10 };
+}
+function tenBlocksHtml(count, extraClass){
+  extraClass = extraClass || '';
+  let s = '';
+  for(let i=0;i<count;i++){ s += `<div class="blk-ten ${extraClass}">10</div>`; }
+  return s;
+}
+function oneBlocksHtml(count, extraClass){
+  extraClass = extraClass || '';
+  let s = '';
+  for(let i=0;i<count;i++){ s += `<div class="blk-one ${extraClass}"></div>`; }
+  return s;
+}
+function hundredBlocksHtml(count, extraClass){
+  extraClass = extraClass || '';
+  let s = '';
+  for(let i=0;i<count;i++){ s += `<div class="blk-hundred ${extraClass}">100</div>`; }
+  return s;
+}
+function placeColsHtml(d, opts){
+  opts = opts || {};
+  let cols = '';
+  if(d.h > 0 || opts.forceHundred){
+    cols += `<div class="place-col"><div class="place-title"><span>백의 자리</span><b>${d.h}</b></div><div class="blocks-line">${hundredBlocksHtml(d.h, opts.hundredClass)}</div></div>`;
+  }
+  cols += `<div class="place-col"><div class="place-title"><span>십의 자리</span><b>${d.t}</b></div><div class="blocks-line">${tenBlocksHtml(d.t, opts.tenClass)}</div></div>`;
+  cols += `<div class="place-col"><div class="place-title"><span>일의 자리</span><b>${d.o}</b></div><div class="blocks-line">${oneBlocksHtml(d.o, opts.oneClass)}</div></div>`;
+  return cols;
+}
+
+/* ---------- 덧셈 ---------- */
+const sliderAddA = document.getElementById('sliderAddA');
+const sliderAddB = document.getElementById('sliderAddB');
+const addALabel = document.getElementById('addALabel');
+const addBLabel = document.getElementById('addBLabel');
+const addANumLabel = document.getElementById('addANumLabel');
+const addBNumLabel = document.getElementById('addBNumLabel');
+const addResultNumLabel = document.getElementById('addResultNumLabel');
+const addEqBig = document.getElementById('addEqBig');
+const addABlocks = document.getElementById('addABlocks');
+const addBBlocks = document.getElementById('addBBlocks');
+const addResultBlocks = document.getElementById('addResultBlocks');
+const addCarryNote = document.getElementById('addCarryNote');
+const addFact = document.getElementById('addFact');
+
+function renderAdd(){
+  const a = parseInt(sliderAddA.value);
+  const b = parseInt(sliderAddB.value);
+  addALabel.textContent = a;
+  addBLabel.textContent = b;
+  addANumLabel.textContent = a;
+  addBNumLabel.textContent = b;
+
+  const da = digitsOf(a), db = digitsOf(b);
+  addABlocks.innerHTML = placeColsHtml(da);
+  addBBlocks.innerHTML = placeColsHtml(db);
+
+  const onesSum = da.o + db.o;
+  const onesCarry = onesSum >= 10 ? 1 : 0;
+  const onesFinal = onesSum % 10;
+
+  const tensSum = da.t + db.t + onesCarry;
+  const tensCarry = tensSum >= 10 ? 1 : 0;
+  const tensFinal = tensSum % 10;
+
+  const hundredsFinal = da.h + db.h + tensCarry;
+
+  const total = a + b;
+  addEqBig.innerHTML = `${a} <span class="op">+</span> ${b} <span class="op">=</span> ${total}`;
+  addResultNumLabel.textContent = total;
+
+  let resultCols = '';
+  if(hundredsFinal > 0){
+    const normalH = hundredsFinal - (tensCarry ? 1 : 0);
+    resultCols += `<div class="place-col"><div class="place-title"><span>백의 자리</span><b>${hundredsFinal}</b></div><div class="blocks-line">${hundredBlocksHtml(normalH,'')}${tensCarry?hundredBlocksHtml(1,'new-carry'):''}</div></div>`;
+  }
+  // 받아올림으로 새로 생긴 십 블록 하나를 구분해서 표시 (백의 자리로 넘어가지 않은 경우에만)
+  if(onesCarry && !tensCarry){
+    resultCols += `<div class="place-col"><div class="place-title"><span>십의 자리</span><b>${tensFinal}</b></div><div class="blocks-line">${tenBlocksHtml(tensFinal-1,'')}${tenBlocksHtml(1,'new-carry')}</div></div>`;
+  } else {
+    resultCols += `<div class="place-col"><div class="place-title"><span>십의 자리</span><b>${tensFinal}</b></div><div class="blocks-line">${tenBlocksHtml(tensFinal,'')}</div></div>`;
+  }
+  resultCols += `<div class="place-col"><div class="place-title"><span>일의 자리</span><b>${onesFinal}</b></div><div class="blocks-line">${oneBlocksHtml(onesFinal,'')}</div></div>`;
+  addResultBlocks.innerHTML = resultCols;
+
+  let noteHtml = '';
+  if(onesCarry){
+    noteHtml += `<div class="carry-note"><span class="ico">✨</span><div>일의 자리를 먼저 더해요: <b>${da.o} + ${db.o} = ${onesSum}</b>. ${onesSum}은 10을 넘으니, 10개를 묶어서 십의 자리로 <b>1을 받아올림</b>해요. 그래서 일의 자리엔 ${onesFinal}만 남아요.</div></div>`;
+  } else {
+    noteHtml += `<div class="no-carry-note">일의 자리끼리 더한 값 ${da.o} + ${db.o} = ${onesSum}은 10보다 작아서, 받아올림 없이 그대로 써요.</div>`;
+  }
+  if(tensCarry){
+    noteHtml += `<div class="carry-note"><span class="ico">✨</span><div>십의 자리도 더해봐요: <b>${da.t} + ${db.t}${onesCarry?' + 1(받아올림)':''} = ${tensSum}</b>. 이것도 10을 넘으니, 다시 100으로 묶어서 백의 자리로 <b>1을 받아올림</b>해요.</div></div>`;
+  }
+  addCarryNote.innerHTML = noteHtml;
+
+  addFact.innerHTML = `<b>${a} + ${b} = ${total}</b>. 일의 자리는 일의 자리끼리, 십의 자리는 십의 자리끼리 더하는 게 기본이에요. 다만 어느 자리든 합이 10을 넘으면, 10개씩 묶어서 바로 윗자리로 하나를 올려 보내야 해요 — 그게 바로 받아올림이에요.`;
+}
+
+sliderAddA.addEventListener('input', ()=>{
+  // 두 수의 합이 너무 커지지 않도록 두 번째 슬라이더 상한을 자연스럽게 유지
+  renderAdd();
+});
+sliderAddB.addEventListener('input', renderAdd);
+renderAdd();
+
+/* ---------- 뺄셈 ---------- */
+const sliderSubA = document.getElementById('sliderSubA');
+const sliderSubB = document.getElementById('sliderSubB');
+const subALabel = document.getElementById('subALabel');
+const subBLabel = document.getElementById('subBLabel');
+const subANumLabel = document.getElementById('subANumLabel');
+const subResultNumLabel = document.getElementById('subResultNumLabel');
+const subEqBig = document.getElementById('subEqBig');
+const subABlocks = document.getElementById('subABlocks');
+const subResultBlocks = document.getElementById('subResultBlocks');
+const subBorrowNote = document.getElementById('subBorrowNote');
+const subFact = document.getElementById('subFact');
+
+function renderSub(){
+  const a = parseInt(sliderSubA.value);
+  // 빼는 수는 항상 a 이하로 제한
+  sliderSubB.max = a;
+  let b = parseInt(sliderSubB.value);
+  if(b > a) { b = a; sliderSubB.value = a; }
+
+  subALabel.textContent = a;
+  subBLabel.textContent = b;
+  subANumLabel.textContent = a;
+
+  const da = digitsOf(a);
+  const onesB = b % 10, tensB = Math.floor(b/10) % 10;
+  const borrowed = da.o < onesB;
+
+  // A 블록: 빌려오기 전/후 상태를 한 화면에 함께 보여줘요
+  let tensColHtml, onesColHtml;
+  if(borrowed){
+    const tensNormalCount = da.t - 1;
+    tensColHtml = `<div class="place-col"><div class="place-title"><span>십의 자리</span><b>${da.t}</b></div><div class="blocks-line">${tenBlocksHtml(tensNormalCount,'')}${tenBlocksHtml(1,'borrowed')}</div></div>`;
+    onesColHtml = `<div class="place-col"><div class="place-title"><span>일의 자리</span><b>${da.o} → ${da.o+10}</b></div><div class="blocks-line">${oneBlocksHtml(da.o,'')}${oneBlocksHtml(10,'new')}</div></div>`;
+  } else {
+    tensColHtml = `<div class="place-col"><div class="place-title"><span>십의 자리</span><b>${da.t}</b></div><div class="blocks-line">${tenBlocksHtml(da.t,'')}</div></div>`;
+    onesColHtml = `<div class="place-col"><div class="place-title"><span>일의 자리</span><b>${da.o}</b></div><div class="blocks-line">${oneBlocksHtml(da.o,'')}</div></div>`;
+  }
+  subABlocks.innerHTML = tensColHtml + onesColHtml;
+
+  const onesAeff = borrowed ? da.o + 10 : da.o;
+  const tensAeff = borrowed ? da.t - 1 : da.t;
+  const onesResult = onesAeff - onesB;
+  const tensResult = tensAeff - tensB;
+
+  const total = a - b;
+  subEqBig.innerHTML = `${a} <span class="op">−</span> ${b} <span class="op">=</span> ${total}`;
+  subResultNumLabel.textContent = total;
+  subResultBlocks.innerHTML = placeColsHtml({h:0, t:tensResult, o:onesResult});
+
+  let noteHtml = '';
+  if(borrowed){
+    noteHtml = `<div class="carry-note"><span class="ico">✨</span><div>일의 자리를 봐요: <b>${da.o}</b>에서 <b>${onesB}</b>을 뺄 수 없어요. 그래서 십의 자리 블록 하나(10)를 빌려와서 일의 자리를 <b>${da.o} + 10 = ${onesAeff}</b>로 만들어요. 대신 십의 자리는 하나 줄어서 ${tensAeff}이 돼요. 이게 받아내림이에요.</div></div>`;
+  } else {
+    noteHtml = `<div class="no-carry-note">일의 자리 ${da.o}에서 ${onesB}을 그대로 뺄 수 있어서, 받아내림 없이 계산해요.</div>`;
+  }
+  subBorrowNote.innerHTML = noteHtml;
+
+  subFact.innerHTML = `<b>${a} − ${b} = ${total}</b>. 일의 자리에서 뺄 수가 모자라면 십의 자리에서 10을 빌려와요. 십의 자리 블록 하나는 일의 자리 블록 10개와 똑같은 양이기 때문에, 빌려와도 전체 값은 변하지 않아요.`;
+}
+
+sliderSubA.addEventListener('input', renderSub);
+sliderSubB.addEventListener('input', renderSub);
+renderSub();
+
+/* ---------- 탭 전환 ---------- */
+const addStage = document.getElementById('addStage');
+const subStage = document.getElementById('subStage');
+const tabBtns = document.querySelectorAll('.tab-btn');
+tabBtns.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    tabBtns.forEach(x=>{ x.classList.toggle('active', x===btn); x.setAttribute('aria-selected', x===btn?'true':'false'); });
+    const t = btn.dataset.tab;
+    addStage.style.display = t==='add' ? '' : 'none';
+    subStage.style.display = t==='sub' ? '' : 'none';
+  });
+});
+</script>
+</body>
+</html>

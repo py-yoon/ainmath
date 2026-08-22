@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>위성 안테나가 전부 그릇 모양인 진짜 이유 | 아인매스</title>
+<meta name="description" content="포물선 위의 어떤 점이든 초점까지의 거리와 준선까지의 거리가 똑같아요. 슬라이더로 초점의 위치를 바꿔가며 이 정의를 확인하고, 위성 안테나와 손전등에 쓰이는 반사 성질도 알아봐요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="위성 안테나가 전부 그릇 모양인 진짜 이유 | 아인매스">
+<meta property="og:description" content="포물선 위의 어떤 점이든 초점까지의 거리와 준선까지의 거리가 똑같아요. 슬라이더로 초점의 위치를 바꿔가며 이 정의를 확인하고, 위성 안테나와 손전등에 쓰이는 반사 성질도 알아봐요.">
+<meta property="og:url" content="https://ainmath.com/article-parabola.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="위성 안테나가 전부 그릇 모양인 진짜 이유 | 아인매스">
+<meta name="twitter:description" content="포물선 위의 어떤 점이든 초점까지의 거리와 준선까지의 거리가 똑같아요. 슬라이더로 초점의 위치를 바꿔가며 이 정의를 확인하고, 위성 안테나와 손전등에 쓰이는 반사 성질도 알아봐요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#1D7C7E;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="explore.html">← 전체 목록으로</a><a href="en/index.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">EN</a>
+  <span class="eyebrow" style="color:#6847F7;background:#EEE8FF">📐 도형·기하</span>
+  <h1>위성 안테나가 전부 그릇 모양인 진짜 이유</h1>
+  <p class="meta">고등학생 · 읽는 데 약 5분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>포물선은 "이차함수 그래프"로 익숙하지만, 기하 시간에는 조금 다른 방식으로 정의해요. 평면 위에 점 하나(<b>초점</b>)와 직선 하나(<b>준선</b>)를 정해놓고, <b>초점까지의 거리와 준선까지의 거리가 항상 똑같은 점들의 모임</b>을 포물선이라고 불러요. 얼핏 낯설어 보이지만, 이 정의 하나에서 우리가 아는 포물선의 방정식은 물론이고, 위성 안테나가 왜 그릇 모양인지까지 전부 설명할 수 있어요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 260 190">
+          <line x1="20" y1="150" x2="240" y2="150" stroke="var(--coral-ink)" stroke-width="2" stroke-dasharray="6 4"></line>
+          <text x="235" y="140" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--coral-ink)" text-anchor="end">준선</text>
+          <path d="M 30 150 Q 130 10 230 150" fill="none" stroke="var(--violet-ink)" stroke-width="3"></path>
+          <circle cx="130" cy="65" r="4" fill="var(--violet-ink)"></circle>
+          <text x="140" y="60" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--violet-ink)">초점 F</text>
+          <circle cx="80" cy="98" r="5" fill="var(--ink)"></circle>
+          <line x1="80" y1="98" x2="130" y2="65" stroke="var(--violet-ink)" stroke-width="2" stroke-dasharray="4 3"></line>
+          <line x1="80" y1="98" x2="80" y2="150" stroke="var(--coral-ink)" stroke-width="2" stroke-dasharray="4 3"></line>
+        </svg>
+        <div class="illo-caption">점을 포물선 위 어디로 옮겨도, 초점까지 거리(보라)와 준선까지 거리(코랄)는 항상 같아요</div>
+      </div>
+      <p>이 정의를 좌표로 옮기면 우리가 아는 식이 그대로 나와요. 꼭짓점을 원점에 두고, 초점을 (0, p), 준선을 y = −p인 직선으로 두면(p는 꼭짓점에서 초점까지의 거리), 포물선 위의 점 (x, y)에서 초점까지의 거리와 준선까지의 거리를 같다고 놓고 풀면 <b>x² = 4py</b>라는 식이 나와요. 실험실 페이지의 "초점·준선 정의" 탭에서 슬라이더로 p와 포물선 위 점의 위치를 바꿔보면, 어디로 옮기든 두 거리가 정확히 같게 유지된다는 걸 직접 확인할 수 있어요. p가 커질수록 초점이 꼭짓점에서 멀어지고, 포물선은 옆으로 더 완만하게 벌어져요.</p>
+      <p>그런데 포물선이 정말 흥미로워지는 지점은 따로 있어요. 바로 <b>반사 성질</b>이에요. 포물선의 축과 나란하게 들어오는 직선(빛이나 전파라고 생각해보세요)은, 포물선 면에 부딪혀 반사된 뒤 <b>예외 없이 초점을 향해</b> 꺾여요. 포물선 위 어느 지점에 부딪히든 상관없이 전부 초점 한 점으로 모이는 거예요. 이건 우연이 아니라, 조금 전 살펴본 "초점까지 거리 = 준선까지 거리"라는 정의로부터 기하학적으로 증명되는 성질이에요.</p>
+      <p>이 성질 덕분에 위성 안테나는 포물선을 3차원으로 회전시킨 포물면 모양으로 만들어요. 아주 먼 곳(사실상 무한히 먼 곳)에서 오는 위성 전파는 거의 평행하게 도달하는데, 포물면에 부딪힌 전파가 전부 초점 한 점으로 모이니, 그 자리에 수신기를 두면 미약한 신호를 효율적으로 모을 수 있어요. 반대 방향으로 써먹는 것이 손전등이나 자동차 헤드라이트예요. 전구를 초점 자리에 놓으면, 전구에서 사방으로 퍼지는 빛이 반사판(포물면)에 부딪힌 뒤 전부 축과 나란한 방향으로 꺾여 나가요. 그래서 흩어지지 않고 멀리까지 곧게 뻗어나가는 빛줄기를 만들 수 있는 거죠.</p>
+      <p>정리하면, 포물선은 "초점까지 거리 = 준선까지 거리"라는 하나의 규칙에서 출발해서, 방정식 x² = 4py로도 표현되고, 빛과 전파를 한 점으로 모으거나 반대로 평행하게 쏘아 보내는 반사 성질로도 이어져요. 실험실 페이지의 "반사 성질" 탭에서 p를 바꿔가며 여러 광선이 어떻게 꺾여 초점으로 모이는지 직접 확인해보세요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="parabola.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

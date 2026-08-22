@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>동전을 10번 던지면 앞면은 몇 번 나올까 | 아인매스</title>
+<meta name="description" content="같은 시행을 n번 반복할 때, 성공이 정확히 k번 나올 확률을 히스토그램으로 확인해요. n과 p를 바꿔가며 분포 모양이 어떻게 달라지는지, 평균 np의 위치는 어디인지 알아봐요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="동전을 10번 던지면 앞면은 몇 번 나올까 | 아인매스">
+<meta property="og:description" content="같은 시행을 n번 반복할 때, 성공이 정확히 k번 나올 확률을 히스토그램으로 확인해요. n과 p를 바꿔가며 분포 모양이 어떻게 달라지는지, 평균 np의 위치는 어디인지 알아봐요.">
+<meta property="og:url" content="https://ainmath.com/article-binomial-distribution.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="동전을 10번 던지면 앞면은 몇 번 나올까 | 아인매스">
+<meta name="twitter:description" content="같은 시행을 n번 반복할 때, 성공이 정확히 k번 나올 확률을 히스토그램으로 확인해요. n과 p를 바꿔가며 분포 모양이 어떻게 달라지는지, 평균 np의 위치는 어디인지 알아봐요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#1D7C7E;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="explore.html">← 전체 목록으로</a><a href="en/index.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">EN</a>
+  <span class="eyebrow" style="color:#357A63;background:#E3F5EE">📊 확률과 통계</span>
+  <h1>동전을 10번 던지면 앞면은 몇 번 나올까</h1>
+  <p class="meta">고등학생 · 읽는 데 약 5분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>동전을 10번 던지면 앞면이 몇 번 나올까요? 정확히 5번이 나올 수도 있고, 3번만 나올 수도 있고, 운이 좋으면 10번 모두 앞면이 나올 수도 있어요. 이렇게 <b>같은 시행을 정해진 횟수만큼 독립적으로 반복했을 때, 원하는 결과(성공)가 몇 번 나오는가</b>를 다루는 확률분포가 바로 이항분포(binomial distribution)예요.</p>
+      <p>이항분포가 적용되려면 몇 가지 조건이 필요해요. 첫째, 각 시행의 결과가 '성공' 아니면 '실패' 둘 중 하나여야 하고, 둘째, 성공할 확률 p가 매 시행마다 똑같아야 하며, 셋째, 각 시행이 서로 영향을 주지 않는 독립시행이어야 해요. 동전 던지기(앞면 확률 항상 1/2), 농구 자유투(매번 같은 성공률이라고 가정), 부품 검사(불량률이 일정하다고 가정) 모두 이 조건을 만족해서 이항분포로 다룰 수 있어요.</p>
+      <p>시행을 n번 반복했을 때 성공이 정확히 k번 나올 확률은 <b>P(X=k) = ₙCₖ × pᵏ × (1−p)ⁿ⁻ᵏ</b>로 나타내요. 이때 확률변수 X가 이항분포 B(n, p)를 따른다고 말해요. 공식을 뜯어보면, pᵏ(1−p)ⁿ⁻ᵏ는 성공이 k번, 실패가 (n−k)번인 '특정한 한 가지 순서'가 나올 확률이고, 조합 ₙCₖ는 n번 중 어느 자리가 성공이 될지 고르는 경우의 수예요. 즉 '한 가지 경우의 확률' × '가능한 경우의 수'로 전체 확률을 구하는 거죠.</p>
+      <p>이항분포의 평균(기댓값)은 아주 간단하게 <b>E(X) = np</b>로 구할 수 있어요. 예를 들어 동전을 10번 던지면 평균적으로 5번(10×0.5) 앞면이 나오고, 성공률 70%인 자유투를 10번 던지면 평균 7번(10×0.7) 성공한다고 기대할 수 있는 거죠. 분산은 V(X) = np(1−p)로, 표준편차는 그 제곱근으로 구해요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+          <text x="150" y="14" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink)" text-anchor="middle">B(10, 0.5)</text>
+          <rect x="30" y="119.6" width="14" height="0.4" fill="var(--teal)" opacity="0.85"></rect>
+          <rect x="54" y="116.4" width="14" height="3.6" fill="var(--teal)" opacity="0.85"></rect>
+          <rect x="78" y="104.0" width="14" height="16.0" fill="var(--teal)" opacity="0.85"></rect>
+          <rect x="102" y="77.2" width="14" height="42.8" fill="var(--teal)" opacity="0.85"></rect>
+          <rect x="126" y="45.0" width="14" height="75.0" fill="var(--teal)" opacity="0.85"></rect>
+          <rect x="150" y="30.0" width="14" height="90.0" fill="var(--coral)" opacity="0.9"></rect>
+          <rect x="174" y="45.0" width="14" height="75.0" fill="var(--teal)" opacity="0.85"></rect>
+          <rect x="198" y="77.2" width="14" height="42.8" fill="var(--teal)" opacity="0.85"></rect>
+          <rect x="222" y="104.0" width="14" height="16.0" fill="var(--teal)" opacity="0.85"></rect>
+          <rect x="246" y="116.4" width="14" height="3.6" fill="var(--teal)" opacity="0.85"></rect>
+          <rect x="270" y="119.6" width="14" height="0.4" fill="var(--teal)" opacity="0.85"></rect>
+          <line x1="20" y1="120" x2="290" y2="120" stroke="var(--ink)" stroke-width="2"></line>
+          <text x="37" y="134" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)" text-anchor="middle">0</text>
+          <text x="157" y="134" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--coral-ink)" text-anchor="middle">5</text>
+          <text x="277" y="134" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)" text-anchor="middle">10</text>
+        </svg>
+        <div class="illo-caption">동전을 10번 던졌을 때(n=10, p=0.5) 앞면이 정확히 k번 나올 확률이에요. 평균인 5번 근처(코랄색 막대)에 확률이 가장 높게 몰려 있고, 좌우로 대칭인 모양을 그려요.</div>
+      </div>
+      <p>히스토그램의 모양은 p값에 따라 크게 달라져요. p가 0.5에 가까우면 평균을 중심으로 좌우가 거의 대칭인 종 모양에 가까워지고, p가 0이나 1에 가까워질수록 분포가 한쪽으로 몰리는 비대칭 모양이 돼요. 예를 들어 불량률이 5%인 부품을 20개 검사하면, 불량 개수는 0이나 1 근처에 확률이 몰리고 오른쪽으로 길게 꼬리를 늘어뜨리는 모양이 되죠.</p>
+      <p>n이 커질수록 막대의 개수가 많아지면서 분포가 점점 매끈해지는데, 특히 p가 0.5에 가까운 경우에는 n이 커질수록 익숙한 종 모양, 즉 정규분포에 가까워져요. 이 관계는 '정규분포 실험실'에서 이어서 확인할 수 있어요.</p>
+      <p>체험 페이지에서는 동전 던지기, 자유투, 부품 불량 검사 같은 상황을 골라보거나 n과 p를 직접 슬라이더로 바꿔가며, 히스토그램의 모양과 평균(np)의 위치가 실시간으로 바뀌는 걸 확인할 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="binomial-distribution.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

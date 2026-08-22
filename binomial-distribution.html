@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>이항분포 실험실</title>
+<meta name="description" content="같은 시행을 n번 반복할 때, 성공이 정확히 k번 나올 확률을 히스토그램으로 확인해요. n과 p를 바꿔가며 분포 모양이 어떻게 달라지는지, 평균 np의 위치는 어디인지 알아봐요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="이항분포 실험실">
+<meta property="og:description" content="같은 시행을 n번 반복할 때, 성공이 정확히 k번 나올 확률을 히스토그램으로 확인해요.">
+<meta property="og:url" content="https://ainmath.com/binomial-distribution.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="이항분포 실험실">
+<meta name="twitter:description" content="n과 p를 바꿔가며 이항분포 히스토그램과 평균 np의 위치가 어떻게 달라지는지 확인해요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--green-ink);background:var(--green-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--green-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.preset-row{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.preset-btn{font-family:'Do Hyeon',sans-serif;font-size:14px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);padding:8px 16px;border-radius:999px;cursor:pointer;transition:all .2s ease;}
+.preset-btn.active{background:var(--green);border-color:var(--green);color:#fff;}
+.howto{background:var(--green-soft);border-radius:16px;padding:16px 18px;font-size:14px;line-height:1.7;color:var(--ink);margin-bottom:20px;}
+.howto b{color:var(--green-ink);}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.control-row{width:100%;display:flex;flex-direction:column;gap:8px;margin-bottom:18px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--green-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--green);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,175,142,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--green);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,175,142,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+
+.chart-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:18px 12px 8px;margin-bottom:16px;overflow-x:auto;}
+.chart-box svg{display:block;margin:0 auto;max-width:100%;height:auto;}
+
+.readout-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:16px;}
+.readout{flex:1;min-width:150px;background:var(--green-soft);border-radius:14px;padding:12px 16px;text-align:center;font-family:'Do Hyeon',sans-serif;color:var(--green-ink);}
+.readout .num{font-size:20px;}
+.readout .lbl{font-size:12.5px;color:var(--ink-soft);font-family:'Gowun Dodum',sans-serif;}
+
+.fact{background:var(--green-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);margin-top:18px;}
+.fact b{color:var(--green-ink);}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="explore.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a><a href="en/index.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--green-ink,#357A63);background:var(--green-soft,#E3F5EE);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">EN</a>
+    <a href="article-binomial-distribution.html" style="color:#fff;background:var(--green-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">📊 이항분포</span>
+  <h1>같은 시행을 n번 반복하면<br><span>k번 성공할 확률</span>은?</h1>
+  <p class="sub">성공 확률이 p인 시행을 n번 독립적으로 반복할 때, 성공이 정확히 k번 나올 확률 P(X=k)를 이항분포라고 해요. n과 p를 바꿔가며 히스토그램의 모양이 어떻게 달라지는지, 그리고 평균(np)의 위치가 어디로 움직이는지 확인해보세요.</p>
+
+  <div class="preset-row" role="group" aria-label="상황 선택">
+    <button class="preset-btn active" data-n="10" data-p="50" data-ctx="coin">🪙 동전 10번 던지기</button>
+    <button class="preset-btn" data-n="10" data-p="70" data-ctx="freethrow">🏀 자유투 10개 (성공률 70%)</button>
+    <button class="preset-btn" data-n="20" data-p="5" data-ctx="defect">⚙️ 부품 20개 중 불량 검사 (불량률 5%)</button>
+  </div>
+
+  <div class="stage">
+    <div class="howto" id="howtoText"></div>
+    <div class="control-row">
+      <div class="control-label"><span>시행 횟수 n</span><b id="nLabel">10</b> 번</div>
+      <input id="sliderN" type="range" min="1" max="20" value="10" step="1" aria-label="시행 횟수 n 조절">
+    </div>
+    <div class="control-row">
+      <div class="control-label"><span>성공 확률 p</span><b id="pLabel">50</b>%</div>
+      <input id="sliderP" type="range" min="0" max="100" value="50" step="5" aria-label="성공 확률 p 조절">
+    </div>
+
+    <div class="chart-box"><div id="histSvg"></div></div>
+
+    <div class="readout-row">
+      <div class="readout"><div class="num" id="evReadout"></div><div class="lbl">평균 E(X) = n×p</div></div>
+      <div class="readout"><div class="num" id="varReadout"></div><div class="lbl">분산 V(X) = n×p×(1−p)</div></div>
+      <div class="readout"><div class="num" id="sdReadout"></div><div class="lbl">표준편차 √V(X)</div></div>
+    </div>
+
+    <div class="fact" id="mainFact"></div>
+  </div>
+
+  <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="random-variable-distribution.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">확률변수와 기댓값 실험실</span>
+    </a>
+    <a href="normal-distribution.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">정규분포 실험실</span>
+    </a>
+  </nav>
+<footer>n이 아주 커지면 이항분포의 울퉁불퉁한 막대들이 매끄러운 종 모양 곡선에 가까워져요. "정규분포 실험실"에서 그 모습을 이어서 확인해보세요.</footer>
+</div>
+
+<script>
+function combination(n, k){
+  if(k < 0 || k > n) return 0;
+  k = Math.min(k, n-k);
+  let result = 1;
+  for(let i=0;i<k;i++){
+    result = result * (n-i) / (i+1);
+  }
+  return result;
+}
+function binomProb(n, p, k){
+  return combination(n,k) * Math.pow(p,k) * Math.pow(1-p, n-k);
+}
+
+const sliderN = document.getElementById('sliderN');
+const sliderP = document.getElementById('sliderP');
+const nLabel = document.getElementById('nLabel');
+const pLabel = document.getElementById('pLabel');
+const histSvg = document.getElementById('histSvg');
+const evReadout = document.getElementById('evReadout');
+const varReadout = document.getElementById('varReadout');
+const sdReadout = document.getElementById('sdReadout');
+const mainFact = document.getElementById('mainFact');
+const howtoText = document.getElementById('howtoText');
+
+const CTX = {
+  coin: { label:'동전 던지기', success:'앞면', unit:'번', howto:'동전을 n번 던져서 앞면(성공)이 정확히 k번 나올 확률을 막대로 표시해요.' },
+  freethrow: { label:'농구 자유투', success:'성공', unit:'개', howto:'자유투를 n번 던져서 정확히 k번 성공할 확률을 막대로 표시해요. 슛 성공률이 곧 p예요.' },
+  defect: { label:'부품 불량 검사', success:'불량', unit:'개', howto:'부품 n개를 검사해서 정확히 k개가 불량일 확률을 막대로 표시해요. n이 커도 불량률(p)이 작으면 분포가 왼쪽으로 몰려요.' }
+};
+let curCtx = 'coin';
+
+function render(){
+  const n = parseInt(sliderN.value);
+  const pPercent = parseInt(sliderP.value);
+  const p = pPercent/100;
+  nLabel.textContent = n;
+  pLabel.textContent = pPercent;
+  howtoText.innerHTML = `<b>${CTX[curCtx].label}</b>: ${CTX[curCtx].howto}`;
+
+  const probs = [];
+  for(let k=0;k<=n;k++) probs.push(binomProb(n,p,k));
+  const maxProb = Math.max(...probs, 0.0001);
+
+  const width = Math.max(560, 40 + (n+1)*32);
+  const height = 260;
+  const baseY = 210;
+  const chartTop = 20;
+  const barAreaH = baseY - chartTop;
+  const barW = Math.min(28, (width-60)/(n+1) - 4);
+  const stepX = (width-60)/(n+1);
+
+  const ev = n*p;
+  const meanK = Math.round(ev);
+
+  let bars = '';
+  for(let k=0;k<=n;k++){
+    const h = (probs[k]/maxProb) * barAreaH;
+    const x = 40 + k*stepX + (stepX-barW)/2;
+    const y = baseY - h;
+    const isMean = (k === meanK);
+    bars += `<rect x="${x}" y="${y}" width="${barW}" height="${h}" rx="3" fill="${isMean?'var(--coral)':'var(--green)'}" opacity="${isMean?1:0.85}"></rect>`;
+    if(n <= 16 || k%2===0){
+      bars += `<text x="${x+barW/2}" y="${baseY+16}" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)" text-anchor="middle">${k}</text>`;
+    }
+  }
+
+  histSvg.innerHTML = `
+  <svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
+    <line x1="40" y1="${baseY}" x2="${width-20}" y2="${baseY}" stroke="var(--ink)" stroke-width="2"></line>
+    ${bars}
+  </svg>`;
+
+  evReadout.textContent = ev.toFixed(2);
+  const variance = n*p*(1-p);
+  varReadout.textContent = variance.toFixed(2);
+  sdReadout.textContent = Math.sqrt(variance).toFixed(2);
+
+  mainFact.innerHTML = `P(X=k) = <b>ₙCₖ pᵏ(1−p)ⁿ⁻ᵏ</b> 공식으로 각 막대의 높이를 계산해요. 코랄색 막대는 평균(np ≈ ${ev.toFixed(1)})에 가장 가까운 k예요. p가 0.5에 가까울수록 분포가 좌우 대칭에 가까워지고, p가 0이나 1에 가까워질수록 한쪽으로 치우쳐요.`;
+}
+
+sliderN.addEventListener('input', render);
+sliderP.addEventListener('input', render);
+
+document.querySelectorAll('.preset-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.preset-btn').forEach(b=>b.classList.toggle('active', b===btn));
+    curCtx = btn.dataset.ctx;
+    sliderN.value = btn.dataset.n;
+    sliderP.value = btn.dataset.p;
+    render();
+  });
+});
+
+render();
+</script>
+</body>
+</html>

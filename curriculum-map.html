@@ -287,7 +287,7 @@ const GRADES = [
     id:'g12', title:'초등학교 1~2학년군', badge:'초 1~2', school:'초등학교', color:'coral',
     domains: {
       number: [
-        { name:'100까지의 수 / 덧셈과 뺄셈', exp:[{label:'10 만들기', href:'make-ten.html'}], art:[{label:'설명 글', href:'article-make-ten.html'}] },
+        { name:'100까지의 수 / 덧셈과 뺄셈', exp:[{label:'10 만들기', href:'make-ten.html'},{label:'받아올림·받아내림', href:'addition-subtraction-carrying.html'}], art:[{label:'설명 글', href:'article-make-ten.html'},{label:'설명 글', href:'article-addition-subtraction-carrying.html'}] },
         { name:'곱셈구구', exp:[{label:'곱셈구구 놀이', href:'multiplication-array.html'}], art:[{label:'설명 글', href:'article-multiplication-array.html'}] },
       ],
       change: [
@@ -297,7 +297,7 @@ const GRADES = [
         { name:'입체도형의 모양 (직육면체·원기둥·구, 쌓기나무)', exp:[{label:'입체도형의 모양 찾기', href:'solid-shape-families.html'}], art:[{label:'설명 글', href:'article-solid-shape-families.html'}] },
         { name:'비교하기 (길이·무게·넓이·들이)', exp:[{label:'비교하기', href:'comparison-basics.html'}], art:[{label:'설명 글', href:'article-comparison-basics.html'}] },
         { name:'여러 가지 도형', exp:[{label:'평면도형 모양 찾기', href:'shape-finder.html'}], art:[{label:'설명 글', href:'article-shape-finder.html'}] },
-        { name:'길이 재기 · 시각과 시간', exp:[{label:'시계 보기', href:'clock-reading.html'}], art:[{label:'설명 글', href:'article-clock-reading.html'}] },
+        { name:'길이 재기 · 시각과 시간', exp:[{label:'시계 보기', href:'clock-reading.html'},{label:'몇 분 전, 몇 분 후', href:'clock-minutes-before-after.html'},{label:'자로 길이 재기', href:'ruler-length-measure.html'}], art:[{label:'설명 글', href:'article-clock-reading.html'},{label:'설명 글', href:'article-clock-minutes-before-after.html'},{label:'설명 글', href:'article-ruler-length-measure.html'}] },
       ],
       data: [
         { name:'분류하기', exp:[{label:'분류하기', href:'classify-objects.html'}], art:[{label:'설명 글', href:'article-classify-objects.html'}] },
@@ -391,7 +391,7 @@ const GRADES = [
     id:'m2', title:'중학교 2학년', badge:'중 2', school:'중학교', color:'teal',
     domains: {
       number: [
-        { name:'유리수와 순환소수', exp:[{label:'유리수와 순환소수', href:'repeating-decimal.html'},{label:'순환소수 실험실', href:'repeating-decimals-lab.html'}], art:[{label:'설명 글', href:'article-repeating-decimal.html'}] },
+        { name:'유리수와 순환소수', exp:[{label:'유리수와 순환소수', href:'repeating-decimal.html'},{label:'순환소수 실험실', href:'repeating-decimals-lab.html'}], art:[{label:'설명 글', href:'article-repeating-decimal.html'},{label:'설명 글', href:'article-repeating-decimals-lab.html'}] },
       ],
       change: [
         { name:'식의 계산', exp:[{label:'지수법칙·동류항', href:'monomial-calculation.html'}], art:[{label:'설명 글', href:'article-monomial-calculation.html'}] },
@@ -435,13 +435,14 @@ const GRADES = [
         { name:'집합과 명제', exp:[{label:'집합과 명제 실험실', href:'sets-propositions.html'}], art:[{label:'설명 글', href:'article-sets-propositions.html'}] },
       ],
       change: [
-        { name:'복소수와 이차방정식', exp:[{label:'허수와 복소수 실험실', href:'imaginary-complex-numbers-lab.html'}], note:'극형식·오일러 공식 부분은 고1 범위를 넘는 심화 내용이에요' },
+        { name:'복소수와 이차방정식', exp:[{label:'허수와 복소수 실험실', href:'imaginary-complex-numbers-lab.html'}], art:[{label:'설명 글', href:'article-imaginary-complex-numbers-lab.html'}], note:'극형식·오일러 공식 부분은 고1 범위를 넘는 심화 내용이에요' },
         { name:'이차방정식과 이차부등식', exp:[{label:'곱셈공식·인수분해', href:'factoring-quadratic.html'}], art:[{label:'설명 글', href:'article-factoring-quadratic.html'}], note:'이차부등식 부분은 아직 준비 중이에요' },
         { name:'함수와 그래프', exp:[{label:'일차함수 그래프', href:'linear-function-graph.html'},{label:'이차함수 그래프', href:'quadratic-function-graph.html'}], art:[{label:'설명 글', href:'article-linear-function.html'},{label:'설명 글', href:'article-quadratic-function.html'}], note:'유리함수·무리함수·합성함수·역함수는 아직 준비 중이에요' },
         { name:'행렬', exp:[{label:'행렬 실험실', href:'matrix.html'}], art:[{label:'설명 글', href:'article-matrix.html'}] },
       ],
       shape: [
         { name:'도형의 방정식 (좌표평면·도형의 이동)', exp:[{label:'좌표평면 위 도형 이동', href:'coordinate-transform.html'},{label:'직선의 방정식 실험실', href:'line-equation.html'}], art:[{label:'설명 글', href:'article-coordinate-transform.html'},{label:'설명 글', href:'article-line-equation.html'}], note:'원의 방정식 부분은 아직 준비 중이에요' },
+        { name:'삼각비의 활용 (사인법칙·코사인법칙)', exp:[{label:'사인법칙과 코사인법칙', href:'law-of-sines-cosines.html'}], art:[{label:'설명 글', href:'article-law-of-sines-cosines.html'}] },
       ],
       data: [
         { name:'경우의 수', exp:[{label:'경우의 수 실험실', href:'counting-principle.html'}], art:[{label:'설명 글', href:'article-counting-principle.html'}] },
@@ -465,7 +466,8 @@ const GRADES = [
       data: [
         { name:'경우의 수와 확률', exp:[{label:'동전·주사위 시뮬레이터', href:'coin-dice-simulator.html'},{label:'순열과 조합', href:'permutations-combinations.html'}], art:[{label:'설명 글', href:'article-coin-dice-probability.html'},{label:'설명 글', href:'article-permutations-combinations.html'}] },
         { name:'확률의 뜻과 활용 (여사건·조건부확률·독립시행)', exp:[{label:'확률의 기본 정의와 여사건', href:'probability-complement.html'},{label:'조건부확률과 독립시행', href:'conditional-probability.html'}], art:[{label:'설명 글', href:'article-probability-complement.html'},{label:'설명 글', href:'article-conditional-probability.html'}] },
-        { name:'통계', exp:[{label:'평균·중앙값·최빈값', href:'mean-median-mode.html'},{label:'표준편차와 분산', href:'standard-deviation.html'},{label:'상관계수와 회귀직선', href:'correlation-regression.html'}], art:[{label:'설명 글', href:'article-mean-median-mode.html'},{label:'설명 글', href:'article-standard-deviation.html'},{label:'설명 글', href:'article-correlation-regression.html'}], note:'정규분포·추정 부분은 아직 준비 중이에요' },
+        { name:'확률변수와 확률분포', exp:[{label:'확률변수와 기댓값', href:'random-variable-distribution.html'},{label:'이항분포', href:'binomial-distribution.html'},{label:'정규분포', href:'normal-distribution.html'}], art:[{label:'설명 글', href:'article-random-variable-distribution.html'},{label:'설명 글', href:'article-binomial-distribution.html'},{label:'설명 글', href:'article-normal-distribution.html'}] },
+        { name:'통계', exp:[{label:'평균·중앙값·최빈값', href:'mean-median-mode.html'},{label:'표준편차와 분산', href:'standard-deviation.html'},{label:'상관계수와 회귀직선', href:'correlation-regression.html'}], art:[{label:'설명 글', href:'article-mean-median-mode.html'},{label:'설명 글', href:'article-standard-deviation.html'},{label:'설명 글', href:'article-correlation-regression.html'}], note:'통계적 추정 부분은 아직 준비 중이에요' },
       ],
     }
   },
@@ -478,7 +480,7 @@ const GRADES = [
         { name:'여러 가지 적분법', exp:[{label:'여러 가지 적분법 실험실', href:'integration-techniques.html'},{label:'치환적분·부분적분', href:'integration-methods.html'}], art:[{label:'설명 글', href:'article-integration-techniques.html'},{label:'설명 글', href:'article-integration-methods.html'}] },
       ],
       shape: [
-        { name:'이차곡선 (타원·포물선·쌍곡선)', exp:[{label:'입체도형 단면 탐구', href:'solid-cross-sections-lab.html'}], art:[{label:'설명 글', href:'article-solid-cross-sections-lab.html'}], note:'원뿔을 잘라 이차곡선이 나오는 원리를 먼저 체험해요. 각 곡선의 방정식 자체는 아직 준비 중이에요' },
+        { name:'이차곡선 (타원·포물선·쌍곡선)', exp:[{label:'입체도형 단면 탐구', href:'solid-cross-sections-lab.html'},{label:'타원 실험실', href:'ellipse.html'},{label:'포물선 실험실', href:'parabola.html'}], art:[{label:'설명 글', href:'article-solid-cross-sections-lab.html'},{label:'설명 글', href:'article-ellipse.html'},{label:'설명 글', href:'article-parabola.html'}], note:'원뿔을 잘라 이차곡선이 나오는 원리를 먼저 체험하고, 타원·포물선의 방정식도 확인해요. 쌍곡선의 방정식은 아직 준비 중이에요' },
         { name:'공간도형과 공간좌표', exp:[{label:'공간도형과 공간좌표 실험실', href:'space-coordinates.html'}], art:[{label:'설명 글', href:'article-space-coordinates.html'}] },
         { name:'벡터', exp:[{label:'벡터 실험실', href:'vectors.html'}], art:[{label:'설명 글', href:'article-vectors.html'}] },
       ],
@@ -513,21 +515,21 @@ const EXPLORE = [
   { icon:'🎀', name:'뫼비우스의 띠·클라인 병 실험실', exp:[{label:'체험하기', href:'mobius-klein.html'}], art:[{label:'설명 글', href:'article-mobius-klein.html'}] },
   { icon:'🌐', name:'구의 부피 실험실', exp:[{label:'체험하기', href:'sphere-volume-proof.html'}], art:[{label:'설명 글', href:'article-sphere-volume-proof.html'}] },
   { icon:'⚙️', name:'도형을 따라 굴러가는 원의 자취', exp:[{label:'체험하기', href:'circle-roll-locus.html'}] },
-  { icon:'🎂', name:'생일 역설 실험실', exp:[{label:'체험하기', href:'birthday-paradox-lab.html'}] },
-  { icon:'🌀', name:'콜라츠 추측 실험실', exp:[{label:'체험하기', href:'collatz-conjecture-lab.html'}] },
-  { icon:'🔢', name:'자릿수로 노는 수 실험실', exp:[{label:'체험하기', href:'curious-digit-numbers-lab.html'}] },
-  { icon:'🔗', name:'약수 사슬 실험실', exp:[{label:'체험하기', href:'divisor-chain-numbers.html'}] },
-  { icon:'🔐', name:'타원곡선 암호 실험실', exp:[{label:'체험하기', href:'elliptic-curve-crypto-lab.html'}] },
-  { icon:'♾️', name:'거대한 수와 무한 실험실', exp:[{label:'체험하기', href:'huge-numbers-infinity-lab.html'}] },
-  { icon:'✨', name:'신기한 수의 성질 실험실', exp:[{label:'체험하기', href:'number-properties-lab.html'}] },
-  { icon:'🔍', name:'소수의 미해결 문제 실험실', exp:[{label:'체험하기', href:'prime-mysteries-lab.html'}] },
+  { icon:'🎂', name:'생일 역설 실험실', exp:[{label:'체험하기', href:'birthday-paradox-lab.html'}], art:[{label:'설명 글', href:'article-birthday-paradox-lab.html'}] },
+  { icon:'🌀', name:'콜라츠 추측 실험실', exp:[{label:'체험하기', href:'collatz-conjecture-lab.html'}], art:[{label:'설명 글', href:'article-collatz-conjecture-lab.html'}] },
+  { icon:'🔢', name:'자릿수로 노는 수 실험실', exp:[{label:'체험하기', href:'curious-digit-numbers-lab.html'}], art:[{label:'설명 글', href:'article-curious-digit-numbers-lab.html'}] },
+  { icon:'🔗', name:'약수 사슬 실험실', exp:[{label:'체험하기', href:'divisor-chain-numbers.html'}], art:[{label:'설명 글', href:'article-divisor-chain-numbers.html'}] },
+  { icon:'🔐', name:'타원곡선 암호 실험실', exp:[{label:'체험하기', href:'elliptic-curve-crypto-lab.html'}], art:[{label:'설명 글', href:'article-elliptic-curve-crypto-lab.html'}] },
+  { icon:'♾️', name:'거대한 수와 무한 실험실', exp:[{label:'체험하기', href:'huge-numbers-infinity-lab.html'}], art:[{label:'설명 글', href:'article-huge-numbers-infinity-lab.html'}] },
+  { icon:'✨', name:'신기한 수의 성질 실험실', exp:[{label:'체험하기', href:'number-properties-lab.html'}], art:[{label:'설명 글', href:'article-number-properties-lab.html'}] },
+  { icon:'🔍', name:'소수의 미해결 문제 실험실', exp:[{label:'체험하기', href:'prime-mysteries-lab.html'}], art:[{label:'설명 글', href:'article-prime-mysteries-lab.html'}] },
   { icon:'🔑', name:'RSA 암호 실험실', exp:[{label:'체험하기', href:'rsa-encryption-lab.html'}], art:[{label:'설명 글', href:'article-rsa-encryption-lab.html'}], myst:[{label:'미스터리', href:'mystery-intercepted-message.html'}] },
-  { icon:'⭐', name:'특별한 수 실험실', exp:[{label:'체험하기', href:'special-numbers-lab.html'}] },
-  { icon:'🐢', name:'제논의 역설 실험실', exp:[{label:'체험하기', href:'zeno-paradox-lab.html'}] },
-  { icon:'🎯', name:'몬테카를로 원주율 실험실', exp:[{label:'체험하기', href:'monte-carlo-pi-lab.html'}] },
-  { icon:'🔢', name:'카탈랑 수 실험실', exp:[{label:'체험하기', href:'catalan-numbers-lab.html'}] },
-  { icon:'🧬', name:'콘웨이의 생명 게임 실험실', exp:[{label:'체험하기', href:'game-of-life-lab.html'}] },
-  { icon:'🌉', name:'쾨니히스베르크 다리 문제 실험실', exp:[{label:'체험하기', href:'konigsberg-bridges-lab.html'}] },
+  { icon:'⭐', name:'특별한 수 실험실', exp:[{label:'체험하기', href:'special-numbers-lab.html'}], art:[{label:'설명 글', href:'article-special-numbers-lab.html'}] },
+  { icon:'🐢', name:'제논의 역설 실험실', exp:[{label:'체험하기', href:'zeno-paradox-lab.html'}], art:[{label:'설명 글', href:'article-zeno-paradox-lab.html'}] },
+  { icon:'🎯', name:'몬테카를로 원주율 실험실', exp:[{label:'체험하기', href:'monte-carlo-pi-lab.html'}], art:[{label:'설명 글', href:'article-monte-carlo-pi-lab.html'}] },
+  { icon:'🔢', name:'카탈랑 수 실험실', exp:[{label:'체험하기', href:'catalan-numbers-lab.html'}], art:[{label:'설명 글', href:'article-catalan-numbers-lab.html'}] },
+  { icon:'🧬', name:'콘웨이의 생명 게임 실험실', exp:[{label:'체험하기', href:'game-of-life-lab.html'}], art:[{label:'설명 글', href:'article-game-of-life-lab.html'}] },
+  { icon:'🌉', name:'쾨니히스베르크 다리 문제 실험실', exp:[{label:'체험하기', href:'konigsberg-bridges-lab.html'}], art:[{label:'설명 글', href:'article-konigsberg-bridges-lab.html'}] },
   { icon:'📊', name:'심슨의 역설 실험실', exp:[{label:'체험하기', href:'simpsons-paradox-lab.html'}], art:[{label:'설명 글', href:'article-simpsons-paradox-lab.html'}], myst:[{label:'미스터리', href:'mystery-two-hospitals.html'}] },
 ];
 

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>사인법칙과 코사인법칙 실험실</title>
+<meta name="description" content="삼각형의 각과 변 중 몇 개만 알아도 나머지를 구할 수 있어요. 각-각-변을 알 때는 사인법칙으로, 변-각-변을 알 때는 코사인법칙으로. 슬라이더로 삼각형을 직접 바꿔가며 두 법칙을 확인해요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="사인법칙과 코사인법칙 실험실">
+<meta property="og:description" content="슬라이더로 삼각형을 직접 바꿔가며 사인법칙과 코사인법칙을 확인해요.">
+<meta property="og:url" content="https://ainmath.com/law-of-sines-cosines.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="사인법칙과 코사인법칙 실험실">
+<meta name="twitter:description" content="슬라이더로 삼각형을 직접 바꿔가며 사인법칙과 코사인법칙을 확인해요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --blue:#4C8BF5; --blue-soft:#E7F0FF;--blue-ink:#0D62F1;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--blue-ink);background:var(--blue-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--blue-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.tab-row{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);padding:9px 18px;border-radius:999px;cursor:pointer;transition:all .2s ease;}
+.tab-btn.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+.howto{background:var(--blue-soft);border-radius:16px;padding:16px 18px;font-size:14px;line-height:1.7;color:var(--ink);margin-bottom:20px;}
+.howto b{color:var(--blue-ink);}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.control-row{width:100%;display:flex;flex-direction:column;gap:8px;margin-bottom:18px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--blue-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,139,245,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+
+.chart-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:18px 12px;margin-bottom:16px;overflow-x:auto;}
+.chart-box svg{display:block;margin:0 auto;max-width:100%;height:auto;}
+
+.equation{background:var(--blue-soft);border-radius:14px;padding:14px 18px;text-align:center;font-family:'Do Hyeon',sans-serif;font-size:17px;color:var(--blue-ink);margin-bottom:16px;line-height:1.6;}
+
+.fact{background:var(--blue-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);margin-top:18px;}
+.fact b{color:var(--blue-ink);}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="explore.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a><a href="en/index.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--blue-ink,#0D62F1);background:var(--blue-soft,#E7F0FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">EN</a>
+    <a href="article-law-of-sines-cosines.html" style="color:#fff;background:var(--blue-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">📐 사인법칙·코사인법칙</span>
+  <h1>각 2개와 변 1개만 알아도<br><span>삼각형 전체</span>를 알 수 있어요</h1>
+  <p class="sub">직각삼각형이 아니어도 괜찮아요. 각-각-변을 알 때는 사인법칙으로, 변-각-변을 알 때는 코사인법칙으로 나머지 변과 각을 모두 구할 수 있어요. 슬라이더로 삼각형을 직접 바꿔가며 두 법칙이 어떻게 작동하는지 확인해보세요.</p>
+
+  <div class="tab-row" role="tablist" aria-label="탭 선택">
+    <button class="tab-btn active" data-tab="sine" role="tab" aria-selected="true">📐 사인법칙</button>
+    <button class="tab-btn" data-tab="cosine" role="tab" aria-selected="false">📏 코사인법칙</button>
+  </div>
+
+  <!-- 사인법칙 -->
+  <div class="stage" id="sineStage">
+    <div class="howto">각 A, 각 B, 변 a(각 A의 대변)를 정하면 삼각형이 하나로 정해져요. 사인법칙 <b>a/sinA = b/sinB = c/sinC = 2R</b>로 나머지 변과 외접원의 반지름 R까지 구해봐요.</div>
+    <div class="control-row">
+      <div class="control-label"><span>각 A</span><b id="angleALabel">50</b>°</div>
+      <input id="sliderAngleA" type="range" min="10" max="150" value="50" step="1" aria-label="각 A 조절">
+    </div>
+    <div class="control-row">
+      <div class="control-label"><span>각 B</span><b id="angleBLabel">70</b>°</div>
+      <input id="sliderAngleB" type="range" min="10" max="150" value="70" step="1" aria-label="각 B 조절">
+    </div>
+    <div class="control-row">
+      <div class="control-label"><span>변 a (각 A의 대변)</span><b id="sideALabel">8</b></div>
+      <input id="sliderSideA" type="range" min="3" max="12" value="8" step="0.5" aria-label="변 a 조절">
+    </div>
+
+    <div class="chart-box"><div id="sineSvg"></div></div>
+    <div class="equation" id="sineEquation"></div>
+    <div class="fact" id="sineFact"></div>
+  </div>
+
+  <!-- 코사인법칙 -->
+  <div class="stage" id="cosineStage" style="display:none;">
+    <div class="howto">변 a, 변 b, 그리고 그 사이에 낀 각 C를 정하면 삼각형이 하나로 정해져요. 코사인법칙 <b>c² = a² + b² − 2ab·cosC</b>로 나머지 변 c를 구해봐요.</div>
+    <div class="control-row">
+      <div class="control-label"><span>변 a</span><b id="cosSideALabel">7</b></div>
+      <input id="sliderCosA" type="range" min="3" max="12" value="7" step="0.5" aria-label="변 a 조절">
+    </div>
+    <div class="control-row">
+      <div class="control-label"><span>변 b</span><b id="cosSideBLabel">5</b></div>
+      <input id="sliderCosB" type="range" min="3" max="12" value="5" step="0.5" aria-label="변 b 조절">
+    </div>
+    <div class="control-row">
+      <div class="control-label"><span>끼인각 C</span><b id="cosAngleCLabel">60</b>°</div>
+      <input id="sliderCosC" type="range" min="10" max="170" value="60" step="1" aria-label="끼인각 C 조절">
+    </div>
+
+    <div class="chart-box"><div id="cosineSvg"></div></div>
+    <div class="equation" id="cosineEquation"></div>
+    <div class="fact" id="cosineFact"></div>
+  </div>
+
+  <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="unit-circle.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">단위원과 삼각비 실험실</span>
+    </a>
+    <a href="trig-function-graphs.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">삼각함수의 그래프 실험실</span>
+    </a>
+  </nav>
+<footer>단위원에서 sin·cos값을 확인했다면, 이번엔 그 값들이 실제 삼각형의 변 길이를 구하는 데 어떻게 쓰이는지 이어서 확인해보세요.</footer>
+</div>
+
+<script>
+function toRad(d){ return d*Math.PI/180; }
+
+/* ---------- 사인법칙 ---------- */
+const sliderAngleA = document.getElementById('sliderAngleA');
+const sliderAngleB = document.getElementById('sliderAngleB');
+const sliderSideA = document.getElementById('sliderSideA');
+const angleALabel = document.getElementById('angleALabel');
+const angleBLabel = document.getElementById('angleBLabel');
+const sideALabel = document.getElementById('sideALabel');
+const sineSvg = document.getElementById('sineSvg');
+const sineEquation = document.getElementById('sineEquation');
+const sineFact = document.getElementById('sineFact');
+
+function renderSine(){
+  let A = parseInt(sliderAngleA.value);
+  let B = parseInt(sliderAngleB.value);
+  if(A + B >= 170){
+    B = 170 - A;
+    sliderAngleB.value = B;
+  }
+  const a = parseFloat(sliderSideA.value);
+  angleALabel.textContent = A;
+  angleBLabel.textContent = B;
+  sideALabel.textContent = a;
+
+  const C = 180 - A - B;
+  const Ar = toRad(A), Br = toRad(B), Cr = toRad(C);
+  const b = a * Math.sin(Br) / Math.sin(Ar);
+  const c = a * Math.sin(Cr) / Math.sin(Ar);
+  const R = a / (2*Math.sin(Ar));
+
+  // 좌표: B=(0,0), C=(a,0), A는 c,각B로 결정
+  const scale = 300 / Math.max(a, b, c, 6);
+  const Bp = [0,0];
+  const Cp = [a*scale, 0];
+  const Ap = [c*scale*Math.cos(Br), c*scale*Math.sin(Br)];
+
+  const minX = Math.min(Bp[0],Cp[0],Ap[0]) - 40;
+  const maxX = Math.max(Bp[0],Cp[0],Ap[0]) + 40;
+  const minY = -40;
+  const maxY = Math.max(Bp[1],Cp[1],Ap[1]) + 60;
+  const w = maxX-minX, h = maxY-minY;
+  const shift = (p)=> [p[0]-minX, maxY-p[1]]; // y뒤집기(수학좌표->svg좌표)
+  const Bs = shift(Bp), Cs = shift(Cp), As = shift(Ap);
+
+  sineSvg.innerHTML = `
+  <svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="${Bs.join(',')} ${Cs.join(',')} ${As.join(',')}" fill="var(--blue-soft)" stroke="var(--blue-ink)" stroke-width="2.5"></polygon>
+    <text x="${(Bs[0]+Cs[0])/2}" y="${Bs[1]+18}" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink)" text-anchor="middle">a=${a.toFixed(1)}</text>
+    <text x="${(Cs[0]+As[0])/2+14}" y="${(Cs[1]+As[1])/2}" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink)" text-anchor="middle">b=${b.toFixed(1)}</text>
+    <text x="${(As[0]+Bs[0])/2-14}" y="${(As[1]+Bs[1])/2}" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink)" text-anchor="middle">c=${c.toFixed(1)}</text>
+    <text x="${Bs[0]}" y="${Bs[1]+30}" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--blue-ink)" text-anchor="middle">B(${B}°)</text>
+    <text x="${Cs[0]}" y="${Cs[1]+30}" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--blue-ink)" text-anchor="middle">C(${C.toFixed(0)}°)</text>
+    <text x="${As[0]}" y="${As[1]-14}" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--blue-ink)" text-anchor="middle">A(${A}°)</text>
+  </svg>`;
+
+  sineEquation.innerHTML = `a/sinA = b/sinB = c/sinC = 2R<br>${a.toFixed(1)}/sin${A}° = ${b.toFixed(1)}/sin${B}° = ${c.toFixed(1)}/sin${C.toFixed(0)}° = ${(2*R).toFixed(1)}`;
+  sineFact.innerHTML = `각 A, B를 정하면 각 C=180°−A−B도 자동으로 정해져요. 여기에 변 a 하나만 더 알면, 사인법칙으로 <b>b=${b.toFixed(2)}</b>, <b>c=${c.toFixed(2)}</b>를 모두 구할 수 있어요. 게다가 이 비율은 삼각형의 <b>외접원 지름(2R=${(2*R).toFixed(2)})</b>과도 똑같아요 — 각이 클수록 그 대변도 길고, 외접원도 커진다는 뜻이에요.`;
+}
+[sliderAngleA, sliderAngleB, sliderSideA].forEach(el=>el.addEventListener('input', renderSine));
+renderSine();
+
+/* ---------- 코사인법칙 ---------- */
+const sliderCosA = document.getElementById('sliderCosA');
+const sliderCosB = document.getElementById('sliderCosB');
+const sliderCosC = document.getElementById('sliderCosC');
+const cosSideALabel = document.getElementById('cosSideALabel');
+const cosSideBLabel = document.getElementById('cosSideBLabel');
+const cosAngleCLabel = document.getElementById('cosAngleCLabel');
+const cosineSvg = document.getElementById('cosineSvg');
+const cosineEquation = document.getElementById('cosineEquation');
+const cosineFact = document.getElementById('cosineFact');
+
+function renderCosine(){
+  const a = parseFloat(sliderCosA.value);
+  const b = parseFloat(sliderCosB.value);
+  const C = parseInt(sliderCosC.value);
+  cosSideALabel.textContent = a;
+  cosSideBLabel.textContent = b;
+  cosAngleCLabel.textContent = C;
+
+  const Cr = toRad(C);
+  const c = Math.sqrt(a*a + b*b - 2*a*b*Math.cos(Cr));
+
+  const area = 0.5*a*b*Math.sin(Cr);
+
+  // C를 원점에, B=(a,0), A=(b cosC, b sinC)
+  const scale = 300 / Math.max(a, b, c, 6);
+  const Cp = [0,0];
+  const Bp = [a*scale, 0];
+  const Ap = [b*scale*Math.cos(Cr), b*scale*Math.sin(Cr)];
+
+  const minX = Math.min(Cp[0],Bp[0],Ap[0]) - 40;
+  const maxX = Math.max(Cp[0],Bp[0],Ap[0]) + 40;
+  const minY = -40;
+  const maxY = Math.max(Cp[1],Bp[1],Ap[1]) + 60;
+  const w = maxX-minX, h = maxY-minY;
+  const shift = (p)=> [p[0]-minX, maxY-p[1]];
+  const Cs = shift(Cp), Bs = shift(Bp), As = shift(Ap);
+
+  cosineSvg.innerHTML = `
+  <svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="${Cs.join(',')} ${Bs.join(',')} ${As.join(',')}" fill="var(--blue-soft)" stroke="var(--blue-ink)" stroke-width="2.5"></polygon>
+    <text x="${(Cs[0]+Bs[0])/2}" y="${Cs[1]+18}" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink)" text-anchor="middle">a=${a.toFixed(1)}</text>
+    <text x="${(Cs[0]+As[0])/2-14}" y="${(Cs[1]+As[1])/2}" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink)" text-anchor="middle">b=${b.toFixed(1)}</text>
+    <text x="${(As[0]+Bs[0])/2+18}" y="${(As[1]+Bs[1])/2}" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--coral-ink)" text-anchor="middle">c=${c.toFixed(2)}</text>
+    <text x="${Cs[0]}" y="${Cs[1]+30}" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--blue-ink)" text-anchor="middle">C(${C}°)</text>
+  </svg>`;
+
+  cosineEquation.innerHTML = `c² = a² + b² − 2ab·cosC<br>c² = ${a.toFixed(1)}² + ${b.toFixed(1)}² − 2·${a.toFixed(1)}·${b.toFixed(1)}·cos${C}° = ${(c*c).toFixed(2)} → c=${c.toFixed(2)}`;
+  cosineFact.innerHTML = `변 a, b와 그 사이 끼인각 C만 알면, 코사인법칙으로 나머지 변 <b>c=${c.toFixed(2)}</b>를 바로 구할 수 있어요. 만약 C=90°라면 cos90°=0이 되어 c²=a²+b²만 남아요 — <b>코사인법칙은 피타고라스 정리를 일반각으로 확장한 것</b>이에요. 참고로 이 삼각형의 넓이는 (1/2)ab·sinC = <b>${area.toFixed(2)}</b>이에요.`;
+}
+[sliderCosA, sliderCosB, sliderCosC].forEach(el=>el.addEventListener('input', renderCosine));
+renderCosine();
+
+/* ---------- 탭 전환 ---------- */
+const sineStage = document.getElementById('sineStage');
+const cosineStage = document.getElementById('cosineStage');
+const tabBtns = document.querySelectorAll('.tab-btn');
+tabBtns.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    tabBtns.forEach(x=>{ x.classList.toggle('active', x===btn); x.setAttribute('aria-selected', x===btn?'true':'false'); });
+    const t = btn.dataset.tab;
+    sineStage.style.display = t==='sine' ? '' : 'none';
+    cosineStage.style.display = t==='cosine' ? '' : 'none';
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>몇 분 전, 몇 분 후 시계 실험실</title>
+<meta name="description" content="아날로그 시계 바늘을 슬라이더로 움직여, 지금 시각에서 몇 분이 지나거나 몇 분 전이었는지 확인해요. 60분이 넘거나 모자라면 시(時)가 어떻게 바뀌는지도 눈으로 봐요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="몇 분 전, 몇 분 후 시계 실험실">
+<meta property="og:description" content="아날로그 시계 바늘을 슬라이더로 움직여, 지금 시각에서 몇 분이 지나거나 몇 분 전이었는지 확인해요. 60분이 넘거나 모자라면 시(時)가 어떻게 바뀌는지도 눈으로 봐요.">
+<meta property="og:url" content="https://ainmath.com/clock-minutes-before-after.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="몇 분 전, 몇 분 후 시계 실험실">
+<meta name="twitter:description" content="아날로그 시계 바늘을 슬라이더로 움직여, 지금 시각에서 몇 분이 지나거나 몇 분 전이었는지 확인해요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--coral-ink);background:var(--coral-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--coral-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.tab-row{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);padding:9px 18px;border-radius:999px;cursor:pointer;transition:all .2s ease;}
+.tab-btn.active{background:var(--coral);border-color:var(--coral);color:#fff;}
+.howto{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14px;line-height:1.7;color:var(--ink);margin-bottom:20px;}
+.howto b{color:var(--coral-ink);}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.control-row{width:100%;display:flex;flex-direction:column;gap:8px;margin-bottom:18px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--coral-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 2px 8px rgba(255,91,87,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--violet);outline-offset:2px;}
+
+.clocks-row{display:flex;gap:24px;flex-wrap:wrap;justify-content:center;margin-bottom:18px;}
+.clock-card{flex:1;min-width:180px;max-width:240px;text-align:center;}
+.clock-card svg{width:100%;height:auto;}
+.clock-card .clabel{font-family:'Do Hyeon',sans-serif;font-size:14px;color:var(--ink-soft);margin-bottom:6px;}
+.clock-card .cval{font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--ink);margin-top:8px;}
+.arrow-mid{display:flex;align-items:center;justify-content:center;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--coral-ink);min-width:70px;text-align:center;}
+
+.hour-change-note{background:var(--violet-soft);border-radius:14px;padding:14px 16px;font-size:14px;line-height:1.7;color:var(--ink);margin:14px 0;display:flex;gap:10px;align-items:flex-start;}
+.hour-change-note .ico{font-size:18px;flex:none;}
+.hour-change-note b{color:var(--violet-ink);}
+.no-change-note{background:var(--paper);border:2px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14px;line-height:1.7;color:var(--ink-soft);margin:14px 0;}
+
+.fact{background:var(--coral-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);margin-top:18px;}
+.fact b{color:var(--coral-ink);}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="explore.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a><a href="en/index.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">EN</a>
+    <a href="article-clock-minutes-before-after.html" style="color:#fff;background:var(--coral-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">⏰ 몇 분 전, 몇 분 후</span>
+  <h1>60분이 넘으면<br><span>시(時)</span>가 하나 바뀌어요</h1>
+  <p class="sub">지금 시각에서 분침을 더 돌리면 "몇 분 후"가 되고, 거꾸로 돌리면 "몇 분 전"이 돼요. 그런데 분이 60을 넘거나 0보다 모자라면 시침도 함께 움직여야 해요. 슬라이더로 지금 시각과 지나가는 시간을 바꿔가며 두 시계를 비교해보세요.</p>
+
+  <div class="tab-row" role="tablist" aria-label="탭 선택">
+    <button class="tab-btn active" data-tab="after" role="tab" aria-selected="true">➡️ 몇 분 후</button>
+    <button class="tab-btn" data-tab="before" role="tab" aria-selected="false">⬅️ 몇 분 전</button>
+  </div>
+
+  <!-- 몇 분 후 -->
+  <div class="stage" id="afterStage">
+    <div class="howto"><b>몇 분 후</b>: 지금 시각에 슬라이더로 정한 분을 더해요. 더한 분이 60분을 넘어가면, 시침이 다음 시각으로 하나 넘어가요.</div>
+    <div class="control-row">
+      <div class="control-label"><span>지금 시</span><b id="afterHourLabel">2</b> 시</div>
+      <input id="afterHour" type="range" min="1" max="12" value="2" step="1" aria-label="지금 시 조절">
+    </div>
+    <div class="control-row">
+      <div class="control-label"><span>지금 분</span><b id="afterMinLabel">50</b> 분</div>
+      <input id="afterMin" type="range" min="0" max="55" value="50" step="5" aria-label="지금 분 조절">
+    </div>
+    <div class="control-row">
+      <div class="control-label"><span>몇 분 후</span><b id="afterDeltaLabel">20</b> 분 후</div>
+      <input id="afterDelta" type="range" min="5" max="55" value="20" step="5" aria-label="더할 분 조절">
+    </div>
+
+    <div class="clocks-row">
+      <div class="clock-card"><div class="clabel">지금 시각</div><div id="afterClockNow"></div><div class="cval" id="afterNowLabel"></div></div>
+      <div class="arrow-mid" id="afterArrowLabel">20분 후<br>➡️</div>
+      <div class="clock-card"><div class="clabel">결과 시각</div><div id="afterClockResult"></div><div class="cval" id="afterResultLabel"></div></div>
+    </div>
+
+    <div id="afterHourNote"></div>
+    <div class="fact" id="afterFact"></div>
+  </div>
+
+  <!-- 몇 분 전 -->
+  <div class="stage" id="beforeStage" style="display:none;">
+    <div class="howto"><b>몇 분 전</b>: 지금 시각에서 슬라이더로 정한 분만큼 거꾸로 되돌려요. 지금 분보다 더 많이 되돌리면, 시침이 이전 시각으로 하나 넘어가요.</div>
+    <div class="control-row">
+      <div class="control-label"><span>지금 시</span><b id="beforeHourLabel">3</b> 시</div>
+      <input id="beforeHour" type="range" min="1" max="12" value="3" step="1" aria-label="지금 시 조절">
+    </div>
+    <div class="control-row">
+      <div class="control-label"><span>지금 분</span><b id="beforeMinLabel">10</b> 분</div>
+      <input id="beforeMin" type="range" min="0" max="55" value="10" step="5" aria-label="지금 분 조절">
+    </div>
+    <div class="control-row">
+      <div class="control-label"><span>몇 분 전</span><b id="beforeDeltaLabel">20</b> 분 전</div>
+      <input id="beforeDelta" type="range" min="5" max="55" value="20" step="5" aria-label="뺄 분 조절">
+    </div>
+
+    <div class="clocks-row">
+      <div class="clock-card"><div class="clabel">결과 시각</div><div id="beforeClockResult"></div><div class="cval" id="beforeResultLabel"></div></div>
+      <div class="arrow-mid" id="beforeArrowLabel">20분 전<br>⬅️</div>
+      <div class="clock-card"><div class="clabel">지금 시각</div><div id="beforeClockNow"></div><div class="cval" id="beforeNowLabel"></div></div>
+    </div>
+
+    <div id="beforeHourNote"></div>
+    <div class="fact" id="beforeFact"></div>
+  </div>
+
+  <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="clock-reading.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">시계 보기 (몇 시 몇 분)</span>
+    </a>
+    <a href="integer-number-line.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">정수와 유리수 (수직선 놀이)</span>
+    </a>
+  </nav>
+<footer>시계 읽기가 익숙해졌다면, "정수와 유리수 (수직선 놀이)" 체험에서 숫자가 앞뒤로 움직이는 걸 수직선으로도 확인해보세요.</footer>
+</div>
+
+<script>
+function buildClockSvg(hour, minute, highlightMinuteHand){
+  const cx=100, cy=100, r=86;
+  const hourAngle = ((hour % 12) + minute/60) * 30 - 90;
+  const minAngle = minute * 6 - 90;
+  const hourLen = 46, minLen = 70;
+  const hx = cx + hourLen*Math.cos(hourAngle*Math.PI/180);
+  const hy = cy + hourLen*Math.sin(hourAngle*Math.PI/180);
+  const mx = cx + minLen*Math.cos(minAngle*Math.PI/180);
+  const my = cy + minLen*Math.sin(minAngle*Math.PI/180);
+
+  let ticks = '';
+  for(let i=1;i<=12;i++){
+    const a = (i*30-90) * Math.PI/180;
+    const tx = cx + 68*Math.cos(a), ty = cy + 68*Math.sin(a);
+    ticks += `<text x="${tx}" y="${ty+5}" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink)" text-anchor="middle">${i}</text>`;
+    const x1 = cx + 78*Math.cos(a), y1 = cy + 78*Math.sin(a);
+    const x2 = cx + 84*Math.cos(a), y2 = cy + 84*Math.sin(a);
+    ticks += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--ink-soft)" stroke-width="2"></line>`;
+  }
+
+  return `
+  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="#fff" stroke="var(--paper-line)" stroke-width="3"></circle>
+    ${ticks}
+    <line x1="${cx}" y1="${cy}" x2="${hx}" y2="${hy}" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"></line>
+    <line x1="${cx}" y1="${cy}" x2="${mx}" y2="${my}" stroke="${highlightMinuteHand?'var(--coral-ink)':'var(--violet-ink)'}" stroke-width="3" stroke-linecap="round"></line>
+    <circle cx="${cx}" cy="${cy}" r="5" fill="var(--ink)"></circle>
+  </svg>`;
+}
+
+function shiftTime(hour, minute, delta){
+  // delta: 양수면 더하기(몇 분 후), 음수면 빼기(몇 분 전)
+  const h0 = hour % 12; // 12시는 0으로 취급
+  let total = h0*60 + minute + delta;
+  total = ((total % 720) + 720) % 720;
+  let newH = Math.floor(total/60);
+  const newM = total % 60;
+  if(newH === 0) newH = 12;
+  const hourChanged = newH !== hour;
+  return { hour:newH, minute:newM, hourChanged };
+}
+
+function fmt(h,m){ return `${h}시 ${m===0?'정각':m+'분'}`; }
+
+/* ---------- 몇 분 후 ---------- */
+const afterHour = document.getElementById('afterHour');
+const afterMin = document.getElementById('afterMin');
+const afterDelta = document.getElementById('afterDelta');
+const afterHourLabel = document.getElementById('afterHourLabel');
+const afterMinLabel = document.getElementById('afterMinLabel');
+const afterDeltaLabel = document.getElementById('afterDeltaLabel');
+const afterClockNow = document.getElementById('afterClockNow');
+const afterClockResult = document.getElementById('afterClockResult');
+const afterNowLabel = document.getElementById('afterNowLabel');
+const afterResultLabel = document.getElementById('afterResultLabel');
+const afterArrowLabel = document.getElementById('afterArrowLabel');
+const afterHourNote = document.getElementById('afterHourNote');
+const afterFact = document.getElementById('afterFact');
+
+function renderAfter(){
+  const h = parseInt(afterHour.value);
+  const m = parseInt(afterMin.value);
+  const d = parseInt(afterDelta.value);
+  afterHourLabel.textContent = h;
+  afterMinLabel.textContent = m;
+  afterDeltaLabel.textContent = d;
+  afterArrowLabel.innerHTML = `${d}분 후<br>➡️`;
+
+  const res = shiftTime(h, m, d);
+  afterClockNow.innerHTML = buildClockSvg(h, m, false);
+  afterClockResult.innerHTML = buildClockSvg(res.hour, res.minute, true);
+  afterNowLabel.textContent = fmt(h,m);
+  afterResultLabel.textContent = fmt(res.hour, res.minute);
+
+  const sumMin = m + d;
+  if(sumMin >= 60){
+    afterHourNote.innerHTML = `<div class="hour-change-note"><span class="ico">✨</span><div>${m}분에 ${d}분을 더하면 <b>${sumMin}분</b>이에요. 60분이 넘으니 60분을 시(時) 하나로 바꿔서, <b>${h}시</b>가 <b>${res.hour}시</b>로 넘어가고 남은 분은 <b>${res.minute}분</b>이 돼요.</div></div>`;
+  } else {
+    afterHourNote.innerHTML = `<div class="no-change-note">${m}분에 ${d}분을 더한 ${sumMin}분은 60분이 안 넘어서, 시(時)는 그대로 ${h}시예요.</div>`;
+  }
+  afterFact.innerHTML = `<b>${fmt(h,m)}</b>에서 <b>${d}분 후</b>는 <b>${fmt(res.hour,res.minute)}</b>예요. 시계에서 긴바늘(분침)이 60분, 즉 한 바퀴를 다 돌면 짧은바늘(시침)이 다음 숫자로 하나 넘어가요.`;
+}
+[afterHour, afterMin, afterDelta].forEach(el=>el.addEventListener('input', renderAfter));
+renderAfter();
+
+/* ---------- 몇 분 전 ---------- */
+const beforeHour = document.getElementById('beforeHour');
+const beforeMin = document.getElementById('beforeMin');
+const beforeDelta = document.getElementById('beforeDelta');
+const beforeHourLabel = document.getElementById('beforeHourLabel');
+const beforeMinLabel = document.getElementById('beforeMinLabel');
+const beforeDeltaLabel = document.getElementById('beforeDeltaLabel');
+const beforeClockNow = document.getElementById('beforeClockNow');
+const beforeClockResult = document.getElementById('beforeClockResult');
+const beforeNowLabel = document.getElementById('beforeNowLabel');
+const beforeResultLabel = document.getElementById('beforeResultLabel');
+const beforeArrowLabel = document.getElementById('beforeArrowLabel');
+const beforeHourNote = document.getElementById('beforeHourNote');
+const beforeFact = document.getElementById('beforeFact');
+
+function renderBefore(){
+  const h = parseInt(beforeHour.value);
+  const m = parseInt(beforeMin.value);
+  const d = parseInt(beforeDelta.value);
+  beforeHourLabel.textContent = h;
+  beforeMinLabel.textContent = m;
+  beforeDeltaLabel.textContent = d;
+  beforeArrowLabel.innerHTML = `${d}분 전<br>⬅️`;
+
+  const res = shiftTime(h, m, -d);
+  beforeClockNow.innerHTML = buildClockSvg(h, m, false);
+  beforeClockResult.innerHTML = buildClockSvg(res.hour, res.minute, true);
+  beforeNowLabel.textContent = fmt(h,m);
+  beforeResultLabel.textContent = fmt(res.hour, res.minute);
+
+  const diff = m - d;
+  if(diff < 0){
+    beforeHourNote.innerHTML = `<div class="hour-change-note"><span class="ico">✨</span><div>${m}분에서 ${d}분을 뺄 수가 없어요. 그래서 앞 시각인 <b>${h}시</b>에서 1시간(60분)을 빌려와서 <b>${m}+60=${m+60}분</b>으로 만든 다음 ${d}분을 빼요. 그러면 시(時)는 <b>${res.hour}시</b>로, 분은 <b>${res.minute}분</b>이 돼요.</div></div>`;
+  } else {
+    beforeHourNote.innerHTML = `<div class="no-change-note">${m}분에서 ${d}분을 그대로 뺄 수 있어서, 시(時)는 그대로 ${h}시예요.</div>`;
+  }
+  beforeFact.innerHTML = `<b>${fmt(h,m)}</b>에서 <b>${d}분 전</b>은 <b>${fmt(res.hour,res.minute)}</b>이었어요. 분이 모자라면 앞 시각에서 60분을 빌려온다는 점이, 두 자리 수 뺄셈에서 십의 자리를 빌려오는 것과 비슷해요.`;
+}
+[beforeHour, beforeMin, beforeDelta].forEach(el=>el.addEventListener('input', renderBefore));
+renderBefore();
+
+/* ---------- 탭 전환 ---------- */
+const afterStage = document.getElementById('afterStage');
+const beforeStage = document.getElementById('beforeStage');
+const tabBtns = document.querySelectorAll('.tab-btn');
+tabBtns.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    tabBtns.forEach(x=>{ x.classList.toggle('active', x===btn); x.setAttribute('aria-selected', x===btn?'true':'false'); });
+    const t = btn.dataset.tab;
+    afterStage.style.display = t==='after' ? '' : 'none';
+    beforeStage.style.display = t==='before' ? '' : 'none';
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Why Triangles With the Same Base and Height Always Have the Same Area | AINMATH</title>
+<meta name="description" content="Whether it's a sharp, acute triangle or one leaning way off to one side, as long as the base and height match, the area is always the same. Here's why...">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Why Triangles With the Same Base and Height Always Have the Same Area | AINMATH">
+<meta property="og:description" content="Whether it's a sharp, acute triangle or one leaning way off to one side, as long as the base and height match, the area is always the same. Here's why...">
+<meta property="og:url" content="https://ainmath.com/en/article-triangle-base-height.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Why Triangles With the Same Base and Height Always Have the Same Area | AINMATH">
+<meta name="twitter:description" content="Whether it's a sharp, acute triangle or one leaning way off to one side, as long as the base and height match, the area is always the same. Here's why...">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:280px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#6847F7;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="grade-5-6.html">← Back to all activities</a><a href="../article-triangle-base-height.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+  <span class="eyebrow" style="color:#6847F7;background:#EEE8FF">📐 Shape &amp; Geometry</span>
+  <h1>Why Triangles With the Same Base and Height Always Have the Same Area</h1>
+  <p class="meta">Middle school · About 4 min read</p>
+  <div class="card">
+    <div class="article-body">
+      <p>The formula for a triangle's area is (base × height) ÷ 2. Looking at this formula reveals something interesting — it only takes two numbers: base and height. None of the three side lengths or angle measures show up anywhere in it. So doesn't that mean, if the base and height stay the same, the area should always stay the same too, even if the triangle's shape changes completely? It really does.</p>
+      <p>Let's check this with a picture. Fix a base AB of length 6 on the ground, and imagine sliding vertex C along a line 4 units above it, running parallel to the base. Put C directly above the middle of the base and you get an acute triangle; put it directly above one end and you get a right triangle; slide it way off to one side past the base entirely and you get an obtuse triangle. The shapes look completely different, but since the base (6) and height (4) never changed, the area is always the same: (6×4)÷2 = 12.</p>
+      <div class="illo">
+        <svg viewBox="0 0 200 130">
+          <line x1="10" y1="100" x2="190" y2="100" stroke="var(--paper-line)" stroke-width="1.5"></line>
+          <line x1="10" y1="30" x2="190" y2="30" stroke="var(--paper-line)" stroke-width="1.5" stroke-dasharray="4 3"></line>
+          <polygon points="60,100 130,100 90,30" fill="var(--violet-soft)" stroke="var(--violet-ink)" stroke-width="2"></polygon>
+          <polygon points="60,100 130,100 170,30" fill="none" stroke="var(--coral-ink)" stroke-width="2" stroke-dasharray="4 3"></polygon>
+          <text x="90" y="20" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--violet-ink)">Acute</text>
+          <text x="170" y="20" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--coral-ink)">Obtuse</text>
+          <text x="95" y="115" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">Same base, same height</text>
+        </svg>
+        <div class="illo-caption">No matter where the vertex sits along the dashed line (same height), the area stays the same</div>
+      </div>
+      <p>There's a slightly confusing part with obtuse triangles. When vertex C slides far enough to one side of base AB, the perpendicular line dropped from C (the height) lands not on the base segment AB itself but on its <b>extension</b>. That's completely fine — height measures "the perpendicular distance to the line containing the base," not something that has to land inside the segment itself. Keep that one point in mind, and you can find the area of an obtuse triangle with exactly the same formula, no problem.</p>
+      <p>Another way to verify this idea is with coordinates, using the <b>shoelace formula</b>. If you know the coordinates of all three vertices, you can calculate area = |x₁(y₂−y₃) + x₂(y₃−y₁) + x₃(y₁−y₂)| ÷ 2 directly. This formula doesn't care at all whether the triangle is acute or obtuse — it always gives the exact area. Checking that this value always matches what you get from (base×height)÷2 gives you one more way to verify that "different shape, same area" really holds.</p>
+      <p>This property serves as a key tool in plenty of proofs. For instance, proving why a parallelogram's area is "base × height" starts from the fact that the two triangles formed by cutting a parallelogram along its diagonal each share the same base and height. And whenever you need to show two triangles have equal area, showing "same base, same height" gets you to the conclusion much faster than measuring every side length one by one.</p>
+      <p>When studying this with kids, it helps to actually draw two parallel lines on paper, fix a base between them, and draw a bunch of different-looking triangles by sliding just the vertex around. It can feel puzzling at first that such different-looking shapes have identical areas, but calculating the area yourself and checking it makes it click for sure. On our activity page, you can freely build acute, right, and obtuse triangles by sliding the vertex, and check for yourself that both calculation methods always give the same area.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="triangle-base-height.html">🎮 Try this concept yourself →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>AINMATH · Learn math by checking it yourself with sliders</p>
+  <nav><a href="index.html">Home</a>·<a href="../about.html">About</a>·<a href="../terms.html">Terms</a>·<a href="../privacy-policy.html">Privacy Policy</a>·<a href="../contact.html">Contact</a></nav>
+</footer>
+</body>
+</html>

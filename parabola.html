@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>포물선 실험실</title>
+<meta name="description" content="포물선 위의 어떤 점이든 초점까지의 거리와 준선까지의 거리가 똑같아요. 슬라이더로 초점의 위치를 바꿔가며 이 정의를 확인하고, 위성 안테나와 손전등에 쓰이는 반사 성질도 알아봐요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="포물선 실험실">
+<meta property="og:description" content="포물선 위의 어떤 점이든 초점까지의 거리와 준선까지의 거리가 똑같아요. 슬라이더로 확인하고, 반사 성질도 알아봐요.">
+<meta property="og:url" content="https://ainmath.com/parabola.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="포물선 실험실">
+<meta name="twitter:description" content="포물선의 초점-준선 정의와 반사 성질을 슬라이더로 확인해요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--violet-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.tab-row{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);padding:9px 18px;border-radius:999px;cursor:pointer;transition:all .2s ease;}
+.tab-btn.active{background:var(--violet);border-color:var(--violet);color:#fff;}
+.howto{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14px;line-height:1.7;color:var(--ink);margin-bottom:20px;}
+.howto b{color:var(--violet-ink);}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.control-row{width:100%;display:flex;flex-direction:column;gap:8px;margin-bottom:18px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--violet-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+
+.chart-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:18px 12px;margin-bottom:16px;overflow-x:auto;}
+.chart-box svg{display:block;margin:0 auto;max-width:100%;height:auto;}
+
+.readout{background:var(--violet-soft);border-radius:14px;padding:14px 18px;text-align:center;font-family:'Do Hyeon',sans-serif;font-size:17px;color:var(--violet-ink);margin-bottom:16px;}
+
+.fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);margin-top:18px;}
+.fact b{color:var(--violet-ink);}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="explore.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a><a href="en/index.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">EN</a>
+    <a href="article-parabola.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🛰️ 포물선</span>
+  <h1>초점까지의 거리 = <span>준선</span>까지의 거리</h1>
+  <p class="sub">포물선은 한 점(초점)과 한 직선(준선)까지의 거리가 항상 똑같은 점들의 모임이에요. 슬라이더로 초점의 위치와 포물선 위 점을 바꿔가며 이 정의를 확인하고, 위성 안테나와 손전등에 쓰이는 반사 성질도 알아보세요.</p>
+
+  <div class="tab-row" role="tablist" aria-label="탭 선택">
+    <button class="tab-btn active" data-tab="define" role="tab" aria-selected="true">📏 초점·준선 정의</button>
+    <button class="tab-btn" data-tab="reflect" role="tab" aria-selected="false">🛰️ 반사 성질</button>
+  </div>
+
+  <!-- 정의 -->
+  <div class="stage" id="defineStage">
+    <div class="howto"><b>p</b>는 꼭짓점에서 초점까지의 거리예요. 포물선 위의 점을 슬라이더로 옮기면서, 초점까지의 거리(보라색 점선)와 준선까지의 거리(코랄색 점선)가 항상 같은지 확인해보세요.</div>
+    <div class="control-row">
+      <div class="control-label"><span>초점까지의 거리 p</span><b id="pLabel">2</b></div>
+      <input id="sliderP" type="range" min="1" max="4" value="2" step="0.5" aria-label="p 조절">
+    </div>
+    <div class="control-row">
+      <div class="control-label"><span>포물선 위 점의 위치</span><b id="tLabel">3</b></div>
+      <input id="sliderT" type="range" min="-6" max="6" value="3" step="0.5" aria-label="점의 위치 조절">
+    </div>
+
+    <div class="chart-box"><div id="defineSvg"></div></div>
+    <div class="readout" id="defineReadout"></div>
+    <div class="fact" id="defineFact"></div>
+  </div>
+
+  <!-- 반사 성질 -->
+  <div class="stage" id="reflectStage" style="display:none;">
+    <div class="howto">포물선 축과 나란하게 들어오는 빛(점선 화살표)은, 포물선 면에 부딪힌 뒤 <b>항상 초점을 향해</b> 반사돼요. 그래서 위성 안테나와 손전등 반사판은 포물선(포물면) 모양으로 만들어요.</div>
+    <div class="control-row">
+      <div class="control-label"><span>초점까지의 거리 p</span><b id="pReflectLabel">2</b></div>
+      <input id="sliderPReflect" type="range" min="1" max="4" value="2" step="0.5" aria-label="p 조절">
+    </div>
+
+    <div class="chart-box"><div id="reflectSvg"></div></div>
+    <div class="fact" id="reflectFact"></div>
+  </div>
+
+  <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="ellipse.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">타원 실험실</span>
+    </a>
+    <a href="hyperbola.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">쌍곡선 실험실</span>
+    </a>
+  </nav>
+<footer>타원(두 초점까지 거리의 합)에 이어, 포물선(한 초점·한 준선)까지 확인했다면 "쌍곡선 실험실"에서 두 초점까지 거리의 차가 일정한 곡선도 이어서 확인해보세요.</footer>
+</div>
+
+<script>
+function worldToSvg(x, y, xlim, yMin, yMax, w, h){
+  const sx = (x+xlim) / (2*xlim) * w;
+  const sy = h - (y-yMin)/(yMax-yMin) * h;
+  return [sx, sy];
+}
+
+/* ---------- 정의 ---------- */
+const sliderP = document.getElementById('sliderP');
+const sliderT = document.getElementById('sliderT');
+const pLabel = document.getElementById('pLabel');
+const tLabel = document.getElementById('tLabel');
+const defineSvg = document.getElementById('defineSvg');
+const defineReadout = document.getElementById('defineReadout');
+const defineFact = document.getElementById('defineFact');
+
+function renderDefine(){
+  const p = parseFloat(sliderP.value);
+  let t = parseFloat(sliderT.value);
+  pLabel.textContent = p;
+
+  const ylim = 8;
+  const xlim = Math.sqrt(4*p*ylim);
+  const yMin = -p - 1;
+  const yMax = ylim;
+  if(t > xlim*0.95) t = Math.round(xlim*0.95*2)/2;
+  if(t < -xlim*0.95) t = Math.round(-xlim*0.95*2)/2;
+  sliderT.value = t;
+  tLabel.textContent = t;
+
+  const w=620, h=340;
+  const toSvg = (x,y)=> worldToSvg(x,y,xlim,yMin,yMax,w,h);
+
+  let curvePts = [];
+  const N=80;
+  for(let i=0;i<=N;i++){
+    const x = -xlim + 2*xlim*i/N;
+    const y = x*x/(4*p);
+    curvePts.push(toSvg(x,y));
+  }
+
+  const y_t = t*t/(4*p);
+  const focus = [0,p];
+  const ptOnCurve = [t, y_t];
+  const footOnDirectrix = [t, -p];
+
+  const focusS = toSvg(...focus);
+  const ptS = toSvg(...ptOnCurve);
+  const footS = toSvg(...footOnDirectrix);
+  const directrixY = toSvg(0,-p)[1];
+  const vertexS = toSvg(0,0);
+
+  const distFocus = Math.hypot(ptOnCurve[0]-focus[0], ptOnCurve[1]-focus[1]);
+  const distDirectrix = y_t + p;
+
+  defineSvg.innerHTML = `
+  <svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <line x1="0" y1="${directrixY}" x2="${w}" y2="${directrixY}" stroke="var(--coral-ink)" stroke-width="2" stroke-dasharray="6 4"></line>
+    <text x="12" y="${directrixY-8}" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral-ink)">준선</text>
+    <polyline points="${curvePts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="var(--violet-ink)" stroke-width="3"></polyline>
+    <circle cx="${focusS[0]}" cy="${focusS[1]}" r="5" fill="var(--violet-ink)"></circle>
+    <text x="${focusS[0]+10}" y="${focusS[1]-8}" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--violet-ink)">초점 F</text>
+    <circle cx="${vertexS[0]}" cy="${vertexS[1]}" r="4" fill="var(--ink)"></circle>
+    <line x1="${ptS[0]}" y1="${ptS[1]}" x2="${focusS[0]}" y2="${focusS[1]}" stroke="var(--violet-ink)" stroke-width="2.5" stroke-dasharray="5 4"></line>
+    <line x1="${ptS[0]}" y1="${ptS[1]}" x2="${footS[0]}" y2="${footS[1]}" stroke="var(--coral-ink)" stroke-width="2.5" stroke-dasharray="5 4"></line>
+    <circle cx="${ptS[0]}" cy="${ptS[1]}" r="6" fill="var(--ink)"></circle>
+  </svg>`;
+
+  defineReadout.textContent = `초점까지 거리 = ${distFocus.toFixed(2)}   /   준선까지 거리 = ${distDirectrix.toFixed(2)}`;
+  defineFact.innerHTML = `점을 어디로 옮겨도 두 거리가 <b>항상 똑같다</b>는 걸 확인해보세요(작은 반올림 오차만 있을 수 있어요). 이게 바로 포물선의 정의예요. p가 커지면 초점이 꼭짓점에서 더 멀어지고, 포물선은 더 완만하게 벌어져요.`;
+}
+sliderP.addEventListener('input', renderDefine);
+sliderT.addEventListener('input', renderDefine);
+renderDefine();
+
+/* ---------- 반사 성질 ---------- */
+const sliderPReflect = document.getElementById('sliderPReflect');
+const pReflectLabel = document.getElementById('pReflectLabel');
+const reflectSvg = document.getElementById('reflectSvg');
+const reflectFact = document.getElementById('reflectFact');
+
+function renderReflect(){
+  const p = parseFloat(sliderPReflect.value);
+  pReflectLabel.textContent = p;
+
+  const ylim = 8;
+  const xlim = Math.sqrt(4*p*ylim);
+  const yMin = -p - 1;
+  const yMax = ylim;
+  const w=620, h=340;
+  const toSvg = (x,y)=> worldToSvg(x,y,xlim,yMin,yMax,w,h);
+
+  let curvePts = [];
+  const N=80;
+  for(let i=0;i<=N;i++){
+    const x = -xlim + 2*xlim*i/N;
+    const y = x*x/(4*p);
+    curvePts.push(toSvg(x,y));
+  }
+  const focus = [0,p];
+  const focusS = toSvg(...focus);
+
+  const sampleXs = [-xlim*0.75, -xlim*0.45, xlim*0.2, xlim*0.55, xlim*0.85];
+  let rays = '';
+  sampleXs.forEach(x=>{
+    const y = x*x/(4*p);
+    const topS = toSvg(x, ylim);
+    const ptS = toSvg(x, y);
+    rays += `<line x1="${topS[0]}" y1="${topS[1]}" x2="${ptS[0]}" y2="${ptS[1]}" stroke="var(--ink-soft)" stroke-width="1.8" stroke-dasharray="5 4"></line>`;
+    rays += `<line x1="${ptS[0]}" y1="${ptS[1]}" x2="${focusS[0]}" y2="${focusS[1]}" stroke="var(--coral-ink)" stroke-width="1.8"></line>`;
+    rays += `<circle cx="${ptS[0]}" cy="${ptS[1]}" r="3.5" fill="var(--ink)"></circle>`;
+  });
+
+  reflectSvg.innerHTML = `
+  <svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <polyline points="${curvePts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="var(--violet-ink)" stroke-width="3"></polyline>
+    ${rays}
+    <circle cx="${focusS[0]}" cy="${focusS[1]}" r="6" fill="var(--violet-ink)"></circle>
+    <text x="${focusS[0]+10}" y="${focusS[1]-8}" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--violet-ink)">초점 F</text>
+  </svg>`;
+
+  reflectFact.innerHTML = `회색 점선(축과 나란히 들어오는 빛)이 포물선에 부딪힌 뒤, 코랄색 선처럼 <b>모두 초점 F로 꺾여 모여요</b>. 그래서 위성 안테나는 포물면 모양으로 만들어 약한 전파를 한 점(수신기)에 모으고, 손전등이나 자동차 헤드라이트는 반대로 전구를 초점 자리에 둬서 빛을 나란하게 멀리 쏘아 보내요.`;
+}
+sliderPReflect.addEventListener('input', renderReflect);
+renderReflect();
+
+/* ---------- 탭 전환 ---------- */
+const defineStage = document.getElementById('defineStage');
+const reflectStage = document.getElementById('reflectStage');
+const tabBtns = document.querySelectorAll('.tab-btn');
+tabBtns.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    tabBtns.forEach(x=>{ x.classList.toggle('active', x===btn); x.setAttribute('aria-selected', x===btn?'true':'false'); });
+    const t = btn.dataset.tab;
+    defineStage.style.display = t==='define' ? '' : 'none';
+    reflectStage.style.display = t==='reflect' ? '' : 'none';
+  });
+});
+</script>
+</body>
+</html>

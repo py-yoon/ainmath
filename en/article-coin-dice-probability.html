@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Coin and Dice Probability: The Truth Only Shows Up After Many Tries | AINMATH</title>
+<meta name="description" content="Flip a coin ten times and get zero heads, and you might wonder, wait, isn't it supposed to be fifty-fifty? Probability itself behaves erratically over a small number of trials...">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Coin and Dice Probability: The Truth Only Shows Up After Many Tries | AINMATH">
+<meta property="og:description" content="Flip a coin ten times and get zero heads, and you might wonder, wait, isn't it supposed to be fifty-fifty? Probability itself behaves erratically over a small number of trials...">
+<meta property="og:url" content="https://ainmath.com/en/article-coin-dice-probability.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Coin and Dice Probability: The Truth Only Shows Up After Many Tries | AINMATH">
+<meta name="twitter:description" content="Flip a coin ten times and get zero heads, and you might wonder, wait, isn't it supposed to be fifty-fifty? Probability itself behaves erratically over a small number of trials...">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{
+    display:inline-flex;align-items:center;gap:6px;
+    color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;
+  }
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;
+    padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;
+  }
+  h1{
+    font-family:'Do Hyeon',sans-serif;font-weight:400;
+    font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;
+  }
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{
+    background:var(--card);border-radius:22px;box-shadow:var(--shadow);
+    padding:clamp(20px,4vw,40px);
+  }
+  .article-body p{
+    font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;
+  }
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:320px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;
+    background:#357A63;text-decoration:none;
+    padding:14px 22px;border-radius:14px;
+    transition:transform .15s ease;
+  }
+  .cta-btn:hover{transform:translateY(-2px);}
+  .cta-soon{font-size:14px;color:var(--ink-soft);margin:0;}
+  .cta-soon a{color:#357A63;}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="grade-5-6.html">← Back to all activities</a><a href="../article-coin-dice-probability.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--green-ink,#357A63);background:var(--green-soft,#E3F5EE);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+  <span class="eyebrow" style="color:#357A63;background:#E3F5EE">📊 Data &amp; Probability</span>
+  <h1>Coin and Dice Probability: The Truth Only Shows Up After Many Tries</h1>
+  <p class="meta">Upper elementary – middle school · About 4 min read</p>
+  <div class="card">
+    <div class="article-body">
+      <p>Flip a coin ten times and get zero heads, and you might think, "wait, isn't it supposed to be fifty-fifty?" As it turns out, probability itself is naturally jumpy over a small number of trials, and only settles close to its theoretical value once the number of trials gets very large.</p>
+      <p>The probability of a single coin flip landing on heads is 1/2. But that doesn't mean "flip it twice and you're guaranteed one heads" — it means "flip it a huge number of times, and the fraction that land heads gradually creeps toward 50%." Missing this distinction is exactly how people fall into the mistaken belief that "it's landed tails a few times in a row, so heads must be due next."</p>
+      <div class="illo">
+        <svg viewBox="0 0 260 130">
+          <line x1="15" y1="10" x2="15" y2="110" stroke="var(--ink-soft)" stroke-width="1.5"></line>
+          <line x1="15" y1="110" x2="250" y2="110" stroke="var(--ink-soft)" stroke-width="1.5"></line>
+          <line x1="15" y1="60" x2="250" y2="60" stroke="var(--coral-ink)" stroke-width="1.5" stroke-dasharray="4 3"></line>
+          <text x="252" y="64" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--coral-ink)">50%</text>
+          <polyline points="20,20 40,95 65,25 90,88 115,45 140,72 165,50 185,66 205,55 225,62 245,58" fill="none" stroke="var(--green-ink)" stroke-width="2.5"></polyline>
+          <text x="130" y="126" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">as the number of flips grows</text>
+        </svg>
+        <div class="illo-caption">The share of heads bounces around wildly at first, then settles closer and closer to 50% as the number of flips increases</div>
+      </div>
+      <p>Dice are a great tool for exploring slightly more complex probability. Once you add a condition — the probability an even number comes up on one die, or that two dice sum to 7 — you have to count the outcomes one by one. There are exactly six ways two dice can sum to 7: (1,6), (2,5), (3,4), (4,3), (5,2), and (6,1). Knowing that's the largest count among all 36 possible outcomes explains why 7 comes up so often in board games.</p>
+      <p>Probability is woven deep into everyday life — the chance of rain in a weather forecast, how insurance premiums get calculated, the drop-rate percentages shown for items in games. Understanding a statement like "70% chance of rain today" really does require this kind of basic probability sense.</p>
+      <p>Dig a little deeper into probability and you'll run into the idea of "expected value." Imagine a game where you win as many candies as the number showing on a rolled die. Since 1 through 6 are all equally likely, the average number of candies you'd win works out to (1+2+3+4+5+6)÷6 = 3.5. No die actually shows a 3.5, but it means that if you played this game many, many times, the average number of candies per round would settle in close to 3.5. This idea turns out to be essential for understanding situations like lotteries or insurance, where probability determines gains and losses. Once you know that a lottery ticket's expected value is always designed to sit below its purchase price, it becomes obvious why lottery operators consistently turn a profit instead of a loss. For younger students, introducing expected value through something familiar like candy or stickers as the prize tends to go over without much resistance.</p>
+      <p>The best way to really learn this is still to flip and roll a lot, yourself. Watching a graph of how the share of heads creeps toward 50% over 10 flips, then 100 flips, makes the connection between theory and reality click. Since flipping by hand hundreds of times isn't practical, our activity page lets you press the 1-flip, 10-flip, and 100-flip buttons and watch the graph settle in real time through simulation. Press through the buttons in order and watch the graph's wobble gradually calm down, and you'll feel in your gut what "you only see the real probability after doing it a lot" actually means. Watching the first few flips lean heavily toward one side or the other, then gradually smooth out toward the 50% line as the count climbs, turns the probability theory from a textbook into a much more vivid story.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="coin-dice-simulator.html">🎮 Try this concept yourself →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>AINMATH · Learn math by checking it yourself with sliders</p>
+  <nav><a href="index.html">Home</a>·<a href="../about.html">About</a>·<a href="../terms.html">Terms</a>·<a href="../privacy-policy.html">Privacy Policy</a>·<a href="../contact.html">Contact</a></nav>
+</footer>
+</body>
+</html>

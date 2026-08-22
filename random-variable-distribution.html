@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>확률변수와 기댓값 실험실</title>
+<meta name="description" content="확률변수가 가질 수 있는 값을 확률의 크기만큼 무게를 실은 저울에 올려보고, 기댓값이 그 저울의 균형점이라는 걸 확인해요. 주사위 상금 게임으로 기댓값이 왜 '공정한 참가비'인지도 알아봐요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="확률변수와 기댓값 실험실">
+<meta property="og:description" content="확률변수가 가질 수 있는 값을 확률의 크기만큼 무게를 실은 저울에 올려보고, 기댓값이 그 저울의 균형점이라는 걸 확인해요.">
+<meta property="og:url" content="https://ainmath.com/random-variable-distribution.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="확률변수와 기댓값 실험실">
+<meta name="twitter:description" content="기댓값이 확률의 균형점이라는 걸 확인하고, 주사위 상금 게임으로 '공정한 참가비' 개념을 알아봐요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--green-ink);background:var(--green-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--green-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.tab-row{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);padding:9px 18px;border-radius:999px;cursor:pointer;transition:all .2s ease;}
+.tab-btn.active{background:var(--green);border-color:var(--green);color:#fff;}
+.howto{background:var(--green-soft);border-radius:16px;padding:16px 18px;font-size:14px;line-height:1.7;color:var(--ink);margin-bottom:20px;}
+.howto b{color:var(--green-ink);}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.control-row{width:100%;display:flex;flex-direction:column;gap:8px;margin-bottom:18px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--green-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--green);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,175,142,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--green);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,175,142,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+
+.seesaw-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:18px 12px 8px;margin-bottom:16px;overflow-x:auto;}
+.seesaw-box svg{display:block;margin:0 auto;max-width:100%;height:auto;}
+
+.readout{background:var(--green-soft);border-radius:14px;padding:14px 18px;text-align:center;font-family:'Do Hyeon',sans-serif;font-size:19px;color:var(--green-ink);margin-bottom:16px;}
+
+.table-wrap{overflow-x:auto;margin-bottom:16px;}
+table.dist{border-collapse:collapse;width:100%;font-family:'Do Hyeon',sans-serif;font-size:15px;}
+table.dist th,table.dist td{border:2px solid var(--paper-line);padding:9px 10px;text-align:center;}
+table.dist th{background:var(--paper);color:var(--ink-soft);font-size:13px;}
+table.dist td.hl{background:var(--green-soft);color:var(--green-ink);font-weight:bold;}
+
+.verdict{border-radius:14px;padding:14px 18px;font-size:14.5px;line-height:1.7;margin:14px 0;}
+.verdict.good{background:var(--green-soft);color:var(--green-ink);}
+.verdict.bad{background:var(--coral-soft);color:var(--coral-ink);}
+.verdict.fair{background:var(--paper);border:2px solid var(--paper-line);color:var(--ink-soft);}
+
+.fact{background:var(--green-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);margin-top:18px;}
+.fact b{color:var(--green-ink);}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="explore.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a><a href="en/index.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--green-ink,#357A63);background:var(--green-soft,#E3F5EE);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">EN</a>
+    <a href="article-random-variable-distribution.html" style="color:#fff;background:var(--green-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">⚖️ 확률변수와 기댓값</span>
+  <h1>기댓값은 확률이라는<br><span>무게</span>의 균형점이에요</h1>
+  <p class="sub">확률변수 X가 가질 수 있는 값들을, 그 값이 나올 확률만큼 무게를 실어 저울에 올려보면 어떻게 될까요? 저울이 딱 균형을 이루는 지점이 바로 기댓값 E(X)예요. 슬라이더로 값과 확률을 바꿔가며 균형점이 어떻게 움직이는지 확인하고, 주사위 상금 게임으로 기댓값의 진짜 쓸모도 알아보세요.</p>
+
+  <div class="tab-row" role="tablist" aria-label="탭 선택">
+    <button class="tab-btn active" data-tab="seesaw" role="tab" aria-selected="true">⚖️ 두 값의 균형점</button>
+    <button class="tab-btn" data-tab="game" role="tab" aria-selected="false">🎲 주사위 상금 게임</button>
+  </div>
+
+  <!-- 균형점 -->
+  <div class="stage" id="seesawStage">
+    <div class="howto"><b>확률변수 X</b>가 A 또는 B 값을 가질 수 있어요. A가 나올 확률을 슬라이더로 바꿔보세요. 원의 크기는 확률의 크기, 삼각형(▲)은 기댓값 E(X) = A×P(A) + B×P(B)의 위치예요.</div>
+    <div class="control-row">
+      <div class="control-label"><span>값 A</span><b id="valALabel">8</b></div>
+      <input id="sliderValA" type="range" min="-10" max="10" value="8" step="1" aria-label="값 A 조절">
+    </div>
+    <div class="control-row">
+      <div class="control-label"><span>값 B</span><b id="valBLabel">-4</b></div>
+      <input id="sliderValB" type="range" min="-10" max="10" value="-4" step="1" aria-label="값 B 조절">
+    </div>
+    <div class="control-row">
+      <div class="control-label"><span>A가 나올 확률 P(A)</span><b id="probALabel">30</b>%</div>
+      <input id="sliderProbA" type="range" min="0" max="100" value="30" step="5" aria-label="A가 나올 확률 조절">
+    </div>
+
+    <div class="seesaw-box"><div id="seesawSvg"></div></div>
+    <div class="readout" id="seesawReadout"></div>
+    <div class="fact" id="seesawFact"></div>
+  </div>
+
+  <!-- 주사위 상금 게임 -->
+  <div class="stage" id="gameStage" style="display:none;">
+    <div class="howto">주사위를 던져서 <b>6이 나오면 상금</b>을 받고, 그 외에는 아무것도 못 받는 게임이에요. 참가비를 얼마로 정해야 이 게임이 손해도 이득도 아닌 '공정한' 게임이 될까요?</div>
+    <div class="control-row">
+      <div class="control-label"><span>6이 나왔을 때 받는 상금</span><b id="jackpotLabel">600</b>원</div>
+      <input id="sliderJackpot" type="range" min="0" max="1200" value="600" step="60" aria-label="상금 조절">
+    </div>
+    <div class="control-row">
+      <div class="control-label"><span>참가비</span><b id="feeLabel">100</b>원</div>
+      <input id="sliderFee" type="range" min="0" max="300" value="100" step="10" aria-label="참가비 조절">
+    </div>
+
+    <div class="table-wrap">
+      <table class="dist" id="distTable"></table>
+    </div>
+
+    <div class="readout" id="gameReadout"></div>
+    <div class="verdict" id="gameVerdict"></div>
+    <div class="fact" id="gameFact"></div>
+  </div>
+
+  <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="conditional-probability.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">조건부확률과 독립시행 실험실</span>
+    </a>
+    <a href="binomial-distribution.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">이항분포 실험실</span>
+    </a>
+  </nav>
+<footer>확률변수가 익숙해졌다면, "이항분포 실험실"에서 같은 시행을 여러 번 반복할 때의 확률분포도 확인해보세요.</footer>
+</div>
+
+<script>
+/* ---------- 두 값의 균형점 ---------- */
+const sliderValA = document.getElementById('sliderValA');
+const sliderValB = document.getElementById('sliderValB');
+const sliderProbA = document.getElementById('sliderProbA');
+const valALabel = document.getElementById('valALabel');
+const valBLabel = document.getElementById('valBLabel');
+const probALabel = document.getElementById('probALabel');
+const seesawSvg = document.getElementById('seesawSvg');
+const seesawReadout = document.getElementById('seesawReadout');
+const seesawFact = document.getElementById('seesawFact');
+
+function numToX(v){ // -10..10 값을 svg x좌표(40..560)로 매핑
+  return 40 + (v+10) * ((560-40)/20);
+}
+
+function renderSeesaw(){
+  const a = parseInt(sliderValA.value);
+  const b = parseInt(sliderValB.value);
+  const pa = parseInt(sliderProbA.value) / 100;
+  const pb = 1 - pa;
+  valALabel.textContent = a;
+  valBLabel.textContent = b;
+  probALabel.textContent = Math.round(pa*100);
+
+  const ev = a*pa + b*pb;
+
+  const baseY = 90;
+  let ticks = '';
+  for(let v=-10; v<=10; v+=2){
+    const x = numToX(v);
+    ticks += `<line x1="${x}" y1="${baseY}" x2="${x}" y2="${baseY-8}" stroke="var(--ink-soft)" stroke-width="1.5"></line>`;
+    ticks += `<text x="${x}" y="${baseY+20}" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)" text-anchor="middle">${v}</text>`;
+  }
+
+  const rA = 10 + pa*26;
+  const rB = 10 + pb*26;
+  const xA = numToX(a), xB = numToX(b), xE = numToX(ev);
+
+  seesawSvg.innerHTML = `
+  <svg viewBox="0 0 600 150" xmlns="http://www.w3.org/2000/svg">
+    <line x1="40" y1="${baseY}" x2="560" y2="${baseY}" stroke="var(--ink)" stroke-width="3"></line>
+    ${ticks}
+    <circle cx="${xA}" cy="${baseY-rA-2}" r="${rA}" fill="var(--green)" opacity="0.85"></circle>
+    <text x="${xA}" y="${baseY-rA-2+5}" font-family="'Do Hyeon',sans-serif" font-size="13" fill="#fff" text-anchor="middle">A</text>
+    <circle cx="${xB}" cy="${baseY-rB-2}" r="${rB}" fill="var(--coral)" opacity="0.85"></circle>
+    <text x="${xB}" y="${baseY-rB-2+5}" font-family="'Do Hyeon',sans-serif" font-size="13" fill="#fff" text-anchor="middle">B</text>
+    <polygon points="${xE-12},${baseY+28} ${xE+12},${baseY+28} ${xE},${baseY+8}" fill="var(--ink)"></polygon>
+    <text x="${xE}" y="${baseY+46}" font-family="'Do Hyeon',sans-serif" font-size="14" fill="var(--ink)" text-anchor="middle">E(X)=${ev.toFixed(1)}</text>
+  </svg>`;
+
+  seesawReadout.textContent = `E(X) = ${a}×${pa.toFixed(2)} + (${b})×${pb.toFixed(2)} = ${ev.toFixed(2)}`;
+  seesawFact.innerHTML = `확률이 큰 쪽(원이 큰 쪽)으로 균형점(▲)이 더 가까이 끌려가는 걸 확인해보세요. <b>P(A)를 100%로 만들면 E(X)는 A와 정확히 같아지고</b>, 0%로 만들면 B와 같아져요. 기댓값은 실제로 일어난 값들의 평균이 아니라, 아직 일어나지 않은 '가능성'에 확률로 가중치를 매긴 평균이에요.`;
+}
+[sliderValA, sliderValB, sliderProbA].forEach(el=>el.addEventListener('input', renderSeesaw));
+renderSeesaw();
+
+/* ---------- 주사위 상금 게임 ---------- */
+const sliderJackpot = document.getElementById('sliderJackpot');
+const sliderFee = document.getElementById('sliderFee');
+const jackpotLabel = document.getElementById('jackpotLabel');
+const feeLabel = document.getElementById('feeLabel');
+const distTable = document.getElementById('distTable');
+const gameReadout = document.getElementById('gameReadout');
+const gameVerdict = document.getElementById('gameVerdict');
+const gameFact = document.getElementById('gameFact');
+
+function renderGame(){
+  const jackpot = parseInt(sliderJackpot.value);
+  const fee = parseInt(sliderFee.value);
+  jackpotLabel.textContent = jackpot;
+  feeLabel.textContent = fee;
+
+  const ev = jackpot / 6;
+
+  let rows = '<tr><th>눈</th>' + [1,2,3,4,5,6].map(f=>`<th>${f}</th>`).join('') + '</tr>';
+  rows += '<tr><td>확률</td>' + [1,2,3,4,5,6].map(()=>`<td>1/6</td>`).join('') + '</tr>';
+  rows += '<tr><td>상금</td>' + [1,2,3,4,5,6].map(f=>`<td class="${f===6?'hl':''}">${f===6?jackpot:0}원</td>`).join('') + '</tr>';
+  distTable.innerHTML = rows;
+
+  gameReadout.textContent = `기댓값 E(X) = 0×(5/6) + ${jackpot}×(1/6) = ${ev.toFixed(1)}원`;
+
+  const diff = ev - fee;
+  if(Math.abs(diff) < 0.5){
+    gameVerdict.className = 'verdict fair';
+    gameVerdict.innerHTML = `⚖️ <b>공정한 게임</b>이에요. 참가비 ${fee}원이 기댓값 ${ev.toFixed(1)}원과 거의 같아서, 오래 반복하면 평균적으로 딱 본전이에요.`;
+  } else if(diff > 0){
+    gameVerdict.className = 'verdict good';
+    gameVerdict.innerHTML = `🙂 참가자에게 <b>유리한 게임</b>이에요. 참가비(${fee}원)보다 기댓값(${ev.toFixed(1)}원)이 더 커서, 오래 반복하면 평균적으로 이득이에요.`;
+  } else {
+    gameVerdict.className = 'verdict bad';
+    gameVerdict.innerHTML = `🙁 참가자에게 <b>불리한 게임</b>이에요. 기댓값(${ev.toFixed(1)}원)보다 참가비(${fee}원)가 더 커서, 오래 반복하면 평균적으로 손해예요.`;
+  }
+  gameFact.innerHTML = `상금이 ${jackpot}원일 때, 이 게임에 딱 <b>${ev.toFixed(1)}원</b>을 참가비로 낸다면 아주 여러 번 반복했을 때 딴 돈과 낸 돈이 평균적으로 같아져요. 그래서 기댓값을 '공정한 참가비'라고도 불러요. 카지노나 복권이 항상 운영자에게 유리한 이유도, 참가비를 기댓값보다 조금 더 높게 매겨두기 때문이에요.`;
+}
+[sliderJackpot, sliderFee].forEach(el=>el.addEventListener('input', renderGame));
+renderGame();
+
+/* ---------- 탭 전환 ---------- */
+const seesawStage = document.getElementById('seesawStage');
+const gameStage = document.getElementById('gameStage');
+const tabBtns = document.querySelectorAll('.tab-btn');
+tabBtns.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    tabBtns.forEach(x=>{ x.classList.toggle('active', x===btn); x.setAttribute('aria-selected', x===btn?'true':'false'); });
+    const t = btn.dataset.tab;
+    seesawStage.style.display = t==='seesaw' ? '' : 'none';
+    gameStage.style.display = t==='game' ? '' : 'none';
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>One Base or Two? — The Story of Prisms &amp; Pyramids | AINMATH</title>
+<meta name="description" content="A prism has two matching bases, top and bottom; a pyramid has one base and a pointed top. Let's find the rules for counting faces, edges, and vertices.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="One Base or Two? — The Story of Prisms &amp; Pyramids | AINMATH">
+<meta property="og:description" content="A prism has two matching bases, top and bottom; a pyramid has one base and a pointed top. Let's find the rules for counting faces, edges, and vertices.">
+<meta property="og:url" content="https://ainmath.com/en/article-prism-pyramid.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="One Base or Two? — The Story of Prisms &amp; Pyramids | AINMATH">
+<meta name="twitter:description" content="A prism has two matching bases, top and bottom; a pyramid has one base and a pointed top. Let's find the rules for counting faces, edges, and vertices.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:760px;margin:0 auto;}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-soft);text-decoration:none;margin-bottom:18px;}
+.back-link:hover{color:var(--violet-ink);}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,40px);line-height:1.3;margin:0 0 14px;}
+h1 span{color:var(--violet-ink);}
+.sub{color:var(--ink-soft);font-size:16.5px;line-height:1.75;margin:0 0 30px;}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;}
+.cta{font-family:'Do Hyeon',sans-serif;font-size:15px;text-decoration:none;padding:10px 18px;border-radius:999px;transition:all .15s ease;}
+.cta.primary{background:var(--violet-ink);color:#fff;}
+.cta.primary:hover{filter:brightness(1.06);}
+.cta.secondary{background:var(--card);color:var(--ink-soft);border:2px solid var(--paper-line);}
+.cta.secondary:hover{border-color:var(--violet-ink);color:var(--violet-ink);}
+article{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:clamp(24px,5vw,44px);}
+h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:22px;color:var(--ink);margin:34px 0 14px;}
+h2:first-child{margin-top:0;}
+h2 .num{color:var(--violet-ink);margin-right:8px;}
+p{font-size:15.5px;line-height:1.85;color:var(--ink);margin:0 0 16px;}
+p:last-child{margin-bottom:0;}
+.example{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px 20px;margin:18px 0;text-align:center;}
+.example .eq{font-family:'Do Hyeon',sans-serif;font-size:17px;margin-bottom:8px;}
+.example p{font-size:14.5px;color:var(--ink-soft);margin:8px 0 0;}
+.callout{background:var(--violet-soft);border-radius:16px;padding:18px 20px;margin:18px 0;font-size:14.5px;line-height:1.75;color:var(--ink);}
+.callout b{color:var(--violet-ink);}
+.tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
+.tip-list li{background:var(--paper);border:1px solid var(--paper-line);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.7;color:var(--ink);}
+.tip-list b{color:var(--violet-ink);}
+.illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:18px 0;text-align:center;}
+.illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+.illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+footer{max-width:760px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+.footer-nav a{color:var(--ink-soft);text-decoration:none;margin:0 2px;}
+.footer-nav a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="grade-5-6.html">← Back to all activities</a><a href="../article-prism-pyramid.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+  <span class="eyebrow" style="color:#6847F7;background:#EEE8FF">📐 Shape &amp; Geometry</span>
+  <h1>How Many <span>Bases</span><br>Decides the Name</h1>
+  <p class="sub">Prisms and pyramids are both solids with a polygon for a base. But two matching bases, top and bottom, makes a prism, while just one base gathering to a point makes a pyramid.</p>
+
+  <div class="illo">
+    <svg viewBox="0 0 220 110">
+      <g stroke="var(--violet-ink)" stroke-width="2" fill="var(--violet-soft)" fill-opacity="0.4">
+        <polygon points="55,100 90,85 55,70 20,85"></polygon>
+        <polygon points="55,60 90,45 55,30 20,45"></polygon>
+      </g>
+      <g stroke="var(--violet-ink)" stroke-width="2">
+        <line x1="55" y1="100" x2="55" y2="60"></line>
+        <line x1="90" y1="85" x2="90" y2="45"></line>
+        <line x1="20" y1="85" x2="20" y2="45"></line>
+      </g>
+      <line x1="55" y1="70" x2="55" y2="30" stroke="var(--ink-soft)" stroke-width="1.5" stroke-dasharray="3 3"></line>
+      <text x="55" y="18" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--violet-ink)">Prism (2 bases)</text>
+
+      <g stroke="var(--violet-ink)" stroke-width="2" fill="var(--violet-soft)" fill-opacity="0.4">
+        <polygon points="165,100 200,85 165,70 130,85"></polygon>
+      </g>
+      <g stroke="var(--violet-ink)" stroke-width="2">
+        <line x1="165" y1="100" x2="165" y2="30"></line>
+        <line x1="200" y1="85" x2="165" y2="30"></line>
+        <line x1="130" y1="85" x2="165" y2="30"></line>
+      </g>
+      <line x1="165" y1="70" x2="165" y2="30" stroke="var(--ink-soft)" stroke-width="1.5" stroke-dasharray="3 3"></line>
+      <text x="165" y="18" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--violet-ink)">Pyramid (1 base)</text>
+    </svg>
+    <div class="illo-caption">A prism has matching bases top and bottom; a pyramid has one base gathering to a single vertex</div>
+  </div>
+
+  <div class="cta-row">
+    <a class="cta primary" href="prism-pyramid.html">🎮 Try Prisms &amp; Pyramids Lab</a>
+    <a class="cta secondary" href="grade-5-6.html">📚 See other topics</a>
+  </div>
+
+  <article>
+    <h2><span class="num">1</span>A prism connects two matching bases with side faces</h2>
+    <p>A prism has two congruent polygon bases, one on top and one on the bottom, connected by rectangular side faces. If the base is an n-sided polygon, there are also n side faces.</p>
+    <div class="example">
+      <div class="eq">Rectangular prism: 6 faces, 12 edges, 8 vertices</div>
+      <p>This is actually the exact same structure as the rectangular prism you already know!</p>
+    </div>
+
+    <h2><span class="num">2</span>A pyramid gathers one base to a point at the top</h2>
+    <p>A pyramid has just one base, and each side of that base connects through a triangular face up to a single point at the top (the apex). If the base is an n-sided polygon, there are also n triangular side faces.</p>
+    <div class="example">
+      <div class="eq">Square pyramid: 5 faces, 8 edges, 5 vertices</div>
+      <p>Picture the pyramids of Egypt — that's exactly this shape.</p>
+    </div>
+
+    <h2><span class="num">3</span>The number of sides (n) on the base tells you everything</h2>
+    <p>When the base is an n-sided polygon, the number of faces, edges, and vertices in a prism or pyramid follows a fixed rule.</p>
+    <div class="example">
+      <div class="eq">Prism: (n+2) faces, (3×n) edges, (2×n) vertices</div>
+      <div class="eq">Pyramid: (n+1) faces, (2×n) edges, (n+1) vertices</div>
+    </div>
+
+    <h2><span class="num">4</span>Surprisingly, one rule always holds</h2>
+    <div class="callout">
+      <b>(number of vertices) − (number of edges) + (number of faces) = 2</b><br>
+      Whether it's a prism or a pyramid, and no matter how many sides the base has, this calculation always comes out to 2. It's called Euler's formula, and it's a wonderfully surprising rule about solid shapes.
+    </div>
+
+    <h2><span class="num">5</span>Try this</h2>
+    <ul class="tip-list">
+      <li><b>Increase n one at a time.</b> Going from a triangular prism up to an octagonal prism, find the pattern in how the faces, edges, and vertices grow.</li>
+      <li><b>Compare a prism and pyramid with the same n.</b> Think about why the prism always has more of everything than the pyramid, even with the same n.</li>
+      <li><b>Check Euler's formula yourself.</b> Take the face, edge, and vertex numbers shown on screen and verify that they really do come out to 2.</li>
+    </ul>
+  </article>
+
+  <footer>
+    <p>Go back to Prisms &amp; Pyramids Lab and use the slider to change the number of sides on the base.</p>
+    <nav class="footer-nav">
+      <a href="grade-5-6.html">All activities</a>·<a href="prism-pyramid.html">Prisms &amp; Pyramids Lab</a>·<a href="../about.html">About</a>·<a href="../contact.html">Contact</a>
+    </nav>
+  </footer>
+</div>
+</body>
+</html>

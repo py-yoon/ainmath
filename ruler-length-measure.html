@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>자로 길이 재기 (cm) 실험실</title>
+<meta name="description" content="가상의 자로 물건의 길이를 직접 재보며, 0에 맞추고 눈금을 읽는 법을 익히고, 눈금만 보고 길이를 맞히는 퀴즈에도 도전해요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="자로 길이 재기 (cm) 실험실">
+<meta property="og:description" content="가상의 자로 물건의 길이를 직접 재보며, 0에 맞추고 눈금을 읽는 법을 익히고, 눈금만 보고 길이를 맞히는 퀴즈에도 도전해요.">
+<meta property="og:url" content="https://ainmath.com/ruler-length-measure.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="자로 길이 재기 (cm) 실험실">
+<meta name="twitter:description" content="가상의 자로 물건의 길이를 직접 재보며, 0에 맞추고 눈금을 읽는 법을 익히고, 눈금만 보고 길이를 맞히는 퀴즈에도 도전해요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --violet:#6C4CF7; --violet-soft:#EEE8FF;--violet-ink:#6847F7;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--violet-ink);background:var(--violet-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--violet-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.tab-row{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);padding:9px 18px;border-radius:999px;cursor:pointer;transition:all .2s ease;}
+.tab-btn.active{background:var(--violet);border-color:var(--violet);color:#fff;}
+.howto{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14px;line-height:1.7;color:var(--ink);margin-bottom:20px;}
+.howto b{color:var(--violet-ink);}
+.howto p{margin:0 0 10px;}
+.howto p:last-child{margin-bottom:0;}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.control-row{width:100%;display:flex;flex-direction:column;gap:8px;margin-bottom:18px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--violet-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--violet);border:4px solid #fff;box-shadow:0 2px 8px rgba(108,76,247,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+
+.ruler-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:18px 12px;margin-bottom:16px;overflow-x:auto;}
+.ruler-box svg{display:block;margin:0 auto;max-width:100%;height:auto;}
+
+.readout{background:var(--violet-soft);border-radius:14px;padding:14px 18px;text-align:center;font-family:'Do Hyeon',sans-serif;font-size:20px;color:var(--violet-ink);margin-bottom:16px;}
+
+.quiz-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px;}
+.quiz-row input[type=number]{width:90px;font-family:'Do Hyeon',sans-serif;font-size:20px;text-align:center;padding:10px 8px;border-radius:12px;border:2px solid var(--paper-line);outline:none;}
+.quiz-row input[type=number]:focus-visible{border-color:var(--violet-ink);}
+.quiz-row span.unit{font-family:'Do Hyeon',sans-serif;font-size:16px;color:var(--ink-soft);}
+.btn{font-family:'Do Hyeon',sans-serif;font-size:15px;color:#fff;background:var(--violet);border:none;padding:11px 20px;border-radius:12px;cursor:pointer;transition:transform .15s ease;}
+.btn:hover{transform:translateY(-1px);}
+.btn.secondary{background:var(--card);color:var(--ink);border:2px solid var(--paper-line);}
+
+.feedback{border-radius:14px;padding:14px 18px;font-size:14.5px;line-height:1.7;margin-bottom:16px;display:none;}
+.feedback.correct{background:var(--green-soft);color:var(--green-ink);display:block;}
+.feedback.wrong{background:var(--coral-soft);color:var(--coral-ink);display:block;}
+.feedback b{font-family:'Do Hyeon',sans-serif;}
+
+.score-row{display:flex;gap:16px;font-size:13.5px;color:var(--ink-soft);margin-bottom:14px;flex-wrap:wrap;}
+.score-row b{color:var(--ink);}
+
+.fact{background:var(--violet-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);margin-top:18px;}
+.fact b{color:var(--violet-ink);}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="explore.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a><a href="en/index.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">EN</a>
+    <a href="article-ruler-length-measure.html" style="color:#fff;background:var(--violet-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">📏 자로 길이 재기</span>
+  <h1>자의 눈금 <span>0</span>에 맞추고<br>끝나는 자리를 읽어요</h1>
+  <p class="sub">자로 길이를 잴 땐 물건의 왼쪽 끝을 자의 눈금 0에 딱 맞춰요. 그리고 물건의 오른쪽 끝이 닿는 자리의 숫자를 읽으면, 그게 바로 물건의 길이(cm)예요. 슬라이더로 물건을 늘였다 줄였다 해보고, 퀴즈로 눈금 읽기 연습도 해보세요.</p>
+
+  <div class="tab-row" role="tablist" aria-label="탭 선택">
+    <button class="tab-btn active" data-tab="explore" role="tab" aria-selected="true">🔍 자로 재보기</button>
+    <button class="tab-btn" data-tab="quiz" role="tab" aria-selected="false">🎯 몇 cm일까요? 퀴즈</button>
+  </div>
+
+  <!-- 탐구 -->
+  <div class="stage" id="exploreStage">
+    <div class="howto"><b>물건 길이</b> 슬라이더를 움직여보세요. 물건의 왼쪽 끝은 항상 자의 눈금 0에 맞춰져 있어요. 오른쪽 끝이 닿는 눈금을 읽으면 길이를 알 수 있어요.</div>
+    <div class="control-row">
+      <div class="control-label"><span>물건 길이</span><b id="exploreLenLabel">8</b> cm</div>
+      <input id="sliderExploreLen" type="range" min="1" max="20" value="8" step="1" aria-label="물건 길이 조절">
+    </div>
+    <div class="ruler-box"><div id="exploreRuler"></div></div>
+    <div class="readout" id="exploreReadout"></div>
+    <div class="fact" id="exploreFact"></div>
+  </div>
+
+  <!-- 퀴즈 -->
+  <div class="stage" id="quizStage" style="display:none;">
+    <div class="howto">자 위에 놓인 물건의 길이가 몇 cm인지, 눈금을 세어서 맞혀보세요. 숫자를 입력하고 "확인"을 눌러요.</div>
+    <div class="score-row">
+      <span>맞은 문제: <b id="quizCorrectCount">0</b></span>
+      <span>틀린 문제: <b id="quizWrongCount">0</b></span>
+    </div>
+    <div class="ruler-box"><div id="quizRuler"></div></div>
+    <div class="quiz-row">
+      <span>이 물건의 길이는</span>
+      <input id="quizInput" type="number" min="0" max="30" aria-label="길이 입력">
+      <span class="unit">cm 일까요?</span>
+      <button class="btn" id="quizCheckBtn">확인</button>
+      <button class="btn secondary" id="quizNextBtn" style="display:none;">다음 문제 →</button>
+    </div>
+    <div class="feedback" id="quizFeedback"></div>
+  </div>
+
+  <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="comparison-basics.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">비교하기</span>
+    </a>
+    <a href="geoboard-area.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">지오보드 넓이 퍼즐</span>
+    </a>
+  </nav>
+<footer>길이를 어림하는 감각도 함께 기르고 싶다면 "길이·들이·무게 어림하기" 체험도 확인해보세요.</footer>
+</div>
+
+<script>
+const RULER_CM = 22;   // 자 전체 길이 (여유 포함)
+const PX_PER_CM = 26;
+const MARGIN = 24;
+const OBJ_H = 30;
+
+function buildRulerSvg(objectLenCm, opts){
+  opts = opts || {};
+  const hideNumberAt = opts.hideNumberAt; // 특정 눈금 숫자를 숨기고 싶을 때(현재는 사용 안 함, 전체 눈금은 항상 보임)
+  const width = MARGIN*2 + RULER_CM*PX_PER_CM;
+  const height = 120;
+  const baseY = 78;
+  const objY = 20;
+
+  let ticks = '';
+  for(let cm=0; cm<=RULER_CM; cm++){
+    const x = MARGIN + cm*PX_PER_CM;
+    const isMajor = (cm % 5 === 0);
+    const tickLen = isMajor ? 20 : 12;
+    ticks += `<line x1="${x}" y1="${baseY}" x2="${x}" y2="${baseY-tickLen}" stroke="var(--ink-soft)" stroke-width="${isMajor?2:1.4}"></line>`;
+    ticks += `<text x="${x}" y="${baseY+16}" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)" text-anchor="middle">${cm}</text>`;
+  }
+
+  const objX0 = MARGIN;
+  const objX1 = MARGIN + objectLenCm*PX_PER_CM;
+
+  const guide = `<line x1="${objX1}" y1="${objY+OBJ_H}" x2="${objX1}" y2="${baseY}" stroke="var(--coral-ink)" stroke-width="2" stroke-dasharray="4 4"></line>`;
+  const highlightTick = `<circle cx="${objX1}" cy="${baseY}" r="4" fill="var(--coral-ink)"></circle>`;
+
+  return `
+  <svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
+    <rect x="${objX0}" y="${objY}" width="${objX1-objX0}" height="${OBJ_H}" rx="8" fill="var(--violet)"></rect>
+    <line x1="${MARGIN}" y1="${baseY}" x2="${width-MARGIN}" y2="${baseY}" stroke="var(--ink-soft)" stroke-width="2"></line>
+    ${ticks}
+    ${guide}
+    ${highlightTick}
+  </svg>`;
+}
+
+/* ---------- 탐구 탭 ---------- */
+const sliderExploreLen = document.getElementById('sliderExploreLen');
+const exploreLenLabel = document.getElementById('exploreLenLabel');
+const exploreRuler = document.getElementById('exploreRuler');
+const exploreReadout = document.getElementById('exploreReadout');
+const exploreFact = document.getElementById('exploreFact');
+
+function renderExplore(){
+  const len = parseInt(sliderExploreLen.value);
+  exploreLenLabel.textContent = len;
+  exploreRuler.innerHTML = buildRulerSvg(len);
+  exploreReadout.textContent = `물건의 왼쪽 끝은 0, 오른쪽 끝은 ${len} → 길이는 ${len} cm예요!`;
+  exploreFact.innerHTML = `<b>0</b>에서 <b>${len}</b>까지 눈금을 하나씩 세어보면 ${len}칸이에요. 그래서 이 물건의 길이는 <b>${len} cm</b>예요. 왼쪽 끝을 0에 맞추지 않고 아무 데서나 재기 시작하면 눈금 숫자를 그대로 길이로 읽을 수 없으니 항상 0에 맞추는 게 중요해요.`;
+}
+sliderExploreLen.addEventListener('input', renderExplore);
+renderExplore();
+
+/* ---------- 퀴즈 탭 ---------- */
+const quizRuler = document.getElementById('quizRuler');
+const quizInput = document.getElementById('quizInput');
+const quizCheckBtn = document.getElementById('quizCheckBtn');
+const quizNextBtn = document.getElementById('quizNextBtn');
+const quizFeedback = document.getElementById('quizFeedback');
+const quizCorrectCount = document.getElementById('quizCorrectCount');
+const quizWrongCount = document.getElementById('quizWrongCount');
+
+let quizAnswer = 0;
+let correctCount = 0;
+let wrongCount = 0;
+let answered = false;
+
+function newQuizQuestion(){
+  quizAnswer = 1 + Math.floor(Math.random()*20); // 1~20 cm
+  quizRuler.innerHTML = buildRulerSvg(quizAnswer);
+  quizInput.value = '';
+  quizFeedback.style.display = 'none';
+  quizFeedback.className = 'feedback';
+  quizCheckBtn.style.display = '';
+  quizNextBtn.style.display = 'none';
+  answered = false;
+  quizInput.focus();
+}
+
+function checkQuizAnswer(){
+  if(answered) return;
+  const guess = parseInt(quizInput.value);
+  if(isNaN(guess)) return;
+  answered = true;
+  if(guess === quizAnswer){
+    correctCount++;
+    quizCorrectCount.textContent = correctCount;
+    quizFeedback.className = 'feedback correct';
+    quizFeedback.textContent = `🎉 정답이에요! 이 물건은 ${quizAnswer} cm예요.`;
+  } else {
+    wrongCount++;
+    quizWrongCount.textContent = wrongCount;
+    quizFeedback.className = 'feedback wrong';
+    quizFeedback.textContent = `아쉬워요. 정답은 ${quizAnswer} cm예요. 물건의 오른쪽 끝이 닿은 눈금을 다시 세어보세요.`;
+  }
+  quizFeedback.style.display = 'block';
+  quizCheckBtn.style.display = 'none';
+  quizNextBtn.style.display = '';
+}
+
+quizCheckBtn.addEventListener('click', checkQuizAnswer);
+quizInput.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') checkQuizAnswer(); });
+quizNextBtn.addEventListener('click', newQuizQuestion);
+
+/* ---------- 탭 전환 ---------- */
+const exploreStage = document.getElementById('exploreStage');
+const quizStage = document.getElementById('quizStage');
+const tabBtns = document.querySelectorAll('.tab-btn');
+tabBtns.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    tabBtns.forEach(x=>{ x.classList.toggle('active', x===btn); x.setAttribute('aria-selected', x===btn?'true':'false'); });
+    const t = btn.dataset.tab;
+    exploreStage.style.display = t==='explore' ? '' : 'none';
+    quizStage.style.display = t==='quiz' ? '' : 'none';
+    if(t==='quiz' && !quizRuler.innerHTML) newQuizQuestion();
+  });
+});
+
+newQuizQuestion();
+</script>
+</body>
+</html>

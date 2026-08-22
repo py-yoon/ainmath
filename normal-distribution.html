@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>정규분포 실험실</title>
+<meta name="description" content="평균과 표준편차를 슬라이더로 바꿔가며 종 모양 곡선이 어떻게 변하는지, 평균 근처 68%·95%·99.7%가 어느 구간에 몰려있는지 확인하고, 표준점수(z-score)로 값의 위치를 해석해봐요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="정규분포 실험실">
+<meta property="og:description" content="평균과 표준편차를 바꿔가며 종 모양 곡선과 68-95-99.7 법칙, 표준점수(z-score)를 확인해요.">
+<meta property="og:url" content="https://ainmath.com/normal-distribution.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="정규분포 실험실">
+<meta name="twitter:description" content="평균과 표준편차를 바꿔가며 종 모양 곡선과 68-95-99.7 법칙을 확인해요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+  --green:#4CAF8E; --green-soft:#E3F5EE;--green-ink:#357A63;
+  --coral:#FF5B57; --coral-soft:#FFEAE8;--coral-ink:#D90500;
+  --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+  color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+  min-height:100vh; padding: 32px 20px 80px;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;color:var(--green-ink);background:var(--green-soft);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:0.02em;margin-bottom:14px;}
+h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.25;margin:0 0 10px;}
+h1 span{color:var(--green-ink);}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:64ch;margin:0 0 28px;}
+.tab-row{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.tab-btn{font-family:'Do Hyeon',sans-serif;font-size:15px;background:var(--card);border:2px solid var(--paper-line);color:var(--ink-soft);padding:9px 18px;border-radius:999px;cursor:pointer;transition:all .2s ease;}
+.tab-btn.active{background:var(--green);border-color:var(--green);color:#fff;}
+.howto{background:var(--green-soft);border-radius:16px;padding:16px 18px;font-size:14px;line-height:1.7;color:var(--ink);margin-bottom:20px;}
+.howto b{color:var(--green-ink);}
+.stage{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,40px) 32px;}
+.control-row{width:100%;display:flex;flex-direction:column;gap:8px;margin-bottom:18px;}
+.control-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'Do Hyeon',sans-serif;font-size:15px;color:var(--ink-soft);}
+.control-label b{font-size:22px;color:var(--ink);}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:999px;background:var(--green-soft);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--green);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,175,142,0.5);cursor:pointer;}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--green);border:4px solid #fff;box-shadow:0 2px 8px rgba(76,175,142,0.5);cursor:pointer;}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--coral);outline-offset:2px;}
+
+.chart-box{background:var(--paper);border:2px solid var(--paper-line);border-radius:18px;padding:18px 12px 8px;margin-bottom:16px;overflow-x:auto;}
+.chart-box svg{display:block;margin:0 auto;max-width:100%;height:auto;}
+
+.legend-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:16px;font-size:13px;font-family:'Do Hyeon',sans-serif;color:var(--ink-soft);}
+.legend-row span{display:inline-flex;align-items:center;gap:6px;}
+.legend-row i{width:14px;height:14px;border-radius:4px;display:inline-block;}
+
+.readout{background:var(--green-soft);border-radius:14px;padding:14px 18px;text-align:center;font-family:'Do Hyeon',sans-serif;font-size:18px;color:var(--green-ink);margin-bottom:16px;}
+
+.fact{background:var(--green-soft);border-radius:16px;padding:16px 18px;font-size:14.5px;line-height:1.65;color:var(--ink);margin-top:18px;}
+.fact b{color:var(--green-ink);}
+footer{max-width:1000px;margin:28px auto 0;color:var(--ink-soft);font-size:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:1040px;margin:0 auto 4px;display:flex;justify-content:space-between;align-items:center;font-family:'Gowun Dodum','Noto Sans KR',sans-serif;font-size:14px;flex-wrap:wrap;gap:8px;">
+    <a href="explore.html" style="color:var(--ink-soft);text-decoration:none;">← 전체 목록으로</a><a href="en/index.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--green-ink,#357A63);background:var(--green-soft,#E3F5EE);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">EN</a>
+    <a href="article-normal-distribution.html" style="color:#fff;background:var(--green-ink);text-decoration:none;font-family:'Do Hyeon',sans-serif;font-size:14px;padding:7px 14px;border-radius:999px;">📖 설명 글 읽기</a>
+  </div>
+  <span class="eyebrow">🔔 정규분포</span>
+  <h1>평균 근처에 <span>68%</span>가<br>몰려있는 종 모양 곡선</h1>
+  <p class="sub">키, 시험 점수, 몸무게처럼 자연스럽게 변하는 값들은 평균 근처에 많이 몰려있고, 평균에서 멀어질수록 점점 드물어지는 종 모양을 그려요. 이걸 정규분포라고 해요. 평균(μ)과 표준편차(σ)를 바꿔가며 곡선이 어떻게 변하는지, 그리고 표준점수로 어떤 값의 위치를 어떻게 해석하는지 확인해보세요.</p>
+
+  <div class="tab-row" role="tablist" aria-label="탭 선택">
+    <button class="tab-btn active" data-tab="bell" role="tab" aria-selected="true">🔔 종 모양 곡선</button>
+    <button class="tab-btn" data-tab="z" role="tab" aria-selected="false">📐 표준점수(z-score)</button>
+  </div>
+
+  <!-- 종 모양 곡선 -->
+  <div class="stage" id="bellStage">
+    <div class="howto"><b>평균(μ)</b>은 곡선의 중심, <b>표준편차(σ)</b>는 곡선이 얼마나 넓게 퍼졌는지를 나타내요. 짙은 색 영역일수록 평균에 더 가까운 구간이에요.</div>
+    <div class="control-row">
+      <div class="control-label"><span>평균 μ</span><b id="bellMuLabel">70</b></div>
+      <input id="sliderBellMu" type="range" min="0" max="100" value="70" step="1" aria-label="평균 조절">
+    </div>
+    <div class="control-row">
+      <div class="control-label"><span>표준편차 σ</span><b id="bellSigmaLabel">10</b></div>
+      <input id="sliderBellSigma" type="range" min="2" max="25" value="10" step="1" aria-label="표준편차 조절">
+    </div>
+
+    <div class="chart-box"><div id="bellSvg"></div></div>
+    <div class="legend-row">
+      <span><i style="background:var(--green);opacity:1"></i>평균 ±1σ (약 68%)</span>
+      <span><i style="background:var(--green);opacity:0.55"></i>평균 ±2σ (약 95%)</span>
+      <span><i style="background:var(--green);opacity:0.3"></i>평균 ±3σ (약 99.7%)</span>
+    </div>
+    <div class="fact" id="bellFact"></div>
+  </div>
+
+  <!-- z-score -->
+  <div class="stage" id="zStage" style="display:none;">
+    <div class="howto">어떤 값 x가 평균에서 표준편차 몇 배만큼 떨어져 있는지를 나타낸 게 표준점수(z-score)예요. <b>z = (x−μ) / σ</b>로 계산해요.</div>
+    <div class="control-row">
+      <div class="control-label"><span>평균 μ (시험 평균 점수)</span><b id="zMuLabel">70</b>점</div>
+      <input id="sliderZMu" type="range" min="0" max="100" value="70" step="1" aria-label="평균 조절">
+    </div>
+    <div class="control-row">
+      <div class="control-label"><span>표준편차 σ</span><b id="zSigmaLabel">10</b>점</div>
+      <input id="sliderZSigma" type="range" min="2" max="25" value="10" step="1" aria-label="표준편차 조절">
+    </div>
+    <div class="control-row">
+      <div class="control-label"><span>내 점수 x</span><b id="zXLabel">85</b>점</div>
+      <input id="sliderZX" type="range" min="0" max="100" value="85" step="1" aria-label="내 점수 조절">
+    </div>
+
+    <div class="chart-box"><div id="zSvg"></div></div>
+    <div class="readout" id="zReadout"></div>
+    <div class="fact" id="zFact"></div>
+  </div>
+
+  <!-- prev-next-nav -->
+  <nav aria-label="다른 체험으로 이동" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 0;">
+    <a href="binomial-distribution.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">◀ 이전 체험</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">이항분포 실험실</span>
+    </a>
+    <a href="pictogram-graph.html" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;align-items:flex-end;text-align:right;text-decoration:none;color:var(--ink);background:var(--card,#fff);border:2px solid var(--paper-line,#E9E1CF);border-radius:14px;padding:12px 16px;">
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--ink-soft);">다음 체험 ▶</span>
+      <span style="font-family:'Do Hyeon',sans-serif;font-size:15px;">그림그래프로 나타내기</span>
+    </a>
+  </nav>
+<footer>표준편차 감각을 데이터로도 확인하고 싶다면 "표준편차와 분산 실험실"도 함께 살펴보세요.</footer>
+</div>
+
+<script>
+function normalPdf(x, mu, sigma){
+  return (1/(sigma*Math.sqrt(2*Math.PI))) * Math.exp(-((x-mu)*(x-mu))/(2*sigma*sigma));
+}
+
+function buildBellPath(mu, sigma, xMin, xMax, toX, toY, samples){
+  let pts = [];
+  for(let i=0;i<=samples;i++){
+    const x = xMin + (xMax-xMin)*i/samples;
+    pts.push([toX(x), toY(normalPdf(x,mu,sigma))]);
+  }
+  return pts;
+}
+function pointsToPath(pts, baseY){
+  let d = `M ${pts[0][0]} ${baseY} `;
+  pts.forEach(p=>{ d += `L ${p[0]} ${p[1]} `; });
+  d += `L ${pts[pts.length-1][0]} ${baseY} Z`;
+  return d;
+}
+
+/* ---------- 종 모양 곡선 ---------- */
+const sliderBellMu = document.getElementById('sliderBellMu');
+const sliderBellSigma = document.getElementById('sliderBellSigma');
+const bellMuLabel = document.getElementById('bellMuLabel');
+const bellSigmaLabel = document.getElementById('bellSigmaLabel');
+const bellSvg = document.getElementById('bellSvg');
+const bellFact = document.getElementById('bellFact');
+
+function renderBell(){
+  const mu = parseInt(sliderBellMu.value);
+  const sigma = parseInt(sliderBellSigma.value);
+  bellMuLabel.textContent = mu;
+  bellSigmaLabel.textContent = sigma;
+
+  const xMin = mu - 4*sigma, xMax = mu + 4*sigma;
+  const width = 620, height = 260;
+  const left = 30, right = width-30;
+  const baseY = 220, top = 20;
+  const toX = (x)=> left + (x-xMin)/(xMax-xMin) * (right-left);
+  const maxDensity = normalPdf(mu, mu, sigma);
+  const toY = (d)=> baseY - (d/maxDensity) * (baseY-top);
+
+  const fullPts = buildBellPath(mu, sigma, xMin, xMax, toX, toY, 120);
+  const band1Pts = buildBellPath(mu, sigma, mu-sigma, mu+sigma, toX, toY, 60);
+  const band2Pts = buildBellPath(mu, sigma, mu-2*sigma, mu+2*sigma, toX, toY, 80);
+  const band3Pts = buildBellPath(mu, sigma, mu-3*sigma, mu+3*sigma, toX, toY, 100);
+
+  let ticks = '';
+  for(let k=-3;k<=3;k++){
+    const xv = mu + k*sigma;
+    const xx = toX(xv);
+    ticks += `<line x1="${xx}" y1="${baseY}" x2="${xx}" y2="${baseY+6}" stroke="var(--ink-soft)" stroke-width="1.5"></line>`;
+    ticks += `<text x="${xx}" y="${baseY+20}" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)" text-anchor="middle">${k===0?'μ':(k>0?'+'+k+'σ':k+'σ')}</text>`;
+  }
+
+  bellSvg.innerHTML = `
+  <svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
+    <path d="${pointsToPath(band3Pts, baseY)}" fill="var(--green)" opacity="0.3"></path>
+    <path d="${pointsToPath(band2Pts, baseY)}" fill="var(--green)" opacity="0.55"></path>
+    <path d="${pointsToPath(band1Pts, baseY)}" fill="var(--green)" opacity="1"></path>
+    <polyline points="${fullPts.map(p=>p[0]+','+p[1]).join(' ')}" fill="none" stroke="var(--ink)" stroke-width="2"></polyline>
+    <line x1="${left}" y1="${baseY}" x2="${right}" y2="${baseY}" stroke="var(--ink)" stroke-width="2"></line>
+    ${ticks}
+  </svg>`;
+
+  bellFact.innerHTML = `이 곡선은 평균 <b>${mu}</b>, 표준편차 <b>${sigma}</b>인 정규분포예요. σ가 작을수록 곡선이 뾰족하고 좁아지고(값이 평균 근처에 밀집), σ가 클수록 곡선이 넓고 완만해져요(값이 넓게 퍼짐). 어떤 σ값이든 <b>μ±1σ 안에 약 68%</b>, <b>μ±2σ 안에 약 95%</b>, <b>μ±3σ 안에 약 99.7%</b>가 들어있다는 사실은 변하지 않아요 — 이걸 68-95-99.7 법칙이라고 해요.`;
+}
+sliderBellMu.addEventListener('input', renderBell);
+sliderBellSigma.addEventListener('input', renderBell);
+renderBell();
+
+/* ---------- z-score ---------- */
+const sliderZMu = document.getElementById('sliderZMu');
+const sliderZSigma = document.getElementById('sliderZSigma');
+const sliderZX = document.getElementById('sliderZX');
+const zMuLabel = document.getElementById('zMuLabel');
+const zSigmaLabel = document.getElementById('zSigmaLabel');
+const zXLabel = document.getElementById('zXLabel');
+const zSvg = document.getElementById('zSvg');
+const zReadout = document.getElementById('zReadout');
+const zFact = document.getElementById('zFact');
+
+function renderZ(){
+  const mu = parseInt(sliderZMu.value);
+  const sigma = parseInt(sliderZSigma.value);
+  const x = parseInt(sliderZX.value);
+  zMuLabel.textContent = mu;
+  zSigmaLabel.textContent = sigma;
+  zXLabel.textContent = x;
+
+  const z = (x-mu)/sigma;
+
+  const xMin = mu-4*sigma, xMax = mu+4*sigma;
+  const width = 620, height = 260;
+  const left = 30, right = width-30;
+  const baseY = 220, top = 20;
+  const toX = (v)=> left + (v-xMin)/(xMax-xMin) * (right-left);
+  const maxDensity = normalPdf(mu, mu, sigma);
+  const toY = (d)=> baseY - (d/maxDensity) * (baseY-top);
+
+  const fullPts = buildBellPath(mu, sigma, xMin, xMax, toX, toY, 120);
+  const xClamped = Math.max(xMin, Math.min(xMax, x));
+  const markX = toX(xClamped);
+  const markY = toY(normalPdf(xClamped, mu, sigma));
+
+  let ticks = '';
+  for(let k=-3;k<=3;k++){
+    const xv = mu + k*sigma;
+    const xx = toX(xv);
+    ticks += `<line x1="${xx}" y1="${baseY}" x2="${xx}" y2="${baseY+6}" stroke="var(--ink-soft)" stroke-width="1.5"></line>`;
+    ticks += `<text x="${xx}" y="${baseY+20}" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)" text-anchor="middle">${k===0?'μ':(k>0?'+'+k+'σ':k+'σ')}</text>`;
+  }
+
+  zSvg.innerHTML = `
+  <svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
+    <polyline points="${fullPts.map(p=>p[0]+','+p[1]).join(' ')}" fill="none" stroke="var(--paper-line)" stroke-width="2"></polyline>
+    <line x1="${left}" y1="${baseY}" x2="${right}" y2="${baseY}" stroke="var(--ink)" stroke-width="2"></line>
+    ${ticks}
+    <line x1="${markX}" y1="${baseY}" x2="${markX}" y2="${markY}" stroke="var(--coral-ink)" stroke-width="2.5" stroke-dasharray="4 3"></line>
+    <circle cx="${markX}" cy="${markY}" r="6" fill="var(--coral-ink)"></circle>
+    <text x="${markX}" y="${markY-12}" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral-ink)" text-anchor="middle">x=${x}</text>
+  </svg>`;
+
+  zReadout.textContent = `z = (${x} − ${mu}) / ${sigma} = ${z.toFixed(2)}`;
+
+  let interp;
+  if(Math.abs(z) < 0.05){
+    interp = `이 점수는 평균과 거의 같아요.`;
+  } else if(z > 0){
+    interp = `이 점수는 평균보다 표준편차 <b>${z.toFixed(2)}배</b> 위에 있어요. 즉, 평균보다 ${(z*sigma).toFixed(0)}점 더 높아요.`;
+  } else {
+    interp = `이 점수는 평균보다 표준편차 <b>${Math.abs(z).toFixed(2)}배</b> 아래에 있어요. 즉, 평균보다 ${(Math.abs(z)*sigma).toFixed(0)}점 더 낮아요.`;
+  }
+  zFact.innerHTML = `${interp} 표준점수(z)를 쓰면, 시험마다 평균과 표준편차가 달라도 "평균에서 얼마나 떨어져 있는지"를 같은 기준으로 비교할 수 있어요. 예를 들어 국어 85점과 수학 78점 중 어느 쪽이 상대적으로 더 잘 본 것인지는, 원점수가 아니라 z값으로 비교해야 공평해요.`;
+}
+sliderZMu.addEventListener('input', renderZ);
+sliderZSigma.addEventListener('input', renderZ);
+sliderZX.addEventListener('input', renderZ);
+renderZ();
+
+/* ---------- 탭 전환 ---------- */
+const bellStage = document.getElementById('bellStage');
+const zStage = document.getElementById('zStage');
+const tabBtns = document.querySelectorAll('.tab-btn');
+tabBtns.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    tabBtns.forEach(x=>{ x.classList.toggle('active', x===btn); x.setAttribute('aria-selected', x===btn?'true':'false'); });
+    const t = btn.dataset.tab;
+    bellStage.style.display = t==='bell' ? '' : 'none';
+    zStage.style.display = t==='z' ? '' : 'none';
+  });
+});
+</script>
+</body>
+</html>

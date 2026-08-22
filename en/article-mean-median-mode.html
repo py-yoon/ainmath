@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Mean, Median, Mode: Even "Average" Comes in Different Flavors | AINMATH</title>
+<meta name="description" content="Survey ten classmates about their allowance, and if nine get $10 while one gets $100, the average allowance comes out far higher than what most kids actually receive...">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINMATH">
+<meta property="og:title" content="Mean, Median, Mode: Even &quot;Average&quot; Comes in Different Flavors | AINMATH">
+<meta property="og:description" content="Survey ten classmates about their allowance, and if nine get $10 while one gets $100, the average allowance comes out far higher than what most kids actually receive...">
+<meta property="og:url" content="https://ainmath.com/en/article-mean-median-mode.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mean, Median, Mode: Even &quot;Average&quot; Comes in Different Flavors | AINMATH">
+<meta name="twitter:description" content="Survey ten classmates about their allowance, and if nine get $10 while one gets $100, the average allowance comes out far higher than what most kids actually receive...">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --green:#4CAF8E; --green-soft:#E3F5EE; --green-ink:#357A63;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{
+    display:inline-flex;align-items:center;gap:6px;
+    color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;
+  }
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;
+    padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;
+  }
+  h1{
+    font-family:'Do Hyeon',sans-serif;font-weight:400;
+    font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;
+  }
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{
+    background:var(--card);border-radius:22px;box-shadow:var(--shadow);
+    padding:clamp(20px,4vw,40px);
+  }
+  .article-body p{
+    font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;
+  }
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;
+    background:#4CAF8E;text-decoration:none;
+    padding:14px 22px;border-radius:14px;
+    transition:transform .15s ease;
+  }
+  .cta-btn:hover{transform:translateY(-2px);}
+  .cta-soon{font-size:14px;color:var(--ink-soft);margin:0;}
+  .cta-soon a{color:#357A63;}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="grade-5-6.html">← Back to all activities</a><a href="../article-mean-median-mode.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--green-ink,#357A63);background:var(--green-soft,#E3F5EE);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">한국어 →</a>
+  <span class="eyebrow" style="color:#357A63;background:#E3F5EE">📊 Data &amp; Probability</span>
+  <h1>Mean, Median, Mode: Even "Average" Comes in Different Flavors</h1>
+  <p class="meta">Upper elementary – middle school · About 4 min read</p>
+  <div class="card">
+    <div class="article-body">
+      <p>Survey ten classmates about their allowance, and if nine of them get $10 while just one gets $100, the average allowance comes out far higher than what most kids actually receive. Just saying "well, the average says so" in a case like this is bound to mislead. That's exactly why statistics gives us other ways to summarize data besides the mean — the median and the mode.</p>
+      <p>The <b>mean</b> is what you get by adding up every value and dividing by the count. It's easy to calculate, but its weakness is that it can swing wildly from a single extreme value. The <b>median</b> is the value that lands right in the middle once you line the data up in order. In the allowance example, the median would be $10, which represents most kids' actual situation much better. The <b>mode</b> is whichever value shows up most often — handy for questions like which shoe size a store should stock the most of, whenever you want to know the "most common case."</p>
+      <p>None of these three is the "right" one — what matters is understanding that which one reflects reality best depends on the situation. When you see a statistic in the news like "average salary" or "average home price," knowing that a handful of extremely high values can skew the mean lets you read those numbers a lot more critically.</p>
+      <p>This idea shows up almost anywhere data gets analyzed — grading test scores, tracking an athlete's stats, negotiating salaries at a company. Especially in an age when statistics flood the news and advertising the way they do now, getting into the habit of asking which summary value was actually used goes a long way toward truly understanding the information you're given.</p>
+      <p>It's also a great exercise to actually calculate how much a single outlier — a value strangely far off from the rest — can throw off the overall result when finding a mean. Say five students score 80, 82, 85, 88, and 20 on a test. That single 20 drags the mean all the way down to 71, even though four of the five students scored in the 80s — so a mean of 71 doesn't really capture how well this group actually did. In a case like this, the median, 85, is a much more realistic summary. Get into the habit of pausing every time you see a statistic to ask "could an outlier be skewing this average?", and you'll be able to interpret the numbers you run into in the news and in ads far more wisely.</p>
+      <div class="illo">
+        <svg viewBox="0 0 280 110">
+          <line x1="20" y1="60" x2="280" y2="60" stroke="var(--ink-soft)" stroke-width="1.5"></line>
+          <circle cx="72" cy="60" r="6" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"></circle>
+          <text x="72" y="82" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">20</text>
+          <circle cx="228" cy="60" r="6" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"></circle>
+          <circle cx="233.2" cy="60" r="6" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"></circle>
+          <circle cx="241" cy="60" r="6" fill="var(--green-soft)" stroke="var(--green-ink)" stroke-width="2.5"></circle>
+          <circle cx="248.8" cy="60" r="6" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"></circle>
+          <text x="238" y="82" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">80,82,85,88</text>
+          <line x1="204.6" y1="30" x2="204.6" y2="50" stroke="var(--coral-ink)" stroke-width="2.5"></line>
+          <text x="204.6" y="22" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--coral-ink)">Mean 71</text>
+          <line x1="241" y1="70" x2="241" y2="90" stroke="var(--green-ink)" stroke-width="2.5"></line>
+          <text x="241" y="104" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--green-ink)">Median 85</text>
+        </svg>
+        <div class="illo-caption">A single score of 20 drags the mean down to 71, but the median of 85 still reflects most students' actual performance</div>
+      </div>
+      <p>When studying this with kids, it works well to calculate all three values using data you can actually collect yourselves — classmates' heights, shoe sizes, that sort of thing. On our activity page, type numbers freely into the input boxes and the mean, median, and mode calculate simultaneously, so you can see right away how much each one shifts when you bump one value up to an extreme. Add and remove an extreme value a few times and watch the mean swing wildly while the median barely budges, and it'll become far clearer why different situations call for a different summary value. Working out all three values together using your own family's or friends' real data can make statistics feel a lot more vivid than any textbook example.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="mean-median-mode.html">🎮 Try this concept yourself →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>AINMATH · Learn math by checking it yourself with sliders</p>
+  <nav><a href="index.html">Home</a>·<a href="../about.html">About</a>·<a href="../terms.html">Terms</a>·<a href="../privacy-policy.html">Privacy Policy</a>·<a href="../contact.html">Contact</a></nav>
+</footer>
+</body>
+</html>

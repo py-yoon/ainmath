@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>받아올림과 받아내림, 자리가 움직이는 이유 | 아인매스</title>
+<meta name="description" content="48+36을 계산할 때 일의 자리 합이 14가 되면 무슨 일이 벌어질까요? 10개를 묶어 옆자리로 보내는 받아올림과, 반대로 옆자리에서 10개를 빌려오는 받아내림의 원리를 알아봐요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="받아올림과 받아내림, 자리가 움직이는 이유 | 아인매스">
+<meta property="og:description" content="48+36을 계산할 때 일의 자리 합이 14가 되면 무슨 일이 벌어질까요? 10개를 묶어 옆자리로 보내는 받아올림과, 반대로 옆자리에서 10개를 빌려오는 받아내림의 원리를 알아봐요.">
+<meta property="og:url" content="https://ainmath.com/article-addition-subtraction-carrying.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="받아올림과 받아내림, 자리가 움직이는 이유 | 아인매스">
+<meta name="twitter:description" content="10개를 묶어 옆자리로 보내는 받아올림과, 옆자리에서 10개를 빌려오는 받아내림의 원리를 알아봐요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px);line-height:1.35;margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:18px;line-height:2;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:280px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#D90500;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="explore.html">← 전체 목록으로</a><a href="en/index.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:#6847F7;background:#EEE8FF;text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">EN</a>
+  <span class="eyebrow" style="color:#D90500;background:#FFEAE8">🔢 수와 연산</span>
+  <h1>받아올림과 받아내림, 자리가 움직이는 이유</h1>
+  <p class="meta">초등 저학년 · 읽는 데 약 4분</p>
+  <p style="background:#FFEAE8;color:var(--ink);border-radius:14px;padding:12px 16px;font-size:14.5px;line-height:1.6;margin:0 0 20px;">🧑‍🤝‍🧑 <b>부모님과 함께 읽어보세요.</b> 아직 혼자 읽기 어려운 낱말이 있을 수 있어요. 소리 내어 같이 읽으면 더 쉽게 이해할 수 있어요.</p>
+  <div class="card">
+    <div class="article-body">
+      <p>48 더하기 36은 얼마일까요? 어른들은 계산기 없이도 금방 84라는 걸 알아내요. 비결은 딱 하나예요. 숫자를 자리별로 나눠서 따로 더하고, 자리 하나에 다 못 담을 만큼 많아지면 옆자리로 보내는 거예요.</p>
+      <p>48은 십의 자리 4와 일의 자리 8로 나눌 수 있어요. 36은 십의 자리 3과 일의 자리 6이고요. 자리가 같은 것끼리 먼저 더해볼게요. 일의 자리는 8+6=14예요.</p>
+      <p>그런데 곤란한 일이 생겼어요. 우리가 쓰는 숫자는 자리 하나에 0부터 9까지, 딱 열 개만 쓸 수 있거든요. 14는 두 자리 수라서 일의 자리에 그대로 쓸 수 없어요.</p>
+      <p>그래서 14를 "10개 한 묶음"과 "낱개 4개"로 나눠요. 10개짜리 묶음은 옆자리인 십의 자리로 올려 보내고, 낱개 4개만 일의 자리에 남겨둬요. 이렇게 자리를 넘어 옮기는 걸 <b>받아올림</b>이라고 불러요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 240 100">
+          <g stroke="var(--ink-soft)" stroke-width="1.5" fill="none">
+            <rect x="8" y="10" width="120" height="50" rx="6" stroke-dasharray="4 3"></rect>
+          </g>
+          <rect x="16" y="18" width="16" height="16" rx="3" fill="#D90500"></rect>
+          <rect x="36" y="18" width="16" height="16" rx="3" fill="#D90500"></rect>
+          <rect x="56" y="18" width="16" height="16" rx="3" fill="#D90500"></rect>
+          <rect x="76" y="18" width="16" height="16" rx="3" fill="#D90500"></rect>
+          <rect x="96" y="18" width="16" height="16" rx="3" fill="#D90500"></rect>
+          <rect x="16" y="38" width="16" height="16" rx="3" fill="#D90500"></rect>
+          <rect x="36" y="38" width="16" height="16" rx="3" fill="#D90500"></rect>
+          <rect x="56" y="38" width="16" height="16" rx="3" fill="#D90500"></rect>
+          <rect x="76" y="38" width="16" height="16" rx="3" fill="#D90500"></rect>
+          <rect x="96" y="38" width="16" height="16" rx="3" fill="#D90500"></rect>
+          <text x="68" y="80" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)" text-anchor="middle">10개 → 십의 자리로!</text>
+          <rect x="150" y="18" width="16" height="16" rx="3" fill="#FFEAE8" stroke="#D90500" stroke-width="2"></rect>
+          <rect x="170" y="18" width="16" height="16" rx="3" fill="#FFEAE8" stroke="#D90500" stroke-width="2"></rect>
+          <rect x="190" y="18" width="16" height="16" rx="3" fill="#FFEAE8" stroke="#D90500" stroke-width="2"></rect>
+          <rect x="210" y="18" width="16" height="16" rx="3" fill="#FFEAE8" stroke="#D90500" stroke-width="2"></rect>
+          <text x="182" y="60" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)" text-anchor="middle">남은 4개</text>
+        </svg>
+        <div class="illo-caption">8+6=14는 "10개 한 묶음"과 "낱개 4개"로 나뉘어요</div>
+      </div>
+      <p>이제 십의 자리를 볼게요. 원래 있던 4와 3에, 받아올림으로 넘어온 1을 더하면 4+3+1=8이에요. 그래서 최종 답은 84가 돼요. 자리마다 따로 더하고, 넘치는 몫만 옆자리로 보내는 것. 이게 받아올림의 전부예요.</p>
+      <p>뺄셈에서는 반대 상황이 생겨요. 52에서 27을 빼볼게요. 일의 자리를 보면 2에서 7을 뺄 수가 없어요. 2보다 7이 더 크니까요.</p>
+      <p>이럴 땐 십의 자리에서 10을 빌려와요. 십의 자리 블록 하나는 일의 자리 블록 10개와 정확히 같은 양이거든요. 그래서 일의 자리 2에 10을 더해 12로 만들고, 대신 십의 자리는 5에서 하나 줄어든 4가 돼요.</p>
+      <p>12에서 7을 빼면 5, 4에서 2를 빼면 2. 그래서 52−27=25예요. 이렇게 옆자리에서 10을 빌려오는 걸 <b>받아내림</b>이라고 해요. 빌려와도 전체 양은 조금도 변하지 않는다는 게 재미있는 점이에요.</p>
+      <p>받아올림과 받아내림은 사실 같은 원리의 양면이에요. 자리 하나에 10개가 넘게 모이면 옆자리로 올려 보내고, 반대로 모자라면 옆자리에서 10개를 빌려온다는 것. 이 원리는 나중에 배우는 시계 계산(60분이 넘으면 시가 바뀌는 것)이나, 훨씬 더 큰 수를 계산할 때도 똑같이 나타나요.</p>
+      <p>저희 체험 페이지에서는 슬라이더로 두 수를 직접 바꿔가며, 몇 개의 블록이 옆자리로 넘어가는지 보라색으로 표시해서 보여드려요. 여러 숫자로 바꿔보면서 받아올림·받아내림이 항상 같은 원리로 일어난다는 걸 확인해보세요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="addition-subtraction-carrying.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
