@@ -84,6 +84,17 @@ body{
 .check-block{display:none;}
 .check-block.show{display:block;}
 
+.help-link{display:block;text-align:center;color:var(--ink-soft);font-size:13.5px;text-decoration:none;margin-top:12px;}
+.help-link:hover{color:var(--violet-ink);text-decoration:underline;}
+.quiz-progress{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--violet-ink);text-align:center;margin-bottom:10px;}
+.quiz-q{font-size:16.5px;line-height:1.7;color:var(--ink);text-align:center;margin-bottom:16px;}
+.quiz-opts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:10px;}
+.quiz-btn{font-family:'Do Hyeon',sans-serif;font-size:16px;padding:12px 16px;border-radius:14px;background:#fff;border:3px solid var(--paper-line);color:var(--ink);cursor:pointer;transition:all .15s ease;}
+.quiz-btn:hover{border-color:var(--violet-ink);}
+.quiz-btn.correct{background:#357A63;border-color:#357A63;color:#fff;}
+.quiz-btn.wrong{background:var(--coral-ink);border-color:var(--coral-ink);color:#fff;}
+.quiz-btn:disabled{cursor:not-allowed;}
+.quiz-feedback{text-align:center;font-size:14px;color:var(--ink-soft);min-height:20px;margin-bottom:6px;}
 footer{max-width:560px;margin:20px auto 0;color:var(--ink-soft);font-size:13.5px;text-align:center;}
 </style>
 </head>
@@ -111,15 +122,16 @@ footer{max-width:560px;margin:20px auto 0;color:var(--ink-soft);font-size:13.5px
       <div class="avatar">🕵️</div>
       <div class="bubble"><span class="who">홈즈</span>줄지어 있는 걸 셀 땐 하나씩 세지 않아도 돼. <b>곱셈구구</b>를 쓰면 금방 알 수 있지. 가볼까?</div>
     </div>
-    <a class="big-btn" href="multiplication-array.html" target="_blank" id="goLabBtn">🔍 함께 알아보러 가기!</a>
+    <button class="big-btn" id="startQuizBtn">🕵️ 사건 파헤치기 시작!</button>
+    <a class="help-link" href="multiplication-array.html" target="_blank">🤔 먼저 실험실에서 연습하고 올래요</a>
   </div>
 
   <div class="panel check-block" id="checkPanel">
-    <div class="speech-row">
-      <div class="avatar">🕵️</div>
-      <div class="bubble"><span class="who">홈즈</span>사탕이 몇 개인지 곱셈으로 알아냈어? 다 풀었다면 아래 버튼을 눌러줘!</div>
-    </div>
-    <button class="big-btn" id="solveBtn">✅ 다 풀었어요!</button>
+    <div class="quiz-progress" id="quizProgress">문제 1/3</div>
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <a class="help-link" href="multiplication-array.html" target="_blank">🤔 헷갈리면 실험실에서 배우고 올게요</a>
   </div>
 
   <div class="panel reward" id="rewardPanel">
@@ -127,6 +139,7 @@ footer{max-width:560px;margin:20px auto 0;color:var(--ink-soft);font-size:13.5px
     <div class="reward-title">사탕 한 봉지를 찾았어요!</div>
     <div class="reward-desc">사탕가게 아저씨가 신나서 사탕을 나눠줬어요. 두 번째 단서를 모았어요. 다음 사건으로 가볼까요?</div>
     <a class="big-btn secondary" href="mystery-holmes-garden.html">➡ 다음 사건: 허드슨 부인의 정원</a>
+    <a class="help-link" href="multiplication-array.html" target="_blank">🔍 더 연습하기</a>
   </div>
 </div>
 
@@ -147,17 +160,44 @@ function updateProgressPill(){
 }
 updateProgressPill();
 
-document.getElementById('goLabBtn').addEventListener('click', ()=>{
-  setTimeout(()=>{
-    document.getElementById('introPanel').style.display = 'none';
-    document.getElementById('checkPanel').classList.add('show');
-    document.getElementById('checkPanel').scrollIntoView({behavior:'smooth', block:'start'});
-  }, 300);
+const QUESTIONS = [{"q": "한 줄에 사탕이 5개씩, 3줄 있어요. 사탕은 모두 몇 개일까요?", "choices": ["12개", "15개", "18개", "20개"], "correct": 1}, {"q": "4묶음, 한 묶음에 6개씩이면 모두 몇 개일까요?", "choices": ["20개", "22개", "24개", "26개"], "correct": 2}, {"q": "사탕이 3줄, 한 줄에 4개씩 놓여 있다면 모두 몇 개일까요?", "choices": ["7개", "12개", "16개", "9개"], "correct": 1}];
+let qIndex = 0;
+
+function renderQuestion(){
+  const q = QUESTIONS[qIndex];
+  document.getElementById('quizProgress').textContent = `문제 ${qIndex+1}/${QUESTIONS.length}`;
+  document.getElementById('quizQ').textContent = q.q;
+  document.getElementById('quizFeedback').textContent = '';
+  const opts = document.getElementById('quizOpts');
+  opts.innerHTML = q.choices.map((c,i)=>`<button class="quiz-btn" data-i="${i}">${c}</button>`).join('');
+  opts.querySelectorAll('.quiz-btn').forEach(btn=>{
+    btn.addEventListener('click', function(){
+      const i = parseInt(this.dataset.i);
+      if(i === q.correct){
+        opts.querySelectorAll('.quiz-btn').forEach(b=>b.disabled=true);
+        this.classList.add('correct');
+        document.getElementById('quizFeedback').textContent = '정답이에요! 🎉';
+        setTimeout(()=>{
+          qIndex++;
+          if(qIndex < QUESTIONS.length){ renderQuestion(); }
+          else { finishCase(); }
+        }, 700);
+      } else {
+        this.classList.add('wrong');
+        document.getElementById('quizFeedback').textContent = '다시 생각해볼까?';
+      }
+    });
+  });
+}
+
+document.getElementById('startQuizBtn').addEventListener('click', ()=>{
+  document.getElementById('introPanel').style.display = 'none';
+  document.getElementById('checkPanel').classList.add('show');
+  document.getElementById('checkPanel').scrollIntoView({behavior:'smooth', block:'start'});
+  renderQuestion();
 });
 
-document.getElementById('solveBtn').addEventListener('click', function(){
-  this.disabled = true;
-  this.textContent = '✅ 확인 완료!';
+function finishCase(){
   try{
     const all = loadAll();
     all[KEY] = { solved:true, at:Date.now() };
@@ -166,7 +206,7 @@ document.getElementById('solveBtn').addEventListener('click', function(){
   updateProgressPill();
   document.getElementById('rewardPanel').classList.add('show');
   setTimeout(()=> document.getElementById('rewardPanel').scrollIntoView({behavior:'smooth', block:'start'}), 300);
-});
+}
 </script>
 </body>
 </html>
