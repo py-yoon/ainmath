@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>진약수를 다 더하면, 왜 다시 내가 될까 | 아인매스</title>
+<meta name="description" content="완전수, 친화수, 사교수 — 진약수의 합을 계속 구하면 다시 처음 수로 돌아오는 신기한 수들의 고리를 슬라이더와 버튼으로 직접 확인해요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="진약수를 다 더하면, 왜 다시 내가 될까 | 아인매스">
+<meta property="og:description" content="완전수, 친화수, 사교수 — 진약수의 합을 계속 구하면 다시 처음 수로 돌아오는 신기한 수들의 고리를 슬라이더와 버튼으로 직접 확인해요.">
+<meta property="og:url" content="https://ainmath.com/article-divisor-chain-numbers.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="진약수를 다 더하면, 왜 다시 내가 될까 | 아인매스">
+<meta name="twitter:description" content="완전수, 친화수, 사교수 — 진약수의 합을 계속 구하면 다시 처음 수로 돌아오는 신기한 수들의 고리를 슬라이더와 버튼으로 직접 확인해요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#1D7C7E;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="explore.html">← 전체 목록으로</a><a href="en/index.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">EN</a>
+  <span class="eyebrow" style="color:#1D7C7E;background:#E4FAF9">🎲 쉬는 시간·수학 탐구</span>
+  <h1>진약수를 다 더하면, 왜 다시 내가 될까</h1>
+  <p class="meta">중·고등학생 · 읽는 데 약 5분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>어떤 자연수를 나누어떨어지게 하는 수를 약수라고 하죠. 그런데 그 약수 중에서 자기 자신만 쏙 빼고 나머지를 모두 모으면 '진약수'가 돼요. 예를 들어 12의 약수는 1, 2, 3, 4, 6, 12지만, 진약수는 12를 뺀 1, 2, 3, 4, 6이에요. 이 진약수들을 몽땅 더하면 어떤 수가 나올까요? 그 답이 원래 수보다 작을 수도, 클 수도, 심지어 똑같을 수도 있어요.</p>
+      <p>만약 진약수의 합이 원래 수와 똑같다면 정말 신기한 일이 벌어져요. 6의 진약수는 1, 2, 3인데 이걸 더하면 1+2+3=6, 정확히 6이 나와요! 이런 수를 완전수라고 불러요. 6 다음 완전수는 28(1+2+4+7+14=28), 그다음은 496, 8128로 이어져요. 짝수인 완전수는 2ⁿ⁻¹×(2ⁿ−1) 꼴로(단, 2ⁿ−1이 소수일 때만) 모두 규칙이 밝혀져 있지만, 홀수인 완전수가 있는지는 2,000년이 넘도록 아직 아무도 밝혀내지 못한 문제예요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 260 160">
+          <circle cx="130" cy="30" r="24" fill="var(--ink)"></circle>
+          <text x="130" y="36" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="#fff">6</text>
+          <line x1="130" y1="54" x2="60" y2="99" stroke="var(--paper-line)" stroke-width="2"></line>
+          <line x1="130" y1="54" x2="130" y2="99" stroke="var(--paper-line)" stroke-width="2"></line>
+          <line x1="130" y1="54" x2="200" y2="99" stroke="var(--paper-line)" stroke-width="2"></line>
+          <circle cx="60" cy="115" r="16" fill="var(--coral-soft)" stroke="var(--coral)" stroke-width="2"></circle>
+          <text x="60" y="120" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral-ink)">1</text>
+          <circle cx="130" cy="115" r="16" fill="var(--coral-soft)" stroke="var(--coral)" stroke-width="2"></circle>
+          <text x="130" y="120" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral-ink)">2</text>
+          <circle cx="200" cy="115" r="16" fill="var(--coral-soft)" stroke="var(--coral)" stroke-width="2"></circle>
+          <text x="200" y="120" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral-ink)">3</text>
+          <text x="130" y="150" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--teal-ink)">1+2+3 = 6 → 다시 나!</text>
+        </svg>
+        <div class="illo-caption">완전수 6은 자신의 진약수 1, 2, 3을 더하면 다시 6이 되는 가장 짧은 고리예요</div>
+      </div>
+      <p>완전수가 '자기 자신에게 돌아오는 고리'라면, 어떤 두 수는 서로를 가리키는 짝을 이뤄요. A의 진약수를 모두 더하면 B가 되고, B의 진약수를 모두 더하면 다시 A가 되는 거죠. 가장 작은 예는 220과 284예요. 220의 진약수를 더하면 284가 되고, 284의 진약수를 더하면 정확히 220이 나와요. 이런 짝을 친화수라고 하는데, 고대 그리스 시절부터 알려져 있었을 만큼 오래된 개념이에요.</p>
+      <p>고리가 두 수를 넘어 세 개, 다섯 개, 그 이상으로 이어지는 경우도 있는데, 이런 걸 사교수라고 불러요. 예를 들어 12496에서 출발해 진약수의 합을 구하면 14288이 되고, 또 구하면 15472, 14536, 14264로 이어지다가 다시 12496으로 돌아오는 5개짜리 고리가 있어요. 재미있게도 고리 길이가 정확히 3인 사교수는 지금까지 단 하나도 발견되지 않았어요 — 정말 없는 건지, 아직 못 찾은 것뿐인지도 확실치 않은 미해결 문제예요.</p>
+      <p>완전수처럼 딱 맞아떨어지는 경우는 아주 드물어요. 대부분의 자연수는 진약수의 합이 자기보다 작은 부족수(예: 8의 진약수 합은 1+2+4=7)이거나, 진약수의 합이 자기보다 큰 과잉수(예: 12의 진약수 합은 1+2+3+4+6=16)예요. 완전수는 그 둘 사이에서 정확히 균형을 이루는 아주 희귀한 경계선인 셈이에요.</p>
+      <p>체험 페이지에서는 완전수, 친화수, 사교수를 프리셋 버튼으로 하나씩 확인할 수 있고, 슬라이더로 사교수 고리를 한 단계씩 따라가 볼 수도 있어요. 부족수·완전수·과잉수 분류하기 코너에서는 2부터 220까지 아무 수나 골라 직접 진약수 합을 계산하고 어디에 속하는지 확인해볼 수 있어요. 마지막엔 퀴즈로 배운 내용을 점검해보세요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="divisor-chain-numbers.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

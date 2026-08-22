@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>동전 던지듯 점을 뿌렸을 뿐인데 왜 원주율이 나올까 | 아인매스</title>
+<meta name="description" content="정사각형 안에 무작위로 점을 뿌려서 원 안에 들어가는 비율로 원주율(π)을 추정하는 몬테카를로 방법을 직접 점을 뿌려보며 체험해요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="동전 던지듯 점을 뿌렸을 뿐인데 왜 원주율이 나올까 | 아인매스">
+<meta property="og:description" content="정사각형 안에 무작위로 점을 뿌려서 원 안에 들어가는 비율로 원주율(π)을 추정하는 몬테카를로 방법을 직접 점을 뿌려보며 체험해요.">
+<meta property="og:url" content="https://ainmath.com/article-monte-carlo-pi-lab.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="동전 던지듯 점을 뿌렸을 뿐인데 왜 원주율이 나올까 | 아인매스">
+<meta name="twitter:description" content="정사각형 안에 무작위로 점을 뿌려서 원 안에 들어가는 비율로 원주율(π)을 추정하는 몬테카를로 방법을 직접 점을 뿌려보며 체험해요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#1D7C7E;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="explore.html">← 전체 목록으로</a><a href="en/index.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">EN</a>
+  <span class="eyebrow" style="color:#1D7C7E;background:#E4FAF9">🎲 쉬는 시간·수학 탐구</span>
+  <h1>동전 던지듯 점을 뿌렸을 뿐인데 왜 원주율이 나올까</h1>
+  <p class="meta">중·고등학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>정사각형 종이 위에 그 안에 꽉 차게 원을 하나 그려보세요. 그리고 눈을 감고 그 정사각형 안에 점을 아무렇게나 콕콕 찍어보세요. 계속 찍다 보면 어떤 점은 원 안에, 어떤 점은 원 밖 네 귀퉁이에 떨어질 거예요. 놀랍게도, 이렇게 <b>순전히 무작위로</b> 점을 뿌리기만 해도 원주율 π의 값을 꽤 정확하게 추정할 수 있어요. 계산이 아니라 확률로 π를 구하는 이 방법을 <b>몬테카를로 방법</b>이라고 해요.</p>
+      <p>원리는 넓이 비율에 있어요. 한 변의 길이가 2인 정사각형 안에 반지름 1인 원을 꽉 채워 그리면, 정사각형의 넓이는 2×2=4이고, 원의 넓이는 π×1²=π예요. 그러니 <b>원의 넓이 ÷ 정사각형의 넓이 = π/4</b>가 성립해요. 이제 정사각형 안에 점을 완전히 고르게(균등하게) 무작위로 뿌린다고 생각해보면, 한 점이 원 안에 떨어질 확률도 이 넓이 비율과 똑같이 π/4에 가까워질 거예요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 220 220">
+          <rect x="20" y="20" width="180" height="180" fill="none" stroke="var(--ink-soft)" stroke-width="2.5"></rect>
+          <circle cx="110" cy="110" r="90" fill="var(--teal-soft)" stroke="var(--teal-ink)" stroke-width="2.5"></circle>
+          <circle cx="70" cy="75" r="4" fill="var(--violet-ink)"></circle>
+          <circle cx="130" cy="60" r="4" fill="var(--violet-ink)"></circle>
+          <circle cx="150" cy="130" r="4" fill="var(--violet-ink)"></circle>
+          <circle cx="95" cy="150" r="4" fill="var(--violet-ink)"></circle>
+          <circle cx="110" cy="105" r="4" fill="var(--violet-ink)"></circle>
+          <circle cx="35" cy="35" r="4" fill="var(--coral-ink)"></circle>
+          <circle cx="185" cy="35" r="4" fill="var(--coral-ink)"></circle>
+          <circle cx="35" cy="190" r="4" fill="var(--coral-ink)"></circle>
+          <circle cx="188" cy="185" r="4" fill="var(--coral-ink)"></circle>
+          <text x="110" y="205" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">원 안(보라)과 밖(빨강)의 비율이 π/4예요</text>
+        </svg>
+        <div class="illo-caption">π ≈ 4 × (원 안에 떨어진 점 수 ÷ 전체 점 수)</div>
+      </div>
+      <p>그래서 공식을 뒤집으면 <b>π ≈ 4 × (원 안의 점 개수 ÷ 전체 점 개수)</b>가 돼요. 점을 100개만 뿌리면 추정값이 3.0이 나왔다가 3.3이 나왔다가 들쭉날쭉하지만, 점을 수천 개, 수만 개로 늘려갈수록 원 안에 떨어진 비율이 점점 π/4라는 진짜 확률에 가까워지고, 추정한 π 값도 3.14159...에 점점 다가가요. 이건 "충분히 많이 반복하면 실제 확률에 가까워진다"는 큰 수의 법칙이 눈앞에서 작동하는 모습이에요.</p>
+      <p>다만 몬테카를로 방법은 <b>수렴 속도가 아주 느리다</b>는 단점이 있어요. 오차를 10분의 1로 줄이려면 점의 개수를 100배로 늘려야 할 정도예요(흔히 "1/√n 법칙"이라고 불러요). 그래서 소수점 여러 자리까지 정확한 π가 필요하다면, 원주율을 구하는 다른 빠른 공식들(원의 둘레를 지름으로 나누거나, 급수를 이용하는 방법들)이 훨씬 효율적이에요.</p>
+      <p>그런데도 몬테카를로 방법이 여전히 중요하게 쓰이는 이유는, <b>정확한 공식을 세우기 어려운 복잡한 문제</b>에서 진가를 발휘하기 때문이에요. 원자로 안에서 중성자가 어떻게 튕겨 다니는지, 복잡한 금융 상품의 가격이 시간에 따라 어떻게 변할지, 내일 날씨가 어떻게 될지 같은 문제들은 정확한 계산식을 세우기가 거의 불가능해요. 이럴 때 "무작위로 수많은 경우를 시뮬레이션해보고 그 결과의 비율을 세는" 몬테카를로 방법이 사실상 유일한 현실적인 해법이 돼요.</p>
+      <p>저희 체험 페이지에서는 버튼 하나로 점을 100개, 1000개씩 정사각형 안에 뿌려볼 수 있고, 점이 늘어날수록 추정한 π 값이 실제 π(3.14159...)에 점점 가까워지는 과정을 그래프로 직접 확인할 수 있어요. 점 몇 개로는 들쭉날쭉하던 값이 점점 안정되는 걸 눈으로 보면, 확률과 통계가 왜 강력한 도구인지 훨씬 실감 나게 느껴질 거예요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="monte-carlo-pi-lab.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

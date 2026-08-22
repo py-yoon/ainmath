@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>짝수는 반으로, 홀수는 3배+1 — 정말 모든 수가 1로 끝날까 | 아인매스</title>
+<meta name="description" content="짝수면 반으로, 홀수면 3배하고 1을 더해서 — 어떤 수로 시작해도 결국 1로 끝난다는 콜라츠 추측(3n+1 문제)을 슬라이더로 직접 확인해요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="짝수는 반으로, 홀수는 3배+1 — 정말 모든 수가 1로 끝날까 | 아인매스">
+<meta property="og:description" content="짝수면 반으로, 홀수면 3배하고 1을 더해서 — 어떤 수로 시작해도 결국 1로 끝난다는 콜라츠 추측(3n+1 문제)을 슬라이더로 직접 확인해요.">
+<meta property="og:url" content="https://ainmath.com/article-collatz-conjecture-lab.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="짝수는 반으로, 홀수는 3배+1 — 정말 모든 수가 1로 끝날까 | 아인매스">
+<meta name="twitter:description" content="짝수면 반으로, 홀수면 3배하고 1을 더해서 — 어떤 수로 시작해도 결국 1로 끝난다는 콜라츠 추측(3n+1 문제)을 슬라이더로 직접 확인해요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#1D7C7E;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="explore.html">← 전체 목록으로</a><a href="en/index.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">EN</a>
+  <span class="eyebrow" style="color:#1D7C7E;background:#E4FAF9">🎲 쉬는 시간·수학 탐구</span>
+  <h1>짝수는 반으로, 홀수는 3배+1 — 정말 모든 수가 1로 끝날까</h1>
+  <p class="meta">중·고등학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>규칙은 딱 두 줄이에요. 숫자가 <b>짝수면 2로 나누고</b>, <b>홀수면 3배한 뒤 1을 더해요</b>. 그렇게 나온 새 수에 또 같은 규칙을 적용해요. 예를 들어 3에서 시작하면 3→10→5→16→8→4→2→1로 7단계 만에 1에 도착해요. 1937년 독일 수학자 로타르 콜라츠가 처음 제기한 이 문제는 규칙이 초등학생도 이해할 만큼 간단해서 더 유명해요.</p>
+      <p>콜라츠 추측은 <b>"어떤 자연수로 시작하든, 이 규칙을 계속 반복하면 결국 1에 도착한다"</b>는 주장이에요. 지금까지 컴퓨터로 2<sup>68</sup>(약 3×10²⁰)보다 작은 모든 수를 다 확인했지만 예외는 하나도 발견되지 않았어요. 그런데 정말 중요한 건, 이건 "지금까지 확인한 범위에서 참"이라는 뜻이지 <b>"모든 자연수에 대해 항상 참"이라는 증명은 아직 아무도 해내지 못했다는 점</b>이에요. 콜라츠 추측은 여전히 수학계의 미해결 문제예요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 360 130">
+          <rect x="6" y="40" width="34" height="34" rx="8" fill="var(--coral-ink)"></rect>
+          <text x="23" y="62" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="#fff">3</text>
+          <text x="46" y="62" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)">→</text>
+          <rect x="50" y="40" width="34" height="34" rx="8" fill="var(--teal-ink)"></rect>
+          <text x="67" y="62" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="#fff">10</text>
+          <text x="90" y="62" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)">→</text>
+          <rect x="94" y="40" width="34" height="34" rx="8" fill="var(--coral-ink)"></rect>
+          <text x="111" y="62" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="#fff">5</text>
+          <text x="134" y="62" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)">→</text>
+          <rect x="138" y="40" width="34" height="34" rx="8" fill="var(--teal-ink)"></rect>
+          <text x="155" y="62" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="#fff">16</text>
+          <text x="178" y="62" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)">→</text>
+          <rect x="182" y="40" width="34" height="34" rx="8" fill="var(--teal-ink)"></rect>
+          <text x="199" y="62" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="#fff">8</text>
+          <text x="222" y="62" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)">→</text>
+          <rect x="226" y="40" width="34" height="34" rx="8" fill="var(--teal-ink)"></rect>
+          <text x="243" y="62" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="#fff">4</text>
+          <text x="266" y="62" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)">→</text>
+          <rect x="270" y="40" width="34" height="34" rx="8" fill="var(--teal-ink)"></rect>
+          <text x="287" y="62" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="#fff">2</text>
+          <text x="310" y="62" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)">→</text>
+          <rect x="314" y="40" width="34" height="34" rx="8" fill="#357A63"></rect>
+          <text x="331" y="62" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="#fff">1</text>
+          <text x="180" y="105" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">코랄=홀수(3배+1), 청록=짝수(÷2)</text>
+        </svg>
+        <div class="illo-caption">3에서 시작하면 10까지 잠깐 올라갔다가 다시 내려와 7단계 만에 1에 도착해요</div>
+      </div>
+      <p>규칙이 단순한데 왜 아직 못 풀었을까요? 숫자가 짝수일 때와 홀수일 때 완전히 다른 규칙이 적용돼서, 수가 커지고 작아지는 걸 동시에 다룰 수학 이론이 마땅치 않기 때문이에요. 작은 수라고 쉬운 것도 아니에요. 27은 두 자리밖에 안 되는 수인데 1에 도착하기까지 <b>111단계</b>나 걸리고, 그 사이 최고 <b>9,232</b>까지 치솟아요. 규칙은 예측 가능한데 실제 경로는 마치 무작위처럼 요동치는 거예요.</p>
+      <p>헝가리의 유명한 수학자 폴 에르되시는 이 문제를 두고 "수학이 이런 문제를 다루기엔 아직 준비가 안 됐다"고 말할 정도였어요. 상금이 걸린 문제이기도 해서, 지금도 전 세계 수학자와 아마추어들이 계속 도전하고 있어요. 어떤 수학자들은 "언젠가는 1이 아닌 다른 고리로 빠지는 예외가 발견될 수도 있다"고 보고, 어떤 수학자들은 "결국 증명될 것"이라고 보지만, 아직 어느 쪽도 확실하지 않아요.</p>
+      <p>저희 체험 페이지에서는 시작 숫자를 고르고 슬라이더로 한 단계씩 계산 과정을 따라가며, 짝수(파란색)와 홀수(코랄색)가 번갈아 나오는 걸 직접 볼 수 있어요. 또 1~30까지 숫자별로 1에 도착하기까지 걸리는 단계 수와 중간 최고값을 그래프로 비교해서, 27처럼 유독 튀는 수를 직접 찾아볼 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="collatz-conjecture-lab.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

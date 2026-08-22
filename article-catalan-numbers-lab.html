@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>전혀 달라 보이는 두 문제가 왜 똑같은 수가 될까 | 아인매스</title>
+<meta name="description" content="괄호를 짝 맞추는 방법의 수, 다각형을 삼각형으로 나누는 방법의 수 — 전혀 달라 보이는 문제들이 왜 똑같은 카탈랑 수가 되는지 직접 확인해요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="전혀 달라 보이는 두 문제가 왜 똑같은 수가 될까 | 아인매스">
+<meta property="og:description" content="괄호를 짝 맞추는 방법의 수, 다각형을 삼각형으로 나누는 방법의 수 — 전혀 달라 보이는 문제들이 왜 똑같은 카탈랑 수가 되는지 직접 확인해요.">
+<meta property="og:url" content="https://ainmath.com/article-catalan-numbers-lab.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="전혀 달라 보이는 두 문제가 왜 똑같은 수가 될까 | 아인매스">
+<meta name="twitter:description" content="괄호를 짝 맞추는 방법의 수, 다각형을 삼각형으로 나누는 방법의 수 — 전혀 달라 보이는 문제들이 왜 똑같은 카탈랑 수가 되는지 직접 확인해요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#1D7C7E;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="explore.html">← 전체 목록으로</a><a href="en/index.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">EN</a>
+  <span class="eyebrow" style="color:#1D7C7E;background:#E4FAF9">🎲 쉬는 시간·수학 탐구</span>
+  <h1>전혀 달라 보이는 두 문제가 왜 똑같은 수가 될까</h1>
+  <p class="meta">중·고등학생 · 읽는 데 약 5분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>다음 두 문제를 생각해보세요. 첫째, 여는 괄호 "("와 닫는 괄호 ")"를 각각 n개씩 써서, 어느 지점에서도 닫는 괄호가 여는 괄호보다 많아지지 않도록 짝을 맞추는 방법은 몇 가지일까요? 둘째, 볼록한 (n+2)각형을 대각선으로 나눠서 조각이 전부 삼각형이 되게 하는 방법은 몇 가지일까요? 겉으로는 완전히 다른 문제인데, 놀랍게도 두 문제의 답은 <b>정확히 똑같은 수열</b>이에요: 1, 1, 2, 5, 14, 42, 132... 이 수를 <b>카탈랑 수</b>라고 불러요.</p>
+      <p>카탈랑 수는 C<sub>n</sub> = (2n)! / ((n+1)! × n!) 이라는 공식으로 계산해요. n=0부터 대입하면 C<sub>0</sub>=1, C<sub>1</sub>=1, C<sub>2</sub>=2, C<sub>3</sub>=5, C<sub>4</sub>=14, C<sub>5</sub>=42로 이어져요. 예를 들어 괄호 3쌍으로 만들 수 있는 올바른 배열은 ((())), (()()), (())(), ()(()), ()()() 이렇게 <b>정확히 5가지</b>예요.</p>
+      <p>그런데 오각형(5각형)을 대각선으로 나눠서 전부 삼각형이 되게 하는 방법도 세어보면 <b>똑같이 5가지</b>가 나와요. 우연이 아니에요. 오각형은 대각선 2개를 그으면 삼각형 3개로 나뉘는데, 이때 (n+2)각형에서 n=3이라 C<sub>3</sub>=5와 정확히 일치해요. 괄호 문제도, 다각형 문제도 사실은 "재귀적으로 두 조각으로 나누는 방법의 수"라는 같은 구조를 갖고 있기 때문이에요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 200 200">
+          <line x1="100" y1="30" x2="166.6" y2="78.4" stroke="var(--ink)" stroke-width="3"></line>
+          <line x1="166.6" y1="78.4" x2="141.2" y2="156.6" stroke="var(--ink)" stroke-width="3"></line>
+          <line x1="141.2" y1="156.6" x2="58.8" y2="156.6" stroke="var(--ink)" stroke-width="3"></line>
+          <line x1="58.8" y1="156.6" x2="33.4" y2="78.4" stroke="var(--ink)" stroke-width="3"></line>
+          <line x1="33.4" y1="78.4" x2="100" y2="30" stroke="var(--ink)" stroke-width="3"></line>
+          <line x1="100" y1="30" x2="141.2" y2="156.6" stroke="var(--violet-ink)" stroke-width="2.5" stroke-dasharray="6 4"></line>
+          <line x1="100" y1="30" x2="58.8" y2="156.6" stroke="var(--violet-ink)" stroke-width="2.5" stroke-dasharray="6 4"></line>
+          <circle cx="100" cy="30" r="6" fill="var(--ink)"></circle>
+          <circle cx="166.6" cy="78.4" r="6" fill="var(--ink)"></circle>
+          <circle cx="141.2" cy="156.6" r="6" fill="var(--ink)"></circle>
+          <circle cx="58.8" cy="156.6" r="6" fill="var(--ink)"></circle>
+          <circle cx="33.4" cy="78.4" r="6" fill="var(--ink)"></circle>
+        </svg>
+        <div class="illo-caption">오각형을 대각선 2개로 삼각형 3개로 나누는 방법은 5가지예요 — 괄호 3쌍 짝짓기 방법의 수와 똑같아요</div>
+      </div>
+      <p>이 우연 같은 일치를 수학자들은 "전단사(bijection)가 있다"고 표현해요. 두 문제의 답을 하나하나 일대일로 짝지을 수 있다는 뜻이에요. 실제로 괄호 하나를 다각형의 대각선 하나로, 괄호가 감싸는 구조를 삼각형이 붙는 순서로 바꿔서 생각하면 두 문제가 정확히 같은 방식으로 대응돼요. 심지어 노드가 n개인 이진트리(각 노드가 왼쪽·오른쪽 자식을 최대 하나씩 갖는 나무 구조)의 서로 다른 모양의 개수도 똑같이 C<sub>n</sub>이에요.</p>
+      <p>카탈랑 수는 벨기에 수학자 외젠 카탈랑의 이름을 땄지만, 사실 그보다 앞서 스위스의 레온하르트 오일러와 몽골의 밍안투가 각자 독립적으로 이 수를 연구했어요. 지금까지 알려진 것만 200가지가 넘는 서로 다른 조합론 문제에서 카탈랑 수가 등장할 만큼, 수학 곳곳에 숨어있는 수예요.</p>
+      <p>저희 체험 페이지에서는 n을 바꿔가며 카탈랑 수가 어떻게 계산되는지 직접 확인할 수 있고, 괄호 배열을 전부 나열해서 눈으로 세어볼 수 있어요. 또 다각형의 삼각분할 방법을 하나씩 넘겨보면서, 두 문제의 답이 정말로 똑같이 늘어나는지 직접 확인할 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="catalan-numbers-lab.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

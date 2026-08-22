@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>왜 1/7은 소수점이 6자리마다 통째로 반복될까 | 아인매스</title>
+<meta name="description" content="1/3, 1/7 같은 분수를 나눗셈하면 왜 소수점이 끝없이 반복될까요? 순환소수가 생기는 이유, 순환마디 길이, 다시 분수로 바꾸는 방법을 슬라이더로 직접 확인해요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="왜 1/7은 소수점이 6자리마다 통째로 반복될까 | 아인매스">
+<meta property="og:description" content="1/3, 1/7 같은 분수를 나눗셈하면 왜 소수점이 끝없이 반복될까요? 순환소수가 생기는 이유, 순환마디 길이, 다시 분수로 바꾸는 방법을 슬라이더로 직접 확인해요.">
+<meta property="og:url" content="https://ainmath.com/article-repeating-decimals-lab.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="왜 1/7은 소수점이 6자리마다 통째로 반복될까 | 아인매스">
+<meta name="twitter:description" content="1/3, 1/7 같은 분수를 나눗셈하면 왜 소수점이 끝없이 반복될까요? 순환소수가 생기는 이유, 순환마디 길이, 다시 분수로 바꾸는 방법을 슬라이더로 직접 확인해요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#1D7C7E;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="explore.html">← 전체 목록으로</a><a href="en/index.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">EN</a>
+  <span class="eyebrow" style="color:#1D7C7E;background:#E4FAF9">🎲 쉬는 시간·수학 탐구</span>
+  <h1>왜 1/7은 소수점이 6자리마다 통째로 반복될까</h1>
+  <p class="meta">중학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>1÷4를 계산하면 0.25에서 딱 끝나요. 그런데 1÷3을 계산하면 0.333...으로 3이 영원히 반복되고, 1÷7을 계산하면 0.142857142857...로 무려 여섯 자리(142857)가 통째로 반복돼요. 같은 나눗셈인데 왜 어떤 건 끝나고, 어떤 건 끝없이 반복될까요? 그리고 반복되는 구간(순환마디)의 길이는 왜 분모마다 이렇게 제각각일까요?</p>
+      <p>비밀은 나눗셈을 계속할 때마다 나오는 <b>나머지</b>에 있어요. 1÷7을 손으로 계산해본다고 생각해봐요. 10을 7로 나누면 몫 1, 나머지 3이에요. 나머지 3에 0을 붙인 30을 다시 7로 나누면 몫 4, 나머지 2예요. 이런 식으로 나머지가 3 → 2 → 6 → 4 → 5 → 1 순서로 계속 바뀌다가, 일곱 번째 단계에서 나머지가 다시 <b>1</b>이 돼요. 맨 처음 나머지와 똑같아진 거죠. 그러면 그 뒤부터는 몫으로 나오는 숫자들도 똑같은 순서로 반복될 수밖에 없어요 — 나머지가 같으면 그다음에 벌어지는 계산도 토씨 하나 안 틀리고 똑같으니까요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 260 190">
+          <circle cx="52" cy="40" r="20" fill="var(--teal)"></circle>
+          <text x="52" y="46" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="#fff">1</text>
+          <circle cx="104" cy="40" r="20" fill="var(--teal)"></circle>
+          <text x="104" y="46" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="#fff">3</text>
+          <circle cx="156" cy="40" r="20" fill="var(--teal)"></circle>
+          <text x="156" y="46" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="#fff">2</text>
+          <circle cx="208" cy="40" r="20" fill="var(--teal)"></circle>
+          <text x="208" y="46" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="#fff">6</text>
+          <line x1="72" y1="40" x2="84" y2="40" stroke="var(--ink-soft)" stroke-width="2"></line>
+          <line x1="124" y1="40" x2="136" y2="40" stroke="var(--ink-soft)" stroke-width="2"></line>
+          <line x1="176" y1="40" x2="188" y2="40" stroke="var(--ink-soft)" stroke-width="2"></line>
+          <circle cx="130" cy="100" r="20" fill="var(--teal)"></circle>
+          <text x="130" y="106" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="#fff">4</text>
+          <circle cx="182" cy="100" r="20" fill="var(--teal)"></circle>
+          <text x="182" y="106" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="#fff">5</text>
+          <path d="M208,60 C214,75 200,90 202,90" stroke="var(--ink-soft)" stroke-width="2" fill="none"></path>
+          <path d="M162,100 C155,100 150,100 150,100" stroke="var(--ink-soft)" stroke-width="2" fill="none"></path>
+          <path d="M182,80 C182,50 182,50 160,42" stroke="var(--coral-ink)" stroke-width="2" stroke-dasharray="4 3" fill="none"></path>
+          <text x="130" y="150" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral-ink)">나머지가 다시 1로! → 6단계마다 반복</text>
+          <text x="130" y="172" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--ink-soft)">1/7 = 0.142857142857...</text>
+        </svg>
+        <div class="illo-caption">1÷7의 나머지가 1→3→2→6→4→5→1 순으로 돌아 다시 처음과 같아져요</div>
+      </div>
+      <p>그러면 왜 1÷4는 반복되지 않고 딱 끝날까요? 나머지가 도중에 <b>0</b>이 되기 때문이에요. 10÷4는 몫 2, 나머지 2. 20÷4는 몫 5, 나머지 0. 나머지가 0이 되면 그다음부터는 나눌 게 없으니 나눗셈이 거기서 끝나요(유한소수). 반대로 나머지가 0이 되지 못하고 예전 나머지와 똑같아지면, 그 사이의 숫자들이 영원히 반복돼요(순환소수). 사실 나머지는 나누는 수보다 항상 작은 정수만 될 수 있어서 가짓수가 유한해요 — 그래서 나눗셈을 아무리 오래 계속해도 언젠가는 반드시 나머지가 0이 되거나, 예전에 나온 나머지가 다시 등장할 수밖에 없어요.</p>
+      <p>순환마디의 길이도 분모에 따라 완전히 달라요. 분모를 약분한 뒤 소인수가 2와 5뿐이면 딱 끝나는 유한소수가 되고, 그렇지 않으면 반드시 순환소수가 돼요. 1/3은 순환마디가 1자리(3), 1/7은 6자리(142857), 1/11은 2자리(09)처럼, 분모가 비슷해 보여도 순환마디 길이는 들쭉날쭉이에요. 이 길이는 "10을 그 분모로 나눈 나머지가 몇 번 곱해야 다시 1이 되는가"로 정확히 결정돼요.</p>
+      <p>거꾸로, 이미 나온 순환소수를 다시 분수로 바꿀 수도 있어요. 예를 들어 x = 0.181818...이라고 놓으면, 순환마디가 2자리이니 양변에 100을 곱해요. 100x = 18.181818...이고, 여기서 원래 식 x를 빼면 100x − x = 18, 즉 99x = 18이 되어 반복되던 부분이 감쪽같이 사라져요. 정리하면 x = 18/99 = 2/11이라는 정확한 분수가 나와요. 소수점 뒤에 무한히 이어지는 숫자를 딱 떨어지는 분수로 바꿀 수 있다는 게 신기하죠.</p>
+      <p>저희 체험 페이지에서는 나눗셈을 한 단계씩 슬라이더로 넘겨보며 나머지가 언제 반복되는지 눈으로 확인하고, 분모를 2부터 19까지 바꿔가며 순환마디 길이가 어떻게 달라지는지, 그리고 순환소수를 다시 분수로 바꾸는 과정을 직접 체험해볼 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="repeating-decimals-lab.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

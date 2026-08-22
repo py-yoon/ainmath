@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>왜 쾨니히스베르크 사람들은 아무리 애써도 실패했을까 | 아인매스</title>
+<meta name="description" content="다리 7개를 한 번씩만 건너서 모두 지날 수 있을까? 오일러가 그래프 이론을 탄생시킨 쾨니히스베르크 다리 문제를 직접 한붓그리기로 체험해요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="왜 쾨니히스베르크 사람들은 아무리 애써도 실패했을까 | 아인매스">
+<meta property="og:description" content="다리 7개를 한 번씩만 건너서 모두 지날 수 있을까? 오일러가 그래프 이론을 탄생시킨 쾨니히스베르크 다리 문제를 직접 한붓그리기로 체험해요.">
+<meta property="og:url" content="https://ainmath.com/article-konigsberg-bridges-lab.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="왜 쾨니히스베르크 사람들은 아무리 애써도 실패했을까 | 아인매스">
+<meta name="twitter:description" content="다리 7개를 한 번씩만 건너서 모두 지날 수 있을까? 오일러가 그래프 이론을 탄생시킨 쾨니히스베르크 다리 문제를 직접 한붓그리기로 체험해요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#1D7C7E;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="explore.html">← 전체 목록으로</a><a href="en/index.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">EN</a>
+  <span class="eyebrow" style="color:#1D7C7E;background:#E4FAF9">🎲 쉬는 시간·수학 탐구</span>
+  <h1>왜 쾨니히스베르크 사람들은 아무리 애써도 실패했을까</h1>
+  <p class="meta">중·고등학생 · 읽는 데 약 4분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>18세기 프로이센의 도시 쾨니히스베르크에는 프레겔강이 흘렀고, 강 한가운데에는 섬이 두 개, 그리고 그 섬들과 양쪽 강둑을 잇는 다리가 모두 7개 있었어요. 사람들 사이에서는 오래된 궁금증이 하나 있었어요. "이 다리 7개를 각각 딱 한 번씩만 건너서, 모든 다리를 다 지나갈 수 있을까?" 산책을 좋아하던 시민들이 실제로 여러 번 시도해봤지만, 아무도 성공하지 못했어요.</p>
+      <p>1736년, 수학자 레온하르트 오일러가 이 질문에 정면으로 답을 내놓았어요. 그런데 오일러가 한 일은 다리를 직접 건너본 게 아니었어요. 그는 문제를 완전히 단순화했어요. 육지(강둑과 섬)는 <b>점</b>으로, 다리는 그 점들을 잇는 <b>선</b>으로 바꿔버린 거예요. 이렇게 그리면 쾨니히스베르크 문제는 "이 그림을 연필을 떼지 않고, 같은 선을 두 번 지나지 않으면서 한 번에 그릴 수 있는가?"라는 한붓그리기 문제가 돼요. 이 발상이 바로 오늘날 그래프 이론이라는 수학 분야의 출발점이었어요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 260 220">
+          <line x1="130" y1="45" x2="65" y2="115" stroke="var(--paper-line)" stroke-width="2.5"></line>
+          <line x1="130" y1="50" x2="70" y2="120" stroke="var(--paper-line)" stroke-width="2.5" transform="translate(6,-4)"></line>
+          <line x1="130" y1="175" x2="65" y2="115" stroke="var(--paper-line)" stroke-width="2.5"></line>
+          <line x1="130" y1="170" x2="70" y2="120" stroke="var(--paper-line)" stroke-width="2.5" transform="translate(6,4)"></line>
+          <line x1="130" y1="45" x2="195" y2="115" stroke="var(--paper-line)" stroke-width="2.5"></line>
+          <line x1="130" y1="175" x2="195" y2="115" stroke="var(--paper-line)" stroke-width="2.5"></line>
+          <line x1="65" y1="115" x2="195" y2="115" stroke="var(--paper-line)" stroke-width="2.5"></line>
+          <circle cx="130" cy="45" r="20" fill="var(--coral-ink)"></circle>
+          <text x="130" y="51" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="#fff">3</text>
+          <circle cx="65" cy="115" r="20" fill="var(--coral-ink)"></circle>
+          <text x="65" y="121" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="#fff">5</text>
+          <circle cx="195" cy="115" r="20" fill="var(--coral-ink)"></circle>
+          <text x="195" y="121" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="#fff">3</text>
+          <circle cx="130" cy="175" r="20" fill="var(--coral-ink)"></circle>
+          <text x="130" y="181" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="#fff">3</text>
+          <text x="130" y="205" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--coral-ink)">네 지역 모두 홀수 개의 다리 — 그래서 불가능해요</text>
+        </svg>
+        <div class="illo-caption">각 원 안의 숫자는 그 지역에 연결된 다리 수(차수)예요. 5, 3, 3, 3 모두 홀수예요</div>
+      </div>
+      <p>여기서 핵심 개념이 <b>차수</b>예요. 한 지점(땅덩어리)에 연결된 다리의 개수를 그 지점의 차수라고 불러요. 한붓그리기를 하는 도중에 어떤 지점을 그냥 지나쳐만 간다면, 그 지점으로 들어오는 다리 하나와 나가는 다리 하나를 반드시 짝지어 쓰게 돼요. 그러니까 출발점과 도착점이 아닌 지점은 지나갈 때마다 다리를 2개씩 소모하고, 그 지점의 차수는 항상 <b>짝수</b>여야만 해요.</p>
+      <p>반대로 차수가 <b>홀수</b>인 지점은 딱 두 종류뿐이에요 — 여행을 시작하는 <b>출발점</b>(나가는 다리가 하나 남는 곳)과 여행이 끝나는 <b>도착점</b>(들어오는 다리가 하나 남는 곳). 그래서 홀수점은 전체 그래프에 최대 2개까지만 있을 수 있어요. 홀수점이 0개면 어디서 시작해도 한붓그리기가 가능하고 출발점으로 돌아올 수도 있고, 홀수점이 정확히 2개면 그 두 곳을 각각 시작점과 끝점으로 삼아야만 가능해요. 하지만 홀수점이 3개 이상이면, 그 여러 홀수점을 전부 시작점이나 끝점으로 만들 수는 없으니 한붓그리기는 <b>절대 불가능</b>해요.</p>
+      <p>쾨니히스베르크의 네 지역이 정확히 이 함정에 걸려 있었어요. 섬 하나는 다리 5개로, 나머지 세 지역은 각각 다리 3개로 연결돼 있었거든요. 5, 3, 3, 3 — <b>네 지역 모두 차수가 홀수</b>예요. 홀수점이 4개나 되니, 시민들이 아무리 다양한 순서로 시도해도 다리 7개를 한 번씩만 건너서 다 지나가는 건 처음부터 수학적으로 불가능했던 거예요.</p>
+      <p>이 문제 하나로 오일러는 "점과 선으로 이루어진 관계"를 다루는 그래프 이론을 만들어냈고, 이 아이디어는 지금 우리 일상 곳곳에서 쓰여요. 지도 앱이 최단 경로를 찾는 방식, SNS에서 친구 관계를 분석하는 방식, 인터넷에서 데이터가 라우팅되는 방식 모두 그래프 이론 위에서 작동해요. 300년 전 강가 산책자들의 소소한 궁금증이, 오늘날 우리가 매일 쓰는 기술의 뿌리가 된 셈이에요.</p>
+      <p>저희 체험 페이지에서는 실제 쾨니히스베르크 다리 지도를 직접 클릭하며 한붓그리기를 시도해볼 수 있고, 다른 도형들로도 연습하면서 어떤 도형은 되고 어떤 도형은 안 되는지 직접 확인할 수 있어요. 마지막에는 각 도형의 차수를 표로 정리해서, 홀수점 개수만 세어보면 미리 답을 알 수 있다는 것도 확인할 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="konigsberg-bridges-lab.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

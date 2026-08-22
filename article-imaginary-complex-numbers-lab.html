@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>왜 '있을 수 없는 수'가 실제로 쓰이게 됐을까 | 아인매스</title>
+<meta name="description" content="제곱해서 음수가 되는 허수 i부터 복소수의 덧셈·곱셈, 극형식과 오일러 공식까지 — 상상에서 시작해 실제로 쓰이는 수의 세계를 슬라이더와 버튼으로 직접 확인해요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="왜 '있을 수 없는 수'가 실제로 쓰이게 됐을까 | 아인매스">
+<meta property="og:description" content="제곱해서 음수가 되는 허수 i부터 복소수의 덧셈·곱셈, 극형식과 오일러 공식까지 — 상상에서 시작해 실제로 쓰이는 수의 세계를 슬라이더와 버튼으로 직접 확인해요.">
+<meta property="og:url" content="https://ainmath.com/article-imaginary-complex-numbers-lab.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="왜 '있을 수 없는 수'가 실제로 쓰이게 됐을까 | 아인매스">
+<meta name="twitter:description" content="제곱해서 음수가 되는 허수 i부터 복소수의 덧셈·곱셈, 극형식과 오일러 공식까지 — 상상에서 시작해 실제로 쓰이는 수의 세계를 슬라이더와 버튼으로 직접 확인해요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#1D7C7E;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="explore.html">← 전체 목록으로</a><a href="en/index.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">EN</a>
+  <span class="eyebrow" style="color:#1D7C7E;background:#E4FAF9">🎲 쉬는 시간·수학 탐구</span>
+  <h1>왜 '있을 수 없는 수'가 실제로 쓰이게 됐을까</h1>
+  <p class="meta">고등학생 · 읽는 데 약 6분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>x² = −1이라는 방정식을 풀어보세요. 어떤 실수를 넣어도 답이 안 나와요. 양수를 제곱해도 양수, 음수를 제곱해도 양수, 0을 제곱해도 0이니, 제곱해서 음수가 되는 실수는 세상에 없거든요. 그런데 수학자들은 여기서 포기하지 않고 "만약 그런 수가 있다고 치면 어떨까?"라는 상상을 했어요. 그렇게 정의된 수가 바로 <b>i</b>예요. i² = −1이라고 약속한 거죠.</p>
+      <p>실수에 i를 곱한 수를 <b>허수</b>라고 하고, 실수와 허수를 더한 a+bi 꼴의 수를 <b>복소수</b>라고 불러요. 복소수는 가로축이 실수, 세로축이 허수인 평면(복소평면) 위의 한 점으로 그릴 수 있어서, 숫자를 2차원 평면의 위치로 다룰 수 있게 돼요. "상상 속 수"라는 이름과 달리, 복소수는 실수만큼이나 엄격한 규칙을 가진 완전한 수 체계예요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 280 150">
+          <circle cx="35" cy="60" r="24" fill="var(--teal-ink)"></circle>
+          <text x="35" y="66" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="#fff">1</text>
+          <text x="35" y="105" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">i⁰</text>
+          <text x="70" y="66" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--ink-soft)">→</text>
+          <circle cx="105" cy="60" r="24" fill="var(--violet-ink)"></circle>
+          <text x="105" y="66" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="15" fill="#fff">i</text>
+          <text x="105" y="105" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">i¹</text>
+          <text x="140" y="66" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--ink-soft)">→</text>
+          <circle cx="175" cy="60" r="24" fill="var(--coral-ink)"></circle>
+          <text x="175" y="66" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="#fff">−1</text>
+          <text x="175" y="105" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">i²</text>
+          <text x="210" y="66" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="16" fill="var(--ink-soft)">→</text>
+          <circle cx="245" cy="60" r="24" fill="var(--ink-soft)"></circle>
+          <text x="245" y="66" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="14" fill="#fff">−i</text>
+          <text x="245" y="105" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="11" fill="var(--ink-soft)">i³</text>
+          <text x="140" y="135" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">i⁴에서 다시 1로 돌아가 이 네 값을 맴돌아요 ↺</text>
+        </svg>
+        <div class="illo-caption">i를 곱할 때마다 90도씩 돌아 1, i, −1, −i 네 값을 영원히 반복해요</div>
+      </div>
+      <p>i의 진짜 매력은 거듭제곱에서 드러나요. i¹=i, i²=−1, i³=−i, i⁴=1이고, i⁵부터는 다시 i, −1, −i, 1을 그대로 반복해요. 그래서 i의 100제곱이든 1000제곱이든 직접 다 곱해볼 필요 없이, 지수를 4로 나눈 나머지만 알면 답을 바로 알 수 있어요. 예를 들어 i²³은 23÷4의 나머지가 3이니 i³, 즉 −i와 같은 값이에요. 네 개의 값을 빙글빙글 도는 이 순환은 복소수가 "회전"과 깊은 관련이 있다는 첫 번째 힌트예요.</p>
+      <p>복소수끼리도 사칙연산을 할 수 있어요. <b>덧셈</b>은 실수부는 실수부끼리, 허수부는 허수부끼리 더하면 되는데, 이는 복소평면에서 두 점을 벡터처럼 더하는 것과 똑같아요. 반면 <b>곱셈</b>은 조금 더 흥미로워요. 두 복소수를 곱하면 <b>크기는 서로 곱해지고, 각도는 서로 더해져요</b>. 그러니까 어떤 복소수에 i를 곱한다는 건 크기는 그대로 두고 각도만 90도 회전시킨다는 뜻이에요. i²=−1이 되는 이유도 사실 여기 있어요 — i를 두 번 곱하면 90도가 두 번 더해져서 180도, 즉 방향이 정반대로 뒤집히는 거예요.</p>
+      <p>이렇게 "크기와 각도"로 복소수를 나타내는 방법을 <b>극형식</b>이라고 해요. 특히 크기가 1인 복소수들은 원점에서 거리가 1인 단위원 위에 놓이는데, 이 점들은 오일러 공식 e^(iθ) = cosθ + i·sinθ와 정확히 일치해요. θ에 π(180°)를 넣으면 e^(iπ) = −1, 즉 <b>e^(iπ) + 1 = 0</b>이라는 식이 나와요. e, i, π, 1, 0이라는 수학에서 가장 중요한 다섯 상수가 단 하나의 식 안에 모여 있어서, 종종 "세상에서 가장 아름다운 공식"이라고 불려요.</p>
+      <p>허수는 이름 때문에 쓸모없는 상상처럼 느껴지지만, 실제로는 아주 실용적이에요. 전기공학에서는 교류 전류의 크기와 위상을 한 번에 계산하려고 복소수를 쓰고, 소리나 이미지를 분해하는 푸리에 변환에도 복소수가 핵심이에요. 심지어 양자역학에서는 입자의 상태를 나타내는 파동함수 자체가 복소수라서, 허수 없이는 그 방정식을 쓸 수조차 없어요. "존재할 수 없다"고 여겨졌던 수가 지금은 스마트폰 신호 처리부터 최신 물리학까지 곳곳에서 실제로 쓰이고 있는 셈이에요.</p>
+      <p>저희 체험 페이지에서는 슬라이더로 x²=a의 a값을 바꿔가며 실수 해와 허수 해가 어떻게 갈리는지 보고, i의 거듭제곱이 네 값을 도는 걸 직접 확인하고, 두 복소수를 골라 더하고 곱해보며 복소평면 위에서 벌어지는 일을 눈으로 볼 수 있어요. 마지막에는 각도 슬라이더로 오일러 공식이 그리는 단위원도 직접 돌려볼 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="imaginary-complex-numbers-lab.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>

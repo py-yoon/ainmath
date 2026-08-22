@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTLD2D08XH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MTLD2D08XH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>점과 점을 더했을 뿐인데, 왜 아무도 못 푸는 암호가 될까 | 아인매스</title>
+<meta name="description" content="타원곡선 위에서 점과 점을 더하는 신기한 규칙부터, 그 규칙이 어떻게 이산로그 문제라는 어려운 수학 문제가 되어 암호가 되는지 슬라이더와 직접 도전으로 확인해요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="아인매스">
+<meta property="og:title" content="점과 점을 더했을 뿐인데, 왜 아무도 못 푸는 암호가 될까 | 아인매스">
+<meta property="og:description" content="타원곡선 위에서 점과 점을 더하는 신기한 규칙부터, 그 규칙이 어떻게 이산로그 문제라는 어려운 수학 문제가 되어 암호가 되는지 슬라이더와 직접 도전으로 확인해요.">
+<meta property="og:url" content="https://ainmath.com/article-elliptic-curve-crypto-lab.html">
+<meta property="og:image" content="https://ainmath.com/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="점과 점을 더했을 뿐인데, 왜 아무도 못 푸는 암호가 될까 | 아인매스">
+<meta name="twitter:description" content="타원곡선 위에서 점과 점을 더하는 신기한 규칙부터, 그 규칙이 어떻게 이산로그 문제라는 어려운 수학 문제가 되어 암호가 되는지 슬라이더와 직접 도전으로 확인해요.">
+<meta name="twitter:image" content="https://ainmath.com/assets/og-default.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5E9; --paper-line:#E9E1CF; --ink:#22283A; --ink-soft:#5B6178;
+    --coral:#FF5B57; --coral-soft:#FFEAE8; --coral-ink:#D90500;
+    --teal:#2EC4C6; --teal-soft:#E4FAF9; --teal-ink:#1D7C7E;
+    --violet:#6C4CF7; --violet-soft:#EEE8FF; --violet-ink:#6847F7;
+    --card:#FFFFFF; --shadow: 0 10px 30px rgba(34,40,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 34px, var(--paper);
+    color:var(--ink); font-family:'Gowun Dodum','Noto Sans KR',sans-serif;
+    min-height:100vh; padding: 32px 20px 90px;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);text-decoration:none;font-size:14px;margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:14px;}
+  h1{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:clamp(26px,4.2vw,38px); line-height:1.35; margin:0 0 10px;}
+  .meta{color:var(--ink-soft);font-size:14.5px;margin:0 0 26px;}
+  .card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,4vw,40px);}
+  .article-body p{font-size:16.5px;line-height:1.9;color:var(--ink);margin:0 0 20px;}
+  .article-body p:last-child{margin-bottom:0;}
+  .illo{background:var(--paper);border:2px solid var(--paper-line);border-radius:16px;padding:18px;margin:8px 0 22px;text-align:center;}
+  .illo svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .illo-caption{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+  .cta{margin-top:30px;padding-top:24px;border-top:1px solid var(--paper-line);}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:16px;color:#fff;background:#1D7C7E;text-decoration:none;padding:14px 22px;border-radius:14px;transition:transform .15s ease;}
+  .cta-btn:hover{transform:translateY(-2px);}
+  footer{max-width:680px;margin:24px auto 0;color:var(--ink-soft);font-size:14.5px;text-align:center;}
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 4px;}
+  footer a:hover{color:var(--ink);text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="explore.html">← 전체 목록으로</a><a href="en/index.html" style="margin-left:8px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--violet-ink,#6847F7);background:var(--violet-soft,#EEE8FF);text-decoration:none;padding:3px 10px;border-radius:999px;vertical-align:middle;">EN</a>
+  <span class="eyebrow" style="color:#1D7C7E;background:#E4FAF9">🎲 쉬는 시간·수학 탐구</span>
+  <h1>점과 점을 더했을 뿐인데,<br>왜 아무도 못 푸는 암호가 될까</h1>
+  <p class="meta">고등학생 · 읽는 데 약 6분</p>
+  <div class="card">
+    <div class="article-body">
+      <p>이름은 타원곡선이지만, 정작 타원(찌그러진 원)처럼 생기지 않았어요. 이 곡선은 y² = x³ + ax + b라는 식으로 그려지는데, 이름의 유래는 타원의 둘레를 구하는 계산(타원 적분)에 이 곡선의 식이 등장했기 때문이에요. 곡선 자체는 x축을 기준으로 위아래가 대칭인 매끈한 곡선일 뿐이에요. 그런데 이 곡선 위에는 아주 독특한 '덧셈'이 정의될 수 있고, 그 덧셈이 오늘날 우리가 매일 쓰는 암호의 핵심이 됐어요.</p>
+      <p>곡선 위의 두 점 P와 Q를 더하는 방법은 이래요. 먼저 P와 Q를 지나는 직선을 하나 그어요. 이 직선은 곡선과 반드시 한 점에서 더 만나요. 그 세 번째 교점을 x축을 기준으로 위아래로 뒤집은 점이 바로 P+Q예요. 점을 자기 자신과 더하고 싶을 때(2P를 구할 때)는 두 점을 잇는 직선 대신, 그 점에서 곡선에 접하는 접선을 사용해요. 이상하게 들리지만, 이 규칙은 실수의 덧셈처럼 결합법칙이 성립하는 등 수학적으로 아주 잘 짜여 있어요.</p>
+      <div class="illo">
+        <svg viewBox="0 0 260 170">
+          <line x1="10" y1="130" x2="250" y2="130" stroke="var(--paper-line)" stroke-width="1.5"></line>
+          <circle cx="55" cy="55" r="6" fill="var(--teal-ink)"></circle>
+          <text x="55" y="42" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--teal-ink)">P</text>
+          <circle cx="150" cy="35" r="6" fill="var(--teal-ink)"></circle>
+          <text x="150" y="22" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--teal-ink)">Q</text>
+          <line x1="55" y1="55" x2="215" y2="93" stroke="var(--violet)" stroke-width="2" stroke-dasharray="5 4"></line>
+          <circle cx="205" cy="90" r="6" fill="var(--ink-soft)"></circle>
+          <text x="205" y="78" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="12" fill="var(--ink-soft)">세 번째 교점</text>
+          <line x1="205" y1="90" x2="205" y2="160" stroke="var(--coral)" stroke-width="2" stroke-dasharray="3 3"></line>
+          <circle cx="205" cy="160" r="7" fill="var(--coral-ink)"></circle>
+          <text x="205" y="148" text-anchor="middle" font-family="'Do Hyeon',sans-serif" font-size="13" fill="var(--coral-ink)">P + Q</text>
+        </svg>
+        <div class="illo-caption">P와 Q를 잇는 직선이 곡선과 만나는 세 번째 점을 x축 기준으로 뒤집으면 P+Q가 나와요</div>
+      </div>
+      <p>이 덧셈을 계속 반복해서 P를 k번 더한 것을 kP라고 써요. 컴퓨터에게 P와 k를 주면 kP를 구하는 건 아주 빨라요 — k가 어마어마하게 큰 수여도 똑똑한 방법으로 순식간에 계산해요. 그런데 거꾸로, P와 kP만 보고 k가 몇이었는지 알아내려면 어떨까요? 점이 몇 개 없는 장난감 예제라면 하나씩 대입해서 찾을 수 있어요. 하지만 실제 암호에 쓰이는 곡선은 점의 개수가 2²⁵⁶ 근처인 어마어마하게 큰 세계에 있어서, 하나씩 확인하는 건 사실상 불가능해요. 이걸 '타원곡선 이산로그 문제(ECDLP)'라고 불러요.</p>
+      <p>실제 암호에서는 좌표가 실수가 아니라 '소수로 나눈 나머지'로 표현돼요. 예를 들어 소수 17로 나머지 연산을 하면, 곡선 위의 점이 딱 유한한 개수만 존재하는 작은 세계가 만들어져요. 계산 규칙(직선 긋고 뒤집기)은 똑같지만, 좌표가 정수로만 움직이는 거죠. 이렇게 유한한 세계에서 계산하면 컴퓨터가 정확하고 빠르게 다룰 수 있으면서도, 점의 개수를 충분히 크게 만들면 이산로그 문제를 극도로 어렵게 만들 수 있어요.</p>
+      <p>kP를 계산하는 건 쉽지만 k를 거꾸로 알아내는 건 어렵다는 이 비대칭성이 암호의 핵심이에요. 자물쇠를 잠그는 건 누구나 할 수 있지만, 열쇠 없이 여는 건 아무도 못 하는 것과 비슷해요. 두 사람이 각자 비밀 숫자(개인키)를 정하고 공개된 점 P를 각자의 비밀 숫자만큼 더한 결과(공개키)만 주고받으면, 도청하는 사람은 공개된 정보만으로는 절대 개인키를 알아낼 수 없어요. RSA가 '소인수분해의 어려움'을 이용한다면, 타원곡선 암호(ECC)는 '이 이산로그 문제의 어려움'을 이용하는 거예요.</p>
+      <p>실제로 비트코인과 이더리움 같은 암호화폐는 지갑 서명에 타원곡선 암호(ECDSA)를 쓰고, 우리가 매일 접속하는 HTTPS 웹사이트도 타원곡선 기반의 키 교환(ECDH)으로 안전한 연결을 만들어요. RSA보다 훨씬 짧은 키로 비슷한 안전성을 낼 수 있어서, 스마트폰 배터리를 아끼면서도 강력한 보안을 유지할 수 있죠.</p>
+      <p>체험 페이지에서는 a, b 값을 슬라이더로 바꿔가며 곡선의 모양이 달라지는 걸 보고, 점과 점을 직접 더해보고, 소수 17로 만든 작은 유한체 위에서 P의 배수들을 하나씩 확인해볼 수 있어요. 마지막엔 직접 이산로그 문제에 도전해서, 경우의 수가 겨우 18개인 장난감 곡선에서도 '하나씩 확인하는 것' 말고는 방법이 없다는 걸 몸소 느껴볼 수 있어요.</p>
+    </div>
+    <div class="cta">
+      <a class="cta-btn" href="elliptic-curve-crypto-lab.html">🎮 이 개념 직접 체험해보기 →</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>아인매스 · 슬라이더로 직접 확인하며 배우는 수학</p>
+  <nav><a href="index.html">홈</a>·<a href="about.html">소개</a>·<a href="terms.html">이용약관</a>·<a href="privacy-policy.html">개인정보 처리방침</a>·<a href="contact.html">문의하기</a></nav>
+</footer>
+</body>
+</html>
